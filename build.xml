@@ -10,14 +10,7 @@ M.Adair    09-July-2007  initial version copied from fusion
 
 $Id: build.xml 1039 2008-09-22 17:07:23Z pspencer $
 ***************************************************************************-->
-<!-- A "project" describes a set of targets that may be requested
-     when Ant is executed.  The "default" attribute defines the
-     target which is executed if no specific target is requested,
-     and the "basedir" attribute defines the current working directory
-     from which Ant executes the requested task.  This is normally
-     set to the current working directory.
--->
-  <project basedir="." default="compress" name="jx">
+  <project basedir="." default="deploy" name="jx">
 
 <!-- ===================== Property Definitions =========================== -->
 <!--
@@ -68,16 +61,23 @@ $Id: build.xml 1039 2008-09-22 17:07:23Z pspencer $
   dist.home            The name of the base directory in which
                        distribution files are created.
                        Defaults to "dist".
+                       
+  deploy.home          The name of the directory to deploy the library to.
+                       Defaults to the web site directory (../www).
+                       
+  docs.home            The name of the directory to deploy the api docs to.
+                       Defaults to the reference directory within the web 
+                       site directory (../www).
 -->
 
   <property environment="env"/>
-  <property name="app.name" value="jx"/>
+  <property name="app.name" value="jxlib"/>
   <property name="app.path" value="/${app.name}"/>
   <property name="app.version" value="2.0-beta"/>
-  <property name="build.home" value="${basedir}/build"/>
-  <property name="deploy.home" value="${basedir}/../lib"/>
-  <property name="docs.home" value="${basedir}/../reference"/>
-
+  <property name="build.home" value="${basedir}/../build"/>
+  <property name="dist.home" value="${basedir}/../dist"/>
+  <property name="deploy.home" value="${basedir}/../www"/>
+  <property name="docs.home" value="${basedir}/../www/reference"/>
 
 <!-- ==================== External Dependencies =========================== -->
 
@@ -85,12 +85,21 @@ $Id: build.xml 1039 2008-09-22 17:07:23Z pspencer $
   Use property values to define the locations of external libraries on which
   your application will depend.  
  
-  <property name="jx-lib"  value="../jx"/>
+  YUIcompressor - we include a working version in the utils dir that comes with
+                  the source
+  NaturalDocs   - the api reference docs are built automagically from source using
+                  natural docs, we've included it in utils since we are dependent
+                  on a particular version
+  MooToolsCore  - the mootools core file to use.  We include a full build of mootools
+                  but you can replace it with your own minimal build if you like.
+  MooToolsMore  - the mootools more file to use.  We include a full build of mootools
+                  but you can replace it with your own minimal build if you like.
+                                    
  -->
-<property name="YUIcompressor"  value="${basedir}/utils/yuicompressor-2.3.6.jar"/>
-<property name="NaturalDocs"  value="${basedir}/utils/NaturalDocs-1.4/NaturalDocs"/>
-<property name="MooToolsCore" value="mootools-1.2-core.js" />
-<property name="MooToolsMore" value="mootools-1.2-more.js" />
+  <property name="YUIcompressor" value="${basedir}/utils/yuicompressor-2.3.6.jar"/>
+  <property name="NaturalDocs"   value="${basedir}/utils/NaturalDocs-1.4/NaturalDocs"/>
+  <property name="MooToolsCore"  value="${basedir}/utils/mootools-1.2-core.js" />
+  <property name="MooToolsMore"  value="${basedir}/utils/mootools-1.2-more.js" />
 
 <!-- ==================== Prepare Target ================================== -->
 
@@ -114,52 +123,40 @@ $Id: build.xml 1039 2008-09-22 17:07:23Z pspencer $
     
     <!-- Copy static content of the project  -->
     <copy todir="${build.home}">
-      <fileset dir="${basedir}" includes="js/** css/** images/** lib/**"/>
+      <fileset dir="${basedir}/src" includes="js/** css/** images/**"/>
     </copy>
     
     <delete file="${build.home}/lib/jxlib.uncompressed.js"/>
     <delete file="${build.home}/lib/jxlib.standalone.uncompressed.js"/>
-    <delete file="${build.home}/lib/jxskin_border.uncompressed.css"/>
     <delete file="${build.home}/lib/jxskin_crispin.uncompressed.css"/>
     <delete file="${build.home}/lib/jxskin_delicious.uncompressed.css"/>
 
     <echo message="Concatenating javascript into jxlib"/>
     <concat destfile="${build.home}/lib/jxlib.standalone.uncompressed.js">
-        <filelist dir="js" files="common.js"/>
-        <filelist dir="js" files="button.js button.flyout.js button.multi.js colorpalette.js button.color.js buttonset.js grid.js layout.js menu.js menu.item.js menu.separator.js menu.submenu.js menu.context.js panel.js dialog.js panelset.js button.combo.js splitter.js splitter.snap.js tabset.js tabbox.js button.tab.js toolbar.js toolbar.item.js toolbar.separator.js treeitem.js treefolder.js tree.js"/>
+        <filelist dir="src/js" files="common.js"/>
+        <filelist dir="src/js" files="button.js button.flyout.js button.multi.js colorpalette.js button.color.js buttonset.js grid.js layout.js menu.js menu.item.js menu.separator.js menu.submenu.js menu.context.js panel.js dialog.js panelset.js button.combo.js splitter.js splitter.snap.js tabset.js tabbox.js button.tab.js toolbar.js toolbar.item.js toolbar.separator.js treeitem.js treefolder.js tree.js"/>
     </concat>
     <concat destfile="${build.home}/lib/jxlib.uncompressed.js">
-        <filelist dir="utils" files="${MooToolsCore} ${MooToolsMore}"/>
+        <filelist files="${MooToolsCore} ${MooToolsMore}"/>
         <filelist dir="${build.home}/lib" files="jxlib.standalone.uncompressed.js"/>
     </concat>
-    <echo message="Creating border skin"/>
-    <concat destfile="${build.home}/lib/jxskin_border.uncompressed.css">
-        <filelist dir="css" files="reset.css"/>
-        <fileset dir="css/border" includes="**.css"/>
-    </concat>
+
     <echo message="Creating crispin skin"/>
     <concat destfile="${build.home}/lib/jxskin_crispin.uncompressed.css">
-        <filelist dir="css" files="reset.css"/>
-        <fileset dir="css/crispin" includes="**.css"/>
+        <filelist dir="src/css" files="reset.css"/>
+        <fileset dir="src/css/crispin" includes="**.css"/>
     </concat>
     <echo message="Creating delicious skin"/>
     <concat destfile="${build.home}/lib/jxskin_delicious.uncompressed.css">
-        <filelist dir="css" files="reset.css"/>
-        <fileset dir="css/delicious" includes="**.css"/>
+        <filelist dir="src/css" files="reset.css"/>
+        <fileset dir="src/css/delicious" includes="**.css"/>
     </concat>
-    <echo message="deploying uncompressed files"/>
-    <copy todir="${deploy.home}" file="${build.home}/lib/jxlib.uncompressed.js"/>
-    <copy todir="${deploy.home}" file="${build.home}/lib/jxlib.standalone.uncompressed.js"/>
-    <copy todir="${deploy.home}" file="${build.home}/lib/jxlib.uncompressed.js"/>
-    <copy todir="${deploy.home}" file="${build.home}/lib/jxskin_border.uncompressed.css"/>
-    <copy todir="${deploy.home}" file="${build.home}/lib/jxskin_crispin.uncompressed.css"/>
-    <copy todir="${deploy.home}" file="${build.home}/lib/jxskin_delicious.uncompressed.css"/>
     
-    <echo message="deploying skin images"/>
-      <copy todir="${deploy.home}/images">
-          <fileset dir="${build.home}/images"/>
-      </copy>
-    
+    <echo message="copying skin images"/>
+    <copy todir="${build.home}/lib/images">
+      <fileset dir="${build.home}/images"/>
+    </copy>
+        
   </target>
 
 
@@ -168,59 +165,61 @@ $Id: build.xml 1039 2008-09-22 17:07:23Z pspencer $
   <target description="Compress JS files" name="compress" depends="prepare">
     <delete file="${build.home}/lib/jxlib.standalone.js"/>
     <delete file="${build.home}/lib/jxlib.js"/>
-    <delete file="${build.home}/lib/jxskin_border.css"/>
     <delete file="${build.home}/lib/jxskin_crispin.css"/>
     <delete file="${build.home}/lib/jxskin_delicious.css"/>
 
     <echo message="compressing javascript"/>
     <java jar="${YUIcompressor}" fork="true"
-          output="${build.home}/lib/jxlib.standalone.js">
+          output="${build.home}/lib/jxlib.standalone.compressed.js">
         <arg value="${build.home}/lib/jxlib.standalone.uncompressed.js"/>
     </java>
     <java jar="${YUIcompressor}" fork="true"
-          output="${build.home}/lib/jxlib.js">
+          output="${build.home}/lib/jxlib.compressed.js">
         <arg value="${build.home}/lib/jxlib.uncompressed.js"/>
-    </java>
-
-    <echo message="compressing border css"/>
-    <java jar="${YUIcompressor}" fork="true"
-          output="${build.home}/lib/jxskin_border.css">
-        <arg value="${build.home}/lib/jxskin_border.uncompressed.css"/>
     </java>
 
     <echo message="compressing crispin css"/>
     <java jar="${YUIcompressor}" fork="true"
-          output="${build.home}/lib/jxskin_crispin.css">
+          output="${build.home}/lib/jxskin_crispin.compressed.css">
         <arg value="${build.home}/lib/jxskin_crispin.uncompressed.css"/>
     </java>
     
     <echo message="compressing delicious css"/>
     <java jar="${YUIcompressor}" fork="true"
-          output="${build.home}/lib/jxskin_delicious.css">
+          output="${build.home}/lib/jxskin_delicious.compressed.css">
         <arg value="${build.home}/lib/jxskin_delicious.uncompressed.css"/>
     </java>
-
-    <echo message="deploying compressed files"/>
-    <concat destfile="${deploy.home}/jxlib.standalone.js">
+    
+    <concat destfile="${build.home}/lib/jxlib.standalone.js">
       <filelist dir="${build.home}/js" files="license.js"/>
-      <filelist dir="${build.home}/lib" files="jxlib.standalone.js"/>
+      <filelist dir="${build.home}/lib" files="jxlib.standalone.compressed.js"/>
     </concat>
-    <concat destfile="${deploy.home}/jxlib.js">
+    <concat destfile="${build.home}/lib/jxlib.js">
       <filelist dir="${build.home}/js" files="license.js"/>
-      <filelist dir="${build.home}/lib" files="jxlib.js"/>
+      <filelist dir="${build.home}/lib" files="jxlib.compressed.js"/>
     </concat>
-    <concat destfile="${deploy.home}/jxskin_border.css">
+    <concat destfile="${build.home}/lib/jxskin_crispin.css">
       <filelist dir="${build.home}/css" files="license.css"/>
-      <filelist dir="${build.home}/lib" files="jxskin_border.css"/>
+      <filelist dir="${build.home}/lib" files="jxskin_crispin.compressed.css"/>
     </concat>
-    <concat destfile="${deploy.home}/jxskin_crispin.css">
+    <concat destfile="${build.home}/lib/jxskin_delicious.css">
       <filelist dir="${build.home}/css" files="license.css"/>
-      <filelist dir="${build.home}/lib" files="jxskin_crispin.css"/>
+      <filelist dir="${build.home}/lib" files="jxskin_delicious.compressed.css"/>
     </concat>
-    <concat destfile="${deploy.home}/jxskin_delicious.css">
-      <filelist dir="${build.home}/css" files="license.css"/>
-      <filelist dir="${build.home}/lib" files="jxskin_delicious.css"/>
-    </concat>
+    
+    <delete file="${build.home}/lib/jxlib.standalone.compressed.js"/>
+    <delete file="${build.home}/lib/jxlib.compressed.js"/>
+    <delete file="${build.home}/lib/jxskin_crispin.compressed.css"/>
+    <delete file="${build.home}/lib/jxskin_delicious.compressed.css"/>
+    
+  </target>
+  
+  <target description="Deploy JxLib" name="deploy" depends="compress">
+    
+    <echo message="deploying files"/>
+    <copy todir="${deploy.home}/lib">
+        <fileset dir="${build.home}/lib"/>
+    </copy>
     
   </target>
 
@@ -233,13 +232,14 @@ $Id: build.xml 1039 2008-09-22 17:07:23Z pspencer $
     <mkdir dir="${build.home}/docs/api"/>
     <echo message="Generating documentation"/>
     <exec executable="cmd" os="Windows Vista, Windows XP" dir="${build.home}">
-        <arg line="/c perl ${NaturalDocs} -i ./js -o framedhtml ./docs/api -p ${basedir}/utils/ndconfig -s jx -r"/>
+      <arg line="/c perl ${NaturalDocs} -i ./js -o framedhtml ./docs/api -p ${basedir}/utils/ndconfig -s jx -r"/>
     </exec>
     <exec executable="/usr/bin/env" os="Mac OS X" dir="${build.home}">
-            <arg line=" perl ${NaturalDocs} -i ./js -o framedhtml ./docs/api -p ${basedir}/utils/ndconfig -s jx -r"/>
+      <arg line=" perl ${NaturalDocs} -i ./js -o framedhtml ./docs/api -p ${basedir}/utils/ndconfig -s jx -r"/>
     </exec>
+    <mkdir dir="${docs.home}/api"/>
     <copy todir="${docs.home}/api">
-      <fileset dir="${basedir}/docs/api"/>
+      <fileset dir="${build.home}/docs/api"/>
     </copy>
   </target>
 
@@ -254,23 +254,26 @@ $Id: build.xml 1039 2008-09-22 17:07:23Z pspencer $
     dependencies) will have been assembled
 -->
 
-  <target name="dist" description="Create binary distribution" depends="clean,docs,compress">
+  <target name="dist" description="Create binary distribution" depends="clean,compress">
     
     <echo message="Creating distribution archive"/>
     <mkdir dir="${dist.home}"/>
 
+    <delete file="${dist.home}/${app.name}-${app.version}.tar.gz"/>
+    <delete file="${dist.home}/${app.name}-${app.version}.zip"/>
+
     <!-- Create source zip file -->
     <zip destfile="${dist.home}/${app.name}-${app.version}.zip" update="true">
-      <zipfileset dir="${build.home}" prefix="${app.name}"/>
+      <zipfileset dir="${deploy.home}/lib" prefix="${app.name}"/>
     </zip>
     
     <!-- create tar file -->
     <tar destfile="${dist.home}/${app.name}-${app.version}.tar">
-      <tarfileset dir="${build.home}" prefix="${app.name}"/>
+      <tarfileset dir="${deploy.home}/lib" prefix="${app.name}"/>
     </tar>
     <gzip src="${dist.home}/${app.name}-${app.version}.tar" destfile="${dist.home}/${app.name}-${app.version}.tar.gz"/>
     
-    <!--tar destfile=""/-->
+    <delete file="${dist.home}/${app.name}-${app.version}.tar"/>
     
   </target>
 
@@ -295,7 +298,7 @@ $Id: build.xml 1039 2008-09-22 17:07:23Z pspencer $
 
   <target description="Delete deployment directories" name="clean-all" depends="clean">
     <echo message="Removing deployment directory"/>
-    <delete dir="${deploy.home}"/>
+    <delete dir="${deploy.home}/lib"/>
   </target>
 
 
