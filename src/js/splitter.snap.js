@@ -100,8 +100,6 @@ Jx.Splitter.Snap = new Class({
      */
     sizeChange: function() {
         var size = this.element.getContentBoxSize();
-        console.dir(size);
-        console.log(this.minimumSize);
         if (this.layout == 'vertical') {
             if (size.height == this.minimumSize) {
                 this.snap.addClass('jxSnapClosed');
@@ -112,11 +110,9 @@ Jx.Splitter.Snap = new Class({
             }
         } else {
             if (size.width == this.minimumSize) {
-                console.log('closed');
                 this.snap.addClass('jxSnapClosed');
                 this.snap.removeClass('jxSnapOpened');
             } else {
-                console.log('open');
                 this.snap.addClass('jxSnapOpened');
                 this.snap.removeClass('jxSnapClosed');
             }
