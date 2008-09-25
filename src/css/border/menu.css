@@ -1,0 +1,154 @@
+/**
+ * @project         Jx
+ * @revision        $Id: menu.css 1035 2008-09-22 17:05:20Z pspencer $
+ * @author          Fred Warnock (fwarnock@dmsolutions.ca)
+ * @copyright       (c) 2006 DM Solutions Group Inc.
+ */
+
+/* ============== */
+/* JX MENU STYLES */
+/* ============== */
+
+a.jxButtonMenu span.jxMenuItemSpan {
+  padding-right: 16px;
+}
+
+/* Jx Menus and Sub-menus are all built out of nested ULs
+   For this to work visually, the margins and padding need to be flattened
+   out, and the list marker needs to be hidden
+*/
+
+ul.jxMenu,
+ul.jxSubMenu {
+  /* this allows menus and submenus to be re-positioned */
+  /* Base setup */
+  position: absolute;
+  display: block;
+  clear: both;
+  float: none;
+  /* this allows menus and sub menus to appear above everything */
+  z-index: 100;
+  list-style-type: none;
+
+  margin: 0px;
+  padding: 0px;
+  border: 1px solid #999;
+  background-color: #fff;
+}
+
+li.jxMenuItemContainer {
+  /* This is needed for IE to make sure submenus don't open space in the parent menu */
+  /* Base setup */
+  display: block;
+  position: relative;
+
+  margin: 0px;
+  padding: 0px;
+}
+
+a.jxMenuItem {
+  /* Base setup */
+  display: block;
+  position: relative;
+  text-decoration: none;
+
+  background-image: none;
+  border: 1px solid #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  text-decoration: none;
+  margin: 0px;
+  padding: 0px;
+  color: #000;
+}
+
+a.jxMenuItem:hover {
+  background-image: none;
+  border: 1px solid #E1EDFA;
+  background-color: #E1EDFA;
+}
+
+a.jxMenuItem:hover span.jxMenuItemContent {
+  border: 1px solid #E1EDFA;  /* forces IE to render properly */
+}
+
+span.jxMenuItemContent {
+  /* If using background images, the SPAN contains the right side of the background */
+  /* use padding to make space between the icon and button edge */
+  /* padding-left: 0px;*/ /* butts up to the left of the button bg image */
+  /* Base setup */
+  display: block;
+  position: relative;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0px;
+  line-height: 0px;
+  white-space: nowrap;
+  padding: 0px;
+  margin: 0px;
+  border: 1px solid #fff; /* forces IE to render properly */
+}
+
+a.jxButtonSubMenu span.jxMenuItemContent,
+a.jxButtonSubMenu:hover span.jxMenuItemContent {
+  background-image: url(images/menu_item_arrow_r2.png);
+  background-position: right top;
+  background-repeat: no-repeat;
+  padding-right: 20px; /* space for the arrow */
+}
+
+img.jxMenuItemIcon {
+  /* Base setup */
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  display: inline;
+
+  width: 16px;
+  height: 16px;
+  background-position: left center;
+  background-repeat: no-repeat;
+}
+
+span.jxMenuItemContent span {
+  /* Base setup for empty labels */
+  display: block;
+  position: relative;
+  cursor: pointer;
+  margin: 0px; /* margins don't seem to work properly in IE */
+  padding: 0px 0px 0px 20px; /* space for the icon */
+  font-size: 16px; /* keeps empty labels open */
+  line-height: 16px;
+}
+
+span.jxMenuItemContent span.jxMenuItemLabel {
+  /* Base setup, overrides empty labels */
+
+  color: #000;
+  font-size: 11px;
+}
+
+ul.jxMenu a.jxMenuItemSelected {
+  background-image: url(images/menu_item_radio.png);
+  background-position: 2px top;
+  background-repeat: no-repeat;
+}
+
+li.jxMenuItemDisabled span.jxMenuItemLabel {
+  color: #ccc;
+}
+
+li.jxMenuItemDisabled a.jxMenuItem:hover {
+  background-color: #fff;
+  border: 1px solid #fff;
+}
+
+ul.jxMenu span.jxMenuSeparator {
+  /* Base setup */
+    display: block;
+
+  font-size: 10px;
+  line-height: 10px;
+  background-image: url(images/toolbar_separator_v.png);
+  background-repeat: repeat-x;
+  background-position: left center;
+}

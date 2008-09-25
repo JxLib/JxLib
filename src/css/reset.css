@@ -1,0 +1,22 @@
+/*
+Copyright (c) 2006, Yahoo! Inc. All rights reserved.
+Code licensed under the BSD License:
+http://developer.yahoo.net/yui/license.txt
+version: 0.11.0
+*/
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,p,blockquote,th,td{margin:0;padding:0;}
+table{border-collapse:collapse;border-spacing:0;}
+fieldset,img{border:0;}
+address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal;}
+ol,ul {list-style:none;}
+caption,th {text-align:left;}
+h1,h2,h3,h4,h5,h6{font-size:100%;}
+q:before,q:after{content:'';}
+/*
+DMSG additions for Jx
+*/
+a{outline:none;}
+.png24{filter:expression(Jx.applyPNGFilter(this))}
+.jxClearer{display:block;position:relative;float:none;clear:both;font-size:0;line-height:0;width:0;height:0;margin:0;padding:0;}
+.jxDisabled{opacity:0.4;filter:Alpha(opacity=40);}
+iframe.jxIframeShim{position:absolute;top:0px;left:0px;width:100%;height:100%;filter:Alpha(opacity:0);opacity:0;z-index:-1;}

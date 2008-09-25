@@ -1,0 +1,157 @@
+/**
+ * @project         Jx
+ * @revision        $Id: color.css 711 2008-08-13 20:38:33Z pspencer $
+ * @author          Fred Warnock (fwarnock@dmsolutions.ca)
+ * @copyright       (c) 2006 DM Solutions Group Inc.
+ */
+
+/* =================== */
+/* COLOR PICKER STYLES */
+/* =================== */
+
+/*.jxColorPicker {
+    position: absolute;
+    display: none;
+    top: 100%;
+    width: 212px;
+    left: 0px;
+    border: 1px solid #000;
+    padding: 2px;
+    background-color: #eee;
+}*/
+
+.jxColorBar {
+    position: relative;
+}
+
+table.jxColorGrid {
+    position: relative;
+    border-collapse: collapse;
+    empty-cells: show;
+    clear:both;
+}
+
+.jxColorGrid td {
+    border: 1px solid #000;
+}
+
+.jxColorGrid td.emptyCell {
+    border: 0px solid #000;
+}
+
+.jxColorGrid td.emptyCell span {
+    display: block;
+    width: 7px;
+    height: 7px;
+    line-height: 0px;
+    font-size: 0px;
+    border: 0px solid #000;
+    padding: 1px;
+    margin: 0px;
+}
+
+.jxColorGrid a.colorSwatch {
+    display: block;
+    width: 7px;
+    height: 7px;
+    line-height: 0px;
+    font-size: 0px;
+    border: 0px solid #000;
+    margin: 0px;
+    padding: 1px;
+}
+
+.jxColorGrid a.borderWhite:hover {
+    border: 1px solid #fff;
+    padding: 0px;
+}
+
+.jxColorGrid a.borderBlack:hover {
+    border: 1px solid #000;
+    padding: 0px;
+}
+
+input.jxHexInput {
+    width: 55px;
+    vertical-align: middle;
+}
+
+input.jxAlphaInput {
+    width: 30px;
+    vertical-align: middle;
+}
+
+div.jxColorPreview {
+    float: left;
+    position: relative;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #000;
+    margin: 2px;
+    vertical-align: middle;
+    background-image: url('images/crispin/grid.png');
+}
+
+a.jxButtonFlyout span.jxButtonContent span.jxButtonSwatch {
+    display: block;
+    float: left;
+    width: 14px;
+    height: 14px;
+    border: 1px solid #000;
+    background-image: url('images/crispin/grid.png');
+    background-position: 0px 0px;
+    background-repeat: repeat;
+    padding-right: 0px !important;
+}
+
+a.jxButtonFlyout span.jxButtonContent span.jxButtonSwatch span {
+    display: block;
+    width: 14px;
+    height: 14px;
+    position: absolute;
+    padding-right: 0px;
+    background: none;
+}
+
+div.jxColorPreview img {
+    position: absolute;
+    z-index: 0;
+}
+
+div.jxColorPreview div.jxColorSelected {
+    width: 20px;
+    height: 10px;
+    position: absolute;
+    z-index: 1;
+}
+
+div.jxColorPreview div.jxColorHover {
+    width: 20px;
+    height: 10px;
+    position: absolute;
+    bottom: 0;
+    z-index: 1;
+}
+
+label.jxColorLabel,
+label.jxAlphaLabel {
+    width: auto;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    line-height: 24px;
+    padding: 2px;
+    vertical-align: middle;
+}
+
+a.jxColorClose {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 16px;
+    height: 16px;
+}
+
+a.jxColorClose img {
+    width: 16px;
+    height: 16px;
+}

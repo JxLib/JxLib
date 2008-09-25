@@ -1,0 +1,175 @@
+/**
+ * @project         Jx
+ * @revision        $Id: tree.css 711 2008-08-13 20:38:33Z pspencer $
+ * @author          Fred Warnock (fwarnock@dmsolutions.ca)
+ * @copyright       (c) 2006 DM Solutions Group Inc.
+ */
+
+/* =========== */
+/* TREE STYLES */
+/* =========== */
+
+/* The jx tree built out of nested ULs
+   For this to work visually, the margins and padding need to be flattened
+   out, and the list marker needs to be hidden
+*/
+
+
+.jxTree, .jxTreeRoot {
+  /* relative positioning is required for IE to fix the peek-a-boo bug */
+  position:relative;
+  display: block;
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+.jxTreeNest {
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+  background-repeat: repeat-y;
+  background-position: left top;
+}
+
+/* Node Classes */
+
+.jxTree li, .jxTreeRoot li {
+  /* relative positioning is required for IE to fix the peek-a-boo bug */
+  position:relative;
+  display: block;
+  margin: 0px;
+  padding: 0px;
+  background-repeat: no-repeat;
+  /* background branches may need to shift up/down according to height of the node */
+  background-position: left top;
+  white-space: nowrap;
+  width: 100%;
+  font-size: 0px;
+  line-height: 0px;
+}
+
+.jxTree li {
+  margin-left: 16px;
+}
+
+.jxTree li.jxDisabled, .jxTreeRoot li.jxDisabled {
+  opacity: 0.4; /* css 3 */
+  filter: Alpha(opacity=40); /* IE only */
+}
+
+.jxTree a, .jxTreeRoot a {
+  position: relative;
+  display: block;
+  margin: 0px 0px 0px 14px;
+  padding: 0px 0px 0px 20px;
+  z-index: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  color: #000;
+  text-decoration: none;
+  /* Line Height needs to be an even number so branches line up properly */
+  line-height: 20px;
+  height: 20px;
+}
+
+.jxTree a:hover, 
+.jxTreeRoot a:hover {
+  background-image: url(images/crispin/tree_bg.png);
+  background-color: #CDE5FF;
+  background-repeat: repeat-x;
+  background-position: 0px 0px;
+}
+
+.jxDisabled .jxTree a:hover, 
+.jxDisabled .jxTreeRoot a:hover {
+  background: none;
+  cursor: default;
+}
+
+.jxTreeNest {
+  background-image: url(images/crispin/tree_vert_line.png);
+}
+
+.jxTreeImage,
+.jxTreeIcon {
+  position: absolute;
+  display: inline;
+
+  left: 0px;
+  top: 0px;
+  width: 16px;
+  height: 20px;
+
+  z-index: 1;
+
+  background-image: url(images/crispin/tree.png);
+  background-repeat: no-repeat;
+
+  border: 0px;
+  margin: 0px;
+}
+
+.jxTreeIcon { left: 2px; }
+
+.jxTreeBranchOpen .jxTreeIcon,
+.jxTreeBranchLastOpen .jxTreeIcon {
+  background-position: left -40px; /* open folder image */
+}
+
+
+.jxTreeBranchOpen .jxTreeImage {
+  background-position: left -100px; /* minus image */
+}
+
+.jxTreeBranchLastOpen .jxTreeImage {
+  background-position: left -160px; /* minus last image */
+}
+
+.jxTreeBranchClosed .jxTreeIcon,
+.jxTreeBranchLastClosed .jxTreeIcon {
+  background-position: left -20px; /* closed folder image */
+}
+
+
+.jxTreeBranchClosed .jxTreeImage {
+  background-position: left -80px; /* plus image */
+}
+
+.jxTreeBranchLastClosed .jxTreeImage {
+  background-position: left -140px; /* plus last image */
+}
+
+.jxTreeItem .jxTreeIcon,
+.jxTreeItemLast .jxTreeIcon {
+  background-position: left 0px; /* page image */
+}
+
+.jxTreeItem .jxTreeImage {
+  background-position: left -60px; /* node image */
+}
+
+.jxTreeItemLast .jxTreeImage {
+  background-position: left -120px; /* last node image */
+}
+
+.jxTreeItemSelected {
+  background-color: #AFD4FA;
+  font-weight:bold;
+}
+
+.jxTreeItem a,
+.jxTreeItem img,
+.jxTreeItem input,
+.jxTreeItemLast a,
+.jxTreeItemLast img,
+.jxTreeItemLast input,
+.jxTreeBranch a,
+.jxTreeBranch img,
+.jxTreeBranch input,
+.jxTreeBranchLast a,
+.jxTreeBranchLast img,
+.jxTreeBranchLast input {
+    vertical-align: middle;
+}
+

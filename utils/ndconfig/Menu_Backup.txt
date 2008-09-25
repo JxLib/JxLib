@@ -1,0 +1,59 @@
+Format: 1.35
+
+
+Title: 
+
+# You can also add a sub-title to your menu like this:
+# SubTitle: [subtitle]
+
+Footer: Copyright (c) 2008 DM Solutions Group Inc, released under an MIT-style license.
+
+
+# --------------------------------------------------------------------------
+# 
+# Cut and paste the lines below to change the order in which your files
+# appear on the menu.  Don't worry about adding or removing files, Natural
+# Docs will take care of that.
+# 
+# You can further organize the menu by grouping the entries.  Add a
+# "Group: [name] {" line to start a group, and add a "}" to end it.
+# 
+# You can add text and web links to the menu by adding "Text: [text]" and
+# "Link: [name] ([URL])" lines, respectively.
+# 
+# The formatting and comments are auto-generated, so don't worry about
+# neatness when editing the file.  Natural Docs will clean it up the next
+# time it is run.  When working with groups, just deal with the braces and
+# forget about the indentation and comments.
+# 
+# --------------------------------------------------------------------------
+
+
+Group: Jx  {
+
+   File: Core  (no auto-title, jxcore.js)
+   File: Loader  (no auto-title, jx.js)
+   File: Button  (no auto-title, button/jxbutton.js)
+   File: Color  (no auto-title, color/jxcolor.js)
+   File: Dialog  (no auto-title, dialog/jxdialog.js)
+   File: Grid  (no auto-title, grid/jxgrid.js)
+   File: Layout  (no auto-title, layout/jxlayout.js)
+   File: Menu  (no auto-title, menu/jxmenu.js)
+   File: Panel  (no auto-title, panel/jxpanel.js)
+   File: Picker  (no auto-title, picker/jxpicker.js)
+   File: Splitter  (no auto-title, splitter/jxsplitter.js)
+   File: Tab  (no auto-title, tab/jxtab.js)
+   File: Toolbar  (no auto-title, toolbar/jxtoolbar.js)
+   File: Tree  (no auto-title, tree/jxtree.js)
+   }  # Group: Jx
+
+Group: Index  {
+
+   Index: Everything
+   Class Index: Classes
+   Function Index: Functions
+   Property Index: Properties
+   Constructor Index: Constructor
+   TODO Index: TODO
+   }  # Group: Index
+

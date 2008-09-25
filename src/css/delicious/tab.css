@@ -1,0 +1,378 @@
+/**
+ * @project         Jx
+ * @revision        $Id: tab.css 1129 2008-09-24 19:01:34Z fwarnock $
+ * @author          Fred Warnock (fwarnock@dmsolutions.ca)
+ * @copyright       (c) 2006 DM Solutions Group Inc.
+ */
+
+/* ================== */
+/* TAB CONTENT STYLES */
+/* ================== */
+
+/* The tabBox consists of a box containing a tabbar and the tab content areas.
+   It can be used within the body or nested within another object.
+*/
+
+.jxTabSetContainer {
+  /* This is an example of a container that can be used to hold a tabBox
+     the position need to be explicitly set, as well as the width and height. */
+  /* Base setup */
+  position: relative;
+  display: block;
+
+  width: 200px;
+  height: 200px;
+  margin: 0px;
+  padding: 0px;
+  background-color: #fff;
+}
+
+.jxTabSetContainer  .jxToolbarContainer {
+  /* Base setup */
+  z-index: auto;
+}
+
+.tabContent {
+  /* the width and height need to be set to 100% to:
+     1. fill the tab box area
+     2. allow a scrolling content area in IE */
+  /* Base setup */
+  display: none;
+  position: relative;
+  width:100%;
+  height: 100%;
+  overflow: auto;
+}
+
+.tabContentActive {
+  /* Base setup */
+  display: block;
+}
+
+/* ======================== */
+/* BASE TAB (BUTTON) STYLES */
+/* ======================== */
+
+div.jxTabContainer {
+  /* Base setup */
+  display: block;
+  position: relative;
+
+  margin: 0px;
+  padding: 0px;
+  border: none;
+}
+
+a.jxTabClose {
+  /* Base setup */
+  display: block;
+  position: absolute;
+  cursor: pointer;
+}
+
+a.jxTabClose img {
+  width: 16px;
+  height: 16px;
+  background-image: url(images/delicious/tab_close.png);  
+}
+
+a.jxTab {
+  /* Base setup */
+  display: block;
+  position: relative;
+
+  /* Using background images, the A contains the left side of the background */
+  margin: 0px;
+  padding: 0px;
+  border: none;
+  background-repeat: no-repeat;
+  text-decoration: none;
+  color: #000;
+}
+
+.jxDisabled a.jxButton {
+ cursor: default; 
+}
+
+a.jxTab:hover,
+a.jxTab:active,
+a.jxTabActive,
+a.jxTabActive:hover,
+a.jxTabActive:active,
+.jxDisabled a.jxButton:hover,
+.jxDisabled a.jxButton:active {
+  border: none;
+}
+
+span.jxTabContent {
+  /* Base setup */
+  display: block;
+  font-size: 0px;
+  line-height: 0px;
+
+  /* The SPAN contains the other side of the tab background image
+     and the tab label */
+  margin: 0px;
+  padding: 0px;
+  background-repeat: no-repeat;
+}
+
+img.jxTabIcon {
+  /* Base setup */
+  position: relative;
+
+  width: 16px;
+  height: 16px;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+span.jxTabLabel {
+  /* Base setup */
+  display: block;
+  position: relative;
+  cursor: pointer;
+
+  margin: 0px;
+  padding: 0px;
+  color: #000;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  line-height: 16px;
+}
+
+.jxTabBox {
+}
+
+/* ======================================= */
+/* HORIZONTALTAB BAR - TOP and BOTTOM TABS */
+/* ======================================= */
+
+.jxBarTop div.jxTabContainer,
+.jxBarBottom div.jxTabContainer {
+  /* Base setup */
+  float: left;
+
+  margin: 2px;
+}
+
+.jxBarTop a.jxTab,
+.jxBarTop span.jxTabContent {
+  background-image: url(images/delicious/tab_top_bg.png);
+}
+
+.jxBarBottom a.jxTab,
+.jxBarBottom span.jxTabContent {
+  background-image: url(images/delicious/tab_bottom_bg.png);
+}
+
+/* Closeable Tab */
+
+.jxBarTop a.jxTabClose,
+.jxBarBottom a.jxTabClose {
+  top: 3px;
+  right: 3px;
+}
+
+.jxBarTop .jxTabClose span.jxTabContent,
+.jxBarBottom .jxTabClose span.jxTabContent {
+  padding-right: 16px;
+}
+
+/* Normal Tab */
+
+.jxBarTop a.jxTab,
+.jxBarBottom a.jxTab {
+  /* Base setup */
+  float: left;
+
+  padding-left: 4px; /* makes room for the left of the tab bg */
+  background-position: left -56px; 
+}
+
+.jxBarTop span.jxTabContent,
+.jxBarBottom span.jxTabContent {
+  /* Base setup */
+  float: left;
+
+  padding: 4px 4px 4px 0px; /* makes space around the label */
+  background-position: right -56px; 
+}
+
+
+/* Hover Tab */
+
+.jxBarTop a.jxTab:hover,
+.jxBarBottom a.jxTab:hover {
+  background-position: left -224px; 
+}
+
+.jxBarTop a.jxTab:hover span.jxTabContent,
+.jxBarBottom a.jxTab:hover span.jxTabContent {
+  background-position: right -224px; 
+}
+
+/* Click Tab */
+
+.jxBarTop a.jxTab:active,
+.jxBarBottom a.jxTab:active {
+  background-position: left -112px; 
+}
+
+.jxBarTop a.jxTab:active span.jxTabContent,
+.jxBarBottom a.jxTab:active span.jxTabContent {
+  background-position: right -112px; 
+}
+
+/* Active Tab */
+
+.jxBarTop a.jxTabActive,
+.jxBarBottom a.jxTabActive {
+  background-position: left -168px; /* switch to the active left BG */
+}
+
+.jxBarTop a.jxTabActive span.jxTabContent,
+.jxBarBottom a.jxTabActive span.jxTabContent {
+  background-position: right -168px; /* switch to the active right BG  */
+}
+
+/* Disabled Tab */
+
+.jxBarTop .jxDisabled a.jxTab:hover,
+.jxBarTop .jxDisabled a.jxTab:active,
+.jxBarBottom .jxDisabled a.jxTab:hover,
+.jxBarBottom .jxDisabled a.jxTab:active {
+  background-position: left -56px; /* do not switch the left BG */
+}
+
+  
+.jxBarTop .jxDisabled a.jxTab:hover span.jxTabContent,
+.jxBarTop .jxDisabled a.jxTab:active span.jxTabContent,
+.jxBarBottom .jxDisabled a.jxTab:hover span.jxTabContent,
+.jxBarBottom .jxDisabled a.jxTab:active span.jxTabContent {
+  background-position: right -56px; /* do not switch the right BG */
+}
+
+
+.jxBarTop img.jxTabIcon,
+.jxBarBottom img.jxTabIcon {
+  /* Base setup */
+  float: left;
+}
+
+.jxBarTop span.jxTabLabel,
+.jxBarBottom span.jxTabLabel {
+  /* Base setup */
+  float: left;
+  height: 16px;
+
+  padding: 0px 4px 0px 4px;
+}
+
+
+/* ================================= */
+/* VERTICAL TAB BAR - LEFT and RIGHT */
+/* ================================= */
+
+.jxBarLeft div.jxTabContainer,
+.jxBarRight div.jxTabContainer {
+  /* Base setup */
+
+  margin: 2px;
+}
+
+.jxBarLeft a.jxTab,
+.jxBarLeft span.jxTabContent {
+  background-image: url(images/delicious/tab_left_bg.png);
+}
+
+.jxBarRight a.jxTab,
+.jxBarRight span.jxTabContent {
+  background-image: url(images/delicious/tab_right_bg.png);
+}
+
+/* Closeable Tab */
+
+.jxBarLeft a.jxTabClose,
+.jxBarRight a.jxTabClose {
+  top: 3px;
+  left: 3px;
+}
+
+.jxBarLeft .jxTabClose span.jxTabContent,
+.jxBarRight .jxTabClose span.jxTabContent {
+  padding-top: 16px;
+}
+
+/* Normal Tab */
+
+.jxBarLeft a.jxTab,
+.jxBarRight a.jxTab {
+  padding-top: 4px; /* makes room for the top of the tab bg */
+  background-position: -56px top; 
+}
+
+.jxBarLeft span.jxTabContent,
+.jxBarRight span.jxTabContent {
+  padding: 0px 4px 4px 4px; /* makes space around the label */
+  background-position: -56px bottom; 
+}
+
+/* Hover tab */
+
+.jxBarLeft a.jxTab:hover,
+.jxBarRight a.jxTab:hover {
+  background-position: -224px top; /* shifts the left BG out 2 px for slide effect */
+}
+
+.jxBarLeft a.jxTab:hover span.jxTabContent,
+.jxBarRight a.jxTab:hover span.jxTabContent {
+  background-position: -224px bottom; 
+}
+
+/* Click Tab */
+
+.jxBarLeft a.jxTab:active,
+.jxBarRight a.jxTab:active {
+  background-position: -112px top; 
+}
+
+.jxBarLeft a.jxTab:active span.jxTabContent,
+.jxBarRight a.jxTab:active span.jxTabContent {
+  background-position: -112px bottom; 
+}
+
+/* Active Tab */
+
+.jxBarLeft a.jxTabActive,
+.jxBarRight a.jxTabActive {
+  background-position: -168px top; /* switch to the active top BG */
+}
+
+.jxBarLeft a.jxTabActive span.jxTabContent,
+.jxBarRight a.jxTabActive span.jxTabContent {
+  background-position: -168px bottom; /* switch to the active bottom BG  */
+}
+
+/* Disabled Tab */
+
+.jxBarLeft .jxDisabled a.jxTab:hover,
+.jxBarLeft .jxDisabled a.jxTab:active,
+.jxBarRight .jxDisabled a.jxTab:hover,
+.jxBarRigth .jxDisabled a.jxTab:active {
+  background-position: -56px top; /* do not switch the top BG */
+}
+
+  
+.jxBarLeft .jxDisabled a.jxTab:hover span.jxTabContent,
+.jxBarLeft .jxDisabled a.jxTab:active span.jxTabContent,
+.jxBarRight .jxDisabled a.jxTab:hover span.jxTabContent,
+.jxBarRight .jxDisabled a.jxTab:active span.jxTabContent {
+  background-position: -56px bottom; /* do not switch the top BG */
+}
+
+.jxBarLeft span.jxTabLabel,
+.jxBarRight span.jxTabLabel {
+  padding: 4px 0px 4px 0px;
+}
+

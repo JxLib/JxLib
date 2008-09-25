@@ -1,0 +1,160 @@
+/**
+ * @project         Jx
+ * @revision        $Id: toolbar.css 852 2008-09-08 17:54:34Z fwarnock $
+ * @author          Fred Warnock (fwarnock@dmsolutions.ca)
+ * @copyright       (c) 2006 DM Solutions Group Inc.
+ */
+
+/* ============== */
+/* TOOLBAR STYLES */
+/* ============== */
+
+/* Multiple toolbars can be housed in  the toolbar container the container will expand vertically to accomodate wrapped toolbars */
+
+.jxBarContainer {
+  /* Base setup */
+  display: block;
+  position: relative;
+  z-index: 1;
+
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+
+  background-color: #f0f0f0;
+}
+
+.jxBarTop,
+.jxBarBottom {
+  /* Horizontally oriented toolbars */
+  /* Base setup */
+  width: 100%; /* fills the width, may be needed for JS style sniffing */
+  height: auto; /* since the last element clears the float, a height may not be needed */
+  background-image: url(images/crispin/toolbar_bg.png);
+  background-repeat: repeat-x;
+  background-position: 0px 0px;
+}
+
+.jxTabBox .jxBarTop {
+  background-image: url(images/crispin/tabbar_bg.png);
+  background-position: 0px bottom;
+}
+
+.jxTabBox .jxBarBottom {
+  background-image: url(images/crispin/tabbar_bottom_bg.png);
+  background-position: 0px top;
+}
+
+.jxBarLeft,
+.jxBarRight {
+  /* Vertically oriented toolbars */
+  /* Base setup */
+  width: auto;
+  height: 100%;
+  background-image: url(images/crispin/toolbar_bg.png);
+  background-repeat: repeat-x;
+  background-position: 0px 0px;
+}
+
+.jxTabBox .jxBarLeft {
+  background-image: url(images/crispin/tabbar_left_bg.png);
+  background-repeat: repeat-y;
+  background-position: right 0px;
+}
+
+.jxTabBox .jxBarRight {
+  background-image: url(images/crispin/tabbar_right_bg.png);
+  background-repeat: repeat-y;
+  background-position: left 0px;
+}
+
+
+/* The jx toolbar and tabbar are both built out of a UL
+   The margins and padding need to be flattened out, and the list markers need to be hidden
+   UL's are floated left so multiple toolbars can be in the samae row.
+   In IE, the UL needs to have a specified width to prevent button wrapping.
+
+   The tab background uses the sliding door technique so tabs can expand to
+   accomodate content up to 200 px wide (top/bottom tabs) or 200px high
+   (left/right tabs).  All parts and states of the tab BG graphics are in the
+   same image so they can be treated like sprites.
+
+   Horizontal tabs can contain text or an image label.  Vertical tabs need an
+   image label.
+*/
+
+ul.jxToolbar,
+ul.jxTabBar {
+  /* Base setup */
+  display: block;
+  position: relative;
+  float: left;
+  list-style-type: none;
+
+  margin: 0px;  /* margins don't seem to work properly in IE */
+  padding: 0px;
+  border: none;
+}
+
+/* LI's are floated to the left, to make a horizontal row of buttons*/
+
+li.jxToolItem {
+  /* Base setup */
+  display: block;
+  position: relative;
+  float: left;
+  font-size: 0px;
+  line-height: 0px;
+
+  padding: 0px;
+  margin: 0px;  /* margins don't seem to work properly in IE */
+  border: none;
+}
+
+/* Seperator height should match that of button images
+   and the margins+padding+border should add up to the same total too. */
+
+li.jxToolItem  .separator {
+  /* Base setup */
+  display: block;
+  position: relative;
+  float: left;
+  font-size: 0px;
+  line-height: 0px;
+
+  border: 0px;
+  margin: 0px;  /* margins don't seem to work properly in IE */
+  padding: 4px;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.jxBarTop  li.jxToolItem  span.separator,
+.jxBarBottom  li.jxToolItem  span.separator {
+  /* width/height should be defined */
+  width: 8px;
+  height: 20px;
+  background-image: url(images/crispin/toolbar_separator_h.png);
+}
+
+.jxBarLeft  li.jxToolItem  span.separator,
+.jxBarRight  li.jxToolItem  span.separator {
+  /* width/height should be defined */
+  width: 20px;
+  height: 8px;
+  background-image: url(images/crispin/toolbar_separator_v.png);
+}
+
+/* Vertically oriented toolbars need floats cleared */
+
+.jxBarLeft ul.jxToolbar,
+.jxBarLeft ul.jxTabBar,
+.jxBarLeft li.jxToolItem,
+.jxBarRight ul.jxToolbar,
+.jxBarRight ul.jxTabBar,
+.jxBarRight li.jxToolItem
+{
+  /* Base setup */
+  clear: both;
+}
+

@@ -1,0 +1,190 @@
+/**
+ * @project         Jx
+ * @revision        $Id: menu.css 821 2008-09-04 15:59:23Z fwarnock $
+ * @author          Fred Warnock (fwarnock@dmsolutions.ca)
+ * @copyright       (c) 2006 DM Solutions Group Inc.
+ */
+
+/* ============== */
+/* JX MENU STYLES */
+/* ============== */
+
+.jxMenuContainer .jxChrome {
+  /* the background image gets used by Jx.Chrome to create a stretchable chrome */
+  background-image: url(images/crispin/flyout_chrome.png);
+  /* the padding reflects the amount of space to leave around the content area
+   * for the chrome, typically to leave space for a shadow
+   */
+  padding: 5px 5px 7px 6px;
+}
+
+a.jxButtonMenu span.jxMenuItemSpan {
+  padding-right: 16px;
+}
+
+/* Jx Menus and Sub-menus are all built out of nested ULs
+   For this to work visually, the margins and padding need to be flattened
+   out, and the list marker needs to be hidden
+*/
+
+.jxMenuContainer {
+  position: absolute;
+  display: block;
+  z-index: 200;
+  padding: 0px;
+}
+
+ul.jxMenu,
+ul.jxSubMenu {
+  /* Base setup */
+  display: block;
+  position: relative;
+
+  list-style-type: none;
+
+  margin: 6px 6px 8px 7px;
+  background-color: #fff;
+  border: 1px solid #999;
+}
+
+li.jxMenuItemContainer {
+  /* This is needed for IE to make sure submenus don't open space in the parent menu */
+  /* Base setup */
+  display: block;
+  position: relative;
+
+  margin: 0px;
+  padding: 0px;
+}
+
+a.jxMenuItem {
+  /* Base setup */
+  display: block;
+  position: relative;
+  text-decoration: none;
+
+  border: 1px solid #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  text-decoration: none;
+  margin: 2px 2px;
+  padding: 0px;
+  color: #000;
+}
+
+a.jxMenuItem:hover {
+  border: 1px solid #C5E0FF;
+  background-image: url(images/crispin/menu_bg.png);
+  background-color: #CDE5FF;
+  background-repeat: repeat-x;
+  background-position: 0px 0px;
+}
+
+a.jxMenuItem:hover span.jxMenuItemContent {
+  border: 1px solid #F4F9FF;  /* forces IE to render properly */
+  border-bottom: 1px solid #E4F0FF;
+}
+
+span.jxMenuItemContent {
+  /* If using background images, the SPAN contains the right side of the background */
+  /* use padding to make space between the icon and button edge */
+  /* padding-left: 0px;*/ /* butts up to the left of the button bg image */
+  /* Base setup */
+  display: block;
+  position: relative;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0px;
+  line-height: 0px;
+  white-space: nowrap;
+  padding: 0px 20px 0px 0px; /* space for the arrow */
+  margin: 0px;
+  border: 1px solid #fff; /* forces IE to render properly */
+}
+
+a.jxButtonSubMenu span.jxMenuItemContent,
+a.jxButtonSubMenu:hover span.jxMenuItemContent {
+  background-image: url(images/crispin/emblems.png);
+  background-position: right -32px;
+  background-repeat: no-repeat;
+}
+
+img.jxMenuItemIcon {
+  /* Base setup */
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  display: inline;
+
+  width: 16px;
+  height: 16px;
+  background-position: left center;
+  background-repeat: no-repeat;
+}
+
+span.jxMenuItemContent span {
+  /* Base setup for empty labels */
+  display: block;
+  position: relative;
+  cursor: pointer;
+  margin: 0px; /* margins don't seem to work properly in IE */
+  padding: 0px 0px 0px 20px; /* space for the icon */
+  font-size: 16px; /* keeps empty labels open */
+  line-height: 16px;
+}
+
+span.jxMenuItemContent span.jxMenuItemLabel {
+  /* Base setup, overrides empty labels */
+
+  color: #000;
+  font-size: 11px;
+}
+
+.jxMenuItemToggle img.jxMenuItemIcon,
+.jxMenuItemSet img.jxMenuItemIcon {
+  background-image: url(images/crispin/emblems.png);
+  background-position: 2px 0px;
+  background-repeat: no-repeat;
+}
+
+.jxMenuItemToggle a.jxMenuItemActive img.jxMenuItemIcon {
+  background-position: 2px -48px;
+}
+
+.jxMenuItemSet a.jxMenuItemActive img.jxMenuItemIcon {
+  background-position: 2px -64px;
+}
+
+a.jxMenuItemActive img.jxMenuItemIcon {
+  top: -2px;
+  left: -2px;
+  padding: 1px;
+  border: 1px solid #C5E0FF;
+}
+
+a.jxMenuItemActive span.jxMenuItemContent {
+  background-image: url(images/crispin/menu_icon_bg.png);
+  background-position: 0px 0px;
+  background-repeat: no-repeat;
+}
+
+.jxDisabled a.jxMenuItem {
+  cursor: default;
+}
+
+.jxDisabled a.jxMenuItem:hover {
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #fff;
+}
+
+ul.jxMenu span.jxMenuSeparator,
+ul.jxSubMenu span.jxMenuSeparator {
+  /* Base setup */
+    display: block;
+
+  font-size: 10px;
+  line-height: 10px;
+  background-image: url(images/crispin/toolbar_separator_v.png);
+  background-repeat: repeat-x;
+  background-position: left center;
+}

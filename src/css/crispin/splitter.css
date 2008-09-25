@@ -1,0 +1,47 @@
+/**
+ * @project         Jx
+ * @revision        $Id: splitter.css 793 2008-08-28 14:22:32Z pspencer $
+ * @author          Fred Warnock (fwarnock@dmsolutions.ca)
+ * @copyright       (c) 2006 DM Solutions Group Inc.
+ */
+
+/* =============== */
+/* SPLITTER STYLES */
+/* =============== */
+
+.jxSplitBarHorizontal {
+  position: absolute;
+  line-height: 1px;
+  width: 5px;
+  height: 100%;
+  cursor: col-resize;
+  /*background-image: url(images/a_pixel.png);*/
+  background-color: #f0f0f0;
+  z-index: 1;
+}
+
+.jxSplitBarVertical {
+  position: absolute;
+  line-height: 1px;
+  width: 100%;
+  height: 5px;
+  cursor: row-resize;
+  /*background-image: url(images/a_pixel.png);*/
+  background-color: #f0f0f0;
+  z-index: 1;
+}
+
+.jxSplitContainer {
+  margin: 0px;
+  overflow: hidden;
+}
+
+.jxSplitArea {
+  /*border: 1px solid #d8d8d8;*/
+  overflow: hidden;
+  z-index: 0;
+}
+
+.jxSplitBarDrag {
+  background-color: #eee;
+}

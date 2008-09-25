@@ -1,0 +1,109 @@
+/**
+ * @project         Jx
+ * @revision        $Id: combo.css 726 2008-08-14 15:37:53Z fwarnock $
+ * @author          Fred Warnock (fwarnock@dmsolutions.ca)
+ * @copyright       (c) 2006 DM Solutions Group Inc.
+ */
+
+
+/* ================ */
+/* JX COMBO STYLES */
+/* ================ */
+
+/* the jx COMBO is intended to replace lists and combo boxes that require 
+   a richer set of features such as text input, images and styles in the
+   selection list and better control over the list size. */
+
+div.jxCombo {
+  position: relative;
+  display: block;
+  padding: 0px;
+  padding-right: 22px;
+  margin: 0px;
+  border: 0px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size:11px;
+  z-index: 1;
+  line-height: 24px;
+  float: left;
+}
+
+.jxComboDiscloser {
+  position: absolute;
+  right: 3px;
+  top: 3px;
+}
+
+.jxComboDiscloser img {
+  width: 16px;
+  height: 16px;
+  border: 0px;
+}
+
+.jxComboInput {
+  position: relative;
+  display: block;
+  float: left;
+  /*padding-right: 16px;*/
+  line-height: 14px;
+  height: 14px;
+  padding: 5px 10px;
+  border: 1px solid #d9d9d9;
+}
+
+div.jxComboOptions {
+  position: absolute;
+  height: auto;
+  background-color: #fff;
+  overflow: auto;
+  border: 1px solid #333;
+  color: #000;
+  z-index: 1;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size:11px;
+  line-height: 24px;
+}
+
+div.jxComboOptions ul {
+  position: relative;
+  display: block;
+  margin: 0px;
+  padding: 0px;
+  border: none;
+  list-style-type: none;
+}
+
+div.jxComboOptions li {
+  position: relative;
+  display: block;
+  margin: 0px;
+  padding: 0px;
+  border: none;
+  height:20px;
+}
+
+div.jxComboOptions a {
+  position: relative;
+  display: block;
+  text-decoration: none;
+  white-space: nowrap;
+  /* this value needs to be the height of it's parent
+     minus it's own margin, padding and border values */ 
+  line-height:20px;
+  /* height needs to be set for IE.  Same value as line height. */
+  height: 20px;
+  color: #000;
+  background-position: right top;
+  background-repeat: no-repeat;
+  padding: 0px 4px;
+}
+
+div.jxComboOptions a:hover {
+  background-color: #E1EDFA; 
+  /*background-color: #ffffcc; */
+}
+
+div.jxComboOptions a.selected {
+  font-weight: bold;
+  background-color: #ffffb3;
+}

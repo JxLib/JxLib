@@ -1,0 +1,189 @@
+/**
+ * @project         Jx
+ * @revision        $Id: toolbar.css 908 2008-09-12 18:14:33Z fwarnock $
+ * @author          Fred Warnock (fwarnock@dmsolutions.ca)
+ * @copyright       (c) 2006 DM Solutions Group Inc.
+ */
+
+/* ============== */
+/* TOOLBAR STYLES */
+/* ============== */
+
+/* Multiple toolbars can be housed in  the toolbar container the container will expand vertically to accomodate wrapped toolbars */
+
+.jxToolbarContainer {
+  /* Base setup */
+  display: block;
+  position: relative;
+  z-index: 1;
+
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+  /* simulates an underline at the bottom of the container*/
+  /*background-image:url(images/container_bg.png);*/
+  background-color: #d9d9d9;
+}
+
+.jxBarTop,
+.jxBarBottom {
+  /* Horizontally oriented toolbars */
+  /* Base setup */
+  width: 100%; /* fills the width, may be needed for JS style sniffing */
+  height: auto; /* since the last element clears the float, a height may not be needed */
+
+  background-repeat:repeat-x;
+  background-position: bottom;
+}
+
+.jxBarLeft,
+.jxBarRight {
+  /* Vertically oriented toolbars */
+  /* Base setup */
+  width: auto;
+  height: 100%;
+
+  background-repeat:repeat-y;
+  background-position: right;
+}
+
+/* a label can optionally be used preceeding a toolbar.  the line height is used to center the label relative to the toolbar. */
+
+.toolbarLabel {
+  /* Base setup */
+  display: block;
+  position: relative;
+  float: left;
+
+  margin: 0px;
+  padding: 0px;
+  font-family: Arial, Hevetica, sans-serif;
+  font-size: 11px;
+  line-height: 24px;
+  color: #000;
+}
+
+/* The jx toolbar is built out of a UL
+   The margins and padding need to be flattened out, and the list markers need to be hidden
+   UL's are floated left so multiple toolbars can be in the samae row.
+   In IE, the UL needs to have a specified width to prevent button wrapping. */
+
+ul.jxToolbar {
+  /* Base setup */
+  display: block;
+  position: relative;
+  float: left;
+  list-style-type: none;
+
+  margin: 0px;  /* margins don't seem to work properly in IE */
+  padding: 0px;
+}
+
+.jxBarTop ul.jxToolbar,
+.jxBarBottom ul.jxToolbar {
+  border-left: 1px solid #fff;
+  border-right: 1px solid #999;
+  border-top: 1px solid #fff;
+}
+
+.jxBarLeft ul.jxToolbar,
+.jxBarRight ul.jxToolbar {
+  border-left: 1px solid #fff;
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #999;
+}
+
+/* LI's are floated to the left, to make a horizontal row of buttons*/
+
+li.jxToolItem {
+  /* Base setup */
+  display: block;
+  position: relative;
+  float: left;
+  font-size: 0px;
+  line-height: 0px;
+
+  padding: 0px;
+  margin: 0px;  /* margins don't seem to work properly in IE */
+}
+
+.jxBarTop li.jxToolItem,
+.jxBarBottom li.jxToolItem {
+  border-top: none;
+  border-right: none;
+  border-bottom: 1px solid #999;
+  border-left: none;
+}
+
+.jxBarLeft li.jxToolItem,
+.jxBarRight li.jxToolItem {
+  border-top: none;
+  border-right: 1px solid #999;
+  border-bottom: none;
+  border-left: none;
+}
+
+/* Seperator height should match that of button images
+   and the margins+padding+border should add up to the same total too. */
+
+li.jxToolItem  .separator {
+  /* Base setup */
+  display: block;
+  position: relative;
+  float: left;
+  font-size: 0px;
+  line-height: 0px;
+
+  /* width/height should be defined */
+  width: 8px;
+  height: 18px;
+  border: 0px;
+  margin: 0px;  /* margins don't seem to work properly in IE */
+  padding: 4px;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.jxBarTop  li.jxToolItem  span.separator,
+.jxBarBottom  li.jxToolItem  span.separator {
+  background-image: url(images/toolbar_separator_h.png);
+}
+
+.jxBarLeft  li.jxToolItem  span.separator,
+.jxBarRight  li.jxToolItem  span.separator {
+  background-image: url(images/toolbar_separator_v.png);
+}
+
+/* Vertically oriented toolbars need floats cleared */
+
+.jxBarLeft label.toolbarLabel,
+.jxBarLeft ul.jxToolbar,
+.jxBarLeft li.jxToolItem,
+.jxBarRight label.toolbarLabel,
+.jxBarRight ul.jxToolbar,
+.jxBarRight li.jxToolItem
+{
+  /* Base setup */
+  clear: both;
+}
+
+
+/* DEPRICATED STYLES */
+
+/* Vertically oriented toolbars do not need to fill their containers horizontally */
+
+.verticalToolbar {
+  /* Base setup */
+  width: auto;
+}
+
+/* Vertically oriented toolbars need floats cleared */
+
+.verticalToolbar label.toolbarLabel,
+.verticalToolbar ul.jxToolbar,
+.verticalToolbar li.jxToolItem
+{
+  /* Base setup */
+  clear: both;
+}
+

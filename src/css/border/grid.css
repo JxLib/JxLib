@@ -1,0 +1,137 @@
+.jxGridContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-left: 0px solid #96a7b4;
+    border-top: 0px solid #96a7b4;
+    border-right: 1px solid #96a7b4;
+    border-bottom: 1px solid #96a7b4;
+    overflow: hidden;
+    font-family: Arial, Verdana, sans-serif;
+    font-size: 11px;
+    font-weight: normal;
+}
+
+.jxGridTable {
+    position: relative;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border-style: none;
+    width: 0px;
+}
+
+.jxGridColHeadHide {
+    height: 0px;
+    line-height: 0px;
+    font-size: 0px;
+    background-color: #fff;
+    white-space: normal;
+}
+
+.jxGridColHeadHide p, .jxGridRowHeadHide p {
+    font-size: 0px;
+    line-height: 0px;
+    height: 0px;
+    margin: 0px;
+    padding: 0px;
+}
+
+.jxGridRowHeadHide {
+    width: 0px;
+    white-space: normal;
+}
+
+.jxGridCell {
+    border-right: 1px solid #cecece;
+    border-bottom: 1px solid #cecece;
+    overflow: hidden;
+    padding-left: 3px;
+    padding-right: 3px;
+    overflow: hidden;
+    /* can change this to normal */
+    white-space: nowrap;
+    /* only applies in IE and Safari right now */
+    text-overflow: ellipsis;
+}
+
+.jxGridColHead {
+    border-top: 0px solid  #96a7b4;
+    border-right: 1px solid #96a7b4;
+    border-bottom: 1px solid #96a7b4;
+    border-left: 0px solid  #96a7b4;
+    background-color: #ebebeb;
+    text-align: center;
+    font-weight: bold;
+    color: #45525f;
+}
+
+.jxGridRowHead {
+    border-top: 0px solid #96a7b4;
+    border-right: 1px solid #96a7b4;
+    border-bottom: 1px solid #96a7b4;
+    border-left: 0px solid #96a7b4;
+    background-color:  #ebebeb;
+    text-align: center;
+    font-weight: bold;
+    color: #45525f;
+}
+
+.jxGridRowAll {
+    background-color: #fff;
+}
+
+.jxGridRowOdd {
+    /*background-color: pink;*/
+}
+
+.jxGridRowEven {
+    /*background-color: lime;*/
+}
+
+.jxGridRowOdd td {
+    border-right: 1px solid #999;
+    border-bottom: 1px solid #999;
+}
+
+.jxGridRowEven td {
+    border-right: 1px solid #999;
+    border-bottom: 1px solid #999;
+}
+
+.jxGridRowSelected {
+    background-color: #dae6f2;
+}
+
+.jxGridColumnSelected {
+    background-color: #dae6f2;
+}
+
+.jxGridCellSelected {
+    background-color: #dae6f2;
+}
+
+.jxGridRowPrelight {
+    background-color: #f2f2f2;
+}
+
+.jxGridCellPrelight {
+    /*background-color: green;*/
+}
+
+.jxGridRowHeaderPrelight {
+    background-color: #dfdfdf;
+}
+
+.jxGridColumnHeaderPrelight {
+    background-color: #dfdfdf;
+}
+
+.jxGridRowHeaderSelected {
+    background-color: #6d7f8e;
+    color: #fff;
+}
+
+.jxGridColumnHeaderSelected {
+    background-color: #6d7f8e;
+    color: #fff;
+}

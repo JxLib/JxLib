@@ -1,0 +1,309 @@
+/**
+ * @project         Jx
+ * @revision        $Id: button.css 1153 2008-09-25 16:18:42Z fwarnock $
+ * @author          Fred Warnock (fwarnock@dmsolutions.ca)
+ * @copyright       (c) 2006 DM Solutions Group Inc.
+ */
+
+/* ============= */
+/* BUTTON STYLES */
+/* ============= */
+/* jxButtons consist of an A, containing a SPAN, which contains an image.
+   Buttons can use the sliding door technique with background images to horizontally
+   accomodate icons with labels. */
+
+div.jxButtonContainer {
+  /* Base setup */
+  display: block;
+  position: relative;
+  float: left;
+
+  margin: 2px;
+  padding: 0px;
+  border: none;
+}
+
+/* normal button */
+
+a.jxButton {
+  /* Base setup */
+  display: block;
+  position: relative;
+  float: left;
+
+  /* Using background images, the A contains the left side of the background */
+  margin: 0px; /* margins don't seem to work properly in IE */
+  padding: 0px 0px 0px 4px; /* makes room for the left of the button bg */
+  border: none;
+  background-image: url(images/delicious/button_bg.png);
+  background-position: left -56px;
+  background-repeat: no-repeat;
+  text-decoration: none;
+}
+
+ul.jxToolbar a.jxButton {
+  background-position: left top;
+}
+
+span.jxButtonContent {
+  /* Base setup */
+  display: block;
+  position: relative;
+  float: left;
+  font-size: 0px;
+  line-height: 0px;
+
+  /* Using background images, the SPAN contains the right side of the background */
+  margin: 0px; /* margins don't seem to work properly in IE */
+  padding: 4px 4px 4px 0px; /* makes room for the right of the button bg */
+  border: none;
+  background-image: url(images/delicious/button_bg.png);
+  background-position: right -56px;
+  background-repeat: no-repeat;
+}
+
+ul.jxToolbar span.jxButtonContent {
+  background-position: right top;
+}
+
+/* hover button */
+ul.jxToolbar a.jxButton:hover,
+a.jxButton:hover {
+  background-position: left -224px;
+}
+
+a.jxButton:hover span.jxButtonContent {
+  background-position: right -224px;
+}
+
+/* active button */
+ul.jxToolbar a.jxButtonActive,
+a.jxButtonActive {
+  background-position: left -168px;
+}
+
+a.jxButtonActive span.jxButtonContent {
+  background-position: right -168px;
+}
+
+/* hover active button */
+ul.jxToolbar a.jxButton:hover,
+a.jxButtonActive:hover {
+  background-position: left -224px;
+}
+
+a.jxButtonActive:hover span.jxButtonContent {
+  background-position: right -224px;
+}
+
+/* clicking button */
+ul.jxToolbar a.jxButton:active,
+ul.jxToolbar a.jxButtonActive:active,
+a.jxButton:active,
+a.jxButtonActive:active {
+  background-position: left -112px;
+}
+
+a.jxButton:active span.jxButtonContent,
+a.jxButtonActive:active span.jxButtonContent {
+  background-position: right -112px;
+}
+
+/* disabled buttons */
+
+ul.jxToolbar .jxDisabled a.jxButton,
+.jxDisabled a.jxButton {
+ cursor: default; 
+}
+
+/* hover and active disabled button */
+ul.jxToolbar .jxDisabled a.jxButton:hover,
+ul.jxToolbar .jxDisabled a.jxButton:active {
+  background-position: left top;
+}
+
+.jxDisabled a.jxButton:hover,
+.jxDisabled a.jxButton:active {
+  background-position: left -56px;
+}
+
+ul.jxToolbar .jxDisabled a.jxButton:hover span.jxButtonContent,
+ul.jxToolbar .jxDisabled a.jxButton:active span.jxButtonContent {
+  background-position: right top;
+}
+  
+.jxDisabled a.jxButton:hover span.jxButtonContent,
+.jxDisabled a.jxButton:active span.jxButtonContent {
+  background-position: right -56px;
+}
+
+img.jxButtonIcon {
+  /* Base setup */
+  position: relative;
+  float: left;
+
+  width: 16px;
+  height: 16px;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+span.jxButtonContent span {
+  /* Base setup */
+  display: block;
+  position: relative;
+  float: left;
+  cursor: pointer;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  line-height: 16px;
+  height: 16px;
+  white-space: nowrap;
+}
+
+span.jxButtonContent span.jxButtonLabel {
+  margin: 0px;
+  padding: 0 4px 0 4px;
+  color: #000;
+  font-size: 11px;
+}
+
+/* ========================== */
+/* JX BUTTON EXTENSION STYLES */
+/* ========================== */
+
+a.jxButtonMenu span.jxButtonContent,
+a.jxButtonMulti span.jxButtonContent,
+a.jxButtonFlyout span.jxButtonContent,
+a.jxButtonCombo span.jxButtonContent,
+a.jxButtonEditCombo span.jxButtonContent {
+  padding-right: 0px;
+}
+
+a.jxButtonMenu span.jxButtonContent span,
+a.jxButtonFlyout span.jxButtonContent span,
+a.jxButtonMulti span.jxButtonContent span,
+a.jxButtonCombo span.jxButtonContent span,
+a.jxButtonEditCombo span.jxButtonContent span {
+  padding-right: 16px;
+  background-image: url(images/delicious/emblems.png);
+  background-position: right -16px;
+  background-repeat: no-repeat;
+}
+
+a.jxButtonDisclose {
+  position: absolute;
+  display: block;
+  padding: 4px 0px;
+  font-size: 0px;
+  line-height: 0px;
+  right: 0px;
+  background-image: url(images/delicious/button_multi_disclose_bg.png);
+  background-position: right 0px;
+  background-repeat: no-repeat;
+}
+
+a.jxButtonDisclose img {
+  width: 16px;
+  height: 16px;
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+  background-image: url(images/delicious/emblems.png);
+  background-position: right -16px;
+  background-repeat: no-repeat;
+}
+
+a.jxButtonDisclose:hover {
+  background-position: right -224px;
+}
+
+a.jxButtonDisclose:active {
+  background-position: right -112px;
+}
+
+/* note, jxButtonHover is set by Multi button JS */
+ul.jxToolbar a.jxButtonHover {
+  background-position: left -56px;
+}
+
+ul.jxToolbar a.jxButtonHover span.jxButtonContent {
+  background-position: right -56px;
+}
+
+
+/* Jx Flyout Styles */
+
+.jxFlyout .jxChrome {
+  background-image: url(images/delicious/flyout_chrome.png);
+  padding: 5px 5px 7px 6px;
+}
+
+.jxFlyout {
+  /* Base setup */
+  position: absolute;
+  display: block;
+  clear: both;
+  float: none;
+  z-index: 100;
+
+  margin: 0px;
+  padding: 0px;
+  /* because of jxToolbarItem */
+  font-size: 11px;
+  line-height: 14px;
+}
+
+.jxFlyoutContent {
+  position: relative;
+  display: block;
+  overflow: auto;
+  margin: 6px 6px 8px 7px;
+  background-color: #fff;
+  border: 1px solid #999;
+}
+
+/* Jx Combo and Multi Button Styles */
+
+a.jxButtonMulti,
+a.jxButtonMulti span.jxButtonContent {
+  background-image: url(images/delicious/button_multi_bg.png);
+}
+
+a.jxButtonEditCombo,
+a.jxButtonEditCombo span.jxButtonContent {
+  background-image: url(images/delicious/button_combo_bg.png);
+}
+
+a.jxButtonEditCombo span.jxButtonContent {
+/* put 2px padding on the top of the input to center the text and
+   remove it from this span
+ */
+}
+
+a.jxButtonMulti span.jxButtonContent span {
+  padding-right: 21px;
+}
+
+a.jxButtonEditCombo span.jxButtonContent span {
+  font-size: 0px;
+}
+
+a.jxButtonComboDefault span.jxButtonContent span,
+a.jxButtonComboDefault input {
+  font-style: italic;
+  color: #999;
+}
+
+a.jxButtonEditCombo input {
+  float: left;
+  line-height: 16px;
+  height: 16px;
+  padding: 0px 4px;
+  margin: 0px;
+  border: none;
+  font-size: 11px;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: transparent;
+}
