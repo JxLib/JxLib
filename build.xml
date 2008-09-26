@@ -10,7 +10,7 @@ M.Adair    09-July-2007  initial version copied from fusion
 
 $Id: build.xml 1039 2008-09-22 17:07:23Z pspencer $
 ***************************************************************************-->
-  <project basedir="." default="deploy" name="jx">
+<project basedir="." default="deploy" name="jx">
 
 <!-- ===================== Property Definitions =========================== -->
 <!--
