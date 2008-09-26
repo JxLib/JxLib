@@ -46,7 +46,10 @@ Jx.TabBox = new Class({
      */
     initialize : function(options) {
         this.setOptions(options);
-        this.tabBar = new Jx.Toolbar({type: 'TabBar', position: this.options.position});
+        this.tabBar = new Jx.Toolbar({
+            type: 'TabBar', 
+            position: this.options.position
+        });
         this.panel = new Jx.Panel({
             toolbars: [this.tabBar],
             hideTitle: true,

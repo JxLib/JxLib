@@ -73,22 +73,8 @@ Jx.TabSet = new Class({
      * each of the tabs managed by the tab set.
      */
     resizeTabBox: function() {
-        var parentSize = Element.getContentBoxSize(this.domObj.parentNode);
-        Element.setBorderBoxSize(this.domObj, {width: parentSize.width, height: parentSize.height});
-        // this is a bullshit hack for IE.  We need to set the tab content height
-        // for IE when the tabs are in a snap panel, otherwise the tab content
-        // doesn't collapse with the panel and no scrollbars appear.  This only
-        // affects the height.  In fact, setting the width breaks tab placement
-        
-        for (var i=0; i<this.domObj.childNodes.length; i++) {
-            // don't try to set the height on a text node 
-            if (this.domObj.childNodes[i].nodeType == 3) {
-                 continue;
-             }
-            Element.setBorderBoxSize(this.domObj.childNodes[i], {height: parentSize.height});
-            if (this.domObj.childNodes[i].resize) {
-                this.domObj.childNodes[i].resize({forceResize: true});
-            }
+        if (this.activeTab && this.activeTab.content.resize) {
+            this.activeTab.content.resize({forceResize: true});
         }
     },
     
