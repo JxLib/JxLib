@@ -573,6 +573,9 @@ Jx.ContentLoader = new Class ({
         } else {
             this.contentIsLoaded = true;
         }
+        if (this.options.contentId) {
+            element.id = this.options.contentId;
+        }
         if (this.contentIsLoaded) {
             this.fireEvent('contentLoaded', this);
         }
