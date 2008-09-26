@@ -19,6 +19,7 @@
   /* Base setup */
   position: relative;
   display: block;
+  overflow: hidden;
 
   width: 200px;
   height: 200px;
@@ -59,7 +60,7 @@ div.jxTabContainer {
   position: relative;
 
   margin: 0px;
-  padding: 0px;
+  padding: 2px;
   border: none;
 }
 
@@ -152,8 +153,6 @@ span.jxTabLabel {
 .jxBarBottom div.jxTabContainer {
   /* Base setup */
   float: left;
-
-  margin: 2px;
 }
 
 .jxBarTop a.jxTab,
@@ -277,8 +276,6 @@ span.jxTabLabel {
 .jxBarLeft div.jxTabContainer,
 .jxBarRight div.jxTabContainer {
   /* Base setup */
-
-  margin: 2px;
 }
 
 .jxBarLeft a.jxTab,
