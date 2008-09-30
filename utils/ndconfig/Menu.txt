@@ -104,10 +104,10 @@ Group: Jx  {
 
    File: Jx.Button.Combo  (button.combo.js)
    File: Jx.ColorPalette  (colorpalette.js)
-   File: Jx.Combo  (combo.js)
    File: Jx.Dialog  (dialog.js)
    File: Jx.Grid  (grid.js)
    File: Jx.Layout  (layout.js)
+   File: Jx.Toolbar.Container  (toolbar.container.js)
    }  # Group: Jx
 
 Group: Index  {

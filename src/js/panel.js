@@ -236,22 +236,15 @@ Jx.Panel = new Class({
         
         for (var i=0; i<this.toolbars.length; i++) {
             var tb = this.toolbars[i];
-            tb.addEvent('add', layoutHandler);
-            tb.addEvent('remove', layoutHandler);
             var position = tb.options.position;
             var tbc = this.toolbarContainers[position];
             if (!tbc) {
-                var tbc = new Element('div', {
-                    'class':'jxBarContainer '+'jxBar'+position.capitalize()
-                });
+                var tbc = new Element('div');
                 new Jx.Layout(tbc);
-                var clearer = new Element('div', {'class':'jxClearer'});
-                tbc.appendChild(clearer);
                 this.contentContainer.adopt(tbc);
                 this.toolbarContainers[position] = tbc;
             }
-            var tbObj = tb.domObj;
-            tbc.insertBefore(tbObj, tbc.lastChild);
+            tb.addTo(tbc);
         }
         
         this.content = new Element('div', {

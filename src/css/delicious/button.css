@@ -198,7 +198,8 @@ a.jxButtonDisclose {
   padding: 4px 0px;
   font-size: 0px;
   line-height: 0px;
-  right: 0px;
+  right: 2px;
+  top: 2px;
   background-image: url(images/delicious/button_multi_disclose_bg.png);
   background-position: right 0px;
   background-repeat: no-repeat;
@@ -244,15 +245,10 @@ ul.jxToolbar a.jxButtonHover span.jxButtonContent {
   /* Base setup */
   position: absolute;
   display: block;
-  clear: both;
-  float: none;
   z-index: 100;
 
   margin: 0px;
   padding: 0px;
-  /* because of jxToolbarItem */
-  font-size: 11px;
-  line-height: 14px;
 }
 
 .jxFlyoutContent {

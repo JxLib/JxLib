@@ -1,6 +1,6 @@
 /**
  * @project         Jx
- * @revision        $Id: button.css 1140 2008-09-24 19:40:23Z fwarnock $
+ * @revision        $Id: button.css 1153 2008-09-25 16:18:42Z fwarnock $
  * @author          Fred Warnock (fwarnock@dmsolutions.ca)
  * @copyright       (c) 2006 DM Solutions Group Inc.
  */
@@ -198,7 +198,8 @@ a.jxButtonDisclose {
   padding: 4px 0px;
   font-size: 0px;
   line-height: 0px;
-  right: 0px;
+  right: 2px;
+  top: 2px;
   background-image: url(images/crispin/button_multi_disclose_bg.png);
   background-position: right 0px;
   background-repeat: no-repeat;
@@ -244,15 +245,10 @@ ul.jxToolbar a.jxButtonHover span.jxButtonContent {
   /* Base setup */
   position: absolute;
   display: block;
-  clear: both;
-  float: none;
   z-index: 100;
 
   margin: 0px;
   padding: 0px;
-  /* because of jxToolbarItem */
-  font-size: 11px;
-  line-height: 14px;
 }
 
 .jxFlyoutContent {

@@ -73,7 +73,7 @@ $Id: build.xml 1039 2008-09-22 17:07:23Z pspencer $
   <property environment="env"/>
   <property name="app.name" value="jxlib"/>
   <property name="app.path" value="/${app.name}"/>
-  <property name="app.version" value="2.0-beta"/>
+  <property name="app.version" value="2.0-beta-2"/>
   <property name="build.home" value="${basedir}/../build"/>
   <property name="dist.home" value="${basedir}/../dist"/>
   <property name="deploy.home" value="${basedir}/../www"/>
@@ -134,7 +134,7 @@ $Id: build.xml 1039 2008-09-22 17:07:23Z pspencer $
     <echo message="Concatenating javascript into jxlib"/>
     <concat destfile="${build.home}/lib/jxlib.standalone.uncompressed.js">
         <filelist dir="src/js" files="common.js"/>
-        <filelist dir="src/js" files="button.js button.flyout.js button.multi.js colorpalette.js button.color.js buttonset.js grid.js layout.js menu.js menu.item.js menu.separator.js menu.submenu.js menu.context.js panel.js dialog.js panelset.js button.combo.js splitter.js splitter.snap.js tabset.js tabbox.js button.tab.js toolbar.js toolbar.item.js toolbar.separator.js treeitem.js treefolder.js tree.js"/>
+        <filelist dir="src/js" files="button.js button.flyout.js button.multi.js colorpalette.js button.color.js buttonset.js grid.js layout.js menu.js menu.item.js menu.separator.js menu.submenu.js menu.context.js panel.js dialog.js panelset.js button.combo.js splitter.js splitter.snap.js tabset.js tabbox.js button.tab.js toolbar.js toolbar.item.js toolbar.separator.js toolbar.container.js treeitem.js treefolder.js tree.js"/>
     </concat>
     <concat destfile="${build.home}/lib/jxlib.uncompressed.js">
         <fileset file="${MooToolsCore}"/>

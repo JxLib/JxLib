@@ -1,6 +1,6 @@
 /**
  * @project         Jx
- * @revision        $Id: toolbar.css 852 2008-09-08 17:54:34Z fwarnock $
+ * @revision        $Id: toolbar.css 1080 2008-09-23 18:06:47Z fwarnock $
  * @author          Fred Warnock (fwarnock@dmsolutions.ca)
  * @copyright       (c) 2006 DM Solutions Group Inc.
  */
@@ -16,6 +16,7 @@
   display: block;
   position: relative;
   z-index: 1;
+  overflow: hidden;
 
   margin: 0px;
   padding: 0px;
@@ -29,7 +30,7 @@
   /* Horizontally oriented toolbars */
   /* Base setup */
   width: 100%; /* fills the width, may be needed for JS style sniffing */
-  height: auto; /* since the last element clears the float, a height may not be needed */
+  height: 28px;
   background-image: url(images/crispin/toolbar_bg.png);
   background-repeat: repeat-x;
   background-position: 0px 0px;
@@ -68,6 +69,28 @@
   background-position: left 0px;
 }
 
+.jxBarTop .jxBarScroller,
+.jxBarBottom .jxBarScroller {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  /* much bigger than its container */
+  width: 10000%;
+}
+
+.jxBarTop .jxBarScrollLeft,
+.jxBarBottom .jxBarScrollLeft {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+
+.jxBarTop .jxBarScrollRight,
+.jxBarBottom .jxBarScrollRight {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
 
 /* The jx toolbar and tabbar are both built out of a UL
    The margins and padding need to be flattened out, and the list markers need to be hidden
@@ -94,6 +117,12 @@ ul.jxTabBar {
   margin: 0px;  /* margins don't seem to work properly in IE */
   padding: 0px;
   border: none;
+}
+
+.jxBarTop ul.jxToolbar,
+.jxBarBottom ul.jxToolbar,
+.jxBarTop ul.jxTabBar,
+.jxBarBottom ul.jxTabBar {
 }
 
 /* LI's are floated to the left, to make a horizontal row of buttons*/

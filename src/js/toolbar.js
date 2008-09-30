@@ -46,7 +46,7 @@
  * This file is licensed under an MIT style license
  */
 Jx.Toolbar = new Class({
-    Implements: [Options,Events, Jx.Addable],
+    Implements: [Options,Events],
     /**
      * Property: items
      * {Array} an array of the things in the toolbar.
@@ -85,7 +85,7 @@ Jx.Toolbar = new Class({
      */
     initialize : function(options) {
         this.setOptions(options);
-        this.addEvent('addTo', this.onAddTo.bind(this));
+        this.items = [];
         
         this.domObj = new Element('ul', {
             id: this.options.id,
@@ -100,34 +100,15 @@ Jx.Toolbar = new Class({
             this.add(this.options.items);
         }
     },
-    /**
-     *
-     */
-    onAddTo: function() {
-        var owner = $(this.domObj.parentNode);
-        if (!owner) {
-            return;
+    
+    addTo: function(parent) {
+        var tbc = $(parent).retrieve('jxBarContainer');
+        if (!tbc) {
+            tbc = new Jx.Toolbar.Container({ parent: parent, position: this.options.position});
         }
-        if (!owner.hasClass('jxBarContainer')) {
-            owner.addClass('jxBarContainer');
-        }
-        if (['top','right','bottom','left'].contains(this.options.position)) {
-            owner.addClass('jxBar' +
-                           this.options.position.capitalize());            
-        } else {
-            owner.addClass('jxBarTop');
-        }            
-        if (!owner.getChildren().some(function(child){
-            if (child.hasClass('jxClearer')) {
-                child.inject(owner);
-                return true;
-            } else {
-                return false;
-            }
-        })) {
-            owner.adopt(new Element('div', {'class':'jxClearer'}));                                        
-        }
+        tbc.add(this);
     },
+    
     /**
      * Method: add
      * Add an item to the toolbar.  If the item being added is a Jx component
