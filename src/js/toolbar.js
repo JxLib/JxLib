@@ -68,7 +68,8 @@ Jx.Toolbar = new Class({
         type: 'Toolbar',
         position: 'top',
         parent: null,
-        autoSize: false
+        autoSize: false,
+        scroll: false
     },
     /**
      * Constructor: Jx.Toolbar
@@ -108,7 +109,8 @@ Jx.Toolbar = new Class({
             tbc = new Jx.Toolbar.Container({
                 parent: parent, 
                 position: this.options.position, 
-                autoSize: this.options.autoSize
+                autoSize: this.options.autoSize,
+                scroll: this.options.scroll
             });
         }
         tbc.add(this);
