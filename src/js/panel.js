@@ -218,8 +218,8 @@ Jx.Panel = new Class({
         if (this.options.id) {
             this.domObj.id = this.options.id;
         }
-        if ($(this.options.parent)) {
-            $(this.options.parent).adopt(this.domObj);
+        if (this.options.parent) {
+            this.addTo(this.options.parent);
         }
         var jxl = new Jx.Layout(this.domObj, $merge(this.options, {propagate:false}));
         var layoutHandler = this.layoutContent.bind(this);
@@ -263,10 +263,6 @@ Jx.Panel = new Class({
         this.addEvent('addTo', function() {
             this.domObj.resize();
         });
-        
-        if (this.options.parent) {
-            this.addTo(this.options.parent);
-        }
     },
     
     layoutContent: function() {

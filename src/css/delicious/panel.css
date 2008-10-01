@@ -208,8 +208,10 @@
   margin: 0px;
   padding: 0px;
   border: none;
-  width: auto;
-  height: auto;
+}
+
+.jxPanelControls div.jxBarTop .jxBarScroller {
+  right: 0px;
 }
 
 .jxPanelControls div.jxBarTop ul.jxToolbar {

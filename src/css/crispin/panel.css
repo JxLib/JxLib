@@ -1,6 +1,6 @@
 /**
  * @project         Jx
- * @revision        $Id: panel.css 883 2008-09-10 11:38:21Z pspencer $
+ * @revision        $Id: panel.css 1079 2008-09-23 17:54:08Z pspencer $
  * @author          Fred Warnock (fwarnock@dmsolutions.ca)
  * @copyright       (c) 2006 DM Solutions Group Inc.
  */
@@ -151,6 +151,8 @@
   left: 2px;
 }
 
+
+
 /* ========================= */
 /* JX BUTTON STYLES OVERIDES */
 /* ========================= */
@@ -206,8 +208,10 @@
   margin: 0px;
   padding: 0px;
   border: none;
-  width: auto;
-  height: auto;
+}
+
+.jxPanelControls div.jxBarTop .jxBarScroller {
+  right: 0px;
 }
 
 .jxPanelControls div.jxBarTop ul.jxToolbar {

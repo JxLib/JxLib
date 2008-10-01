@@ -72,8 +72,6 @@
 .jxBarTop .jxBarScroller,
 .jxBarBottom .jxBarScroller {
   position: absolute;
-  left: 0px;
-  top: 0px;
   /* much bigger than its container */
   width: 10000%;
 }

@@ -238,9 +238,12 @@
 }
 
 .jxDialogControls .jxBarTop {
-  width: auto;
-  height: auto;
   background-image: none;
+}
+
+.jxDialogControls .jxBarTop .jxBarScroller {
+  left: none;
+  right: 0px;
 }
 
 .jxDialogControls .jxBarTop ul.jxToolbar,

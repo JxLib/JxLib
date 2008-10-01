@@ -67,7 +67,8 @@ Jx.Toolbar = new Class({
     options: {
         type: 'Toolbar',
         position: 'top',
-        parent: null
+        parent: null,
+        autoSize: false
     },
     /**
      * Constructor: Jx.Toolbar
@@ -104,7 +105,11 @@ Jx.Toolbar = new Class({
     addTo: function(parent) {
         var tbc = $(parent).retrieve('jxBarContainer');
         if (!tbc) {
-            tbc = new Jx.Toolbar.Container({ parent: parent, position: this.options.position});
+            tbc = new Jx.Toolbar.Container({
+                parent: parent, 
+                position: this.options.position, 
+                autoSize: this.options.autoSize
+            });
         }
         tbc.add(this);
     },
@@ -122,7 +127,6 @@ Jx.Toolbar = new Class({
      */
     add: function( ) {
         $A(arguments).flatten().each(function(thing) {
-            thing.toolbar = this;
             if (thing.domObj) {
                 thing = thing.domObj;
             }

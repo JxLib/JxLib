@@ -1,6 +1,6 @@
 /**
  * @project         Jx
- * @revision        $Id: dialog.css 883 2008-09-10 11:38:21Z pspencer $
+ * @revision        $Id: dialog.css 1035 2008-09-22 17:05:20Z pspencer $
  * @author          Fred Warnock (fwarnock@dmsolutions.ca)
  * @copyright       (c) 2006 DM Solutions Group Inc.
  */
@@ -238,9 +238,12 @@
 }
 
 .jxDialogControls .jxBarTop {
-  width: auto;
-  height: auto;
   background-image: none;
+}
+
+.jxDialogControls .jxBarTop .jxBarScroller {
+  left: none;
+  right: 0px;
 }
 
 .jxDialogControls .jxBarTop ul.jxToolbar,

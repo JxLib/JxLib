@@ -22,18 +22,14 @@
 Jx.Toolbar.Container = new Class({
     Implements: [Options,Events, Jx.Addable],
     /**
-     * Property: items
-     * {Array} an array of the toolbars in the container.
-     */
-    toolbars : null,
-    /**
      * Property: domObj
      * {HTMLElement} the HTML element that the container lives in
      */
     domObj : null,
     options: {
         parent: null,
-        position: 'top'
+        position: 'top',
+        autoSize: false
     },
     /**
      * Constructor: Jx.Toolbar.Container
@@ -49,8 +45,8 @@ Jx.Toolbar.Container = new Class({
      */
     initialize : function(options) {
         this.setOptions(options);
+        // make sure we update our size when we get added to the DOM
         this.addEvent('addTo', this.update.bind(this));
-        this.toolbars = [];
         
         var d = $(this.options.parent);
         this.domObj = d || new Element('div');
@@ -59,6 +55,10 @@ Jx.Toolbar.Container = new Class({
         this.scroller = new Element('div', {'class':'jxBarScroller'});
         this.domObj.adopt(this.scroller);
 
+        /* this allows toolbars to add themselves to this bar container
+         * once it already exists without requiring an explicit reference
+         * to the toolbar container
+         */
         this.domObj.store('jxBarContainer', this);
         
         if (['top','right','bottom','left'].contains(this.options.position)) {
@@ -67,6 +67,7 @@ Jx.Toolbar.Container = new Class({
         } else {
             this.domObj.addClass('jxBarTop');
         }
+        
         this.clearer = new Element('div', {'class':'jxClearer'});
         this.scroller.adopt(this.clearer);
         
@@ -87,7 +88,7 @@ Jx.Toolbar.Container = new Class({
                scrollFx.start('left', from, to);
            }).bind(this)
         });
-        
+    
         this.scrollRight = new Jx.Button({
             label:'&gt;'
         }).addTo(this.domObj);
@@ -110,11 +111,34 @@ Jx.Toolbar.Container = new Class({
     },
     
     update: function() {
+        if (this.options.autoSize) {
+            /* delay the size update a very small amount so it happens
+             * after the current thread of execution finishes.  If the
+             * current thread is part of a window load event handler,
+             * rendering hasn't quite finished yet and the sizes are
+             * all wrong
+             */
+            (function(){
+                var x = 0;
+                this.scroller.getChildren().each(function(child){
+                    x+= child.getSize().x;
+                });
+                this.domObj.setStyles({width:x});
+                this.measure();
+            }).delay(1,this);
+        } else {
+            this.measure();
+        }
+    },
+    
+    measure: function() {
+        /* decide if we need to show the scroller buttons and
+         * do some calculations that will make it faster
+         */
         this.scrollWidth = this.domObj.getSize().x;
         this.scroller.getChildren().each(function(child){
             this.scrollWidth -= child.getSize().x;
         }, this);
-        console.log('scroll width: ' + this.scrollWidth);
         if (this.scrollWidth < 0) {
             var l = this.scroller.getStyle('left').toInt();
             if (l < 0) {
@@ -130,7 +154,7 @@ Jx.Toolbar.Container = new Class({
         } else {
             this.scrollLeft.domObj.setStyle('display','none');
             this.scrollRight.domObj.setStyle('display','none');
-        }
+        }            
     },
     
     /**
@@ -143,10 +167,12 @@ Jx.Toolbar.Container = new Class({
      */
     add: function( ) {
         $A(arguments).flatten().each(function(thing) {
+            /* we potentially need to show or hide scroller buttons
+             * when the toolbar contents change
+             */
             thing.addEvent('add', this.update.bind(this));
             thing.addEvent('remove', this.update.bind(this));
             thing.domObj.inject(this.clearer, 'before');
-            this.toolbars.push(thing);
         }, this);
         this.update();
         if (arguments.length > 0) {
