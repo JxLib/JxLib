@@ -36,7 +36,7 @@ a.jxButton {
   padding: 0px 0px 0px 4px; /* makes room for the left of the button bg */
   border: none;
   background-image: url(images/crispin/button_bg.png);
-  background-position: left -56px;
+  background-position: left -24px;
   background-repeat: no-repeat;
   text-decoration: none;
 }
@@ -58,7 +58,7 @@ span.jxButtonContent {
   padding: 4px 4px 4px 0px; /* makes room for the right of the button bg */
   border: none;
   background-image: url(images/crispin/button_bg.png);
-  background-position: right -56px;
+  background-position: right -24px;
   background-repeat: no-repeat;
 }
 
@@ -69,31 +69,31 @@ ul.jxToolbar span.jxButtonContent {
 /* hover button */
 ul.jxToolbar a.jxButton:hover,
 a.jxButton:hover {
-  background-position: left -224px;
+  background-position: left -96px;
 }
 
 a.jxButton:hover span.jxButtonContent {
-  background-position: right -224px;
+  background-position: right -96px;
 }
 
 /* active button */
 ul.jxToolbar a.jxButtonActive,
 a.jxButtonActive {
-  background-position: left -168px;
+  background-position: left -72px;
 }
 
 a.jxButtonActive span.jxButtonContent {
-  background-position: right -168px;
+  background-position: right -72px;
 }
 
 /* hover active button */
 ul.jxToolbar a.jxButton:hover,
 a.jxButtonActive:hover {
-  background-position: left -224px;
+  background-position: left -96px;
 }
 
 a.jxButtonActive:hover span.jxButtonContent {
-  background-position: right -224px;
+  background-position: right -96px;
 }
 
 /* clicking button */
@@ -101,12 +101,12 @@ ul.jxToolbar a.jxButton:active,
 ul.jxToolbar a.jxButtonActive:active,
 a.jxButton:active,
 a.jxButtonActive:active {
-  background-position: left -112px;
+  background-position: left -48px;
 }
 
 a.jxButton:active span.jxButtonContent,
 a.jxButtonActive:active span.jxButtonContent {
-  background-position: right -112px;
+  background-position: right -48px;
 }
 
 /* disabled buttons */
@@ -124,7 +124,7 @@ ul.jxToolbar .jxDisabled a.jxButton:active {
 
 .jxDisabled a.jxButton:hover,
 .jxDisabled a.jxButton:active {
-  background-position: left -56px;
+  background-position: left -24px;
 }
 
 ul.jxToolbar .jxDisabled a.jxButton:hover span.jxButtonContent,
@@ -134,7 +134,7 @@ ul.jxToolbar .jxDisabled a.jxButton:active span.jxButtonContent {
   
 .jxDisabled a.jxButton:hover span.jxButtonContent,
 .jxDisabled a.jxButton:active span.jxButtonContent {
-  background-position: right -56px;
+  background-position: right -24px;
 }
 
 img.jxButtonIcon {
@@ -217,20 +217,20 @@ a.jxButtonDisclose img {
 }
 
 a.jxButtonDisclose:hover {
-  background-position: right -224px;
+  background-position: right -96px;
 }
 
 a.jxButtonDisclose:active {
-  background-position: right -112px;
+  background-position: right -48px;
 }
 
 /* note, jxButtonHover is set by Multi button JS */
 ul.jxToolbar a.jxButtonHover {
-  background-position: left -56px;
+  background-position: left -24px;
 }
 
 ul.jxToolbar a.jxButtonHover span.jxButtonContent {
-  background-position: right -56px;
+  background-position: right -24px;
 }
 
 

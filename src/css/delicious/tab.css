@@ -186,7 +186,7 @@ span.jxTabLabel {
   float: left;
 
   padding-left: 4px; /* makes room for the left of the tab bg */
-  background-position: left -56px; 
+  background-position: left -24px; 
 }
 
 .jxBarTop span.jxTabContent,
@@ -195,7 +195,7 @@ span.jxTabLabel {
   float: left;
 
   padding: 4px 4px 4px 0px; /* makes space around the label */
-  background-position: right -56px; 
+  background-position: right -24px; 
 }
 
 
@@ -203,36 +203,36 @@ span.jxTabLabel {
 
 .jxBarTop a.jxTab:hover,
 .jxBarBottom a.jxTab:hover {
-  background-position: left -224px; 
+  background-position: left -96px; 
 }
 
 .jxBarTop a.jxTab:hover span.jxTabContent,
 .jxBarBottom a.jxTab:hover span.jxTabContent {
-  background-position: right -224px; 
+  background-position: right -96px; 
 }
 
 /* Click Tab */
 
 .jxBarTop a.jxTab:active,
 .jxBarBottom a.jxTab:active {
-  background-position: left -112px; 
+  background-position: left -48px; 
 }
 
 .jxBarTop a.jxTab:active span.jxTabContent,
 .jxBarBottom a.jxTab:active span.jxTabContent {
-  background-position: right -112px; 
+  background-position: right -48px; 
 }
 
 /* Active Tab */
 
 .jxBarTop a.jxTabActive,
 .jxBarBottom a.jxTabActive {
-  background-position: left -168px; /* switch to the active left BG */
+  background-position: left -72px; /* switch to the active left BG */
 }
 
 .jxBarTop a.jxTabActive span.jxTabContent,
 .jxBarBottom a.jxTabActive span.jxTabContent {
-  background-position: right -168px; /* switch to the active right BG  */
+  background-position: right -72px; /* switch to the active right BG  */
 }
 
 /* Disabled Tab */
@@ -241,7 +241,7 @@ span.jxTabLabel {
 .jxBarTop .jxDisabled a.jxTab:active,
 .jxBarBottom .jxDisabled a.jxTab:hover,
 .jxBarBottom .jxDisabled a.jxTab:active {
-  background-position: left -56px; /* do not switch the left BG */
+  background-position: left -24px; /* do not switch the left BG */
 }
 
   
@@ -249,7 +249,7 @@ span.jxTabLabel {
 .jxBarTop .jxDisabled a.jxTab:active span.jxTabContent,
 .jxBarBottom .jxDisabled a.jxTab:hover span.jxTabContent,
 .jxBarBottom .jxDisabled a.jxTab:active span.jxTabContent {
-  background-position: right -56px; /* do not switch the right BG */
+  background-position: right -24px; /* do not switch the right BG */
 }
 
 
@@ -306,49 +306,49 @@ span.jxTabLabel {
 .jxBarLeft a.jxTab,
 .jxBarRight a.jxTab {
   padding-top: 4px; /* makes room for the top of the tab bg */
-  background-position: -56px top; 
+  background-position: -24px top; 
 }
 
 .jxBarLeft span.jxTabContent,
 .jxBarRight span.jxTabContent {
   padding: 0px 4px 4px 4px; /* makes space around the label */
-  background-position: -56px bottom; 
+  background-position: -24px bottom; 
 }
 
 /* Hover tab */
 
 .jxBarLeft a.jxTab:hover,
 .jxBarRight a.jxTab:hover {
-  background-position: -224px top; /* shifts the left BG out 2 px for slide effect */
+  background-position: -96px top; /* shifts the left BG out 2 px for slide effect */
 }
 
 .jxBarLeft a.jxTab:hover span.jxTabContent,
 .jxBarRight a.jxTab:hover span.jxTabContent {
-  background-position: -224px bottom; 
+  background-position: -96px bottom; 
 }
 
 /* Click Tab */
 
 .jxBarLeft a.jxTab:active,
 .jxBarRight a.jxTab:active {
-  background-position: -112px top; 
+  background-position: -48px top; 
 }
 
 .jxBarLeft a.jxTab:active span.jxTabContent,
 .jxBarRight a.jxTab:active span.jxTabContent {
-  background-position: -112px bottom; 
+  background-position: -48px bottom; 
 }
 
 /* Active Tab */
 
 .jxBarLeft a.jxTabActive,
 .jxBarRight a.jxTabActive {
-  background-position: -168px top; /* switch to the active top BG */
+  background-position: -72px top; /* switch to the active top BG */
 }
 
 .jxBarLeft a.jxTabActive span.jxTabContent,
 .jxBarRight a.jxTabActive span.jxTabContent {
-  background-position: -168px bottom; /* switch to the active bottom BG  */
+  background-position: -72px bottom; /* switch to the active bottom BG  */
 }
 
 /* Disabled Tab */
@@ -357,7 +357,7 @@ span.jxTabLabel {
 .jxBarLeft .jxDisabled a.jxTab:active,
 .jxBarRight .jxDisabled a.jxTab:hover,
 .jxBarRigth .jxDisabled a.jxTab:active {
-  background-position: -56px top; /* do not switch the top BG */
+  background-position: -24px top; /* do not switch the top BG */
 }
 
   
@@ -365,7 +365,7 @@ span.jxTabLabel {
 .jxBarLeft .jxDisabled a.jxTab:active span.jxTabContent,
 .jxBarRight .jxDisabled a.jxTab:hover span.jxTabContent,
 .jxBarRight .jxDisabled a.jxTab:active span.jxTabContent {
-  background-position: -56px bottom; /* do not switch the top BG */
+  background-position: -24px bottom; /* do not switch the top BG */
 }
 
 .jxBarLeft span.jxTabLabel,
