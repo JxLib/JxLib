@@ -44,7 +44,6 @@
   /* background branches may need to shift up/down according to height of the node */
   background-position: left top;
   white-space: nowrap;
-  width: 100%;
   font-size: 0px;
   line-height: 0px;
 }
