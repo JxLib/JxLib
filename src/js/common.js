@@ -845,12 +845,13 @@ Jx.Chrome = new Class({
             c.setStyle('backgroundImage', 'none');
 
             /* make chrome */
-            ['TL','TR','BL','BR'].each(function(s){
+            ['TR','TL','BL','BR'].each(function(s){
                 c.adopt(
                     new Element('div',{
                         'class':'jxChrome'+s
                     }).adopt(
                     new Element('img',{
+                        'class':'png24',
                         src:src
                     }))
                 );
