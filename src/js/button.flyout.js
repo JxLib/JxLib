@@ -187,6 +187,12 @@ Jx.Button.Flyout = new Class({
             vertical: ['bottom top', 'top bottom'],
             offsets: this.chromeOffsets
         });
+        
+        /* we have to size the container for IE to render the chrome correctly
+         * there is some horrible peekaboo bug in IE 6
+         */
+        this.contentContainer.setContentBoxSize($(this.content).getMarginBoxSize());
+        
         this.contentContainer.setStyle('visibility','');
 
         window.addEvent('keypress', this.keypressWatcher);
