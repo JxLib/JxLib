@@ -90,6 +90,18 @@
   right: 0px;
 }
 
+.jxBarTop .jxBarScrollLeft img.jxButtonIcon,
+.jxBarBottom .jxBarScrollLeft img.jxButtonIcon {
+  background-image: url(images/delicious/emblems.png);
+  background-position: 0px -80px;
+}
+
+.jxBarTop .jxBarScrollRight img.jxButtonIcon,
+.jxBarBottom .jxBarScrollRight img.jxButtonIcon {
+  background-image: url(images/delicious/emblems.png);
+  background-position: 0px -96px;
+}
+
 /* The jx toolbar and tabbar are both built out of a UL
    The margins and padding need to be flattened out, and the list markers need to be hidden
    UL's are floated left so multiple toolbars can be in the samae row.
