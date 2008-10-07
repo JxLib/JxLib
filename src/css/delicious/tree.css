@@ -15,7 +15,8 @@
 */
 
 
-.jxTree, .jxTreeRoot {
+.jxTree, 
+.jxTreeRoot {
   /* relative positioning is required for IE to fix the peek-a-boo bug */
   position:relative;
   display: block;
@@ -34,7 +35,8 @@
 
 /* Node Classes */
 
-.jxTree li, .jxTreeRoot li {
+.jxTree li, 
+.jxTreeRoot li {
   /* relative positioning is required for IE to fix the peek-a-boo bug */
   position:relative;
   display: block;
@@ -52,12 +54,14 @@
   margin-left: 16px;
 }
 
-.jxTree li.jxDisabled, .jxTreeRoot li.jxDisabled {
+.jxTree li.jxDisabled, 
+.jxTreeRoot li.jxDisabled {
   opacity: 0.4; /* css 3 */
   filter: Alpha(opacity=40); /* IE only */
 }
 
-.jxTree a, .jxTreeRoot a {
+.jxTree a, 
+.jxTreeRoot a {
   position: relative;
   display: block;
   margin: 0px 0px 0px 14px;
@@ -72,7 +76,8 @@
   height: 20px;
 }
 
-.jxTree a:hover, .jxTreeRoot a:hover {
+.jxTree a:hover, 
+.jxTreeRoot a:hover {
   background-image: url(images/delicious/tree_bg.png);
   background-color: #CDE5FF;
   background-repeat: repeat-x;

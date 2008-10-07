@@ -1,0 +1,11 @@
+
+
+/* List items do not render properly under several conditions.  
+   Applying a height to the LI forces it to render properly.
+   Content that is taller than the li simply forces the li to be taller */
+.jxTree li,
+.jxTreeRoot li {
+  height: 20px;
+}
+
+
