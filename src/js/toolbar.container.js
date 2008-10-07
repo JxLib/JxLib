@@ -79,7 +79,7 @@ Jx.Toolbar.Container = new Class({
         
             var scrollFx = new Fx.Tween(this.scroller);
             this.scrollLeft = new Jx.Button({
-                label:'&lt;'
+                image: Jx.aPixel.src
             }).addTo(this.domObj);
 
             this.scrollLeft.domObj.addClass('jxBarScrollLeft');
@@ -96,7 +96,7 @@ Jx.Toolbar.Container = new Class({
             });
     
             this.scrollRight = new Jx.Button({
-                label:'&gt;'
+                image: Jx.aPixel.src
             }).addTo(this.domObj);
             this.scrollRight.domObj.addClass('jxBarScrollRight');
             this.scrollRight.addEvents({
