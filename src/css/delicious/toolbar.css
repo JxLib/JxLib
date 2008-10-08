@@ -31,18 +31,18 @@
   /* Base setup */
   width: 100%; /* fills the width, may be needed for JS style sniffing */
   height: 28px;
-  background-image: url(images/delicious/toolbar_bg.png);
+  background-image: url(images/delicious/toolbar.png);
   background-repeat: repeat-x;
   background-position: 0px 0px;
 }
 
 .jxTabBox .jxBarTop {
-  background-image: url(images/delicious/tabbar_bg.png);
+  background-image: url(images/delicious/tabbar.png);
   background-position: 0px bottom;
 }
 
 .jxTabBox .jxBarBottom {
-  background-image: url(images/delicious/tabbar_bottom_bg.png);
+  background-image: url(images/delicious/tabbar_bottom.png);
   background-position: 0px top;
 }
 
@@ -52,19 +52,19 @@
   /* Base setup */
   width: auto;
   height: 100%;
-  background-image: url(images/delicious/toolbar_bg.png);
+  background-image: url(images/delicious/toolbar.png);
   background-repeat: repeat-x;
   background-position: 0px 0px;
 }
 
 .jxTabBox .jxBarLeft {
-  background-image: url(images/delicious/tabbar_left_bg.png);
+  background-image: url(images/delicious/tabbar_left.png);
   background-repeat: repeat-y;
   background-position: right 0px;
 }
 
 .jxTabBox .jxBarRight {
-  background-image: url(images/delicious/tabbar_right_bg.png);
+  background-image: url(images/delicious/tabbar_right.png);
   background-repeat: repeat-y;
   background-position: left 0px;
 }

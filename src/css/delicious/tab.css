@@ -157,12 +157,12 @@ span.jxTabLabel {
 
 .jxBarTop a.jxTab,
 .jxBarTop span.jxTabContent {
-  background-image: url(images/delicious/tab_top_bg.png);
+  background-image: url(images/delicious/tab_top.png);
 }
 
 .jxBarBottom a.jxTab,
 .jxBarBottom span.jxTabContent {
-  background-image: url(images/delicious/tab_bottom_bg.png);
+  background-image: url(images/delicious/tab_bottom.png);
 }
 
 /* Closeable Tab */
@@ -280,12 +280,12 @@ span.jxTabLabel {
 
 .jxBarLeft a.jxTab,
 .jxBarLeft span.jxTabContent {
-  background-image: url(images/delicious/tab_left_bg.png);
+  background-image: url(images/delicious/tab_left.png);
 }
 
 .jxBarRight a.jxTab,
 .jxBarRight span.jxTabContent {
-  background-image: url(images/delicious/tab_right_bg.png);
+  background-image: url(images/delicious/tab_right.png);
 }
 
 /* Closeable Tab */

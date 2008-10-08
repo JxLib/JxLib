@@ -74,7 +74,7 @@ a.jxMenuItem {
 
 a.jxMenuItem:hover {
   border: 1px solid #C5E0FF;
-  background-image: url(images/delicious/menu_bg.png);
+  background-image: url(images/delicious/menu_hover.png);
   background-color: #CDE5FF;
   background-repeat: repeat-x;
   background-position: 0px 0px;
@@ -161,7 +161,7 @@ a.jxMenuItemActive img.jxMenuItemIcon {
 }
 
 a.jxMenuItemActive span.jxMenuItemContent {
-  background-image: url(images/delicious/menu_icon_bg.png);
+  background-image: url(images/delicious/menu_icon_active.png);
   background-position: 0px 0px;
   background-repeat: no-repeat;
 }

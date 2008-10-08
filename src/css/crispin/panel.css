@@ -43,7 +43,7 @@
   display: block;
   position: relative;
 
-  background-image: url(images/crispin/snap_bg.png);
+  background-image: url(images/crispin/panelbar.png);
   background-repeat: repeat-x;
   background-position: left top;
   /* note this is hard coded into jx.js JxPanel initialize function - change there as well as here */

@@ -72,7 +72,7 @@
 
 .jxTree a:hover, 
 .jxTreeRoot a:hover {
-  background-image: url(images/delicious/tree_bg.png);
+  background-image: url(images/delicious/tree_hover.png);
   background-color: #CDE5FF;
   background-repeat: repeat-x;
   background-position: 0px 0px;
