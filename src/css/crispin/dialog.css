@@ -37,7 +37,7 @@
 
   background-color: #000;
   opacity: .2;
-  filter: Alpha(opacity=20);
+  -ms-filter: "Alpha(opacity=20)";
 }
 
 .jxDialogContent {
@@ -227,27 +227,20 @@
   margin: 0px;
   padding: 0px;
   border: none;
-}
-.jxDialogControls ul.jxToolbar {
-  float: right;
-  background-image: none;
-  background-color: transparent;
-  margin: 0px;
-  padding: 0px;
-  border: none;
+  height: 16px;
 }
 
-.jxDialogControls .jxBarTop {
-  background-image: none;
-}
-
-.jxDialogControls .jxBarTop .jxBarScroller {
-  left: none;
+.jxDialogControls .jxBarScroller {
+  left: auto;
   right: 0px;
 }
 
-.jxDialogControls .jxBarTop ul.jxToolbar,
-.jxDialogControls .jxBarTop li.jxToolItem {
+.jxDialogControls ul.jxToolbar {
+  float: right;
+}
+
+.jxDialogControls ul.jxToolbar,
+.jxDialogControls li.jxToolItem {
   background-image: none;
   background-color: transparent;
   margin: 0px;

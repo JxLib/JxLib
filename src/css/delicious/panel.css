@@ -95,6 +95,7 @@
   right: 2px;
   height: 16px;
   width: 80px;
+  overflow: hidden;
 }
 
 .jxPanelControls img {
@@ -208,19 +209,20 @@
   margin: 0px;
   padding: 0px;
   border: none;
+  height: 16px;
 }
 
-.jxPanelControls div.jxBarTop .jxBarScroller {
+.jxPanelControls .jxBarScroller {
+  left: auto;
   right: 0px;
 }
 
-.jxPanelControls div.jxBarTop ul.jxToolbar {
-  float: right;
+.jxPanelControls ul.jxToolbar {
+  float: right; 
 }
 
-.jxPanelControls div.jxBarTop ul.jxToolbar,
-.jxPanelControls div.jxBarTop li.jxToolItem {
-  border: none;
+.jxPanelControls ul.jxToolbar,
+.jxPanelControls li.jxToolItem {
   background-image: none;
   background-color: transparent;
   margin: 0px;
