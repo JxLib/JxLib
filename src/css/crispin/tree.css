@@ -54,12 +54,6 @@
   margin-left: 16px;
 }
 
-.jxTree li.jxDisabled, 
-.jxTreeRoot li.jxDisabled {
-  opacity: 0.4; /* css 3 */
-  filter: Alpha(opacity=40); /* IE only */
-}
-
 .jxTree a, 
 .jxTreeRoot a {
   position: relative;

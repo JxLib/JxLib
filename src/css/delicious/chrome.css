@@ -1,4 +1,15 @@
-/* Chrome uses four absolutely positioned DIVs containing an image for each of four quadrants.  The chrome image is used as a sprite map. */
+/**
+ * @project         Jx
+ * @revision        $Id: button.css 1153 2008-09-25 16:18:42Z fwarnock $
+ * @author          Fred Warnock (fwarnock@dmsolutions.ca)
+ * @copyright       (c) 2006 DM Solutions Group Inc.
+ */
+
+/* ============= */
+/* CHROME STYLES */
+/* ============= */
+/* Chrome uses four absolutely positioned DIVs containing an image for each of 
+   four quadrants.  The chrome image is used as a sprite map. */
 
 .jxChrome {
   /* Base setup */
@@ -15,7 +26,7 @@
 
 .jxChromeDrag {
   opacity: 0.5;
-  filter: Alpha(opacity=50);
+  -ms-filter: "Alpha(opacity=50)";
 }
 
 .jxChromeTL { 
