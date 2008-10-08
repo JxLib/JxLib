@@ -1,3 +1,14 @@
+/**
+ * @project         Jx
+ * @revision        $Id: button.css 1153 2008-09-25 16:18:42Z fwarnock $
+ * @author          Fred Warnock (fwarnock@dmsolutions.ca)
+ * @copyright       (c) 2006 DM Solutions Group Inc.
+ */
+
+/* ============= */
+/* GRID STYLES */
+/* ============= */
+
 .jxGridContainer {
     position: absolute;
     top: 0;
