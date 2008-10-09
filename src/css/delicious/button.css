@@ -241,6 +241,11 @@ ul.jxToolbar a.jxButtonHover span.jxButtonContent {
   padding: 5px 5px 7px 6px;
 }
 
+.jxFlyout .jxChrome img {
+  width: 500px;
+  height: 500px;
+}
+
 .jxFlyout {
   /* Base setup */
   position: absolute;
