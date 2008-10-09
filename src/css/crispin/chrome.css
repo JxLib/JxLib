@@ -70,23 +70,31 @@
   position: absolute; 
   top: 0px; 
   left: 0px; 
+  width: 500px;
+  height:500px;
 }
 
 .jxChromeTR img { 
   position: absolute; 
   top: 0px; 
   right: 0px; 
+  width: 500px;
+  height:500px;
 }
 
 .jxChromeBL img { 
   position: absolute; 
   bottom: 0px; 
   left: 0px; 
+  width: 500px;
+  height:500px;
 }
 
 .jxChromeBR img { 
   position: absolute; 
   bottom: 0px; 
   right: 0px; 
+  width: 500px;
+  height:500px;
 }
 

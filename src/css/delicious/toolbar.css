@@ -9,7 +9,8 @@
 /* TOOLBAR STYLES */
 /* ============== */
 
-/* Multiple toolbars can be housed in  the toolbar container the container will expand vertically to accomodate wrapped toolbars */
+/* Multiple toolbars can be housed in  the toolbar container.
+   The container will expand vertically to accomodate wrapped toolbars */
 
 .jxBarContainer {
   /* Base setup */
@@ -55,6 +56,7 @@
   background-image: url(images/delicious/toolbar.png);
   background-repeat: repeat-x;
   background-position: 0px 0px;
+  float: left;
 }
 
 .jxTabBox .jxBarLeft {
@@ -103,7 +105,7 @@
 }
 
 /* The jx toolbar and tabbar are both built out of a UL
-   The margins and padding need to be flattened out, and the list markers need to be hidden
+   The margins/padding are flattened out, and the list markers are hidden
    UL's are floated left so multiple toolbars can be in the samae row.
    In IE, the UL needs to have a specified width to prevent button wrapping.
 
