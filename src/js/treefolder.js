@@ -75,6 +75,7 @@ Jx.TreeFolder = new Class({
     finalize: function() {
         this.finalizeFolder();
         this.finalizeItem();
+        this.subDomObj.dispose();
         this.subDomObj = null;
     },
     /**
@@ -85,7 +86,6 @@ Jx.TreeFolder = new Class({
         this.domObj.childNodes[0].removeEvents();
         for (var i=this.nodes.length-1; i>=0; i--) {
             this.nodes[i].finalize();
-            if (this.nodes[i].domObj) this.subDomObj.removeChild(this.nodes[i].domObj);
             this.nodes.pop();
         }
         

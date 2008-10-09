@@ -120,6 +120,7 @@ Jx.TreeItem = new Class ({
         }
         //this.domA.removeEvents();
         this.options = null;
+        this.domObj.dispose();
         this.domObj = null;
         this.owner = null;
     },
