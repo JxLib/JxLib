@@ -142,6 +142,7 @@ $Id: build.xml 1039 2008-09-22 17:07:23Z pspencer $
         <filelist dir="${build.home}/lib" files="jxlib.standalone.uncompressed.js"/>
     </concat>
     <copy file="${build.home}/css/ie.css" todir="${build.home}/lib"/>
+    <copy file="${build.home}/css/ie7.css" todir="${build.home}/lib"/>
     <echo message="Creating crispin skin"/>
     <concat destfile="${build.home}/lib/jxskin_crispin.uncompressed.css">
         <filelist dir="src/css" files="reset.css"/>
