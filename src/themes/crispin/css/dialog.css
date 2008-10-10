@@ -61,7 +61,6 @@
   background-image: url(images/a_pixel.png);
 
   text-align: center;
-  /* note: height is hard coded into jx.js Jx.Dialog initialize function - change there as well as here */
   height: 24px;
   line-height: 24px;
   z-index: 1;

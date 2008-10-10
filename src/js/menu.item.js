@@ -34,7 +34,7 @@ Jx.Menu.Item = new Class({
     owner: null,
     options: {
         enabled: true,
-        image: Jx.baseURL + 'images/a_pixel.png',
+        image: Jx.aPixel.src,
         label: '&nbsp;',
         toggleClass: 'Toggle'
     },

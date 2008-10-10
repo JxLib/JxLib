@@ -70,9 +70,9 @@ if (typeof Jx == 'undefined') {
                  * (end)
                  */ 
                  Jx.aPixel = document.createElement('img');
-                 Jx.aPixel.src = matches[1]+'/images/a_pixel.png';
+                 Jx.aPixel.src = matches[1]+'/a_pixel.png';
                  Jx.baseURL = Jx.aPixel.src.substring(0,
-                     Jx.aPixel.src.indexOf('images/a_pixel.png'));
+                     Jx.aPixel.src.indexOf('a_pixel.png'));
                 
             }
         }
@@ -95,7 +95,7 @@ if (typeof Jx == 'undefined') {
  *   object {Object} the object (img) to which the filter needs to be applied.
  */
 Jx.applyPNGFilter = function(o)  {
-   var t=Jx.baseURL + "images/a_pixel.png";
+   var t=Jx.aPixel.src;
    if( o.src != t ) {
        var s=o.src;
        o.src = t;
