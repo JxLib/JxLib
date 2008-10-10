@@ -43,7 +43,7 @@
   display: block;
   position: relative;
 
-  background-image: url(images/crispin/panelbar.png);
+  background-image: url(images/panelbar.png);
   background-repeat: repeat-x;
   background-position: left top;
   /* note this is hard coded into jx.js JxPanel initialize function - change there as well as here */
@@ -99,7 +99,7 @@
 }
 
 .jxPanelControls img {
-  background-image: url('images/crispin/panel_controls.png');
+  background-image: url('images/panel_controls.png');
   background-repeat: no-repeat;
   border: 0px;
   /* the margin needs to make up the difference between it's width/height

@@ -74,7 +74,7 @@ a.jxTabClose {
 a.jxTabClose img {
   width: 16px;
   height: 16px;
-  background-image: url(images/crispin/tab_close.png);  
+  background-image: url(images/tab_close.png);  
 }
 
 a.jxTab {
@@ -157,12 +157,12 @@ span.jxTabLabel {
 
 .jxBarTop a.jxTab,
 .jxBarTop span.jxTabContent {
-  background-image: url(images/crispin/tab_top.png);
+  background-image: url(images/tab_top.png);
 }
 
 .jxBarBottom a.jxTab,
 .jxBarBottom span.jxTabContent {
-  background-image: url(images/crispin/tab_bottom.png);
+  background-image: url(images/tab_bottom.png);
 }
 
 /* Closeable Tab */
@@ -280,12 +280,12 @@ span.jxTabLabel {
 
 .jxBarLeft a.jxTab,
 .jxBarLeft span.jxTabContent {
-  background-image: url(images/crispin/tab_left.png);
+  background-image: url(images/tab_left.png);
 }
 
 .jxBarRight a.jxTab,
 .jxBarRight span.jxTabContent {
-  background-image: url(images/crispin/tab_right.png);
+  background-image: url(images/tab_right.png);
 }
 
 /* Closeable Tab */

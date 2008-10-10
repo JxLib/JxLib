@@ -10,7 +10,7 @@ M.Adair    09-July-2007  initial version copied from fusion
 
 $Id: build.xml 1039 2008-09-22 17:07:23Z pspencer $
 ***************************************************************************-->
-<project basedir="." default="deploy" name="jx">
+<project basedir="." default="build" name="jx">
 
 <!-- ===================== Property Definitions =========================== -->
 <!--
@@ -123,13 +123,13 @@ $Id: build.xml 1039 2008-09-22 17:07:23Z pspencer $
     
     <!-- Copy static content of the project  -->
     <copy todir="${build.home}">
-      <fileset dir="${basedir}/src" includes="js/** css/** images/**"/>
+      <fileset dir="${basedir}/src" includes="js/** themes/** images/**"/>
     </copy>
     
     <delete file="${build.home}/lib/jxlib.uncompressed.js"/>
     <delete file="${build.home}/lib/jxlib.standalone.uncompressed.js"/>
-    <delete file="${build.home}/lib/jxskin_crispin.uncompressed.css"/>
-    <delete file="${build.home}/lib/jxskin_delicious.uncompressed.css"/>
+    <delete file="${build.home}/lib/jxlib.js"/>
+    <delete file="${build.home}/lib/jxlib.standalone.js"/>
 
     <echo message="Concatenating javascript into jxlib"/>
     <concat destfile="${build.home}/lib/jxlib.standalone.uncompressed.js">
@@ -141,36 +141,7 @@ $Id: build.xml 1039 2008-09-22 17:07:23Z pspencer $
         <fileset file="${MooToolsMore}"/>
         <filelist dir="${build.home}/lib" files="jxlib.standalone.uncompressed.js"/>
     </concat>
-    <copy file="${build.home}/css/ie.css" todir="${build.home}/lib"/>
-    <copy file="${build.home}/css/ie7.css" todir="${build.home}/lib"/>
-    <echo message="Creating crispin skin"/>
-    <concat destfile="${build.home}/lib/jxskin_crispin.uncompressed.css">
-        <filelist dir="src/css" files="reset.css"/>
-        <fileset dir="src/css/crispin" includes="**.css"/>
-    </concat>
-    <echo message="Creating delicious skin"/>
-    <concat destfile="${build.home}/lib/jxskin_delicious.uncompressed.css">
-        <filelist dir="src/css" files="reset.css"/>
-        <fileset dir="src/css/delicious" includes="**.css"/>
-    </concat>
     
-    <echo message="copying skin images"/>
-    <copy todir="${build.home}/lib/images">
-      <fileset dir="${build.home}/images"/>
-    </copy>
-        
-  </target>
-
-
-<!-- =================== Compress Target ================================== -->
-
-  <target description="Compress JS files" name="compress" depends="prepare">
-    <delete file="${build.home}/lib/jxlib.standalone.js"/>
-    <delete file="${build.home}/lib/jxlib.js"/>
-    <delete file="${build.home}/lib/jxskin_crispin.css"/>
-    <delete file="${build.home}/lib/jxskin_delicious.css"/>
-
-    <echo message="compressing javascript"/>
     <java jar="${YUIcompressor}" fork="true"
           output="${build.home}/lib/jxlib.standalone.compressed.js">
         <arg value="${build.home}/lib/jxlib.standalone.uncompressed.js"/>
@@ -178,18 +149,6 @@ $Id: build.xml 1039 2008-09-22 17:07:23Z pspencer $
     <java jar="${YUIcompressor}" fork="true"
           output="${build.home}/lib/jxlib.compressed.js">
         <arg value="${build.home}/lib/jxlib.uncompressed.js"/>
-    </java>
-
-    <echo message="compressing crispin css"/>
-    <java jar="${YUIcompressor}" fork="true"
-          output="${build.home}/lib/jxskin_crispin.compressed.css">
-        <arg value="${build.home}/lib/jxskin_crispin.uncompressed.css"/>
-    </java>
-    
-    <echo message="compressing delicious css"/>
-    <java jar="${YUIcompressor}" fork="true"
-          output="${build.home}/lib/jxskin_delicious.compressed.css">
-        <arg value="${build.home}/lib/jxskin_delicious.uncompressed.css"/>
     </java>
     
     <concat destfile="${build.home}/lib/jxlib.standalone.js">
@@ -200,23 +159,58 @@ $Id: build.xml 1039 2008-09-22 17:07:23Z pspencer $
       <filelist dir="${build.home}/js" files="license.js"/>
       <filelist dir="${build.home}/lib" files="jxlib.compressed.js"/>
     </concat>
-    <concat destfile="${build.home}/lib/jxskin_crispin.css">
-      <filelist dir="${build.home}/css" files="license.css"/>
-      <filelist dir="${build.home}/lib" files="jxskin_crispin.compressed.css"/>
-    </concat>
-    <concat destfile="${build.home}/lib/jxskin_delicious.css">
-      <filelist dir="${build.home}/css" files="license.css"/>
-      <filelist dir="${build.home}/lib" files="jxskin_delicious.compressed.css"/>
-    </concat>
     
     <delete file="${build.home}/lib/jxlib.standalone.compressed.js"/>
     <delete file="${build.home}/lib/jxlib.compressed.js"/>
-    <delete file="${build.home}/lib/jxskin_crispin.compressed.css"/>
-    <delete file="${build.home}/lib/jxskin_delicious.compressed.css"/>
+    
+    <copy file="${build.home}/images/a_pixel.png" todir="${build.home}/lib"/>
+    
+    <mkdir dir="${build.home}/themes"/>
+
+  </target>
+
+  <target name="theme" description="create a theme based on the theme variable">
+    <echo message="Creating ${theme} theme"/>
+    <mkdir dir="${build.home}/lib/themes/${theme}"/>
+    <copy file="${build.home}/themes/${theme}/ie.css" todir="${build.home}/lib/themes/${theme}/"/>
+    <copy file="${build.home}/themes/${theme}/ie7.css" todir="${build.home}/lib/themes/${theme}/"/>
+
+    <concat destfile="${build.home}/lib/themes/${theme}/jxtheme.uncompressed.css">
+        <filelist dir="${build.home}/themes/${theme}" files="reset.css"/>
+        <fileset dir="${build.home}/themes/${theme}/css" includes="**.css"/>
+    </concat>
+    
+    <copy todir="${build.home}/lib/themes/${theme}/images">
+      <fileset dir="${build.home}/themes/${theme}/images"/>
+    </copy>
+        
+    <java jar="${YUIcompressor}" fork="true"
+          output="${build.home}/lib/themes/${theme}/jxtheme.compressed.css">
+        <arg value="${build.home}/lib/themes/${theme}/jxtheme.uncompressed.css"/>
+    </java>
+    
+    <concat destfile="${build.home}/lib/themes/${theme}/jxtheme.css">
+      <filelist dir="${build.home}/themes/${theme}" files="license.css"/>
+      <filelist dir="${build.home}/lib/themes/${theme}" files="jxtheme.compressed.css"/>
+    </concat>
+    
+    <delete file="${build.home}/lib/themes/${theme}/jxtheme.compressed.css"/>
     
   </target>
+
+
+<!-- =================== Compress Target ================================== -->
+
+  <target description="Build the Jx library" name="build" depends="prepare">
+    <antcall target="theme">
+      <param name="theme" value="crispin"/>
+    </antcall>
+    <antcall target="theme">
+      <param name="theme" value="delicious"/>
+    </antcall>
+  </target>
   
-  <target description="Deploy JxLib" name="deploy" depends="compress">
+  <target description="Deploy JxLib" name="deploy" depends="build">
     
     <echo message="deploying files"/>
     <copy todir="${deploy.home}/lib">
@@ -256,7 +250,7 @@ $Id: build.xml 1039 2008-09-22 17:07:23Z pspencer $
     dependencies) will have been assembled
 -->
 
-  <target name="dist" description="Create binary distribution" depends="clean,compress">
+  <target name="dist" description="Create binary distribution" depends="clean,build">
     
     <echo message="Creating distribution archive"/>
     <mkdir dir="${dist.home}"/>

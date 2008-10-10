@@ -35,7 +35,7 @@ a.jxButton {
   margin: 0px; /* margins don't seem to work properly in IE */
   padding: 0px 0px 0px 4px; /* makes room for the left of the button bg */
   border: none;
-  background-image: url(images/crispin/button.png);
+  background-image: url(images/button.png);
   background-position: left -24px;
   background-repeat: no-repeat;
   text-decoration: none;
@@ -57,7 +57,7 @@ span.jxButtonContent {
   margin: 0px; /* margins don't seem to work properly in IE */
   padding: 4px 4px 4px 0px; /* makes room for the right of the button bg */
   border: none;
-  background-image: url(images/crispin/button.png);
+  background-image: url(images/button.png);
   background-position: right -24px;
   background-repeat: no-repeat;
 }
@@ -187,7 +187,7 @@ a.jxButtonMulti span.jxButtonContent span,
 a.jxButtonCombo span.jxButtonContent span,
 a.jxButtonEditCombo span.jxButtonContent span {
   padding-right: 16px;
-  background-image: url(images/crispin/emblems.png);
+  background-image: url(images/emblems.png);
   background-position: right -16px;
   background-repeat: no-repeat;
 }
@@ -200,7 +200,7 @@ a.jxButtonDisclose {
   line-height: 0px;
   right: 2px;
   top: 2px;
-  background-image: url(images/crispin/button_multi_disclose.png);
+  background-image: url(images/button_multi_disclose.png);
   background-position: right 0px;
   background-repeat: no-repeat;
 }
@@ -211,7 +211,7 @@ a.jxButtonDisclose img {
   margin: 0px;
   padding: 0px;
   border: 0px;
-  background-image: url(images/crispin/emblems.png);
+  background-image: url(images/emblems.png);
   background-position: right -16px;
   background-repeat: no-repeat;
 }
@@ -237,7 +237,7 @@ ul.jxToolbar a.jxButtonHover span.jxButtonContent {
 /* Jx Flyout Styles */
 
 .jxFlyout .jxChrome {
-  background-image: url(images/crispin/flyout_chrome.png);
+  background-image: url(images/flyout_chrome.png);
   padding: 5px 5px 7px 6px;
 }
 
@@ -264,12 +264,12 @@ ul.jxToolbar a.jxButtonHover span.jxButtonContent {
 
 a.jxButtonMulti,
 a.jxButtonMulti span.jxButtonContent {
-  background-image: url(images/crispin/button_multi.png);
+  background-image: url(images/button_multi.png);
 }
 
 a.jxButtonEditCombo,
 a.jxButtonEditCombo span.jxButtonContent {
-  background-image: url(images/crispin/button_combo.png);
+  background-image: url(images/button_combo.png);
 }
 
 a.jxButtonEditCombo span.jxButtonContent {

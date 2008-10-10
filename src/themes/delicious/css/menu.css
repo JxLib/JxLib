@@ -11,7 +11,7 @@
 
 .jxMenuContainer .jxChrome {
   /* the background image gets used by Jx.Chrome to create a stretchable chrome */
-  background-image: url(images/delicious/flyout_chrome.png);
+  background-image: url(images/flyout_chrome.png);
   /* the padding reflects the amount of space to leave around the content area
    * for the chrome, typically to leave space for a shadow
    */
@@ -74,7 +74,7 @@ a.jxMenuItem {
 
 a.jxMenuItem:hover {
   border: 1px solid #C5E0FF;
-  background-image: url(images/delicious/menu_hover.png);
+  background-image: url(images/menu_hover.png);
   background-color: #CDE5FF;
   background-repeat: repeat-x;
   background-position: 0px 0px;
@@ -103,7 +103,7 @@ span.jxMenuItemContent {
 
 a.jxButtonSubMenu span.jxMenuItemContent,
 a.jxButtonSubMenu:hover span.jxMenuItemContent {
-  background-image: url(images/delicious/emblems.png);
+  background-image: url(images/emblems.png);
   background-position: right -32px;
   background-repeat: no-repeat;
 }
@@ -141,7 +141,7 @@ span.jxMenuItemContent span.jxMenuItemLabel {
 
 .jxMenuItemToggle img.jxMenuItemIcon,
 .jxMenuItemSet img.jxMenuItemIcon {
-  background-image: url(images/delicious/emblems.png);
+  background-image: url(images/emblems.png);
   background-position: 2px 0px;
   background-repeat: no-repeat;
 }
@@ -161,7 +161,7 @@ a.jxMenuItemActive img.jxMenuItemIcon {
 }
 
 a.jxMenuItemActive span.jxMenuItemContent {
-  background-image: url(images/delicious/menu_icon_active.png);
+  background-image: url(images/menu_icon_active.png);
   background-position: 0px 0px;
   background-repeat: no-repeat;
 }
@@ -183,7 +183,7 @@ ul.jxSubMenu span.jxMenuSeparator {
 
   font-size: 10px;
   line-height: 10px;
-  background-image: url(images/delicious/toolbar_separator_v.png);
+  background-image: url(images/toolbar_separator_v.png);
   background-repeat: repeat-x;
   background-position: left center;
 }

@@ -89,7 +89,7 @@ div.jxColorPreview {
     border: 1px solid #000;
     margin: 2px;
     vertical-align: middle;
-    background-image: url('images/delicious/grid.png');
+    background-image: url('images/grid.png');
 }
 
 a.jxButtonFlyout span.jxButtonContent span.jxButtonSwatch {
@@ -98,7 +98,7 @@ a.jxButtonFlyout span.jxButtonContent span.jxButtonSwatch {
     width: 14px;
     height: 14px;
     border: 1px solid #000;
-    background-image: url('images/delicious/grid.png');
+    background-image: url('images/grid.png');
     background-position: 0px 0px;
     background-repeat: repeat;
     padding-right: 0px !important;

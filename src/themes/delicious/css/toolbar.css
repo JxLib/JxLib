@@ -32,18 +32,18 @@
   /* Base setup */
   width: 100%; /* fills the width, may be needed for JS style sniffing */
   height: 28px;
-  background-image: url(images/delicious/toolbar.png);
+  background-image: url(images/toolbar.png);
   background-repeat: repeat-x;
   background-position: 0px 0px;
 }
 
 .jxTabBox .jxBarTop {
-  background-image: url(images/delicious/tabbar.png);
+  background-image: url(images/tabbar.png);
   background-position: 0px bottom;
 }
 
 .jxTabBox .jxBarBottom {
-  background-image: url(images/delicious/tabbar_bottom.png);
+  background-image: url(images/tabbar_bottom.png);
   background-position: 0px top;
 }
 
@@ -53,20 +53,20 @@
   /* Base setup */
   width: auto;
   height: 100%;
-  background-image: url(images/delicious/toolbar.png);
+  background-image: url(images/toolbar.png);
   background-repeat: repeat-x;
   background-position: 0px 0px;
   float: left;
 }
 
 .jxTabBox .jxBarLeft {
-  background-image: url(images/delicious/tabbar_left.png);
+  background-image: url(images/tabbar_left.png);
   background-repeat: repeat-y;
   background-position: right 0px;
 }
 
 .jxTabBox .jxBarRight {
-  background-image: url(images/delicious/tabbar_right.png);
+  background-image: url(images/tabbar_right.png);
   background-repeat: repeat-y;
   background-position: left 0px;
 }
@@ -94,13 +94,13 @@
 
 .jxBarTop .jxBarScrollLeft img.jxButtonIcon,
 .jxBarBottom .jxBarScrollLeft img.jxButtonIcon {
-  background-image: url(images/delicious/emblems.png);
+  background-image: url(images/emblems.png);
   background-position: 0px -80px;
 }
 
 .jxBarTop .jxBarScrollRight img.jxButtonIcon,
 .jxBarBottom .jxBarScrollRight img.jxButtonIcon {
-  background-image: url(images/delicious/emblems.png);
+  background-image: url(images/emblems.png);
   background-position: 0px -96px;
 }
 
@@ -175,7 +175,7 @@ li.jxToolItem  .separator {
   /* width/height should be defined */
   width: 8px;
   height: 20px;
-  background-image: url(images/delicious/toolbar_separator_h.png);
+  background-image: url(images/toolbar_separator_h.png);
 }
 
 .jxBarLeft  li.jxToolItem  span.separator,
@@ -183,7 +183,7 @@ li.jxToolItem  .separator {
   /* width/height should be defined */
   width: 20px;
   height: 8px;
-  background-image: url(images/delicious/toolbar_separator_v.png);
+  background-image: url(images/toolbar_separator_v.png);
 }
 
 /* Vertically oriented toolbars need floats cleared */

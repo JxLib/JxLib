@@ -10,7 +10,7 @@
 /* ============= */
 
 .jxDialog .jxChrome {
-  background-image: url(images/crispin/dialog_chrome.png);
+  background-image: url(images/dialog_chrome.png);
 }
 
 .jxDialog {
@@ -109,7 +109,7 @@
   z-index: 2;
   border: 0px;
   cursor: se-resize;
-  background-image: url(images/crispin/dialog_resize.png);
+  background-image: url(images/dialog_resize.png);
 }
 
 .jxDialogControls {
@@ -121,7 +121,7 @@
 }
 
 .jxDialogControls img {
-  background-image: url('images/crispin/panel_controls.png');
+  background-image: url('images/panel_controls.png');
   background-repeat: no-repeat;
   border: 0px;
   /* the margin needs to make up the difference between it's width/height

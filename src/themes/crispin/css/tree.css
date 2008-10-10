@@ -72,7 +72,7 @@
 
 .jxTree a:hover, 
 .jxTreeRoot a:hover {
-  background-image: url(images/crispin/tree_hover.png);
+  background-image: url(images/tree_hover.png);
   background-color: #CDE5FF;
   background-repeat: repeat-x;
   background-position: 0px 0px;
@@ -85,7 +85,7 @@
 }
 
 .jxTreeNest {
-  background-image: url(images/crispin/tree_vert_line.png);
+  background-image: url(images/tree_vert_line.png);
 }
 
 .jxTreeImage,
@@ -100,7 +100,7 @@
 
   z-index: 1;
 
-  background-image: url(images/crispin/tree.png);
+  background-image: url(images/tree.png);
   background-repeat: no-repeat;
 
   border: 0px;
