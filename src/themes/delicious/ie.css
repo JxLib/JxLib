@@ -1,0 +1,31 @@
+/**
+ * @project         Jx
+ * @revision        $Id: button.css 1153 2008-09-25 16:18:42Z fwarnock $
+ * @author          Fred Warnock (fwarnock@dmsolutions.ca)
+ * @copyright       (c) 2006 DM Solutions Group Inc.
+ */
+
+/* ============= */
+/* IE < 7 STYLES */
+/* ============= */
+
+/* 24 bit images do not appear correctly in IE versions below 7. Applying a 
+   filter through the class below will make them appear correctly.*/
+.png24{filter:expression(Jx.applyPNGFilter(this))}
+
+/* Opacity needs to be set in IE6 and below using the following filters.
+   Please note that IE8 changed how filters are written. */
+.jxChromeDrag {filter: Alpha(opacity=50);}
+.jxDialogModal {filter: Alpha(opacity=20);}
+.jxDisabled {filter:Alpha(opacity=40);}
+iframe.jxIframeShim {filter:Alpha(opacity:0);}
+
+/* List items do not render properly under several conditions.  
+   Applying a height to the LI forces it to render properly.
+   Content that is taller than the li simply forces the li to be taller */
+.jxTree li,
+.jxTreeRoot li {
+  height: 20px;
+}
+
+
