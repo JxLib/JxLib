@@ -114,6 +114,7 @@ Jx.Toolbar = new Class({
             });
         }
         tbc.add(this);
+        return this;
     },
     
     /**
