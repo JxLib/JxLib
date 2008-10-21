@@ -121,37 +121,104 @@ Jx.PanelSet = new Class({
      * consideration any minimum or maximum values)
      */
     maximizePanel: function(panel) {
-        var h = this.domObj.getContentBoxSize().height;
+        var domHeight = this.domObj.getContentBoxSize().height;
+        var space = domHeight;
+        var panelSize = panel.domObj.retrieve('jxLayout').options.maxHeight;
+        var panelIndex;
         
-        var t = 0;
+        /* calculate how much space might be left after setting all the panels to
+         * their minimum height (except the one we are resizing of course)
+         */
         for (var i=1; i<this.splitter.elements.length; i++) {
             var p = this.splitter.elements[i];
-            t += p.retrieve('leftBar').getBorderBoxSize().height;
+            space -= p.retrieve('leftBar').getBorderBoxSize().height;
             if (p !== panel.domObj) {
                 var thePanel = p.retrieve('Jx.Panel');
                 var o = p.retrieve('jxLayout').options;
-                p.resize({top: t, height: o.minHeight, bottom: null});
-                t += o.minHeight;
-                p.retrieve('rightBar').style.top = t + 'px';
+                space -= o.minHeight;
+            } else {
+                panelIndex = i;
+            }
+        }
+
+        // calculate how much space the panel will take and what will be left over
+        if (panelSize == -1 || panelSize >= space) {
+            panelSize = space;
+            space = 0;
+        } else {
+            space = space - panelSize;
+        }
+        var top = 0;
+        for (var i=1; i<this.splitter.elements.length; i++) {
+            var p = this.splitter.elements[i];
+            top += p.retrieve('leftBar').getBorderBoxSize().height;
+            if (p !== panel.domObj) {
+                var thePanel = p.retrieve('Jx.Panel');
+                var o = p.retrieve('jxLayout').options;
+                var panelHeight = $chk(o.height) ? o.height : p.getBorderBoxSize().height;
+                if (space > 0) {
+                    if (space >= panelHeight) {
+                        // this panel can stay open at its current height
+                        space -= panelHeight;
+                        p.resize({top: top, height: panelHeight});
+                        top += panelHeight;
+                    } else {
+                        // this panel needs to shrink some
+                        if (space > o.minHeight) {
+                            // it can use all the space
+                            p.resize({top: top, height: space});
+                            top += space;
+                            space = 0;
+                        } else {
+                            p.resize({top: top, height: o.minHeight});
+                            top += o.minHeight;
+                        }
+                    }
+                } else {
+                    // no more space, just shrink away
+                    p.resize({top:top, height: o.minHeight});
+                    top += o.minHeight;
+                }
+                p.retrieve('rightBar').style.top = top + 'px';
             } else {
                 break;
             }
         }
         
-        b = h;
+        /* now work from the bottom up */
+        var bottom = domHeight;
         for (var i=this.splitter.elements.length - 1; i > 0; i--) {
             p = this.splitter.elements[i];
             if (p !== panel.domObj) {
                 var o = p.retrieve('jxLayout').options;
-                b -= o.minHeight;
-                p.resize({top: b, height: o.minHeight, bottom: null});
-                b -= p.retrieve('leftBar').getBorderBoxSize().height;
-                p.retrieve('leftBar').style.top = b + 'px';
+                var panelHeight = $chk(o.height) ? o.height : p.getBorderBoxSize().height;
+                if (space > 0) {
+                    if (space >= panelHeight) {
+                        // panel can stay open
+                        bottom -= panelHeight;
+                        space -= panelHeight;
+                        p.resize({top: bottom, height: panelHeight});
+                    } else {
+                        if (space > o.minHeight) {
+                            bottom -= space;
+                            p.resize({top: bottom, height: space});
+                            space = 0;
+                        } else {
+                            bottom -= o.minHeight;
+                            p.resize({top: bottom, height: o.minHeight});
+                        }
+                    }
+                } else {
+                    bottom -= o.minHeight;
+                    p.resize({top: bottom, height: o.minHeight, bottom: null});                    
+                }
+                bottom -= p.retrieve('leftBar').getBorderBoxSize().height;
+                p.retrieve('leftBar').style.top = bottom + 'px';
                 
             } else {
                 break;
             }
         }
-        panel.domObj.resize({top: t, height:b - t, bottom: null});
+        panel.domObj.resize({top: top, height:panelSize, bottom: null});
     }
 });
