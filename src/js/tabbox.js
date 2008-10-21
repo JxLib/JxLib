@@ -59,9 +59,23 @@ Jx.TabBox = new Class({
         this.panel.domObj.addClass('jxTabBox');
         this.tabSet = new Jx.TabSet(this.panel.content);
         this.domObj = this.panel.domObj;
+        /* when the panel changes size, the tab set needs to update 
+         * the content areas.
+         */
         this.panel.addEvent('sizeChange', 
-            this.tabSet.resizeTabBox.bind(this.tabSet)
-        );
+            this.tabSet.resizeTabBox.bind(this.tabSet));
+        /* when tabs are added or removed, we might need to layout
+         * the panel if the toolbar is or becomes empty
+         */
+        this.tabBar.addEvents({
+            add: (function() {
+                this.domObj.resize({forceResize: true});
+            }).bind(this),
+            remove: (function() {
+                this.domObj.resize({forceResize: true});
+            }).bind(this)
+        });
+        /* trigger an initial resize when first added to the DOM */
         this.addEvent('addTo', function() {
             this.domObj.resize({forceResize: true});
         });
