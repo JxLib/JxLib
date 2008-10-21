@@ -69,7 +69,7 @@ Jx.Toolbar = new Class({
         position: 'top',
         parent: null,
         autoSize: false,
-        scroll: false
+        scroll: true
     },
     /**
      * Constructor: Jx.Toolbar
