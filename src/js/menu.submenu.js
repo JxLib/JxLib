@@ -188,22 +188,6 @@ Jx.Menu.SubMenu = new Class({
         }
     },
     /**
-     * Method: processActionEvent
-     * Process an action event coming from the menu item that
-     * represents the sub menu in its owner by showing or hiding
-     * the sub menu.
-     */
-    processActionEvent: function(e) { 
-        if (this.open) { 
-            this.hide(); 
-        } else { 
-            this.show();
-        }
-        if (e && e.event) {
-            e.event.stop();
-        }
-    },
-    /**
      * Method: deactivate
      * Deactivate the sub menu
      *

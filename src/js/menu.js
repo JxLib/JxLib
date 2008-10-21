@@ -111,12 +111,6 @@ Jx.Menu = new Class({
      */
     deactivate: function() {this.hide();},
     /**
-     * Method: actionPerformed
-     * Any action performed in the menu ultimately calls this
-     * method to hide the menu.
-     */
-    actionPerformed : function() {this.hide();},
-    /**
      * Method: onMouseOver
      * Handle the user moving the mouse over the button for this menu
      * by showing this menu and hiding the other menu.
@@ -160,10 +154,10 @@ Jx.Menu = new Class({
         if (this.button && this.button.domA) {
             this.button.domA.removeClass('jx'+this.button.options.type+'Active');            
         }
-        this.contentContainer.dispose();
         this.items.each(function(item){item.hide(e);});
         document.removeEvent('mousedown', this.hideWatcher);
         document.removeEvent('keyup', this.keypressWatcher);
+        this.contentContainer.dispose();
         this.fireEvent('hide', this); 
     },
     /**
