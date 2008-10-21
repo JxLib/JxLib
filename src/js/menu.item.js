@@ -87,7 +87,7 @@ Jx.Menu.Item = new Class({
     clicked: function(o) {
         if (this.options.enabled) {
             if (this.options.toggle) {
-                this.setActive(!this.options.isActive);
+                this.setActive(!this.options.active);
             }
             this.fireEvent('click', this);
             if (this.owner && this.owner.deactivate) {
