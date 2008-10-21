@@ -34,7 +34,7 @@ Jx.Menu.Item = new Class({
     owner: null,
     options: {
         enabled: true,
-        image: Jx.aPixel.src,
+        image: null,
         label: '&nbsp;',
         toggleClass: 'Toggle'
     },
@@ -51,11 +51,17 @@ Jx.Menu.Item = new Class({
      * See <Jx.Button> for other options
      */
     initialize: function(options) {
-        this.parent($merge(options, {
-            container:'li',
-            type:'MenuItem',
-            toggleClass: (options.image ? null : this.options.toggleClass)
-        }));
+        this.parent($merge(
+            {
+                image: Jx.aPixel.src
+            },
+            options, 
+            {
+                container:'li',
+                type:'MenuItem',
+                toggleClass: (options.image ? null : this.options.toggleClass)
+            }
+        ));
         this.domObj.addEvent('mouseover', this.onMouseOver.bindWithEvent(this));
     },
     /**
