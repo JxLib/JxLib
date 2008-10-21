@@ -115,6 +115,7 @@ Jx.Layout = new Class({
      * direct children of the BODY element are resized
      */
      windowResize: function() {
+         this.resize();
          if (this.resizeTimer) {
              $clear(this.resizeTimer);
              this.resizeTimer = null;
