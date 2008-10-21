@@ -43,7 +43,7 @@ window.addEvent('load', function() {
  */
 if (typeof Jx == 'undefined') {
     var Jx = {};
-    window.addEvent('domready', function(){
+    //window.addEvent('domready', function(){
         var aScripts = document.getElementsByTagName('SCRIPT');
         for (var i=0; i<aScripts.length; i++) {
             var s = aScripts[i].src;
@@ -76,7 +76,7 @@ if (typeof Jx == 'undefined') {
                 
             }
         }
-    });
+    //});
 } 
 
 /**
