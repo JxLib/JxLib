@@ -73,7 +73,7 @@ $Id: build.xml 1039 2008-09-22 17:07:23Z pspencer $
   <property environment="env"/>
   <property name="app.name" value="jxlib"/>
   <property name="app.path" value="/${app.name}"/>
-  <property name="app.version" value="2.0-beta-2"/>
+  <property name="app.version" value="2.0-beta-3"/>
   <property name="build.home" value="${basedir}/../build"/>
   <property name="dist.home" value="${basedir}/../dist"/>
   <property name="deploy.home" value="${basedir}/../www"/>
@@ -98,7 +98,7 @@ $Id: build.xml 1039 2008-09-22 17:07:23Z pspencer $
  -->
   <property name="YUIcompressor" value="${basedir}/utils/yuicompressor-2.3.6.jar"/>
   <property name="NaturalDocs"   value="${basedir}/utils/NaturalDocs-1.4/NaturalDocs"/>
-  <property name="MooToolsCore"  value="${basedir}/utils/mootools-1.2-core.js" />
+  <property name="MooToolsCore"  value="${basedir}/utils/mootools-1.2.1-core.js" />
   <property name="MooToolsMore"  value="${basedir}/utils/mootools-1.2-more.js" />
 
 <!-- ==================== Prepare Target ================================== -->
