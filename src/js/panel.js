@@ -281,10 +281,14 @@ Jx.Panel = new Class({
         if (domSize.height > titleHeight) {
             this.contentContainer.setStyle('display','block');
             this.options.closed = false;
-            this.contentContainer.resize({top: titleHeight, height: null, bottom: 0});
+            this.contentContainer.resize({
+                top: titleHeight, 
+                height: null, 
+                bottom: 0
+            });
             ['left','right'].each(function(position){
                 if (this.toolbarContainers[position]) {
-                    this.toolbarContainers[position].style.width = '';
+                    this.toolbarContainers[position].style.width = 'auto';
                 }
             }, this);
             ['top','bottom'].each(function(position){
@@ -296,7 +300,19 @@ Jx.Panel = new Class({
                 tb = this.toolbars[i];
                 position = tb.options.position;
                 tbc = this.toolbarContainers[position];
+                // IE 6 doesn't seem to want to measure the width of things
+                // correctly
+                if (Browser.Engine.trident4) {
+                    var oldParent = $(tbc.parentNode);
+                    tbc.style.visibility = 'hidden';
+                    $(document.body).adopt(tbc);                    
+                }
                 var size = tbc.getBorderBoxSize();
+                // put it back into its real parent now we are done measuring
+                if (Browser.Engine.trident4) {
+                    oldParent.adopt(tbc);
+                    tbc.style.visibility = '';
+                }
                 switch(position) {
                     case 'top':
                         top = size.height;
