@@ -71,7 +71,7 @@ Jx.Toolbar.Container = new Class({
         
         this.clearer = new Element('div', {'class':'jxClearer'});
         
-        if (this.options.scroll) {
+        if (this.options.scroll && ['top','bottom'].contains(this.options.position)) {
             // make sure we update our size when we get added to the DOM
             this.addEvent('addTo', this.update.bind(this));
             
@@ -111,10 +111,10 @@ Jx.Toolbar.Container = new Class({
                }).bind(this)
             });            
         } else {
+            this.options.scroll = false;
             this.domObj.adopt(this.clearer);
         }
 
-        
         if (this.options.toolbars) {
             this.add(this.options.toolbars);
         } 
