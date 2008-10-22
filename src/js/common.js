@@ -882,6 +882,7 @@ Jx.Chrome = new Class({
         if (!this.chrome) {
             this.makeChrome(element);
         }
+        this.resizeChrome(element);
         if (element && this.chrome.parentNode !== element) {
             element.adopt(this.chrome);
         }
@@ -894,6 +895,11 @@ Jx.Chrome = new Class({
     hideChrome: function() {
         if (this.chrome) {
             this.chrome.dispose();
+        }
+    },
+    resizeChrome: function(o) {
+        if (this.chrome && Browser.Engine.trident4) {
+            this.chrome.setContentBoxSize($(o).getBorderBoxSize());
         }
     }
 });

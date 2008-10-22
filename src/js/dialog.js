@@ -204,6 +204,9 @@ Jx.Dialog = new Class({
                     this.contentContainer.setStyle('visibility','hidden');
                     this.chrome.addClass('jxChromeDrag');
                 }).bind(this),
+                onDrag: (function() {
+                    this.resizeChrome(this.domObj);
+                }).bind(this),
                 onComplete: (function() {
                     this.chrome.removeClass('jxChromeDrag');
                     var size = this.domObj.getMarginBoxSize();
@@ -213,6 +216,8 @@ Jx.Dialog = new Class({
                     this.domObj.resize(this.options);
                     this.contentContainer.setStyle('visibility','');
                     this.fireEvent('resize');
+                    this.resizeChrome(this.domObj);
+                    
                 }).bind(this)
             });
         }
@@ -278,6 +283,7 @@ Jx.Dialog = new Class({
             this.domObj.resize(this.options);
             this.fireEvent('expand');
         }
+        this.showChrome(this.domObj);
     },
     
     /**

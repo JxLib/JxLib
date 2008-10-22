@@ -28,4 +28,9 @@ iframe.jxIframeShim {filter:Alpha(opacity:0);}
   height: 20px;
 }
 
-
+/* chrome in dialogs doesn't resize properly when collapsing a dialog before
+ * moving or resizing it in IE 6 only, hiding overflow seems to do the trick
+ */
+.jxChrome {
+  overflow: hidden;
+}
