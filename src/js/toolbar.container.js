@@ -68,15 +68,11 @@ Jx.Toolbar.Container = new Class({
         } else {
             this.domObj.addClass('jxBarTop');
         }
-        
-        this.clearer = new Element('div', {'class':'jxClearer'});
-        
+
         if (this.options.scroll && ['top','bottom'].contains(this.options.position)) {
             // make sure we update our size when we get added to the DOM
             this.addEvent('addTo', this.update.bind(this));
             
-            this.scroller.adopt(this.clearer);
-        
             var scrollFx = new Fx.Tween(this.scroller);
             this.scrollLeft = new Jx.Button({
                 image: Jx.aPixel.src
@@ -114,7 +110,6 @@ Jx.Toolbar.Container = new Class({
             });            
         } else {
             this.options.scroll = false;
-            this.domObj.adopt(this.clearer);
         }
 
         if (this.options.toolbars) {
@@ -186,7 +181,11 @@ Jx.Toolbar.Container = new Class({
                 thing.addEvent('add', this.update.bind(this));
                 thing.addEvent('remove', this.update.bind(this));                
             }
-            thing.domObj.inject(this.clearer, 'before');
+            if (this.scroller) {
+                this.scroller.adopt(thing.domObj);
+            } else {
+                this.domObj.adopt(thing.domObj);
+            }
         }, this);
         if (this.options.scroll) {
             this.update();            

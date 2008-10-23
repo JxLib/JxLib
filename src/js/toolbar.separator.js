@@ -24,7 +24,7 @@ Jx.Toolbar.Separator = new Class({
      */
     initialize: function() {
         this.domObj = new Element('li', {'class':'jxToolItem'});
-        this.domSpan = new Element('span', {'class':'separator'});
+        this.domSpan = new Element('span', {'class':'jxBarSeparator'});
         this.domObj.appendChild(this.domSpan);
     }
 });
