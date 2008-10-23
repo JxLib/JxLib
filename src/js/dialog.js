@@ -109,7 +109,7 @@ Jx.Dialog = new Class({
          */
         if (!Jx.Dialog.Stack) {
             Jx.Dialog.Stack = [];
-            Jx.Dialog.ZIndex = [100];
+            Jx.Dialog.ZIndex = [];
         }
         
         this.isOpening = false;
@@ -158,8 +158,9 @@ Jx.Dialog = new Class({
                 handle: this.title,
                 onBeforeStart: (function(){
                     Jx.Dialog.Stack.erase(this).push(this);
+                    var baseZIndex = Jx.Dialog.Stack[0].domObj.style.zIndex;
                     Jx.Dialog.Stack.each(function(d, i) {
-                        d.domObj.setStyle('zIndex',101+i);
+                        d.domObj.setStyle('zIndex',baseZIndex+i);
                     });
                 }).bind(this),
                 onStart: (function() {
@@ -224,8 +225,9 @@ Jx.Dialog = new Class({
         /* this adjusts the z-index of the dialogs when activated */
         this.domObj.addEvent('mousedown', (function(){
             Jx.Dialog.Stack.erase(this).push(this);
+            var baseZIndex = Jx.Dialog.Stack[0].domObj.style.zIndex;
             Jx.Dialog.Stack.each(function(d, i) {
-                d.domObj.setStyle('zIndex',101+i);
+                d.domObj.setStyle('zIndex',baseZIndex+i);
             });
         }).bind(this));
     },
@@ -304,6 +306,9 @@ Jx.Dialog = new Class({
     show : function( ) {
         /* get the z-index right */
         Jx.Dialog.Stack.push(this);
+        if (Jx.Dialog.ZIndex.length == 0) {
+            Jx.Dialog.ZIndex[0] = this.domObj.getStyle('z-index');
+        }
         /* do the modal thing */
         if (this.options.modal) {
             this.blanket.setStyles({
@@ -314,9 +319,9 @@ Jx.Dialog = new Class({
         }
         /* display the dialog */
         this.domObj.setStyles({
-            'zIndex': Jx.Dialog.ZIndex[0]++,
             'display': 'block',
-            'visibility': 'hidden'
+            'visibility': 'hidden',
+            'z-index': Jx.Dialog.ZIndex[0]++
         });
         if (this.options.closed) {
             var margin = this.domObj.getMarginSize();
@@ -329,6 +334,14 @@ Jx.Dialog = new Class({
             this.contentContainer.resize({forceResize: true});
             this.layoutContent();
             this.firstShow = false;
+            /* if the chrome got built before the first dialog show, it might
+             * not have been properly created and we should clear it so it
+             * does get built properly
+             */
+            if (this.chrome) {
+                this.chrome.dispose();
+                this.chrome = null;
+            }
         }
         /* update or create the chrome */
         this.showChrome(this.domObj);
