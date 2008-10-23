@@ -114,9 +114,6 @@ Jx.ColorPalette = new Class({
 
         this.domObj.adopt(top);
 
-        d = new Element('div', {'class':'jxClearer'});
-        this.domObj.adopt(d);
-
         var swatchClick = this.swatchClick.bindWithEvent(this);
         var swatchOver = this.swatchOver.bindWithEvent(this);
 
