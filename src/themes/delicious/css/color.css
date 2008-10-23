@@ -91,6 +91,7 @@ div.jxColorPreview {
     margin: 2px;
     vertical-align: middle;
     background-image: url('images/grid.png');
+    overflow: hidden;
 }
 
 a.jxButtonFlyout span.jxButtonContent span.jxButtonSwatch {
@@ -119,19 +120,23 @@ div.jxColorPreview img {
     z-index: 0;
 }
 
-div.jxColorPreview div.jxColorSelected {
+div.jxColorPreview div {
     width: 20px;
     height: 10px;
     position: absolute;
+    display: block;
+    left: 0px;
     z-index: 1;
+    font-size: 10px;
+    line-height: 0px;
+}
+
+div.jxColorPreview div.jxColorSelected {
+    top: 0px;
 }
 
 div.jxColorPreview div.jxColorHover {
-    width: 20px;
-    height: 10px;
-    position: absolute;
-    bottom: 0;
-    z-index: 1;
+    bottom: 0px;
 }
 
 label.jxColorLabel,
