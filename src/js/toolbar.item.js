@@ -10,6 +10,10 @@
  * This file is licensed under an MIT style license
  */
 Jx.Toolbar.Item = new Class( {
+    Implements: [Options],
+    options: {
+        active: true
+    },
     /**
      * Property: domObj
      * {HTMLElement} an element to contain the thing to be placed in the
