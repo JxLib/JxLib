@@ -67,6 +67,7 @@ Jx.Toolbar.Container = new Class({
                            this.options.position.capitalize());            
         } else {
             this.domObj.addClass('jxBarTop');
+            this.options.position = 'top';
         }
 
         if (this.options.scroll && ['top','bottom'].contains(this.options.position)) {
@@ -186,6 +187,7 @@ Jx.Toolbar.Container = new Class({
             } else {
                 this.domObj.adopt(thing.domObj);
             }
+            this.domObj.addClass('jx'+thing.options.type+this.options.position.capitalize());
         }, this);
         if (this.options.scroll) {
             this.update();            

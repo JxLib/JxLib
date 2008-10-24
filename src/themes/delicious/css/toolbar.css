@@ -38,12 +38,12 @@
   overflow: hidden;
 }
 
-.jxTabBox .jxBarTop {
+.jxTabBox .jxTabBarTop {
   background-image: url(images/tabbar.png);
   background-position: 0px bottom;
 }
 
-.jxTabBox .jxBarBottom {
+.jxTabBox .jxTabBarBottom {
   background-image: url(images/tabbar_bottom.png);
   background-position: 0px top;
 }
@@ -61,13 +61,13 @@
   overflow: hidden;
 }
 
-.jxTabBox .jxBarLeft {
+.jxTabBox .jxTabBarLeft {
   background-image: url(images/tabbar_left.png);
   background-repeat: repeat-y;
   background-position: right 0px;
 }
 
-.jxTabBox .jxBarRight {
+.jxTabBox .jxTabBarRight {
   background-image: url(images/tabbar_right.png);
   background-repeat: repeat-y;
   background-position: left 0px;
