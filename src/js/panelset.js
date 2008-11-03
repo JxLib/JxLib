@@ -108,6 +108,7 @@ Jx.PanelSet = new Class({
             }).bind(this)
         });
         this.addEvent('addTo', function() {
+            $(this.domObj.parentNode).setStyle('overflow', 'hidden');
             this.domObj.resize();
         });
         if (this.options.parent) {
