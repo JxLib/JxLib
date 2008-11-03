@@ -547,7 +547,11 @@ Jx.ContentLoader = new Class ({
                 c = $(this.options.content);
             }
             if (c) {
-                element.appendChild(c);
+                if (this.options.content.addTo) {
+                    this.options.content.addTo(element);
+                } else {
+                    element.appendChild(c);                    
+                }
                 this.contentIsLoaded = true;                
             } else {
                 element.innerHTML = this.options.content;
