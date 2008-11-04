@@ -1,0 +1,99 @@
+/**
+ * @project         Jx
+ * @revision        $Id: form.css 1153 2008-09-25 16:18:42Z fwarnock $
+ * @author          Fred Warnock (fwarnock@dmsolutions.ca)
+ * @copyright       (c) 2006 DM Solutions Group Inc.
+ */
+
+/* =========== */
+/* FORM STYLES */
+/* =========== */
+/* JxForm classes are a set of styles that can be used forlaying out forms 
+ * There are three different types of layouts: Inline, Float and Block.
+ * Each can be usedto layout an entire form, or a portion of the form as is needed
+ */
+
+ .jxForm {
+  display: block;
+  position: relative;
+  overflow: hidden; /* ensures that floated elements are contained */
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.jxForm label {
+  background-color: transparent;
+  color: #000;
+}
+
+.jxForm select, 
+.jxForm input {
+  color: #000;
+}
+
+.jxFormFloat .radioGroup {
+  display: block;
+  overflow: hidden;
+}
+
+/* wrap the radio button in a label */
+.jxFormFloat .radioGroup input,
+.jxFormFloat .radioGroup label {
+  width: auto !important;
+  vertical-align: middle;
+}
+
+.jxForm .tipArea {
+  display: block;
+  padding: 5px 0px;
+  background-color: transparent;
+  color: #999;
+}
+
+/* INLINE FORM 
+ * Wrap an Inline Form with .jxFormInline to sets up form elements to work as 
+ * inline objects like they do by default */
+
+.jxFormInline label {
+  display: inline;
+}
+
+/* FLOAT FORM 
+ * Wrap a Floating Form with .jxFormFloat to sets up form elements to work as 
+ * block objects so labels can have set widths to simulate a 2 column display 
+ * for label / input pairs. */
+
+.jxFormFloat label {
+  display: block;
+  float: left;
+  clear: left;
+  width: 75px; /* Overide the width depending on the form layout */
+}
+
+.jxFormFloat select, 
+.jxFormFloat input {
+  float: left;
+}
+
+.jxFormFloat .radioGroup {
+  float: left;
+}
+
+/* wrap the radio button in a label */
+.jxFormFloat .radioGroup input,
+.jxFormFloat .radioGroup label {
+  float: none;
+}
+
+.jxFormFloat .tipArea {
+  clear: left;
+}
+
+/* BLOCK FORM 
+ *  Wrap a Block Form with .jxFormBlock to sets up form elements to work as 
+ * block objects so they can label / input pairs */
+
+.jxFormBlock label {
+  display: block;
+}
