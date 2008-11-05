@@ -10,7 +10,8 @@
 /* =========== */
 
 /* Opacity needs to be set in IE6 and below using the following filters.
-   Please note that IE8 changed how filters are written. */
+ * Please note that IE8 changed how filters are written. 
+ */
 .jxChromeDrag {filter: Alpha(opacity=50);}
 .jxDialogModal {filter: Alpha(opacity=20);}
 .jxDisabled {filter:Alpha(opacity=40);}

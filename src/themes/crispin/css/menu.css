@@ -54,7 +54,7 @@ li.jxMenuItemContainer {
   position: relative;
 
   margin: 0px;
-  padding: 0px;
+  padding: 2px;
 }
 
 a.jxMenuItem {
@@ -67,7 +67,7 @@ a.jxMenuItem {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 11px;
   text-decoration: none;
-  margin: 2px 2px;
+  margin: 0px;
   padding: 0px;
   color: #000;
 }
@@ -99,6 +99,7 @@ span.jxMenuItemContent {
   padding: 0px 20px 0px 0px; /* space for the arrow */
   margin: 0px;
   border: 1px solid #fff; /* forces IE to render properly */
+  /*overflow: hidden;*/
 }
 
 a.jxButtonSubMenu span.jxMenuItemContent,

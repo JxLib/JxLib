@@ -10,24 +10,42 @@
 /* ============= */
 
 /* 24 bit images do not appear correctly in IE versions below 7. Applying a 
-   filter through the class below will make them appear correctly.*/
+ * filter through the class below will make them appear correctly.
+ */
 .png24{filter:expression(Jx.applyPNGFilter(this))}
 
 /* Opacity needs to be set in IE6 and below using the following filters.
-   Please note that IE8 changed how filters are written. */
+ * Please note that IE8 changed how filters are written. 
+ */
 .jxChromeDrag {filter: Alpha(opacity=50);}
 .jxDialogModal {filter: Alpha(opacity=20);}
 .jxDisabled {filter:Alpha(opacity=40);}
 iframe.jxIframeShim {filter:Alpha(opacity:0);}
 
 /* List items do not render properly under several conditions.  
-   Applying a height to the LI forces it to render properly.
-   Content that is taller than the li simply forces the li to be taller */
+ * Applying a height to the LI forces it to render properly.
+ * Content that is taller than the li simply forces the li to be taller 
+ */
 .jxTree li,
 .jxTreeRoot li {
   height: 20px;
 }
 
+/* Icons line up according to the outermost parent not the immediate parent
+ * applying a top overide to accomodate this
+ */
+img.jxMenuItemIcon {
+  top: 2px;
+  left: 0px;
+}
+
+a.jxMenuItemActive img.jxMenuItemIcon {
+  top: 0px;
+  left: -2px;
+  padding: 1px;
+  border: 1px solid #C5E0FF;
+}
+ 
 /* chrome in dialogs doesn't resize properly when collapsing a dialog before
  * moving or resizing it in IE 6 only, hiding overflow seems to do the trick
  */
