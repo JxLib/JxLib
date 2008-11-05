@@ -97,9 +97,9 @@ Jx.TreeItem = new Class ({
             href:'javascript:void(0)',
             html: this.options.label,
             events: {
-                click: this.selected.bindWithEvent(this),
-                dblclick: this.selected.bindWithEvent(this),
-                contextmenu: this.showMenu.bindWithEvent(this)
+                click: this.selected.bind(this),
+                dblclick: this.selected.bind(this),
+                contextmenu: this.showMenu.bind(this)
             }
         });
         domA.appendChild(domImg);
@@ -162,7 +162,7 @@ Jx.TreeItem = new Class ({
      * e - {Event} the DOM event
      */
     selected : function(e) {
-        this.lastEvent = e;
+        this.lastEvent = new Event(e);
         this.fireEvent('click', this);
     },
     /**
@@ -174,12 +174,12 @@ Jx.TreeItem = new Class ({
      * e - {Event} the DOM event
      */
     showMenu: function(e) {
-        this.lastEvent = e;
+        this.lastEvent = new Event(e);
         this.fireEvent('click',this);
         if (this.contextMenu) {
             this.contextMenu.show(this.lastEvent);
         }
-        e.stop();
+        this.lastEvent.stop();
     },
     /**
      * Method: getName
