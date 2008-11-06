@@ -13,25 +13,15 @@
  * clicking anywhere outside the panel and other buttons, or by pressing the
  * 'esc' key.
  *
- * A flyout is structure the same way as a normal <Jx.Button> except that an
- * extra div is appended to the jxButtonContainer element and given a class
- * of jxFlyout.
- *
  * Flyout buttons implement <Jx.ContentLoader> which provides the hooks to
- * insert content into the jxFlyout element.  Note that the jxFlyout element
- * is not appended to the DOM until the first time it is opened.
+ * insert content into the Flyout element.  Note that the Flyout element
+ * is not appended to the DOM until the first time it is opened, and it is
+ * removed from the DOM when closed.
  *
  * It is generally best to specify a width and height for your flyout content
  * area through CSS to ensure that it works correctly across all browsers.
- * To do this, make sure to provide a unique 'id' in the options when
- * constructing your button and then provide some CSS:
- *
- * (code)
- * #myFlyout .jxFlyout {
- *   width: 200px;
- *   height: 100px;
- * }
- * (end)
+ * You can do this for all flyouts using the .jxFlyout CSS selector, or you
+ * can apply specific styles to your content elements.
  *
  * A flyout closes other flyouts when it is opened.  It is possible to embed
  * flyout buttons inside the content area of another flyout button.  In this
@@ -56,20 +46,23 @@
  * open - this event is triggered when the flyout is opened.
  * close - this event is triggered when the flyout is closed.
  *
- * Extends:
- * <Jx.Button>
- * 
- * Implements:
- * <Jx.ContentLoader>
- * <Jx.AutoPosition>
- *
  * License: 
  * Copyright (c) 2008, DM Solutions Group Inc.
  * 
  * This file is licensed under an MIT style license
  */
 Jx.Button.Flyout = new Class({
+    /**
+     * Extends:
+     * <Jx.Button>
+     */
     Extends: Jx.Button,
+    /**
+     * Implements:
+     * * <Jx.ContentLoader>
+     * * <Jx.AutoPosition>
+     * * <Jx.Chrome>
+     */
     Implements: [Jx.ContentLoader, Jx.AutoPosition, Jx.Chrome],
     
     /**
@@ -79,14 +72,14 @@ Jx.Button.Flyout = new Class({
     content: null,
     /**
      * Constructor: initialize
-     *
      * construct a new instance of a flyout button.  The single options
-     * argument takes the same parameters as <Jx.Button::initialize> plus
-     * content loading options as per <Jx.ContentLoader>.
+     * argument takes a combination of options that apply to <Jx.Button>,
+     * <Jx.ContentLoader>, and <Jx.AutoPosition>.
      *
      * Parameters: {Object} options
-     *
-     * an options object used to initialize the button
+     * an options object used to initialize the button, see 
+     * <Jx.Button::initialize>, <Jx.ContentLoader>, and <Jx.AutoPosition>
+     * for details.
      */
     initialize: function(options) {
         if (!Jx.Button.Flyout.Stack) {

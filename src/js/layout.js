@@ -18,10 +18,6 @@
  * Events:
  * sizeChange - fired when the size of the container changes
  *
- * Implements:
- * Options - MooTools Class.Extras
- * Events - MooTools Class.Extras
- *
  * License: 
  * Copyright (c) 2008, DM Solutions Group Inc.
  * 
@@ -29,6 +25,11 @@
  */
  
 Jx.Layout = new Class({
+    /** 
+     * Implements:
+     * * Options
+     * * Events
+     */
     Implements: [Options,Events],
     
     options: {

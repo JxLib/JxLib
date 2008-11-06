@@ -11,15 +11,15 @@
  * Events:
  * TODO - add open/close events?
  *
- * Extends:
- * <Jx.Menu>
- *
  * License: 
  * Copyright (c) 2008, DM Solutions Group Inc.
  * 
  * This file is licensed under an MIT style license
  */
 Jx.Menu.Context = new Class({
+    /** Extends:
+     * <Jx.Menu>
+     */
     Extends: Jx.Menu,
     /**
      * Constructor: Jx.ContextMenu

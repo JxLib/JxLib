@@ -31,13 +31,7 @@
  * });
  * (end)
  *
- * Extends:
- * <Jx.Button>
  * 
- * Implements:
- * Options - MooTools Class.Extras
- * Events - MooTools Class.Extras
- * <Jx.ContentLoader> - for loading content into a tab
  *
  * License: 
  * Copyright (c) 2008, DM Solutions Group Inc.
@@ -45,8 +39,16 @@
  * This file is licensed under an MIT style license
  */
 Jx.Button.Tab = new Class({
+    /**
+     * Extends:
+     * <Jx.Button>
+     */
     Extends: Jx.Button,
-    Implements: [Options, Events, Jx.ContentLoader],
+    /**
+     * Implements:
+     * * <Jx.ContentLoader>
+     */
+    Implements: [Jx.ContentLoader],
     /**
      * Property: content
      * {HTMLElement} The content area that is displayed when the tab is active.
@@ -54,7 +56,8 @@ Jx.Button.Tab = new Class({
     content: null,
     /**
      * Constructor: Jx.Button.Tab
-     * Create a new instance of Jx.Button.Tab.
+     * Create a new instance of Jx.Button.Tab.  Any layout options passed are used
+     * to create a <Jx.Layout> for the tab content area.
      *
      * Parameters:
      * options - {Object} an object containing options that are used

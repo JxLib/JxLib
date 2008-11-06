@@ -17,6 +17,14 @@
  * This file is licensed under an MIT style license
  */
 Jx.Menu = new Class({
+    /**
+     * Implements:
+     * * Options
+     * * Events
+     * * <Jx.AutoPosition>
+     * * <Jx.Chrome>
+     * * <Jx.Addable>
+     */
     Implements: [Options, Events, Jx.AutoPosition, Jx.Chrome, Jx.Addable],
     /**
      * Property: domObj
@@ -51,7 +59,6 @@ Jx.Menu = new Class({
      */
     initialize : function(options) {
         this.setOptions(options);
-        /* */
         if (!Jx.Menu.Menus) {
             Jx.Menu.Menus = [];
         }
@@ -98,7 +105,7 @@ Jx.Menu = new Class({
      * can be added by passing multiple arguments to this function.
      */
     add : function() {
-        $A(arguments).each(function(item){
+        $A(arguments).flatten().each(function(item){
             this.items.push(item);
             item.setOwner(this);
             this.subDomObj.adopt(item.domObj);
@@ -172,7 +179,7 @@ Jx.Menu = new Class({
         if (Jx.Menu.Menus[0] && Jx.Menu.Menus[0] != this) {
             Jx.Menu.Menus[0].hide(e);
         }
-        if (this.items.length ==0) {
+        if (this.items.length === 0) {
             return;
         }
         Jx.Menu.Menus[0] = this;

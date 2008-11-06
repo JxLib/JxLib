@@ -23,6 +23,12 @@
  * This file is licensed under an MIT style license
  */
 Jx.TabBox = new Class({
+    /**
+     * Implements:
+     * * Options
+     * * Events
+     * * <Jx.Addable>
+     */
     Implements: [Options, Events, Jx.Addable],
     options: {
         parent: null,
@@ -43,6 +49,7 @@ Jx.TabBox = new Class({
     tabSet: null,
     /**
      * Constructor: Jx.TabBox
+     * Create a new instance of a TabBox.
      */
     initialize : function(options) {
         this.setOptions(options);

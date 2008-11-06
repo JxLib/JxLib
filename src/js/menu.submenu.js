@@ -11,20 +11,24 @@
  * (code)
  * (end)
  *
- * Extends:
- * <Jx.Menu.Item>
- *
- * Implements:
- * Options - MooTools Class.Extra
- * Events - MooTools Class.Extra
- *
  * License: 
  * Copyright (c) 2008, DM Solutions Group Inc.
  * 
  * This file is licensed under an MIT style license
  */
 Jx.Menu.SubMenu = new Class({
+    /**
+     * Extends:
+     * <Jx.Menu.Item>
+     */
     Extends: Jx.Menu.Item,
+    /**
+     * Implements:
+     * * Options
+     * * Events
+     * * <Jx.AutoPosition>
+     * * <Jx.Chrome>
+     */
     Implements: [Options, Events, Jx.AutoPosition, Jx.Chrome],
     /**
      * Property: subDomObj

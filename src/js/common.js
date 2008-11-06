@@ -25,7 +25,7 @@ window.addEvent('load', function() {
         }
     }
 });
-/* inspired by extjs, removes css image flicker and related problems in IE 6 */
+/* inspired by extjs, apparently removes css image flicker and related problems in IE 6 */
 (function() {
     var ua = navigator.userAgent.toLowerCase();
     var isIE = ua.indexOf("msie") > -1,
@@ -90,9 +90,11 @@ if (typeof Jx == 'undefined') {
  * be executed as part of a CSS style rule - this ensures that the hack only
  * gets applied on IE browsers.
  *
- * Parameters:
+ * The CSS that triggers this hack is only in the ie6.css files of the various
+ * themes.
  *
- *   object {Object} the object (img) to which the filter needs to be applied.
+ * Parameters:
+ * object {Object} the object (img) to which the filter needs to be applied.
  */
 Jx.applyPNGFilter = function(o)  {
    var t=Jx.aPixel.src;
@@ -109,8 +111,7 @@ Jx.imagesLoading = 0; //counter for number of concurrent image loads
 
 /**
  * Method: addToImgQueue
- *
- * request that an image be set to a DOM IMG element src attribute.  This puts 
+ * Request that an image be set to a DOM IMG element src attribute.  This puts 
  * the image into a queue and there are private methods to manage that queue
  * and limit image loading to 2 at a time.
  *
@@ -163,6 +164,9 @@ Jx.loadNextImg = function() {
  * Creates a new iframe element that is intended to fill a container
  * to mask out other operating system controls (scrollbars, inputs, 
  * buttons, etc) when HTML elements are supposed to be above them.
+ *
+ * Returns:
+ * an HTML iframe element that can be inserted into the DOM.
  */
 Jx.createIframeShim = function() {
     return new Element('iframe', {
@@ -177,17 +181,21 @@ Jx.createIframeShim = function() {
  *
  * Element is a global object provided by the mootools library.  The
  * functions documented here are extensions to the Element object provided
- * by Jx to make cross-browser compatibility easier to achieve.
+ * by Jx to make cross-browser compatibility easier to achieve.  Most of the
+ * methods are measurement related.
+ *
+ * While the code in these methods has been converted to use MooTools methods,
+ * there may be better MooTools methods to use to accomplish these things.
+ * Ultimately, it would be nice to eliminate most or all of these and find the
+ * MooTools equivalent or convince MooTools to add them.
  */
 Element.implement({
     /**
      * Method: getBoxSizing
-     *
      * return the box sizing of an element, one of 'content-box' or 
      *'border-box'.
      *
      * Parameters: 
-     *
      * elem - {Object} the element to get the box sizing of.
      *
      * Returns:
@@ -203,7 +211,7 @@ Element.implement({
               result = 'content-box'; 
         }
       } else {
-          if (arguments.length == 0) {
+          if (arguments.length === 0) {
               node = document.documentElement; 
           }
           var sizing = this.getStyle("-moz-box-sizing");
@@ -216,12 +224,10 @@ Element.implement({
     },
     /**
      * Method: getContentBoxSize
-     *
      * return the size of the content area of an element.  This is the size of
      * the element less margins, padding, and borders.
      *
      * Parameters: 
-     *
      * elem - {Object} the element to get the content size of.
      *
      * Returns:
@@ -239,12 +245,10 @@ Element.implement({
     },
     /**
      * Method: getBorderBoxSize
-     *
      * return the size of the border area of an element.  This is the size of
      * the element less margins.
      *
      * Parameters: 
-     *
      * elem - {Object} the element to get the border sizing of.
      *
      * Returns:
@@ -259,12 +263,10 @@ Element.implement({
     
     /**
      * Method: getMarginBoxSize
-     *
      * return the size of the margin area of an element.  This is the size of
      * the element plus margins.
      *
      * Parameters: 
-     *
      * elem - {Object} the element to get the margin sizing of.
      *
      * Returns:
@@ -280,7 +282,6 @@ Element.implement({
     
     /**
      * Method: setContentBoxSize
-     *
      * set either or both of the width and height of an element to
      * the provided size.  This function ensures that the content
      * area of the element is the requested size and the resulting
@@ -288,9 +289,7 @@ Element.implement({
      * borders.
      *
      * Parameters: 
-     *
      * elem - {Object} the element to set the content area of.
-     *
      * size - {Object} an object with a width and/or height property that is the size to set
      * the content area of the element to.
      */
@@ -323,7 +322,6 @@ Element.implement({
     },
     /**
      * Method: setBorderBoxSize
-     *
      * set either or both of the width and height of an element to
      * the provided size.  This function ensures that the border
      * size of the element is the requested size and the resulting
@@ -331,9 +329,7 @@ Element.implement({
      * borders.
      *
      * Parameters: 
-     *
      * elem - {Object} the element to set the border size of.
-     *
      * size - {Object} an object with a width and/or height property that is the size to set
      * the content area of the element to.
      */
@@ -367,11 +363,9 @@ Element.implement({
     },
     /**
      * Method: getPaddingSize
-     *
      * returns the padding for each edge of an element
      *
      * Parameters: 
-     *
      * elem - {Object} The element to get the padding for.
      *
      * Returns:
@@ -387,11 +381,9 @@ Element.implement({
     },
     /**
      * Method: getBorderSize
-     *
      * returns the border size for each edge of an element
      *
      * Parameters: 
-     *
      * elem - {Object} The element to get the borders for.
      *
      * Returns:
@@ -407,11 +399,9 @@ Element.implement({
     },
     /**
      * Method: getMarginSize
-     *
      * returns the margin size for each edge of an element
      *
      * Parameters: 
-     *
      * elem - {Object} The element to get the margins for.
      *
      * Returns:
@@ -427,24 +417,21 @@ Element.implement({
     },
     /**
      * Method: getNumber
-     *
      * safely parse a number and return its integer value.  A NaN value 
      * returns 0.  CSS size values are also parsed correctly.
      *
      * Parameters: 
-     *
      * n - {Mixed} the string or object to parse.
      *
      * Returns:
      * {Integer} the integer value that the parameter represents
      */
     getNumber: function(n) {
-      var result = n==null||isNaN(parseInt(n))?0:parseInt(n);
+      var result = n===null||isNaN(parseInt(n,10))?0:parseInt(n,10);
       return result;
     },
     /**
      * Method: getPageDimensions
-     *
      * return the dimensions of the browser client area.
      *
      * Returns:
@@ -455,6 +442,16 @@ Element.implement({
         return {width: window.getWidth(), height: window.getHeight()};
     },
     
+    /**
+     * Method: descendantOf
+     * determines if the element is a descendent of the reference node.
+     *
+     * Parameters:
+     * node - {HTMLElement} the reference node
+     *
+     * Returns:
+     * {Boolean} true if the element is a descendent, false otherwise.
+     */
     descendantOf: function(node) {
         var parent = $(this.parentNode);
         if (parent == node) {
@@ -468,6 +465,18 @@ Element.implement({
         }
     },
     
+    /**
+     * Method: findElement
+     * recursively search the parentage of the element to find
+     * an element of the given tag name.
+     *
+     * Parameters:
+     * type - {String} the tag name of the element type to search for
+     *
+     * Returns:
+     * {HTMLElement} the first node (this one or first parent) with the
+     * requested tag name or null if none are found.
+     */
     findElement: function(type) {
         if (this.tagName == type) {
             return this;
@@ -501,6 +510,9 @@ Element.implement({
  * o using an HTML string
  *
  * o using a URL to get the content remotely
+ *
+ * Use the Implements syntax in your Class to add Jx.ContentLoader
+ * to your class.
  */
 Jx.ContentLoader = new Class ({
     /**
@@ -615,17 +627,57 @@ Jx.AutoPosition = new Class({
     /**
      * Method: position
      * positions an element relative to another element
-     * based on the provided options
+     * based on the provided options.  Positioning rules are
+     * a string with two space-separated values.  The first value
+     * references the parent element and the second value references
+     * the thing being positioned.  In general, multiple rules can be
+     * considered by passing an array of rules to the horizontal and
+     * vertical options.  The position method will attempt to position
+     * the element in relation to the relative element using the rules
+     * specified in the options.  If the element does not fit in the
+     * viewport using the rule, then the next rule is attempted.  If
+     * all rules fail, the last rule is used and element may extend
+     * outside the viewport.  Horizontal and vertical rules are
+     * processed independently.
      *
+     * Horizontal Positioning:
+     * Horizontal values are 'left', 'center', 'right', and numeric values.
+     * Some common rules are:
+     * o 'left left' is interpreted as aligning the left
+     * edge of the element to be positioned with the left edge of the
+     * reference element.  
+     * o 'right right' aligns the two right edges.  
+     * o 'right left' aligns the left edge of the element to the right of
+     * the reference element.  
+     * o 'left right' aligns the right edge of the element to the left
+     * edge of the reference element.
+     *
+     * Vertical Positioning:
+     * Vertical values are 'top', 'center', 'bottom', and numeric values.
+     * Some common rules are:
+     * o 'top top' is interpreted as aligning the top
+     * edge of the element to be positioned with the top edge of the
+     * reference element.  
+     * o 'bottom bottom' aligns the two bottom edges.  
+     * o 'bottom top' aligns the top edge of the element to the bottom of
+     * the reference element.  
+     * o 'top bottom' aligns the bottom edge of the element to the top
+     * edge of the reference element.
+     * 
      * Parameters:
      * element - the element to position
      * relative - the element to position relative to
      * options - the positioning options, see list below.
      *
      * Options:
-     * horizontal
-     * vertical
-     * offsets
+     * horizontal - the horizontal positioning rule to use to position the 
+     *    element.  Valid values are 'left', 'center', 'right', and a numeric
+     *    value.  The default value is 'center center'.
+     * vertical - the vertical positioning rule to use to position the 
+     *    element.  Valid values are 'top', 'center', 'bottom', and a numeric
+     *    value.  The default value is 'center center'.
+     * offsets - an object containing numeric pixel offset values for the object
+     *    being positioned as top, right, bottom and left properties.
      */
     position: function(element, relative, options) {
         element = $(element);
@@ -649,13 +701,14 @@ Jx.AutoPosition = new Class({
         var right;
         var top;
         var bottom;
+        var n;
         if (!hor.some(function(opt) {
             var parts = opt.split(' ');
             if (parts.length != 2) {
                 return false;
             }
-            if (!isNaN(parseInt(parts[0]))) {
-                var n = parseInt(parts[0]);
+            if (!isNaN(parseInt(parts[0],10))) {
+                n = parseInt(parts[0],10);
                 if (n>=0) {
                     left = n;                    
                 } else {
@@ -672,10 +725,11 @@ Jx.AutoPosition = new Class({
                     case 'left':
                     default:
                         left = coords.left;
+                        break;
                 }                
             }
-            if (!isNaN(parseInt(parts[1]))) {
-                var n = parseInt(parts[1]);
+            if (!isNaN(parseInt(parts[1],10))) {
+                n = parseInt(parts[1],10);
                 if (n<0) {
                     right = left + n;
                     left = right - size.width;
@@ -683,7 +737,7 @@ Jx.AutoPosition = new Class({
                     left += n;
                     right = left + size.width;
                 }
-                right = coords.left + coords.width + parseInt(parts[1]);
+                right = coords.left + coords.width + parseInt(parts[1],10);
                 left = right - size.width;
             } else {
                 switch(parts[1]) {
@@ -700,6 +754,7 @@ Jx.AutoPosition = new Class({
                     default:
                         left = left - Math.round(size.width/2);
                         right = left + size.width;
+                        break;
                 }                
             }
             return (left >= scroll.x && right <= scroll.x + page.width);
@@ -721,8 +776,8 @@ Jx.AutoPosition = new Class({
                 if (parts.length != 2) {
                     return false;
                 }
-                if (!isNaN(parseInt(parts[0]))) {
-                    top = parseInt(parts[0]);
+                if (!isNaN(parseInt(parts[0],10))) {
+                    top = parseInt(parts[0],10);
                 } else {
                     switch(parts[0]) {
                         case 'bottom':
@@ -734,10 +789,11 @@ Jx.AutoPosition = new Class({
                         case 'top':
                         default:
                             top = coords.top;
+                            break;
                     }
                 }
-                if (!isNaN(parseInt(parts[1]))) {
-                    var n = parseInt(parts[1]);
+                if (!isNaN(parseInt(parts[1],10))) {
+                    var n = parseInt(parts[1],10);
                     if (n>=0) {
                         top += n;
                         bottom = top + size.height;
@@ -760,6 +816,7 @@ Jx.AutoPosition = new Class({
                         default:
                             top = top - Math.round(size.height/2);
                             bottom = top + size.height;
+                            break;
                     }                    
                 }
                 return (top >= scroll.y && bottom <= scroll.y + page.height);

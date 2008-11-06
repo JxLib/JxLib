@@ -20,20 +20,17 @@
  * Events:
  * change - fired when the color is changed.
  *
- * Extends:
- * <Jx.Button.Flyout>
- *
  * License: 
  * Copyright (c) 2008, DM Solutions Group Inc.
  * 
  * This file is licensed under an MIT style license
  */
 Jx.Button.Color = new Class({
-    Extends: Jx.Button.Flyout,
     /**
-     * Property: {HTMLElement} swatch
-     * a div used to represent the current colour in the button.
+     * Extends:
+     * <Jx.Button.Flyout>
      */
+    Extends: Jx.Button.Flyout,
     swatch: null,
     options: {
         color: '#000000',

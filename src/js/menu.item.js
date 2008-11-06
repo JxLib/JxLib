@@ -15,17 +15,16 @@
  * Events:
  * click - fired when the menu item is clicked.
  *
- * Implements:
- * Options - MooTools Class.Extras
- * Events - MooTools Class.Extras
- *
  * License: 
  * Copyright (c) 2008, DM Solutions Group Inc.
  * 
  * This file is licensed under an MIT style license
  */
 Jx.Menu.Item = new Class({
-    Implements: [Options, Events],
+    /**
+     * Extends: 
+     * <Jx.Button>
+     */
     Extends: Jx.Button,
     /**
      * Property: owner
@@ -43,12 +42,7 @@ Jx.Menu.Item = new Class({
      * Create a new instance of Jx.Menu.Item
      *
      * Parameters:
-     * options - {Object} an object containing options as below.
-     * 
-     * Options:
-     * enabled - {Boolean} whether the menu item starts enabled or not (default true)
-     *
-     * See <Jx.Button> for other options
+     * options - {Object} an object containing options for <Jx.Button::initialize>
      */
     initialize: function(options) {
         this.parent($merge(
@@ -84,14 +78,23 @@ Jx.Menu.Item = new Class({
      * Show the menu item
      */
     show: $empty,
-    clicked: function(o) {
+    /**
+     * Method: clicked
+     * Handle the user clicking on the menu item, overriding the <Jx.Button::clicked>
+     * method to facilitate menu tracking
+     *
+     * Parameters:
+     * obj - {Object} an object containing an event property that was the user
+     * event.
+     */
+    clicked: function(obj) {
         if (this.options.enabled) {
             if (this.options.toggle) {
                 this.setActive(!this.options.active);
             }
             this.fireEvent('click', this);
             if (this.owner && this.owner.deactivate) {
-                this.owner.deactivate(o.event);
+                this.owner.deactivate(obj.event);
             }
         }
     },

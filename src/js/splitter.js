@@ -20,6 +20,10 @@
  */
  
 Jx.Splitter = new Class({
+    /**
+     * Implements:
+     * * Options
+     */
     Implements: [Options],
     /**
      * Property: domObj

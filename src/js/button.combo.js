@@ -1,19 +1,26 @@
 // $Id: button.combo.js 1013 2008-09-19 19:11:46Z pspencer $
 /**
  * Class: Jx.Button.Combo
- * A drop down list of selectable items that can be any HTML.
+ * A drop down list of selectable items.  Items can be either a string, an image or both.
  *
  * Example:
  * (code)
+ * new Jx.Button.Combo({
+ *     label: 'Choose a symbol',
+ *     items: [
+ *         {label: 'Star', image: 'images/swatches.png', imageClass: 'comboStar'},
+ *         {label: 'Square', image: 'images/swatches.png', imageClass: 'comboSquare'},
+ *         {label: 'Triangle', image: 'images/swatches.png', imageClass: 'comboTriangle'},
+ *         {label: 'Circle', image: 'images/swatches.png', imageClass: 'comboCircle'},
+ *         {label: 'Plus', image: 'images/swatches.png', imageClass: 'comboPlus'},
+ *         {label: 'Cross', image: 'images/swatches.png', imageClass: 'comboCross'}
+ *     ],
+ *     onChange: function(combo) { alert('you selected ' + combo.getValue()) }
+ * })
  * (end)
  *
  * Events:
- * change - the main item has changed
- *
- * Implements:
- * * Options
- * * Events
- * * <Jx.AutoPosition>
+ * change - triggered when the user selects a new item from the list
  *
  * License: 
  * Copyright (c) 2008, DM Solutions Group Inc.
@@ -21,18 +28,18 @@
  * This file is licensed under an MIT style license
  */
 Jx.Button.Combo = new Class({
+    /**
+     * Extends:
+     * <Jx.Button.Multi>
+     */
     Extends: Jx.Button.Multi,
-    Implements: [Options,Events,Jx.AutoPosition, Jx.Chrome],
-    /** 
-     * Property: domObj
-     * {HTMLElement} the div that contains the control, 
-     * used to show/hide the control 
+    /**
+     * Implements:
+     * * <Jx.AutoPosition>
+     * * <Jx.Chrome>
      */
+    Implements: [Jx.AutoPosition, Jx.Chrome],
     domObj : null,
-    /** 
-     * Property: ul
-     * {HTMLElement} the ul that contains the selectable items 
-     */
     ul : null,
     /**
      * Property: currentSelection
@@ -141,9 +148,12 @@ Jx.Button.Combo = new Class({
         }
     },
     
-    
+    /**
+     * Method: valueChanged
+     * invoked when the current value is changed
+     */
     valueChanged: function() {
-        
+        //TODO: should we do anything here?
     },
     
     /**
@@ -167,7 +177,7 @@ Jx.Button.Combo = new Class({
      * Parameters:
      * options - {Object} object with properties suitable to be passed to
      * a {Jx.Menu.Item} object.  More than one options object can be passed,
-     * comma separated.
+     * comma separated or in an array.
      */
     add: function() {
         $A(arguments).flatten().each(function(opt) {

@@ -2,7 +2,8 @@
 /**
  * Class: Jx.ButtonSet
  * A ButtonSet manages a set of <Jx.Button> instances by ensuring that only one
- * of the buttons is active.
+ * of the buttons is active.  All the buttons need to have been created with
+ * the toggle option set to true for this to work.
  *
  * Example:
  * (code)
@@ -20,16 +21,17 @@
  * Events:
  * change - the current button has changed
  *
- * Implements:
- * Events - MooTools Class.Extras
- * Options - MooTools Class.Extras
- *
  * License: 
  * Copyright (c) 2008, DM Solutions Group Inc.
  * 
  * This file is licensed under an MIT style license
  */
 Jx.ButtonSet = new Class({
+    /**
+     * Implements:
+     * * Events
+     * * Options
+     */
     Implements: [Options,Events],
     /**
      * Property: buttons

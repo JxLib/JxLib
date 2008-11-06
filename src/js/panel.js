@@ -16,17 +16,18 @@
  * collapse - fired when the panel is collapsed
  * expand - fired when the panel is opened
  *
- * Implements:
- * * <Jx.ContentLoader>
- * * Options
- * * Events
- *
  * License: 
  * Copyright (c) 2008, DM Solutions Group Inc.
  * 
  * This file is licensed under an MIT style license
  */
 Jx.Panel = new Class({
+    /**
+     * Implements:
+     * * <Jx.ContentLoader>
+     * * Options
+     * * Events
+     */
     Implements: [Options, Events, Jx.ContentLoader, Jx.Addable],
     
     toolbarContainers: {
@@ -83,9 +84,6 @@ Jx.Panel = new Class({
      *     controlled object).  If you specify a height then the panel will
      *     occupy only that much space vertically and will fill the 
      *     container's width (using the relative option in <Jx.Layout>).
-     *
-     * Inherits From:
-     * <Jx.UniqueId>, <Jx.ContentLoader>
      */
     initialize : function(options){
         this.toolbars = options ? options.toolbars || [] : [];
@@ -265,6 +263,13 @@ Jx.Panel = new Class({
         }
     },
     
+    /**
+     * Method: layoutContent
+     * the sizeChange event of the <Jx.Layout> that manages the outer container
+     * is intercepted and passed through this method to handle resizing of the
+     * panel contents because we need to do some calculations if the panel
+     * is collapsed and if there are toolbars to put around the content area.
+     */
     layoutContent: function() {
         var titleHeight = 0;
         var top = 0;

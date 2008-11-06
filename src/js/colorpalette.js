@@ -5,13 +5,12 @@
  * the user can either enter a HEX colour value or select from a palette of
  * web-safe colours.  The user can also enter an opacity value.
  *
- * A Jx.ColorPalette can be embedded anywhere in a web page by appending its
- * <Jx.ColorPalette.domObj> property to an HTML element.  However, a
- * a <Jx.Button> subclass  is provided ( <Jx.Button.Color> ) that embeds a
- * colour panel inside a button for easy use in toolbars.
+ * A Jx.ColorPalette can be embedded anywhere in a web page using its addTo
+ * method.  However, a <Jx.Button> subclass is provided (<Jx.Button.Color>)
+ * that embeds a colour panel inside a button for easy use in toolbars.
  *
- * Colour changes are propogated via a changed event.  To
- * be notified of changes in a Jx.ColorPalette, use the addEvent method.
+ * Colour changes are propogated via a change event.  To be notified 
+ * of changes in a Jx.ColorPalette, use the addEvent method.
  *
  * Example:
  * (code)
@@ -21,9 +20,6 @@
  * change - triggered when the color changes.
  * click - the user clicked on a color swatch (emitted after a change event)
  *
- * Implements:
- * Options - MooTools Class.Extras
- * Events - MooTools Class.Extras
  *
  * License: 
  * Copyright (c) 2008, DM Solutions Group Inc.
@@ -32,6 +28,12 @@
  */
 
 Jx.ColorPalette = new Class({
+    /**
+     * Implements:
+     * * Options
+     * * Events
+     * * <Jx.Addable>
+     */
     Implements: [Options, Events, Jx.Addable],
     /**
      * Property: {HTMLElement} domObj
@@ -42,13 +44,10 @@ Jx.ColorPalette = new Class({
         parent: null,
         color: '#000000',
         alpha: 1
+        hexColors: ['00', '33', '66', '99', 'CC', 'FF'],
     },
     /**
-     * Property: {Array} hexColors
-     * an array of valid hex values that are used to build a web-safe
-     * palette
      */
-    hexColors: ['00', '33', '66', '99', 'CC', 'FF'],
     /**
      * Constructor: Jx.ColorPalette
      * initialize a new instance of Jx.ColorPalette
@@ -60,9 +59,12 @@ Jx.ColorPalette = new Class({
      * Options:
      * parent - an html element to add the color palette to if provided.
      * color - a colour to initialize the panel with, defaults to #000000
-     *         (black) if not specified.
+     *    (black) if not specified.
      * alpha - an alpha value to initialize the panel with, defaults to 1
-     *         (opaque) if not specified.
+     *    (opaque) if not specified.
+     * hexColors - an array of hexidecimal values to use for creating entries, the default
+     *    values create a web safe palette and shouldn't be changed unless you understand
+     *    what the code is doing
      */
     initialize: function(options) {
         this.setOptions(options);
@@ -161,7 +163,7 @@ Jx.ColorPalette = new Class({
                     g = j%6;
                     b = i%6;
                 }
-                var bgColor = '#'+this.hexColors[r]+this.hexColors[g]+this.hexColors[b];
+                var bgColor = '#'+this.options.hexColors[r]+this.options.hexColors[g]+this.options.hexColors[b];
 
                 var td = new Element('td');
                 if (!bSkip) {

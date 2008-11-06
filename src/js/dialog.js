@@ -29,19 +29,22 @@
  * change - triggered when the value of an input in the dialog is changed
  * resize - triggered when the dialog is resized
  *
- * Extends:
- * <Jx.Panel>
- *
- * Implements:
- * <Jx.AutoPosition>
- *
  * License: 
  * Copyright (c) 2008, DM Solutions Group Inc.
  * 
  * This file is licensed under an MIT style license
  */
 Jx.Dialog = new Class({
+    /**
+     * Extends:
+     * <Jx.Panel>
+     */
     Extends: Jx.Panel,
+    /**
+     * Implements:
+     * - <Jx.AutoPosition>
+     * - <Jx.Chrome>
+     */
     Implements: [Jx.AutoPosition, Jx.Chrome],
     
     /**
@@ -170,13 +173,13 @@ Jx.Dialog = new Class({
                 onComplete: (function() {
                     this.chrome.removeClass('jxChromeDrag');
                     this.contentContainer.setStyle('visibility','');
-                    var left = Math.max(this.chromeOffsets.left, parseInt(this.domObj.style.left));
-                    var top = Math.max(this.chromeOffsets.top, parseInt(this.domObj.style.top));
+                    var left = Math.max(this.chromeOffsets.left, parseInt(this.domObj.style.left,10));
+                    var top = Math.max(this.chromeOffsets.top, parseInt(this.domObj.style.top,10));
                     this.options.horizontal = left + ' left';
                     this.options.vertical = top + ' top';
                     this.position(this.domObj, this.options.parent, this.options);
-                    this.options.left = parseInt(this.domObj.style.left);
-                    this.options.top = parseInt(this.domObj.style.top);
+                    this.options.left = parseInt(this.domObj.style.left,10);
+                    this.options.top = parseInt(this.domObj.style.top,10);
                     if (!this.options.closed) {
                         this.domObj.resize(this.options);                        
                     }
@@ -234,7 +237,7 @@ Jx.Dialog = new Class({
     
     /**
      * Method: sizeChanged
-     * overload panel
+     * overload panel's sizeChanged method
      */
     sizeChanged: function() {
         if (!this.options.closed) {
@@ -301,12 +304,13 @@ Jx.Dialog = new Class({
 
     /**
      * Method: show
-     * show the dialog
+     * show the dialog, external code should use the <Jx.Dialog::open> method
+     * to make the dialog visible.
      */
     show : function( ) {
         /* get the z-index right */
         Jx.Dialog.Stack.push(this);
-        if (Jx.Dialog.ZIndex.length == 0) {
+        if (Jx.Dialog.ZIndex.length === 0) {
             Jx.Dialog.ZIndex[0] = this.domObj.getStyle('z-index');
         }
         /* do the modal thing */
@@ -351,7 +355,8 @@ Jx.Dialog = new Class({
     },
     /**
      * Method: hide
-     * hide the dialog
+     * hide the dialog, external code should use the <Jx.Dialog::close>
+     * method to hide the dialog.
      */
     hide : function() {
         Jx.Dialog.Stack.erase(this);

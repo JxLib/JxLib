@@ -29,6 +29,12 @@
  * This file is licensed under an MIT style license
  */
 Jx.PanelSet = new Class({
+    /**
+     * Implements:
+     * * Options
+     * * Events
+     * * <Jx.Addable>
+     */
     Implements: [Options, Events, Jx.Addable],
     
     options: {

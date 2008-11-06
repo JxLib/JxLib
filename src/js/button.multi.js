@@ -51,8 +51,11 @@
  * This file is licensed under an MIT style license
  */
 Jx.Button.Multi = new Class({
+    /**
+     * Extends: 
+     * <Jx.Button>
+     */
     Extends: Jx.Button,
-    Implements: [Options],
     /**
      * Property: {<Jx.Button>} activeButton
      * the currently selected button
@@ -86,7 +89,7 @@ Jx.Button.Multi = new Class({
         });
         a.addEvents({
             'click': (function(e) {
-                if (this.items.length ==0) {
+                if (this.items.length === 0) {
                     return;
                 }
                 this.contentContainer.setStyle('visibility','hidden');
@@ -207,7 +210,7 @@ Jx.Button.Multi = new Class({
                     }
                 }, this)) {
                     this.setActiveButton(null);
-                };
+                }
             }
             this.buttons.erase(button);
         }

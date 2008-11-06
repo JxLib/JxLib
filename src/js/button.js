@@ -34,13 +34,6 @@
  * </div>
  * (end)
  *
- * Visually, a Jx.Button consists of an <A> tag that may contain either
- * an image, a label, or both (the label appears to the right of the button
- * if both are present).  The default styles for Jx.Button expect the
- * image to be 16 x 16 pixels, with a padding of 4px and a border of 1px
- * which results in an element that is 26 pixels high.  The width of the
- * button automatically accomodates the image and label as required.
- *
  * When you construct a new instance of Jx.Button, the button does not
  * automatically get inserted into the web page.  Typically a button
  * is used as part of building another capability such as a Jx.Toolbar.
@@ -48,12 +41,12 @@
  * you may use the addTo method to append or insert the button into the 
  * page.  
  *
- * There are two types of buttons, normal and toggle.  A toggle button
+ * There are two modes for a button, normal and toggle.  A toggle button
  * has an active state analogous to a checkbox.  A toggle button generates
  * different events (down and up) from a normal button (click).  To create
- * a toggle button, pass type: 'toggle' to the Jx.Button constructor.
+ * a toggle button, pass toggle: true to the Jx.Button constructor.
  *
- * To use a Jx.Button in an application, you need to register for the 'click'
+ * To use a Jx.Button in an application, you should to register for the 'click'
  * event.  You can pass a function in the 'onClick' option when constructing
  * a button or you can call the addEvent('click', myFunction) method.  The
  * addEvent method can be called several times, allowing more than one function
@@ -90,10 +83,7 @@
  * down - the button is down (only if type is 'toggle')
  * up - the button is up (only if the type is 'toggle').
  *
- * Implements:
- * Options - from MooTools Class.Extras
- * Events - from MooTools Class.Extras
- *
+ 
  * License: 
  * Copyright (c) 2008, DM Solutions Group Inc.
  * 
@@ -101,6 +91,12 @@
  */
  
 Jx.Button = new Class({
+    /**
+     * Implements:
+     * * Options
+     * * Events
+     * * <Jx.Addable>
+     */
     Implements: [Options,Events,Jx.Addable],
     
     /**
@@ -111,10 +107,6 @@ Jx.Button = new Class({
      */
     domObj: null,
     
-    /**
-     * Property: {Object} options
-     * default options for a button.
-     */
     options: {
         id: '',
         type: 'Button',
@@ -139,28 +131,32 @@ Jx.Button = new Class({
      *
      * Options:
      * id - optional.  A string value to use as the ID of the button
-     *     container.
+     *    container.
      * type - optional.  A string value that indicates what type of button
-     *     this is.  The default value is Button.  The type is used to form
-     *     the CSS class names used for various HTML elements within the
-     *     button.
+     *    this is.  The default value is Button.  The type is used to form
+     *    the CSS class names used for various HTML elements within the
+     *    button.
      * image - optional.  A string value that is the url to load the image to
-     *     display in this button.  The default styles size this image to
-     *     16 x 16.
-     *     If not provided, then the button will have no icon.
+     *    display in this button.  The default styles size this image to
+     *    16 x 16.
+     *    If not provided, then the button will have no icon.
      * tooltip - optional.  A string value to use as the alt/title attribute
-     *     of the <A> tag that wraps the button, resulting in a tooltip that
-     *     appears when the user hovers the mouse over a button in most 
-     *     browsers.  If not provided, the button will have no tooltip.
+     *    of the <A> tag that wraps the button, resulting in a tooltip that
+     *    appears when the user hovers the mouse over a button in most 
+     *    browsers.  If not provided, the button will have no tooltip.
      * label - {String} optional, default is no label.  A string value
-     *     that is used as a label on the button.
-     * enabled - {Boolean} whether the button is enabled or not.
+     *    that is used as a label on the button.
+     * toggle - {Boolean} default true, whether the button is a toggle button
+     *    or not.
+     * toggleClass - {String} defaults to Toggle, this is class is added to
+     *    buttons with the option toggle: true
      * halign - {String} horizontal alignment of the button label, 'center' by
      *     default.  Other values are 'left' and 'right'.
      * valign - {String} vertical alignment of the button label, 'middle' by
      *     default.  Other values are 'top' and 'bottom'.
      * active - {Boolean} optional, default false.  Controls the initial
      *     state of toggle buttons.
+     * enabled - {Boolean} whether the button is enabled or not.
      * container - {String} the tag name of the HTML element that should be
      *     created to contain the button, by default this is 'div'.
      */
