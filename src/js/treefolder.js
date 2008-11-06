@@ -56,7 +56,7 @@ Jx.TreeFolder = new Class({
         this.parent($merge(options,{type:'Branch'}));
 
         $(this.domNode).addEvent('click', this.clicked.bindWithEvent(this));
-        $(this.domLabel).addEvent('click', this.clicked.bindWithEvent(this));
+        this.addEvent('click', this.clicked.bindWithEvent(this));
                 
         this.nodes = [];
         this.subDomObj = new Element('ul', {'class':'jxTree'});
