@@ -175,7 +175,6 @@ Jx.TreeItem = new Class ({
      */
     showMenu: function(e) {
         this.lastEvent = new Event(e);
-        this.fireEvent('click',this);
         if (this.contextMenu) {
             this.contextMenu.show(this.lastEvent);
         }
