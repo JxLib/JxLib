@@ -161,7 +161,7 @@ Jx.Dialog = new Class({
                 handle: this.title,
                 onBeforeStart: (function(){
                     Jx.Dialog.Stack.erase(this).push(this);
-                    var baseZIndex = Jx.Dialog.Stack[0].domObj.style.zIndex;
+                    var baseZIndex = Jx.Dialog.ZIndex[1];
                     Jx.Dialog.Stack.each(function(d, i) {
                         d.domObj.setStyle('zIndex',baseZIndex+i);
                     });
@@ -228,7 +228,8 @@ Jx.Dialog = new Class({
         /* this adjusts the z-index of the dialogs when activated */
         this.domObj.addEvent('mousedown', (function(){
             Jx.Dialog.Stack.erase(this).push(this);
-            var baseZIndex = Jx.Dialog.Stack[0].domObj.style.zIndex;
+            var baseZIndex = Jx.Dialog.ZIndex[1];
+            console.log(baseZIndex);
             Jx.Dialog.Stack.each(function(d, i) {
                 d.domObj.setStyle('zIndex',baseZIndex+i);
             });
@@ -311,7 +312,8 @@ Jx.Dialog = new Class({
         /* get the z-index right */
         Jx.Dialog.Stack.push(this);
         if (Jx.Dialog.ZIndex.length === 0) {
-            Jx.Dialog.ZIndex[0] = this.domObj.getStyle('z-index');
+            Jx.Dialog.ZIndex[0] = parseInt(this.domObj.getStyle('z-index'));
+            Jx.Dialog.ZIndex[1] = Jx.Dialog.ZIndex[0];
         }
         /* do the modal thing */
         if (this.options.modal) {
