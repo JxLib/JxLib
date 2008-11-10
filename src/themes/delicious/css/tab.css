@@ -91,8 +91,10 @@ a.jxTab {
   color: #000;
 }
 
-.jxDisabled a.jxButton {
- cursor: default; 
+.jxDisabled a.jxTab,
+.jxDisabled span.jxTabContent span,
+.jxDisabled a.jxTabClose {
+  cursor: default;
 }
 
 a.jxTab:hover,
@@ -100,8 +102,8 @@ a.jxTab:active,
 a.jxTabActive,
 a.jxTabActive:hover,
 a.jxTabActive:active,
-.jxDisabled a.jxButton:hover,
-.jxDisabled a.jxButton:active {
+.jxDisabled a.jxTab:hover,
+.jxDisabled a.jxTab:active {
   border: none;
 }
 

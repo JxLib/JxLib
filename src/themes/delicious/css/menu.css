@@ -166,7 +166,8 @@ a.jxMenuItemActive span.jxMenuItemContent {
   background-repeat: no-repeat;
 }
 
-.jxDisabled a.jxMenuItem {
+.jxDisabled a.jxMenuItem,
+.jxDisabled span.jxMenuItemContent span {
   cursor: default;
 }
 

@@ -111,8 +111,8 @@ a.jxButtonActive:active span.jxButtonContent {
 
 /* disabled buttons */
 
-ul.jxToolbar .jxDisabled a.jxButton,
-.jxDisabled a.jxButton {
+.jxDisabled a.jxButton,
+.jxDisabled span.jxButtonContent span {
  cursor: default; 
 }
 
@@ -222,6 +222,13 @@ a.jxButtonDisclose:hover {
 
 a.jxButtonDisclose:active {
   background-position: right -48px;
+}
+
+.jxDisabled a.jxButtonDisclose,
+.jxDisabled a.jxButtonDisclose:hover, 
+.jxDisabled a.jxButtonDisclose:active {
+  cursor: default; 
+  background-position: right 0px;
 }
 
 /* note, jxButtonHover is set by Multi button JS */
