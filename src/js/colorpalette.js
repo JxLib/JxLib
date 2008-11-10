@@ -43,8 +43,8 @@ Jx.ColorPalette = new Class({
     options: {
         parent: null,
         color: '#000000',
-        alpha: 1
-        hexColors: ['00', '33', '66', '99', 'CC', 'FF'],
+        alpha: 1,
+        hexColors: ['00', '33', '66', '99', 'CC', 'FF']
     },
     /**
      */
