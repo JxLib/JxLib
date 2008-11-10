@@ -229,7 +229,6 @@ Jx.Dialog = new Class({
         this.domObj.addEvent('mousedown', (function(){
             Jx.Dialog.Stack.erase(this).push(this);
             var baseZIndex = Jx.Dialog.ZIndex[1];
-            console.log(baseZIndex);
             Jx.Dialog.Stack.each(function(d, i) {
                 d.domObj.setStyle('zIndex',baseZIndex+i);
             });
