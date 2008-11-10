@@ -87,9 +87,13 @@ Jx.Button.Multi = new Class({
             'class': 'jxButtonDisclose',
             'href': 'javascript:void(0)'
         });
+        var button = this;
         a.addEvents({
             'click': (function(e) {
                 if (this.items.length === 0) {
+                    return;
+                }
+                if (!button.options.enabled) {
                     return;
                 }
                 this.contentContainer.setStyle('visibility','hidden');
