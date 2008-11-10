@@ -107,14 +107,6 @@ Jx.Dialog = new Class({
      *    moveable by the user or not.  Default is true.
      */
     initialize: function(options) {
-        /* initialize class-wide singleton that holds the current z-order
-         * of all dialogs
-         */
-        if (!Jx.Dialog.Stack) {
-            Jx.Dialog.Stack = [];
-            Jx.Dialog.ZIndex = [];
-        }
-        
         this.isOpening = false;
         this.firstShow = true;
         
@@ -160,11 +152,7 @@ Jx.Dialog = new Class({
             new Drag(this.domObj, {
                 handle: this.title,
                 onBeforeStart: (function(){
-                    Jx.Dialog.Stack.erase(this).push(this);
-                    var baseZIndex = Jx.Dialog.ZIndex[1];
-                    Jx.Dialog.Stack.each(function(d, i) {
-                        d.domObj.setStyle('zIndex',baseZIndex+i);
-                    });
+                    Jx.Dialog.orderDialogs(this);
                 }).bind(this),
                 onStart: (function() {
                     this.contentContainer.setStyle('visibility','hidden');
@@ -225,13 +213,9 @@ Jx.Dialog = new Class({
                 }).bind(this)
             });
         }
-        /* this adjusts the z-index of the dialogs when activated */
+        /* this adjusts the zIndex of the dialogs when activated */
         this.domObj.addEvent('mousedown', (function(){
-            Jx.Dialog.Stack.erase(this).push(this);
-            var baseZIndex = Jx.Dialog.ZIndex[1];
-            Jx.Dialog.Stack.each(function(d, i) {
-                d.domObj.setStyle('zIndex',baseZIndex+i);
-            });
+            Jx.Dialog.orderDialogs(this);
         }).bind(this));
     },
     
@@ -308,26 +292,22 @@ Jx.Dialog = new Class({
      * to make the dialog visible.
      */
     show : function( ) {
-        /* get the z-index right */
-        Jx.Dialog.Stack.push(this);
-        if (Jx.Dialog.ZIndex.length === 0) {
-            Jx.Dialog.ZIndex[0] = parseInt(this.domObj.getStyle('z-index'));
-            Jx.Dialog.ZIndex[1] = Jx.Dialog.ZIndex[0];
-        }
+        /* prepare the dialog for display */
+        this.domObj.setStyles({
+            'display': 'block',
+            'visibility': 'hidden'
+        });
+
+        Jx.Dialog.orderDialogs(this);
+        
         /* do the modal thing */
         if (this.options.modal) {
             this.blanket.setStyles({
-                zIndex: Jx.Dialog.ZIndex[0]++,
                 visibility: 'visible',
                 display: 'block'
             });
         }
-        /* display the dialog */
-        this.domObj.setStyles({
-            'display': 'block',
-            'visibility': 'hidden',
-            'z-index': Jx.Dialog.ZIndex[0]++
-        });
+        
         if (this.options.closed) {
             var margin = this.domObj.getMarginSize();
             var size = this.title.getMarginBoxSize();
@@ -361,11 +341,11 @@ Jx.Dialog = new Class({
      */
     hide : function() {
         Jx.Dialog.Stack.erase(this);
-        Jx.Dialog.ZIndex[0]--;
+        Jx.Dialog.ZIndex--;
         this.domObj.setStyle('display','none');
         if (this.options.modal) {
             this.blanket.setStyle('visibility', 'hidden');
-            Jx.Dialog.ZIndex[0]--;
+            Jx.Dialog.ZIndex--;
         }
         
     },
@@ -409,3 +389,20 @@ Jx.Dialog = new Class({
         }
     }
 });
+
+Jx.Dialog.Stack = [];
+Jx.Dialog.BaseZIndex = null;
+Jx.Dialog.orderDialogs = function(d) {
+    Jx.Dialog.Stack.erase(d).push(d);
+    if (Jx.Dialog.BaseZIndex === null) {
+        Jx.Dialog.BaseZIndex = Math.max(Jx.Dialog.Stack[0].domObj.getStyle('zIndex').toInt(), 1);
+    }
+    Jx.Dialog.Stack.each(function(d, i) {
+        var z = Jx.Dialog.BaseZIndex+i;
+        if (d.blanket) {
+            d.blanket.setStyle('zIndex',z);
+        }
+        d.domObj.setStyle('zIndex',z);
+    });
+    
+};
