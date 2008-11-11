@@ -392,7 +392,7 @@ Jx.Layout = new Class({
             var o = {forceResize: options ? options.forceResize : false};
             $A(this.domObj.childNodes).each(function(child){
                 if (child.resize && child.getStyle('display') != 'none') {
-                    child.resize(o);                
+                    child.resize.delay(0,child,o);                
                 }
             });
         }
