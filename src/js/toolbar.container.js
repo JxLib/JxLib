@@ -74,7 +74,9 @@ Jx.Toolbar.Container = new Class({
             // make sure we update our size when we get added to the DOM
             this.addEvent('addTo', this.update.bind(this));
             
-            var scrollFx = new Fx.Tween(this.scroller);
+            this.scrollFx = scrollFx = new Fx.Tween(this.scroller, {
+                link: 'chain'
+            });
             this.scrollLeft = new Jx.Button({
                 image: Jx.aPixel.src
             }).addTo(this.domObj);
@@ -89,7 +91,7 @@ Jx.Toolbar.Container = new Class({
                        this.scrollLeft.domObj.setStyle('display', 'none');
                    }
                    this.scrollRight.domObj.setStyle('display', 'block');
-                   scrollFx.start('left', from, to);
+                   this.scrollFx.start('left', from, to);
                }).bind(this)
             });
     
@@ -106,7 +108,7 @@ Jx.Toolbar.Container = new Class({
                        this.scrollRight.domObj.setStyle('display', 'none');
                    }
                    this.scrollLeft.domObj.setStyle('display', 'block');
-                   scrollFx.start('left', from, to);
+                   this.scrollFx.start('left', from, to);
                }).bind(this)
             });            
         } else {
@@ -115,7 +117,7 @@ Jx.Toolbar.Container = new Class({
 
         if (this.options.toolbars) {
             this.add(this.options.toolbars);
-        } 
+        }
     },
     
     update: function() {
@@ -148,20 +150,32 @@ Jx.Toolbar.Container = new Class({
             this.scrollWidth -= child.getSize().x;
         }, this);
         if (this.scrollWidth < 0) {
+            /* we need to show scrollers on at least one side */
             var l = this.scroller.getStyle('left').toInt();
             if (l < 0) {
                 this.scrollLeft.domObj.setStyle('display','block');
             } else {
                 this.scrollLeft.domObj.setStyle('display','none');
             }
-            if (l == this.scrollWidth) {
+            if (l <= this.scrollWidth) {
                 this.scrollRight.domObj.setStyle('display', 'none');
+                if (l < this.scrollWidth) {
+                    this.scrollFx.start('left', l, this.scrollWidth);
+                }
             } else {
                 this.scrollRight.domObj.setStyle('display', 'block');                
             }
+            
         } else {
+            /* don't need any scrollers but we might need to scroll
+             * the toolbar into view
+             */
             this.scrollLeft.domObj.setStyle('display','none');
             this.scrollRight.domObj.setStyle('display','none');
+            var from = this.scroller.getStyle('left').toInt();
+            if (!isNaN(from) && from !== 0) {
+                this.scrollFx.start('left', 0);                
+            }
         }            
     },
     
@@ -181,6 +195,7 @@ Jx.Toolbar.Container = new Class({
                  */
                 thing.addEvent('add', this.update.bind(this));
                 thing.addEvent('remove', this.update.bind(this));                
+                thing.addEvent('show', this.scrollIntoView.bind(this));                
             }
             if (this.scroller) {
                 this.scroller.adopt(thing.domObj);
@@ -211,5 +226,29 @@ Jx.Toolbar.Container = new Class({
      */
     remove: function(item) {
         
+    },
+    /**
+     * Method: scrollIntoView
+     * scrolls an item in one of the toolbars into the currently visible
+     * area of the container if it is not already fully visible
+     *
+     * Parameters:
+     * item - the item to scroll.
+     */
+    scrollIntoView: function(item) {
+        this.update();
+        var width = this.domObj.getSize().x;
+        var coords = item.domObj.getCoordinates(this.scroller);
+        var l = this.scroller.getStyle('left').toInt();
+        
+        var left = -coords.left;
+        if (l < left) {
+            this.scrollFx.start('left', left);
+        } 
+        
+        left = width - coords.right;
+        if (left < 0) {
+            this.scrollFx.start('left', left);
+        }
     }
 });

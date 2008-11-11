@@ -65,6 +65,9 @@ Jx.TabBox = new Class({
         });
         this.panel.domObj.addClass('jxTabBox');
         this.tabSet = new Jx.TabSet(this.panel.content);
+        this.tabSet.addEvent('tabChange', function(tabSet, tab) {
+            this.showItem(tab);
+        }.bind(this.tabBar));
         this.domObj = this.panel.domObj;
         /* when the panel changes size, the tab set needs to update 
          * the content areas.
@@ -104,10 +107,12 @@ Jx.TabBox = new Class({
         this.tabBar.add.apply(this.tabBar, arguments); 
         this.tabSet.add.apply(this.tabSet, arguments);
         $A(arguments).flatten().each(function(tab){
-            tab.addEvent('close', (function(){
-                this.tabBar.remove(tab);
-                this.tabSet.remove(tab);
-            }).bind(this));
+            tab.addEvents({
+                close: (function(){
+                    this.tabBar.remove(tab);
+                    this.tabSet.remove(tab);
+                }).bind(this)
+            });
         }, this);
         return this;
     },

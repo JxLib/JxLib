@@ -222,5 +222,9 @@ Jx.Toolbar = new Class({
         if (this.isActive()) {
             this.visibleItem.show();
         }
+    },
+    showItem: function(item) {
+        console.log('show item');
+        this.fireEvent('show', item);
     }
 });

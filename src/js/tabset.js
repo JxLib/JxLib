@@ -65,7 +65,7 @@ Jx.TabSet = new Class({
         if (!this.domObj.hasClass('jxTabSetContainer')) {
             this.domObj.addClass('jxTabSetContainer');
         }
-        this.selectionChangedFn = this.selectionChanged.bind(this);
+        this.setActiveTabFn = this.setActiveTab.bind(this);
     },
     /**
      * Method: resizeTabBox
@@ -89,7 +89,7 @@ Jx.TabSet = new Class({
     add: function() {
         $A(arguments).each(function(tab) {
             if (tab instanceof Jx.Button.Tab) {
-                tab.addEvent('down',this.selectionChangedFn);
+                tab.addEvent('down',this.setActiveTabFn);
                 tab.tabSet = this;
                 this.domObj.appendChild(tab.content);
                 this.tabs.push(tab);
@@ -117,7 +117,7 @@ Jx.TabSet = new Class({
                     this.tabs[0].setActive(true);
                 }
             }
-            tab.removeEvent('down',this.selectionChangedFn);
+            tab.removeEvent('down',this.setActiveTabFn);
             tab.content.dispose();
         }
     },
@@ -136,18 +136,7 @@ Jx.TabSet = new Class({
         if (this.activeTab.content.resize) {
           this.activeTab.content.resize({forceResize: true});
         }
-    },
-    /**
-     * Method: selectionChanged
-     * Handle selection changing on the tabs themselves and activate the
-     * appropriate tab in response.
-     *
-     * Parameters:
-     * tab - {<Jx.Button.Tab>} the tab to make active.
-     */
-    selectionChanged: function(tab) {
-        this.setActiveTab(tab);
-        this.fireEvent('tabChange', this, tab);
+        this.fireEvent('tabChange', [this, tab]);
     }
 });
 
