@@ -188,15 +188,11 @@ Jx.Grid = new Class({
      * model - {Object} the model to use for this grid
      */
     setModel: function(model) {
-        if (this.model) {
-            this.model.removeGridListener(this);
-        }
         this.model = model;
         if (this.model) {
             if (this.domObj.resize) {
                 this.domObj.resize();
             }
-            this.model.addGridListener(this);
             this.createGrid();
             this.resize();
         } else {

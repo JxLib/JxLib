@@ -1,4 +1,5 @@
-* Jx.Grid Model Interface:
+/*
+ * Jx.Grid Model Interface:
  *
  * addGridListener(l) - mandatory
  * mandatory.  This function accepts one argument, l, which is the listener
@@ -73,14 +74,16 @@
  * cellSelected(row, column) - optional
  * optional.  This function is called by the grid to indicate that the user
  * has selected a cell by clicking on the cell in the grid.
-
+ */
 Jx.Grid.Model = new Class({
     Implements: [Events, Options],
     options: {
         colHeaderHeight: 28,
         rowHeaderWidth: 28,
         colWidth: 50,
-        rowHeight: 20
+        rowHeight: 20,
+        rowHeaders: null,
+        columnHeaders: null
     },
     data: null,
     initialize: function(data, options) {
@@ -88,10 +91,14 @@ Jx.Grid.Model = new Class({
         this.setOptions(options);
     },
     getColumnCount: function() { return (this.data && this.data[0]) ? this.data[0].length : 0; },
-    getColumnHeaderHTML: function(col) { return col; },
+    getColumnHeaderHTML: function(col) { 
+        return this.options.columnHeaders?this.options.columnHeaders[col]:col+1;
+     },
     getColumnHeaderHeight: function() { return this.options.colHeaderHeight; },
     getColumnWidth: function(col) { return this.options.colWidth; },
-    getRowHeaderHTML: function(row) { return row; },
+    getRowHeaderHTML: function(row) { 
+        return this.options.rowHeaders?this.options.rowHeaders[row]:row+1; 
+    },
     getRowHeaderWidth: function() { return this.options.rowHeaderWidth; },
     getRowHeight: function(row) { return this.options.rowHeight; },
     getRowCount: function() { return this.data.length },
