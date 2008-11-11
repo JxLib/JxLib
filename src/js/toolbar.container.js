@@ -80,7 +80,6 @@ Jx.Toolbar.Container = new Class({
             this.scrollLeft = new Jx.Button({
                 image: Jx.aPixel.src
             }).addTo(this.domObj);
-
             this.scrollLeft.domObj.addClass('jxBarScrollLeft');
             this.scrollLeft.addEvents({
                click: (function(){
@@ -88,13 +87,13 @@ Jx.Toolbar.Container = new Class({
                    if (isNaN(from)) { from = 0; }
                    var to = Math.min(from+100, 0);
                    if (to >= 0) {
-                       this.scrollLeft.domObj.setStyle('display', 'none');
+                       this.scrollLeft.domObj.setStyle('visibility', 'hidden');
                    }
-                   this.scrollRight.domObj.setStyle('display', 'block');
+                   this.scrollRight.domObj.setStyle('visibility', '');
                    this.scrollFx.start('left', from, to);
                }).bind(this)
             });
-    
+            
             this.scrollRight = new Jx.Button({
                 image: Jx.aPixel.src
             }).addTo(this.domObj);
@@ -105,12 +104,13 @@ Jx.Toolbar.Container = new Class({
                    if (isNaN(from)) { from = 0; }
                    var to = Math.max(from - 100, this.scrollWidth);
                    if (to == this.scrollWidth) {
-                       this.scrollRight.domObj.setStyle('display', 'none');
+                       this.scrollRight.domObj.setStyle('visibility', 'hidden');
                    }
-                   this.scrollLeft.domObj.setStyle('display', 'block');
+                   this.scrollLeft.domObj.setStyle('visibility', '');
                    this.scrollFx.start('left', from, to);
                }).bind(this)
-            });            
+            });         
+            
         } else {
             this.options.scroll = false;
         }
@@ -142,6 +142,11 @@ Jx.Toolbar.Container = new Class({
     },
     
     measure: function() {
+        
+        if ((!this.scrollLeftSize || !this.scrollLeftSize.x) && this.domObj.parentNode) {
+            this.scrollLeftSize = this.scrollLeft.domObj.getSize();
+            this.scrollRightSize = this.scrollRight.domObj.getSize();
+        }
         /* decide if we need to show the scroller buttons and
          * do some calculations that will make it faster
          */
@@ -153,25 +158,25 @@ Jx.Toolbar.Container = new Class({
             /* we need to show scrollers on at least one side */
             var l = this.scroller.getStyle('left').toInt();
             if (l < 0) {
-                this.scrollLeft.domObj.setStyle('display','block');
+                this.scrollLeft.domObj.setStyle('visibility','');
             } else {
-                this.scrollLeft.domObj.setStyle('display','none');
+                this.scrollLeft.domObj.setStyle('visibility','hidden');
             }
             if (l <= this.scrollWidth) {
-                this.scrollRight.domObj.setStyle('display', 'none');
+                this.scrollRight.domObj.setStyle('visibility', 'hidden');
                 if (l < this.scrollWidth) {
                     this.scrollFx.start('left', l, this.scrollWidth);
                 }
             } else {
-                this.scrollRight.domObj.setStyle('display', 'block');                
+                this.scrollRight.domObj.setStyle('visibility', '');                
             }
             
         } else {
             /* don't need any scrollers but we might need to scroll
              * the toolbar into view
              */
-            this.scrollLeft.domObj.setStyle('display','none');
-            this.scrollRight.domObj.setStyle('display','none');
+            this.scrollLeft.domObj.setStyle('visibility','hidden');
+            this.scrollRight.domObj.setStyle('visibility','hidden');
             var from = this.scroller.getStyle('left').toInt();
             if (!isNaN(from) && from !== 0) {
                 this.scrollFx.start('left', 0);                
@@ -236,18 +241,40 @@ Jx.Toolbar.Container = new Class({
      * item - the item to scroll.
      */
     scrollIntoView: function(item) {
-        this.update();
         var width = this.domObj.getSize().x;
         var coords = item.domObj.getCoordinates(this.scroller);
         var l = this.scroller.getStyle('left').toInt();
         
-        var left = -coords.left;
-        if (l < left) {
-            this.scrollFx.start('left', left);
-        } 
+        var slSize = this.scrollLeftSize ? this.scrollLeftSize.x : 0;
+        var srSize = this.scrollRightSize ? this.scrollRightSize.x : 0;
         
-        left = width - coords.right;
+        var left = l;
+        if (l < -coords.left + slSize) {
+            /* the left edge of the item is not visible */
+            left = -coords.left + slSize;
+            if (left >= 0) {
+                left = 0;
+            }
+        } else if (width - coords.right - srSize< l) {
+            /* the right edge of the item is not visible */
+            left =  width - coords.right - srSize;
+            if (left < this.scrollWidth) {
+                left = this.scrollWidth;
+            }
+        }
+                
         if (left < 0) {
+            this.scrollLeft.domObj.setStyle('visibility','');                
+        } else {
+            this.scrollLeft.domObj.setStyle('visibility','hidden');
+        }
+        if (left <= this.scrollWidth) {
+            this.scrollRight.domObj.setStyle('visibility', 'hidden');
+        } else {
+            this.scrollRight.domObj.setStyle('visibility', '');                
+        }
+        
+        if (left != l) {
             this.scrollFx.start('left', left);
         }
     }
