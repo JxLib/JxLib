@@ -224,7 +224,6 @@ Jx.Toolbar = new Class({
         }
     },
     showItem: function(item) {
-        console.log('show item');
         this.fireEvent('show', item);
     }
 });
