@@ -177,6 +177,10 @@ a.jxMenuItemActive span.jxMenuItemContent {
   border: 1px solid #fff;
 }
 
+.jxDisabled a.jxMenuItem:hover span.jxMenuItemContent {
+  border: 1px solid #fff;
+}
+
 ul.jxMenu span.jxMenuSeparator,
 ul.jxSubMenu span.jxMenuSeparator {
   /* Base setup */
