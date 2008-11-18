@@ -86,6 +86,27 @@ a.jxButtonActive span.jxButtonContent {
   background-position: right -72px;
 }
 
+/* focus button */
+ul.jxToolbar a.jxButton:focus,
+a.jxButton:focus {
+  background-position: left -120px;
+}
+
+a.jxButton:focus span.jxButtonContent {
+  background-position: right -120px;
+}
+
+/* focus active button */
+ul.jxToolbar a.jxButtonActive:focus,
+a.jxButtonActive:focus {
+  background-position: left -144px;
+}
+
+a.jxButtonActive:focus span.jxButtonContent {
+  background-position: right -144px;
+}
+
+
 /* hover active button */
 ul.jxToolbar a.jxButton:hover,
 a.jxButtonActive:hover {
@@ -97,15 +118,15 @@ a.jxButtonActive:hover span.jxButtonContent {
 }
 
 /* clicking button */
-ul.jxToolbar a.jxButton:active,
-ul.jxToolbar a.jxButtonActive:active,
-a.jxButton:active,
-a.jxButtonActive:active {
+ul.jxToolbar a.jxButtonPressed,
+ul.jxToolbar a.jxButtonPressed:focus,
+a.jxButtonPressed,
+a.jxButtonPressed:focus {
   background-position: left -48px;
 }
 
-a.jxButton:active span.jxButtonContent,
-a.jxButtonActive:active span.jxButtonContent {
+a.jxButtonPressed span.jxButtonContent,
+a.jxButtonPressed:focus span.jxButtonContent {
   background-position: right -48px;
 }
 

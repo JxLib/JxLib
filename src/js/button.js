@@ -175,10 +175,35 @@ Jx.Button = new Class({
             title: this.options.tooltip, 
             alt: this.options.tooltip,
             events: {
-                click: this.clicked.bindWithEvent(this)
+                click: this.clicked.bindWithEvent(this),
+                drag: (function(e) {e.stop();}).bindWithEvent(this),
+                mousedown: (function(e) {
+                    this.domA.addClass('jx'+this.options.type+'Pressed');
+                    this.domA.focus();
+                }).bindWithEvent(this),
+                mouseup: (function(e) {
+                    this.domA.removeClass('jx'+this.options.type+'Pressed');                    
+                }).bindWithEvent(this),
+                mouseleave: (function(e) {
+                    this.domA.removeClass('jx'+this.options.type+'Pressed');
+                }).bindWithEvent(this),
+                keydown: (function(e) {
+                    if (e.key == 'enter') {
+                        this.domA.addClass('jx'+this.options.type+'Pressed');
+                    }
+                }).bindWithEvent(this),
+                keyup: (function(e) {
+                    if (e.key == 'enter') {
+                        this.domA.removeClass('jx'+this.options.type+'Pressed');
+                    }
+                }).bindWithEvent(this)
             }
         });
         d.adopt(a);
+        
+        new Drag(a, {
+            onStart: function() {this.stop();}
+        });
         
         var s = new Element('span', {'class': 'jx'+this.options.type+'Content'});
         a.adopt(s);

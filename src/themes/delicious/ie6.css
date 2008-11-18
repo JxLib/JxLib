@@ -31,6 +31,19 @@ iframe.jxIframeShim {filter:Alpha(opacity:0);}
   height: 20px;
 }
 
+/* Button */
+ul.jxToolbar a.jxButton:active,
+ul.jxToolbar a.jxButtonActive:active,
+a.jxButton:active,
+a.jxButtonActive:active {
+  background-position: left -48px;
+}
+
+a.jxButton:active span.jxButtonContent,
+a.jxButtonActive:active span.jxButtonContent {
+  background-position: right -48px;
+}
+
 /* Icons line up according to the outermost parent not the immediate parent
  * applying a top overide to accomodate this
  */
