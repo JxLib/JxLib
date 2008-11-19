@@ -169,6 +169,7 @@ Jx.Button = new Class({
             d.addClass('jx'+this.options.type+this.options.toggleClass);
         }
         // the clickable part of the button
+        var hasFocus;
         var a = new Element('a', {
             'class': 'jx'+this.options.type, 
             href: 'javascript:void(0)', 
@@ -179,13 +180,19 @@ Jx.Button = new Class({
                 drag: (function(e) {e.stop();}).bindWithEvent(this),
                 mousedown: (function(e) {
                     this.domA.addClass('jx'+this.options.type+'Pressed');
-                    this.domA.focus();
+                    hasFocus = true;
+                    this.focus();
                 }).bindWithEvent(this),
                 mouseup: (function(e) {
                     this.domA.removeClass('jx'+this.options.type+'Pressed');                    
                 }).bindWithEvent(this),
                 mouseleave: (function(e) {
                     this.domA.removeClass('jx'+this.options.type+'Pressed');
+                }).bindWithEvent(this),
+                mouseenter: (function(e) {
+                    if (hasFocus) {
+                        this.domA.addClass('jx'+this.options.type+'Pressed');
+                    }
                 }).bindWithEvent(this),
                 keydown: (function(e) {
                     if (e.key == 'enter') {
@@ -196,7 +203,8 @@ Jx.Button = new Class({
                     if (e.key == 'enter') {
                         this.domA.removeClass('jx'+this.options.type+'Pressed');
                     }
-                }).bindWithEvent(this)
+                }).bindWithEvent(this),
+                blur: function() { hasFocus = false; }
             }
         });
         d.adopt(a);
@@ -400,5 +408,12 @@ Jx.Button = new Class({
                 'alt':tooltip
             });
         }
+    },
+    /**
+     * Method: focus
+     * capture the keyboard focus on this button
+     */
+    focus: function() {
+        this.domA.focus();
     }
 });
