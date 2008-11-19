@@ -188,7 +188,7 @@ Jx.Button.Flyout = new Class({
         
         this.contentContainer.setStyle('visibility','');
 
-        window.addEvent('keypress', this.keypressWatcher);
+        window.addEvent('keydown', this.keypressWatcher);
         document.addEvent('click', this.hideWatcher);
         this.fireEvent('open', this);
     },
@@ -203,7 +203,7 @@ Jx.Button.Flyout = new Class({
         Jx.Button.Flyout.Stack.pop();
         this.setActive(false);
         this.contentContainer.dispose();
-        window.removeEvent('keypress', this.keypressWatcher);    
+        window.removeEvent('keydown', this.keypressWatcher);    
         document.removeEvent('click', this.hideWatcher);
         this.fireEvent('close', this);
     },

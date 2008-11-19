@@ -163,7 +163,7 @@ Jx.Menu = new Class({
         }
         this.items.each(function(item){item.hide(e);});
         document.removeEvent('mousedown', this.hideWatcher);
-        document.removeEvent('keyup', this.keypressWatcher);
+        document.removeEvent('keydown', this.keypressWatcher);
         this.contentContainer.dispose();
         this.fireEvent('hide', this); 
     },
@@ -176,9 +176,14 @@ Jx.Menu = new Class({
      */
     show : function(o) {
         var e = o.event;
-        if (Jx.Menu.Menus[0] && Jx.Menu.Menus[0] != this) {
-            Jx.Menu.Menus[0].hide(e);
-        }
+        if (Jx.Menu.Menus[0]) {
+            if (Jx.Menu.Menus[0] != this) {
+                Jx.Menu.Menus[0].hide(e);
+            } else {
+                this.hide();
+                return;
+            }  
+        } 
         if (this.items.length === 0) {
             return;
         }
@@ -209,7 +214,7 @@ Jx.Menu = new Class({
         }
         /* fix bug in IE that closes the menu as it opens because of bubbling */
         document.addEvent('mousedown', this.hideWatcher);
-        document.addEvent('keyup', this.keypressWatcher);
+        document.addEvent('keydown', this.keypressWatcher);
         this.fireEvent('show', this); 
     },
     /**
