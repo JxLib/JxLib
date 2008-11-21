@@ -16,3 +16,44 @@
 .jxDialogModal {filter: Alpha(opacity=20);}
 .jxDisabled {filter:Alpha(opacity=40);}
 iframe.jxIframeShim {filter:Alpha(opacity:0);}
+
+/* IE versions 7 and below do not recognize the focus pseudo-class, but instead
+ * use the active pseudo-class.  Other browsers use the active-pseudo-class
+ * while something is being pressed so IE specific definitions are needed. */
+/* focus button */
+ul.jxToolbar a.jxButton:active,
+a.jxButton:active {
+  background-position: left -96px;
+}
+
+a.jxButton:active span.jxButtonContent {
+  background-position: right -96px;
+}
+
+/* focus active button */
+ul.jxToolbar a.jxButtonActive:active,
+a.jxButtonActive:active {
+  background-position: left -144px;
+}
+
+a.jxButtonActive:active span.jxButtonContent {
+  background-position: right -144px;
+}
+
+/* clicking normal and focused button */
+ul.jxToolbar a.jxButtonPressed,
+ul.jxToolbar a.jxButtonPressed:active,
+a.jxButtonPressed,
+a.jxButtonPressed:active {
+  background-position: left -120px;
+}
+
+a.jxButtonPressed span.jxButtonContent,
+a.jxButtonPressed:active span.jxButtonContent {
+  background-position: right -120px;
+}
+
+a.jxButtonDisclose:active {
+  background-position: right -96px;
+}
+
