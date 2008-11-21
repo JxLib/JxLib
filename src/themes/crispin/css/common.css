@@ -9,7 +9,6 @@
 /* COMMON STYLES */
 /* ============= */
 
-a{outline:none;}
 .jxClearer{display:block;position:relative;float:none;clear:both;font-size:0;line-height:0;width:0;height:0;margin:0;padding:0;}
 .jxDisabled{opacity:0.4;-ms-filter:"Alpha(opacity=40)";}
 iframe.jxIframeShim{position:absolute;top:0px;left:0px;width:100%;height:100%;-ms-filter:"Alpha(opacity:0)";opacity:0;z-index:-1;}

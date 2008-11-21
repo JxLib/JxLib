@@ -48,6 +48,9 @@
   white-space: nowrap;
   font-size: 0px;
   line-height: 0px;
+  user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
 }
 
 .jxTree li {

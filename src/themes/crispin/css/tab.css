@@ -69,6 +69,9 @@ a.jxTabClose {
   display: block;
   position: absolute;
   cursor: pointer;
+  user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
 }
 
 a.jxTabClose img {
@@ -81,6 +84,9 @@ a.jxTab {
   /* Base setup */
   display: block;
   position: relative;
+  user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
 
   /* Using background images, the A contains the left side of the background */
   margin: 0px;

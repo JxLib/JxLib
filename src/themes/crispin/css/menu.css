@@ -55,6 +55,9 @@ li.jxMenuItemContainer {
 
   margin: 0px;
   padding: 2px;
+  user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
 }
 
 a.jxMenuItem {

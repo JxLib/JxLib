@@ -66,13 +66,17 @@
   z-index: 1;
 
   margin: 6px 6px 0px 7px;
+  user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
 }
 
 .jxDialogMin .jxDialogTitle {
   margin-bottom: 8px;
 }
 
-.jxDialogMoveable {
+.jxDialogMoveable,
+.jxDialogMoveable .jxDialogLabel {
   cursor: move;
 }
 
@@ -95,6 +99,7 @@
   line-height:21px;
   color: #000;
   white-space: nowrap;
+  cursor: default;
 }
 
 .jxDialogResize {
