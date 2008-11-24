@@ -88,6 +88,8 @@ Jx.Button.Multi = new Class({
             'href': 'javascript:void(0)'
         });
         var button = this;
+        var hasFocus;
+        
         a.addEvents({
             'click': (function(e) {
                 if (this.items.length === 0) {
@@ -126,11 +128,39 @@ Jx.Button.Multi = new Class({
             }).bindWithEvent(this.menu),
             'mouseenter':(function(){
                 $(this.domObj.firstChild).addClass('jxButtonHover');
+                if (hasFocus) {
+                    a.addClass('jx'+this.options.type+'Pressed');
+                }
             }).bind(this),
             'mouseleave':(function(){
                 $(this.domObj.firstChild).removeClass('jxButtonHover');
-            }).bind(this)
+                a.removeClass('jx'+this.options.type+'Pressed');
+            }).bind(this),
+            mousedown: (function(e) {
+                a.addClass('jx'+this.options.type+'Pressed');
+                hasFocus = true;
+                this.focus();
+            }).bindWithEvent(this),
+            mouseup: (function(e) {
+                a.removeClass('jx'+this.options.type+'Pressed');                  
+            }).bindWithEvent(this),
+            keydown: (function(e) {
+                if (e.key == 'enter') {
+                    a.addClass('jx'+this.options.type+'Pressed');
+                }
+            }).bindWithEvent(this),
+            keyup: (function(e) {
+                if (e.key == 'enter') {
+                    a.removeClass('jx'+this.options.type+'Pressed');
+                }
+            }).bindWithEvent(this),
+            blur: function() { hasFocus = false; }
+            
         });
+        new Drag(a, {
+            onStart: function() {this.stop();}
+        });
+        
         this.menu.addEvents({
             'show': (function() {
                 this.domA.addClass('jxButtonActive');                    

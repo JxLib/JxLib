@@ -184,7 +184,7 @@ Jx.Button = new Class({
                     this.focus();
                 }).bindWithEvent(this),
                 mouseup: (function(e) {
-                    this.domA.removeClass('jx'+this.options.type+'Pressed');                    
+                    this.domA.removeClass('jx'+this.options.type+'Pressed');                  
                 }).bindWithEvent(this),
                 mouseleave: (function(e) {
                     this.domA.removeClass('jx'+this.options.type+'Pressed');
