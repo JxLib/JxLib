@@ -54,15 +54,12 @@ a.jxButtonActive:active span.jxButtonContent {
   background-position: right -144px;
 }
 
-/* clicking normal and focused button */
-ul.jxToolbar a.jxButtonPressed,
+/* clicking normal button */
 ul.jxToolbar a.jxButtonPressed:active,
-a.jxButtonPressed,
 a.jxButtonPressed:active {
   background-position: left -120px;
 }
 
-a.jxButtonPressed span.jxButtonContent,
 a.jxButtonPressed:active span.jxButtonContent {
   background-position: right -120px;
 }
@@ -70,6 +67,77 @@ a.jxButtonPressed:active span.jxButtonContent {
 a.jxButtonDisclose:active {
   background-position: right -96px;
 }
+
+/* HORIZONTALTAB BAR - TOP and BOTTOM TABS */
+
+/* Focus tab */
+.jxBarTop a.jxTab:focus,
+.jxBarBottom a.jxTab:focus {
+  background-position: left -96px; 
+}
+
+.jxBarTop a.jxTab:focus span.jxTabContent,
+.jxBarBottom a.jxTab:focus span.jxTabContent {
+  background-position: right -96px; 
+}
+
+/* Focus Active tab */
+.jxBarTop a.jxTabActive:focus,
+.jxBarBottom a.jxTabActive:focus {
+  background-position: left -144px; 
+}
+
+.jxBarTop a.jxTabActive:focus span.jxTabContent,
+.jxBarBottom a.jxTabActive:focus span.jxTabContent {
+  background-position: right -144px; 
+}
+
+/* Click Focused Tab */
+.jxBarTop a.jxTabPressed:focus,
+.jxBarBottom a.jxTabPressed:focus {
+  background-position: left -120px; 
+}
+
+.jxBarTop a.jxTabPressed:focus span.jxTabContent,
+.jxBarBottom a.jxTabPressed:focus span.jxTabContent {
+  background-position: right -120px; 
+}
+
+/* VERTICAL TAB BAR - LEFT and RIGHT */
+
+/* Focus tab */
+.jxBarLeft a.jxTab:focus,
+.jxBarRight a.jxTab:focus {
+  background-position: -96px top; 
+}
+
+.jxBarLeft a.jxTab:focus span.jxTabContent,
+.jxBarRight a.jxTab:focus span.jxTabContent {
+  background-position: -96px bottom; 
+}
+
+/* Focus Active tab */
+.jxBarLeft a.jxTabActive:focus,
+.jxBarRight a.jxTabActive:focus {
+  background-position: -144px top; 
+}
+
+.jxBarLeft a.jxTabActive:focus span.jxTabContent,
+.jxBarRight a.jxTabActive:focus span.jxTabContent {
+  background-position: -144px bottom; 
+}
+
+/* Click Focused Tab */
+.jxBarLeft a.jxTabPressed:focus,
+.jxBarRight a.jxTabPressed:focus {
+  background-position: -120px top; 
+}
+
+.jxBarLeft a.jxTabPressed:focus span.jxTabContent,
+.jxBarRight a.jxTabPressed:focus span.jxTabContent {
+  background-position: -120px bottom; 
+}
+
 
 /* Icons line up according to the outermost parent not the immediate parent
  * applying a top overide to accomodate this

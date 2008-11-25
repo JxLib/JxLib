@@ -64,22 +64,6 @@ div.jxTabContainer {
   border: none;
 }
 
-a.jxTabClose {
-  /* Base setup */
-  display: block;
-  position: absolute;
-  cursor: pointer;
-  user-select: none;
-  -moz-user-select: none;
-  -khtml-user-select: none;
-}
-
-a.jxTabClose img {
-  width: 16px;
-  height: 16px;
-  background-image: url(images/tab_close.png);  
-}
-
 a.jxTab {
   /* Base setup */
   display: block;
@@ -94,23 +78,7 @@ a.jxTab {
   border: none;
   background-repeat: no-repeat;
   text-decoration: none;
-  color: #000;
-}
-
-.jxDisabled a.jxTab,
-.jxDisabled span.jxTabContent span,
-.jxDisabled a.jxTabClose {
-  cursor: default;
-}
-
-a.jxTab:hover,
-a.jxTab:active,
-a.jxTabActive,
-a.jxTabActive:hover,
-a.jxTabActive:active,
-.jxDisabled a.jxTab:hover,
-.jxDisabled a.jxTab:active {
-  border: none;
+  outline: none;
 }
 
 span.jxTabContent {
@@ -123,6 +91,7 @@ span.jxTabContent {
      and the tab label */
   margin: 0px;
   padding: 0px;
+  border: none;
   background-repeat: no-repeat;
 }
 
@@ -150,6 +119,29 @@ span.jxTabLabel {
   line-height: 16px;
 }
 
+a.jxTabClose {
+  /* Base setup */
+  display: block;
+  position: absolute;
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+}
+
+a.jxTabClose img {
+  width: 16px;
+  height: 16px;
+  background-image: url(images/tab_close.png);  
+}
+
+.jxDisabled a.jxTab,
+.jxDisabled span.jxTabContent span,
+.jxDisabled a.jxTabClose {
+  cursor: default;
+}
+
 .jxTabBox {
 }
 
@@ -174,7 +166,6 @@ span.jxTabLabel {
 }
 
 /* Closeable Tab */
-
 .jxBarTop a.jxTabClose,
 .jxBarBottom a.jxTabClose {
   top: 3px;
@@ -187,7 +178,6 @@ span.jxTabLabel {
 }
 
 /* Normal Tab */
-
 .jxBarTop a.jxTab,
 .jxBarBottom a.jxTab {
   /* Base setup */
@@ -206,60 +196,112 @@ span.jxTabLabel {
   background-position: right -24px; 
 }
 
-
-/* Hover Tab */
-
-.jxBarTop a.jxTab:hover,
-.jxBarBottom a.jxTab:hover {
-  background-position: left -96px; 
-}
-
-.jxBarTop a.jxTab:hover span.jxTabContent,
-.jxBarBottom a.jxTab:hover span.jxTabContent {
-  background-position: right -96px; 
-}
-
-/* Click Tab */
-
-.jxBarTop a.jxTab:active,
-.jxBarBottom a.jxTab:active {
-  background-position: left -48px; 
-}
-
-.jxBarTop a.jxTab:active span.jxTabContent,
-.jxBarBottom a.jxTab:active span.jxTabContent {
-  background-position: right -48px; 
-}
-
-/* Active Tab */
-
+/* Active tab */
 .jxBarTop a.jxTabActive,
 .jxBarBottom a.jxTabActive {
-  background-position: left -72px; /* switch to the active left BG */
+  background-position: left -72px; 
 }
 
 .jxBarTop a.jxTabActive span.jxTabContent,
 .jxBarBottom a.jxTabActive span.jxTabContent {
-  background-position: right -72px; /* switch to the active right BG  */
+  background-position: right -72px; 
 }
 
-/* Disabled Tab */
+/* Focus tab */
+.jxBarTop a.jxTab:focus,
+.jxBarBottom a.jxTab:focus {
+  background-position: left -96px; 
+}
 
-.jxBarTop .jxDisabled a.jxTab:hover,
+.jxBarTop a.jxTab:focus span.jxTabContent,
+.jxBarBottom a.jxTab:focus span.jxTabContent {
+  background-position: right -96px; 
+}
+
+/* Focus Active tab */
+.jxBarTop a.jxTabActive:focus,
+.jxBarBottom a.jxTabActive:focus {
+  background-position: left -144px; 
+}
+
+.jxBarTop a.jxTabActive:focus span.jxTabContent,
+.jxBarBottom a.jxTabActive:focus span.jxTabContent {
+  background-position: right -144px; 
+}
+
+/* Hover Normal and Active  Tab */
+.jxBarTop a.jxTab:hover,
+.jxBarTop a.jxTabActive:hover,
+.jxBarBottom a.jxTab:hover,
+.jxBarBottom a.jxTabActive:hover {
+  background-position: left -48px; 
+}
+
+.jxBarTop a.jxTab:hover span.jxTabContent,
+.jxBarTop a.jxTabActive:hover span.jxTabContent,
+.jxBarBottom a.jxTab:hover span.jxTabContent,
+.jxBarBottom a.jxTabActive:hover span.jxTabContent {
+  background-position: right -48px; 
+}
+
+/* Click Normal and Focused Tab */
+.jxBarTop a.jxTabPressed,
+.jxBarTop a.jxTabPressed:focus,
+.jxBarBottom a.jxTabPressed,
+.jxBarBottom a.jxTabPressed:focus {
+  background-position: left -120px; 
+}
+
+.jxBarTop a.jxTabPressed span.jxTabContent,
+.jxBarTop a.jxTabPressed:focus span.jxTabContent,
+.jxBarBottom a.jxTabPressed span.jxTabContent,
+.jxBarBottom a.jxTabPressed:focus span.jxTabContent {
+  background-position: right -120px; 
+}
+
+/* Hover, Focus and Pressing Disabled Tab */
+.jxBarTop .jxDisabled a.jxTab:focus,
 .jxBarTop .jxDisabled a.jxTab:active,
+.jxBarTop .jxDisabled a.jxTab:hover,
+.jxBarTop .jxDisabled a.jxTabPressed,
+.jxBarBottom .jxDisabled a.jxTab:focus,
+.jxBarBottom .jxDisabled a.jxTab:active,
 .jxBarBottom .jxDisabled a.jxTab:hover,
-.jxBarBottom .jxDisabled a.jxTab:active {
+.jxBarBottom .jxDisabled a.jxTabPressed {
   background-position: left -24px; /* do not switch the left BG */
 }
 
   
-.jxBarTop .jxDisabled a.jxTab:hover span.jxTabContent,
+.jxBarTop .jxDisabled a.jxTab:focus span.jxTabContent,
 .jxBarTop .jxDisabled a.jxTab:active span.jxTabContent,
+.jxBarTop .jxDisabled a.jxTab:hover span.jxTabContent,
+.jxBarTop .jxDisabled a.jxTabPressed span.jxTabContent,
+.jxBarBottom .jxDisabled a.jxTab:focus span.jxTabContent,
+.jxBarBottom .jxDisabled a.jxTab:active span.jxTabContent,
 .jxBarBottom .jxDisabled a.jxTab:hover span.jxTabContent,
-.jxBarBottom .jxDisabled a.jxTab:active span.jxTabContent {
+.jxBarBottom .jxDisabled a.jxTabPressed  span.jxTabContent {
   background-position: right -24px; /* do not switch the right BG */
 }
 
+/* Hover, Focus Disabled Active Tab */
+.jxBarTop .jxDisabled a.jxTabActive:focus,
+.jxBarTop .jxDisabled a.jxTabActive:active,
+.jxBarTop .jxDisabled a.jxTabActive:hover,
+.jxBarBottom .jxDisabled a.jxTabActive:focus,
+.jxBarBottom .jxDisabled a.jxTabActive:active,
+.jxBarBottom .jxDisabled a.jxTabActive:hover {
+  background-position: left -72px; /* do not switch the left BG */
+}
+
+  
+.jxBarTop .jxDisabled a.jxTabActive:focus span.jxTabContent,
+.jxBarTop .jxDisabled a.jxTabActive:active span.jxTabContent,
+.jxBarTop .jxDisabled a.jxTabActive:hover span.jxTabContent,
+.jxBarBottom .jxDisabled a.jxTabActive:focus span.jxTabContent,
+.jxBarBottom .jxDisabled a.jxTabActive:active span.jxTabContent,
+.jxBarBottom .jxDisabled a.jxTabActive:hover span.jxTabContent {
+  background-position: right -72px; /* do not switch the right BG */
+}
 
 .jxBarTop img.jxTabIcon,
 .jxBarBottom img.jxTabIcon {
@@ -297,7 +339,6 @@ span.jxTabLabel {
 }
 
 /* Closeable Tab */
-
 .jxBarLeft a.jxTabClose,
 .jxBarRight a.jxTabClose {
   top: 3px;
@@ -310,7 +351,6 @@ span.jxTabLabel {
 }
 
 /* Normal Tab */
-
 .jxBarLeft a.jxTab,
 .jxBarRight a.jxTab {
   padding-top: 4px; /* makes room for the top of the tab bg */
@@ -323,57 +363,110 @@ span.jxTabLabel {
   background-position: -24px bottom; 
 }
 
-/* Hover tab */
-
-.jxBarLeft a.jxTab:hover,
-.jxBarRight a.jxTab:hover {
-  background-position: -96px top; /* shifts the left BG out 2 px for slide effect */
-}
-
-.jxBarLeft a.jxTab:hover span.jxTabContent,
-.jxBarRight a.jxTab:hover span.jxTabContent {
-  background-position: -96px bottom; 
-}
-
-/* Click Tab */
-
-.jxBarLeft a.jxTab:active,
-.jxBarRight a.jxTab:active {
-  background-position: -48px top; 
-}
-
-.jxBarLeft a.jxTab:active span.jxTabContent,
-.jxBarRight a.jxTab:active span.jxTabContent {
-  background-position: -48px bottom; 
-}
-
 /* Active Tab */
-
 .jxBarLeft a.jxTabActive,
 .jxBarRight a.jxTabActive {
-  background-position: -72px top; /* switch to the active top BG */
+  background-position: -72px top; 
 }
 
 .jxBarLeft a.jxTabActive span.jxTabContent,
 .jxBarRight a.jxTabActive span.jxTabContent {
-  background-position: -72px bottom; /* switch to the active bottom BG  */
+  background-position: -72px bottom; 
 }
 
-/* Disabled Tab */
+/* Focus tab */
+.jxBarLeft a.jxTab:focus,
+.jxBarRight a.jxTab:focus {
+  background-position: -96px top; 
+}
 
-.jxBarLeft .jxDisabled a.jxTab:hover,
+.jxBarLeft a.jxTab:focus span.jxTabContent,
+.jxBarRight a.jxTab:focus span.jxTabContent {
+  background-position: -96px bottom; 
+}
+
+/* Focus Active tab */
+.jxBarLeft a.jxTabActive:focus,
+.jxBarRight a.jxTabActive:focus {
+  background-position: -144px top; 
+}
+
+.jxBarLeft a.jxTabActive:focus span.jxTabContent,
+.jxBarRight a.jxTabActive:focus span.jxTabContent {
+  background-position: -144px bottom; 
+}
+
+/* Hover Normal and Active tab */
+.jxBarLeft a.jxTab:hover,
+.jxBarLeft a.jxTabActive:hover,
+.jxBarRight a.jxTab:hover,
+.jxBarRight a.jxTabActive:hover {
+  background-position: -48px top; 
+}
+
+.jxBarLeft a.jxTab:hover span.jxTabContent,
+.jxBarLeft a.jxTabActive:hover span.jxTabContent,
+.jxBarRight a.jxTab:hover span.jxTabContent,
+.jxBarRight a.jxTabActive:hover span.jxTabContent {
+  background-position: -48px bottom; 
+}
+
+/* Click Normal and Focused Tab */
+.jxBarLeft a.jxTabPressed,
+.jxBarLeft a.jxTabPressed:focus,
+.jxBarRight a.jxTabPressed,
+.jxBarRight a.jxTabPressed:focus {
+  background-position: -120px top; 
+}
+
+.jxBarLeft a.jxTabPressed span.jxTabContent,
+.jxBarLeft a.jxTabPressed:focus span.jxTabContent,
+.jxBarRight a.jxTabPressed span.jxTabContent,
+.jxBarRight a.jxTabPressed:focus span.jxTabContent {
+  background-position: -120px bottom; 
+}
+
+/* Hover, Focus and Pressing Disabled Tab */
+.jxBarLeft .jxDisabled a.jxTab:focus,
 .jxBarLeft .jxDisabled a.jxTab:active,
+.jxBarLeft .jxDisabled a.jxTab:hover,
+.jxBarLeft .jxDisabled a.jxTabPressed,
+.jxBarRight .jxDisabled a.jxTab:focus,
+.jxBarRight .jxDisabled a.jxTab:active,
 .jxBarRight .jxDisabled a.jxTab:hover,
-.jxBarRigth .jxDisabled a.jxTab:active {
-  background-position: -24px top; /* do not switch the top BG */
+.jxBarRight .jxDisabled a.jxTabPressed {
+  background-position: -24px top; /* do not switch the left BG */
 }
 
   
-.jxBarLeft .jxDisabled a.jxTab:hover span.jxTabContent,
+.jxBarLeft .jxDisabled a.jxTab:focus span.jxTabContent,
 .jxBarLeft .jxDisabled a.jxTab:active span.jxTabContent,
+.jxBarLeft .jxDisabled a.jxTab:hover span.jxTabContent,
+.jxBarLeft .jxDisabled a.jxTabPressed span.jxTabContent,
+.jxBarRight .jxDisabled a.jxTab:focus span.jxTabContent,
+.jxBarRight .jxDisabled a.jxTab:active span.jxTabContent,
 .jxBarRight .jxDisabled a.jxTab:hover span.jxTabContent,
-.jxBarRight .jxDisabled a.jxTab:active span.jxTabContent {
-  background-position: -24px bottom; /* do not switch the top BG */
+.jxBarRight .jxDisabled a.jxTabPressed  span.jxTabContent {
+  background-position: -24px bottom; /* do not switch the right BG */
+}
+
+/* Hover, Focus Disabled Active Tab */
+.jxBarLeft .jxDisabled a.jxTabActive:focus,
+.jxBarLeft .jxDisabled a.jxTabActive:active,
+.jxBarLeft .jxDisabled a.jxTabActive:hover,
+.jxBarRight .jxDisabled a.jxTabActive:focus,
+.jxBarRight .jxDisabled a.jxTabActive:active,
+.jxBarRight .jxDisabled a.jxTabActive:hover {
+  background-position: -72px top; /* do not switch the left BG */
+}
+
+.jxBarLeft .jxDisabled a.jxTabActive:focus span.jxTabContent,
+.jxBarLeft .jxDisabled a.jxTabActive:active span.jxTabContent,
+.jxBarLeft .jxDisabled a.jxTabActive:hover span.jxTabContent,
+.jxBarRight .jxDisabled a.jxTabActive:focus span.jxTabContent,
+.jxBarRight .jxDisabled a.jxTabActive:active span.jxTabContent,
+.jxBarRight .jxDisabled a.jxTabActive:hover span.jxTabContent {
+  background-position: -72px bottom; /* do not switch the right BG */
 }
 
 .jxBarLeft span.jxTabLabel,

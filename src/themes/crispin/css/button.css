@@ -99,22 +99,15 @@ a.jxButtonActive:focus span.jxButtonContent {
   background-position: right -144px;
 }
 
-/* hover button */
+/* hover normal and active button */
 ul.jxToolbar a.jxButton:hover,
-a.jxButton:hover {
-  background-position: left -48px;
-}
-
-a.jxButton:hover span.jxButtonContent {
-  background-position: right -48px;
-}
-
-/* hover active button */
 ul.jxToolbar a.jxButtonActive:hover,
+a.jxButton:hover,
 a.jxButtonActive:hover {
   background-position: left -48px;
 }
 
+a.jxButton:hover span.jxButtonContent,
 a.jxButtonActive:hover span.jxButtonContent {
   background-position: right -48px;
 }
