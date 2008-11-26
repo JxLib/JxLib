@@ -68,6 +68,7 @@ a.jxTab {
   /* Base setup */
   display: block;
   position: relative;
+  cursor: pointer;
   user-select: none;
   -moz-user-select: none;
   -khtml-user-select: none;

@@ -61,6 +61,7 @@
 .jxTreeRoot a {
   position: relative;
   display: block;
+  cursor: pointer;
   margin: 0px 0px 0px 14px;
   padding: 0px 0px 0px 20px;
   z-index: 0;

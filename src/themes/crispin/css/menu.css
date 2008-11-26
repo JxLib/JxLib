@@ -65,6 +65,7 @@ a.jxMenuItem {
   display: block;
   position: relative;
   text-decoration: none;
+  cursor: pointer;
 
   border: 1px solid #fff;
   font-family: Arial, Helvetica, sans-serif;
