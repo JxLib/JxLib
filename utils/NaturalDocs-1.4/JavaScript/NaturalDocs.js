@@ -555,7 +555,7 @@ function SearchPanel(name, mode, resultsPath)
         if (this.mode == "HTML")
             {  resultsFrame = window.frames.MSearchResults;  }
         else if (this.mode == "FramedHTML")
-            {  resultsFrame = window.top.frames['Content'];  };
+            {  resultsFrame = window.parent.frames['Content'];  };
 
 
         if (resultsPage != this.lastResultsPage ||

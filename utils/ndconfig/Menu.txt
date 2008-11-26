@@ -49,15 +49,23 @@ Format: 1.4
 Group: Jx  {
 
    File: Common Utilities  (no auto-title, common.js)
-   File: Jx Loader  (jx.js)
+
+   Group: Layout  {
+
+      File: Layout  (layout.js)
+      File: Splitter  (no auto-title, splitter.js)
+      File: Splitter.Snap  (no auto-title, splitter.snap.js)
+      }  # Group: Layout
 
    Group: Button  {
 
-      File: Button  (button.js)
+      File: Button  (no auto-title, button.js)
       File: Button.Color  (button.color.js)
       File: Button.Flyout  (no auto-title, button.flyout.js)
       File: Button.Multi  (no auto-title, button.multi.js)
+      File: Button.Combo  (button.combo.js)
       File: ButtonSet  (buttonset.js)
+      File: Grid.Model  (grid.model.js)
       }  # Group: Button
 
    Group: Tab  {
@@ -76,14 +84,9 @@ Group: Jx  {
       File: Menu.SubMenu  (menu.submenu.js)
       }  # Group: Menu
 
-   Group: Splitter  {
-
-      File: Splitter  (no auto-title, splitter.js)
-      File: Splitter.Snap  (no auto-title, splitter.snap.js)
-      }  # Group: Splitter
-
    Group: Toolbar  {
 
+      File: Container  (toolbar.container.js)
       File: Toolbar  (no auto-title, toolbar.js)
       File: Toolbar.Item  (no auto-title, toolbar.item.js)
       File: Toolbar.Separator  (no auto-title, toolbar.separator.js)
@@ -92,6 +95,7 @@ Group: Jx  {
    Group: Panel  {
 
       File: Panel  (panel.js)
+      File: Dialog  (dialog.js)
       File: PanelSet  (panelset.js)
       }  # Group: Panel
 
@@ -102,12 +106,17 @@ Group: Jx  {
       File: TreeItem  (treeitem.js)
       }  # Group: Tree
 
-   File: Jx.Button.Combo  (button.combo.js)
-   File: Jx.ColorPalette  (colorpalette.js)
-   File: Jx.Dialog  (dialog.js)
-   File: Jx.Grid  (grid.js)
-   File: Jx.Layout  (layout.js)
-   File: Jx.Toolbar.Container  (toolbar.container.js)
+   Group: Grid  {
+
+      File: Grid  (grid.js)
+      File: Grid.Model  (grid.model.js)
+      }  # Group: Grid
+
+   Group: Extras  {
+
+      File: ColorPalette  (colorpalette.js)
+      }  # Group: Extras
+
    }  # Group: Jx
 
 Group: Index  {
@@ -118,5 +127,6 @@ Group: Index  {
    Function Index: Functions
    Property Index: Properties
    TODO Index: TODO
+   File Index: Files
    }  # Group: Index
 
