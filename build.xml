@@ -166,7 +166,7 @@ $Id: build.xml 1039 2008-09-22 17:07:23Z pspencer $
     <copy file="${build.home}/images/a_pixel.png" todir="${build.home}/lib"/>
     
     <mkdir dir="${build.home}/themes"/>
-
+    
   </target>
 
   <target name="theme" description="create a theme based on the theme variable">
@@ -216,7 +216,32 @@ $Id: build.xml 1039 2008-09-22 17:07:23Z pspencer $
     <copy todir="${deploy.home}/lib">
         <fileset dir="${build.home}/lib"/>
     </copy>
+    <copy todir="${deploy.home}/reference/tutorials/lib">
+        <fileset dir="${build.home}/lib"/>
+    </copy>
+    <copy todir="${deploy.home}/reference/examples/lib">
+        <fileset dir="${build.home}/lib"/>
+    </copy>
     
+  </target>
+  
+  <target description="Package Tutorials" name="tutorials" depends="build">
+    <echo message="packaging tutorials"/>
+    <mkdir dir="${build.home}/tutorials"/>
+    <copy todir="${build.home}/tutorials/lib">
+        <fileset dir="${build.home}/lib"/>
+    </copy>
+    <copy todir="${build.home}/tutorials/browsr">
+      <fileset dir="${deploy.home}/reference/tutorials/browsr"/>
+    </copy>
+  </target>
+
+  <target description="Package Examples" name="examples" depends="build">
+    <echo message="packaging examples"/>
+    <mkdir dir="${build.home}/examples"/>
+    <copy todir="${build.home}/examples">
+        <fileset dir="${deploy.home}/reference/examples"/>
+    </copy>
   </target>
 
 
@@ -250,26 +275,54 @@ $Id: build.xml 1039 2008-09-22 17:07:23Z pspencer $
     dependencies) will have been assembled
 -->
 
-  <target name="dist" description="Create binary distribution" depends="clean,build">
+  <target name="dist" description="Create binary distribution" depends="clean,build,tutorials,examples">
     
-    <echo message="Creating distribution archive"/>
+    <echo message="Creating distribution archives"/>
     <mkdir dir="${dist.home}"/>
 
     <delete file="${dist.home}/${app.name}-${app.version}.tar.gz"/>
+    <delete file="${dist.home}/${app.name}-tutorials-${app.version}.tar.gz"/>
+    <delete file="${dist.home}/${app.name}-examples-${app.version}.tar.gz"/>
     <delete file="${dist.home}/${app.name}-${app.version}.zip"/>
+    <delete file="${dist.home}/${app.name}-tutorials-${app.version}.zip"/>
+    <delete file="${dist.home}/${app.name}-examples-${app.version}.zip"/>
 
     <!-- Create source zip file -->
     <zip destfile="${dist.home}/${app.name}-${app.version}.zip" update="true">
-      <zipfileset dir="${deploy.home}/lib" prefix="${app.name}"/>
+      <zipfileset dir="${build.home}/lib" prefix="${app.name}"/>
+    </zip>
+    <!-- Create tutorials zip file -->
+    <zip destfile="${dist.home}/${app.name}-tutorials-${app.version}.zip" update="true">
+      <zipfileset dir="${build.home}/tutorials" prefix="${app.name}"/>
+    </zip>
+    <!-- Create examples zip file -->
+    <zip destfile="${dist.home}/${app.name}-examples-${app.version}.zip" update="true">
+      <zipfileset dir="${build.home}/examples" prefix="${app.name}"/>
     </zip>
     
     <!-- create tar file -->
     <tar destfile="${dist.home}/${app.name}-${app.version}.tar">
-      <tarfileset dir="${deploy.home}/lib" prefix="${app.name}"/>
+      <tarfileset dir="${build.home}/lib" prefix="${app.name}"/>
     </tar>
     <gzip src="${dist.home}/${app.name}-${app.version}.tar" destfile="${dist.home}/${app.name}-${app.version}.tar.gz"/>
     
     <delete file="${dist.home}/${app.name}-${app.version}.tar"/>
+    
+    <!-- create tar file -->
+    <tar destfile="${dist.home}/${app.name}-tutorials-${app.version}.tar">
+      <tarfileset dir="${build.home}/tutorials" prefix="${app.name}"/>
+    </tar>
+    <gzip src="${dist.home}/${app.name}-tutorials-${app.version}.tar" destfile="${dist.home}/${app.name}-tutorials-${app.version}.tar.gz"/>
+    
+    <delete file="${dist.home}/${app.name}-tutorials-${app.version}.tar"/>
+    
+    <!-- create tar file -->
+    <tar destfile="${dist.home}/${app.name}-examples-${app.version}.tar">
+      <tarfileset dir="${build.home}/examples" prefix="${app.name}"/>
+    </tar>
+    <gzip src="${dist.home}/${app.name}-examples-${app.version}.tar" destfile="${dist.home}/${app.name}-examples-${app.version}.tar.gz"/>
+    
+    <delete file="${dist.home}/${app.name}-examples-${app.version}.tar"/>
     
   </target>
 
