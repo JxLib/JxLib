@@ -118,7 +118,7 @@ Jx.Grid.Model = new Class({
             grid.selectColumn(this.selectedCol, false);
         }
         this.selectedCol = col;
-        grid.selectCol(col, true);
+        grid.selectColumn(col, true);
         this.fireEvent('select-column', col);
     },
     cellSelected: function(grid, row,col) { 
