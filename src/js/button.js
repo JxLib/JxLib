@@ -170,6 +170,7 @@ Jx.Button = new Class({
         }
         // the clickable part of the button
         var hasFocus;
+        var mouseDown;
         var a = new Element('a', {
             'class': 'jx'+this.options.type, 
             href: 'javascript:void(0)', 
@@ -181,16 +182,18 @@ Jx.Button = new Class({
                 mousedown: (function(e) {
                     this.domA.addClass('jx'+this.options.type+'Pressed');
                     hasFocus = true;
+                    mouseDown = true;
                     this.focus();
                 }).bindWithEvent(this),
                 mouseup: (function(e) {
-                    this.domA.removeClass('jx'+this.options.type+'Pressed');                  
+                    this.domA.removeClass('jx'+this.options.type+'Pressed');
+                    mouseDown = false;
                 }).bindWithEvent(this),
                 mouseleave: (function(e) {
                     this.domA.removeClass('jx'+this.options.type+'Pressed');
                 }).bindWithEvent(this),
                 mouseenter: (function(e) {
-                    if (hasFocus) {
+                    if (hasFocus && mouseDown) {
                         this.domA.addClass('jx'+this.options.type+'Pressed');
                     }
                 }).bindWithEvent(this),
