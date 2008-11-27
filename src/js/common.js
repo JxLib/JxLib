@@ -454,45 +454,31 @@ Element.implement({
      */
     descendantOf: function(node) {
         var parent = $(this.parentNode);
-        if (parent == node) {
-            return true;
-        } else if (!parent || !parent.parentNode) {
-            return null;
-        } else if (parent.parentNode === parent) {
-            return null;
-        } else {
-            return parent.descendantOf(node);
+        while (parent != node && parent && parent.parentNode && parent.parentNode != parent) {
+            parent = $(parent.parentNode);
         }
+        return parent == node;
     },
     
     /**
      * Method: findElement
-     * recursively search the parentage of the element to find
-     * an element of the given tag name.
+     * search the parentage of the element to find an element of the given
+     * tag name.
      *
      * Parameters:
      * type - {String} the tag name of the element type to search for
      *
      * Returns:
      * {HTMLElement} the first node (this one or first parent) with the
-     * requested tag name or null if none are found.
+     * requested tag name or false if none are found.
      */
     findElement: function(type) {
-        if (this.tagName == type) {
-            return this;
+        var o = this;
+        var tagName = o.tagName;
+        while (o.tagName != type && o && o.parentNode && o.parentNode != o) {
+            o = $(o.parentNode);
         }
-        var parent = $(this.parentNode);
-        if (parent) {
-            if (parent.tagName == type) {
-                return parent;
-            } else if (!parent.parentNode || parent.parentNode == parent) {
-                return null;
-            } else {
-                return parent.findElement(type);
-            }
-        } else {
-            return null;
-        }
+        return o.tagName == type;
     }
 } );
 

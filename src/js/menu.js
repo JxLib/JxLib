@@ -131,15 +131,39 @@ Jx.Menu = new Class({
         }
     },
     
+    /**
+     * Method: eventInMenu
+     * determine if an event happened inside this menu or a sub menu
+     * of this menu.
+     *
+     * Parameters:
+     * e - {Event} the mouse event
+     *
+     * Returns:
+     * {Boolean} true if the event happened in the menu or
+     * a sub menu of this menu, false otherwise
+     */
     eventInMenu: function(e) {
-        return $(e.target).descendantOf(this.domObj) ||
-               $(e.target).descendantOf(this.subDomObj) ||
-               this.items.some(
-                   function(item) {
-                       return item instanceof Jx.Menu.SubMenu && 
-                              item.eventInMenu(e);
-                   }
-               );
+        var target = $(e.target);
+        if (target.descendantOf(this.domObj) ||
+            target.descendantOf(this.subDomObj)) {
+            return true;
+        } else {
+            var ul = target.findElement('ul');
+            if (ul) {
+                var sm = ul.retrieve('jxSubMenu');
+                if (sm) {
+                    var owner = sm.owner;
+                    while (owner) {
+                        if (owner == this) {
+                            return true;
+                        }
+                        owner = owner.owner;
+                    }
+                }
+            }
+            return false;
+        }
     },
     
     /**
