@@ -877,7 +877,7 @@ Jx.Chrome = new Class({
         
         /* get the chrome image from the background image of the element */
         var src = c.getStyle('backgroundImage');
-        if (!src.contains('http://')) {
+        if (!(src.contains('http://') || src.contains('https://') || src.contains('file://'))) {
             src = null;
         } else {
             src = src.slice(4,-1);
