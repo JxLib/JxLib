@@ -478,7 +478,7 @@ Element.implement({
         while (o.tagName != type && o && o.parentNode && o.parentNode != o) {
             o = $(o.parentNode);
         }
-        return o.tagName == type;
+        return o.tagName == type ? o : false;
     }
 } );
 
