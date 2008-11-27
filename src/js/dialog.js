@@ -145,7 +145,6 @@ Jx.Dialog = new Class({
                     height: ss.y
                 });
             }).bind(this.blanket);
-            this.blanket.resize();
             this.options.parent.adopt(this.blanket);
             window.addEvent('resize', this.blanket.resize);
             
@@ -305,6 +304,7 @@ Jx.Dialog = new Class({
             'display': 'block',
             'visibility': 'hidden'
         });
+        this.blanket.resize();
 
         Jx.Dialog.orderDialogs(this);
         
