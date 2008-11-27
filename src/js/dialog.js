@@ -138,9 +138,17 @@ Jx.Dialog = new Class({
                     zIndex: -1
                 }
             });
-        
+            this.blanket.resize = (function() {
+                var ss = $(document.body).getScrollSize();
+                this.setStyles({
+                    width: ss.x,
+                    height: ss.y
+                });
+            }).bind(this.blanket);
+            this.blanket.resize();
             this.options.parent.adopt(this.blanket);
-            (new Jx.Layout(this.blanket)).resize();
+            window.addEvent('resize', this.blanket.resize);
+            
         }
 
         this.domObj.setStyle('display','none');
