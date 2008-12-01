@@ -1,12 +1,12 @@
 /******************************************************************************
- * MooTools 1.2
+ * MooTools 1.2.1
  * Copyright (c) 2006-2007 [Valerio Proietti](http://mad4milk.net/).
  * MooTools is distributed under an MIT-style license.
  ******************************************************************************
  * reset.css - Copyright (c) 2006, Yahoo! Inc. All rights reserved.
  * Code licensed under the BSD License: http://developer.yahoo.net/yui/license.txt
  ******************************************************************************
- * Jx UI Library, version 1.0
+ * Jx UI Library, version 2.0
  * Copyright (c) 2006-2008, DM Solutions Group Inc. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
