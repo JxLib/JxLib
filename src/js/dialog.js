@@ -1,4 +1,4 @@
-// $Id: dialog.js 1154 2008-09-25 18:56:07Z pspencer $
+// $Id$
 /**
  * Class: Jx.Dialog
  * A Jx.Dialog implements a floating dialog.  Dialogs represent a useful way
@@ -304,12 +304,15 @@ Jx.Dialog = new Class({
             'display': 'block',
             'visibility': 'hidden'
         });
-        this.blanket.resize();
+        
+        if (this.blanket) {
+            this.blanket.resize();            
+        }
 
         Jx.Dialog.orderDialogs(this);
         
         /* do the modal thing */
-        if (this.options.modal) {
+        if (this.blanket) {
             this.blanket.setStyles({
                 visibility: 'visible',
                 display: 'block'
@@ -351,7 +354,7 @@ Jx.Dialog = new Class({
         Jx.Dialog.Stack.erase(this);
         Jx.Dialog.ZIndex--;
         this.domObj.setStyle('display','none');
-        if (this.options.modal) {
+        if (this.blanket) {
             this.blanket.setStyle('visibility', 'hidden');
             Jx.Dialog.ZIndex--;
         }
