@@ -960,30 +960,24 @@ Jx.Addable = new Class({
     addable: null,
     /**
      * Method: addTo
-     * adds the object to a DOM element using appendChild if sibling
-     * is not specified or sibling's parent is not the specified parent,
-     * otherwise uses insertBefore.    
+     * adds the object to the DOM relative to another element.  If you use
+     * 'top' or 'bottom' then the element is added to the relative
+     * element (becomes a child node).  If you use 'before' or 'after'
+     * then the element is inserted adjacent to the reference node. 
      *
      * Parameters:
-     * parent - {Object} the DOM element or id of a DOM element
-     * to append the object to
-     * sibling - {Object} the DOM element or id of a DOM element
-     * to insert the object before.  If not specified, then the
-     * object is appended to the parent.
+     * reference - {Object} the DOM element or id of a DOM element
+     * to append the object relative to
+     * where - {String} where to append the element in relation to the
+     * reference node.  Can be 'top', 'bottom', 'before' or 'after'.
+     * The default is 'bottom'.
      *
      * Returns:
      * the object itself, which is useful for chaining calls together
      */
-    addTo: function(parent, sibling) {
-        var what = this.addable || this.domObj;
-        parent = $(parent);
-        sibling = sibling ? $(sibling) : null;
-        if (sibling && sibling.parentNode == parent) {
-            parent.insertBefore(what, sibling);
-        } else {
-            parent.appendChild(what);            
-        }
-        this.fireEvent('addTo', this);
+    addTo: function(reference, where) {
+        $(this.addable || this.domObj).inject(reference,where);
+        this.fireEvent('addTo',this);
         return this;
     }
 });
