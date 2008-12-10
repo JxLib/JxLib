@@ -1,4 +1,4 @@
-// $Id: treefolder.js 1093 2008-09-23 20:44:15Z pspencer $
+// $Id$
 /**
  * Class: Jx.TreeFolder
  * A Jx.TreeFolder is an item in a tree that can contain other items.  It is
