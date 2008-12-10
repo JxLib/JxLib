@@ -1,4 +1,4 @@
-// $Id: treeitem.js 803 2008-09-02 18:02:13Z pspencer $
+// $Id$
 /**
  * Class: Jx.TreeItem 
  * An item in a tree.  An item is a leaf node that has no children.
@@ -93,16 +93,53 @@ Jx.TreeItem = new Class ({
         if (this.options.imageClass) {
             domImg.addClass(this.options.imageClass);
         }
+        // the clickable part of the button
+        var hasFocus;
+        var mouseDown;
+        
         var domA = new Element('a',{
             href:'javascript:void(0)',
-            html: this.options.label,
-            events: {
-                click: this.selected.bind(this),
-                dblclick: this.selected.bind(this),
-                contextmenu: this.showMenu.bind(this)
-            }
+            html: this.options.label
+        });
+        domA.addEvents({
+            click: this.selected.bind(this),
+            dblclick: this.selected.bind(this),
+            contextmenu: this.showMenu.bind(this),
+            drag: function(e) {e.stop();},
+            mousedown: function(e) {
+                domA.addClass('jxTreeItemPressed');
+                hasFocus = true;
+                mouseDown = true;
+                domA.focus();
+            },
+            mouseup: function(e) {
+                domA.removeClass('jxTreeItemPressed');
+                mouseDown = false;
+            },
+            mouseleave: function(e) {
+                domA.removeClass('jxTreeItemPressed');
+            },
+            mouseenter: function(e) {
+                if (hasFocus && mouseDown) {
+                    domA.addClass('jxTreeItemPressed');
+                }
+            },
+            keydown: function(e) {
+                if (e.key == 'enter') {
+                    domA.addClass('jxTreeItemPressed');
+                }
+            },
+            keyup: function(e) {
+                if (e.key == 'enter') {
+                    domA.removeClass('jxTreeItemPressed');
+                }
+            },
+            blur: function() { hasFocus = false; }
         });
         domA.appendChild(domImg);
+        new Drag(domA, {
+            onStart: function() {this.stop();}
+        });
         return domA;
     },
     /**
