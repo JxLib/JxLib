@@ -1,4 +1,4 @@
-// $Id: menu.item.js 999 2008-09-19 17:31:11Z pspencer $
+// $Id$
 /**
  * Class: Jx.Menu.Item
  * A menu item is a single entry in a menu.  It is typically composed of

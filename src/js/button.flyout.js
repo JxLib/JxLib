@@ -1,4 +1,4 @@
-// $Id: button.flyout.js 1149 2008-09-25 12:43:46Z pspencer $
+// $Id$
 /**
  * Class: Jx.Button.Flyout
  * Flyout buttons expose a panel when the user clicks the button.  The

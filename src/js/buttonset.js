@@ -1,4 +1,4 @@
-// $Id: $
+// $Id$
 /**
  * Class: Jx.ButtonSet
  * A ButtonSet manages a set of <Jx.Button> instances by ensuring that only one

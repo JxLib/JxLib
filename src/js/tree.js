@@ -1,4 +1,4 @@
-// $Id: tree.js 1097 2008-09-23 22:40:51Z pspencer $
+// $Id$
 /**
  * Class: Jx.Tree
  * Jx.Tree displays hierarchical data in a tree structure of folders and nodes.

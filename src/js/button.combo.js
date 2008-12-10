@@ -1,4 +1,4 @@
-// $Id: button.combo.js 1013 2008-09-19 19:11:46Z pspencer $
+// $Id$
 /**
  * Class: Jx.Button.Combo
  * A drop down list of selectable items.  Items can be either a string, an image or both.

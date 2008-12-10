@@ -1,4 +1,4 @@
-// $Id: menu.submenu.js 1093 2008-09-23 20:44:15Z pspencer $
+// $Id$
 /**
  * Class: Jx.Menu.SubMenu
  * A sub menu contains menu items within a main menu or another

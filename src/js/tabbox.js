@@ -1,4 +1,4 @@
-// $Id: tabbox.js 1154 2008-09-25 18:56:07Z pspencer $
+// $Id$
 /**
  * Class: Jx.TabBox
  * A convenience class to handle the common case of a single toolbar

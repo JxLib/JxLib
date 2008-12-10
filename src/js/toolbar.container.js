@@ -1,4 +1,4 @@
-// $Id: $
+// $Id$
 /**
  * Class: Jx.Toolbar.Container
  * A toolbar container contains toolbars.  A single toolbar container fills the

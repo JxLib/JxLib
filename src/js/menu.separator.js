@@ -1,4 +1,4 @@
-// $Id: menu.separator.js 711 2008-08-13 20:38:33Z pspencer $
+// $Id$
 /**
  * Class: Jx.Menu.Separator
  * A convenience class to create a visual separator in a menu.

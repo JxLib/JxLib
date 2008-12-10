@@ -1,78 +1,76 @@
-/*
- * Jx.Grid Model Interface:
+/**
+ * Class: Jx.Grid.Model
+ * A Jx.Grid.Model is the source of data for a <Jx.Grid> instance.  The
+ * default implementation of the grid model works with two-dimensional
+ * arrays of data and acts as a convenient base class for custom models
+ * based on other sources of data.
  *
- * addGridListener(l) - mandatory
- * mandatory.  This function accepts one argument, l, which is the listener
- * to add.  The model can then call the gridChanged() method on the grid
- * listener object when something in the model changes.
+ * License: 
+ * Copyright (c) 2008, DM Solutions Group Inc.
  * 
- * removeGridListener(l) - mandatory
- * mandatory.  This function accepts one argument, l, which is the listener
- * to remove.  The listener should have been previously added using
- * addGridListener.
- * 
- * getColumnCount() - mandatory
- * mandatory.  This function returns the number of columns of data in the 
+ * This file is licensed under an MIT style license
+ */
+/** 
+ * Method: getColumnCount
+ * This function returns the number of columns of data in the 
  * model as an integer value.
  * 
- * getColumnHeaderHTML(column) - mandatory
- * mandatory. This function returns an HTML string to be placed in the
+ * Method: getColumnHeaderHTML
+ * This function returns an HTML string to be placed in the
  * column header for the given column index.
  * 
- * getColumnHeaderHeight() - mandatory
- * mandatory.  This function returns an integer which is the height of the
+ * Method: getColumnHeaderHeight
+ * This function returns an integer which is the height of the
  * column header row in pixels.
  * 
- * getColumnWidth(column) - mandatory
- * mandatory.  This function returns an integer which is the width of the
+ * Method: getColumnWidth
+ * This function returns an integer which is the width of the
  * given column in pixels.
  * 
- * getRowHeaderHTML(row) - mandatory
- * mandatory.  This function returns an HTML string to be placed in the row
+ * Method: getRowHeaderHTML
+ * This function returns an HTML string to be placed in the row
  * header for the given row index
  * 
- * getRowHeaderWidth() - mandatory
- * mandatory.  This function returns an integer which is the width of the row
+ * Method: getRowHeaderWidth
+ * This function returns an integer which is the width of the row
  * header column in pixels.
  * 
- * getRowHeight(row) - mandatory
- * mandatory.  This function returns an integer which is the height of the
+ * Method: getRowHeight
+ * This function returns an integer which is the height of the
  * given row in pixels.
  * 
- * getRowCount() - mandatory
- * mandatory.  This function returns the number of rows of data in the model
+ * Method: getRowCount
+ * This function returns the number of rows of data in the model
  * as an integer value.
  * 
- * getValueAt(row, column) - mandatory
- * mandatory.  This function returns an HTML string which is the text to place
+ * Method: getValueAt
+ * This function returns an HTML string which is the text to place
  * in the cell at the given row and column.
  * 
- * isCellEditable(row, column) - mandatory
- * mandatory.  This function returns a boolean value to indicate if a given
+ * Method: isCellEditable
+ * This function returns a boolean value to indicate if a given
  * cell is editable by the user.
  *
- * *Optional Functions*
- *  
- * setColumnWidth(column, width) - optional
- * optional.  This function is called with a column index and width in pixels
+ * Method: setColumnWidth
+ * This function is called with a column index and width in pixels
  * when a column is resized.  This function is only required if the grid
  * allows resizeable columns.
  * 
- * setValueAt(row, column, value) - optional
- * optional.  This function is called with the row and column of a cell and a
+ * Method: setValueAt
+ * This function is called with the row and column of a cell and a
  * new value for the cell.  It is mandatory to provide this function if any of
  * the cells in the model are editable.
  * 
- * rowSelected(row) - optional
- * optional.  This function is called by the grid to indicate that the user
+ * Method: rowSelected
+ * This function is called by the grid to indicate that the user
  * has selected a row by clicking on the row header.
  * 
- * columnSelected(column) - optional
- * optional.  This function is called by the grid to indicate that the user
+ * Method: columnSelected
+ * This function is called by the grid to indicate that the user
  * has selected a column by clicking on the column header.
  * 
- * cellSelected(row, column) - optional
- * optional.  This function is called by the grid to indicate that the user
+ * Method: cellSelected
+ * This function is called by the grid to indicate that the user
  * has selected a cell by clicking on the cell in the grid.
  */
 Jx.Grid.Model = new Class({

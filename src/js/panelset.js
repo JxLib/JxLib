@@ -1,4 +1,4 @@
-// $Id: panelset.js 1113 2008-09-24 16:00:54Z pspencer $
+// $Id$
 /**
  * Class: Jx.PanelSet
  *

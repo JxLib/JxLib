@@ -1,4 +1,4 @@
-// $Id: splitter.js 1130 2008-09-24 19:12:35Z pspencer $
+// $Id$
 /**
  * Class: Jx.Splitter
  * a Jx.Splitter creates two or more containers within a parent container

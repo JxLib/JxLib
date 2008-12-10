@@ -1,4 +1,4 @@
-// $Id: layout.js 1154 2008-09-25 18:56:07Z pspencer $
+// $Id$
 /**
  * Class: Jx.Layout
  * Jx.Layout is used to provide more flexible layout options for applications

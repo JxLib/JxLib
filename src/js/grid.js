@@ -1,4 +1,4 @@
-// $Id: grid.js 1116 2008-09-24 16:29:47Z pspencer $
+// $Id$
 /**
  * Class: Jx.Grid
  * A tabular control that has fixed scrolling headers on the rows and columns

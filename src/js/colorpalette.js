@@ -1,4 +1,4 @@
-// $Id: colorpalette.js 1094 2008-09-23 22:04:34Z pspencer $
+// $Id$
 /**
  * Class: Jx.ColorPalette
  * A Jx.ColorPalette presents a user interface for selecting colors.  Currently,

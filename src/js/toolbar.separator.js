@@ -1,4 +1,4 @@
-// $Id: toolbar.separator.js 711 2008-08-13 20:38:33Z pspencer $
+// $Id$
 /**
  * Class: Jx.Toolbar.Separator
  * A helper class that represents a visual separator in a <Jx.Toolbar>

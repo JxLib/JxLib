@@ -1,4 +1,4 @@
-// $Id: panel.js 1154 2008-09-25 18:56:07Z pspencer $
+// $Id$
 /**
  * Class: Jx.Panel
  * A panel is a fundamental container object that has a content

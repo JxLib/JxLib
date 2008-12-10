@@ -1,4 +1,4 @@
-// $Id: toolbar.js 1103 2008-09-24 14:14:23Z pspencer $
+// $Id$
 /**
  * Class: Jx.Toolbar
  * A toolbar is a container object that contains other objects such as

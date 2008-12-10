@@ -1,4 +1,4 @@
-// $Id: menu.js 1094 2008-09-23 22:04:34Z pspencer $
+// $Id$
 /**
  * Class: Jx.Menu
  * A main menu as opposed to a sub menu that lives inside the menu.

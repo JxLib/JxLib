@@ -1,4 +1,4 @@
-// $Id: button.js 1094 2008-09-23 22:04:34Z pspencer $
+// $Id$
 /**
  * Class: Jx.Button
  * Jx.Button creates a clickable element that can be added to a web page.

@@ -1,4 +1,4 @@
-// $Id: button.color.js 929 2008-09-16 14:06:10Z pspencer $ 
+// $Id$ 
 /**
  * Class: Jx.Button.Color
  * A <Jx.ColorPalette> wrapped up in a Jx.Button.  The button includes a

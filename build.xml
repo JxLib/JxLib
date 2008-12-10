@@ -8,7 +8,7 @@ Purpose         :   build file for ant tool
 Author     Date            Description
 M.Adair    09-July-2007  initial version copied from fusion
 
-$Id: build.xml 1039 2008-09-22 17:07:23Z pspencer $
+$Id$
 ***************************************************************************-->
 <project basedir="." default="build" name="jx">
 
@@ -73,7 +73,7 @@ $Id: build.xml 1039 2008-09-22 17:07:23Z pspencer $
   <property environment="env"/>
   <property name="app.name" value="jxlib"/>
   <property name="app.path" value="/${app.name}"/>
-  <property name="app.version" value="2.0-beta-4"/>
+  <property name="app.version" value="2.0-beta-5"/>
   <property name="build.home" value="${basedir}/../build"/>
   <property name="dist.home" value="${basedir}/../dist"/>
   <property name="deploy.home" value="${basedir}/../www"/>

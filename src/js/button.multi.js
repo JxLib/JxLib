@@ -1,4 +1,4 @@
-// $Id: button.multi.js 1015 2008-09-19 19:21:04Z pspencer $
+// $Id$
 /**
  * Class: Jx.Button.Multi
  * Multi buttons are used to contain multiple buttons in a drop down list

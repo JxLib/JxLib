@@ -1,4 +1,4 @@
-// $Id: common.js 1154 2008-09-25 18:56:07Z pspencer $
+// $Id$
 /**
  * Class: Jx
  * Jx is a global singleton object that contains the entire Jx library

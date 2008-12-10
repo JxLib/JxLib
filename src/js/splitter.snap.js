@@ -1,4 +1,4 @@
-// $Id: splitter.snap.js 1130 2008-09-24 19:12:35Z pspencer $
+// $Id$
 /**
  * Class: Jx.Splitter.Snap
  * A helper class to create an element that can snap a split panel open or

@@ -1,4 +1,4 @@
-// $Id: toolbar.item.js 711 2008-08-13 20:38:33Z pspencer $
+// $Id$
 /**
  * Class: Jx.Toolbar.Item
  * A helper class to provide a container for something to go into 

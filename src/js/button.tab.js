@@ -1,4 +1,4 @@
-// $Id: button.tab.js 1105 2008-09-24 14:37:57Z pspencer $
+// $Id$
 /**
  * Class: Jx.Button.Tab
  * A single tab in a tab set.  A tab has a label (displayed in the tab) and a

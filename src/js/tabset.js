@@ -1,4 +1,4 @@
-// $Id: tabset.js 1154 2008-09-25 18:56:07Z pspencer $
+// $Id$
 /**
  * Class: Jx.TabSet
  * A TabSet manages a set of <Jx.Button.Tab> content areas by ensuring that only one
