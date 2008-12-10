@@ -418,5 +418,12 @@ Jx.Button = new Class({
      */
     focus: function() {
         this.domA.focus();
+    },
+    /**
+     * Method: blur
+     * remove the keyboard focus from this button
+     */
+    blur: function() {
+        this.domA.blur();
     }
 });

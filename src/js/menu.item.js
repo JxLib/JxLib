@@ -72,7 +72,7 @@ Jx.Menu.Item = new Class({
      * Method: hide
      * Hide the menu item.
      */
-    hide: $empty,
+    hide: function() {this.blur();},
     /**
      * Method: show
      * Show the menu item
