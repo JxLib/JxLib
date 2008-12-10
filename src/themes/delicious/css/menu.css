@@ -64,6 +64,7 @@ a.jxMenuItem {
   /* Base setup */
   display: block;
   position: relative;
+  overflow: hidden;
   text-decoration: none;
   cursor: pointer;
   outline: none;
