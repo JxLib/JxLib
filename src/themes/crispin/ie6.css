@@ -38,6 +38,7 @@ iframe.jxIframeShim {filter:Alpha(opacity:0);}
   border-right: 1px dotted #75ADFF;
   margin: 0px 0px 0px 14px;
   background-position: left -72px;
+  outline: expression(hideFocus='true');
 }
 
 /* IE versions 7 and below do not recognize the focus pseudo-class, but instead

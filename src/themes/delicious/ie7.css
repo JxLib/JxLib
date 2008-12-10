@@ -24,6 +24,7 @@ iframe.jxIframeShim {filter:Alpha(opacity:0);}
   border-right: 1px dotted #75ADFF;
   margin: 0px 0px 0px 14px;
   background-position: left -72px;
+  outline: expression(hideFocus='true');
 }
 
 /* IE versions 7 and below do not recognize the focus pseudo-class, but instead
@@ -33,6 +34,7 @@ iframe.jxIframeShim {filter:Alpha(opacity:0);}
 ul.jxToolbar a.jxButton:active,
 a.jxButton:active {
   background-position: left -96px;
+  outline: expression(hideFocus='true');
 }
 
 a.jxButton:active span.jxButtonContent {
@@ -61,6 +63,7 @@ a.jxButtonPressed:active span.jxButtonContent {
 
 a.jxButtonDisclose:active {
   background-position: right -96px;
+  outline: expression(hideFocus='true');
 }
 
 /* HORIZONTALTAB BAR - TOP and BOTTOM TABS */
@@ -69,6 +72,7 @@ a.jxButtonDisclose:active {
 .jxBarTop a.jxTab:active,
 .jxBarBottom a.jxTab:active {
   background-position: left -96px; 
+  outline: expression(hideFocus='true');
 }
 
 .jxBarTop a.jxTab:active span.jxTabContent,
@@ -104,6 +108,7 @@ a.jxButtonDisclose:active {
 .jxBarLeft a.jxTab:active,
 .jxBarRight a.jxTab:active {
   background-position: -96px top; 
+  outline: expression(hideFocus='true');
 }
 
 .jxBarLeft a.jxTab:active span.jxTabContent,
@@ -136,6 +141,7 @@ a.jxButtonDisclose:active {
 /* Menu Item focus style */
 a.jxMenuItem:active {
   border: 1px dotted #75ADFF;
+  outline: expression(hideFocus='true');
 }
 
 
