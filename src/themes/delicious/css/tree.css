@@ -62,7 +62,15 @@
   position: relative;
   display: block;
   cursor: pointer;
-  margin: 0px 0px 0px 14px;
+  outline: none;
+  overflow: hidden;
+
+  background-image: url(images/tree_hover.png);
+  background-repeat: repeat-x;
+  background-position: left top;
+  border: none;
+
+  margin: 0px 1px 0px 15px;
   padding: 0px 0px 0px 20px;
   z-index: 0;
   font-family: Arial, Helvetica, sans-serif;
@@ -74,18 +82,52 @@
   height: 20px;
 }
 
-.jxTree a:hover, 
-.jxTreeRoot a:hover {
-  background-image: url(images/tree_hover.png);
-  background-color: #CDE5FF;
-  background-repeat: repeat-x;
-  background-position: 0px 0px;
+
+.jxTree a:focus,
+.jxTreeRoot a:focus {
+  border-left: 1px dotted #75ADFF;
+  border-right: 1px dotted #75ADFF;
+  margin: 0px 0px 0px 14px;
+  background-position: left -72px;
 }
 
-.jxDisabled .jxTree a:hover, 
-.jxDisabled .jxTreeRoot a:hover {
-  background: none;
+.jxTree a:hover, 
+.jxTreeRoot a:hover {
+  /*border: 1px solid #C5E0FF;*/
+  border-left: 1px solid #C5E0FF;
+  border-right: 1px solid #C5E0FF;
+  margin: 0px 0px 0px 14px;
+  background-color: #CDE5FF;
+  background-position: left -24px;
+}
+
+.jxTree a.jxTreeItemPressed,
+.jxTree a.jxTreeItemPressed:hover,
+.jxTreeRoot a.jxTreeItemPressed,
+.jxTreeRoot a.jxTreeItemPressed:hover {
+  border-left: 1px solid #C5E0FF;
+  border-right: 1px solid #C5E0FF;
+  margin: 0px 0px 0px 14px;
+  background-color: #CDE5FF;
+  background-position: left -48px;
+}
+
+.jxTree .jxDisabled a,
+.jxTreeRoot.jxDisabled a {
   cursor: default;
+}
+
+.jxTree .jxDisabled a:focus,
+.jxTree .jxDisabled a.jxTreeItemPressed,
+.jxTree .jxDisabled a.jxTreeItemPressed:hover,
+.jxTree .jxDisabled a.:hover,
+.jxTreeRoot .jxDisabled a:focus,
+.jxTreeRoot .jxDisabled a.jxTreeItemPressed,
+.jxTreeRoot .jxDisabled a.jxTreeItemPressed:hover,
+.jxTreeRoot .jxDisabled a.:hover {
+  background-position: left top;
+  border: none;
+  margin: 0px 1px 0px 15px;
 }
 
 .jxTreeNest {
@@ -113,8 +155,8 @@
 
 .jxTreeIcon { 
   height: 16px;
-  top: 2px;
-  left: 2px;
+  top: 1px;
+  left: 1px;
 }
 
 .jxTreeBranchOpen .jxTreeIcon,

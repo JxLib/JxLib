@@ -66,8 +66,13 @@ a.jxMenuItem {
   position: relative;
   text-decoration: none;
   cursor: pointer;
+  outline: none;
 
   border: 1px solid #fff;
+  background-image: url(images/menu_hover.png);
+  background-repeat: repeat-x;
+  background-position: left top;
+
   font-family: Arial, Helvetica, sans-serif;
   font-size: 11px;
   text-decoration: none;
@@ -76,17 +81,25 @@ a.jxMenuItem {
   color: #000;
 }
 
+a.jxMenuItem:focus {
+  border: 1px dotted #75ADFF;
+}
+
 a.jxMenuItem:hover {
   border: 1px solid #C5E0FF;
-  background-image: url(images/menu_hover.png);
   background-color: #CDE5FF;
-  background-repeat: repeat-x;
-  background-position: 0px 0px;
+  background-position: left -24px;
 }
 
 a.jxMenuItem:hover span.jxMenuItemContent {
   border: 1px solid #F4F9FF;  /* forces IE to render properly */
   border-bottom: 1px solid #E4F0FF;
+}
+
+a.jxMenuItemPressed,
+a.jxMenuItemPressed:hover {
+  background-color: #CDE5FF;
+  background-position: left -48px;
 }
 
 span.jxMenuItemContent {
@@ -139,7 +152,6 @@ span.jxMenuItemContent span {
 
 span.jxMenuItemContent span.jxMenuItemLabel {
   /* Base setup, overrides empty labels */
-
   color: #000;
   font-size: 11px;
 }
@@ -177,9 +189,12 @@ a.jxMenuItemActive span.jxMenuItemContent {
   cursor: default;
 }
 
+.jxDisabled a.jxMenuItem:focus,
+.jxDisabled a.jxMenuItemPressed,
+.jxDisabled a.jxMenuItemPressed:hover,
 .jxDisabled a.jxMenuItem:hover {
   background-color: #fff;
-  background-image: none;
+  background-position: left top;
   border: 1px solid #fff;
 }
 
@@ -190,7 +205,7 @@ a.jxMenuItemActive span.jxMenuItemContent {
 ul.jxMenu span.jxMenuSeparator,
 ul.jxSubMenu span.jxMenuSeparator {
   /* Base setup */
-    display: block;
+  display: block;
 
   font-size: 10px;
   line-height: 10px;
