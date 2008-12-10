@@ -92,6 +92,7 @@ Jx.Menu.SubMenu = new Class({
         }
         
         this.contentContainer.setStyle('visibility','hidden');
+        this.contentContainer.setStyle('display','block');
         $(document.body).adopt(this.contentContainer);            
         /* we have to size the container for IE to render the chrome correctly
          * but just in the menu/sub menu case - there is some horrible peekaboo
@@ -133,7 +134,7 @@ Jx.Menu.SubMenu = new Class({
         }
         this.open = false;
         this.items.each(function(item){item.hide();});
-        this.contentContainer.dispose();
+        this.contentContainer.setStyle('display','none');
         this.visibleItem = null;
     },
     /**
