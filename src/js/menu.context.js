@@ -50,6 +50,7 @@ Jx.Menu.Context = new Class({
         }
         
         this.contentContainer.setStyle('visibility','hidden');
+        this.contentContainer.setStyle('display','block');
         $(document.body).adopt(this.contentContainer);            
         /* we have to size the container for IE to render the chrome correctly
          * but just in the menu/sub menu case - there is some horrible peekaboo
