@@ -375,6 +375,8 @@ Jx.Dialog = new Class({
             this.show();
             this.fireEvent('open', this);
             this.isOpening = false;
+        } else {
+            this.addEvent('contentLoaded', this.open.bind(this));
         }
     },
     /**
@@ -386,18 +388,6 @@ Jx.Dialog = new Class({
         this.isOpening = false;
         this.hide();
         this.fireEvent('close');
-    },
-    /**
-     * Method: onContentLoaded
-     * handle the dialog content being loaded.  This triggers
-     * processing of inputs and the onContentLoaded callback
-     * function (if necessary).  Also, if the dialog was previously
-     * requested to be opened, this will actually open it.
-     */
-    onContentLoaded : function() {
-        if (this.isOpening) {
-            this.open();
-        }
     }
 });
 
