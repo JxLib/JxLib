@@ -361,6 +361,23 @@ Jx.Dialog = new Class({
         
     },
     /**
+     * Method: openURL
+     * open the dialog and load content from the provided url.  If you don't
+     * provide a URL then the dialog opens normally.
+     *
+     * Parameters:
+     * url - <String> the url to load when opening.
+     */
+    openURL: function(url) {
+        if (url) {
+            this.options.contentURL = url;
+            this.loadContent(this.content);
+        } else {
+            this.open();
+        }
+    },
+    
+    /**
      * Method: open
      * open the dialog.  This may be delayed depending on the 
      * asynchronous loading of dialog content.  The onOpen
