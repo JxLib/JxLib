@@ -287,11 +287,11 @@ a.jxButtonDisclosePressed {
 
 /* note, jxButtonHover is set by Multi button JS */
 ul.jxToolbar a.jxButtonHover {
-  background-position: left -24px;
+  background-position: left -24px !important;
 }
 
 ul.jxToolbar a.jxButtonHover span.jxButtonContent {
-  background-position: right -24px;
+  background-position: right -24px !important;
 }
 
 
