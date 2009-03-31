@@ -1041,5 +1041,9 @@ Jx.Addable = new Class({
         $(this.addable || this.domObj).inject(reference,where);
         this.fireEvent('addTo',this);
         return this;
+    },
+    
+    toElement: function() {
+        return this.addable || this.domObj;
     }
 });
