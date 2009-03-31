@@ -30,7 +30,7 @@ a.jxButtonMenu span.jxMenuItemSpan {
 .jxMenuContainer {
   position: absolute;
   display: block;
-  z-index: 200;
+  z-index: 2000;
   padding: 0px;
 }
 
