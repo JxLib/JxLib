@@ -11,7 +11,7 @@ M.Adair    09-July-2007  initial version copied from fusion
 $Id$
 ***************************************************************************-->
 <project basedir="." default="build" name="jx">
-
+  <taskdef classname="net.bluecow.googlecode.ant.GoogleCodeUploadTask" classpath="utils/ant-googlecode-0.0.1.jar" name="gcupload"/>
 <!-- ===================== Property Definitions =========================== -->
 <!--
   Each of the following properties are used in the build script.
@@ -333,6 +333,16 @@ $Id$
     
   </target>
 
+  <target name="upload" description="Upload distribution files to Google Code" depends="dist">
+    <gcupload 
+            username="pagameba" 
+            password="Kg7km6RN8WB2" 
+            projectname="jxlib" 
+            filename="${dist.home}/${app.name}-${app.version}.zip" 
+            targetfilename="${app.name}-${app.version}.zip"
+            summary="jxlib ${app.version}"
+            labels="Featured, Type-Archive, OpSys-All" />
+  </target>
 
 <!-- ==================== Clean Target ==================================== -->
 <!--
