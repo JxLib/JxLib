@@ -61,7 +61,6 @@ Jx.TreeFolder = new Class({
         this.nodes = [];
         this.subDomObj = new Element('ul', {'class':'jxTree'});
         this.domObj.appendChild(this.subDomObj);
-        this.subDomObj.className = 'jxTree';
         if (this.options.open) {
             this.expand();
         } else {
