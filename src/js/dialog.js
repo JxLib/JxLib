@@ -29,6 +29,9 @@
  * change - triggered when the value of an input in the dialog is changed
  * resize - triggered when the dialog is resized
  *
+ * Extends:
+ * Jx.Dialog extends <Jx.Panel>, please go there for more details.
+ *
  * License: 
  * Copyright (c) 2008, DM Solutions Group Inc.
  * 
