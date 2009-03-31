@@ -278,17 +278,6 @@ Jx.Dialog = new Class({
     },
     
     /**
-     * Method: setTitle
-     * set the text of the dialog title.
-     *
-     * Parameters: 
-     * title - {String} the new title
-     */
-    setTitle: function( title ) {
-        this.title.childNodes[0].innerHTML = title;
-    },
-
-    /**
      * Method: show
      * show the dialog, external code should use the <Jx.Dialog::open> method
      * to make the dialog visible.
