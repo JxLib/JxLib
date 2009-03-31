@@ -428,12 +428,12 @@ Jx.Panel = new Class({
         if (url.indexOf('?') == -1) {
             url = url + '?';
         }
-        //var ts = (new Date()).getTime();
-        //url = url + 'ts='+ts;
-        var opts = { method: 'get',
-                     onComplete:this.panelContentLoaded.bind(this),
-                     requestHeaders: ['If-Modified-Since', 'Sat, 1 Jan 2000 00:00:00 GMT']};
-        var a = new Request(url, opts).send();
+        var a = new Request({
+            url: url,
+            method: 'get',
+            onComplete:this.panelContentLoaded.bind(this),
+            requestHeaders: ['If-Modified-Since', 'Sat, 1 Jan 2000 00:00:00 GMT']
+        }).send();
     },
     /**
      * Method: panelContentLoaded
