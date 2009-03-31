@@ -158,10 +158,11 @@ Jx.Panel = new Class({
                     label: this.options.collapseLabel,
                     onClick: function() { that.toggleCollapse(); }
                 });
-                this.addEvent('collapse', function() {
-                    if (that.options.closed) {
+                this.addEvents({
+                    collapse: function() {
                         item.setLabel(this.options.expandLabel);
-                    } else {
+                    },
+                    expand: function() {
                         item.setLabel(this.options.collapseLabel);
                     }
                 });
