@@ -69,7 +69,7 @@ if (typeof Jx == 'undefined') {
                  * }
                  * (end)
                  */ 
-                 Jx.aPixel = document.createElement('img');
+                 Jx.aPixel = document.createElement('img', {alt:'',title:''});
                  Jx.aPixel.src = matches[1]+'/a_pixel.png';
                  Jx.baseURL = Jx.aPixel.src.substring(0,
                      Jx.aPixel.src.indexOf('a_pixel.png'));
