@@ -142,7 +142,6 @@ Jx.Toolbar.Container = new Class({
     },
     
     measure: function() {
-        
         if ((!this.scrollLeftSize || !this.scrollLeftSize.x) && this.domObj.parentNode) {
             this.scrollLeftSize = this.scrollLeft.domObj.getSize();
             this.scrollRightSize = this.scrollRight.domObj.getSize();
@@ -243,8 +242,22 @@ Jx.Toolbar.Container = new Class({
     scrollIntoView: function(item) {
         var width = this.domObj.getSize().x;
         var coords = item.domObj.getCoordinates(this.scroller);
-        var l = this.scroller.getStyle('left').toInt();
-        
+		
+		//left may be set to auto or even a zero length string. 
+		//In the previous version, in air, this would evaluate to
+		//NaN which would cause the right hand scroller to show when 
+		//the component was first created.
+		
+		//So, get the left value first
+        var l = this.scroller.getStyle('left');
+		//then check to see if it's auto or a zero length string 
+		if (l === 'auto' || l.length <= 0) {
+			//If so, set to 0.
+			l = 0;
+		} else {
+			//otherwise, convert to int
+			l = l.toInt();
+		}
         var slSize = this.scrollLeftSize ? this.scrollLeftSize.x : 0;
         var srSize = this.scrollRightSize ? this.scrollRightSize.x : 0;
         
@@ -273,7 +286,6 @@ Jx.Toolbar.Container = new Class({
         } else {
             this.scrollRight.domObj.setStyle('visibility', '');                
         }
-        
         if (left != l) {
             this.scrollFx.start('left', left);
         }

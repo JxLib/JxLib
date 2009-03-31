@@ -76,6 +76,15 @@ if (typeof Jx == 'undefined') {
                 
             }
         }
+	   /**
+        * Determine if we're running in Adobe AIR. If so, determine which sandbox we're in
+        */
+		var src = aScripts[0].src;
+        if (src.contains('app:')){
+		    Jx.isAir = true;
+        } else {
+		    Jx.isAir = false;
+	    }
     //});
 } 
 
@@ -557,13 +566,16 @@ Jx.ContentLoader = new Class ({
             }
         } else if (this.options.contentURL) {
             this.contentIsLoaded = false;
-            new Request({
+            this.req = new Request({
                 url: this.options.contentURL, 
                 method:'get',
                 update: element,
                 onSuccess:(function(html) {
                     element.innerHTML = html;
                     this.contentIsLoaded = true;
+					if (Jx.isAir){
+						$clear(this.reqTimeout);
+					}
                     this.fireEvent('contentLoaded', this);
                 }).bind(this), 
                 onFailure: (function(){
@@ -571,7 +583,12 @@ Jx.ContentLoader = new Class ({
                     this.fireEvent('contentLoadFailed', this);
                 }).bind(this),
                 headers: {'If-Modified-Since': 'Sat, 1 Jan 2000 00:00:00 GMT'}
-            }).send();
+            });
+            this.req.send();
+            if (Jx.isAir) {
+                var timeout = $defined(this.options.timeout) ? this.options.timeout : 10000;
+                this.reqTimeout = this.checkRequest.delay(timeout, this);
+            }
         } else {
             this.contentIsLoaded = true;
         }
@@ -603,6 +620,38 @@ Jx.ContentLoader = new Class ({
         }, this);
     }
 });
+
+
+/**
+ * It seems AIR never returns an XHR that "fails" by not finding the 
+ * appropriate file when run in the application sandbox and retrieving a local
+ * file. This affects Jx.ContentLoader in that a "failed" event is never fired. 
+ * 
+ * To fix this, I've added a timeout that waits about 10 seconds or so in the code above
+ * for the XHR to return, if it hasn't returned at the end of the timeout, we cancel the
+ * XHR and fire the failure event.
+ *
+ * This code only gets added if we're in AIR.
+ */
+if (Jx.isAir){
+	Jx.ContentLoader.implement({
+		/**
+		 * Method: checkRequest()
+		 * Is fired after a delay to check the request to make sure it's not
+		 * failing in AIR.
+		 */
+		checkRequest: function(){
+			if (this.req.xhr.readyState === 1) {
+				//we still haven't gotten the file. Cancel and fire the
+				//failure
+				$clear(this.reqTimeout);
+				this.req.cancel();
+				this.contentIsLoaded = true;
+				this.fireEvent('contentLoadFailed', this);
+			}
+		}
+	});
+}
 
 /**
  * Class: Jx.AutoPosition
@@ -876,8 +925,9 @@ Jx.Chrome = new Class({
         c.setStyle('padding', 0);
         
         /* get the chrome image from the background image of the element */
+		/* the app: protocol check is for adobe air support */
         var src = c.getStyle('backgroundImage');
-        if (!(src.contains('http://') || src.contains('https://') || src.contains('file://'))) {
+        if (!(src.contains('http://') || src.contains('https://') || src.contains('file://') || src.contains('app:/'))) {
             src = null;
         } else {
             src = src.slice(4,-1);
