@@ -222,7 +222,9 @@ Jx.Button = new Class({
         if (this.options.image || !this.options.label) {
             var i = new Element('img', {
                 'class':'jx'+this.options.type+'Icon',
-                'src': Jx.aPixel.src
+                'src': Jx.aPixel.src,
+                alt: '',
+                title: ''
             });
             //if image is not a_pixel, set the background image of the image
             //otherwise let the default css take over.
@@ -357,7 +359,9 @@ Jx.Button = new Class({
             if (!this.domImg) {
                 var i = new Element('img', {
                     'class':'jx'+this.options.type+'Icon',
-                    'src': Jx.aPixel.src
+                    'src': Jx.aPixel.src,
+                    alt: '',
+                    title: ''
                 });
                 if (this.options.imageClass) {
                     i.addClass(this.options.imageClass);

@@ -71,7 +71,12 @@ Jx.TreeItem = new Class ({
             this.domObj.id = this.options.id;
         }
       
-        this.domNode = new Element('img',{'class': 'jxTreeImage', src: Jx.aPixel.src});
+        this.domNode = new Element('img',{
+            'class': 'jxTreeImage', 
+            src: Jx.aPixel.src,
+            alt: '',
+            title: ''
+        });
         this.domObj.appendChild(this.domNode);
         
         this.domLabel = (this.options.draw) ? 
@@ -86,7 +91,12 @@ Jx.TreeItem = new Class ({
         }
     },
     draw: function() {
-        var domImg = new Element('img',{'class':'jxTreeIcon', src: Jx.aPixel.src});
+        var domImg = new Element('img',{
+            'class':'jxTreeIcon', 
+            src: Jx.aPixel.src,
+            alt: '',
+            title: ''
+        });
         if (this.options.image) {
             domImg.setStyle('backgroundImage', 'url('+this.options.image+')');
         }

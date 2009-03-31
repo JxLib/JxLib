@@ -899,7 +899,9 @@ Jx.Chrome = new Class({
                     }).adopt(
                     new Element('img',{
                         'class':'png24',
-                        src:src
+                        src:src,
+                        alt: '',
+                        title: ''
                     }))
                 );
             }, this);

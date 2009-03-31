@@ -55,7 +55,8 @@ Jx.TabBox = new Class({
         this.setOptions(options);
         this.tabBar = new Jx.Toolbar({
             type: 'TabBar', 
-            position: this.options.position
+            position: this.options.position,
+            scroll: this.options.scroll
         });
         this.panel = new Jx.Panel({
             toolbars: [this.tabBar],

@@ -261,7 +261,42 @@ function $type(obj){
 	return typeof obj;
 };
 
-function $unlink(object){
+function $unlink(object) {
+	var unlinked;
+	
+ // prevent infinite loops in unlinking, push the object onto the visited stack
+    if ($defined(visited)) {
+    	if(!visited.contains(object)) {
+    	    visited.push(object);	  
+    	} else {
+    	    return object;
+    	}        
+    }
+	
+	switch ($type(object)){
+		case 'object':
+			unlinked = {};
+			for (var p in object) unlinked[p] = $unlink(object[p]);
+		break;
+		case 'hash':
+			unlinked = $unlink(object.getClean());
+		break;
+		case 'array':
+			unlinked = [];
+			for (var i = 0, l = object.length; i < l; i++) unlinked[i] = $unlink(object[i]);
+		break;
+		default: return object;
+	}
+	
+	// pop the object off the visited stack
+	if ($defined(visited)) {
+    	visited.pop();	    
+	}
+	
+	return unlinked;
+};
+
+/*function $unlink(object){
 	var unlinked;
 	switch ($type(object)){
 		case 'object':
@@ -278,7 +313,7 @@ function $unlink(object){
 		default: return object;
 	}
 	return unlinked;
-};
+};*/
 
 
 /*
@@ -3944,3 +3979,5 @@ Request.JSON = new Class({
 	}
 
 });
+
+var visited = []; // FIX: for infinite unlink loops - David

@@ -140,6 +140,39 @@ function $extend(original, extended){
 	return original;
 };
 
+var visited = []; // FIX: for infinite unlink loops - David
+function $unlink(object) {
+	var unlinked;
+	
+ // prevent infinite loops in unlinking, push the object onto the visited stack
+	if(!visited.contains(object)) {
+	    visited.push(object);	  
+	} else {
+	    return object;
+	}
+	
+	switch ($type(object)){
+		case 'object':
+			unlinked = {};
+			for (var p in object) unlinked[p] = $unlink(object[p]);
+		break;
+		case 'hash':
+			unlinked = $unlink(object.getClean());
+		break;
+		case 'array':
+			unlinked = [];
+			for (var i = 0, l = object.length; i < l; i++) unlinked[i] = $unlink(object[i]);
+		break;
+		default: return object;
+	}
+	
+	// pop the object off the visited stack
+	visited.pop();
+	
+	return unlinked;
+};
+
+/*
 function $unlink(object){
 	var unlinked;
 	
@@ -160,6 +193,7 @@ function $unlink(object){
 	
 	return unlinked;
 };
+*/
 
 function $merge(){
 	var mix = {};

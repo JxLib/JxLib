@@ -107,7 +107,9 @@ Jx.Panel = new Class({
         
         var i = new Element('img', {
             'class': 'jx'+this.options.type+'Icon',
-            src: Jx.aPixel.src
+            src: Jx.aPixel.src,
+            alt: '',
+            title: ''
         });
         if (this.options.image) {
             i.setStyle('backgroundImage', 'url('+this.options.image+')');

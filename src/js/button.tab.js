@@ -90,7 +90,11 @@ Jx.Button.Tab = new Class({
                     }).bind(this)
                 } 
             });
-            a.adopt(new Element('img', {src: Jx.aPixel.src}));
+            a.adopt(new Element('img', {
+                src: Jx.aPixel.src,
+                alt: '',
+                title: ''
+            }));
             this.domObj.adopt(a);
         }
     },
