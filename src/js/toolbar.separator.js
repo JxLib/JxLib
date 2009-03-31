@@ -13,6 +13,7 @@
  * This file is licensed under an MIT style license
  */
 Jx.Toolbar.Separator = new Class({
+    Family: 'Jx.Toolbar.Separator',
     /**
      * Property: domObj
      * {HTMLElement} The DOM element that goes in the <Jx.Toolbar>

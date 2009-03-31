@@ -24,6 +24,7 @@
  * This file is licensed under an MIT style license
  */
 Jx.TreeItem = new Class ({
+    Family: 'Jx.TreeItem',
     Implements: [Options,Events],
     /**
      * Property: domObj

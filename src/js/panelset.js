@@ -29,6 +29,7 @@
  * This file is licensed under an MIT style license
  */
 Jx.PanelSet = new Class({
+    Family: 'Jx.PanelSet',
     /**
      * Implements:
      * * Options

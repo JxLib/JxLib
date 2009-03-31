@@ -17,6 +17,7 @@
  * This file is licensed under an MIT style license
  */
 Jx.TreeFolder = new Class({
+    Family: 'Jx.TreeFolder',
     Extends: Jx.TreeItem,
     /**
      * Property: subDomObj

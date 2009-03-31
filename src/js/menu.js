@@ -17,6 +17,7 @@
  * This file is licensed under an MIT style license
  */
 Jx.Menu = new Class({
+    Family: 'Jx.Menu',
     /**
      * Implements:
      * * Options

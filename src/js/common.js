@@ -37,6 +37,12 @@ window.addEvent('load', function() {
     }    
 })();
 
+Class.Mutators.Family = function(self,name) {
+    self.$family = {'name': name};
+    return self;
+}
+
+
 /* Setup global namespace
  * If jxcore is loaded by jx.js, then the namespace and baseURL are
  * already established

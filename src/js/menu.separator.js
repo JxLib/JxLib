@@ -13,6 +13,7 @@
  * This file is licensed under an MIT style license
  */
 Jx.Menu.Separator = new Class({
+    Family: 'Jx.Menu.Separator',
     /**
      * Property: domObj
      * {HTMLElement} the HTML element that the separator is contained

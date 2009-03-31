@@ -30,6 +30,7 @@
  * This file is licensed under an MIT style license
  */
 Jx.Grid = new Class({
+    Family: 'Jx.Grid',
     Implements: [Options, Events, Jx.Addable],
     domObj : null,
     model : null,

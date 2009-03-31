@@ -52,6 +52,7 @@
  * This file is licensed under an MIT style license
  */
 Jx.Button.Flyout = new Class({
+    Family: 'Jx.Button.Flyout',
     /**
      * Extends:
      * <Jx.Button>

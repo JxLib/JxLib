@@ -10,6 +10,7 @@
  * This file is licensed under an MIT style license
  */
 Jx.Toolbar.Item = new Class( {
+    Family: 'Jx.Toolbar.Item',
     Implements: [Options],
     options: {
         active: true

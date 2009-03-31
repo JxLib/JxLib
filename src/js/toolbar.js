@@ -46,6 +46,7 @@
  * This file is licensed under an MIT style license
  */
 Jx.Toolbar = new Class({
+    Family: 'Jx.Toolbar',
     Implements: [Options,Events],
     /**
      * Property: items

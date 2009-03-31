@@ -27,6 +27,7 @@
  * This file is licensed under an MIT style license
  */
 Jx.ButtonSet = new Class({
+    Family: 'Jx.ButtonSet',
     /**
      * Implements:
      * * Events

@@ -28,6 +28,7 @@
  */
 
 Jx.ColorPalette = new Class({
+    Family: 'Jx.ColorPalette',
     /**
      * Implements:
      * * Options

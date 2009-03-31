@@ -20,6 +20,7 @@
  * This file is licensed under an MIT style license
  */
 Jx.Toolbar.Container = new Class({
+    Family: 'Jx.Toolbar.Container',
     Implements: [Options,Events, Jx.Addable],
     /**
      * Property: domObj

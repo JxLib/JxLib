@@ -17,6 +17,7 @@
  * This file is licensed under an MIT style license
  */
 Jx.Menu.SubMenu = new Class({
+    Family: 'Jx.Menu.SubMenu',
     /**
      * Extends:
      * <Jx.Menu.Item>

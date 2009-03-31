@@ -35,6 +35,7 @@
  * This file is licensed under an MIT style license
  */
 Jx.TabSet = new Class({
+    Family: 'Jx.TabSet',
     Implements: [Options,Events],
     /**
      * Property: tabs

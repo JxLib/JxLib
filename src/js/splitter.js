@@ -20,6 +20,7 @@
  */
  
 Jx.Splitter = new Class({
+    Family: 'Jx.Splitter',
     /**
      * Implements:
      * * Options

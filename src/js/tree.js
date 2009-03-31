@@ -15,6 +15,7 @@
  * This file is licensed under an MIT style license
  */
 Jx.Tree = new Class({
+    Family: 'Jx.Tree',
     Implements: [Jx.Addable],
     Extends: Jx.TreeFolder,
     /**

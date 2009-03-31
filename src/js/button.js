@@ -91,6 +91,7 @@
  */
  
 Jx.Button = new Class({
+    Family: 'Jx.Button',
     /**
      * Implements:
      * * Options

@@ -21,6 +21,7 @@
  * This file is licensed under an MIT style license
  */
 Jx.Menu.Item = new Class({
+    Family: 'Jx.Menu.Item',
     /**
      * Extends: 
      * <Jx.Button>

@@ -23,6 +23,7 @@
  * This file is licensed under an MIT style license
  */
 Jx.TabBox = new Class({
+    Family: 'Jx.TabBox',
     /**
      * Implements:
      * * Options

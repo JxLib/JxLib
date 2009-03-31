@@ -39,6 +39,7 @@
  * This file is licensed under an MIT style license
  */
 Jx.Button.Tab = new Class({
+    Family: 'Jx.Button.Tab',
     /**
      * Extends:
      * <Jx.Button>

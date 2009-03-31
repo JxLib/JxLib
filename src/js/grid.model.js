@@ -74,6 +74,7 @@
  * has selected a cell by clicking on the cell in the grid.
  */
 Jx.Grid.Model = new Class({
+    Family: 'Jx.Grid.Model',
     Implements: [Events, Options],
     options: {
         colHeaderHeight: 28,

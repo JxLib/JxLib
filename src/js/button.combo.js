@@ -28,6 +28,7 @@
  * This file is licensed under an MIT style license
  */
 Jx.Button.Combo = new Class({
+    Family: 'Jx.Button.Combo',
     /**
      * Extends:
      * <Jx.Button.Multi>

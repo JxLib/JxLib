@@ -22,6 +22,7 @@
  * This file is licensed under an MIT style license
  */
 Jx.Panel = new Class({
+    Family: 'Jx.Panel',
     /**
      * Implements:
      * * <Jx.ContentLoader>

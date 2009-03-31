@@ -25,6 +25,7 @@
  */
  
 Jx.Layout = new Class({
+    Family: 'Jx.Layout',
     /** 
      * Implements:
      * * Options
