@@ -115,14 +115,20 @@ Jx.TreeItem = new Class ({
         domA.addEvents({
             click: this.selected.bind(this),
             dblclick: this.selected.bind(this),
-            contextmenu: this.showMenu.bind(this),
             drag: function(e) {e.stop();},
-            mousedown: function(e) {
-                domA.addClass('jxTreeItemPressed');
-                hasFocus = true;
-                mouseDown = true;
-                domA.focus();
-            },
+            mousedown: (function(e) {
+               domA.addClass('jxTreeItemPressed');
+               hasFocus = true;
+               mouseDown = true;
+               domA.focus();
+               if (e.rightClick) {
+                   this.lastEvent = new Event(e);
+                   if (this.options.contextMenu) {
+                       this.options.contextMenu.show(this.lastEvent);
+                   }
+                   this.lastEvent.stop();
+               }
+            }).bind(this),
             mouseup: function(e) {
                 domA.removeClass('jxTreeItemPressed');
                 mouseDown = false;
@@ -212,21 +218,6 @@ Jx.TreeItem = new Class ({
     selected : function(e) {
         this.lastEvent = new Event(e);
         this.fireEvent('click', this);
-    },
-    /**
-     * Method: showMenu
-     * Called when the DOM element for the TreeItem is right-clicked.  The
-     * node is selected and the context menu displayed (if there is one).
-     *
-     * Parameters:
-     * e - {Event} the DOM event
-     */
-    showMenu: function(e) {
-        this.lastEvent = new Event(e);
-        if (this.contextMenu) {
-            this.contextMenu.show(this.lastEvent);
-        }
-        this.lastEvent.stop();
     },
     /**
      * Method: getName
