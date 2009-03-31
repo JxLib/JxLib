@@ -66,6 +66,7 @@ Jx.Dialog = new Class({
         id: '',
         parent: null,
         resize: false,
+        resizeTooltip: '',
         move: true,
         close: true,
         collapse: true
@@ -186,6 +187,7 @@ Jx.Dialog = new Class({
         if (this.options.resize) {
             this.resizeHandle = new Element('div', {
                 'class':'jxDialogResize',
+                title: this.options.resizeTooltip,
                 styles: {
                     'display':this.options.closed?'none':'block'
                 }

@@ -45,12 +45,10 @@ Jx.Menu.Item = new Class({
      * options - {Object} an object containing options for <Jx.Button::initialize>
      */
     initialize: function(options) {
-        this.parent($merge(
-            {
+        this.parent($merge({
                 image: Jx.aPixel.src
             },
-            options, 
-            {
+            options, {
                 container:'li',
                 type:'MenuItem',
                 toggleClass: (options.image ? null : this.options.toggleClass)

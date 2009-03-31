@@ -44,7 +44,8 @@ Jx.ColorPalette = new Class({
         parent: null,
         color: '#000000',
         alpha: 1,
-        hexColors: ['00', '33', '66', '99', 'CC', 'FF']
+        hexColors: ['00', '33', '66', '99', 'CC', 'FF'],
+        alphaLabel: 'alpha (%)'
     },
     /**
      */
@@ -101,7 +102,7 @@ Jx.ColorPalette = new Class({
 
         top.adopt(this.colorInput);
 
-        this.alphaLabel = new Element('label', {'class':'jxAlphaLabel', 'html':'alpha (%)'});
+        this.alphaLabel = new Element('label', {'class':'jxAlphaLabel', 'html':this.options.alphaLabel});
         top.adopt(this.alphaLabel);
 
         this.alphaInput = new Element('input', {

@@ -39,7 +39,8 @@ Jx.PanelSet = new Class({
     
     options: {
         parent: null,
-        panels: []
+        panels: [],
+        barTooltip: 'drag this bar to resize'
     },
     
     /**
@@ -97,7 +98,7 @@ Jx.PanelSet = new Class({
             prepareBar: (function(i) {
                 var bar = new Element('div', {
                     'class': 'jxPanelBar',
-                    'title': 'drag this bar to resize'
+                    'title': this.options.barTooltip
                 });
                 
                 var panel = this.panels[i];

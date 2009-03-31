@@ -42,8 +42,15 @@ Jx.Panel = new Class({
         position: 'absolute',
         height: null,
         collapse: true,
+        collapseTooltip: 'Collapse/Expand Panel',
+        collapseLabel: 'Collapse',
+        expandLabel: 'Expand',
+        maximizeTooltip: 'Maximize Panel',
+        maximizeLabel: 'Maximize',
         detach: false,
         close: false,
+        closeTooltip: 'Close Panel',
+        closeLabel: 'Close',
         closed: false,
         hideTitle: false,
         type: 'Panel'
@@ -144,7 +151,7 @@ Jx.Panel = new Class({
         if (this.options.collapse) {
             var b = new Jx.Button({
                 image: Jx.aPixel.src,
-                tooltip: 'Collapse/Expand Panel',
+                tooltip: this.options.collapseTooltip,
                 onClick: function() {
                     that.toggleCollapse();
                 }
@@ -153,14 +160,14 @@ Jx.Panel = new Class({
             this.toolbar.add(b);
             if (this.menu) {
                 var item = new Jx.Menu.Item({
-                    label: 'Collapse',
+                    label: this.options.collapseLabel,
                     onClick: function() { that.toggleCollapse(); }
                 });
                 this.addEvent('collapse', function() {
                     if (that.options.closed) {
-                        item.setLabel('Expand');
+                        item.setLabel(this.options.expandLabel);
                     } else {
-                        item.setLabel('Collapse');
+                        item.setLabel(this.options.collapseLabel);
                     }
                 });
                 this.menu.add(item);
@@ -170,7 +177,7 @@ Jx.Panel = new Class({
         if (this.options.maximize) {
             var b = new Jx.Button({
                 image: Jx.aPixel.src,
-                tooltip: 'Maximize Panel',
+                tooltip: this.options.maximizeTooltip,
                 onClick: function() {
                     that.maximize();
                 }
@@ -179,7 +186,7 @@ Jx.Panel = new Class({
             this.toolbar.add(b);
             if (this.menu) {
                 var item = new Jx.Menu.Item({
-                    label: 'Maximize',
+                    label: this.options.maximizeLabel,
                     onClick: function() { that.maximize(); }
                 });
                 this.menu.add(item);
@@ -189,7 +196,7 @@ Jx.Panel = new Class({
         if (this.options.close) {
             var b = new Jx.Button({
                 image: Jx.aPixel.src,
-                tooltip: 'Close Panel',
+                tooltip: this.options.closeTooltip,
                 onClick: function() {
                     that.close();
                 }
@@ -198,7 +205,7 @@ Jx.Panel = new Class({
             this.toolbar.add(b);
             if (this.menu) {
                 var item = new Jx.Menu.Item({
-                    label: 'Close',
+                    label: this.options.closeLabel,
                     onClick: function() {
                         that.close();
                     }
