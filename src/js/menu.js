@@ -146,6 +146,9 @@ Jx.Menu = new Class({
      */
     eventInMenu: function(e) {
         var target = $(e.target);
+        if (!target) {
+            return false;
+        }
         if (target.descendantOf(this.domObj) ||
             target.descendantOf(this.subDomObj)) {
             return true;
