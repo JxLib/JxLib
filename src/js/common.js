@@ -737,6 +737,10 @@ Jx.AutoPosition = new Class({
             scroll = $(element.parentNode).getScroll();
         }
         var coords = relative.getCoordinates(); //top, left, width, height
+        // adjust coords for the scroll offsets to make the object
+        // appear in the right part of the page.
+        coords.left = scroll.x;
+        coords.top = scroll.y;
         var size = element.getMarginBoxSize(); //width, height
         var left;
         var right;
