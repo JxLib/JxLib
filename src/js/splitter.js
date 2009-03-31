@@ -57,7 +57,9 @@ Jx.Splitter = new Class({
         barOptions: [],
         layout: 'horizontal',
         snaps: [],
-        barTooltip: 'drag this bar to resize'
+        barTooltip: 'drag this bar to resize',
+        onStart: null,
+        onFinish: null
     },
     /**
      * Constructor: Jx.Splitter
@@ -253,6 +255,16 @@ Jx.Splitter = new Class({
                         return;
                     }
                     fn.apply(this,[obj]);
+                }).bind(this),
+                onStart: (function() {
+                    if (this.options.onStart) {
+                        this.options.onStart();
+                    }
+                }).bind(this),
+                onFinish: (function() {
+                    if (this.options.onFinish) {
+                        this.options.onFinish();
+                    }
                 }).bind(this)
             });
         }, this);
