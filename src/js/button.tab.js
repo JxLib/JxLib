@@ -67,15 +67,9 @@ Jx.Button.Tab = new Class({
      * valid options.
      */
     initialize : function( options) {
-        var content;
-        if (options && options.content) {
-            content = options.content;
-            options.content = null;
-        }
         this.parent($merge(options, {type:'Tab', toggle:true}));
         this.content = new Element('div', {'class':'tabContent'});
         new Jx.Layout(this.content, options);
-        this.options.content = content;
         this.loadContent(this.content);
         var that = this;
         this.addEvent('down', function(){that.content.addClass('tabContentActive');});

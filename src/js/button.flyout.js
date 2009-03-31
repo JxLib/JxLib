@@ -86,11 +86,6 @@ Jx.Button.Flyout = new Class({
         if (!Jx.Button.Flyout.Stack) {
             Jx.Button.Flyout.Stack = [];
         }
-        var content = null;
-        if (options && options.content) {
-            content = options.content;
-            options.content = null;
-        }
         this.parent(options);
         this.domA.addClass('jx'+this.options.type+'Flyout');
         
@@ -107,7 +102,6 @@ Jx.Button.Flyout = new Class({
         this.contentContainer.adopt(this.content);
         
         this.content.store('jxFlyout', this);
-        this.options.content = content;
         this.loadContent(this.content);
         this.keypressWatcher = this.keypressHandler.bindWithEvent(this);
         this.hideWatcher = this.clickHandler.bindWithEvent(this);

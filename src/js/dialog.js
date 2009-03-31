@@ -112,13 +112,6 @@ Jx.Dialog = new Class({
         this.isOpening = false;
         this.firstShow = true;
         
-        /* ugly hack around $unlink in mootools */
-        var content = null;
-        if (options && options.content) {
-            content = options.content;
-            options.content = null;
-        }
-        
         /* initialize the panel overriding the type and position */
         this.parent($merge(
             {parent:document.body}, // these are defaults that can be overridden
@@ -126,10 +119,6 @@ Jx.Dialog = new Class({
             {type:'Dialog', position: 'absolute'} // these override anything passed to the options
         ));
         
-        /* ugly hack continued */
-        this.options.content = content;
-        this.loadContent(this.content);
-
         this.options.parent = $(this.options.parent);
         
         if (!window.opera && this.options.modal) {

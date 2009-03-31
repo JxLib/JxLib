@@ -54,7 +54,8 @@ Jx.Panel = new Class({
         closeLabel: 'Close',
         closed: false,
         hideTitle: false,
-        type: 'Panel'
+        type: 'Panel',
+        toolbars: []
     },
     
     /** 
@@ -94,15 +95,8 @@ Jx.Panel = new Class({
      *     container's width (using the relative option in <Jx.Layout>).
      */
     initialize : function(options){
-        this.toolbars = options ? options.toolbars || [] : [];
-        
-        /* ugly hack around $unlink in mootools */
-        var content = null;
-        if (options && options.content) {
-            content = options.content;
-            options.content = null;
-        }
         this.setOptions(options);
+        this.toolbars = options ? options.toolbars || [] : [];
         
         if ($defined(this.options.height) && !$defined(options.position)) {
             this.options.position = 'relative';
@@ -239,17 +233,18 @@ Jx.Panel = new Class({
         });
         this.domObj.adopt(this.contentContainer);
         
-        for (var i=0; i<this.toolbars.length; i++) {
-            var tb = this.toolbars[i];
-            var position = tb.options.position;
-            var tbc = this.toolbarContainers[position];
-            if (!tbc) {
-                var tbc = new Element('div');
-                new Jx.Layout(tbc);
-                this.contentContainer.adopt(tbc);
-                this.toolbarContainers[position] = tbc;
-            }
-            tb.addTo(tbc);
+        if ($type(this.options.toolbars) == 'array') {
+            this.options.toolbars.each(function(tb){
+                var position = tb.options.position;
+                var tbc = this.toolbarContainers[position];
+                if (!tbc) {
+                    var tbc = new Element('div');
+                    new Jx.Layout(tbc);
+                    this.contentContainer.adopt(tbc);
+                    this.toolbarContainers[position] = tbc;
+                }
+                tb.addTo(tbc);
+            }, this);
         }
         
         this.content = new Element('div', {
@@ -259,10 +254,9 @@ Jx.Panel = new Class({
         this.contentContainer.adopt(this.content);
         new Jx.Layout(this.contentContainer);
         new Jx.Layout(this.content);
-        /* continue ugly $unlink hack */
-        this.options.content = content;
-        this.loadContent(this.content);
         
+        this.loadContent(this.content);
+
         this.toggleCollapse(this.options.closed);
         
         this.addEvent('addTo', function() {
@@ -311,38 +305,39 @@ Jx.Panel = new Class({
                     this.toolbarContainers[position].style.height = '';                
                 }
             }, this);
-            for (var i=0; i<this.toolbars.length; i++) {
-                tb = this.toolbars[i];
-                position = tb.options.position;
-                tbc = this.toolbarContainers[position];
-                // IE 6 doesn't seem to want to measure the width of things
-                // correctly
-                if (Browser.Engine.trident4) {
-                    var oldParent = $(tbc.parentNode);
-                    tbc.style.visibility = 'hidden';
-                    $(document.body).adopt(tbc);                    
-                }
-                var size = tbc.getBorderBoxSize();
-                // put it back into its real parent now we are done measuring
-                if (Browser.Engine.trident4) {
-                    oldParent.adopt(tbc);
-                    tbc.style.visibility = '';
-                }
-                switch(position) {
-                    case 'top':
-                        top = size.height;
-                        break;
-                    case 'bottom':
-                        bottom = size.height;
-                        break;
-                    case 'left':
-                        left = size.width;
-                        break;
-                    case 'right':
-                        right = size.width;
-                        break;
-                }
-            
+            if ($type(this.options.toolbars) == 'array') {
+                this.options.toolbars.each(function(tb){
+                    position = tb.options.position;
+                    tbc = this.toolbarContainers[position];
+                    // IE 6 doesn't seem to want to measure the width of 
+                    // things correctly
+                    if (Browser.Engine.trident4) {
+                        var oldParent = $(tbc.parentNode);
+                        tbc.style.visibility = 'hidden';
+                        $(document.body).adopt(tbc);                    
+                    }
+                    var size = tbc.getBorderBoxSize();
+                    // put it back into its real parent now we are done 
+                    // measuring
+                    if (Browser.Engine.trident4) {
+                        oldParent.adopt(tbc);
+                        tbc.style.visibility = '';
+                    }
+                    switch(position) {
+                        case 'top':
+                            top = size.height;
+                            break;
+                        case 'bottom':
+                            bottom = size.height;
+                            break;
+                        case 'left':
+                            left = size.width;
+                            break;
+                        case 'right':
+                            right = size.width;
+                            break;
+                    }                    
+                },this);
             }
             tbc = this.toolbarContainers['top'];
             if (tbc) {
