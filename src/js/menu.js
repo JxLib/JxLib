@@ -206,6 +206,7 @@ Jx.Menu = new Class({
         var e = o.event;
         if (Jx.Menu.Menus[0]) {
             if (Jx.Menu.Menus[0] != this) {
+                Jx.Menu.Menus[0].button.blur();
                 Jx.Menu.Menus[0].hide(e);
             } else {
                 this.hide();
@@ -216,7 +217,7 @@ Jx.Menu = new Class({
             return;
         }
         Jx.Menu.Menus[0] = this;
-        
+        this.button.focus();
         this.contentContainer.setStyle('visibility','hidden');
         this.contentContainer.setStyle('display','block');
         $(document.body).adopt(this.contentContainer);            
