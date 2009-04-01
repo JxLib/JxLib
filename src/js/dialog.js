@@ -221,6 +221,22 @@ Jx.Dialog = new Class({
         }).bind(this));
     },
     
+    resize: function(width, height, autoPosition) {
+        this.options.width = width;
+        this.options.height = height;
+        if (this.domObj.getStyle('display') != 'none') {
+            this.layoutContent();
+            this.domObj.resize(this.options);
+            this.fireEvent('resize');
+            this.resizeChrome(this.domObj);
+            if (autoPosition) {
+                this.position(this.domObj, this.options.parent, this.options);                
+            }
+        } else {
+            this.firstShow = false;
+        }
+    },
+    
     /**
      * Method: sizeChanged
      * overload panel's sizeChanged method
