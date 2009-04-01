@@ -25,12 +25,10 @@ Jx.Menu.SubMenu = new Class({
     Extends: Jx.Menu.Item,
     /**
      * Implements:
-     * * Options
-     * * Events
      * * <Jx.AutoPosition>
      * * <Jx.Chrome>
      */
-    Implements: [Options, Events, Jx.AutoPosition, Jx.Chrome],
+    Implements: [Jx.AutoPosition, Jx.Chrome],
     /**
      * Property: subDomObj
      * {HTMLElement} the HTML container for the sub menu.
