@@ -221,6 +221,18 @@ Jx.Dialog = new Class({
         }).bind(this));
     },
     
+    /**
+     * Method: resize
+     * resize the dialog.  This can be called when the dialog is closed
+     * or open.
+     *
+     * Parameters:
+     * width - the new width
+     * height - the new height
+     * autoPosition - boolean, false by default, if resizing an open dialog
+     * setting this to true will reposition it according to its position
+     * rules.
+     */
     resize: function(width, height, autoPosition) {
         this.options.width = width;
         this.options.height = height;
