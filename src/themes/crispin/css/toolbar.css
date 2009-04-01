@@ -158,7 +158,7 @@ li.jxToolItem {
 /* Seperator height should match that of button images
    and the margins+padding+border should add up to the same total too. */
 
-li.jxToolItem  .separator {
+li.jxToolItem  span.jxBarSeparator {
   /* Base setup */
   display: block;
   position: relative;
