@@ -34,12 +34,6 @@ Jx.Button.Combo = new Class({
      * <Jx.Button.Multi>
      */
     Extends: Jx.Button.Multi,
-    /**
-     * Implements:
-     * * <Jx.AutoPosition>
-     * * <Jx.Chrome>
-     */
-    Implements: [Jx.AutoPosition, Jx.Chrome],
     domObj : null,
     ul : null,
     /**
@@ -62,12 +56,22 @@ Jx.Button.Combo = new Class({
      * is editable.
      */
     initialize: function(options) {
-        this.parent();
-        this.setOptions(options);
-        this.domA.removeClass('jxButtonMulti');
-        this.domA.addClass('jxButtonComboDefault');
+        this.parent(options);
         
         if (this.options.editable) {
+            // remove the button's normal A tag and replace it with a span
+            // so the input ends up not being inside an A tag - this was
+            // causing all kinds of problems for selecting text inside it
+            // due to some user-select: none classes that were introduced
+            // to make buttons not selectable in the first place.
+            //
+            // Ultimately I think we want to fix this so that the discloser
+            // in Jx.Button.Multi is a separate beast and we can use it here
+            // without inheriting from multi buttons
+            var s = new Element('span', {'class':'jxButton'});
+            s.adopt(this.domA.firstChild);
+            this.domA = s.replaces(this.domA);
+            this.domA.addClass('jxButtonComboDefault');
             this.domA.addClass('jxButtonEditCombo');
             this.domInput = new Element('input',{
                 type:'text',
@@ -88,7 +92,6 @@ Jx.Button.Combo = new Class({
         } else {
             this.discloser.dispose();
             this.domA.addClass('jxButtonCombo');
-            //this.setLabel(this.options.label);
             this.addEvent('click', (function(e){
                 this.discloser.fireEvent('click', e);
             }).bindWithEvent(this));
