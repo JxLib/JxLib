@@ -57,7 +57,7 @@ Jx.Button.Combo = new Class({
      */
     initialize: function(options) {
         this.parent(options);
-        
+        this.domA.removeClass('jxButtonMulti');
         if (this.options.editable) {
             // remove the button's normal A tag and replace it with a span
             // so the input ends up not being inside an A tag - this was
