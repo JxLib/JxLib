@@ -9,12 +9,19 @@
 /* IE 7 STYLES */
 /* =========== */
 
+/* force menus to have a size so they don't collapse */
+.jxMenuItemContainer {
+    filter:Alpha(opacity=100);
+}
+
+
 /* Opacity needs to be set in IE6 and below using the following filters.
  * Please note that IE8 changed how filters are written. 
  */
 .jxChromeDrag {filter: Alpha(opacity=50);}
 .jxDialogModal {filter: Alpha(opacity=20);}
 .jxDisabled {filter:Alpha(opacity=40);}
+.jxDisabled * {filter:Alpha(opacity=40);}
 iframe.jxIframeShim {filter:Alpha(opacity:0);}
 
 /* tree item focus style */
