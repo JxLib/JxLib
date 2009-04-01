@@ -121,11 +121,13 @@ Jx.Button.Multi = new Class({
                 document.addEvent('mousedown', this.hideWatcher);
                 document.addEvent('keyup', this.keypressWatcher);
                 
+                /* why were we doing this? It was affecting issue 13
                 if (e.$extended) {
                     e.stop();                                        
                 } else if (e.event && e.event.$extended) {
                     e.event.stop();
                 }
+                */
                 this.fireEvent('show', this);
             }).bindWithEvent(this.menu),
             'mouseenter':(function(){

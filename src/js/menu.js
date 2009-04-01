@@ -239,7 +239,9 @@ Jx.Menu = new Class({
             this.button.domA.addClass('jx'+this.button.options.type+'Active');            
         }
         if (e) {
-            e.stop();
+            //why were we doing this? it is affecting the closing of
+            //other elements like flyouts (issue 13)
+            //e.stop();
         }
         /* fix bug in IE that closes the menu as it opens because of bubbling */
         document.addEvent('mousedown', this.hideWatcher);
