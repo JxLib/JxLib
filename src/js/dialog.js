@@ -124,7 +124,7 @@ Jx.Dialog = new Class({
         
         this.options.parent = $(this.options.parent);
         
-        if (!window.opera && this.options.modal) {
+        if (this.options.modal) {
             this.blanket = new Element('div',{
                 'class':'jxDialogModal',
                 styles:{
