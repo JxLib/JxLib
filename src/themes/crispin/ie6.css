@@ -20,6 +20,7 @@
 .jxChromeDrag {filter: Alpha(opacity=50);}
 .jxDialogModal {filter: Alpha(opacity=20);}
 .jxDisabled {filter:Alpha(opacity=40);}
+.jxDisabled * {filter:Alpha(opacity=40);}
 iframe.jxIframeShim {filter:Alpha(opacity:0);}
 
 /* List items do not render properly under several conditions.  
