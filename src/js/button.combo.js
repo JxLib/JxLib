@@ -87,6 +87,7 @@ Jx.Button.Combo = new Class({
                 },
                 value: this.options.label
             });
+            this.domLabel.empty();
             this.domLabel.addClass('jxComboInput');
             this.domLabel.adopt(this.domInput);
         } else {
