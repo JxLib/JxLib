@@ -38,6 +38,7 @@ div.jxButtonContainer {
   background-position: left -24px;
   background-repeat: no-repeat;
   text-decoration: none;
+  outline: none;
 }
 
 /* normal button */
@@ -47,7 +48,6 @@ a.jxButton {
   user-select: none;
   -moz-user-select: none;
   -khtml-user-select: none;
-  outline: none;
 }
 
 ul.jxToolbar .jxButton {
@@ -291,11 +291,11 @@ a.jxButtonDisclosePressed {
 }
 
 /* note, jxButtonHover is set by Multi button JS */
-ul.jxToolbar a.jxButtonHover {
+ul.jxToolbar .jxButtonHover {
   background-position: left -24px !important;
 }
 
-ul.jxToolbar a.jxButtonHover span.jxButtonContent {
+ul.jxToolbar .jxButtonHover span.jxButtonContent {
   background-position: right -24px !important;
 }
 
