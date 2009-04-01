@@ -243,6 +243,7 @@ Jx.Splitter = new Class({
             fn = this.dragVertical;
         }
         this.bars.each(function(bar){
+            var mask;
             new Drag(bar, {
                 //limit: limit,
                 modifiers: modifiers,
@@ -250,12 +251,16 @@ Jx.Splitter = new Class({
                     obj.addClass('jxSplitBarDrag');
                 },
                 onComplete : (function(obj) {
+                    mask.destroy();
                     obj.removeClass('jxSplitBarDrag');
                     if (obj.retrieve('splitterObj') != this) {
                         return;
                     }
                     fn.apply(this,[obj]);
                 }).bind(this),
+                onBeforeStart: function(obj) {
+                    mask = new Element('div',{'class':'jxSplitterMask'}).inject(obj, 'after');
+                },
                 onStart: (function() {
                     if (this.options.onStart) {
                         this.options.onStart();
