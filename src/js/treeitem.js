@@ -116,17 +116,14 @@ Jx.TreeItem = new Class ({
             click: this.selected.bind(this),
             dblclick: this.selected.bind(this),
             drag: function(e) {e.stop();},
+            contextmenu: function(e) { e.stop(); },
             mousedown: (function(e) {
                domA.addClass('jxTreeItemPressed');
                hasFocus = true;
                mouseDown = true;
                domA.focus();
-               if (e.rightClick) {
-                   this.lastEvent = new Event(e);
-                   if (this.options.contextMenu) {
-                       this.options.contextMenu.show(this.lastEvent);
-                   }
-                   this.lastEvent.stop();
+               if (e.rightClick && this.options.contextMenu) {
+                   this.options.contextMenu.show(e);
                }
             }).bind(this),
             mouseup: function(e) {
@@ -216,7 +213,6 @@ Jx.TreeItem = new Class ({
      * e - {Event} the DOM event
      */
     selected : function(e) {
-        this.lastEvent = new Event(e);
         this.fireEvent('click', this);
     },
     /**
