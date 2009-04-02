@@ -929,7 +929,10 @@ Jx.Chrome = new Class({
      */
     makeChrome: function(element) {
         var c = new Element('div', {
-            'class':'jxChrome'      
+            'class':'jxChrome',
+            events: {
+                contextmenu: function(e) { e.stop(); }
+            }      
         });
         
         /* add to element so we can get the background image style */
