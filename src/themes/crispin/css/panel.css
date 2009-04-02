@@ -163,23 +163,23 @@
 
 .jxPanelControls .jxButtonContainer,
 .jxPanelControls span.jxButtonContent,
-.jxPanelControls a.jxButton:hover span.jxButtonContent,
-.jxPanelControls a.jxButton:active span.jxButtonContent,
-.jxPanelControls a.jxButtonActive span.jxButtonContent,
-.jxPanelControls a.jxButtonActive:hover span.jxButtonContent,
-.jxPanelControls a.jxButtonActive:active span.jxButtonContent,
-.jxPanelControls .jxDisabled a.jxButton span.jxButtonContent,
-.jxPanelControls .jxDisabled a.jxButton:hover span.jxButtonContent,
-.jxPanelControls .jxDisabled a.jxButton:active span.jxButtonContent,
-.jxPanelControls a.jxButton,
-.jxPanelControls a.jxButton:hover,
-.jxPanelControls a.jxButton:active ,
-.jxPanelControls a.jxButtonActive,
-.jxPanelControls a.jxButtonActive:hover,
-.jxPanelControls a.jxButtonActive:active,
-.jxPanelControls .jxDisabled a.jxButton,
-.jxPanelControls .jxDisabled a.jxButton:hover,
-.jxPanelControls .jxDisabled a.jxButton:active {
+.jxPanelControls .jxButton:hover span.jxButtonContent,
+.jxPanelControls .jxButton:active span.jxButtonContent,
+.jxPanelControls .jxButtonActive span.jxButtonContent,
+.jxPanelControls .jxButtonActive:hover span.jxButtonContent,
+.jxPanelControls .jxButtonActive:active span.jxButtonContent,
+.jxPanelControls .jxDisabled .jxButton span.jxButtonContent,
+.jxPanelControls .jxDisabled .jxButton:hover span.jxButtonContent,
+.jxPanelControls .jxDisabled .jxButton:active span.jxButtonContent,
+.jxPanelControls .jxButton,
+.jxPanelControls .jxButton:hover,
+.jxPanelControls .jxButton:active ,
+.jxPanelControls .jxButtonActive,
+.jxPanelControls .jxButtonActive:hover,
+.jxPanelControls .jxButtonActive:active,
+.jxPanelControls .jxDisabled .jxButton,
+.jxPanelControls .jxDisabled .jxButton:hover,
+.jxPanelControls .jxDisabled .jxButton:active {
   padding: 0px;
   margin: 0px;
   border: none;
@@ -187,13 +187,13 @@
   background-image: none;
 }
 
-.jxPanelControls a.jxButtonMenu span.jxButtonContent,
-.jxPanelControls a.jxButtonFlyout span.jxButtonContent {
+.jxPanelControls .jxButtonMenu span.jxButtonContent,
+.jxPanelControls .jxButtonFlyout span.jxButtonContent {
   background-image: none;
 }
 
-.jxPanelControls a.jxButtonMenu span.jxButtonContent span,
-.jxPanelControls a.jxButtonFlyout span.jxButtonContent span {
+.jxPanelControls .jxButtonMenu span.jxButtonContent span,
+.jxPanelControls .jxButtonFlyout span.jxButtonContent span {
   padding-right: 0px;
 }
 

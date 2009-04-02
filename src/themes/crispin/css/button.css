@@ -228,19 +228,19 @@ span.jxButtonContent span.jxButtonLabel {
 /* JX BUTTON EXTENSION STYLES */
 /* ========================== */
 
-a.jxButtonMenu span.jxButtonContent,
-a.jxButtonMulti span.jxButtonContent,
-a.jxButtonFlyout span.jxButtonContent,
-a.jxButtonCombo span.jxButtonContent,
-a.jxButtonEditCombo span.jxButtonContent {
+.jxButtonMenu span.jxButtonContent,
+.jxButtonMulti span.jxButtonContent,
+.jxButtonFlyout span.jxButtonContent,
+.jxButtonCombo span.jxButtonContent,
+.jxButtonEditCombo span.jxButtonContent {
   padding-right: 0px;
 }
 
-a.jxButtonMenu span.jxButtonContent span,
-a.jxButtonFlyout span.jxButtonContent span,
-a.jxButtonMulti span.jxButtonContent span,
-a.jxButtonCombo span.jxButtonContent span,
-a.jxButtonEditCombo span.jxButtonContent span {
+.jxButtonMenu span.jxButtonContent span,
+.jxButtonFlyout span.jxButtonContent span,
+.jxButtonMulti span.jxButtonContent span,
+.jxButtonCombo span.jxButtonContent span,
+.jxButtonEditCombo span.jxButtonContent span {
   padding-right: 16px;
   background-image: url(images/emblems.png);
   background-position: right -16px;

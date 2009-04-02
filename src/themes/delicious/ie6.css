@@ -46,37 +46,37 @@ iframe.jxIframeShim {filter:Alpha(opacity:0);}
  * use the active pseudo-class.  Other browsers use the active-pseudo-class
  * while something is being pressed so IE specific definitions are needed. */
 /* focus button */
-ul.jxToolbar a.jxButton:active,
-a.jxButton:active {
+ul.jxToolbar .jxButton:active,
+.jxButton:active {
   background-position: left -96px;
   outline: expression(hideFocus='true');
 }
 
-a.jxButton:active span.jxButtonContent {
+.jxButton:active span.jxButtonContent {
   background-position: right -96px;
 }
 
 /* focus active button */
-ul.jxToolbar a.jxButtonActive:active,
-a.jxButtonActive:active {
+ul.jxToolbar .jxButtonActive:active,
+.jxButtonActive:active {
   background-position: left -144px;
 }
 
-a.jxButtonActive:active span.jxButtonContent {
+.jxButtonActive:active span.jxButtonContent {
   background-position: right -144px;
 }
 
 /* clicking normal button */
-ul.jxToolbar a.jxButtonPressed:active,
-a.jxButtonPressed:active {
+ul.jxToolbar .jxButtonPressed:active,
+.jxButtonPressed:active {
   background-position: left -120px;
 }
 
-a.jxButtonPressed:active span.jxButtonContent {
+.jxButtonPressed:active span.jxButtonContent {
   background-position: right -120px;
 }
 
-a.jxButtonDisclose:active {
+.jxButtonDisclose:active {
   background-position: right -96px;
 }
 

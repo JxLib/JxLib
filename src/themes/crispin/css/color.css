@@ -94,7 +94,7 @@ div.jxColorPreview {
     overflow: hidden;
 }
 
-a.jxButtonFlyout span.jxButtonContent span.jxButtonSwatch {
+.jxButtonFlyout span.jxButtonContent span.jxButtonSwatch {
     display: block;
     float: left;
     width: 14px;
@@ -106,7 +106,7 @@ a.jxButtonFlyout span.jxButtonContent span.jxButtonSwatch {
     padding-right: 0px !important;
 }
 
-a.jxButtonFlyout span.jxButtonContent span.jxButtonSwatch span {
+.jxButtonFlyout span.jxButtonContent span.jxButtonSwatch span {
     display: block;
     width: 14px;
     height: 14px;

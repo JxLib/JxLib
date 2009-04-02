@@ -18,7 +18,7 @@
   padding: 5px 5px 7px 6px;
 }
 
-a.jxButtonMenu span.jxMenuItemSpan {
+.jxButtonMenu span.jxMenuItemSpan {
   padding-right: 16px;
 }
 
@@ -120,8 +120,8 @@ span.jxMenuItemContent {
   /*overflow: hidden;*/
 }
 
-a.jxButtonSubMenu span.jxMenuItemContent,
-a.jxButtonSubMenu:hover span.jxMenuItemContent {
+.jxButtonSubMenu span.jxMenuItemContent,
+.jxButtonSubMenu:hover span.jxMenuItemContent {
   background-image: url(images/emblems.png);
   background-position: right -32px;
   background-repeat: no-repeat;
