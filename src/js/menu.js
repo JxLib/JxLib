@@ -179,7 +179,7 @@ Jx.Menu = new Class({
      */
     hide: function(e) {
         if (e) {
-            if (this.visibleItem) {
+            if (this.visibleItem && this.visibleItem.eventInMenu) {
                 if (this.visibleItem.eventInMenu(e)) {
                     return;
                 }
