@@ -81,6 +81,7 @@ ul.jxToolbar .jxButtonActive,
   background-position: left -72px;
 }
 
+ul.jxToolbar .jxButtonActive span.jxButtonContent,
 .jxButtonActive span.jxButtonContent {
   background-position: right -72px;
 }
@@ -91,6 +92,7 @@ ul.jxToolbar .jxButton:focus,
   background-position: left -96px;
 }
 
+ul.jxToolbar .jxButton:focus span.jxButtonContent,
 .jxButton:focus span.jxButtonContent {
   background-position: right -96px;
 }
@@ -101,6 +103,7 @@ ul.jxToolbar .jxButtonActive:focus,
   background-position: left -144px;
 }
 
+ul.jxToolbar .jxButtonActive:focus span.jxButtonContent,
 .jxButtonActive:focus span.jxButtonContent {
   background-position: right -144px;
 }
@@ -113,6 +116,8 @@ ul.jxToolbar .jxButtonActive:hover,
   background-position: left -48px;
 }
 
+ul.jxToolbar .jxButton:hover span.jxButtonContent,
+ul.jxToolbar .jxButtonActive:hover span.jxButtonContent,
 .jxButton:hover span.jxButtonContent,
 .jxButtonActive:hover span.jxButtonContent {
   background-position: right -48px;
@@ -126,6 +131,8 @@ ul.jxToolbar .jxButtonPressed:focus,
   background-position: left -120px;
 }
 
+ul.jxToolbar .jxButtonPressed span.jxButtonContent,
+ul.jxToolbar .jxButtonPressed:focus span.jxButtonContent,
 .jxButtonPressed span.jxButtonContent,
 .jxButtonPressed:focus span.jxButtonContent {
   background-position: right -120px;
