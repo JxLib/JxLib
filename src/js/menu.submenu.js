@@ -113,7 +113,9 @@ Jx.Menu.SubMenu = new Class({
     },
     
     eventInMenu: function(e) {
-        if (this.visibleItem && this.visibleItem.eventInMenu(e)) {
+        if (this.visibleItem && 
+            this.visibleItem.eventInMenu && 
+            this.visibleItem.eventInMenu(e)) {
             return true;
         }
         return $(e.target).descendantOf(this.domObj) ||
