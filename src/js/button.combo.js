@@ -56,7 +56,8 @@ Jx.Button.Combo = new Class({
      * is editable.
      */
     initialize: function(options) {
-        this.parent(options);
+        this.parent(); //we don't want to pass options to parent
+        this.setOptions(options);
         this.domA.removeClass('jxButtonMulti');
         if (this.options.editable) {
             // remove the button's normal A tag and replace it with a span
