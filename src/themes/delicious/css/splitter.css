@@ -16,7 +16,7 @@
     height:100%;
     overflow:hidden;
     background-image: url(images/a_pixel.png);
-    z-index:20000;
+    z-index:1;
 }
 
 .jxSplitBarHorizontal {
@@ -32,7 +32,7 @@
   cursor: col-resize;
   /*background-image: url(images/a_pixel.png);*/
   background-color: #f0f0f0;
-  z-index: 1;
+  z-index: 2;
 }
 
 .jxSplitBarVertical {
@@ -48,7 +48,7 @@
   cursor: row-resize;
   /*background-image: url(images/a_pixel.png);*/
   background-color: #f0f0f0;
-  z-index: 1;
+  z-index: 2;
 }
 
 .jxSplitContainer {
