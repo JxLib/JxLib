@@ -742,6 +742,12 @@ Jx.AutoPosition = new Class({
             // appear in the right part of the page.
             coords.left += scroll.x;
             coords.top += scroll.y;            
+        } else if (element.parentNode == relative) {
+            // if the element is opening *inside* its relative, we want
+            // it to position correctly within it so top/left becomes
+            // the reference system.
+            coords.left = 0;
+            coords.top = 0;
         }
         var size = element.getMarginBoxSize(); //width, height
         var left;
