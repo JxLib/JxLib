@@ -727,6 +727,7 @@ Jx.AutoPosition = new Class({
         var ver = $splat(options.vertical || ['center center']);
         var offsets = $merge({top:0,right:0,bottom:0,left:0}, options.offsets || {});
         
+        var coords = relative.getCoordinates(); //top, left, width, height
         var page;
         var scroll;
         if (!$(element.parentNode) || element.parentNode ==  document.body) {
@@ -736,11 +737,12 @@ Jx.AutoPosition = new Class({
             page = $(element.parentNode).getContentBoxSize(); //width, height
             scroll = $(element.parentNode).getScroll();
         }
-        var coords = relative.getCoordinates(); //top, left, width, height
-        // adjust coords for the scroll offsets to make the object
-        // appear in the right part of the page.
-        coords.left += scroll.x;
-        coords.top += scroll.y;
+        if (relative == document.body) {
+            // adjust coords for the scroll offsets to make the object
+            // appear in the right part of the page.
+            coords.left += scroll.x;
+            coords.top += scroll.y;            
+        }
         var size = element.getMarginBoxSize(); //width, height
         var left;
         var right;
