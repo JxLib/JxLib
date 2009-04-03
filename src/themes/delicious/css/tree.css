@@ -120,11 +120,11 @@
 .jxTree .jxDisabled a:focus,
 .jxTree .jxDisabled a.jxTreeItemPressed,
 .jxTree .jxDisabled a.jxTreeItemPressed:hover,
-.jxTree .jxDisabled a.:hover,
+.jxTree .jxDisabled a:hover,
 .jxTreeRoot .jxDisabled a:focus,
 .jxTreeRoot .jxDisabled a.jxTreeItemPressed,
 .jxTreeRoot .jxDisabled a.jxTreeItemPressed:hover,
-.jxTreeRoot .jxDisabled a.:hover {
+.jxTreeRoot .jxDisabled a:hover {
   background-position: left top;
   border: none;
   margin: 0px 1px 0px 15px;
