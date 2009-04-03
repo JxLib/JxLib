@@ -67,7 +67,10 @@ Jx.Menu = new Class({
         this.items = [];
         
         this.contentContainer = new Element('div',{
-            'class':'jxMenuContainer'
+            'class':'jxMenuContainer',
+            events: {
+                contextmenu: function(e){e.stop();}
+            }
         });
         
         /* the DOM element that holds the actual menu */
