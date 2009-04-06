@@ -14,7 +14,6 @@
     filter:Alpha(opacity=100);
 }
 
-
 /* Opacity needs to be set in IE6 and below using the following filters.
  * Please note that IE8 changed how filters are written. 
  */
@@ -145,10 +144,21 @@ a.jxButtonDisclose:active {
   background-position: -120px bottom; 
 }
 
+/* Menu Item iicon position.
+   IE 7 seems to want to line up the image by the top of the text of it's 
+   sibling.  This override just nudges it back up. */
+
+img.jxMenuItemIcon {
+  top: 1px;
+}
+
 /* Menu Item focus style */
 a.jxMenuItem:active {
-  border: 1px dotted #75ADFF;
+  background-position: 1px -74px;
   outline: expression(hideFocus='true');
 }
 
+a.jxMenuItemActive:active {
+  background-position: 1px -170px;
+}
 

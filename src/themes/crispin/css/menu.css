@@ -41,7 +41,7 @@ ul.jxSubMenu {
   position: relative;
 
   list-style-type: none;
-
+  padding: 1px;
   margin: 6px 6px 8px 7px;
   background-color: #fff;
   border: 1px solid #999;
@@ -52,9 +52,11 @@ li.jxMenuItemContainer {
   /* Base setup */
   display: block;
   position: relative;
+  font-size: 0px;
+  line-height: 0px;
 
   margin: 0px;
-  padding: 2px;
+  padding: 0px;
   user-select: none;
   -moz-user-select: none;
   -khtml-user-select: none;
@@ -70,8 +72,8 @@ a.jxMenuItem {
   outline: none;
 
   border: 1px solid #fff;
-  background-image: url(images/menu_hover.png);
-  background-repeat: repeat-x;
+  background-image: url(images/menuitem.png);
+  background-repeat: no-repeat;
   background-position: left top;
 
   font-family: Arial, Helvetica, sans-serif;
@@ -82,25 +84,57 @@ a.jxMenuItem {
   color: #000;
 }
 
+a.jxMenuItemActive {
+  background-position: left -98px;
+}
+
 a.jxMenuItem:focus {
-  border: 1px dotted #75ADFF;
+  background-position: left -74px;
+}
+
+a.jxMenuItem:focus span.jxMenuItemContent {
+  border-right: 1px dotted #75ADFF;
+}
+
+a.jxMenuItemActive:focus {
+  background-position: left -170px;
 }
 
 a.jxMenuItem:hover {
-  border: 1px solid #C5E0FF;
   background-color: #CDE5FF;
-  background-position: left -24px;
+  background-position: left -26px;
 }
 
 a.jxMenuItem:hover span.jxMenuItemContent {
-  border: 1px solid #F4F9FF;  /* forces IE to render properly */
-  border-bottom: 1px solid #E4F0FF;
+  border-right: 1px solid #C5E0FF;
+}
+
+a.jxMenuItemActive:hover {
+  background-position: left -122px;
 }
 
 a.jxMenuItemPressed,
 a.jxMenuItemPressed:hover {
   background-color: #CDE5FF;
-  background-position: left -48px;
+  background-position: left -50px;
+}
+
+.jxDisabled a.jxMenuItem,
+.jxDisabled span.jxMenuItemContent span {
+  cursor: default;
+}
+
+.jxDisabled a.jxMenuItem:focus,
+.jxDisabled a.jxMenuItemPressed,
+.jxDisabled a.jxMenuItemPressed:hover,
+.jxDisabled a.jxMenuItem:hover {
+  background-color: #fff;
+  background-position: left top;
+  border-right: 1px solid #fff;
+}
+
+.jxDisabled a.jxMenuItem:hover span.jxMenuItemContent {
+  border-right: 1px solid #fff;
 }
 
 span.jxMenuItemContent {
@@ -116,23 +150,22 @@ span.jxMenuItemContent {
   white-space: nowrap;
   padding: 0px 20px 0px 0px; /* space for the arrow */
   margin: 0px;
-  border: 1px solid #fff; /* forces IE to render properly */
+  border-right: 1px solid #fff; /* forces IE to render properly */
   /*overflow: hidden;*/
 }
 
 .jxButtonSubMenu span.jxMenuItemContent,
 .jxButtonSubMenu:hover span.jxMenuItemContent {
   background-image: url(images/emblems.png);
-  background-position: right -32px;
+  background-position: right -30px;
   background-repeat: no-repeat;
 }
 
 img.jxMenuItemIcon {
   /* Base setup */
   position: absolute;
-  top: 0px;
-  left: 0px;
-  display: inline;
+  top: 2px;
+  left: 2px;
 
   width: 16px;
   height: 16px;
@@ -146,9 +179,11 @@ span.jxMenuItemContent span {
   position: relative;
   cursor: pointer;
   margin: 0px; /* margins don't seem to work properly in IE */
-  padding: 0px 0px 0px 20px; /* space for the icon */
-  font-size: 16px; /* keeps empty labels open */
+  padding: 2px 0px 2px 22px; /* space for the icon */
+  font-size: 16px;
   line-height: 16px;
+  /*height: 20px;*/
+  color: #000;
 }
 
 span.jxMenuItemContent span.jxMenuItemLabel {
@@ -170,37 +205,6 @@ span.jxMenuItemContent span.jxMenuItemLabel {
 
 .jxMenuItemSet a.jxMenuItemActive img.jxMenuItemIcon {
   background-position: 2px -64px;
-}
-
-a.jxMenuItemActive img.jxMenuItemIcon {
-  top: -2px;
-  left: -2px;
-  padding: 1px;
-  border: 1px solid #C5E0FF;
-}
-
-a.jxMenuItemActive span.jxMenuItemContent {
-  background-image: url(images/menu_icon_active.png);
-  background-position: 0px 0px;
-  background-repeat: no-repeat;
-}
-
-.jxDisabled a.jxMenuItem,
-.jxDisabled span.jxMenuItemContent span {
-  cursor: default;
-}
-
-.jxDisabled a.jxMenuItem:focus,
-.jxDisabled a.jxMenuItemPressed,
-.jxDisabled a.jxMenuItemPressed:hover,
-.jxDisabled a.jxMenuItem:hover {
-  background-color: #fff;
-  background-position: left top;
-  border: 1px solid #fff;
-}
-
-.jxDisabled a.jxMenuItem:hover span.jxMenuItemContent {
-  border: 1px solid #fff;
 }
 
 ul.jxMenu span.jxMenuSeparator,

@@ -49,6 +49,7 @@ iframe.jxIframeShim {filter:Alpha(opacity:0);}
 ul.jxToolbar .jxButton:active,
 .jxButton:active {
   background-position: left -96px;
+  outline: expression(hideFocus='true');
 }
 
 .jxButton:active span.jxButtonContent {
@@ -75,7 +76,7 @@ ul.jxToolbar .jxButtonPressed:active,
   background-position: right -120px;
 }
 
-a.jxButtonDisclose:active {
+.jxButtonDisclose:active {
   background-position: right -96px;
 }
 
@@ -85,6 +86,7 @@ a.jxButtonDisclose:active {
 .jxBarTop a.jxTab:active,
 .jxBarBottom a.jxTab:active {
   background-position: left -96px; 
+  outline: expression(hideFocus='true');
 }
 
 .jxBarTop a.jxTab:active span.jxTabContent,
@@ -120,6 +122,7 @@ a.jxButtonDisclose:active {
 .jxBarLeft a.jxTab:active,
 .jxBarRight a.jxTab:active {
   background-position: -96px top; 
+  outline: expression(hideFocus='true');
 }
 
 .jxBarLeft a.jxTab:active span.jxTabContent,
@@ -149,27 +152,56 @@ a.jxButtonDisclose:active {
   background-position: -120px bottom; 
 }
 
+/* Menu Item icon position.
+   IE 6 seems to want to line up the image differently.  
+   This override just nudges it back up. */
 
-/* Menu Item focus style */
-a.jxMenuItem:active {
-  border: 1px dotted #75ADFF;
-}
-
-/* Icons line up according to the outermost parent not the immediate parent
- * applying a top overide to accomodate this
- */
 img.jxMenuItemIcon {
-  top: 2px;
-  left: 0px;
+  top: 3px;
 }
 
-a.jxMenuItemActive img.jxMenuItemIcon {
-  top: 0px;
-  left: -2px;
-  padding: 1px;
-  border: 1px solid #C5E0FF;
+/* Menu Item States */ 
+
+a.jxMenuItemActive {
+  background-position: 1px -97px;
 }
- 
+
+a.jxMenuItem:active {
+  background-position: 1px -73px;
+  outline: expression(hideFocus='true');
+}
+
+a.jxMenuItemActive:active {
+  background-position: 1px -169px;
+}
+
+a.jxMenuItem:hover {
+  background-position: 1px -25px;
+}
+
+a.jxMenuItem:hover span.jxMenuItemContent {
+  border-top: 1px solid #C5E0FF;  /* forces IE to render properly */
+}
+
+a.jxMenuItemActive:hover {
+  background-position: 1px -121px;
+}
+
+a.jxMenuItemPressed,
+a.jxMenuItemPressed:hover {
+  background-position: 1px -49px;
+}
+
+span.jxMenuItemContent {
+  border-top: 1px solid #fff; /* forces IE to render properly */
+}
+
+span.jxMenuItemContent span {
+  font-size: 15px;
+  line-height: 15px;
+}
+
+
 /* chrome in dialogs doesn't resize properly when collapsing a dialog before
  * moving or resizing it in IE 6 only, hiding overflow seems to do the trick
  */

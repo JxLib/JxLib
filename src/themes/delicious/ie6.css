@@ -152,28 +152,56 @@ ul.jxToolbar .jxButtonPressed:active,
   background-position: -120px bottom; 
 }
 
+/* Menu Item icon position.
+   IE 6 seems to want to line up the image differently.  
+   This override just nudges it back up. */
 
-/* Menu Item focus style */
+img.jxMenuItemIcon {
+  top: 3px;
+}
+
+/* Menu Item States */ 
+
+a.jxMenuItemActive {
+  background-position: 1px -97px;
+}
+
 a.jxMenuItem:active {
-  border: 1px dotted #75ADFF;
+  background-position: 1px -73px;
   outline: expression(hideFocus='true');
 }
 
-/* Icons line up according to the outermost parent not the immediate parent
- * applying a top overide to accomodate this
- */
-img.jxMenuItemIcon {
-  top: 2px;
-  left: 0px;
+a.jxMenuItemActive:active {
+  background-position: 1px -169px;
 }
 
-a.jxMenuItemActive img.jxMenuItemIcon {
-  top: 0px;
-  left: -2px;
-  padding: 1px;
-  border: 1px solid #C5E0FF;
+a.jxMenuItem:hover {
+  background-position: 1px -25px;
 }
- 
+
+a.jxMenuItem:hover span.jxMenuItemContent {
+  border-top: 1px solid #C5E0FF;  /* forces IE to render properly */
+}
+
+a.jxMenuItemActive:hover {
+  background-position: 1px -121px;
+}
+
+a.jxMenuItemPressed,
+a.jxMenuItemPressed:hover {
+  background-position: 1px -49px;
+}
+
+span.jxMenuItemContent {
+  border-top: 1px solid #fff; /* forces IE to render properly */
+}
+
+span.jxMenuItemContent span {
+  font-size: 15px;
+  line-height: 15px;
+}
+
+
 /* chrome in dialogs doesn't resize properly when collapsing a dialog before
  * moving or resizing it in IE 6 only, hiding overflow seems to do the trick
  */
