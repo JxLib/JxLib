@@ -35,7 +35,8 @@ Jx.TabBox = new Class({
         parent: null,
         position: 'top',
         height: null,
-        width: null
+        width: null,
+        scroll:true
     },
     
     /**
