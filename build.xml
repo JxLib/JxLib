@@ -261,7 +261,7 @@ $Id$
     <exec executable="cmd" os="Windows Vista, Windows XP" dir="${build.home}">
       <arg line="/c perl ${NaturalDocs} -i ./js -o framedhtml ./docs/api -p ${basedir}/utils/ndconfig -s jx -r"/>
     </exec>
-    <exec executable="/usr/bin/env" os="Mac OS X" dir="${build.home}">
+    <exec executable="/usr/bin/env" os="Mac OS X, Linux" dir="${build.home}">
       <arg line=" perl ${NaturalDocs} -i ./js -o framedhtml ./docs/api -p ${basedir}/utils/ndconfig -s jx -r"/>
     </exec>
     <mkdir dir="${docs.home}/api"/>
