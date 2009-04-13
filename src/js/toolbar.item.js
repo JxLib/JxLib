@@ -34,7 +34,7 @@ Jx.Toolbar.Item = new Class( {
         if (jxThing) {
             if (jxThing.domObj) {
                 this.domObj.appendChild(jxThing.domObj);
-                if (jxThing instanceof Jx.Tab) {
+                if (jxThing instanceof Jx.Button.Tab) {
                     this.domObj.addClass('jxTabItem');
                 }
             } else {
