@@ -213,9 +213,11 @@ Jx.Button = new Class({
         });
         d.adopt(a);
         
-        new Drag(a, {
-            onStart: function() {this.stop();}
-        });
+        if ($defined(Drag)){
+        	new Drag(a, {
+        		onStart: function() {this.stop();}
+        	});
+        }
         
         var s = new Element('span', {'class': 'jx'+this.options.type+'Content'});
         a.adopt(s);

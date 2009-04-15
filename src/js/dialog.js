@@ -148,7 +148,7 @@ Jx.Dialog = new Class({
         this.options.parent.adopt(this.domObj);
         
         /* the dialog is moveable by its title bar */
-        if (this.options.move) {
+        if (this.options.move && $defined(Drag)) {
             this.title.addClass('jxDialogMoveable');
             new Drag(this.domObj, {
                 handle: this.title,
@@ -177,7 +177,7 @@ Jx.Dialog = new Class({
         }
         
         /* the dialog is resizeable */
-        if (this.options.resize) {
+        if (this.options.resize && $defined(Drag)) {
             this.resizeHandle = new Element('div', {
                 'class':'jxDialogResize',
                 title: this.options.resizeTooltip,

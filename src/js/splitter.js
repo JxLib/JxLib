@@ -161,8 +161,11 @@ Jx.Splitter = new Class({
             this.domObj.adopt(bar);
             this.bars[i-1] = bar;
         }
-
-        this.establishConstraints();
+        
+        //making dragging dependent on mootools Drag class
+        if ($defined(Drag)) {
+        	this.establishConstraints();
+        }
         
         for (var i=0; i<this.options.barOptions.length; i++) {
             if (!this.bars[i]) {

@@ -75,9 +75,13 @@ Jx.Toolbar.Container = new Class({
             // make sure we update our size when we get added to the DOM
             this.addEvent('addTo', this.update.bind(this));
             
-            this.scrollFx = scrollFx = new Fx.Tween(this.scroller, {
-                link: 'chain'
-            });
+            //making Fx.Tween optional
+            if ($defined(Fx.Tween)){
+            	this.scrollFx = scrollFx = new Fx.Tween(this.scroller, {
+            		link: 'chain'
+            	});
+            }
+            
             this.scrollLeft = new Jx.Button({
                 image: Jx.aPixel.src
             }).addTo(this.domObj);
@@ -91,7 +95,11 @@ Jx.Toolbar.Container = new Class({
                        this.scrollLeft.domObj.setStyle('visibility', 'hidden');
                    }
                    this.scrollRight.domObj.setStyle('visibility', '');
-                   this.scrollFx.start('left', from, to);
+                   if ($defined(this.scrollFx)){
+                	   this.scrollFx.start('left', from, to);
+                   } else {
+                	   this.scroller.setStyle('left',to);
+                   }
                }).bind(this)
             });
             
@@ -108,7 +116,11 @@ Jx.Toolbar.Container = new Class({
                        this.scrollRight.domObj.setStyle('visibility', 'hidden');
                    }
                    this.scrollLeft.domObj.setStyle('visibility', '');
-                   this.scrollFx.start('left', from, to);
+                   if ($defined(this.scrollFx)){
+                	   this.scrollFx.start('left', from, to);
+                   } else {
+                	   this.scroller.setStyle('left',to);
+                   }
                }).bind(this)
             });         
             
@@ -165,7 +177,11 @@ Jx.Toolbar.Container = new Class({
             if (l <= this.scrollWidth) {
                 this.scrollRight.domObj.setStyle('visibility', 'hidden');
                 if (l < this.scrollWidth) {
-                    this.scrollFx.start('left', l, this.scrollWidth);
+                	if ($defined(this.scrollFx)){
+                		this.scrollFx.start('left', l, this.scrollWidth);
+                	} else {
+                		this.scroller.setStyle('left',this.scrollWidth);
+                	}
                 }
             } else {
                 this.scrollRight.domObj.setStyle('visibility', '');                
@@ -179,7 +195,11 @@ Jx.Toolbar.Container = new Class({
             this.scrollRight.domObj.setStyle('visibility','hidden');
             var from = this.scroller.getStyle('left').toInt();
             if (!isNaN(from) && from !== 0) {
-                this.scrollFx.start('left', 0);                
+            	if ($defined(this.scrollFx)) {
+            		this.scrollFx.start('left', 0);
+            	} else {
+            		this.scroller.setStyle('left',0);
+            	}
             }
         }            
     },
@@ -288,7 +308,11 @@ Jx.Toolbar.Container = new Class({
             this.scrollRight.domObj.setStyle('visibility', '');                
         }
         if (left != l) {
-            this.scrollFx.start('left', left);
+        	if ($defined(this.scrollFx)) {
+        		this.scrollFx.start('left', left);
+        	} else {
+        		this.scroller.setStyle('left',left);
+        	}
         }
     }
 });
