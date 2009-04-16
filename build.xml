@@ -230,6 +230,37 @@ $Id$
     </copy>
     
   </target>
+	
+  <target description="Deploy source for www download builder" name="builder" depends="build">
+	<delete dir="${deploy.home}/builder/src" />
+  	<delete dir="${deploy.home}/builder/assets" />
+  	<mkdir dir="${deploy.home}/builder/src"/>
+  	<mkdir dir="${deploy.home}/builder/assets"/>
+  	<mkdir dir="${deploy.home}/builder/assets/themes"/>
+  	<mkdir dir="${deploy.home}/builder/src/core"/>
+  	<mkdir dir="${deploy.home}/builder/src/more"/>
+  	<mkdir dir="${deploy.home}/builder/src/core/Source"/>
+  	<mkdir dir="${deploy.home}/builder/src/more/Source"/>
+  	<mkdir dir="${deploy.home}/builder/src/jxlib"/>
+  	<mkdir dir="${deploy.home}/builder/src/jxlib/Source"/>
+  	<mkdir dir="${deploy.home}/builder/src/jxlib/Source/js"/>
+  	
+  	<copy todir="${deploy.home}/builder/src/core/Source">
+  		<fileset dir="${basedir}/../vendor/mootools-core/current/Source" />
+  	</copy>
+	<copy todir="${deploy.home}/builder/src/more/Source">
+  		<fileset dir="${basedir}/../vendor/mootools-more/current/Source" />
+  	</copy>
+	<copy todir="${deploy.home}/builder/src/jxlib/Source/js">
+  		<fileset dir="${build.home}/js" />
+  	</copy>
+	<copy todir="${deploy.home}/builder/assets/themes/">
+  		<fileset dir="${build.home}/lib/themes/" />
+  	</copy>
+  	<copy file="${build.home}/images/a_pixel.png" todir="${deploy.home}/builder/assets" />
+  	<move file="${deploy.home}/builder/src/jxlib/Source/js/scripts.json" todir="${deploy.home}/builder/src/jxlib/Source" />
+  	<move file="${deploy.home}/builder/src/jxlib/Source/js/license.txt" todir="${deploy.home}/builder/src/jxlib/Source" />
+  </target>
   
   <target description="Package Tutorials" name="tutorials" depends="build">
     <echo message="packaging tutorials"/>
