@@ -242,37 +242,39 @@ Jx.Splitter = new Class({
             modifiers.y = "top";
             fn = this.dragVertical;
         }
-        this.bars.each(function(bar){
-            var mask;
-            new Drag(bar, {
-                //limit: limit,
-                modifiers: modifiers,
-                onSnap : function(obj) {
-                    obj.addClass('jxSplitBarDrag');
-                },
-                onComplete : (function(obj) {
-                    mask.destroy();
-                    obj.removeClass('jxSplitBarDrag');
-                    if (obj.retrieve('splitterObj') != this) {
-                        return;
-                    }
-                    fn.apply(this,[obj]);
-                }).bind(this),
-                onBeforeStart: function(obj) {
-                    mask = new Element('div',{'class':'jxSplitterMask'}).inject(obj, 'after');
-                },
-                onStart: (function() {
-                    if (this.options.onStart) {
-                        this.options.onStart();
-                    }
-                }).bind(this),
-                onFinish: (function() {
-                    if (this.options.onFinish) {
-                        this.options.onFinish();
-                    }
-                }).bind(this)
-            });
-        }, this);
+        if (typeof Drag != 'undefined') {
+            this.bars.each(function(bar){
+                var mask;
+                new Drag(bar, {
+                    //limit: limit,
+                    modifiers: modifiers,
+                    onSnap : function(obj) {
+                        obj.addClass('jxSplitBarDrag');
+                    },
+                    onComplete : (function(obj) {
+                        mask.destroy();
+                        obj.removeClass('jxSplitBarDrag');
+                        if (obj.retrieve('splitterObj') != this) {
+                            return;
+                        }
+                        fn.apply(this,[obj]);
+                    }).bind(this),
+                    onBeforeStart: function(obj) {
+                        mask = new Element('div',{'class':'jxSplitterMask'}).inject(obj, 'after');
+                    },
+                    onStart: (function() {
+                        if (this.options.onStart) {
+                            this.options.onStart();
+                        }
+                    }).bind(this),
+                    onFinish: (function() {
+                        if (this.options.onFinish) {
+                            this.options.onFinish();
+                        }
+                    }).bind(this)
+                });
+            }, this);            
+        }
     },
     
     /**

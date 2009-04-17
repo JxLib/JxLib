@@ -148,7 +148,7 @@ Jx.Dialog = new Class({
         this.options.parent.adopt(this.domObj);
         
         /* the dialog is moveable by its title bar */
-        if (this.options.move) {
+        if (this.options.move && typeof Drag != 'undefined') {
             this.title.addClass('jxDialogMoveable');
             new Drag(this.domObj, {
                 handle: this.title,
