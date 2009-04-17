@@ -226,8 +226,8 @@ Jx.Button = new Class({
             var i = new Element('img', {
                 'class':'jx'+this.options.type+'Icon',
                 'src': Jx.aPixel.src,
-                alt: '',
-                title: ''
+                title: this.options.tooltip, 
+                alt: this.options.tooltip
             });
             //if image is not a_pixel, set the background image of the image
             //otherwise let the default css take over.
