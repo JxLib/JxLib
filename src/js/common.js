@@ -572,10 +572,10 @@ Jx.ContentLoader = new Class ({
             }
         } else if (this.options.contentURL) {
             this.contentIsLoaded = false;
-            this.req = new Request.HTML({
+            this.req = new Request({
                 url: this.options.contentURL, 
                 method:'get',
-                update: element,
+                evalScripts:true,
                 onSuccess:(function(html) {
                     element.innerHTML = html;
                     this.contentIsLoaded = true;
