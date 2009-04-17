@@ -259,10 +259,8 @@ Jx.Splitter = new Class({
                         }
                         fn.apply(this,[obj]);
                     }).bind(this),
-                    onBeforeStart: function(obj) {
+                    onStart: (function(obj) {
                         mask = new Element('div',{'class':'jxSplitterMask'}).inject(obj, 'after');
-                    },
-                    onStart: (function() {
                         if (this.options.onStart) {
                             this.options.onStart();
                         }
