@@ -241,7 +241,7 @@ Jx.Button = new Class({
             this.domImg = i;
         }
         
-        l = new Element('span', {
+        var l = new Element('span', {
             html: this.options.label
         });
         if (this.options.label) {
