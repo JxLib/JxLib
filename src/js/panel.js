@@ -428,10 +428,11 @@ Jx.Panel = new Class({
         if (url.indexOf('?') == -1) {
             url = url + '?';
         }
-        var a = new Request.HTML({
+        var a = new Request({
             url: url,
             method: 'get',
-            onComplete:this.panelContentLoaded.bind(this),
+            evalScripts:true,
+            onSuccess:this.panelContentLoaded.bind(this),
             requestHeaders: ['If-Modified-Since', 'Sat, 1 Jan 2000 00:00:00 GMT']
         }).send();
     },
@@ -441,10 +442,10 @@ Jx.Panel = new Class({
      * method is called when the ajax request returns.
      *
      * Parameters:
-     * r - {XmlHttpRequest} the XmlHttpRequest object
+     * html - {String} the html return from xhr.onSuccess
      */
-    panelContentLoaded: function(r) {
-        this.content.innerHTML = r.responseText;
+    panelContentLoaded: function(html) {
+        this.content.innerHTML = html;
         this.bContentReady = true;
         this.setBusy(false);
         if (this.onContentReady) {
