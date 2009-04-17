@@ -428,7 +428,7 @@ Jx.Panel = new Class({
         if (url.indexOf('?') == -1) {
             url = url + '?';
         }
-        var a = new Request({
+        var a = new Request.HTML({
             url: url,
             method: 'get',
             onComplete:this.panelContentLoaded.bind(this),
