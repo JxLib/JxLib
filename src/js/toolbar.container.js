@@ -76,12 +76,12 @@ Jx.Toolbar.Container = new Class({
             this.addEvent('addTo', this.update.bind(this));
             
             //making Fx.Tween optional
-            if ($defined(Fx.Tween)){
-            	this.scrollFx = scrollFx = new Fx.Tween(this.scroller, {
-            		link: 'chain'
-            	});
+            if (typeof Fx != 'undefined' && typeof Fx.Tween != 'undefined'){
+                this.scrollFx = scrollFx = new Fx.Tween(this.scroller, {
+                    link: 'chain'
+                });
             }
-            
+
             this.scrollLeft = new Jx.Button({
                 image: Jx.aPixel.src
             }).addTo(this.domObj);
@@ -96,9 +96,9 @@ Jx.Toolbar.Container = new Class({
                    }
                    this.scrollRight.domObj.setStyle('visibility', '');
                    if ($defined(this.scrollFx)){
-                	   this.scrollFx.start('left', from, to);
+                       this.scrollFx.start('left', from, to);
                    } else {
-                	   this.scroller.setStyle('left',to);
+                       this.scroller.setStyle('left',to);
                    }
                }).bind(this)
             });
@@ -117,9 +117,9 @@ Jx.Toolbar.Container = new Class({
                    }
                    this.scrollLeft.domObj.setStyle('visibility', '');
                    if ($defined(this.scrollFx)){
-                	   this.scrollFx.start('left', from, to);
+                       this.scrollFx.start('left', from, to);
                    } else {
-                	   this.scroller.setStyle('left',to);
+                       this.scroller.setStyle('left',to);
                    }
                }).bind(this)
             });         
@@ -177,11 +177,11 @@ Jx.Toolbar.Container = new Class({
             if (l <= this.scrollWidth) {
                 this.scrollRight.domObj.setStyle('visibility', 'hidden');
                 if (l < this.scrollWidth) {
-                	if ($defined(this.scrollFx)){
-                		this.scrollFx.start('left', l, this.scrollWidth);
-                	} else {
-                		this.scroller.setStyle('left',this.scrollWidth);
-                	}
+                    if ($defined(this.scrollFx)){
+                        this.scrollFx.start('left', l, this.scrollWidth);
+                    } else {
+                        this.scroller.setStyle('left',this.scrollWidth);
+                    }
                 }
             } else {
                 this.scrollRight.domObj.setStyle('visibility', '');                
@@ -195,11 +195,11 @@ Jx.Toolbar.Container = new Class({
             this.scrollRight.domObj.setStyle('visibility','hidden');
             var from = this.scroller.getStyle('left').toInt();
             if (!isNaN(from) && from !== 0) {
-            	if ($defined(this.scrollFx)) {
-            		this.scrollFx.start('left', 0);
-            	} else {
-            		this.scroller.setStyle('left',0);
-            	}
+                if ($defined(this.scrollFx)) {
+                    this.scrollFx.start('left', 0);
+                } else {
+                    this.scroller.setStyle('left',0);
+                }
             }
         }            
     },
@@ -263,22 +263,22 @@ Jx.Toolbar.Container = new Class({
     scrollIntoView: function(item) {
         var width = this.domObj.getSize().x;
         var coords = item.domObj.getCoordinates(this.scroller);
-		
-		//left may be set to auto or even a zero length string. 
-		//In the previous version, in air, this would evaluate to
-		//NaN which would cause the right hand scroller to show when 
-		//the component was first created.
-		
-		//So, get the left value first
+        
+        //left may be set to auto or even a zero length string. 
+        //In the previous version, in air, this would evaluate to
+        //NaN which would cause the right hand scroller to show when 
+        //the component was first created.
+        
+        //So, get the left value first
         var l = this.scroller.getStyle('left');
-		//then check to see if it's auto or a zero length string 
-		if (l === 'auto' || l.length <= 0) {
-			//If so, set to 0.
-			l = 0;
-		} else {
-			//otherwise, convert to int
-			l = l.toInt();
-		}
+        //then check to see if it's auto or a zero length string 
+        if (l === 'auto' || l.length <= 0) {
+            //If so, set to 0.
+            l = 0;
+        } else {
+            //otherwise, convert to int
+            l = l.toInt();
+        }
         var slSize = this.scrollLeftSize ? this.scrollLeftSize.x : 0;
         var srSize = this.scrollRightSize ? this.scrollRightSize.x : 0;
         
@@ -308,11 +308,11 @@ Jx.Toolbar.Container = new Class({
             this.scrollRight.domObj.setStyle('visibility', '');                
         }
         if (left != l) {
-        	if ($defined(this.scrollFx)) {
-        		this.scrollFx.start('left', left);
-        	} else {
-        		this.scroller.setStyle('left',left);
-        	}
+            if ($defined(this.scrollFx)) {
+                this.scrollFx.start('left', left);
+            } else {
+                this.scroller.setStyle('left',left);
+            }
         }
     }
 });

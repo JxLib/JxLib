@@ -161,9 +161,11 @@ Jx.Button.Multi = new Class({
             blur: function() { hasFocus = false; }
             
         });
-        new Drag(a, {
-            onStart: function() {this.stop();}
-        });
+        if (typeof Drag != 'undefined') {
+            new Drag(a, {
+                onStart: function() {this.stop();}
+            });
+        }
         
         this.menu.addEvents({
             'show': (function() {

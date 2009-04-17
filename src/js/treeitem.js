@@ -151,10 +151,10 @@ Jx.TreeItem = new Class ({
             blur: function() { hasFocus = false; }
         });
         domA.appendChild(domImg);
-        if ($defined(Drag)){
-        	new Drag(domA, {
-        		onStart: function() {this.stop();}
-        	});
+        if (typeof Drag != 'undefined') {
+            new Drag(domA, {
+                onStart: function() {this.stop();}
+            });
         }
         return domA;
     },
