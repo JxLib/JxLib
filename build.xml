@@ -257,11 +257,6 @@ $Id$
   		<fileset dir="${build.home}/lib/themes/" />
   	</copy>
   	<copy file="${build.home}/images/a_pixel.png" todir="${deploy.home}/builder/assets" />
-<<<<<<< .mine
-=======
-  	<move file="${deploy.home}/builder/src/jxlib/Source/js/scripts.json" todir="${deploy.home}/builder/src/jxlib/Source" />
-  	<move file="${deploy.home}/builder/src/jxlib/Source/js/license.js" todir="${deploy.home}/builder/src/jxlib/Source" />
->>>>>>> .r359
   </target>
   
   <target description="Package Tutorials" name="tutorials" depends="build">
