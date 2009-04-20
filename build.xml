@@ -122,7 +122,7 @@ $Id$
     
     <!-- Copy static content of the project  -->
     <copy todir="${build.home}">
-      <fileset dir="${basedir}/src" includes="js/** themes/** images/**"/>
+      <fileset dir="${basedir}/src" includes="Source/** themes/** images/**"/>
     </copy>
     
     <delete file="${build.home}/lib/jxlib.uncompressed.js"/>
@@ -132,9 +132,9 @@ $Id$
 
     <echo message="Concatenating javascript into jxlib"/>
     <concat destfile="${build.home}/lib/jxlib.standalone.uncompressed.js">
-        <filelist dir="src/js" files="license.js"/>
-        <filelist dir="src/js" files="common.js"/>
-        <filelist dir="src/js" files="button.js button.flyout.js button.multi.js colorpalette.js button.color.js buttonset.js grid.js grid.model.js layout.js menu.js menu.item.js menu.separator.js menu.submenu.js menu.context.js panel.js dialog.js panelset.js button.combo.js splitter.js splitter.snap.js tabset.js tabbox.js button.tab.js toolbar.js toolbar.item.js toolbar.separator.js toolbar.container.js treeitem.js treefolder.js tree.js"/>
+        <filelist dir="src/Source" files="license.js"/>
+        <filelist dir="src/Source" files="Base/common.js"/>
+        <filelist dir="src/Source" files="Button/button.js Button/flyout.js Button/multi.js Extras/colorpalette.js Button/color.js Button/set.js Grid/grid.js Grid/model.js Layout/layout.js Menu/menu.js Menu/menu.item.js Menu/separator.js Menu/submenu.js Menu/context.js Panel/panel.js Panel/dialog.js Panel/panelset.js Button/combo.js Layout/splitter.js Layout/snap.js Tab/tabset.js Tab/tabbox.js Button/tab.js Toolbar/toolbar.js Toolbar/toolbar.item.js Toolbar/separator.js Toolbar/container.js Tree/treeitem.js Tree/treefolder.js Tree/tree.js"/>
     </concat>
     
     <concat destfile="${build.home}/lib/jxlib.uncompressed.js">
@@ -153,11 +153,11 @@ $Id$
     </java>
     
     <concat destfile="${build.home}/lib/jxlib.standalone.js">
-      <filelist dir="${build.home}/js" files="license.js"/>
+      <filelist dir="${build.home}/Source" files="license.js"/>
       <filelist dir="${build.home}/lib" files="jxlib.standalone.compressed.js"/>
     </concat>
     <concat destfile="${build.home}/lib/jxlib.js">
-      <filelist dir="${build.home}/js" files="license.js"/>
+      <filelist dir="${build.home}/Source" files="license.js"/>
       <filelist dir="${build.home}/lib" files="jxlib.compressed.js"/>
     </concat>
     
@@ -243,7 +243,6 @@ $Id$
   	<mkdir dir="${deploy.home}/builder/src/more/Source"/>
   	<mkdir dir="${deploy.home}/builder/src/jxlib"/>
   	<mkdir dir="${deploy.home}/builder/src/jxlib/Source"/>
-  	<mkdir dir="${deploy.home}/builder/src/jxlib/Source/js"/>
   	
   	<copy todir="${deploy.home}/builder/src/core/Source">
   		<fileset dir="${basedir}/../vendor/mootools-core/current/Source" />
@@ -251,15 +250,18 @@ $Id$
 	<copy todir="${deploy.home}/builder/src/more/Source">
   		<fileset dir="${basedir}/../vendor/mootools-more/current/Source" />
   	</copy>
-	<copy todir="${deploy.home}/builder/src/jxlib/Source/js">
-  		<fileset dir="${build.home}/js" />
+	<copy todir="${deploy.home}/builder/src/jxlib/Source/">
+  		<fileset dir="${build.home}/Source" />
   	</copy>
 	<copy todir="${deploy.home}/builder/assets/themes/">
   		<fileset dir="${build.home}/lib/themes/" />
   	</copy>
   	<copy file="${build.home}/images/a_pixel.png" todir="${deploy.home}/builder/assets" />
+<<<<<<< .mine
+=======
   	<move file="${deploy.home}/builder/src/jxlib/Source/js/scripts.json" todir="${deploy.home}/builder/src/jxlib/Source" />
   	<move file="${deploy.home}/builder/src/jxlib/Source/js/license.js" todir="${deploy.home}/builder/src/jxlib/Source" />
+>>>>>>> .r359
   </target>
   
   <target description="Package Tutorials" name="tutorials" depends="build">
