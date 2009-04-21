@@ -258,6 +258,16 @@ $Id$
   	</copy>
   	<copy file="${build.home}/images/a_pixel.png" todir="${deploy.home}/builder/assets" />
   </target>
+	
+	<target description="Copy files for tests to www" name="tests">
+		<delete dir="${deploy.home}/tests" />
+		<mkdir dir="${deploy.home}/tests"/>
+		<copy todir="${deploy.home}/tests/">
+			<fileset dir="${basedir}/tests/" />
+		</copy>
+		<delete file="${deploy.home}/tests/interactive/config.js"/>
+		<rename dest="${deploy.home}/tests/interactive/config.js" src="${deploy.home}/tests/interactive/config-www.js"/>
+	</target>
   
   <target description="Package Tutorials" name="tutorials" depends="build">
     <echo message="packaging tutorials"/>
@@ -269,6 +279,8 @@ $Id$
       <fileset dir="${deploy.home}/reference/tutorials/browsr"/>
     </copy>
   </target>
+	
+  
 
   <target description="Package Examples" name="examples" depends="build">
     <echo message="packaging examples"/>
@@ -276,6 +288,7 @@ $Id$
     <copy todir="${build.home}/examples">
         <fileset dir="${deploy.home}/reference/examples"/>
     </copy>
+  	
   </target>
 
 

@@ -1,7 +1,9 @@
 {
 
 	"Base": {
-
+		
+		"desc": "Base holds anything common to all other Jx classes and widgets.",
+		
 		"common": {
 			"deps": ["Class","Element","Browser","Element.Style","Request","Core","Class.Extras","Array","Element.Event","Element.Dimensions"],
 			"desc":"Jx namespace with methods and classes common to most Jx widgets"
@@ -11,6 +13,8 @@
 
 	"Button": {
 
+		"desc": "Change me in the scripts.json file to something that makes sense.",
+		
 		"color": {
 			"deps": ["flyout","colorpalette"],
 			"desc": "A Jx.ColorPalette wrapped up in a Jx.Button."
@@ -51,6 +55,8 @@
 
 	"Panel": {
 
+		"desc": "Change me in the scripts.json file to something that makes sense.",
+		
 		"dialog": {
 			"deps": ["panel"],
 			"opt": ["Drag"],
@@ -71,6 +77,8 @@
 
 	"Grid": {
 
+		"desc": "Change me in the scripts.json file to something that makes sense.",
+		
 		"grid": {
 			"deps": ["layout"],
 			"desc": "A tabular control that has fixed scrolling headers on the rows and columns like a spreadsheet."
@@ -85,6 +93,8 @@
 
 	"Menu": {
 
+		"desc": "Change me in the scripts.json file to something that makes sense.",
+		
 		"context": {
 			"deps": ["menu"],
 			"desc": "A Jx.Menu that has no button but can be opened at a specific browser location to implement context menus (for instance)."
@@ -100,7 +110,7 @@
 			"desc": "A main menu as opposed to a sub menu that lives inside the menu."
 		},
 
-		"separator": {
+		"menu.separator": {
 			"deps": ["menu"],
 			"desc": "Convenience class to create a visual separator in a menu."
 		},
@@ -114,6 +124,8 @@
 
 	"Layout": {
 
+		"desc": "Change me in the scripts.json file to something that makes sense.",
+		
 		"layout": {
 			"deps": ["common"],
 			"desc":"Jx.Layout is used to provide more flexible layout options for applications"
@@ -134,6 +146,8 @@
 
 	"Tab": {
 
+		"desc": "Change me in the scripts.json file to something that makes sense.",
+		
 		"tabbox": {
 			"deps": ["toolbar","panel","tabset"],
 			"desc": "A convenience class to handle the common case of a single toolbar directly attached to the content area of the tabs."
@@ -148,6 +162,8 @@
 
 	"Toolbar": {
 
+		"desc": "Change me in the scripts.json file to something that makes sense.",
+		
 		"container": {
 			"deps": ["toolbar"],
 			"opt": ["Fx.Tween"],
@@ -164,7 +180,7 @@
 			"desc": "A toolbar is a container object that contains other objects such as buttons."
 		},
 
-		"separator": {
+		"toolbar.separator": {
 			"deps": ["toolbar"],
 			"desc": "A helper class that represents a visual separator in a Jx.Toolbar."
 		}
@@ -173,6 +189,8 @@
 
 	"Tree": {
 
+		"desc": "Change me in the scripts.json file to something that makes sense.",
+		
 		"tree": {
 			"deps": ["treefolder"],
 			"desc": "Jx.Tree displays hierarchical data in a tree structure of folders and nodes."
@@ -193,6 +211,8 @@
 
 	"Extras": {
 
+		"desc": "Change me in the scripts.json file to something that makes sense.",
+		
 		"colorpalette": {
 			"deps": ["common"],
 			"desc": "A Jx.ColorPalette presents a user interface for selecting colors."

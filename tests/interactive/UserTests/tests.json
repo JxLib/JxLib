@@ -1,18 +1,7 @@
 {
-    "common":{
-        "request": [
-        	"getNoDataHtml",
-        	"postNoDataHtml",
-        	"getWithDataHtml",
-        	"postWithDataHtml",
-        	"getNoDataJson",
-        	"postNoDataJson",
-        	"getWithDataJson",
-        	"postWithDataJson",
-        	
+    "Base":{
+        "common": [
+        	"dependencies"
         ]
-    },
-    "stores": {
-    	"remote": ["all"]
     }
 }
