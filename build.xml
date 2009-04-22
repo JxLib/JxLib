@@ -259,14 +259,25 @@ $Id$
   	<copy file="${build.home}/images/a_pixel.png" todir="${deploy.home}/builder/assets" />
   </target>
 	
-	<target description="Copy files for tests to www" name="tests">
+	<target description="setup files for tests" name="tests">
+		<!-- Copy themes to the right locations -->
+		<copy todir="${basedir}/tests/interactive/UserTests/assets/themes">
+	  	    <fileset dir="${build.home}/lib/themes/"/>
+	  	</copy>
+		<copy file="${build.home}/lib/a_pixel.png" todir="${basedir}/tests/interactive/UserTests/assets/" />
+		
 		<delete dir="${deploy.home}/tests" />
 		<mkdir dir="${deploy.home}/tests"/>
-		<copy todir="${deploy.home}/tests/">
-			<fileset dir="${basedir}/tests/" />
+		<copy todir="${deploy.home}/tests">
+			<fileset dir="${basedir}/tests" />
 		</copy>
 		<delete file="${deploy.home}/tests/interactive/config.js"/>
 		<rename dest="${deploy.home}/tests/interactive/config.js" src="${deploy.home}/tests/interactive/config-www.js"/>
+		
+		<delete file="${deploy.home}/tests/interactive/test_frame.html"/>
+		<rename dest="${deploy.home}/tests/interactive/test_frame.html" src="${deploy.home}/tests/interactive/test_frame-www.html"/>
+				
+		
 	</target>
   
   <target description="Package Tutorials" name="tutorials" depends="build">

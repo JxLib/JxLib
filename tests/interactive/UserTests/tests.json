@@ -1,7 +1,10 @@
 {
-    "Base":{
+    "Base": {
         "common": [
         	"dependencies"
         ]
+    },
+    "Button": {
+    	"button": ["all"]
     }
 }
