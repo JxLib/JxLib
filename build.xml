@@ -134,7 +134,7 @@ $Id$
     <concat destfile="${build.home}/lib/jxlib.standalone.uncompressed.js">
         <filelist dir="src/Source" files="license.js"/>
         <filelist dir="src/Source" files="Base/common.js"/>
-        <filelist dir="src/Source" files="Button/button.js Button/flyout.js Button/multi.js Extras/colorpalette.js Button/color.js Button/set.js Grid/grid.js Grid/model.js Layout/layout.js Menu/menu.js Menu/menu.item.js Menu/separator.js Menu/submenu.js Menu/context.js Panel/panel.js Panel/dialog.js Panel/panelset.js Button/combo.js Layout/splitter.js Layout/snap.js Tab/tabset.js Tab/tabbox.js Button/tab.js Toolbar/toolbar.js Toolbar/toolbar.item.js Toolbar/separator.js Toolbar/container.js Tree/treeitem.js Tree/treefolder.js Tree/tree.js"/>
+        <filelist dir="src/Source" files="Button/button.js Button/flyout.js Button/multi.js Extras/colorpalette.js Button/color.js Button/set.js Grid/grid.js Grid/model.js Layout/layout.js Menu/menu.js Menu/menu.item.js Menu/menu.separator.js Menu/submenu.js Menu/context.js Panel/panel.js Panel/dialog.js Panel/panelset.js Button/combo.js Layout/splitter.js Layout/snap.js Tab/tabset.js Tab/tabbox.js Button/tab.js Toolbar/toolbar.js Toolbar/toolbar.item.js Toolbar/toolbar.separator.js Toolbar/container.js Tree/treeitem.js Tree/treefolder.js Tree/tree.js"/>
     </concat>
     
     <concat destfile="${build.home}/lib/jxlib.uncompressed.js">
