@@ -259,7 +259,7 @@ $Id$
   	<copy file="${build.home}/images/a_pixel.png" todir="${deploy.home}/builder/assets" />
   </target>
 	
-	<target description="setup files for tests" name="tests">
+	<target description="setup files for tests" name="tests" depends="deploy,builder">
 		<!-- Copy themes to the right locations -->
 		<copy todir="${basedir}/tests/interactive/UserTests/assets/themes">
 	  	    <fileset dir="${build.home}/lib/themes/"/>
