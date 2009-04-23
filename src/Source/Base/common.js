@@ -39,9 +39,9 @@ window.addEvent('load', function() {
 
 Class.Mutators.Family = function(self,name) {
     self.$family = {'name': name};
+    $[name] = $.object;
     return self;
-}
-
+};
 
 /* Setup global namespace
  * If jxcore is loaded by jx.js, then the namespace and baseURL are
@@ -49,7 +49,7 @@ Class.Mutators.Family = function(self,name) {
  */
 if (typeof Jx == 'undefined') {
     var Jx = {};
-    //window.addEvent('domready', function(){
+    (function() {
         var aScripts = document.getElementsByTagName('SCRIPT');
         for (var i=0; i<aScripts.length; i++) {
             var s = aScripts[i].src;
@@ -91,7 +91,7 @@ if (typeof Jx == 'undefined') {
         } else {
 		    Jx.isAir = false;
 	    }
-    //});
+    })();
 } 
 
 /**
@@ -973,8 +973,7 @@ Jx.Chrome = new Class({
                         src:src,
                         alt: '',
                         title: ''
-                    }))
-                );
+                    })));
             }, this);
         }
         if (!window.opera) {
