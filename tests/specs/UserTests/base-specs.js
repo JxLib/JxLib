@@ -8,5 +8,11 @@ describe('common tests',{
 		});
 		newC = new c();
 		value_of($type(newC)).should_be('Jx.Widget');
-	}
+	},
+    'Element.getNumber()':function() {
+        var body = $(document.body);
+        value_of(body.getNumber()).should_be(0);
+        value_of(body.getNumber('letter')).should_be(0);
+        value_of(body.getNumber(10)).should_be(10);
+    }
 });
