@@ -97,3 +97,6 @@ Jx.Tree = new Class({
         return this;    
     }
 });
+
+Jx.Tree.prototype.addTo = Jx.Addable.prototype.addTo;
+Jx.Tree.prototype.toElement = Jx.Addable.prototype.toElement;

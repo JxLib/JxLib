@@ -38,9 +38,14 @@ window.addEvent('load', function() {
 })();
 
 Class.Mutators.Family = function(self,name) {
-    self.$family = {'name': name};
-    $[name] = $.object;
-    return self;
+    if ($defined(name)){
+        self.$family = {'name': name};
+        $[name] = $.object;
+        return self;
+    }
+    else {
+        this.implement('$family',{'name':self});
+    }
 };
 
 /* Setup global namespace

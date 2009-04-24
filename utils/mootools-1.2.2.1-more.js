@@ -1021,7 +1021,7 @@ String.implement({
 
 })();
 
-﻿/*
+/*
 Script: String.QueryString.js
 	...
 
@@ -1073,7 +1073,7 @@ Script: URI.js
 		MIT-style license.
 
 	Authors:
-		Sebastian Markb�ge, Aaron Newton
+		Sebastian Markb?ge, Aaron Newton
 */
 
 var URI = new Class({
@@ -1213,7 +1213,7 @@ String.implement({
 
 });
 
-﻿/*
+/*
 Script: URI.Relative.js
 	Extends the URI class to add methods for computing relative and absolute urls.
 
