@@ -97,8 +97,8 @@ $Id$
  -->
   <property name="YUIcompressor" value="${basedir}/utils/yuicompressor-2.3.6.jar"/>
   <property name="NaturalDocs"   value="${basedir}/utils/NaturalDocs-1.4/NaturalDocs"/>
-  <property name="MooToolsCore"  value="${basedir}/utils/mootools-1.2.1-core.js" />
-  <property name="MooToolsMore"  value="${basedir}/utils/mootools-1.2-more.js" />
+  <property name="MooToolsCore"  value="${basedir}/utils/mootools-1.2.2-core-nc.js" />
+  <property name="MooToolsMore"  value="${basedir}/utils/mootools-1.2.2.1-more.js" />
 
 <!-- ==================== Prepare Target ================================== -->
 
