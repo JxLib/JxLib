@@ -132,13 +132,13 @@
         },
 
         "splitter": {
-            "deps": ["layout","snap"],
+            "deps": ["layout"],
             "opt": ["Drag"],
             "desc": "A Jx.Splitter creates two or more containers within a parent container and provides user control over the size of the containers."
         },
 
         "snap": {
-            "deps": ["common"],
+            "deps": ["common","splitter"],
             "desc": "A helper class to create an element that can snap a split panel open or closed."
         }
 
@@ -164,8 +164,13 @@
 
         "desc": "This group contains components that are used to create toolbars.  Toolbars are typically used to contain buttons but they can also contain other HTML elements and Jx components.  If you are using toolbars in your application, you probably want to include this whole group.",
         
+        "toolbar": {
+            "deps": ["common","container"],
+            "desc": "A toolbar is a container object that contains other objects such as buttons."
+        },
+        
         "container": {
-            "deps": ["common"],
+            "deps": ["common","toolbar"],
             "opt": ["Fx.Tween"],
             "desc": "A toolbar container contains toolbars.  This has an optional dependency on Fx.Tween that, if included, will allow toolbars that contain more elements than can be displayed to be smoothly scrolled left and right.  Without this optional dependency, the toolbar will jump in fixed increments rather than smoothly scrolling."
         },
@@ -173,12 +178,7 @@
         "toolbar.item": {
             "deps": ["tab","toolbar"],
             "desc": "A helper class to provide a container for something to go into a Jx.Toolbar."
-        },
-
-        "toolbar": {
-            "deps": ["common","container"],
-            "desc": "A toolbar is a container object that contains other objects such as buttons."
-        },
+        },     
 
         "toolbar.separator": {
             "deps": ["toolbar"],
