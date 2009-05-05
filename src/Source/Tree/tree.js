@@ -15,9 +15,9 @@
  * This file is licensed under an MIT style license
  */
 Jx.Tree = new Class({
-    Family: 'Jx.Tree',
-    Implements: [Jx.Addable],
     Extends: Jx.TreeFolder,
+    Implements: [Jx.Addable],
+    Family: 'Jx.Tree',
     /**
      * Constructor: Jx.Tree
      * Create a new instance of Jx.Tree
@@ -98,5 +98,3 @@ Jx.Tree = new Class({
     }
 });
 
-Jx.Tree.prototype.addTo = Jx.Addable.prototype.addTo;
-Jx.Tree.prototype.toElement = Jx.Addable.prototype.toElement;
