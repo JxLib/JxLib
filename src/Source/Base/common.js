@@ -26,6 +26,8 @@ window.addEvent('load', function() {
     }
 });
 /* inspired by extjs, apparently removes css image flicker and related problems in IE 6 */
+/* This is already done in mootools Source/Core/Browser.js  KASI*/
+/*
 (function() {
     var ua = navigator.userAgent.toLowerCase();
     var isIE = ua.indexOf("msie") > -1,
@@ -36,7 +38,7 @@ window.addEvent('load', function() {
         } catch(e) {}
     }    
 })();
-
+*/
 Class.Mutators.Family = function(self,name) {
     if ($defined(name)){
         self.$family = {'name': name};
@@ -195,6 +197,33 @@ Jx.createIframeShim = function() {
         'frameborder':0
     });
 };
+/**
+ * Method: getNumber
+ * safely parse a number and return its integer value.  A NaN value 
+ * returns 0.  CSS size values are also parsed correctly.
+ *
+ * Parameters: 
+ * n - {Mixed} the string or object to parse.
+ *
+ * Returns:
+ * {Integer} the integer value that the parameter represents
+ */
+Jx.getNumber = function(n, def) {
+  var result = n===null||isNaN(parseInt(n,10))?(def||0):parseInt(n,10);
+  return result;
+}
+
+/**
+ * Method: getPageDimensions
+ * return the dimensions of the browser client area.
+ *
+ * Returns:
+ * {Object} an object containing a width and height property 
+ * that represent the width and height of the browser client area.
+ */
+Jx.getPageDimensions = function() {
+    return {width: window.getWidth(), height: window.getHeight()};
+}
 
 /**
  * Class: Element
@@ -393,10 +422,10 @@ Element.implement({
      * that contain the associated padding values.
      */
     getPaddingSize : function () {
-      var l = this.getNumber(this.getStyle('padding-left'));
-      var t = this.getNumber(this.getStyle('padding-top'));
-      var r = this.getNumber(this.getStyle('padding-right'));
-      var b = this.getNumber(this.getStyle('padding-bottom'));
+      var l = Jx.getNumber(this.getStyle('padding-left'));
+      var t = Jx.getNumber(this.getStyle('padding-top'));
+      var r = Jx.getNumber(this.getStyle('padding-right'));
+      var b = Jx.getNumber(this.getStyle('padding-bottom'));
       return {left:l, top:t, right: r, bottom: b};
     },
     /**
@@ -411,10 +440,10 @@ Element.implement({
      * that contain the associated border values.
      */
     getBorderSize : function() {
-      var l = this.getNumber(this.getStyle('border-left-width'));
-      var t = this.getNumber(this.getStyle('border-top-width'));
-      var r = this.getNumber(this.getStyle('border-right-width'));
-      var b = this.getNumber(this.getStyle('border-bottom-width'));
+      var l = Jx.getNumber(this.getStyle('border-left-width'));
+      var t = Jx.getNumber(this.getStyle('border-top-width'));
+      var r = Jx.getNumber(this.getStyle('border-right-width'));
+      var b = Jx.getNumber(this.getStyle('border-bottom-width'));
       return {left:l, top:t, right: r, bottom: b};
     },
     /**
@@ -429,37 +458,11 @@ Element.implement({
      * that contain the associated margin values.
      */
     getMarginSize : function() {
-      var l = this.getNumber(this.getStyle('margin-left'));
-      var t = this.getNumber(this.getStyle('margin-top'));
-      var r = this.getNumber(this.getStyle('margin-right'));
-      var b = this.getNumber(this.getStyle('margin-bottom'));
+      var l = Jx.getNumber(this.getStyle('margin-left'));
+      var t = Jx.getNumber(this.getStyle('margin-top'));
+      var r = Jx.getNumber(this.getStyle('margin-right'));
+      var b = Jx.getNumber(this.getStyle('margin-bottom'));
       return {left:l, top:t, right: r, bottom: b};
-    },
-    /**
-     * Method: getNumber
-     * safely parse a number and return its integer value.  A NaN value 
-     * returns 0.  CSS size values are also parsed correctly.
-     *
-     * Parameters: 
-     * n - {Mixed} the string or object to parse.
-     *
-     * Returns:
-     * {Integer} the integer value that the parameter represents
-     */
-    getNumber: function(n) {
-      var result = n===null||isNaN(parseInt(n,10))?0:parseInt(n,10);
-      return result;
-    },
-    /**
-     * Method: getPageDimensions
-     * return the dimensions of the browser client area.
-     *
-     * Returns:
-     * {Object} an object containing a width and height property 
-     * that represent the width and height of the browser client area.
-     */
-    getPageDimensions: function() {
-        return {width: window.getWidth(), height: window.getHeight()};
     },
     
     /**
@@ -736,7 +739,7 @@ Jx.AutoPosition = new Class({
         var page;
         var scroll;
         if (!$(element.parentNode) || element.parentNode ==  document.body) {
-            page = Element.getPageDimensions();
+            page = Jx.getPageDimensions();
             scroll = $(document.body).getScroll();
         } else {
             page = $(element.parentNode).getContentBoxSize(); //width, height

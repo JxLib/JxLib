@@ -159,7 +159,7 @@ Jx.Layout = new Class({
         
         var parentSize;
         if (this.domObj.parentNode.tagName == 'BODY') {
-            parentSize = Element.getPageDimensions();
+            parentSize = Jx.getPageDimensions();
         } else {
             parentSize = $(this.domObj.parentNode).getContentBoxSize();
         }
