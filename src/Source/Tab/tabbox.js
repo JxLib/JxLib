@@ -96,8 +96,10 @@ Jx.TabBox = new Class({
         /* when the panel changes size, the tab set needs to update 
          * the content areas.
          */
-        this.panel.addEvent('sizeChange', 
-            this.tabSet.resizeTabBox.bind(this.tabSet));
+         this.panel.addEvent('sizeChange', (function() {
+             this.tabSet.resizeTabBox();
+             this.tabBar.domObj.getParent('.jxBarContainer').retrieve('jxBarContainer').update();
+         }).bind(this));
         /* when tabs are added or removed, we might need to layout
          * the panel if the toolbar is or becomes empty
          */
