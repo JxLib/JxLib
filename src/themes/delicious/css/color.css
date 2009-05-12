@@ -30,10 +30,19 @@ table.jxColorGrid {
     border-collapse: collapse;
     empty-cells: show;
     clear:both;
+    padding: 0px;
+    margin: 0px;
+}
+
+.jxColorGrid tr {
+    padding: 0px;
+    margin: 0px;
 }
 
 .jxColorGrid td {
     border: 1px solid #000;
+    padding: 0px;
+    margin: 0px;
 }
 
 .jxColorGrid td.emptyCell {

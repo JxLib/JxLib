@@ -48,74 +48,61 @@ Format: 1.4
 
 Group: Jx  {
 
-   File: Common Utilities  (no auto-title, common.js)
+   Group: Button  {
+
+      File: Button  (no auto-title, Button/button.js)
+      File: Button.Tab  (Button/tab.js)
+      File: Button.Flyout  (Button/flyout.js)
+      File: Button.Color  (Button/color.js)
+      File: Button.Multi  (Button/multi.js)
+      File: Button.Combo  (Button/combo.js)
+      File: ButtonSet  (Button/set.js)
+      }  # Group: Button
+
+   File: ColorPalette  (Extras/colorpalette.js)
+   File: Common  (no auto-title, Base/common.js)
+   File: Grid  (Grid/grid.js)
+   File: Grid.Model  (Grid/model.js)
+   File: TabBox  (Tab/tabbox.js)
+   File: TabSet  (Tab/tabset.js)
 
    Group: Layout  {
 
-      File: Layout  (layout.js)
-      File: Splitter  (no auto-title, splitter.js)
-      File: Splitter.Snap  (no auto-title, splitter.snap.js)
+      File: Layout  (Layout/layout.js)
+      File: Splitter  (Layout/splitter.js)
+      File: Splitter.Snap  (Layout/snap.js)
       }  # Group: Layout
-
-   Group: Button  {
-
-      File: Button  (no auto-title, button.js)
-      File: Button.Color  (button.color.js)
-      File: Button.Flyout  (no auto-title, button.flyout.js)
-      File: Button.Multi  (no auto-title, button.multi.js)
-      File: Button.Combo  (button.combo.js)
-      File: ButtonSet  (buttonset.js)
-      File: Grid.Model  (grid.model.js)
-      }  # Group: Button
-
-   Group: Tab  {
-
-      File: Button.Tab  (no auto-title, button.tab.js)
-      File: TabBox  (tabbox.js)
-      File: TabSet  (tabset.js)
-      }  # Group: Tab
 
    Group: Menu  {
 
-      File: Menu  (menu.js)
-      File: Menu.Context  (menu.context.js)
-      File: Menu.Item  (menu.item.js)
-      File: Menu.Separator  (menu.separator.js)
-      File: Menu.SubMenu  (menu.submenu.js)
+      File: Menu  (Menu/menu.js)
+      File: Menu.Context  (Menu/context.js)
+      File: Menu.Item  (Menu/menu.item.js)
+      File: Menu.Separator  (Menu/menu.separator.js)
+      File: Menu.SubMenu  (Menu/submenu.js)
       }  # Group: Menu
-
-   Group: Toolbar  {
-
-      File: Container  (toolbar.container.js)
-      File: Toolbar  (no auto-title, toolbar.js)
-      File: Toolbar.Item  (no auto-title, toolbar.item.js)
-      File: Toolbar.Separator  (no auto-title, toolbar.separator.js)
-      }  # Group: Toolbar
 
    Group: Panel  {
 
-      File: Panel  (panel.js)
-      File: Dialog  (dialog.js)
-      File: PanelSet  (panelset.js)
+      File: Dialog  (Panel/dialog.js)
+      File: Panel  (Panel/panel.js)
+      File: PanelSet  (Panel/panelset.js)
       }  # Group: Panel
+
+   Group: Toolbar  {
+
+      File: Toolbar  (Toolbar/toolbar.js)
+      File: Toolbar.Container  (Toolbar/container.js)
+      File: Toolbar.Item  (Toolbar/toolbar.item.js)
+      File: Toolbar.Separator  (Toolbar/toolbar.separator.js)
+      }  # Group: Toolbar
 
    Group: Tree  {
 
-      File: Jx.Tree  (no auto-title, tree.js)
-      File: TreeFolder  (treefolder.js)
-      File: TreeItem  (treeitem.js)
+      File: Tree  (Tree/tree.js)
+      File: TreeFolder  (Tree/treefolder.js)
+      File: TreeItem  (Tree/treeitem.js)
       }  # Group: Tree
-
-   Group: Grid  {
-
-      File: Grid  (grid.js)
-      File: Grid.Model  (grid.model.js)
-      }  # Group: Grid
-
-   Group: Extras  {
-
-      File: ColorPalette  (colorpalette.js)
-      }  # Group: Extras
 
    }  # Group: Jx
 
@@ -127,6 +114,5 @@ Group: Index  {
    Function Index: Functions
    Property Index: Properties
    TODO Index: TODO
-   File Index: Files
    }  # Group: Index
 

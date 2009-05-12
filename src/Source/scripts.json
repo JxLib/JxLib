@@ -1,0 +1,223 @@
+{
+
+    "Base": {
+        
+        "desc": "The Base Group holds anything common to all other Jx classes and widgets.  All JxLib components require this group, so selecting anything else will select this group too.",
+        
+        "common": {
+            "deps": ["Class","Element","Browser","Element.Style","Request","Core","Class.Extras","Array","Element.Event","Element.Dimensions"],
+            "desc":"Jx namespace with methods and classes common to most Jx widgets"
+        }
+
+    },
+
+    "Button": {
+
+        "desc": "This group contains components that are button-like.  All button classes ultimately derive from the basic button class.",
+        
+        "button": {
+            "deps": ["common"],
+            "opt" : ["Drag"],
+            "desc": "Jx.Button creates a clickable element that can be added to a web page."
+        },
+
+        "flyout": {
+            "deps": ["button"],
+            "desc": "Flyout buttons expose a panel when the user clicks the button."
+        },
+
+        "tab": {
+            "deps": ["button","layout"],
+            "desc": "A single tab in a tab set."
+        },
+
+        "color": {
+            "deps": ["flyout","colorpalette"],
+            "desc": "A Jx.ColorPalette wrapped up in a Jx.Button."
+        },
+
+        "multi": {
+            "deps": ["button","menu","set"],
+            "desc": "Multi buttons are used to contain multiple buttons in a drop down list where only one button is actually visible and clickable in the interface."
+        },
+
+        "combo": {
+            "deps": ["multi","set","menu.item"],
+            "desc": "A drop down list of selectable items."
+        },
+
+        "set": {
+            "deps": ["common"],
+            "desc": "A ButtonSet manages a set of Jx.Button instances by ensuring that only one of the buttons is active."
+        }
+
+    },
+
+    "Panel": {
+
+        "desc": "This group contains components that act as a visual for content.",
+
+        "panel": {
+            "deps": ["menu.item","layout","container"],
+            "desc":"A panel is a fundamental container object that has a content area and optional toolbars around the content area."
+        },
+        
+        "dialog": {
+            "deps": ["panel"],
+            "opt": ["Drag"],
+            "desc": "A Jx.Dialog implements a floating dialog."
+        },
+
+        "panelset": {
+            "deps": ["splitter","panel"],
+            "desc": "A panel set manages a set of panels within a DOM element."
+        }
+
+    },
+
+    "Grid": {
+
+        "desc": "This group contains components related to the Grid control.",
+        
+        "grid": {
+            "deps": ["layout"],
+            "desc": "A tabular control that has fixed scrolling headers on the rows and columns like a spreadsheet."
+        },
+
+        "model": {
+            "deps": ["grid"],
+            "desc": "A Jx.Grid.Model is the source of data for a Jx.Grid instance."
+        }
+
+    },
+
+    "Menu": {
+
+        "desc": "This group contains components that are used in the menuing system.  Typically you would want to include all components in this group if you want to include menu support in your application.",
+        
+        "context": {
+            "deps": ["menu"],
+            "desc": "A Jx.Menu that has no button but can be opened at a specific browser location to implement context menus (for instance)."
+        },
+
+        "menu.item": {
+            "deps": ["button","menu"],
+            "desc": "A menu item is a single entry in a menu."
+        },
+
+        "menu": {
+            "deps": ["button"],
+            "desc": "A main menu as opposed to a sub menu that lives inside the menu."
+        },
+
+        "menu.separator": {
+            "deps": ["menu"],
+            "desc": "Convenience class to create a visual separator in a menu."
+        },
+
+        "submenu": {
+            "deps": ["menu.item"],
+            "desc": "A sub menu contains menu items within a main menu or another sub menu."
+        }
+
+    },
+
+    "Layout": {
+
+        "desc": "This group contains components that manage the layout of other components or HTML elements.",
+        
+        "layout": {
+            "deps": ["common"],
+            "desc":"Jx.Layout is used to provide more flexible layout options for applications"
+        },
+
+        "splitter": {
+            "deps": ["layout"],
+            "opt": ["Drag"],
+            "desc": "A Jx.Splitter creates two or more containers within a parent container and provides user control over the size of the containers."
+        },
+
+        "snap": {
+            "deps": ["common","splitter"],
+            "desc": "A helper class to create an element that can snap a split panel open or closed."
+        }
+
+    },
+
+    "Tab": {
+
+        "desc": "This group contains components used to create tabbed interfaces.  Note that tabs themselves are actually included in the Button group.",
+        
+        "tabbox": {
+            "deps": ["toolbar","panel","tabset"],
+            "desc": "A convenience class to handle the common case of a single toolbar directly attached to the content area of the tabs."
+        },
+
+        "tabset": {
+            "deps": ["tab"],
+            "desc": "A TabSet manages a set of Jx.Button.Tab content areas by ensuring that only one of the content areas is visible (i.e. the active tab). "
+        }
+
+    },
+
+    "Toolbar": {
+
+        "desc": "This group contains components that are used to create toolbars.  Toolbars are typically used to contain buttons but they can also contain other HTML elements and Jx components.  If you are using toolbars in your application, you probably want to include this whole group.",
+        
+        "toolbar": {
+            "deps": ["common","container"],
+            "desc": "A toolbar is a container object that contains other objects such as buttons."
+        },
+        
+        "container": {
+            "deps": ["common","toolbar"],
+            "opt": ["Fx.Tween"],
+            "desc": "A toolbar container contains toolbars.  This has an optional dependency on Fx.Tween that, if included, will allow toolbars that contain more elements than can be displayed to be smoothly scrolled left and right.  Without this optional dependency, the toolbar will jump in fixed increments rather than smoothly scrolling."
+        },
+
+        "toolbar.item": {
+            "deps": ["tab","toolbar"],
+            "desc": "A helper class to provide a container for something to go into a Jx.Toolbar."
+        },     
+
+        "toolbar.separator": {
+            "deps": ["toolbar"],
+            "desc": "A helper class that represents a visual separator in a Jx.Toolbar."
+        }
+
+    },
+
+    "Tree": {
+
+        "desc": "This group contains components required to build a tree.  If you want to include a tree in your application, you will need all the components in this group.",
+        
+        "tree": {
+            "deps": ["treefolder"],
+            "desc": "Jx.Tree displays hierarchical data in a tree structure of folders and nodes."
+        },
+
+        "treefolder": {
+            "deps": ["treeitem"],
+            "desc": "A Jx.TreeFolder is an item in a tree that can contain other items. It is expandable and collapsible."
+        },
+
+        "treeitem": {
+            "deps": ["common"],
+            "opt": ["Drag"],
+            "desc": "An item in a tree."
+        }
+
+    },
+
+    "Extras": {
+
+        "desc": "This group contains extra components.",
+        
+        "colorpalette": {
+            "deps": ["common"],
+            "desc": "A Jx.ColorPalette presents a user interface for selecting colors.  This is typically combined with a Jx.Button.Color which embeds the color palette in a flyout."
+        }
+
+    }
+
+}

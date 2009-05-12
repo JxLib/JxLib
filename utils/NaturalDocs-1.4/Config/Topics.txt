@@ -380,3 +380,13 @@ Topic Type: Build Target
       target, targets
       build target, build targets
       buildtarget, buildtargets
+
+
+Topic Type: Option
+
+   Plural: Options
+   Index: No
+   Can Group With: Classes
+
+   Keywords:
+      options, option

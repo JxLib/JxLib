@@ -97,8 +97,8 @@ $Id$
  -->
   <property name="YUIcompressor" value="${basedir}/utils/yuicompressor-2.3.6.jar"/>
   <property name="NaturalDocs"   value="${basedir}/utils/NaturalDocs-1.4/NaturalDocs"/>
-  <property name="MooToolsCore"  value="${basedir}/utils/mootools-1.2.1-core.js" />
-  <property name="MooToolsMore"  value="${basedir}/utils/mootools-1.2-more.js" />
+  <property name="MooToolsCore"  value="${basedir}/utils/mootools-1.2.2-core-nc.js" />
+  <property name="MooToolsMore"  value="${basedir}/utils/mootools-1.2.2.1-more.js" />
 
 <!-- ==================== Prepare Target ================================== -->
 
@@ -113,16 +113,17 @@ $Id$
 
 -->
 
-  <target name="prepare" description="preparing core files">
+  <target name="prepare" description="preparing core files" depends="clean">
     <echo message="os name=${os.name}"/>
     <echo message="os family=${osfamily}"/>
     <echo message="Preparing core files"/>
     <!-- Create build directories as needed -->
     <mkdir dir="${build.home}"/>
+  	<mkdir dir="${build.home}/lib"/>
     
     <!-- Copy static content of the project  -->
     <copy todir="${build.home}">
-      <fileset dir="${basedir}/src" includes="js/** themes/** images/**"/>
+      <fileset dir="${basedir}/src" includes="Source/** themes/** images/**"/>
     </copy>
     
     <delete file="${build.home}/lib/jxlib.uncompressed.js"/>
@@ -131,18 +132,34 @@ $Id$
     <delete file="${build.home}/lib/jxlib.standalone.js"/>
 
     <echo message="Concatenating javascript into jxlib"/>
-    <concat destfile="${build.home}/lib/jxlib.standalone.uncompressed.js">
-        <filelist dir="src/js" files="license.js"/>
-        <filelist dir="src/js" files="common.js"/>
-        <filelist dir="src/js" files="button.js button.flyout.js button.multi.js colorpalette.js button.color.js buttonset.js grid.js grid.model.js layout.js menu.js menu.item.js menu.separator.js menu.submenu.js menu.context.js panel.js dialog.js panelset.js button.combo.js splitter.js splitter.snap.js tabset.js tabbox.js button.tab.js toolbar.js toolbar.item.js toolbar.separator.js toolbar.container.js treeitem.js treefolder.js tree.js"/>
-    </concat>
-    
-    <concat destfile="${build.home}/lib/jxlib.uncompressed.js">
-        <fileset file="${MooToolsCore}"/>
-        <fileset file="${MooToolsMore}"/>
-        <filelist dir="${build.home}/lib" files="jxlib.standalone.uncompressed.js"/>
-    </concat>
-    
+
+    <echo message="exec 1"/>
+  	<exec executable="php">
+		<arg line="${basedir}/utils/combine.php -filelist ${build.home}/Source/scripts.json -jsonFile ${build.home}/lib/jxlib.json -target ${build.home}/lib/jxlib.temp.js -basedir ${build.home}/Source" />
+	</exec>
+
+    <echo message="exec 2"/>
+  	<exec executable="php">
+		<arg line="${basedir}/utils/combine.php -filelist ${basedir}/../vendor/mootools-core/current/Source/scripts.json -jsonFile ${build.home}/lib/core.json -target ${build.home}/lib/mootools-core.js -basedir ${basedir}/../vendor/mootools-core/current/Source" />
+	</exec>
+  	<echo message="exec 3"/>
+    <exec executable="php">
+  		<arg line="${basedir}/utils/combine.php -filelist ${basedir}/../vendor/mootools-more/current/Source/scripts.json -jsonFile ${build.home}/lib/more.json -target ${build.home}/lib/mootools-more.js -basedir ${basedir}/../vendor/mootools-more/current/Source" />
+	</exec>
+  	<echo message="exec 4"/>
+    <exec executable="php">
+  		<arg line="${basedir}/utils/createDeps.json.php -fileLoc ${build.home}/lib" />
+	</exec>
+  	<exec executable="php">
+  		<arg line="${basedir}/utils/combineFiles.php -filelist mootools-core,mootools-more,jxlib.temp -target ${build.home}/lib/jxlib.uncompressed.js -basedir ${build.home}/lib" />
+	</exec>
+  	<exec executable="php">
+  		<arg line="${basedir}/utils/combineFiles.php -filelist ../Source/license,jxlib.uncompressed -target ${build.home}/lib/jxlib.uncompressed.js -basedir ${build.home}/lib" />
+	</exec>
+  	<exec executable="php">
+  		<arg line="${basedir}/utils/combineFiles.php -filelist ../Source/license,jxlib.temp -target ${build.home}/lib/jxlib.standalone.uncompressed.js -basedir ${build.home}/lib" />
+	</exec>
+
     <java jar="${YUIcompressor}" fork="true"
           output="${build.home}/lib/jxlib.standalone.compressed.js">
         <arg value="${build.home}/lib/jxlib.standalone.uncompressed.js"/>
@@ -152,14 +169,12 @@ $Id$
         <arg value="${build.home}/lib/jxlib.uncompressed.js"/>
     </java>
     
-    <concat destfile="${build.home}/lib/jxlib.standalone.js">
-      <filelist dir="${build.home}/js" files="license.js"/>
-      <filelist dir="${build.home}/lib" files="jxlib.standalone.compressed.js"/>
-    </concat>
-    <concat destfile="${build.home}/lib/jxlib.js">
-      <filelist dir="${build.home}/js" files="license.js"/>
-      <filelist dir="${build.home}/lib" files="jxlib.compressed.js"/>
-    </concat>
+  	<exec executable="php">
+  		<arg line="${basedir}/utils/combineFiles.php -filelist ../Source/license,jxlib.standalone.compressed -target ${build.home}/lib/jxlib.standalone.js -basedir ${build.home}/lib" />
+	</exec>
+  	<exec executable="php">
+  		<arg line="${basedir}/utils/combineFiles.php -filelist ../Source/license,jxlib.compressed -target ${build.home}/lib/jxlib.js -basedir ${build.home}/lib" />
+	</exec>
     
     <replace file="${build.home}/lib/jxlib.standalone.uncompressed.js" token="[version]" value="${app.version}"/>
     <replace file="${build.home}/lib/jxlib.standalone.js" token="[version]" value="${app.version}"/>
@@ -168,7 +183,9 @@ $Id$
     
     <delete file="${build.home}/lib/jxlib.standalone.compressed.js"/>
     <delete file="${build.home}/lib/jxlib.compressed.js"/>
-    
+  	<delete file="${build.home}/lib/jxlib.temp.js"/>
+
+    	
     <copy file="${build.home}/images/a_pixel.png" todir="${build.home}/lib"/>
     
     <mkdir dir="${build.home}/themes"/>
@@ -216,20 +233,77 @@ $Id$
     </antcall>
   </target>
   
-  <target description="Deploy JxLib" name="deploy" depends="build">
-    
-    <echo message="deploying files"/>
-    <copy todir="${deploy.home}/lib">
+  <target description="Copies JxLib files to www directory" name="copy" depends="build" >
+  	<copy todir="${deploy.home}/lib">
         <fileset dir="${build.home}/lib"/>
     </copy>
+  </target>
+	
+	
+  <target description="Deploy JxLib" name="deploy" depends="copy,builder,tests,docs">
+    <echo message="deploying files"/>
     <copy todir="${deploy.home}/reference/tutorials/lib">
         <fileset dir="${build.home}/lib"/>
     </copy>
     <copy todir="${deploy.home}/reference/examples/lib">
         <fileset dir="${build.home}/lib"/>
     </copy>
-    
   </target>
+	
+  <target description="Deploy source for www download builder" name="builder" depends="copy">
+	<delete dir="${deploy.home}/builder/src" />
+  	<delete dir="${deploy.home}/builder/assets" />
+  	<mkdir dir="${deploy.home}/builder/src"/>
+  	<mkdir dir="${deploy.home}/builder/assets"/>
+  	<mkdir dir="${deploy.home}/builder/assets/themes"/>
+  	<mkdir dir="${deploy.home}/builder/src/core"/>
+  	<mkdir dir="${deploy.home}/builder/src/more"/>
+  	<mkdir dir="${deploy.home}/builder/src/core/Source"/>
+  	<mkdir dir="${deploy.home}/builder/src/more/Source"/>
+  	<mkdir dir="${deploy.home}/builder/src/jxlib"/>
+  	<mkdir dir="${deploy.home}/builder/src/jxlib/Source"/>
+  	
+  	<copy todir="${deploy.home}/builder/src/core/Source">
+  		<fileset dir="${basedir}/../vendor/mootools-core/current/Source" />
+  	</copy>
+	<copy todir="${deploy.home}/builder/src/more/Source">
+  		<fileset dir="${basedir}/../vendor/mootools-more/current/Source" />
+  	</copy>
+	<copy todir="${deploy.home}/builder/src/jxlib/Source/">
+  		<fileset dir="${build.home}/Source" />
+  	</copy>
+	<copy todir="${deploy.home}/builder/assets/themes/">
+  		<fileset dir="${build.home}/lib/themes/" />
+  	</copy>
+  	<copy file="${build.home}/images/a_pixel.png" todir="${deploy.home}/builder/assets" />
+  	
+	<!-- Place JSON files -->
+  	<move file="${deploy.home}/lib/deps.json" todir="${deploy.home}/builder/work/" />
+  	<move file="${deploy.home}/lib/jxlib.json" todir="${deploy.home}/builder" />
+  	<move file="${deploy.home}/lib/core.json" todir="${deploy.home}/builder" />
+  	<move file="${deploy.home}/lib/more.json" todir="${deploy.home}/builder" />
+  </target>
+	
+	<target description="setup files for tests" name="tests" depends="builder">
+		<!-- Copy themes to the right locations -->
+		<copy todir="${basedir}/tests/interactive/UserTests/assets/themes">
+	  	    <fileset dir="${build.home}/lib/themes/"/>
+	  	</copy>
+		<copy file="${build.home}/lib/a_pixel.png" todir="${basedir}/tests/interactive/UserTests/assets/" />
+		
+		<delete dir="${deploy.home}/tests" />
+		<mkdir dir="${deploy.home}/tests"/>
+		<copy todir="${deploy.home}/tests">
+			<fileset dir="${basedir}/tests" />
+		</copy>
+		<delete file="${deploy.home}/tests/interactive/config.js"/>
+		<rename dest="${deploy.home}/tests/interactive/config.js" src="${deploy.home}/tests/interactive/config-www.js"/>
+		
+		<delete file="${deploy.home}/tests/interactive/test_frame.html"/>
+		<rename dest="${deploy.home}/tests/interactive/test_frame.html" src="${deploy.home}/tests/interactive/test_frame-www.html"/>
+				
+		
+	</target>
   
   <target description="Package Tutorials" name="tutorials" depends="build">
     <echo message="packaging tutorials"/>
@@ -241,13 +315,14 @@ $Id$
       <fileset dir="${deploy.home}/reference/tutorials/browsr"/>
     </copy>
   </target>
-
+	
   <target description="Package Examples" name="examples" depends="build">
     <echo message="packaging examples"/>
     <mkdir dir="${build.home}/examples"/>
     <copy todir="${build.home}/examples">
         <fileset dir="${deploy.home}/reference/examples"/>
     </copy>
+  	
   </target>
 
 
@@ -259,10 +334,10 @@ $Id$
     <mkdir dir="${build.home}/docs/api"/>
     <echo message="Generating documentation"/>
     <exec executable="cmd" os="Windows Vista, Windows XP" dir="${build.home}">
-      <arg line="/c perl ${NaturalDocs} -i ./js -o framedhtml ./docs/api -p ${basedir}/utils/ndconfig -s jx -r"/>
+      <arg line="/c perl ${NaturalDocs} -i ./Source -o framedhtml ./docs/api -p ${basedir}/utils/ndconfig -s jx -r"/>
     </exec>
-    <exec executable="/usr/bin/env" os="Mac OS X" dir="${build.home}">
-      <arg line=" perl ${NaturalDocs} -i ./js -o framedhtml ./docs/api -p ${basedir}/utils/ndconfig -s jx -r"/>
+    <exec executable="/usr/bin/env" os="Mac OS X, Linux" dir="${build.home}">
+      <arg line=" perl ${NaturalDocs} -i ./Source -o framedhtml ./docs/api -p ${basedir}/utils/ndconfig -s jx -r"/>
     </exec>
     <mkdir dir="${docs.home}/api"/>
     <copy todir="${docs.home}/api">
