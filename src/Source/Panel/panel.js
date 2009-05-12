@@ -485,7 +485,9 @@ Jx.Panel = new Class({
      */
     setBusy : function(isBusy) {
         this.busyCount += isBusy?1:-1;
-        this.loadingObj.img.style.visibility = (this.busyCount>0)?'visible':'hidden';
+        if (this.loadingObj){
+            this.loadingObj.img.style.visibility = (this.busyCount>0)?'visible':'hidden';
+        }
     },
     
     /**
