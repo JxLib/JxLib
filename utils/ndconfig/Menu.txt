@@ -46,25 +46,25 @@ Format: 1.4
 # --------------------------------------------------------------------------
 
 
-Group: Button  {
+Group: Jx  {
 
    Group: Button  {
 
-      File: Button.Color  (Button/color.js)
-      File: Button.Combo  (Button/combo.js)
-      File: Button.Flyout  (Button/flyout.js)
-      File: button.js  (Button/button.js)
-      File: Button.Multi  (Button/multi.js)
+      File: Button  (no auto-title, Button/button.js)
       File: Button.Tab  (Button/tab.js)
+      File: Button.Flyout  (Button/flyout.js)
+      File: Button.Color  (Button/color.js)
+      File: Button.Multi  (Button/multi.js)
+      File: Button.Combo  (Button/combo.js)
       File: ButtonSet  (Button/set.js)
       }  # Group: Button
 
-   File: Jx  (Base/common.js)
-   File: Jx.ColorPalette  (Extras/colorpalette.js)
-   File: Jx.Grid  (Grid/grid.js)
-   File: Jx.Grid.Model  (Grid/model.js)
-   File: Jx.TabBox  (Tab/tabbox.js)
-   File: Jx.TabSet  (Tab/tabset.js)
+   File: ColorPalette  (Extras/colorpalette.js)
+   File: Common  (no auto-title, Base/common.js)
+   File: Grid  (Grid/grid.js)
+   File: Grid.Model  (Grid/model.js)
+   File: TabBox  (Tab/tabbox.js)
+   File: TabSet  (Tab/tabset.js)
 
    Group: Layout  {
 
@@ -104,7 +104,7 @@ Group: Button  {
       File: TreeItem  (Tree/treeitem.js)
       }  # Group: Tree
 
-   }  # Group: Button
+   }  # Group: Jx
 
 Group: Index  {
 
@@ -114,6 +114,5 @@ Group: Index  {
    Function Index: Functions
    Property Index: Properties
    TODO Index: TODO
-   File Index: Files
    }  # Group: Index
 

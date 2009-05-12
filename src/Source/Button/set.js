@@ -1,6 +1,11 @@
 // $Id$
 /**
  * Class: Jx.ButtonSet
+ *
+ * Extends: Object
+ *
+ * Implements: Options, Events
+ *
  * A ButtonSet manages a set of <Jx.Button> instances by ensuring that only one
  * of the buttons is active.  All the buttons need to have been created with
  * the toggle option set to true for this to work.
@@ -28,11 +33,6 @@
  */
 Jx.ButtonSet = new Class({
     Family: 'Jx.ButtonSet',
-    /**
-     * Implements:
-     * * Events
-     * * Options
-     */
     Implements: [Options,Events],
     /**
      * Property: buttons

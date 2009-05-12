@@ -1,6 +1,11 @@
 // $Id$
 /**
  * Class: Jx.Splitter
+ *
+ * Extends: Object
+ *
+ * Implements: Options
+ *
  * a Jx.Splitter creates two or more containers within a parent container
  * and provides user control over the size of the containers.  The split
  * can be made horizontally or vertically.
@@ -21,10 +26,6 @@
  
 Jx.Splitter = new Class({
     Family: 'Jx.Splitter',
-    /**
-     * Implements:
-     * * Options
-     */
     Implements: [Options],
     /**
      * Property: domObj
@@ -50,15 +51,63 @@ Jx.Splitter = new Class({
      */
     firstUpdate: true,
     options: {
+        /* Option: useChildren
+         * {Boolean} if set to true, then the children of the
+         * element to be split are used as the elements.  The default value is
+         * false.  If this is set, then the elements and splitInto options
+         * are ignored.
+         */
         useChildren: false,
+        /* Option: splitInto
+         * {Integer} the number of elements to split the domObj into.
+         * If not set, then the length of the elements option is used, or 2 if
+         * elements is not specified.  If splitInto is specified and elements
+         * is specified, then splitInto is used.  If there are more elements than
+         * splitInto specifies, then the extras are ignored.  If there are less
+         * elements than splitInto specifies, then extras are created.
+         */
         splitInto: 2,
+        /* Option: elements
+         * {Array} an array of elements to put into the split areas.
+         * If splitInto is not set, then it is calculated from the length of
+         * this array.
+         */
         elements: null,
+        /* Option: containerOptions
+         * {Array} an array of objects that provide options
+         *  for the <Jx.Layout> constraints on each element.
+         */
         containerOptions: [],
+        /* Option: barOptions
+         * {Array} an array of object that provide options for the bars,
+         * this array should be one less than the number of elements in the
+         * splitter.  The barOptions objects can contain a snap property indicating
+         * that a default snap object should be created in the bar and the value
+         * of 'before' or 'after' indicates which element it snaps open/shut.
+         */
         barOptions: [],
+        /* Option: layout
+         * {String} either 'horizontal' or 'vertical', indicating the
+         * direction in which the domObj is to be split.
+         */
         layout: 'horizontal',
+        /* Option: snaps
+         * {Array} an array of objects which can be used to snap
+         * elements open or closed.
+         */
         snaps: [],
+        /* Option: barTooltip
+         * the tooltip to display when the mouse hovers over a split bar, 
+         * used for i18n.
+         */
         barTooltip: 'drag this bar to resize',
+        /* Option: onStart
+         * an optional function to call when a bar starts dragging
+         */
         onStart: null,
+        /* Option: onFinish
+         * an optional function to call when a bar finishes dragging
+         */
         onFinish: null
     },
     /**
@@ -67,34 +116,7 @@ Jx.Splitter = new Class({
      *
      * Parameters:
      * domObj - {HTMLElement} the element or id of the element to split
-     * options - {Object} optional arguments specified as properties of
-     * this object are as below.
-     *
-     * Options:
-     * useChildren - {Boolean} if set to true, then the children of the
-     * element to be split are used as the elements.  The default value is
-     * false.  If this is set, then the elements and splitInto options
-     * are ignored.
-     * elements - {Array} an array of elements to put into the split areas.
-     *      If splitInto is not set, then it is calculated from the length of
-     *      this array.
-     * splitInto - {Integer} the number of elements to split the domObj into.
-     *      If not set, then the length of the elements option is used, or 2 if
-     *      elements is not specified.  If splitInto is specified and elements
-     *      is specified, then splitInto is used.  If there are more elements than
-     *      splitInto specifies, then the extras are ignored.  If there are less
-     *      elements than splitInto specifies, then extras are created.
-     * containerOptions - {Array} an array of objects that provide options
-     *      for the <Jx.Layout> constraints on each element.
-     * barOptions - {Array} an array of object that provide options for the bars,
-     *      this array should be one less than the number of elements in the
-     *      splitter.  The barOptions objects can contain a snap property indicating
-     *      that a default snap object should be created in the bar and the value
-     *      of 'before' or 'after' indicates which element it snaps open/shut.
-     * layout - {String} either 'horizontal' or 'vertical', indicating the
-     *      direction in which the domObj is to be split.
-     * snaps - {Array} an array of objects which can be used to snap
-     *      elements open or closed.
+     * options - <Jx.Splitter.Options>
      */
     initialize: function(domObj, options) {
         this.setOptions(options);  

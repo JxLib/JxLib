@@ -1,6 +1,11 @@
 // $Id$
 /**
  * Class: Jx.Toolbar
+ *
+ * Extends: Object
+ *
+ * Implements: Options, Events
+ *
  * A toolbar is a container object that contains other objects such as
  * buttons.  The toolbar organizes the objects it contains automatically,
  * wrapping them as necessary.  Multiple toolbars may be placed within
@@ -12,15 +17,17 @@
  * There is one special object, Jx.ToolbarSeparator, that provides
  * a visual separation between objects in a toolbar.
  *
- * While a toolbar is generally a *dumb* container, it serves a special purpose
- * for menus by providing some infrastructure so that menus can behave
+ * While a toolbar is generally a *dumb* container, it serves a special
+ * purpose for menus by providing some infrastructure so that menus can behave
  * properly.
  *
  * In general, almost anything can be placed in a Toolbar, and mixed with 
  * anything else.
  *
  * Example:
- * The following example shows how to create a Jx.Toolbar instance and place two objects in it.
+ * The following example shows how to create a Jx.Toolbar instance and place
+ * two objects in it.
+ *
  * (code)
  * //myToolbarContainer is the id of a <div> in the HTML page.
  * function myFunction() {}
@@ -67,9 +74,25 @@ Jx.Toolbar = new Class({
     isActive : false,
     options: {
         type: 'Toolbar',
+        /* Option: position
+         * the position of this toolbar in the container.  The position
+         * affects some items in the toolbar, such as menus and flyouts, which
+         * need to open in a manner sensitive to the position.  May be one of
+         * 'top', 'right', 'bottom' or 'left'.  Default is 'top'.
         position: 'top',
+        /* Option: parent
+         * a DOM element to add this toolbar to
+         */
         parent: null,
+        /* Option: autoSize
+         * if true, the toolbar will attempt to set its size based on the
+         * things it contains.  Default is false.
+         */
         autoSize: false,
+        /* Option: scroll
+         * if true, the toolbar may scroll if the contents are wider than
+         * the size of the toolbar
+         */
         scroll: true
     },
     /**
@@ -77,14 +100,7 @@ Jx.Toolbar = new Class({
      * Create a new instance of Jx.Toolbar.
      *
      * Parameters:
-     * options - an options object as documented below
-     *
-     * Options:
-     * parent - {HTMLElement} object reference or id to place the toolbar in.
-     * position - one of 'top', 'right', 'bottom', or 'left', indicates how
-     * the toolbar is being placed in the page and may influence the behaviour
-     * of items in the toolbar that open sub panels, they will tend to open
-     * them towards the center of the page.  Default is top.
+     * options - <Jx.Toolbar.Options>
      */
     initialize : function(options) {
         this.setOptions(options);
@@ -104,6 +120,14 @@ Jx.Toolbar = new Class({
         }
     },
     
+    /**
+     * Method: addTo
+     * add this toolbar to a DOM element automatically creating a toolbar
+     * container if necessary
+     *
+     * Parameters:
+     * parent - the DOM element or toolbar container to add this toolbar to.
+     */
     addTo: function(parent) {
         var tbc = $(parent).retrieve('jxBarContainer');
         if (!tbc) {

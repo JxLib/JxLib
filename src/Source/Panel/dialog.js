@@ -1,6 +1,11 @@
 // $Id$
 /**
  * Class: Jx.Dialog
+ *
+ * Extends: <Jx.Panel>
+ *
+ * Implements: <Jx.AutoPosition>, <Jx.Chrome>
+ *
  * A Jx.Dialog implements a floating dialog.  Dialogs represent a useful way
  * to present users with certain information or application controls.
  * Jx.Dialog is designed to provide the same types of features as traditional
@@ -39,16 +44,7 @@
  */
 Jx.Dialog = new Class({
     Family: 'Jx.Dialog',
-    /**
-     * Extends:
-     * <Jx.Panel>
-     */
     Extends: Jx.Panel,
-    /**
-     * Implements:
-     * - <Jx.AutoPosition>
-     * - <Jx.Chrome>
-     */
     Implements: [Jx.AutoPosition, Jx.Chrome],
     
     /**
@@ -60,20 +56,70 @@ Jx.Dialog = new Class({
     blanket: null,
     
     options: {
+        /* Option: modal
+         * (optional) {Boolean} controls whether the dialog will be modal
+         * or not.  The default is to create modal dialogs.
+         */
         modal: true,
+        /* just overrides default position of panel, don't document this */
         position: 'absolute',
+        /* Option: width
+         * (optional) {Integer} the initial width in pixels of the dialog.
+         * The default value is 250 if not specified.
+         */
         width: 250,
+        /* Option: height
+         * (optional) {Integer} the initial height in pixels of the 
+         * dialog. The default value is 250 if not specified.
+         */
         height: 250,
+        /* Option: horizontal
+         * (optional) {String} the horizontal rule for positioning the
+         * dialog.  The default is 'center center' meaning the dialog will be
+         * centered on the page.  See {<Jx.AutoPosition>} for details.
+         */
         horizontal: 'center center',
+        /* Option: vertical
+         * (optional) {String} the vertical rule for positioning the
+         * dialog.  The default is 'center center' meaning the dialog will be
+         * centered on the page.  See {<Jx.AutoPosition>} for details.
+         */
         vertical: 'center center',
+        /* Option: label
+         * (optional) {String} the title of the dialog box.  "New Dialog"
+         * is the default value.
+         */
         label: 'New Dialog',
+        /* Option: id
+         * (optional) {String} an HTML ID to assign to the dialog, primarily
+         * used for applying CSS styles to specific dialogs
+         */
         id: '',
+        /* Option: parent
+         * (optional) {HTMLElement} a reference to an HTML element that
+         * the dialog is to be contained by.  The default value is for the dialog
+         * to be contained by the body element.
+         */
         parent: null,
+        /* Option: resize
+         * (optional) {Boolean} determines whether the dialog is
+         * resizeable by the user or not.  Default is false.
+         */
         resize: false,
+        /* Option: resizeTooltip
+         * the tooltip to display for the resize handle, empty by default.
+         */
         resizeTooltip: '',
+        /* Option: move
+         * (optional) {Boolean} determines whether the dialog is
+         * moveable by the user or not.  Default is true.
+         */
         move: true,
+        /* Option: close
+         * (optional) {Boolean} determines whether the dialog is
+         * closeable by the user or not.  Default is true.
+         */
         close: true,
-        collapse: true
     },
     /**
      * Constructor: Jx.Dialog
@@ -82,34 +128,7 @@ Jx.Dialog = new Class({
      * Parameters: 
      * options - {Object} an object containing options for the dialog.
      *
-     * Options:
-     * modal - (optional) {Boolean} controls whether the dialog will be modal
-     *    or not.  The default is to create modal dialogs.
-     * horizontal - (optional) {String} the horizontal rule for positioning the
-     *    dialog.  The default is 'center center' meaning the dialog will be
-     *    centered on the page.  See {<Jx.AutoPosition>} for details.
-     * vertical - (optional) {String} the vertical rule for positioning the
-     *    dialog.  The default is 'center center' meaning the dialog will be
-     *    centered on the page.  See {<Jx.AutoPosition>} for details.
-     * width - (optional) {Integer} the initial width in pixels of the dialog.
-     *    The default value is 250 if not specified.
-     * height - (optional) {Integer} the initial height in pixels of the 
-     *    dialog. The default value is 250 if not specified.
-     * label - (optional) {String} the title of the dialog box.  "New Dialog"
-     *    is the default value.
-     * content - (optional) {Mixed} passed to <Jx.ContentLoader> for loading
-     *    dialog content.
-     * contentURL - (optional) {String} passed to <Jx.ContentLoader> for loading
-     *    dialog content.
-     * id - (optional) {String} an HTML ID to assign to the dialog, primarily
-     *    used for applying CSS styles to specific dialogs
-     * parent - (optional) {HTMLElement} a reference to an HTML element that
-     *    the dialog is to be contained by.  The default value is for the dialog
-     *    to be contained by the body element.
-     * resize - (optional) {Boolean} determines whether the dialog is
-     *    resizeable by the user or not.  Default is false.
-     * move - (optional) {Boolean} determines whether the dialog is
-     *    moveable by the user or not.  Default is true.
+     * Options: <Jx.Dialog.Options>, <Jx.Panel.Options>, <Jx.ContentLoader.Options>
      */
     initialize: function(options) {
         this.isOpening = false;

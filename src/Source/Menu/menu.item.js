@@ -1,6 +1,9 @@
 // $Id$
 /**
  * Class: Jx.Menu.Item
+ *
+ * Extends: <Jx.Button>
+ *
  * A menu item is a single entry in a menu.  It is typically composed of
  * a label and an optional icon.  Selecting the menu item emits an event.
  *
@@ -22,10 +25,6 @@
  */
 Jx.Menu.Item = new Class({
     Family: 'Jx.Menu.Item',
-    /**
-     * Extends: 
-     * <Jx.Button>
-     */
     Extends: Jx.Button,
     /**
      * Property: owner
@@ -43,7 +42,7 @@ Jx.Menu.Item = new Class({
      * Create a new instance of Jx.Menu.Item
      *
      * Parameters:
-     * options - {Object} an object containing options for <Jx.Button::initialize>
+     * options - See <Jx.Button.Options>
      */
     initialize: function(options) {
         this.parent($merge({

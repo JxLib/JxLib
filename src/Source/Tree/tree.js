@@ -1,6 +1,11 @@
 // $Id$
 /**
  * Class: Jx.Tree
+ *
+ * Extends: Jx.TreeFolder
+ *
+ * Implements: <Jx.Addable>
+ *
  * Jx.Tree displays hierarchical data in a tree structure of folders and nodes.
  *
  * Example:
@@ -23,7 +28,7 @@ Jx.Tree = new Class({
      * Create a new instance of Jx.Tree
      *
      * Parameters:
-     * id - {String} the id of the DOM element to create the tree inside.
+     * options: options for <Jx.Addable>
      */
     initialize : function( options ) {
         this.parent(options);

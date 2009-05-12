@@ -1,6 +1,11 @@
 // $Id$
 /**
  * Class: Jx.TabBox
+ * 
+ * Extends: Object
+ *
+ * Implements: Options, Events, <Jx.Addable>
+ *
  * A convenience class to handle the common case of a single toolbar
  * directly attached to the content area of the tabs.  It manages both a
  * <Jx.Toolbar> and a <Jx.TabSet> so that you don't have to.  If you are using
@@ -24,18 +29,31 @@
  */
 Jx.TabBox = new Class({
     Family: 'Jx.TabBox',
-    /**
-     * Implements:
-     * * Options
-     * * Events
-     * * <Jx.Addable>
-     */
     Implements: [Options, Events, Jx.Addable],
     options: {
+        /* Option: parent
+         * a DOM element to add the tab box to
+         */
         parent: null,
+        /* Option: position
+         * the position of the tab bar in the box, one of 'top', 'right',
+         * 'bottom' or 'left'.  Top by default.
+         */
         position: 'top',
+        /* Option: height
+         * a fixed height in pixels for the tab box.  If not set, it will fill
+         * its container
+         */
         height: null,
+        /* Option: width
+         * a fixed width in pixels for the tab box.  If not set, it will fill
+         * its container
+         */
         width: null,
+        /* Option: scroll
+         * should the tab bar scroll its tabs if there are too many to fit
+         * in the toolbar, true by default
+         */
         scroll:true
     },
     
@@ -52,6 +70,9 @@ Jx.TabBox = new Class({
     /**
      * Constructor: Jx.TabBox
      * Create a new instance of a TabBox.
+     *
+     * Parameters:
+     * options - <Jx.TabBox.Options>
      */
     initialize : function(options) {
         this.setOptions(options);

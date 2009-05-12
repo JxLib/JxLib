@@ -1,6 +1,11 @@
 // $Id$
 /**
  * Class: Jx.Grid
+ * 
+ * Extends: Object
+ *
+ * Implements: Options, Events, <Jx.Addable>
+ *
  * A tabular control that has fixed scrolling headers on the rows and columns
  * like a spreadsheet.
  *
@@ -21,9 +26,6 @@
  * (code)
  * (end)
  *
- * Implements:
- * Options - MooTools Class.Extras
- *
  * License: 
  * Copyright (c) 2008, DM Solutions Group Inc.
  * 
@@ -35,16 +37,64 @@ Jx.Grid = new Class({
     domObj : null,
     model : null,
     options: {
+         /* Option: parent
+          * the HTML element to create the grid inside. The grid will resize
+          * to fill the domObj.
+          */
+         parent: null,
+         /* Option: alternateRowColors
+          * defaults to false.  If set to true, then alternating CSS classes
+          * are used for rows.
+          */
         alternateRowColors: false,
+         /* Option: rowHeaders
+          * defaults to false.  If set to true, then a column of row header
+          * cells are displayed.
+          */
         rowHeaders: false,
+         /* Option: columnHeaders
+          * defaults to false.  If set to true, then a column of row header
+          * cells are displayed.
+          */
         columnHeaders: false,
+         /* Option: rowSelection
+          * defaults to false.  If set to true, allow the user to select rows.
+          */
         rowSelection: false,
+         /* Option: columnSelection
+          * defaults to false.  If set to true, allow the user to select
+          * columns.
+          */
         columnSelection: false,
+         /* Option: cellPrelight
+          * defaults to false.  If set to true, the cell under the mouse is
+          * highlighted as the mouse moves.
+          */
         cellPrelight: false,
+         /* Option: rowPrelight
+          * defaults to false.  If set to true, the row under the mouse is
+          * highlighted as the mouse moves.
+          */
         rowPrelight: false,
+         /* Option: columnPrelight
+          * defaults to false.  If set to true, the column under the mouse is
+          * highlighted as the mouse moves.
+          */
         columnPrelight: false,
+        /* Option: rowHeaderPrelight
+         * defaults to false.  If set to true, the row header of the row under
+         * the mouse is highlighted as the mouse moves.
+         */
         rowHeaderPrelight: false,
+        /* Option: columnHeaderPrelight
+         * defaults to false.  If set to true, the column header of the column
+         * under the mouse is highlighted as the mouse moves.
+         */
         columnHeaderPrelight: false,
+         /* Option: cellSelection
+          * defaults to false.  If set to true, allow the user to select
+          * cells.
+          */
         cellSelection: false
     },
     /**
@@ -52,30 +102,7 @@ Jx.Grid = new Class({
      * construct a new instance of Jx.Grid within the domObj
      *
      * Parameters:
-     * options - you can specify some options as attributes of a
-     * generic object.
-     *
-     * Options:
-     * parent - {HTMLElement} the HTML element to create the grid inside.
-     *          The grid will resize to fill the domObj.
-     * alternateRowColors - defaults to false.  If set to true, then
-     *      alternating CSS classes are used for rows
-     * rowHeaders - defaults to false.  If set to true, then a column
-     *      of row header cells are displayed.
-     * columnHeaders - defaults to false.  If set to true, then a column
-     *      of row header cells are displayed.
-     * rowSelection - defaults to false.  If set to true, allow the
-     *      user to select rows.
-     * columnSelection - defaults to false.  If set to true, allow the
-     *      user to select columns.
-     * cellSelection - defaults to false.  If set to true, allow the
-     *      user to select cells.
-     * cellPrelight - defaults to false.  If set to true, the cell under
-     *      the mouse is highlighted as the mouse moves.
-     * rowPrelight - defaults to false.  If set to true, the row under
-     *      the mouse is highlighted as the mouse moves.
-     * columnPrelight - defaults to false.  If set to true, the column
-     *      under the mouse is highlighted as the mouse moves.
+     * options - <Jx.Grid.Options>
      */
     initialize : function( options ) {
         this.setOptions(options);

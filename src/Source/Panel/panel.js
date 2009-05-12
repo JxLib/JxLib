@@ -1,6 +1,11 @@
 // $Id$
 /**
  * Class: Jx.Panel
+ *
+ * Extends: Object
+ *
+ * Implements: Options, Events, <Jx.ContentLoader>
+ *
  * A panel is a fundamental container object that has a content
  * area and optional toolbars around the content area.  It also
  * has a title bar area that contains an optional label and
@@ -23,12 +28,6 @@
  */
 Jx.Panel = new Class({
     Family: 'Jx.Panel',
-    /**
-     * Implements:
-     * * <Jx.ContentLoader>
-     * * Options
-     * * Events
-     */
     Implements: [Options, Events, Jx.ContentLoader, Jx.Addable],
     
     toolbarContainers: {
@@ -38,23 +37,77 @@ Jx.Panel = new Class({
         left: null
     },
     
-    options: {
-        label: '&nbsp;',
+     options: {
         position: 'absolute',
-        height: null,
-        collapse: true,
-        collapseTooltip: 'Collapse/Expand Panel',
-        collapseLabel: 'Collapse',
-        expandLabel: 'Expand',
-        maximizeTooltip: 'Maximize Panel',
-        maximizeLabel: 'Maximize',
-        detach: false,
-        close: false,
-        closeTooltip: 'Close Panel',
-        closeLabel: 'Close',
-        closed: false,
-        hideTitle: false,
         type: 'Panel',
+        /* Option: id
+         * String, an id to assign to the panel's container
+         */
+        id: '',
+        /* Option: label
+         * String, the title of the Jx Panel
+         */
+        label: '&nbsp;',
+        /* Option: height
+         * integer, fixed height to give the panel - no fixed height by
+         * default.
+         */
+        height: null,
+        /* Option: collapse
+         * boolean, determine if the panel can be collapsed and expanded
+         * by the user.  This puts a control into the title bar for the user
+         * to control the state of the panel.
+         */
+        collapse: true,
+        /* Option: collapseTooltip
+         * the tooltip to display over the collapse button
+         */
+        collapseTooltip: 'Collapse/Expand Panel',
+        /* Option: collapseLabel
+         * the label to use for the collapse menu item
+         */
+        collapseLabel: 'Collapse',
+        /* Option: expandLabel
+         * the label to use for the expand menu item
+         */
+        expandLabel: 'Expand',
+        /* Option: maximizeTooltip
+         * the tooltip to display over the maximize button
+         */
+        maximizeTooltip: 'Maximize Panel',
+        /* Option: maximizeLabel
+         * the label to use for the maximize menu item
+         */
+        maximizeLabel: 'Maximize',
+        /* Option: close
+         * boolean, determine if the panel can be closed (hidden) by the user.
+         * The application needs to provide a way to re-open the panel after
+         * it is closed.  The closeable property extends to dialogs created by
+         * floating panels.  This option puts a control in the title bar of
+         * the panel.
+         */
+        close: false,
+        /* Option: closeTooltip
+         * the tooltip to display over the close button
+         */
+        closeTooltip: 'Close Panel',
+        /* Option: closeLabel
+         * the label to use for the close menu item
+         */
+        closeLabel: 'Close',
+        /* Option: closed
+         * boolean, initial state of the panel (true to start the panel
+         *  closed), default is false
+         */
+        closed: false,
+        /* Option: hideTitle
+         * Boolean, hide the title bar if true.  False by default.
+         */
+        hideTitle: false,
+        /* Option: toolbars
+         * array of Jx.Toolbar objects to put in the panel.  The position
+         * of each toolbar is used to position the toolbar within the panel.
+         */
         toolbars: []
     },
     
@@ -62,37 +115,7 @@ Jx.Panel = new Class({
      * Constructor: Jx.Panel
      * Initialize a new Jx.Panel instance
      *
-     * Options:
-     *
-     * id - String, an id to assign to the panel's container
-     * label - String, the title of the Jx Panel
-     * hideTitle - Boolean, hide the title bar if true.  False by default.
-     * toolbars - array of Jx.Toolbar objects to put in the panel.  The position
-     *     of each toolbar is used to position the toolbar within the panel.
-     * content - element to use as the content. A content area is created
-     *     if none is provided.  Otherwise, the content element is moved
-     *     in the DOM
-     * collapse - boolean, determine if the panel can be collapsed and expanded
-     *     by the user.  This puts a control into the title bar for the user
-     *     to control the state of the panel.
-     * detach - boolean, determine if the panel can be turned into a dialog 
-     *     by the user.  If a panel is floated as a dialog, it can be docked back
-     *     to where it came from.  This option puts a control in the title bar
-     *     of the panel.
-     * close - boolean, determine if the panel can be closed (hidden) by the user.
-     *     The application needs to provide a way to re-open the panel after it is
-     *     closed.  The closeable property extends to dialogs created by floating
-     *     panels.  This option puts a control in the title bar of the panel.
-     * closed - boolean, initial state of the panel (true to start the panel
-           closed), default is false
-     * content options - See <Jx.ContentLoader::loadContent> for content related
-     *     options.
-     * layout options - See <Jx.Layout::Jx.Layout> for layout related options.
-     *     The default layout is to use height: null which causes the panel to
-     *     fill its container (and resize if the container is a <Jx.Layout>
-     *     controlled object).  If you specify a height then the panel will
-     *     occupy only that much space vertically and will fill the 
-     *     container's width (using the relative option in <Jx.Layout>).
+     * Options: <Jx.Panel.Options>, <Jx.ContentLoader.Options>
      */
     initialize : function(options){
         this.setOptions(options);

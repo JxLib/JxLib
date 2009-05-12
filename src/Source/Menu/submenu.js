@@ -1,6 +1,11 @@
 // $Id$
 /**
  * Class: Jx.Menu.SubMenu
+ *
+ * Extends: <Jx.Menu.Item>
+ *
+ * Implements: <Jx.AutoPosition>, <Jx.Chrome>
+ *
  * A sub menu contains menu items within a main menu or another
  * sub menu.
  *
@@ -18,16 +23,7 @@
  */
 Jx.Menu.SubMenu = new Class({
     Family: 'Jx.Menu.SubMenu',
-    /**
-     * Extends:
-     * <Jx.Menu.Item>
-     */
     Extends: Jx.Menu.Item,
-    /**
-     * Implements:
-     * * <Jx.AutoPosition>
-     * * <Jx.Chrome>
-     */
     Implements: [Jx.AutoPosition, Jx.Chrome],
     /**
      * Property: subDomObj
@@ -55,7 +51,7 @@ Jx.Menu.SubMenu = new Class({
      * Create a new instance of Jx.SubMenu
      *
      * Parameters:
-     * options - see <Jx.MenuItem::Jx.MenuItem>
+     * options - see <Jx.Button.Options>
      */
     initialize: function(options) { 
         this.open = false;

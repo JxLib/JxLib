@@ -1,6 +1,11 @@
 // $Id$
 /**
  * Class: Jx.Menu
+ *
+ * Extends: Object
+ *
+ * Implements: Options, Events, <Jx.AutoPosition>, <Jx.Chrome>, <Jx.Addable>
+ *
  * A main menu as opposed to a sub menu that lives inside the menu.
  *
  * TODO: Jx.Menu
@@ -54,9 +59,8 @@ Jx.Menu = new Class({
      * Create a new instance of Jx.Menu.
      *
      * Parameters:
-     * options - {Object} an options object passed directly to the
-     * <Jx.Button> when creating the button that triggers this menu.
-     * If options is not passed, then no button is created.
+     * options - see <Jx.Button.Options>.  If no options are provided then
+     * no button is created.
      */
     initialize : function(options) {
         this.setOptions(options);

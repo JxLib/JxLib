@@ -2,7 +2,10 @@
 /**
  * Class: Jx.PanelSet
  *
- * Example:
+ * Extends: Object
+ *
+ * Implements: Options, Events, <Jx.Addable>
+ *
  * A panel set manages a set of panels within a DOM element.  The PanelSet fills
  * its container by resizing the panels in the set to fill the width and then
  * distributing the height of the container across all the panels.  Panels
@@ -16,6 +19,7 @@
  * and add a maximize option set to true.  You must also not include options
  * for menu and close.
  *
+ * Example:
  * (code)
  * var p1 = new Jx.Panel({collapse: false, maximize: true, content: 'content1'});
  * var p2 = new Jx.Panel({collapse: false, maximize: true, content: 'content2'});
@@ -30,17 +34,20 @@
  */
 Jx.PanelSet = new Class({
     Family: 'Jx.PanelSet',
-    /**
-     * Implements:
-     * * Options
-     * * Events
-     * * <Jx.Addable>
-     */
     Implements: [Options, Events, Jx.Addable],
     
     options: {
+        /* Option: parent
+         * the object to add the panel set to
+         */
         parent: null,
+        /* Option: panels
+         * an array of <Jx.Panel> objects that will be managed by the set.
+         */
         panels: [],
+        /* Option: barTooltip
+         * the tooltip to place on the title bars of each panel
+         */
         barTooltip: 'drag this bar to resize'
     },
     
@@ -64,8 +71,7 @@ Jx.PanelSet = new Class({
      * Create a new instance of Jx.PanelSet.
      *
      * Parameters:
-     * domObj - {HTMLElement} the HTML element that will contain the panels
-     * panels - {Array} the panels to go into the PanelSet
+     * options - <Jx.PanelSet.Options>
      *
      * TODO: Jx.PanelSet.initialize
      * Remove the panels parameter in favour of an add method.

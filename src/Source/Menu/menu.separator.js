@@ -1,6 +1,9 @@
 // $Id$
 /**
  * Class: Jx.Menu.Separator
+ *
+ * Extends: Object
+ *
  * A convenience class to create a visual separator in a menu.
  *
  * Example:

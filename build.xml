@@ -132,16 +132,22 @@ $Id$
     <delete file="${build.home}/lib/jxlib.standalone.js"/>
 
     <echo message="Concatenating javascript into jxlib"/>
+
+    <echo message="exec 1"/>
   	<exec executable="php">
 		<arg line="${basedir}/utils/combine.php -filelist ${build.home}/Source/scripts.json -jsonFile ${build.home}/lib/jxlib.json -target ${build.home}/lib/jxlib.temp.js -basedir ${build.home}/Source" />
 	</exec>
+
+    <echo message="exec 2"/>
   	<exec executable="php">
 		<arg line="${basedir}/utils/combine.php -filelist ${basedir}/../vendor/mootools-core/current/Source/scripts.json -jsonFile ${build.home}/lib/core.json -target ${build.home}/lib/mootools-core.js -basedir ${basedir}/../vendor/mootools-core/current/Source" />
 	</exec>
-  	<exec executable="php">
+  	<echo message="exec 3"/>
+    <exec executable="php">
   		<arg line="${basedir}/utils/combine.php -filelist ${basedir}/../vendor/mootools-more/current/Source/scripts.json -jsonFile ${build.home}/lib/more.json -target ${build.home}/lib/mootools-more.js -basedir ${basedir}/../vendor/mootools-more/current/Source" />
 	</exec>
-  	<exec executable="php">
+  	<echo message="exec 4"/>
+    <exec executable="php">
   		<arg line="${basedir}/utils/createDeps.json.php -fileLoc ${build.home}/lib" />
 	</exec>
   	<exec executable="php">

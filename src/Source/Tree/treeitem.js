@@ -1,6 +1,11 @@
 // $Id$
 /**
  * Class: Jx.TreeItem 
+ *
+ * Extends: Object
+ *
+ * Implements: Options, Events
+ *
  * An item in a tree.  An item is a leaf node that has no children.
  *
  * Jx.TreeItem supports selection via the click event.  The application 
@@ -38,12 +43,34 @@ Jx.TreeItem = new Class ({
      */
     owner: null,
     options: {
+        /* Option: label
+         * {String} the label to display for the TreeItem
+         */        
         label: '',
+        /* Option: data
+         * {Object} any arbitrary data to be associated with the TreeItem
+         */
         data: null,
+        /* Option: contextMenu
+         * {<Jx.ContextMenu>} the context menu to trigger if there
+         * is a right click on the node
+         */
         contextMenu: null,
-        image: null,
+        /* Option: enabled
+         * {Boolean} the initial state of the TreeItem.  If the 
+         * TreeItem is not enabled, it cannot be clicked.
+         */
         enabled: true,
         type: 'Item',
+        /* Option: image
+         * {String} URL to an image to use as the icon next to the
+         * label of this TreeItem
+         */
+        image: null,
+        /* Option: imageClass
+         * {String} CSS class to apply to the image, useful for using CSS
+         * sprites
+         */
         imageClass: ''
     },
     /**
@@ -51,18 +78,7 @@ Jx.TreeItem = new Class ({
      * Create a new instance of Jx.TreeItem with the associated options
      *
      * Parameters:
-     * options - {Object} an object containing the below optional
-     * attributes that control how the TreeItem functions.
-     *
-     * Options:
-     * label - {String} the label to display for the TreeItem
-     * data - {Object} any arbitrary data to be associated with the TreeItem
-     * contextMenu - {<Jx.ContextMenu>} the context menu to trigger if there
-     *      is a right click on the node
-     * image - {String} URL to an image to use as the icon next to the
-     *      label of this TreeItem
-     * enabled - {Boolean} the initial state of the TreeItem.  If the 
-     *      TreeItem is not enabled, it cannot be clicked.
+     * options - <Jx.TreeItem.Options>
      */
     initialize : function( options ) {
         this.setOptions(options);

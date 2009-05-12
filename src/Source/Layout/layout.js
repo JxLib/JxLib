@@ -1,6 +1,11 @@
 // $Id$
 /**
  * Class: Jx.Layout
+ *
+ * Extends: Object
+ * 
+ * Implements: Options, Events
+ *
  * Jx.Layout is used to provide more flexible layout options for applications
  *
  * Jx.Layout wraps an existing DOM element (typically a div) and provides
@@ -26,25 +31,83 @@
  
 Jx.Layout = new Class({
     Family: 'Jx.Layout',
-    /** 
-     * Implements:
-     * * Options
-     * * Events
-     */
     Implements: [Options,Events],
     
     options: {
+        /* Option: propagate
+         * boolean, controls propogation of resize to child nodes.
+         * True by default. If set to false, changes in size will not be
+         * propogated to child nodes.
+         */
         propagate: true,
+        /* Option: position
+         * how to position the element, either 'absolute' or 'relative'.
+         * The default (if not passed) is 'absolute'.  When using
+         * 'absolute' positioning, both the width and height are
+         * controlled by Jx.Layout.  If 'relative' positioning is used
+         * then only the width is controlled, allowing the height to
+         * be controlled by its content.
+         */
         position: 'absolute',
+        /* Option: left
+         * the distance (in pixels) to maintain the left edge of the element
+         * from its parent element.  The default value is 0.  If this is set
+         * to 'null', then the left edge can be any distance from its parent
+         * based on other parameters.
+         */
         left: 0,
+        /* Option: right
+         * the distance (in pixels) to maintain the right edge of the element
+         * from its parent element.  The default value is 0.  If this is set
+         * to 'null', then the right edge can be any distance from its parent
+         * based on other parameters.
+         */
         right: 0,
+        /* Option: top
+         * the distance (in pixels) to maintain the top edge of the element
+         * from its parent element.  The default value is 0.  If this is set
+         * to 'null', then the top edge can be any distance from its parent
+         * based on other parameters.
+         */
         top: 0,
+        /* Option: bottom
+         * the distance (in pixels) to maintain the bottom edge of the element
+         * from its parent element.  The default value is 0.  If this is set
+         * to 'null', then the bottom edge can be any distance from its parent
+         * based on other parameters.
+         */
         bottom: 0,
+        /* Option: width
+         * the width (in pixels) of the element.  The default value is null.
+         * If this is set to 'null', then the width can be any value based on
+         * other parameters.
+         */
         width: null,
+        /* Option: height
+         * the height (in pixels) of the element.  The default value is null.
+         * If this is set to 'null', then the height can be any value based on
+         * other parameters.
+         */
         height: null,
+        /* Option: minWidth
+         * the minimum width that the element can be sized to.  The default
+         * value is 0.
+         */
         minWidth: 0,
+        /* Option: minHeight
+         * the minimum height that the element can be sized to.  The
+         * default value is 0.
+         */
         minHeight: 0,
+        /* Option: maxWidth
+         * the maximum width that the element can be sized to.  The default
+         * value is -1, which means no maximum.
+         */
         maxWidth: -1,
+        /* Option: maxHeight
+         * the maximum height that the element can be sized to.  The
+         * default value is -1, which means no maximum.
+         */
         maxHeight: -1
     },
     /**
@@ -53,49 +116,7 @@ Jx.Layout = new Class({
      *
      * Parameters:
      * domObj - {HTMLElement} element or id to apply the layout to
-     * options - {Object} options can be passed to the Jx.Layout as an object
-     * with some, all, or none of the options below.
-     *
-     * Options:
-     * propagate - boolean, controls propogation of resize to child nodes.
-     *    True by default. If set to false, changes in size will not be
-     *    propogated to child nodes.
-     * position - how to position the element, either 'absolute' or 'relative'.
-     *    The default (if not passed) is 'absolute'.  When using
-     *    'absolute' positioning, both the width and height are
-     *    controlled by Jx.Layout.  If 'relative' positioning is used
-     *    then only the width is controlled, allowing the height to
-     *    be controlled by its content.
-     * left - the distance (in pixels) to maintain the left edge of the element
-     *    from its parent element.  The default value is 0.  If this is set
-     *    to 'null', then the left edge can be any distance from its parent
-     *    based on other parameters.
-     * right - the distance (in pixels) to maintain the right edge of the element
-     *    from its parent element.  The default value is 0.  If this is set
-     *    to 'null', then the right edge can be any distance from its parent
-     *    based on other parameters.
-     * top - the distance (in pixels) to maintain the top edge of the element
-     *    from its parent element.  The default value is 0.  If this is set
-     *    to 'null', then the top edge can be any distance from its parent
-     *    based on other parameters.
-     * bottom - the distance (in pixels) to maintain the bottom edge of the element
-     *    from its parent element.  The default value is 0.  If this is set
-     *    to 'null', then the bottom edge can be any distance from its parent
-     *    based on other parameters.
-     * width - the width (in pixels) of the element.  The default value is null.
-     *    If this is set to 'null', then the width can be any value based on
-     *    other parameters.
-     * height - the height (in pixels) of the element.  The default value is null.
-     *    If this is set to 'null', then the height can be any value based on
-     *    other parameters.
-     * minWidth - the minimum width that the element can be sized to.  The default
-     *    value is 0.
-     * minHeight - the minimum height that the element can be sized to.  The
-     *    default value is 0.
-     * maxWidth - the maximum width that the element can be sized to.  The default
-     *    value is -1, which means no maximum.
-     * maxHeight - the maximum height that the element can be sized to.  The
-     *    default value is -1, which means no maximum.
+     * options - <Jx.Layout.Options>
      */
     initialize: function(domObj, options) {
         this.setOptions(options);
@@ -130,7 +151,7 @@ Jx.Layout = new Class({
      * resize the element controlled by this Jx.Layout object.
      *
      * Parameters:
-     * options - new options to apply, see <Jx.Layout::Jx.Layout>
+     * options - new options to apply, see <Jx.Layout.Options>
      */
     resize: function(options) {
          /* this looks like a really big function but actually not

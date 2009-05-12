@@ -1,6 +1,11 @@
 // $Id$
 /**
  * Class: Jx.Button.Flyout
+ *
+ * Extends: <Jx.Button>
+ *
+ * Implements: <Jx.ContentLoader>, <Jx.AutoPosition>, <Jx.Chrome>
+ *
  * Flyout buttons expose a panel when the user clicks the button.  The
  * panel can have arbitrary content.  You must provide any necessary 
  * code to hook up elements in the panel to your application.
@@ -53,17 +58,7 @@
  */
 Jx.Button.Flyout = new Class({
     Family: 'Jx.Button.Flyout',
-    /**
-     * Extends:
-     * <Jx.Button>
-     */
     Extends: Jx.Button,
-    /**
-     * Implements:
-     * * <Jx.ContentLoader>
-     * * <Jx.AutoPosition>
-     * * <Jx.Chrome>
-     */
     Implements: [Jx.ContentLoader, Jx.AutoPosition, Jx.Chrome],
     
     /**
@@ -77,10 +72,10 @@ Jx.Button.Flyout = new Class({
      * argument takes a combination of options that apply to <Jx.Button>,
      * <Jx.ContentLoader>, and <Jx.AutoPosition>.
      *
-     * Parameters: {Object} options
-     * an options object used to initialize the button, see 
-     * <Jx.Button::initialize>, <Jx.ContentLoader>, and <Jx.AutoPosition>
-     * for details.
+     * Parameters: 
+     * options - an options object used to initialize the button, see 
+     * <Jx.Button.Options>, <Jx.ContentLoader.Options>, and
+     * <Jx.AutoPosition.Options> for details.
      */
     initialize: function(options) {
         if (!Jx.Button.Flyout.Stack) {

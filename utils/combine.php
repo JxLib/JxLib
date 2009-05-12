@@ -61,7 +61,7 @@ class combine {
 		file_put_contents($this->_jsonFile,$json);
 		
 		//check license file for BOM
-		$lic = file_get_contents($this->_basedir.DIRECTORY_SEPARATOR.'license.txt');
+		$lic = file_get_contents($this->_basedir.DIRECTORY_SEPARATOR.'license.js');
 		$lic = $this->removeBOM($lic);
 		file_put_contents($this->_basedir.DIRECTORY_SEPARATOR.'license.txt',$lic);
 		

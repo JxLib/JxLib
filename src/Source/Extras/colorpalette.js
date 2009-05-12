@@ -1,9 +1,14 @@
 // $Id$
 /**
  * Class: Jx.ColorPalette
- * A Jx.ColorPalette presents a user interface for selecting colors.  Currently,
- * the user can either enter a HEX colour value or select from a palette of
- * web-safe colours.  The user can also enter an opacity value.
+ *
+ * Extends: Object
+ *
+ * Implements: Options, Events, <Jx.Addable>
+ *
+ * A Jx.ColorPalette presents a user interface for selecting colors.
+ * Currently, the user can either enter a HEX colour value or select from a
+ * palette of web-safe colours.  The user can also enter an opacity value.
  *
  * A Jx.ColorPalette can be embedded anywhere in a web page using its addTo
  * method.  However, a <Jx.Button> subclass is provided (<Jx.Button.Color>)
@@ -20,21 +25,13 @@
  * change - triggered when the color changes.
  * click - the user clicked on a color swatch (emitted after a change event)
  *
- *
  * License: 
  * Copyright (c) 2008, DM Solutions Group Inc.
  * 
  * This file is licensed under an MIT style license
  */
-
 Jx.ColorPalette = new Class({
     Family: 'Jx.ColorPalette',
-    /**
-     * Implements:
-     * * Options
-     * * Events
-     * * <Jx.Addable>
-     */
     Implements: [Options, Events, Jx.Addable],
     /**
      * Property: {HTMLElement} domObj
@@ -42,31 +39,34 @@ Jx.ColorPalette = new Class({
      */
     domObj: null,
     options: {
+        /* Option: parent
+         * default null, the DOM element to add the palette to.
+         */
         parent: null,
+        /* Option: color
+         * default #000000, the initially selected color
+         */
         color: '#000000',
+        /* Option: alpha
+         * default 100, the initial alpha value
+         */
         alpha: 1,
+        /* Option: hexColors
+         * an array of hex colors for creating the palette, defaults to a
+         * set of web safe colors.
+         */
         hexColors: ['00', '33', '66', '99', 'CC', 'FF'],
+        /* Option: alphaLabel
+         * the text to display next to the alpha input for i18n.
+         */
         alphaLabel: 'alpha (%)'
     },
-    /**
-     */
     /**
      * Constructor: Jx.ColorPalette
      * initialize a new instance of Jx.ColorPalette
      *
      * Parameters:
-     * options - {Object} an object containing a variable list of optional initialization
-     * parameters.
-     *
-     * Options:
-     * parent - an html element to add the color palette to if provided.
-     * color - a colour to initialize the panel with, defaults to #000000
-     *    (black) if not specified.
-     * alpha - an alpha value to initialize the panel with, defaults to 1
-     *    (opaque) if not specified.
-     * hexColors - an array of hexidecimal values to use for creating entries, the default
-     *    values create a web safe palette and shouldn't be changed unless you understand
-     *    what the code is doing
+     * options - <Jx.ColorPalette.Options>
      */
     initialize: function(options) {
         this.setOptions(options);

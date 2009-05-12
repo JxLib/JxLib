@@ -1,6 +1,9 @@
 // $Id$
 /**
  * Class: Jx.Button.Combo
+ *
+ * Extends: <Jx.Button.Multi>
+ *
  * A drop down list of selectable items.  Items can be either a string, an image or both.
  *
  * Example:
@@ -29,10 +32,6 @@
  */
 Jx.Button.Combo = new Class({
     Family: 'Jx.Button.Combo',
-    /**
-     * Extends:
-     * <Jx.Button.Multi>
-     */
     Extends: Jx.Button.Multi,
     domObj : null,
     ul : null,
@@ -43,7 +42,13 @@ Jx.Button.Combo = new Class({
     currentSelection : null,
     
     options: {
+        /* Option: editable
+         * boolean, default false.  Can the value be edited by the user?
+         */
         editable: false,
+        /* Option: label
+         * string, default ''.  The label to display next to the combo.
+         */
         label: ''
     },
     
@@ -51,9 +56,8 @@ Jx.Button.Combo = new Class({
      * Constructor: Jx.Combo
      * create a new instance of Jx.Combo
      *
-     * Options:
-     * editable - {Boolean} defaults to false.  If true, then the selected item
-     * is editable.
+     * Parameters:
+     * options - <Jx.button.Combo.Options>
      */
     initialize: function(options) {
         this.parent(); //we don't want to pass options to parent
@@ -159,7 +163,7 @@ Jx.Button.Combo = new Class({
      * invoked when the current value is changed
      */
     valueChanged: function() {
-        //TODO: should we do anything here?
+        this.fireEvent('change', this);
     },
     
     /**
@@ -182,8 +186,8 @@ Jx.Button.Combo = new Class({
      *
      * Parameters:
      * options - {Object} object with properties suitable to be passed to
-     * a {Jx.Menu.Item} object.  More than one options object can be passed,
-     * comma separated or in an array.
+     * a <Jx.Menu.Item.Options> object.  More than one options object can be
+     * passed, comma separated or in an array.
      */
     add: function() {
         $A(arguments).flatten().each(function(opt) {
@@ -197,7 +201,7 @@ Jx.Button.Combo = new Class({
     
     /**
      * Method: remove
-     * Remove the item at the given index
+     * Remove the item at the given index.  Not implemented.
      *
      * Parameters:
      * idx - {Integer} the item to remove.

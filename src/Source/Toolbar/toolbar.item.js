@@ -1,6 +1,11 @@
 // $Id$
 /**
  * Class: Jx.Toolbar.Item
+ * 
+ * Extends: Object
+ *
+ * Implements: Options
+ *
  * A helper class to provide a container for something to go into 
  * a <Jx.Toolbar>.
  *
@@ -13,6 +18,9 @@ Jx.Toolbar.Item = new Class( {
     Family: 'Jx.Toolbar.Item',
     Implements: [Options],
     options: {
+        /* Option: active
+         * is this item active or not?  Default is true.
+         */
         active: true
     },
     /**

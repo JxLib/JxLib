@@ -1,6 +1,11 @@
 // $Id$
 /**
  * Class: Jx.Button.Tab
+ *
+ * Extends: <Jx.Button>
+ *
+ * Implements: <Jx.ContentLoader>
+ *
  * A single tab in a tab set.  A tab has a label (displayed in the tab) and a
  * content area that is displayed when the tab is active.  A tab has to be
  * added to both a <Jx.TabSet> (for the content) and <Jx.Toolbar> (for the
@@ -40,15 +45,7 @@
  */
 Jx.Button.Tab = new Class({
     Family: 'Jx.Button.Tab',
-    /**
-     * Extends:
-     * <Jx.Button>
-     */
     Extends: Jx.Button,
-    /**
-     * Implements:
-     * * <Jx.ContentLoader>
-     */
     Implements: [Jx.ContentLoader],
     /**
      * Property: content

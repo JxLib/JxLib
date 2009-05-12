@@ -1,6 +1,11 @@
 // $Id$
 /**
  * Class: Jx.TabSet
+ *
+ * Extends: Object
+ *
+ * Implements: Options, Events
+ *
  * A TabSet manages a set of <Jx.Button.Tab> content areas by ensuring that only one
  * of the content areas is visible (i.e. the active tab).  TabSet does not
  * manage the actual tabs.  The instances of <Jx.Button.Tab> that are to be managed
@@ -24,10 +29,6 @@
  *
  * Events:
  * tabChange - the current tab has changed
- *
- * Implements:
- * Events - MooTools Class.Extras
- * Options - MooTools Class.Extras
  *
  * License: 
  * Copyright (c) 2008, DM Solutions Group Inc.

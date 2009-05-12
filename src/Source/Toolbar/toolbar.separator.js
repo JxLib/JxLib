@@ -1,6 +1,9 @@
 // $Id$
 /**
  * Class: Jx.Toolbar.Separator
+ *
+ * Extends: Object
+ *
  * A helper class that represents a visual separator in a <Jx.Toolbar>
  *
  * Example:

@@ -1,6 +1,9 @@
 // $Id$
 /**
  * Class: Jx.TreeFolder
+ * 
+ * Extends: <Jx.TreeItem>
+ *
  * A Jx.TreeFolder is an item in a tree that can contain other items.  It is
  * expandable and collapsible.
  *
@@ -32,26 +35,17 @@ Jx.TreeFolder = new Class({
     nodes : null,
 
     options: {
-        open : false,
-        folderCloseImage: Jx.baseURL + 'images/tree_folder.png',
-        folderOpenImage: Jx.baseURL + 'images/tree_folder_open.png'
+        /* Option: open
+         * is the folder open?  false by default.
+         */
+        open : false
     },
     /**
      * Constructor: Jx.TreeFolder
      * Create a new instance of Jx.TreeFolder
      *
      * Parameters:
-     * options - {Object} an object containing any of the options of a
-     * <Jx.TreeItem> (see <Jx.TreeItem::Jx.TreeItem>) plus the following
-     * optional attributes that control how the TreeFolder functions.
-     *
-     * Options:
-     * openImage - {String} a URL to an image for opening the folder
-     * closeImage - {String} a URL to an image for closing the folder
-     * folderCloseImage - {String} a URL to an image to represent the folder
-     *      when it is closed
-     * folderOpenImage - {String} a URL to an image to represent the folder
-     *      when it is open
+     * options - <Jx.TreeFolder.Options> and <Jx.TreeItem.Options>
      */
     initialize : function( options ) {
         this.parent($merge(options,{type:'Branch'}));

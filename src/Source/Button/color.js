@@ -1,18 +1,25 @@
 // $Id$ 
 /**
  * Class: Jx.Button.Color
+ *
+ * Extends: <Jx.Button.Flyout>
+ *
  * A <Jx.ColorPalette> wrapped up in a Jx.Button.  The button includes a
  * preview of the currently selected color.  Clicking the button opens
  * the color panel.
  *
  * A color button is essentially a <Jx.Button.Flyout> where the content
- * of the flyout is a <Jx.ColorPalette>.
+ * of the flyout is a <Jx.ColorPalette>.  For performance, all color buttons
+ * share an instance of <Jx.ColorPalette> which means only one button can be
+ * open at a time.  This isn't a huge restriction as flyouts already close
+ * each other when opened.
  *
  * Example:
  * (code)
  * var colorButton = new Jx.Button.Color({
  *     onChange: function(button) {
- *         console.log('color:' + button.options.color + ' alpha: ' + button.options.alpha);     
+ *         console.log('color:' + button.options.color + ' alpha: ' +
+ *                     button.options.alpha);
  *     }
  * });
  * (end)
@@ -27,31 +34,34 @@
  */
 Jx.Button.Color = new Class({
     Family: 'Jx.Button.Color',
-    /**
-     * Extends:
-     * <Jx.Button.Flyout>
-     */
     Extends: Jx.Button.Flyout,
+    
     swatch: null,
+     
     options: {
+        /**
+         * Option: color
+         * a color to initialize the panel with, defaults to #000000
+         * (black) if not specified.
+         */
         color: '#000000',
+        /**
+         * Option: alpha
+         * an alpha value to initialize the panel with, defaults to 1
+         *  (opaque) if not specified.
+         *
+         */
         alpha: 100
     },
+
     /**
      * Constructor: Jx.Button.Color
-     * initialize a new colour button.
+     * initialize a new color button.
      *
      * Parameters:
-     * options - {Object} an object containing a variable list of optional initialization
-     * parameters.
+     * options - <Jx.Button.Color.Options> initialize instance options.
      *
-     * Options:
-     * color - a colour to initialize the panel with, defaults to #000000
-     *      (black) if not specified.
-     * alpha - an alpha value to initialize the panel with, defaults to 1
-     *      (opaque) if not specified.
      */
-
     initialize: function(options) {
         if (!Jx.Button.Color.ColorPalette) {
             Jx.Button.Color.ColorPalette = new Jx.ColorPalette(this.options);
@@ -76,8 +86,8 @@ Jx.Button.Color = new Class({
     },
 
     /**
-     * Method: show
-     * show the color panel when the user clicks the button
+     * Method: clicked
+     * override <Jx.Button.Flyout> to use a singleton color palette.
      */
     clicked: function() {
         if (Jx.Button.Color.ColorPalette.currentButton) {
@@ -101,7 +111,7 @@ Jx.Button.Color = new Class({
 
     /**
      * Method: hide
-     * hide the colour panel
+     * hide the color panel
      */
     hide: function() {
         this.setActive(false);
@@ -113,7 +123,7 @@ Jx.Button.Color = new Class({
 
     /**
      * Method: setColor
-     * set the colour represented by this colour panel
+     * set the color represented by this color panel
      *
      * Parameters:
      * color - {String} the new hex color value
@@ -125,7 +135,7 @@ Jx.Button.Color = new Class({
 
     /**
      * Method: setAlpha
-     * set the alpha represented by this colour panel
+     * set the alpha represented by this color panel
      *
      * Parameters:
      * alpha - {Integer} the new alpha value (between 0 and 100)
@@ -137,8 +147,11 @@ Jx.Button.Color = new Class({
 
     /**
      * Method: changed
-     * colorChangeListener callback function when the user changes
-     * the colour in the panel (just update the preview).
+     * handle the color changing in the palette by updating the preview swatch
+     * in the button and firing the change event.
+     *
+     * Parameters:
+     * panel - <Jx.ColorPalette> the palette that changed.
      */
     changed: function(panel) {
         var changed = false;

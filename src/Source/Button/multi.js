@@ -1,6 +1,11 @@
 // $Id$
 /**
  * Class: Jx.Button.Multi
+ *
+ * Extends: <Jx.Button>
+ *
+ * Implements: 
+ *
  * Multi buttons are used to contain multiple buttons in a drop down list
  * where only one button is actually visible and clickable in the interface.
  * 
@@ -52,10 +57,7 @@
  */
 Jx.Button.Multi = new Class({
     Family: 'Jx.Button.Multi',
-    /**
-     * Extends: 
-     * <Jx.Button>
-     */
+
     Extends: Jx.Button,
     /**
      * Property: {<Jx.Button>} activeButton

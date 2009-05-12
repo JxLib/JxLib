@@ -1,9 +1,14 @@
 // $Id$
 /**
  * Class: Jx.Toolbar.Container
- * A toolbar container contains toolbars.  A single toolbar container fills the
- * available space horizontally.  Toolbars placed in a toolbar container do not
- * wrap when they exceed the available space.
+ *
+ * Extends: Object
+ *
+ * Implements: Options, Events, <Jx.Addable>
+ *
+ * A toolbar container contains toolbars.  A single toolbar container fills
+ * the available space horizontally.  Toolbars placed in a toolbar container
+ * do not wrap when they exceed the available space.
  *
  * Events:
  * add - fired when one or more toolbars are added to a container
@@ -28,9 +33,25 @@ Jx.Toolbar.Container = new Class({
      */
     domObj : null,
     options: {
+        /* Option: parent
+         * a DOM element to add this to
+         */
         parent: null,
+        /* Option: position
+         * the position of the toolbar container in its parent, one of 'top',
+         * 'right', 'bottom', or 'left'.  Default is 'top'
+         */
         position: 'top',
+        /* Option: autoSize
+         * automatically size the toolbar container to fill its container.
+         * Default is false
+         */
         autoSize: false,
+        /* Option: scroll
+         * Control whether the user can scroll of the content of the
+         * container if the content exceeds the size of the container.  
+         * Default is true.
+         */
         scroll: true
     },
     /**
@@ -38,12 +59,7 @@ Jx.Toolbar.Container = new Class({
      * Create a new instance of Jx.Toolbar.Container
      *
      * Parameters:
-     * options - an options object as documented below
-     *
-     * Options:
-     * id - {String} the ID to give the main DIV element created by the 
-     *     container
-     * parent - {HTMLElement} object reference or id to place the toolbar in.
+     * options - <Jx.Toolbar.Options>
      */
     initialize : function(options) {
         this.setOptions(options);

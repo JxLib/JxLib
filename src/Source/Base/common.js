@@ -89,15 +89,15 @@ if (typeof Jx == 'undefined') {
                 
             }
         }
-	   /**
+       /**
         * Determine if we're running in Adobe AIR. If so, determine which sandbox we're in
         */
-		var src = aScripts[0].src;
+        var src = aScripts[0].src;
         if (src.contains('app:')){
-		    Jx.isAir = true;
+            Jx.isAir = true;
         } else {
-		    Jx.isAir = false;
-	    }
+            Jx.isAir = false;
+        }
     })();
 } 
 
@@ -522,6 +522,14 @@ Element.implement({
  *
  * Use the Implements syntax in your Class to add Jx.ContentLoader
  * to your class.
+ *
+ * Option: content
+ * content may be an HTML element reference, the id of an HTML element
+ * already in the DOM, or an HTML string that becomes the inner HTML of
+ * the element.
+ *
+ * Option: contentURL
+ * the URL to load content from
  */
 Jx.ContentLoader = new Class ({
     /**
@@ -540,12 +548,6 @@ Jx.ContentLoader = new Class ({
      * Parameters: 
      * element - {Object} the element to insert the content into
      *
-     * Options:
-     * content - {Mixed} content may be an HTML element reference, the
-     *     id of an HTML element already in the DOM, or an HTML
-     *     string that becomes the inner HTML of the element.
-     * contentURL - {String} the URL to load content from
-     *
      * Events:
      *
      * ContentLoader adds the following events to an object.  You can
@@ -553,8 +555,9 @@ Jx.ContentLoader = new Class ({
      * callback functions via the on{EventName} properties in the options 
      * object
      *
-     * contentLoaded - called when the content has been loaded.  If the content
-     *     is not asynchronous then this is called before loadContent returns.
+     * contentLoaded - called when the content has been loaded.  If the
+     *     content is not asynchronous then this is called before loadContent
+     *     returns.
      * contentLoadFailed - called if the content fails to load, primarily
      *     useful when using the contentURL method of loading content.
      */     
@@ -587,9 +590,9 @@ Jx.ContentLoader = new Class ({
                 onSuccess:(function(html) {
                     element.innerHTML = html;
                     this.contentIsLoaded = true;
-					if (Jx.isAir){
-						$clear(this.reqTimeout);
-					}
+                    if (Jx.isAir){
+                        $clear(this.reqTimeout);
+                    }
                     this.fireEvent('contentLoaded', this);
                 }).bind(this), 
                 onFailure: (function(){
@@ -648,23 +651,23 @@ Jx.ContentLoader = new Class ({
  * This code only gets added if we're in AIR.
  */
 if (Jx.isAir){
-	Jx.ContentLoader.implement({
-		/**
-		 * Method: checkRequest()
-		 * Is fired after a delay to check the request to make sure it's not
-		 * failing in AIR.
-		 */
-		checkRequest: function(){
-			if (this.req.xhr.readyState === 1) {
-				//we still haven't gotten the file. Cancel and fire the
-				//failure
-				$clear(this.reqTimeout);
-				this.req.cancel();
-				this.contentIsLoaded = true;
-				this.fireEvent('contentLoadFailed', this);
-			}
-		}
-	});
+    Jx.ContentLoader.implement({
+        /**
+         * Method: checkRequest()
+         * Is fired after a delay to check the request to make sure it's not
+         * failing in AIR.
+         */
+        checkRequest: function(){
+            if (this.req.xhr.readyState === 1) {
+                //we still haven't gotten the file. Cancel and fire the
+                //failure
+                $clear(this.reqTimeout);
+                this.req.cancel();
+                this.contentIsLoaded = true;
+                this.fireEvent('contentLoadFailed', this);
+            }
+        }
+    });
 }
 
 /**
@@ -954,7 +957,7 @@ Jx.Chrome = new Class({
         c.setStyle('padding', 0);
         
         /* get the chrome image from the background image of the element */
-		/* the app: protocol check is for adobe air support */
+        /* the app: protocol check is for adobe air support */
         var src = c.getStyle('backgroundImage');
         if (!(src.contains('http://') || src.contains('https://') || src.contains('file://') || src.contains('app:/'))) {
             src = null;

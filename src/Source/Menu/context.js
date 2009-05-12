@@ -1,6 +1,9 @@
 // $Id$
 /**
  * Class: Jx.Menu.Context
+ *
+ * Extends: Jx.Menu
+ *
  * A <Jx.Menu> that has no button but can be opened at a specific 
  * browser location to implement context menus (for instance).
  *

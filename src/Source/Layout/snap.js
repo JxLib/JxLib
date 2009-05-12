@@ -1,6 +1,9 @@
 // $Id$
 /**
  * Class: Jx.Splitter.Snap
+ *
+ * Extends: Object
+ *
  * A helper class to create an element that can snap a split panel open or
  * closed.
  *
