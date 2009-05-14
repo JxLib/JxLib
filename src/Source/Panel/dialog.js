@@ -119,7 +119,7 @@ Jx.Dialog = new Class({
          * (optional) {Boolean} determines whether the dialog is
          * closeable by the user or not.  Default is true.
          */
-        close: true,
+        close: true
     },
     /**
      * Constructor: Jx.Dialog
