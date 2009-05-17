@@ -7,7 +7,17 @@
         "common": {
             "deps": ["Class","Element","Browser","Element.Style","Request","Core","Class.Extras","Array","Element.Event","Element.Dimensions"],
             "desc":"Jx namespace with methods and classes common to most Jx widgets"
-        }
+        },
+        
+        "object": {
+        	"deps": ["common", "Class.Extras"],
+        	"desc": "Base class for all other object in the JxLib framework."
+        },
+        
+        "widget": {
+        	"deps": ["object"],
+        	"desc": "Base class for all widgets (visual classes) in the JxLib Framework."
+        } 
 
     },
 
