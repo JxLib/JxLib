@@ -73,10 +73,10 @@ $Id$
   <property name="app.name" value="jxlib"/>
   <property name="app.path" value="/${app.name}"/>
   <property name="app.version" value="2.0-rc-1"/>
-  <property name="build.home" value="${basedir}/../build"/>
-  <property name="dist.home" value="${basedir}/../dist"/>
-  <property name="deploy.home" value="${basedir}/../www"/>
-  <property name="docs.home" value="${basedir}/../www/reference"/>
+  <property name="build.home" value="${basedir}/../../build"/>
+  <property name="dist.home" value="${basedir}/../../dist"/>
+  <property name="deploy.home" value="${basedir}/../../www"/>
+  <property name="docs.home" value="${basedir}/../../www/reference"/>
 
 <!-- ==================== External Dependencies =========================== -->
 
@@ -140,11 +140,11 @@ $Id$
 
     <echo message="exec 2"/>
   	<exec executable="php">
-		<arg line="${basedir}/utils/combine.php -filelist ${basedir}/../vendor/mootools-core/current/Source/scripts.json -jsonFile ${build.home}/lib/core.json -target ${build.home}/lib/mootools-core.js -basedir ${basedir}/../vendor/mootools-core/current/Source" />
+		<arg line="${basedir}/utils/combine.php -filelist ${basedir}/../../vendor/mootools-core/current/Source/scripts.json -jsonFile ${build.home}/lib/core.json -target ${build.home}/lib/mootools-core.js -basedir ${basedir}/../../vendor/mootools-core/current/Source" />
 	</exec>
   	<echo message="exec 3"/>
     <exec executable="php">
-  		<arg line="${basedir}/utils/combine.php -filelist ${basedir}/../vendor/mootools-more/current/Source/scripts.json -jsonFile ${build.home}/lib/more.json -target ${build.home}/lib/mootools-more.js -basedir ${basedir}/../vendor/mootools-more/current/Source" />
+  		<arg line="${basedir}/utils/combine.php -filelist ${basedir}/../../vendor/mootools-more/current/Source/scripts.json -jsonFile ${build.home}/lib/more.json -target ${build.home}/lib/mootools-more.js -basedir ${basedir}/../../vendor/mootools-more/current/Source" />
 	</exec>
   	<echo message="exec 4"/>
     <exec executable="php">
