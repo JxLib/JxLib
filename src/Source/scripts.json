@@ -20,6 +20,56 @@
         } 
 
     },
+    
+    "Data": {
+    	
+    	"desc": "This group contains components needed to utilize the data store and it's subclasses.",
+    	
+    	"store": {
+    		"deps" : ["object"],
+    		"desc" : ""
+    	},
+    	
+    	"remote": {
+    		"deps": ["store","Request.JSON"],
+    		"desc": ""
+    	},
+    	
+    	"sortable": {
+    		"deps": ["object","sort"],
+    		"desc": ""
+    	},
+    	
+    	"groupable": {
+    		"deps": ["sortable"],
+    		"desc": ""
+    	},
+    	
+    	"compare": {
+    		"deps": ["object","Date.Extras"],
+    		"desc": ""
+    	},
+    	
+    	"sort": {
+    		"deps": ["object","compare"],
+    		"desc": ""
+    	},
+    	
+    	"mergesort": {
+    		"deps": ["sort"],
+    		"desc": ""
+    	},
+    	
+    	"heapsort": {
+    		"deps": ["sort"],
+    		"desc": ""
+    	},
+    	
+    	"quicksort": {
+    		"deps": ["sort"],
+    		"desc": ""
+    	}
+    },
 
     "Button": {
 

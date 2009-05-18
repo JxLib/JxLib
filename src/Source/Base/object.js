@@ -7,11 +7,13 @@
  */
 Jx.Object = new Class({
 	
-	Implements: [Options, Events],
+    Implements: [Options, Events],
+	
+    Family: "Jx.Object",
 	
 	initialize: function(options){
-		this.setOptions(options);
-	}
-	             
+        this.setOptions(options);
+    }
+
 });
  
