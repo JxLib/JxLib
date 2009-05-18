@@ -96,10 +96,12 @@ class combine {
 	private function detectCycle() {
 		foreach ($this->_flat as $key => $arr){
 			$deps = $arr['deps'];
-			foreach ($deps as $a){
-				if (is_array($this->_flat[$a]['deps'])) {
-					if (in_array($key,$this->_flat[$a]['deps'])){
-						$this->_cycle[$key][] = $a;
+			if (is_array($deps)) {
+				foreach ($deps as $a){
+					if (is_array($this->_flat[$a]['deps'])) {
+						if (in_array($key,$this->_flat[$a]['deps'])){
+							$this->_cycle[$key][] = $a;
+						}
 					}
 				}
 			}
