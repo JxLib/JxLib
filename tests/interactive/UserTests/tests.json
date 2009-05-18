@@ -6,5 +6,8 @@
     },
     "Button": {
     	"button": ["all"]
+    },
+    "Data": {
+        "remote": ["all"]
     }
 }
