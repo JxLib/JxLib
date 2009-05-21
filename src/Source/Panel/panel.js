@@ -508,8 +508,10 @@ Jx.Panel = new Class({
             if (!this.domObj.hasClass('jx'+this.options.type+'Min')) {
                 this.domObj.addClass('jx'+this.options.type+'Min');
                 this.contentContainer.setStyle('display','none');
-                var margin = this.domObj.getMarginSize();
-                var height = margin.top + margin.bottom;
+                var m = this.domObj.measure(function(){
+                    return this.getComputedSize({styles:['margin'],plains:{width:[]}});
+                });
+                var height = m['margin-top'] + m['margin-bottom'];
                 if (this.title.parentNode == this.domObj) {
                     height += this.title.getMarginBoxSize().height;
                 }

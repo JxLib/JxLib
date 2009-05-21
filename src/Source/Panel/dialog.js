@@ -311,9 +311,11 @@ Jx.Dialog = new Class({
         }
         
         if (this.options.closed) {
-            var margin = this.domObj.getMarginSize();
+            var m = this.domObj.measure(function(){
+                return this.getComputedSize({styles:['margin'],plains:{width:[]}});                
+            });
             var size = this.title.getMarginBoxSize();
-            this.domObj.resize({height: margin.top + size.height + margin.bottom});
+            this.domObj.resize({height: m['margin-top'] + size.height + m['margin-bottom']});
             this.fireEvent('collapse');
         } else {
             this.domObj.resize(this.options);
@@ -349,9 +351,11 @@ Jx.Dialog = new Class({
         }
         
         if (this.options.closed) {
-            var margin = this.domObj.getMarginSize();
+            var m = this.domObj.measure(function(){
+                return this.getComputedSize({styles:['margin'],plains:{width:[]}});
+            });
             var size = this.title.getMarginBoxSize();
-            this.domObj.resize({height: margin.top + size.height + margin.bottom});
+            this.domObj.resize({height: m['margin-top'] + size.height + m['margin-bottom']});
         } else {
             this.domObj.resize(this.options);            
         }

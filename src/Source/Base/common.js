@@ -303,13 +303,10 @@ Element.implement({
      * NOTE: This would be Element.getComputedSize's width and height.
      */
     getContentBoxSize : function() {
-      var w = this.offsetWidth;
-      var h = this.offsetHeight;
-      var padding = this.getPaddingSize();
-      var border = this.getBorderSize();
-      w = w - padding.left - padding.right - border.left - border.right;
-      h = h - padding.bottom - padding.top - border.bottom - border.top;
-      return {width: w, height: h};
+        var m = this.measure(function() {
+            return this.getComputedSize()
+        });
+        return {width: m.width,height: m.height};
     },
     /**
      * Method: getBorderBoxSize
@@ -327,9 +324,10 @@ Element.implement({
      * NOTE: I believe this would be part of Element.getComputedSize
      */
     getBorderBoxSize: function() {
-      var w = this.offsetWidth;
-      var h = this.offsetHeight;
-      return {width: w, height: h}; 
+        var m = this.measure(function() {
+            return this.getComputedSize({styles:[]});
+        });
+        return {width: m.width, height: m.height}; 
     },
     
     /**
@@ -348,10 +346,10 @@ Element.implement({
      * NOTE: I believe this would be part of Element.getComputedSize
      */
     getMarginBoxSize: function() {
-        var margins = this.getMarginSize();
-        var w = this.offsetWidth + margins.left + margins.right;
-        var h = this.offsetHeight + margins.top + margins.bottom;
-        return {width: w, height: h};
+        var m = this.measure(function() {
+            return this.getComputedSize({styles:['margin']});
+        });
+        return {width: m.totalWidth, height: m.totalHeight}; 
     },
     
     /**
@@ -369,27 +367,28 @@ Element.implement({
      */
     setContentBoxSize : function(size) {
         if (this.getBoxSizing() == 'border-box') {
-            var padding = this.getPaddingSize();
-            var border = this.getBorderSize();
-            if (typeof size.width != 'undefined') {
-                var width = (size.width + padding.left + padding.right + border.left + border.right);
+            var m = this.measure(function() {
+                return this.getComputedSize();
+            });
+            if ($defined(size.width)) {
+                var width = (size.width + m['padding-left'] + m['padding-right'] + m['border-left-width'] + m['border-right-width']);
                 if (width < 0) {
                     width = 0;
                 }
                 this.style.width = width + 'px';
             }
-            if (typeof size.height != 'undefined') {
-                var height = (size.height + padding.top + padding.bottom + border.top + border.bottom);
+            if ($defined(size.height)) {
+                var height = (size.height + m['padding-top'] + m['padding-bottom'] + m['border-top-width'] + m['border-bottom-width']);
                 if (height < 0) {
                     height = 0;
                 }
                 this.style.height = height + 'px';
             }
         } else {
-            if (typeof size.width != 'undefined') {
+            if ($defined(size.width) && size.width >= 0) {
                 this.style.width = size.width + 'px';
             }
-            if (typeof size.height != 'undefined') {
+            if ($defined(size.height) && size.height >= 0) {
                 this.style.height = size.height + 'px';
             }
         }
@@ -409,94 +408,32 @@ Element.implement({
      */
     setBorderBoxSize : function(size) {
       if (this.getBoxSizing() == 'content-box') {
-        var padding = this.getPaddingSize();
-        var border = this.getBorderSize();
-        var margin = this.getMarginSize();
-        if (typeof size.width != 'undefined') {
-          var width = (size.width - padding.left - padding.right - border.left - border.right - margin.left - margin.right);
+          var m = this.measure(function() {
+              return this.getComputedSize({styles:['margin','border','padding']});
+          });
+          
+        if ($defined(size.width)) {
+          var width = (size.width - m['padding-left'] - m['padding-right'] - m['border-left-width'] - m['border-right-width'] - m['margin-left'] - m['margin-right']);
           if (width < 0) {
             width = 0;
           }
           this.style.width = width + 'px';
         }
-        if (typeof size.height != 'undefined') {
-          var height = (size.height - padding.top - padding.bottom - border.top - border.bottom - margin.top - margin.bottom);
+        if ($defined(size.height)) {
+          var height = (size.height - m['padding-top'] - m['padding-bottom'] - m['border-top-width'] - m['border-bottom-width'] - m['margin-top'] - m['margin-bottom']);
           if (height < 0) {
             height = 0;
           }
           this.style.height = height + 'px';
         }
       } else {
-        if (typeof size.width != 'undefined' && size.width >= 0) {
+        if ($defined(size.width) && size.width >= 0) {
           this.style.width = size.width + 'px';
         }
-        if (typeof size.height != 'undefined' && size.height >= 0) {
+        if ($defined(size.height) && size.height >= 0) {
           this.style.height = size.height + 'px';
         }
       }
-    },
-    /**
-     * Method: getPaddingSize
-     * returns the padding for each edge of an element
-     *
-     * Parameters: 
-     * elem - {Object} The element to get the padding for.
-     *
-     * Returns:
-     * {Object} an object with properties left, top, right and bottom
-     * that contain the associated padding values.
-     */
-    /**
-     * NOTE: I believe this would be part of Element.getComputedSize
-     */
-    getPaddingSize : function () {
-      var l = Jx.getNumber(this.getStyle('padding-left'));
-      var t = Jx.getNumber(this.getStyle('padding-top'));
-      var r = Jx.getNumber(this.getStyle('padding-right'));
-      var b = Jx.getNumber(this.getStyle('padding-bottom'));
-      return {left:l, top:t, right: r, bottom: b};
-    },
-    /**
-     * Method: getBorderSize
-     * returns the border size for each edge of an element
-     *
-     * Parameters: 
-     * elem - {Object} The element to get the borders for.
-     *
-     * Returns:
-     * {Object} an object with properties left, top, right and bottom
-     * that contain the associated border values.
-     */
-    /**
-     * NOTE: I believe this would be part of Element.getComputedSize
-     */
-    getBorderSize : function() {
-      var l = Jx.getNumber(this.getStyle('border-left-width'));
-      var t = Jx.getNumber(this.getStyle('border-top-width'));
-      var r = Jx.getNumber(this.getStyle('border-right-width'));
-      var b = Jx.getNumber(this.getStyle('border-bottom-width'));
-      return {left:l, top:t, right: r, bottom: b};
-    },
-    /**
-     * Method: getMarginSize
-     * returns the margin size for each edge of an element
-     *
-     * Parameters: 
-     * elem - {Object} The element to get the margins for.
-     *
-     * Returns:
-     *: {Object} an object with properties left, top, right and bottom
-     * that contain the associated margin values.
-     */
-    /**
-     * NOTE: I believe this would be part of Element.getComputedSize
-     */
-    getMarginSize : function() {
-      var l = Jx.getNumber(this.getStyle('margin-left'));
-      var t = Jx.getNumber(this.getStyle('margin-top'));
-      var r = Jx.getNumber(this.getStyle('margin-right'));
-      var b = Jx.getNumber(this.getStyle('margin-bottom'));
-      return {left:l, top:t, right: r, bottom: b};
     },
     
     /**

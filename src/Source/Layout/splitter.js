@@ -313,7 +313,10 @@ Jx.Splitter = new Class({
         var leftJxl = leftSide.retrieve('jxLayout');
         var rightJxl = rightSide.retrieve('jxLayout');
         
-        var paddingLeft = this.domObj.getPaddingSize().left;
+        var paddingLeft = this.domObj.measure(function(){
+            var m = this.getComputedSize({styles:['padding'], plains:{width:['left'],height:[]}});
+            return m['padding-left'];
+        });
         
         /* process right side first */
         var rsLeft, rsWidth, rsRight;
@@ -416,6 +419,10 @@ Jx.Splitter = new Class({
         var bottomJxl = bottomSide.retrieve('jxLayout');
         
         var paddingTop = this.domObj.getPaddingSize().top;
+        var paddingTop = this.domObj.measure(function(){
+            var m = this.getComputedSize({styles:['padding'], plains:{width:[],height:['top']}});
+            return m['padding-top'];
+        });
         
         /* measure the bar and parent container for later use */
         var size = obj.retrieve('size');
@@ -566,7 +573,11 @@ Jx.Splitter = new Class({
         /* account for rounding errors */
         var remainder = availableSpace % nVariable;
         
-        var leftPadding = this.domObj.getPaddingSize().left;
+        var leftPadding  = this.domObj.measure(function(){
+            var m = this.getComputedSize({styles:['padding'], plains:{width:['left'],height:[]}});
+            return m['padding-left'];
+        });
+        
 
         var currentPosition = 0;
 
@@ -670,8 +681,10 @@ Jx.Splitter = new Class({
         /* account for rounding errors */
         var remainder = availableSpace % nVariable;
 
-        var paddingTop = this.domObj.getPaddingSize().top;
-        
+        var paddingTop = this.domObj.measure(function(){
+            var m = this.getComputedSize({styles:['padding'], plains:{width:[],height:['top']}});
+            return m['padding-top'];
+        });
         var currentPosition = 0;
 
         for (var i=0; i<this.elements.length; i++) {

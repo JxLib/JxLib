@@ -430,7 +430,10 @@ Jx.Widget = new Class({
          * through padding on the chrome object.  Other code can then
          * make use of these offset values to fix positioning.
          */
-        this.chromeOffsets = c.getPaddingSize();
+        this.chromeOffsets = c.measure(function() {
+            var m = this.getComputedSize({styles:['padding']});
+            return {top: m['padding-top'], right: m['padding-right'], bottom: m['padding-bottom'], left: m['padding-left']};
+        });
         c.setStyle('padding', 0);
         
         /* get the chrome image from the background image of the element */
