@@ -2,7 +2,7 @@
 /**
  * Class: Jx.Menu.Separator
  *
- * Extends: Object
+ * Extends: <Jx.Object>
  *
  * A convenience class to create a visual separator in a menu.
  *
@@ -17,6 +17,7 @@
  */
 Jx.Menu.Separator = new Class({
     Family: 'Jx.Menu.Separator',
+    Extends: Jx.Object,
     /**
      * Property: domObj
      * {HTMLElement} the HTML element that the separator is contained

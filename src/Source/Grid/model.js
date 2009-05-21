@@ -1,9 +1,7 @@
 /**
  * Class: Jx.Grid.Model
  *
- * Extends: Object
- *
- * Implements: Options, Events
+ * Extends: <Jx.Object>
  *
  * A Jx.Grid.Model is the source of data for a <Jx.Grid> instance.  The
  * default implementation of the grid model works with two-dimensional
@@ -17,7 +15,7 @@
  */
 Jx.Grid.Model = new Class({
     Family: 'Jx.Grid.Model',
-    Implements: [Events, Options],
+    Extends: Jx.Object,
     options: {
         /* Option: colHeaderHeight
          * default 28, the height of the column header row

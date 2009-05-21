@@ -2,9 +2,7 @@
 /**
  * Class: Jx.Menu
  *
- * Extends: Object
- *
- * Implements: Options, Events, <Jx.AutoPosition>, <Jx.Chrome>, <Jx.Addable>
+ * Extends: <Jx.Widget>
  *
  * A main menu as opposed to a sub menu that lives inside the menu.
  *
@@ -23,15 +21,7 @@
  */
 Jx.Menu = new Class({
     Family: 'Jx.Menu',
-    /**
-     * Implements:
-     * * Options
-     * * Events
-     * * <Jx.AutoPosition>
-     * * <Jx.Chrome>
-     * * <Jx.Addable>
-     */
-    Implements: [Options, Events, Jx.AutoPosition, Jx.Chrome, Jx.Addable],
+    Extends: Jx.Widget,
     /**
      * Property: domObj
      * {HTMLElement} The HTML element containing the menu.

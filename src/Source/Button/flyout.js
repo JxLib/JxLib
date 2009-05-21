@@ -59,7 +59,6 @@
 Jx.Button.Flyout = new Class({
     Family: 'Jx.Button.Flyout',
     Extends: Jx.Button,
-    Implements: [Jx.ContentLoader, Jx.AutoPosition, Jx.Chrome],
     
     /**
      * Property: content

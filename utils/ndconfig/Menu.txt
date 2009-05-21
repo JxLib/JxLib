@@ -59,8 +59,14 @@ Group: Jx  {
       File: ButtonSet  (Button/set.js)
       }  # Group: Button
 
+   Group: Base  {
+
+      File: Common  (no auto-title, Base/common.js)
+      File: Object  (Base/object.js)
+      File: Widget  (Base/widget.js)
+      }  # Group: Base
+
    File: ColorPalette  (Extras/colorpalette.js)
-   File: Common  (no auto-title, Base/common.js)
    File: Grid  (Grid/grid.js)
    File: Grid.Model  (Grid/model.js)
    File: TabBox  (Tab/tabbox.js)
@@ -105,6 +111,16 @@ Group: Jx  {
       }  # Group: Tree
 
    }  # Group: Jx
+
+File: Compare  (Data/compare.js)
+File: Sort  (Data/sort.js)
+File: Sort.Heapsort  (Data/heapsort.js)
+File: Sort.Mergesort  (Data/mergesort.js)
+File: Sort.Quicksort  (Data/quicksort.js)
+File: Store  (Data/store.js)
+File: Store.Groupable  (Data/groupable.js)
+File: Store.Remote  (Data/remote.js)
+File: Store.Sortable  (Data/sortable.js)
 
 Group: Index  {
 

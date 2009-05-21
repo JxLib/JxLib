@@ -2,9 +2,7 @@
 /**
  * Class: Jx.Grid
  * 
- * Extends: Object
- *
- * Implements: Options, Events, <Jx.Addable>
+ * Extends: <Jx.Widget>
  *
  * A tabular control that has fixed scrolling headers on the rows and columns
  * like a spreadsheet.
@@ -33,7 +31,7 @@
  */
 Jx.Grid = new Class({
     Family: 'Jx.Grid',
-    Implements: [Options, Events, Jx.Addable],
+    Extends: Jx.Widget,
     domObj : null,
     model : null,
     options: {

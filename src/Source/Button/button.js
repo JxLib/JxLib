@@ -2,9 +2,7 @@
 /**
  * Class: Jx.Button
  *
- * Extends: Object
- *
- * Implements: Options, Events, <Jx.Addable>
+ * Extends: <Jx.Widget>
  *
  * Jx.Button creates a clickable element that can be added to a web page.
  * When the button is clicked, it fires a 'click' event.
@@ -95,7 +93,7 @@
  */
 Jx.Button = new Class({
     Family: 'Jx.Button',
-    Implements: [Options,Events,Jx.Addable],
+    Extends: Jx.Widget,
     
     /**
      * the HTML element that is inserted into the DOM for this button.  You

@@ -2,9 +2,7 @@
 /**
  * Class: Jx.ColorPalette
  *
- * Extends: Object
- *
- * Implements: Options, Events, <Jx.Addable>
+ * Extends: <Jx.Widget>
  *
  * A Jx.ColorPalette presents a user interface for selecting colors.
  * Currently, the user can either enter a HEX colour value or select from a
@@ -32,7 +30,7 @@
  */
 Jx.ColorPalette = new Class({
     Family: 'Jx.ColorPalette',
-    Implements: [Options, Events, Jx.Addable],
+    Extends: Jx.Widget,
     /**
      * Property: {HTMLElement} domObj
      * the HTML element representing the color panel

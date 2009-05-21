@@ -2,10 +2,8 @@
 /**
  * Class: Jx.Layout
  *
- * Extends: Object
+ * Extends: <Jx.Object>
  * 
- * Implements: Options, Events
- *
  * Jx.Layout is used to provide more flexible layout options for applications
  *
  * Jx.Layout wraps an existing DOM element (typically a div) and provides
@@ -31,7 +29,7 @@
  
 Jx.Layout = new Class({
     Family: 'Jx.Layout',
-    Implements: [Options,Events],
+    Extends: Jx.Object,
     
     options: {
         /* Option: propagate

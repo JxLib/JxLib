@@ -2,9 +2,7 @@
 /**
  * Class: Jx.Toolbar
  *
- * Extends: Object
- *
- * Implements: Options, Events
+ * Extends: <Jx.Widget>
  *
  * A toolbar is a container object that contains other objects such as
  * buttons.  The toolbar organizes the objects it contains automatically,
@@ -54,7 +52,7 @@
  */
 Jx.Toolbar = new Class({
     Family: 'Jx.Toolbar',
-    Implements: [Options,Events],
+    Extends: Jx.Widget,
     /**
      * Property: items
      * {Array} an array of the things in the toolbar.

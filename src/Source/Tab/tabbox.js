@@ -2,9 +2,7 @@
 /**
  * Class: Jx.TabBox
  * 
- * Extends: Object
- *
- * Implements: Options, Events, <Jx.Addable>
+ * Extends: <Jx.Widget>
  *
  * A convenience class to handle the common case of a single toolbar
  * directly attached to the content area of the tabs.  It manages both a
@@ -29,7 +27,7 @@
  */
 Jx.TabBox = new Class({
     Family: 'Jx.TabBox',
-    Implements: [Options, Events, Jx.Addable],
+    Extends: Jx.Widget,
     options: {
         /* Option: parent
          * a DOM element to add the tab box to

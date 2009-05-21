@@ -2,9 +2,7 @@
 /**
  * Class: Jx.PanelSet
  *
- * Extends: Object
- *
- * Implements: Options, Events, <Jx.Addable>
+ * Extends: <Jx.Widget>
  *
  * A panel set manages a set of panels within a DOM element.  The PanelSet fills
  * its container by resizing the panels in the set to fill the width and then
@@ -34,7 +32,7 @@
  */
 Jx.PanelSet = new Class({
     Family: 'Jx.PanelSet',
-    Implements: [Options, Events, Jx.Addable],
+    Extends: Jx.Widget,
     
     options: {
         /* Option: parent

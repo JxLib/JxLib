@@ -531,8 +531,11 @@ Jx.Widget = new Class({
      * the object itself, which is useful for chaining calls together
      */
     addTo: function(reference, where) {
-        $(this.domObj).inject(reference,where);
-        this.fireEvent('addTo',this);
+        var el = $(this.addable) || $(this.domObj);
+        if (el) {
+            el.inject(reference,where);
+            this.fireEvent('addTo',this);            
+        }
         return this;
     },
     

@@ -2,9 +2,7 @@
 /**
  * Class: Jx.Toolbar.Container
  *
- * Extends: Object
- *
- * Implements: Options, Events, <Jx.Addable>
+ * Extends: <Jx.Widget>
  *
  * A toolbar container contains toolbars.  A single toolbar container fills
  * the available space horizontally.  Toolbars placed in a toolbar container
@@ -26,7 +24,7 @@
  */
 Jx.Toolbar.Container = new Class({
     Family: 'Jx.Toolbar.Container',
-    Implements: [Options,Events, Jx.Addable],
+    Extends: Jx.Widget,
     /**
      * Property: domObj
      * {HTMLElement} the HTML element that the container lives in

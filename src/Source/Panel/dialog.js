@@ -4,8 +4,6 @@
  *
  * Extends: <Jx.Panel>
  *
- * Implements: <Jx.AutoPosition>, <Jx.Chrome>
- *
  * A Jx.Dialog implements a floating dialog.  Dialogs represent a useful way
  * to present users with certain information or application controls.
  * Jx.Dialog is designed to provide the same types of features as traditional

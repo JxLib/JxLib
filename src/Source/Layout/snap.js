@@ -2,7 +2,7 @@
 /**
  * Class: Jx.Splitter.Snap
  *
- * Extends: Object
+ * Extends: <Jx.Object>
  *
  * A helper class to create an element that can snap a split panel open or
  * closed.
@@ -18,6 +18,7 @@
  */
 Jx.Splitter.Snap = new Class({
     Family: 'Jx.Splitter.Snap',
+    Extends: Jx.Object,
     /**
      * Property: snap
      * {HTMLElement} the DOM element of the snap (the thing that gets

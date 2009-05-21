@@ -2,9 +2,7 @@
 /**
  * Class: Jx.Panel
  *
- * Extends: Object
- *
- * Implements: Options, Events, <Jx.ContentLoader>
+ * Extends: <Jx.Widget>
  *
  * A panel is a fundamental container object that has a content
  * area and optional toolbars around the content area.  It also
@@ -28,7 +26,7 @@
  */
 Jx.Panel = new Class({
     Family: 'Jx.Panel',
-    Implements: [Options, Events, Jx.ContentLoader, Jx.Addable],
+    Extends: Jx.Widget,
     
     toolbarContainers: {
         top: null,

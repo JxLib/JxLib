@@ -16,7 +16,7 @@
  */
 Jx.Toolbar.Item = new Class( {
     Family: 'Jx.Toolbar.Item',
-    Implements: [Options],
+    Extends: Jx.Object,
     options: {
         /* Option: active
          * is this item active or not?  Default is true.

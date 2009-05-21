@@ -2,9 +2,7 @@
 /**
  * Class: Jx.TreeItem 
  *
- * Extends: Object
- *
- * Implements: Options, Events
+ * Extends: <Jx.Widget>
  *
  * An item in a tree.  An item is a leaf node that has no children.
  *
@@ -30,7 +28,7 @@
  */
 Jx.TreeItem = new Class ({
     Family: 'Jx.TreeItem',
-    Implements: [Options,Events],
+    Extends: Jx.Widget,
     /**
      * Property: domObj
      * {HTMLElement} a reference to the HTML element that is the TreeItem

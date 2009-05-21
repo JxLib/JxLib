@@ -4,8 +4,6 @@
  *
  * Extends: Jx.TreeFolder
  *
- * Implements: <Jx.Addable>
- *
  * Jx.Tree displays hierarchical data in a tree structure of folders and nodes.
  *
  * Example:
@@ -20,9 +18,8 @@
  * This file is licensed under an MIT style license
  */
 Jx.Tree = new Class({
-    Extends: Jx.TreeFolder,
-    Implements: [Jx.Addable],
     Family: 'Jx.Tree',
+    Extends: Jx.TreeFolder,
     /**
      * Constructor: Jx.Tree
      * Create a new instance of Jx.Tree

@@ -2,9 +2,7 @@
 /**
  * Class: Jx.ButtonSet
  *
- * Extends: Object
- *
- * Implements: Options, Events
+ * Extends: <Jx.Object>
  *
  * A ButtonSet manages a set of <Jx.Button> instances by ensuring that only one
  * of the buttons is active.  All the buttons need to have been created with
@@ -33,7 +31,7 @@
  */
 Jx.ButtonSet = new Class({
     Family: 'Jx.ButtonSet',
-    Implements: [Options,Events],
+    Extends: Jx.Object,
     /**
      * Property: buttons
      * {Array} array of buttons that are managed by this button set

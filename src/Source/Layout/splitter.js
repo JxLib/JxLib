@@ -2,9 +2,7 @@
 /**
  * Class: Jx.Splitter
  *
- * Extends: Object
- *
- * Implements: Options
+ * Extends: <Jx.Object>
  *
  * a Jx.Splitter creates two or more containers within a parent container
  * and provides user control over the size of the containers.  The split
@@ -26,7 +24,7 @@
  
 Jx.Splitter = new Class({
     Family: 'Jx.Splitter',
-    Implements: [Options],
+    Extends: Jx.Object,
     /**
      * Property: domObj
      * {HTMLElement} the element being split

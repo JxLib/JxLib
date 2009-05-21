@@ -2,7 +2,7 @@
 /**
  * Class: Jx.Toolbar.Separator
  *
- * Extends: Object
+ * Extends: <Jx.Object>
  *
  * A helper class that represents a visual separator in a <Jx.Toolbar>
  *
@@ -17,6 +17,7 @@
  */
 Jx.Toolbar.Separator = new Class({
     Family: 'Jx.Toolbar.Separator',
+    Extends: Jx.Object,
     /**
      * Property: domObj
      * {HTMLElement} The DOM element that goes in the <Jx.Toolbar>

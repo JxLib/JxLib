@@ -1,5 +1,5 @@
 /******************************************************************************
- * MooTools 1.2.1
+ * MooTools 1.2.2
  * Copyright (c) 2006-2007 [Valerio Proietti](http://mad4milk.net/).
  * MooTools is distributed under an MIT-style license.
  ******************************************************************************

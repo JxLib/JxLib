@@ -2,9 +2,7 @@
 /**
  * Class: Jx.TabSet
  *
- * Extends: Object
- *
- * Implements: Options, Events
+ * Extends: <Jx.Object>
  *
  * A TabSet manages a set of <Jx.Button.Tab> content areas by ensuring that only one
  * of the content areas is visible (i.e. the active tab).  TabSet does not
@@ -37,7 +35,7 @@
  */
 Jx.TabSet = new Class({
     Family: 'Jx.TabSet',
-    Implements: [Options,Events],
+    Extends: Jx.Object,
     /**
      * Property: tabs
      * {Array} array of tabs that are managed by this tab set
