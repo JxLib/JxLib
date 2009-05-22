@@ -26,7 +26,7 @@ Jx.Sort.Nativesort = new Class({
         this._data.sort(compare);
         this.fireEvent('stop');
         return this._data;
-    },
+    }
 
     
 });
