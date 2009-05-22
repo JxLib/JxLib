@@ -68,6 +68,11 @@
     	"quicksort": {
     		"deps": ["sort"],
     		"desc": ""
+    	},
+    	
+    	"nativesort": {
+    	   "deps": ["sort"],
+    	   "desc": ""
     	}
     },
 

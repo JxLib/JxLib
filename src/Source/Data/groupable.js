@@ -70,7 +70,7 @@ Jx.Store.Groupable = new Class({
         var sub = [];
 		
         var group = data[0].get(groupByCol);
-        this._sorter.setCol(sortCol);
+        this._sorter.setColumn(sortCol);
         for (var i = 0; i < data.length; i++){
             if (group === (data[i]).get(groupByCol)) {
                 sub.push(data[i]);

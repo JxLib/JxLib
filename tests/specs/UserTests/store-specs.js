@@ -10,8 +10,8 @@ describe('Store without Data',{
 	'type should be Jx.Store': function(){
 		value_of($type(object)).should_be('Jx.Store');
 	},
-	'getPos should return null': function(){
-		value_of(object.getPos()).should_be_null();
+	'getPosition should return null': function(){
+		value_of(object.getPosition()).should_be_null();
 	},
 	'moveTo should return null': function(){
 		value_of(object.moveTo(3)).should_be_null();
@@ -31,8 +31,8 @@ describe('Store without Data',{
 	'hasPrevious should return null': function(){
 		value_of(object.hasPrevious()).should_be_null();
 	},
-	'prev should return null': function(){
-		value_of(object.prev()).should_be_null();
+	'previous should return null': function(){
+		value_of(object.previous()).should_be_null();
 	},
 	'isDirty should return null': function(){
 		value_of(object.isDirty()).should_be_null();

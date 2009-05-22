@@ -105,7 +105,7 @@ Jx.Sort = new Class({
      * Parameters:
      * col - the column to sort by
      */
-    setCol: function(col){
+    setColumn: function(col){
         if ($defined(col)){
             this._col = col;
         }

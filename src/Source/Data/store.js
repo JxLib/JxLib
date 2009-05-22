@@ -127,14 +127,14 @@ Jx.Store = new Class({
     },
 	
     /**
-     * Method: prev
+     * Method: previous
      * moves the store to the previous record
      * 
      * Returns:
      * nothing | null if error
      * 
      */
-    prev: function(){
+    previous: function(){
         if ($defined(this._data)) {
             this._index--;
             if (this._index === -1) {
@@ -200,7 +200,7 @@ Jx.Store = new Class({
      * an integer indicating the position in the store or null
      * if there's an error
      */
-    getPos: function(){
+    getPosition: function(){
         if ($defined(this._data)) {
             return this._index;
         } else {

@@ -14,7 +14,14 @@ Jx.Store.Sortable = new Class({
     options: {
 	    colTypes: {}, //alphanumeric, numeric, currency, date : setup as {'col':'type'} 
 	    defaultSort: 'quick',
-	    separator: '.'		//passed to an instance of Jx.Data.Compare
+	    separator: '.'		//passed to an instance of Jx.Compare
+    },
+    
+    sorters: {
+      quick: "Quicksort",
+      merge: "Mergesort",
+      heap: "Heapsort",
+      native: "Nativesort"
     },
 
     /**
@@ -30,18 +37,12 @@ Jx.Store.Sortable = new Class({
      * returns:
      * nothing or the data depending on the value of ret parameter.
      */
-    sort: function(col, sort, data, ret){
-        if (!$defined(sort)){
-            sort = this.options.defaultSort;
-        }
-		
-        if (!$defined(data)){
-            data = this._data;
-        }
-		
-        if (!$defined(ret)) {
-            ret = false;
-        }
+    sort: function(col, sort, data, ret, options){
+        options = {} || options;
+        
+        sort = (sort) ? this.sorters[sort] : this.sorters[this.options.defaultSort];
+        data = data ? data : this._data;
+		ret = ret ? true : false;
 		
         if (!$defined(this._comparator)) {
             this._comparator = new Jx.Compare({
@@ -51,66 +52,14 @@ Jx.Store.Sortable = new Class({
 		
         this._col = col = this._resolveCol(col);
 		
-        var fn = this._determineComparator();
-        this._sorter = this._determineSorter(data, sort, col, fn);
+        var fn = this._comparator[this.options.colTypes[col]].bind(this._comparator);
+        this._sorter = new Jx.Sort[sort](data, fn, col, options);
         var d = this._sorter.sort();
 		
         if (ret){
             return d;
         } else {
             this._data = d;
-        }
-    },
-	
-    /**
-     * Method: _determineComparator
-     * Private function. Determines which comparator to use from <Jx.Compare>
-     * 
-     * Returns:
-     * function to use in sorting based on column type
-     */
-    _determineComparator: function(){
-        //determine which comparison function to use
-        switch (this.options.colTypes[this._col]){
-		    case 'alphanumeric':
-		        return this._comparator.alphanumeric.bind(this._comparator);
-		        break;
-			case 'numeric':
-			    return this._comparator.numeric.bind(this._comparator);
-			    break;
-			case 'currency':
-			    return this._comparator.currency.bind(this._comparator);
-			    break;
-			case 'date':
-			    return this._comparator.date.bind(this._comparator);
-			    break;
-			default:
-			    return this._comparator.alphanumeric.bind(this._comparator);
-        }
-		
-    },
-	
-    /**
-     * Method: _determineSorter
-     * Private function. Used to determine which sorting method to use
-     * 
-     * Parameters:
-     * data - the data to sort
-     * sort - string telling the function which sorter to use
-     * col - the column to sort by
-     * fn - the comparison function to use in the sort
-     */
-    _determineSorter: function(data, sort, col, fn){
-        switch (sort) {
-		    case 'quick':
-		        return new Jx.Sort.Quicksort(data, fn, col);
-		        break;
-		    case 'merge':
-		        return new Jx.Sort.Mergesort(data, fn, col);
-		        break;
-		    case 'heap':
-		        return new Jx.Sort.Heapsort(data, fn, col);
-		        break;
         }
     }
 	
