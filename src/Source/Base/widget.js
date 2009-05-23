@@ -431,8 +431,7 @@ Jx.Widget = new Class({
          * make use of these offset values to fix positioning.
          */
         this.chromeOffsets = c.measure(function() {
-            var m = this.getComputedSize({styles:['padding']});
-            return {top: m['padding-top'], right: m['padding-right'], bottom: m['padding-bottom'], left: m['padding-left']};
+            return this.getSizes(['padding']).padding;
         });
         c.setStyle('padding', 0);
         

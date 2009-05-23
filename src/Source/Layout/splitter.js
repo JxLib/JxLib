@@ -314,8 +314,8 @@ Jx.Splitter = new Class({
         var rightJxl = rightSide.retrieve('jxLayout');
         
         var paddingLeft = this.domObj.measure(function(){
-            var m = this.getComputedSize({styles:['padding'], plains:{width:['left'],height:[]}});
-            return m['padding-left'];
+            var m = this.getSizes(['padding'], ['left']);
+            return m.padding.left;
         });
         
         /* process right side first */
@@ -420,9 +420,10 @@ Jx.Splitter = new Class({
         
         var paddingTop = this.domObj.getPaddingSize().top;
         var paddingTop = this.domObj.measure(function(){
-            var m = this.getComputedSize({styles:['padding'], plains:{width:[],height:['top']}});
-            return m['padding-top'];
+            var m = this.getSizes(['padding'], ['top']);
+            return m.padding.top;
         });
+        
         
         /* measure the bar and parent container for later use */
         var size = obj.retrieve('size');
@@ -573,11 +574,10 @@ Jx.Splitter = new Class({
         /* account for rounding errors */
         var remainder = availableSpace % nVariable;
         
-        var leftPadding  = this.domObj.measure(function(){
-            var m = this.getComputedSize({styles:['padding'], plains:{width:['left'],height:[]}});
-            return m['padding-left'];
+        var leftPadding = this.domObj.measure(function(){
+            var m = this.getSizes(['padding'], ['left']);
+            return m.padding.left;
         });
-        
 
         var currentPosition = 0;
 
@@ -682,9 +682,10 @@ Jx.Splitter = new Class({
         var remainder = availableSpace % nVariable;
 
         var paddingTop = this.domObj.measure(function(){
-            var m = this.getComputedSize({styles:['padding'], plains:{width:[],height:['top']}});
-            return m['padding-top'];
+            var m = this.getSizes(['padding'], ['top']);
+            return m.padding.top;
         });
+        
         var currentPosition = 0;
 
         for (var i=0; i<this.elements.length; i++) {

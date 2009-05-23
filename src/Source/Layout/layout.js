@@ -394,12 +394,12 @@ Jx.Layout = new Class({
         var sizeOpts = {width: w};
         if (this.options.position == 'absolute') {
             var m = $(this.domObj.parentNode).measure(function(){
-                return this.getComputedSize({styles:['padding']});
+                return this.getSizes(['padding'],['left','top']).padding;
             });
             this.domObj.setStyles({
                 position: this.options.position,
-                left: l+m['padding-left'],
-                top: t+m['padding-top']
+                left: l+m.left,
+                top: t+m.top
             });
             sizeOpts.height = h;
         } else {
