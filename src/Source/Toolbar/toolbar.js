@@ -77,8 +77,8 @@ Jx.Toolbar = new Class({
          * affects some items in the toolbar, such as menus and flyouts, which
          * need to open in a manner sensitive to the position.  May be one of
          * 'top', 'right', 'bottom' or 'left'.  Default is 'top'.
+         */
         position: 'top',
-        */
         /* Option: parent
          * a DOM element to add this toolbar to
          */
