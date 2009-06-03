@@ -73,31 +73,31 @@
   position: absolute; 
   top: 0px; 
   left: 0px;
-  width: 800px;
-  height:500px;
+  width: 1000px;
+  height: 600px;
 }
 
 .jxChromeTR img { 
   position: absolute; 
   top: 0px; 
   right: 0px; 
-  width: 800px;
-  height:500px;
+  width: 1000px;
+  height: 600px;
 }
 
 .jxChromeBL img { 
   position: absolute; 
   bottom: 0px; 
   left: 0px; 
-  width: 800px;
-  height:500px;
+  width: 1000px;
+  height: 600px;
 }
 
 .jxChromeBR img { 
   position: absolute; 
   bottom: 0px; 
   right: 0px; 
-  width: 800px;
-  height:500px;
+  width: 1000px;
+  height: 600px;
 }
 
