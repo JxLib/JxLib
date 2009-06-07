@@ -12,7 +12,6 @@
  */
 
 Jx.Compare = new Class({
-	
     Extends: Jx.Object,
 	
     options: { separator: '.' },

@@ -1,7 +1,13 @@
 describe('Store without Data',{
 	before: function(){
 		object = new Jx.Store({
-			cols: ['col1','col2']
+			columns: [{
+			    name: 'col1',
+			    type: 'alphanumeric'
+			},{
+			    name: 'col2',
+			    type: 'alphanumeric'
+			}]
 		});
 	},
 	'count should be null': function(){

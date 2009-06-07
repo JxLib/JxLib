@@ -390,7 +390,7 @@ ul.jxToolbar .jxButtonHover span.jxButtonContent {
   background-color: transparent;
 }/**
  * @project         Jx
- * @revision        $Id: chrome.css 241 2008-12-10 15:11:05Z pagameba $
+ * @revision        $Id: chrome.css 454 2009-06-03 14:50:22Z fred.warnock $
  * @author          Fred Warnock (fwarnock@dmsolutions.ca)
  * @copyright       (c) 2006 DM Solutions Group Inc.
  */
@@ -463,32 +463,32 @@ ul.jxToolbar .jxButtonHover span.jxButtonContent {
   position: absolute; 
   top: 0px; 
   left: 0px;
-  width: 800px;
-  height:500px;
+  width: 1000px;
+  height: 600px;
 }
 
 .jxChromeTR img { 
   position: absolute; 
   top: 0px; 
   right: 0px; 
-  width: 800px;
-  height:500px;
+  width: 1000px;
+  height: 600px;
 }
 
 .jxChromeBL img { 
   position: absolute; 
   bottom: 0px; 
   left: 0px; 
-  width: 800px;
-  height:500px;
+  width: 1000px;
+  height: 600px;
 }
 
 .jxChromeBR img { 
   position: absolute; 
   bottom: 0px; 
   right: 0px; 
-  width: 800px;
-  height:500px;
+  width: 1000px;
+  height: 600px;
 }
 
 /**

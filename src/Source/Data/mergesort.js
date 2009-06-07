@@ -18,14 +18,14 @@ Jx.Sort.Mergesort = new Class({
      */
     sort: function(){
 	    this.fireEvent('start');
-	    d = this._mergeSort(this._data);
+	    d = this.mergeSort(this.data);
 	    this.fireEvent('stop');
 	    return d;
 		
     },
 	
     /**
-     * Method: _mergeSort
+     * Method: mergeSort
      * Private function. Does the physical sorting. Called recursively.
      * 
      * Parameters:
@@ -34,20 +34,20 @@ Jx.Sort.Mergesort = new Class({
      * returns:
      * the sorted array
      */
-    _mergeSort: function(arr){
+    mergeSort: function(arr){
         if (arr.length <= 1) { return arr; }
 		
         var middle = (arr.length) / 2;
         var left = arr.slice(0,middle);
         var right = arr.slice(middle);
-        left = this._mergeSort(left);
-        right = this._mergeSort(right);
-        var result = this._merge(left,right);
+        left = this.mergeSort(left);
+        right = this.mergeSort(right);
+        var result = this.merge(left,right);
         return result;
     },
 	
     /**
-     * Method: _merge
+     * Method: merge
      * Private function. Does the work of merging to arrays in order.
      * 
      * parameters:
@@ -57,11 +57,11 @@ Jx.Sort.Mergesort = new Class({
      * returns:
      * the merged array
      */
-    _merge: function(left, right){
+    merge: function(left, right){
         var result = [];
 		
         while (left.length>0 && right.length>0){
-            if (this._comparator((left[0]).get(this._col),(right[0]).get(this._col)) <= 0) {
+            if (this.comparator((left[0]).get(this.col),(right[0]).get(this.col)) <= 0) {
                 result.push(left[0]);
                 left = left.slice(1);
             } else {

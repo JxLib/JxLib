@@ -20,12 +20,12 @@ Jx.Sort.Nativesort = new Class({
         this.fireEvent('start');
         
         var compare = function(a,b){
-            return this._comparator((this._data[a]).get(this._col),(this._data[b]).get(this._col));
+            return this.comparator((this.data[a]).get(this.col),(this.data[b]).get(this.col));
         };
         
-        this._data.sort(compare);
+        this.data.sort(compare);
         this.fireEvent('stop');
-        return this._data;
+        return this.data;
     }
 
     

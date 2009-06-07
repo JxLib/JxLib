@@ -64,29 +64,17 @@ describe('Element extension tests', {
         value_of(size.height).should_be(4);
         value_of(bsize.width).should_be(10);
         value_of(bsize.height).should_be(10);
+    }
+});
+
+describe('Array extensions test', {
+    'swap is implemented': function(){
+        var a = [];
+        value_of($defined(a.swap)).should_be_true();
     },
-    'Element.getPaddingSize':function() {
-        var size = el.getPaddingSize();
-        el.destroy();
-        value_of(size.left).should_be(1);
-        value_of(size.top).should_be(1);
-        value_of(size.right).should_be(1);
-        value_of(size.bottom).should_be(1);
-    },
-    'Element.getBorderSize':function() {
-        var size = el.getBorderSize();
-        el.destroy();
-        value_of(size.left).should_be(1);
-        value_of(size.top).should_be(1);
-        value_of(size.right).should_be(1);
-        value_of(size.bottom).should_be(1);
-    } ,
-    'Element.getMarginSize':function() {
-        var size = el.getMarginSize();
-        el.destroy();
-        value_of(size.left).should_be(1);
-        value_of(size.top).should_be(1);
-        value_of(size.right).should_be(1);
-        value_of(size.bottom).should_be(1);
+    'Test of array swap':function(){
+        var a = ['a','c','b'];
+        a.swap(1,2);
+        value_of(a).should_be(['a','b','c']);
     }
 });

@@ -35,16 +35,6 @@
     		"desc": ""
     	},
     	
-    	"sortable": {
-    		"deps": ["object","sort"],
-    		"desc": ""
-    	},
-    	
-    	"groupable": {
-    		"deps": ["sortable"],
-    		"desc": ""
-    	},
-    	
     	"compare": {
     		"deps": ["object","Date.Extras"],
     		"desc": ""
@@ -57,22 +47,22 @@
     	
     	"mergesort": {
     		"deps": ["sort"],
-    		"desc": ""
+    		"desc": "An implementation of the merge sort algorithm"
     	},
     	
     	"heapsort": {
     		"deps": ["sort"],
-    		"desc": ""
+    		"desc": "An implementation of the heap sort algorithm"
     	},
     	
     	"quicksort": {
     		"deps": ["sort"],
-    		"desc": ""
+    		"desc": "An implementation of the quick sort algorithm"
     	},
     	
     	"nativesort": {
     	   "deps": ["sort"],
-    	   "desc": ""
+    	   "desc": "An implementation of the Javascript native sorting with the Jx.Sort interface"
     	}
     },
 
@@ -81,7 +71,7 @@
         "desc": "This group contains components that are button-like.  All button classes ultimately derive from the basic button class.",
         
         "button": {
-            "deps": ["common"],
+            "deps": ["widget"],
             "opt" : ["Drag"],
             "desc": "Jx.Button creates a clickable element that can be added to a web page."
         },
@@ -112,7 +102,7 @@
         },
 
         "set": {
-            "deps": ["common"],
+            "deps": ["object"],
             "desc": "A ButtonSet manages a set of Jx.Button instances by ensuring that only one of the buttons is active."
         }
 
@@ -123,7 +113,7 @@
         "desc": "This group contains components that act as a visual for content.",
 
         "panel": {
-            "deps": ["menu.item","layout","container"],
+            "deps": ["widget","menu.item","layout","container"],
             "desc":"A panel is a fundamental container object that has a content area and optional toolbars around the content area."
         },
         

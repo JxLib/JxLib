@@ -19,9 +19,9 @@ Jx.Sort = new Class({
     },
 	
     timer: null,
-    _data: null,
-    _comparator: $empty,
-    _col: null,
+    data: null,
+    comparator: $empty,
+    col: null,
 	
     /** 
      * Constructor: Jx.Sort
@@ -42,9 +42,9 @@ Jx.Sort = new Class({
             this.addEvent('start',this.startTimer.bind(this));
             this.addEvent('stop',this.stopTimer.bind(this));
         }
-        this._data = arr;
-        this._comparator = fn;
-        this._col = col;
+        this.data = arr;
+        this.comparator = fn;
+        this.col = col;
     },
 	
     /**
@@ -52,21 +52,6 @@ Jx.Sort = new Class({
      * Actually does the sorting. Must be overridden by subclasses.
      */
     sort: $empty,
-	
-    /**
-     * Method: _swap
-     * Swaps the two passed indexes in the array.
-     * 
-     * Parameters:
-     * a - an integer indicating which element to swap
-     * b - an integer indicating which element to swap
-     */
-    _swap: function(a,b){
-        var temp;
-        temp = this._data[a];
-        this._data[a] = this._data[b];
-        this._data[b] = temp;
-    },
 	
     /**
      * Method: startTimer
@@ -94,12 +79,12 @@ Jx.Sort = new Class({
      */
     setData: function(data){
         if ($defined(data)){
-            this._data = data;
+            this.data = data;
         }
     },
 	
     /**
-     * Method: setCol
+     * Method: setColumn
      * Sets the column to sort by
      * 
      * Parameters:
@@ -107,7 +92,11 @@ Jx.Sort = new Class({
      */
     setColumn: function(col){
         if ($defined(col)){
-            this._col = col;
+            this.col = col;
         }
+    },
+    
+    setComparator: function(fn){
+        this.comparator = fn;
     }
 });

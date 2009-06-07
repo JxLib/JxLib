@@ -3,9 +3,17 @@
 header('Content-type:application/json');
 $obj = new stdClass();
 $obj->success = true;
-$obj->requestId = $_REQUEST['requestId'];
+//$obj->requestId = $_REQUEST['requestId'];
 $obj->data = new stdClass();
-$obj->data->cols = array('col1', 'col2', 'col3', 'col4', 'col5', 'col6', 'col7', 'col8', 'col9', 'col10');
+$obj->data->columns = array();
+
+for ($x = 1; $x <= 10; $x++){
+    $col = new stdClass();
+    $col->name = 'col'.$x;
+    $col->type = 'alphanumeric';
+    $obj->data->columns[] = $col;
+}
+
 $obj->data->data = array();
 
 for ($x = 1; $x <= 10; $x++){

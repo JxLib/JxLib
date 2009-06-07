@@ -498,3 +498,14 @@ Element.implement({
         return o.tagName == type ? o : false;
     }
 } );
+
+Array.implement({
+    
+    'swap': function(a,b){
+        var temp;
+        temp = this[a];
+        this[a] = this[b];
+        this[b] = temp;
+    }
+    
+});

@@ -23,12 +23,12 @@ Jx.Store.Remote = new Class({
 		saveUrl: ''
     },
 	
-    _saveCount: 0,
-    _continueSaving: true,
+    saveCount: 0,
+    continueSaving: true,
 	
     initialize: function(options){
         this.parent(options);
-        this.addEvent('newRow',this.onNewRow.bind(this));
+        this.addEvent('newrow',this.onNewRow.bind(this));
     },
 	
     /**
@@ -40,15 +40,15 @@ Jx.Store.Remote = new Class({
      */
     load: function(data){
         if ($defined(data)){
-            this._processData(data);
+            this.processData(data);
         } else if ($defined(this.options.dataUrl)) {
-            this._load();
+            this.remoteLoad();
         }
     },
 	
     /** 
      * Method: refresh
-     * Override of base function <sgd.store#refresh>. Allow refreshing data from the server
+     * Override of base function <Jx.Store#refresh>. Allow refreshing data from the server
      * 
      * Parameters:
      * reset - whether to reset the counter after the refresh
@@ -57,12 +57,12 @@ Jx.Store.Remote = new Class({
         //Call the load function to get the data
         //from the server and reset the counter if requested
         if ($defined(this.options.dataUrl)) {
-            this._load();
+            this.load();
         } else {
             return null;
         }
         if (reset) {
-            this._index = 0;
+            this.index = 0;
         }
 		
     },
@@ -72,18 +72,18 @@ Jx.Store.Remote = new Class({
      * Determines if a row is dirty and needs to be saved to the server.
      */
     save: function(){
-        if ($defined(this._data)) {
+        if ($defined(this.data)) {
             //count how many rows to save
-            this._data.each(function(row,index){
-                if (this._isRowDirty(row)){
-                    this._saveCount++;
+            this.data.each(function(row,index){
+                if (this.isRowDirty(row)){
+                    this.saveCount++;
                 }
             },this);
             //save all dirty rows
-            this._data.each(function(row, index){
-                if (this._isRowDirty(row) && this._continueSaving) {
+            this.data.each(function(row, index){
+                if (this.isRowDirty(row) && this.continueSaving) {
                     row.erase('dirty');
-                    this._save(row);
+                    this.remoteSave(row);
                 }
             },this);
         } else {			
@@ -104,21 +104,21 @@ Jx.Store.Remote = new Class({
     },
 	
     /** 
-     * Method: _save
+     * Method: remoteSave
      * Private function. Actually does the work of sending the row to the server for saving.
      * 
      * Parameters:
      * data - the row to save
      */
-    _save: function(data){
+    remoteSave: function(data){
         //save the data passed in.
-        if ($type(data) === 'hash' && this._continueSaving){
+        if ($type(data) === 'hash' && this.continueSaving){
             // save it
             var req = new Request.JSON({
                 data: JSON.encode(data),
                 url: this.options.saveUrl, 
-                onSuccess: this._processReturn.bind(this),
-                onFailure: this._handleSaveError.bind(this),
+                onSuccess: this.processReturn.bind(this),
+                onFailure: this.handleSaveError.bind(this),
                 method: 'post'
             });
             req.send();
@@ -129,50 +129,50 @@ Jx.Store.Remote = new Class({
     },
 	
     /** 
-     * Method: _load
+     * Method: remoteLoad
      * Private function. Calls the server to get data
      */
-    _load: function(){
+    remoteLoad: function(){
         var req = new Request.JSON({
             url: this.options.dataUrl, 
-            onSuccess: this._processGetReturn.bind(this),
-            onFailure: this._handleLoadError.bind(this),
+            onSuccess: this.processGetReturn.bind(this),
+            onFailure: this.handleLoadError.bind(this),
             method: 'get'
         });
         req.send();
     },
 	
-    _processReturn: function(data,text){
+    processReturn: function(data,text){
         if ($defined(data.success) && data.success === true){
-            this._processSaveReturn(data.data);
+            this.processSaveReturn(data.data);
         } else {
-            this._handleSaveError(data,text);
+            this.handleSaveError(data,text);
         }
     },
     
-    _processGetReturn: function(data,text){
+    processGetReturn: function(data,text){
         if ($defined(data.success) && data.success === true){
-            this._processGetData(data.data);
+            this.processGetData(data.data);
         } else {
-            this._handleLoadError(data,text);
+            this.handleLoadError(data,text);
         }
     },
     /** 
-     * Method: _processSaveReturn
+     * Method: processSaveReturn
      * Private function. Decreases save counter and fires saveSuccess event when all rows are saved
      * 
      * Parameters:
      * data - json data returned from server
      */
-    _processSaveReturn: function(data){
-        this._saveCount--;
-        if (this._saveCount === 0){
+    processSaveReturn: function(data){
+        this.saveCount--;
+        if (this.saveCount === 0){
             this.fireEvent('saveSuccess',this);
         }
     },
 	
     /** 
-     * Method: _handleSaveError
+     * Method: handleSaveError
      * Private function. Handles the case where the server returns an error (no JSON object, usually a 500 or 404 type error)
      * Fires saveError event in this case and sets continue saving to false.
      * 
@@ -180,36 +180,36 @@ Jx.Store.Remote = new Class({
      * data - the data returned from the server
      * text - the text version of the data
      */
-    _handleSaveError: function(data,text){
-        this._continueSaving = false;
+    handleSaveError: function(data,text){
+        this.continueSaving = false;
         this.fireEvent('saveError', [this,data,text]);
     },
 	
     /**
-     * Method: _handleLoadError
+     * Method: handleLoadError
      * Private function. Handles problems with loading data by firing the loadError event.
      * 
      * Parameters:
      * data - the data returned from the server
      * text - the text version of the data
      */
-    _handleLoadError: function(data,text){
+    handleLoadError: function(data,text){
         this.fireEvent('loadError', [this,data]);
     },
 	
     /** 
-     * Method: _processGetData
+     * Method: processGetData
      * Private function. Used to process data retrieved from the server
      * 
      * Parameters:
      * data - the data returned from the server
      * text - the text version of the data
      */
-    _processGetData: function(data){
-        if ($defined(data.cols)) {
-            this.options.cols = data.cols;
+    processGetData: function(data){
+        if ($defined(data.columns)) {
+            this.options.columns = data.columns;
         }
-        this._processData(data.data);
+        this.processData(data.data);
     }
 	
 });
