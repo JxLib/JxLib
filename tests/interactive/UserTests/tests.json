@@ -9,5 +9,8 @@
     },
     "Data": {
         "remote": ["all"]
+    },
+    "Grid": {
+        "grid": ["basic","headers"]
     }
 }

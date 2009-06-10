@@ -26,7 +26,7 @@
     	"desc": "This group contains components needed to utilize the data store and it's subclasses.",
     	
     	"store": {
-    		"deps" : ["object"],
+    		"deps" : ["object","sort"],
     		"desc" : ""
     	},
     	
@@ -42,7 +42,7 @@
     	
     	"sort": {
     		"deps": ["object","compare"],
-    		"desc": ""
+    		"desc": "Base class for the sort algorithm implementations"
     	},
     	
     	"mergesort": {
@@ -135,13 +135,29 @@
         "desc": "This group contains components related to the Grid control.",
         
         "grid": {
-            "deps": ["layout"],
+            "deps": ["widget", "layout","columns","row","plugin","store"],
+            "opt": ["store"],
             "desc": "A tabular control that has fixed scrolling headers on the rows and columns like a spreadsheet."
         },
 
-        "model": {
-            "deps": ["grid"],
-            "desc": "A Jx.Grid.Model is the source of data for a Jx.Grid instance."
+        "columns": {
+            "deps": ["object","column"],
+            "desc": ""
+        },
+        
+        "column": {
+            "deps": ["object"],
+            "desc": ""
+        },
+        
+        "row": {
+            "deps": ["object"],
+            "desc": ""
+        },
+        
+        "plugin": {
+            "deps": ["object"],
+            "desc": ""
         }
 
     },

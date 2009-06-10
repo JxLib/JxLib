@@ -30,81 +30,75 @@
  * This file is licensed under an MIT style license
  */
 Jx.Grid = new Class({
+
     Family: 'Jx.Grid',
     Extends: Jx.Widget,
-    domObj : null,
-    model : null,
-    options: {
-         /* Option: parent
-          * the HTML element to create the grid inside. The grid will resize
-          * to fill the domObj.
-          */
-         parent: null,
-         /* Option: alternateRowColors
-          * defaults to false.  If set to true, then alternating CSS classes
-          * are used for rows.
-          */
-        alternateRowColors: false,
-         /* Option: rowHeaders
-          * defaults to false.  If set to true, then a column of row header
-          * cells are displayed.
-          */
-        rowHeaders: false,
-         /* Option: columnHeaders
-          * defaults to false.  If set to true, then a column of row header
-          * cells are displayed.
-          */
-        columnHeaders: false,
-         /* Option: rowSelection
-          * defaults to false.  If set to true, allow the user to select rows.
-          */
-        rowSelection: false,
-         /* Option: columnSelection
-          * defaults to false.  If set to true, allow the user to select
-          * columns.
-          */
-        columnSelection: false,
-         /* Option: cellPrelight
-          * defaults to false.  If set to true, the cell under the mouse is
-          * highlighted as the mouse moves.
-          */
-        cellPrelight: false,
-         /* Option: rowPrelight
-          * defaults to false.  If set to true, the row under the mouse is
-          * highlighted as the mouse moves.
-          */
-        rowPrelight: false,
-         /* Option: columnPrelight
-          * defaults to false.  If set to true, the column under the mouse is
-          * highlighted as the mouse moves.
-          */
-        columnPrelight: false,
-        /* Option: rowHeaderPrelight
-         * defaults to false.  If set to true, the row header of the row under
-         * the mouse is highlighted as the mouse moves.
-         */
-        rowHeaderPrelight: false,
-        /* Option: columnHeaderPrelight
-         * defaults to false.  If set to true, the column header of the column
-         * under the mouse is highlighted as the mouse moves.
-         */
-        columnHeaderPrelight: false,
-         /* Option: cellSelection
-          * defaults to false.  If set to true, allow the user to select
-          * cells.
-          */
-        cellSelection: false
-    },
-    /**
-     * Constructor: Jx.Grid
-     * construct a new instance of Jx.Grid within the domObj
-     *
-     * Parameters:
-     * options - <Jx.Grid.Options>
-     */
-    initialize : function( options ) {
-        this.setOptions(options);
 
+    options: {
+        /* Option: parent
+         * the HTML element to create the grid inside. The grid will resize
+         * to fill the domObj.
+         */
+        parent: null,
+        
+        /* Options: columns
+         * an object consisting of a columns array that defines the individuals
+         * columns as well as containing any options for Jx.Grid.Columns or 
+         * a Jx.Grid.Columns object itself.
+         */
+        columns: {
+            columns: []
+        },
+        
+        /* Option: row
+         * Either a Jx.Grid.Row object or a json object defining options for
+         * the class
+         */
+        row: null,
+        
+        /* Option: plugins
+         * an array containing Jx.Grid.Plugin subclasses or a key:value pair 
+         * that indicates the name of a predefined plugin and it's options.
+         */
+        plugins: [],
+        
+        model: null
+
+    },
+    
+    model: null,
+    columns: null,
+    row: null,
+    plugins: new Hash(),
+    currentCell: null,
+    
+    initialize: function(options){
+        this.parent(options);
+        
+        if ($defined(this.options.model) && this.options.model instanceof Jx.Store) {
+            this.model = this.options.model;
+        }
+        
+        if ($defined(this.options.columns)){
+            if (this.options.columns instanceof Jx.Columns){
+                this.columns = this.options.columns;
+            } else if ($type(this.options.columns) === 'object') {
+                this.columns = new Jx.Columns(this.options.columns, this);
+            }
+        }
+        
+        //check for row
+        if ($defined(this.options.row)) {
+            if (this.options.row instanceof Jx.Row) {
+                this.row = this.options.row;
+            } else if ($type(this.options.row) === "object"){
+                this.row = new Jx.Row(this.options.row,this);
+            }
+        } else {
+            this.row = new Jx.Row({},this);
+        }
+        
+        //initialize the grid
         this.domObj = new Element('div');
         new Jx.Layout(this.domObj, {
             onSizeChange: this.resize.bind(this)
@@ -114,22 +108,26 @@ Jx.Grid = new Class({
             this.addTo(this.options.parent);
         }        
         
+        //top left corner
         this.rowColObj = new Element('div', {'class':'jxGridContainer'});
         
+        //holds the column headers
         this.colObj = new Element('div', {'class':'jxGridContainer'});
         this.colTable = new Element('table', {'class':'jxGridTable'});
-        this.colTableHead = new Element('thead');
-        this.colTable.appendChild(this.colTableHead);
+        //this.colTableHead = new Element('thead');
+        //this.colTable.appendChild(this.colTableHead);
         this.colTableBody = new Element('tbody');
         this.colTable.appendChild(this.colTableBody);
         this.colObj.appendChild(this.colTable);
-        
+    
+        //hold the row headers
         this.rowObj = new Element('div', {'class':'jxGridContainer'});
         this.rowTable = new Element('table', {'class':'jxGridTable'});
         this.rowTableHead = new Element('thead');
         this.rowTable.appendChild(this.rowTableHead);
         this.rowObj.appendChild(this.rowTable);
-        
+    
+        //The actual body of the grid
         this.gridObj = new Element('div', {'class':'jxGridContainer',styles:{overflow:'scroll'}});
         this.gridTable = new Element('table', {'class':'jxGridTable'});
         this.gridTableBody = new Element('tbody');
@@ -142,12 +140,26 @@ Jx.Grid = new Class({
         this.domObj.appendChild(this.gridObj);
                         
         this.gridObj.addEvent('scroll', this.onScroll.bind(this));
-        this.gridObj.addEvent('click', this.onClickGrid.bindWithEvent(this));
-        this.rowObj.addEvent('click', this.onClickRowHeader.bindWithEvent(this));
-        this.colObj.addEvent('click', this.onClickColumnHeader.bindWithEvent(this));
-        this.gridObj.addEvent('mousemove', this.onMouseMoveGrid.bindWithEvent(this));
-        this.rowObj.addEvent('mousemove', this.onMouseMoveRowHeader.bindWithEvent(this));
-        this.colObj.addEvent('mousemove', this.onMouseMoveColumnHeader.bindWithEvent(this));
+        this.gridObj.addEvent('click', this.onGridClick.bindWithEvent(this));
+        this.rowObj.addEvent('click', this.onGridClick.bindWithEvent(this));
+        this.colObj.addEvent('click', this.onGridClick.bindWithEvent(this));
+        this.gridObj.addEvent('mousemove', this.onMouseMove.bindWithEvent(this));
+        this.rowObj.addEvent('mousemove', this.onMouseMove.bindWithEvent(this));
+        this.colObj.addEvent('mousemove', this.onMouseMove.bindWithEvent(this));
+        
+        //initialize the plugins
+        if ($defined(this.options.plugins) && $type(this.options.plugins)==='Array'){
+            this.options.plugins.each(function(plugin){
+                if (plugin instanceof Jx.Plugin) {
+                    plugin.init(this);
+                    this.plugins.set(plugin.name,plugin);
+                } else if ($type(plugin) === 'object') {
+                   var p = new Jx.Plugin[plugin.name](plugin.options);
+                   p.init(this);
+                   this.plugins.set(p.name,p);
+                }
+            },this);
+        }
     },
     
     /**
@@ -157,6 +169,101 @@ Jx.Grid = new Class({
     onScroll: function() {
         this.colObj.scrollLeft = this.gridObj.scrollLeft;
         this.rowObj.scrollTop = this.gridObj.scrollTop;        
+    },
+    
+    /**
+     * Method: onMouseMove
+     * Handle the mouse moving over the grid. This determines
+     * what column and row it's over and fires the gridMove event 
+     * with that information for plugins to respond to.
+     *
+     * Parameters:
+     * e - {Event} the browser event object
+     */
+    onMouseMove: function(e) {
+        var rc = this.getRowColumnFromEvent(e);
+        if (!$defined(this.currentCell) || (this.currentCell.row !== rc.row || this.currentCell.column !== rc.column)){
+            this.currentCell = rc;
+            this.fireEvent('gridMove',rc);
+        }
+        
+    },
+    /**
+     * Method: onGridClick
+     * handle the user clicking on the grid. Fires gridClick
+     * event for plugins to respond to.
+     *
+     * Parameters:
+     * e - {Event} the browser event object
+     */
+    onGridClick: function(e) {
+        var rc = this.getRowColumnFromEvent(e);
+        this.fireEvent('gridClick',rc);
+    },
+    
+    /**
+     * Method: getRowColumnFromEvent
+     * retrieve the row and column indexes from an event click.
+     * This function is used by the grid, row header and column
+     * header to safely get these numbers.
+     *
+     * If the event isn't valid (i.e. it wasn't on a TD or TH) then
+     * the returned values will be -1, -1
+     *
+     * Parameters:
+     * e - {Event} the browser event object
+     *
+     * @return Object an object with two properties, row and column,
+     *         that contain the row and column that was clicked
+     */
+    getRowColumnFromEvent: function(e) {
+        var td = e.target;
+        if (td.tagName != 'TD' && td.tagName != 'TH') {
+            return {row:-1,column:-1};
+        }
+        
+        var colheader = false;
+        var rowheader = false;
+        //check if this is a header (row or column)
+        if (td.descendantOf(this.colTable)){
+            colheader = true;
+        }
+        
+        if (td.descendantOf(this.rowTable)){
+            rowheader = true;
+        }
+        
+        var tr = td.parentNode;
+        var col = td.cellIndex; 
+        var row = tr.rowIndex;
+        /*
+         * if this is not a header cell, then increment the row and col. We do this
+         * based on whether the header is shown. This way the row/col remains consistent
+         * to the grid but also takes into account the headers. It also allows
+         * us to refrain from having to fire a separate event for headers.
+         * 
+         *  Plugins/event listeners should always take into account whether headers
+         *  are displayed or not.
+         */ 
+        if (this.row.useHeaders() && !rowheader){
+            col++;
+        }
+        if (this.columns.useHeaders() && !colheader){
+            row++;
+        }
+        
+        if (Browser.Engine.webkit) { 
+            /* bug in safari (webkit) returns 0 for cellIndex - only choice seems
+             * to be to loop through the row
+             */
+            for (var i=0; i<tr.childNodes.length; i++) {
+                if (tr.childNodes[i] == td) {
+                    col = i;
+                    break;
+                }
+            }
+        }
+        return {row:row,column:col};
     },
     
     /**
@@ -173,10 +280,10 @@ Jx.Grid = new Class({
         /* TODO: Jx.Grid.resize
          * if not showing column or row, should we handle the resize differently
          */
-        var colHeight = this.options.columnHeaders ? this.model.getColumnHeaderHeight() : 1;
-        var rowWidth = this.options.rowHeaders ? this.model.getRowHeaderWidth() : 1;
+        var colHeight = this.columns.useHeaders() ? this.columns.getHeaderHeight() : 1;
+        var rowWidth = this.row.useHeaders() ? this.row.getRowHeaderWidth() : 1;
         
-        var size = Element.getContentBoxSize(this.domObj);
+        var size = this.domObj.getContentBoxSize();
         
         /* -1 because of the right/bottom borders */
         this.rowColObj.setStyles({
@@ -208,7 +315,8 @@ Jx.Grid = new Class({
     /**
      * Method: setModel
      * set the model for the grid to display.  If a model is attached to the grid
-     * it is removed and the new model is displayed.
+     * it is removed and the new model is displayed. However, It needs to have 
+     * the same columns
      * 
      * Parameters:
      * model - {Object} the model to use for this grid
@@ -226,14 +334,15 @@ Jx.Grid = new Class({
         }
     },
     
+    getModel: function(){
+        return this.model;
+    },
+    
     /**
      * Method: destroyGrid
      * destroy the contents of the grid safely
      */
     destroyGrid: function() {
-        var n = this.colTableHead.cloneNode(false);
-        this.colTable.replaceChild(n, this.colTableHead);
-        this.colTableHead = n;
         
         n = this.colTableBody.cloneNode(false);
         this.colTable.replaceChild(n, this.colTableBody);
@@ -250,627 +359,90 @@ Jx.Grid = new Class({
     },
     
     /**
-     * Method: createGrid
-     * create the grid for the current model
+     * Method: render
+     * Create the grid for the current model
      */
-    createGrid: function() {
+    render: function() {
         this.destroyGrid();
+        
+        this.fireEvent('beginCreateGrid',this);
+        
         if (this.model) {
             var model = this.model;
-            var nColumns = model.getColumnCount();
-            var nRows = model.getRowCount();
+            var nColumns = this.columns.getColumnCount();
+            var nRows = model.count();
             
             /* create header if necessary */
-            if (this.options.columnHeaders) {
-                var colHeight = model.getColumnHeaderHeight();
-                var trHead = new Element('tr');
-                this.colTableHead.appendChild(trHead);
-                var trBody = new Element('tr');
+            if (this.columns.useHeaders()) {
+                this.colTableBody.setStyle('visibility','visible');
+                var colHeight = this.columns.getHeaderHeight();
+                var trBody = new Element('tr',{styles:{height:colHeight}});
                 this.colTableBody.appendChild(trBody);
                 
-                var th = new Element('th', {styles:{width:0,height:0}});
-                trHead.appendChild(th);
-                th = th.cloneNode(true);
-                th.setStyle('height',colHeight);
-                trBody.appendChild(th);
-                for (var i=0; i<nColumns; i++) {
-                    var colWidth = model.getColumnWidth(i);
-                    th = new Element('th', {'class':'jxGridColHeadHide',styles:{width:colWidth}});
-                    var p = new Element('p', {styles:{height:0,width:colWidth}});
-                    th.appendChild(p);
-                    trHead.appendChild(th);
-                    th = new Element('th', {
-                        'class':'jxGridColHead', 
-                        html:model.getColumnHeaderHTML(i)
-                    });
-                    trBody.appendChild(th);
-                }
+                this.columns.getHeaders(trBody);
+                
                 /* one extra column at the end for filler */
-                var th = new Element('th',{styles:{width:1000,height:0}});
-                trHead.appendChild(th);
-                th = th.cloneNode(true);
-                th.setStyle('height',colHeight - 1);
-                th.className = 'jxGridColHead';
+                var th = new Element('th',{styles:{width:1000,height:colHeight - 1}});
+                th.addClass('jxGridColHead');
                 trBody.appendChild(th);
                 
+            } else {
+                //hide the headers
+                this.colTableBody.setStyle('visibility','hidden');
             }
             
-            if (this.options.rowHeaders) {
-                var rowWidth = model.getRowHeaderWidth();
-                var tr = new Element('tr');
-                var td = new Element('td', {styles:{width:0,height:0}});
-                tr.appendChild(td);
-                var th = new Element('th', {styles:{width:rowWidth,height:0}});
-                tr.appendChild(th);
-                this.rowTableHead.appendChild(tr);
-                for (var i=0; i<nRows; i++) {
-                    var rowHeight = model.getRowHeight(i);
-                    var tr = new Element('tr');
-                    var td = new Element('td', {'class':'jxGridRowHeadHide', styles:{width:0,height:rowHeight}});
-                    var p = new Element('p', {styles:{width:0,height:rowHeight}});
-                    td.appendChild(p);
-                    tr.appendChild(td);
-                    var th = new Element('th', {'class':'jxGridRowHead', html:model.getRowHeaderHTML(i)});
-                    tr.appendChild(th);
+            if (this.row.useHeaders()) {
+                this.rowTableHead.setStyle('visibility','visible');
+                
+                //loop through all rows and add header
+                this.model.first();
+                while (this.model.valid()){
+                    tr = this.row.getRowHeader();
                     this.rowTableHead.appendChild(tr);
+                    if (this.model.hasNext()) { 
+                        this.model.next();
+                    } else {
+                        break;
+                    }
                 }
                 /* one extra row at the end for filler */
                 var tr = new Element('tr');
-                var td = new Element('td',{
-                    styles:{
-                        width:0,
-                        height:1000
-                    }
-                });
-                tr.appendChild(td);
                 var th = new Element('th',{
                     'class':'jxGridRowHead',
                     styles:{
-                        width:rowWidth,
+                        width:this.row.getRowHeaderWidth(),
                         height:1000
                     }
                 });
                 tr.appendChild(th);
-                this.rowTableHead.appendChild(tr);
+                this.rowTableHead.appendChild(tr);   
+            } else {
+                //hide row headers
+                this.rowTableHead.setStyle('visibility','hidden');
             }
             
-            var colHeight = model.getColumnHeaderHeight();
-            var trBody = new Element('tr');
-            this.gridTableBody.appendChild(trBody);
-            
-            var td = new Element('td', {styles:{width:0,height:0}});
-            trBody.appendChild(td);
-            for (var i=0; i<nColumns; i++) {
-                var colWidth = model.getColumnWidth(i);
-                td = new Element('td', {'class':'jxGridColHeadHide', styles:{width:colWidth}});
-                var p = new Element('p', {styles:{width:colWidth,height:0}});
-                td.appendChild(p);
-                trBody.appendChild(td);
-            }
-            
-            for (var j=0; j<nRows; j++) {
-                var rowHeight = model.getRowHeight(j);
-                var actualRowHeight = rowHeight;
-                var tr = new Element('tr');
+            var colHeight = this.columns.getHeaderHeight();
+           
+            //This section actually adds the rows
+            this.model.first();
+            while (this.model.valid()) {
+                tr = this.row.getGridRowElement();
                 this.gridTableBody.appendChild(tr);
                 
-                var td = new Element('td', {
-                    'class':'jxGridRowHeadHide',
-                    styles: {
-                        width: 0,
-                        height:rowHeight
-                    }
-                });
-                var p = new Element('p',{styles:{height:rowHeight}});
-                td.appendChild(p);
-                tr.appendChild(td);
-                for (var i=0; i<nColumns; i++) {
-                    var colWidth = model.getColumnWidth(i);
-                    td = new Element('td', {'class':'jxGridCell'});
-                    td.innerHTML = model.getValueAt(j,i);
-                    tr.appendChild(td);
-                    var tdSize = td.getSize();
-                    if (tdSize.height > actualRowHeight) {
-                        actualRowHeight = tdSize.height;
-                    }
-                }
-                /* some notes about row sizing
-                 * In Safari, the height of a TR is always returned as 0
-                 * In Safari, the height of any given TD is the height it would
-                 * render at, not the actual height of the row
-                 * In IE, the height is returned 1px bigger than any other browser
-                 * Firefox just works
-                 *
-                 * So, for Safari, we have to measure every TD and take the highest one
-                 * and if its IE, we subtract 1 from the overall height, making all
-                 * browsers identical
-                 *
-                 * Using document.all is not a good hack for this
-                 */
-                if (document.all) {
-                    actualRowHeight -= 1;
-                }
-                if (this.options.rowHeaders) {
-                    this.setRowHeaderHeight(j, actualRowHeight);                    
-                }
-                /* if we apply the class before adding content, it
-                 * causes a rendering error in IE (off by 1) that is 'fixed'
-                 * when another class is applied to the row, causing dynamic
-                 * shifting of the row heights
-                 */
-                if (this.options.alternateRowColors) {
-                    tr.className = (j%2) ? 'jxGridRowOdd' : 'jxGridRowEven';
+                //Actually add the columns 
+                this.columns.getColumnCells(tr);
+                
+                if (this.model.hasNext()){
+                    this.model.next();
                 } else {
-                    tr.className = 'jxGridRowAll';
+                    break;
                 }
+               
             }
             
         }
-    },
-    
-    /**
-     * Method: setRowHeaderHeight
-     * set the height of a row.  This is used internally to adjust the height of
-     * the row header when cell contents wrap.  A limitation of the table structure
-     * is that overflow: hidden on a td will work horizontally but not vertically
-     *
-     * Parameters:
-     * row - {Integer} the row to set the height for
-     * height - {Integer} the height to set the row (in pixels)
-     */
-    setRowHeaderHeight: function(row, height) {
-        //this.rowTableHead.childNodes[row+1].childNodes[0].style.height = (height) + 'px';
-        this.rowTableHead.childNodes[row+1].childNodes[0].childNodes[0].style.height = (height) + 'px';
-    },
-    
-    /**
-     * Method: gridChanged
-     * called through the grid listener interface when data has changed in the
-     * underlying model
-     *
-     * Parameters:
-     * model - {Object} the model that changed
-     * row - {Integer} the row that changed
-     * col - {Integer} the column that changed
-     * value - {Mixed} the new value
-     */
-    gridChanged: function(model, row, col, value) {
-        if (this.model == model) {
-            this.gridObj.childNodes[row].childNodes[col].innerHTML = value;
-        }
-    },
-    
-    /** 
-     * Method: prelightRowHeader
-     * apply the jxGridRowHeaderPrelight style to the header cell of a row.
-     * This removes the style from the previously pre-lit row header.
-     * 
-     * Parameters:
-     * row - {Integer} the row to pre-light the header cell of
-     */
-    prelightRowHeader: function(row) {
-        var cell = (row >= 0 && row < this.rowTableHead.rows.length-1) ? this.rowTableHead.rows[row+1].cells[1] : null;
-        if (this.prelitRowHeader != cell) {
-            if (this.prelitRowHeader) {
-                this.prelitRowHeader.removeClass('jxGridRowHeaderPrelight');
-            }
-            this.prelitRowHeader = cell;
-            if (this.prelitRowHeader) {
-                this.prelitRowHeader.addClass('jxGridRowHeaderPrelight');
-            }
-        }
-    },
-    
-    /** 
-     * Method: prelightColumnHeader
-     * apply the jxGridColumnHeaderPrelight style to the header cell of a column.
-     * This removes the style from the previously pre-lit column header.
-     * 
-     * Parameters:
-     * col - {Integer} the column to pre-light the header cell of
-     */
-    prelightColumnHeader: function(col) {
-        if (this.colTableBody.rows.length == 0) {
-            return;
-        }
-        var cell = (col >= 0 && col < this.colTableBody.rows[0].cells.length-1) ? this.colTableBody.rows[0].cells[col+1] : null;
-        if (this.prelitColumnHeader != cell) {
-            if (this.prelitColumnHeader) {
-                this.prelitColumnHeader.removeClass('jxGridColumnHeaderPrelight');
-            }
-            this.prelitColumnHeader = cell;
-            if (this.prelitColumnHeader) {
-                this.prelitColumnHeader.addClass('jxGridColumnHeaderPrelight');
-            }
-        }
-    },
-    
-    /** 
-     * Method: prelightRow
-     * apply the jxGridRowPrelight style to row.
-     * This removes the style from the previously pre-lit row.
-     * 
-     * Parameters:
-     * row - {Integer} the row to pre-light
-     */
-    prelightRow: function(row) {
-        var tr = (row >= 0 && row < this.gridTableBody.rows.length-1) ? this.gridTableBody.rows[row+1] : null;
-        
-        if (this.prelitRow != row) {
-            if (this.prelitRow) {
-                this.prelitRow.removeClass('jxGridRowPrelight');
-            }
-            this.prelitRow = tr;
-            if (this.prelitRow) {
-                this.prelightRowHeader(row);
-                this.prelitRow.addClass('jxGridRowPrelight');
-            }
-        }
-    },
-    
-    /** 
-     * Method: prelightColumn
-     * apply the jxGridColumnPrelight style to a column.
-     * This removes the style from the previously pre-lit column.
-     * 
-     * Parameters:
-     * col - {Integer} the column to pre-light
-     *
-     * TODO: Jx.Grid.prelightColumn
-     * Not Yet Implemented.
-     */
-    prelightColumn: function(col) {
-        /* TODO: Jx.Grid.prelightColumn
-         * implement column prelighting (possibly) 
-         */
-        if (col >= 0 && col < this.gridTable.rows[0].cells.length) {
-            if ($chk(this.prelitColumn)) {
-                for (var i=0; i<this.gridTable.rows.length; i++) {
-                    this.gridTable.rows[i].cells[this.prelitColumn + 1].removeClass('jxGridColumnPrelight');
-                }
-            }
-            this.prelitColumn = col;
-            for (var i=0; i<this.gridTable.rows.length; i++) {
-                this.gridTable.rows[i].cells[col + 1].addClass('jxGridColumnPrelight');
-            }            
-        }
-        
-        this.prelightColumnHeader(col);
-    },
-    
-    /** 
-     * Method: prelightCell
-     * apply the jxGridCellPrelight style to a cell.
-     * This removes the style from the previously pre-lit cell.
-     *
-     * Parameters:
-     * row - {Integer} the row of the cell to pre-light
-     * col - {Integer} the column of the cell to pre-light
-     */
-    prelightCell: function(row, col) {
-         var td = (row >=0 && col >=0 && row < this.gridTableBody.rows.length - 1 && col < this.gridTableBody.rows[row+1].cells.length - 1) ? this.gridTableBody.rows[row+1].cells[col+1] : null;
-        if (this.prelitCell != td) {
-            if (this.prelitCell) {
-                this.prelitCell.removeClass('jxGridCellPrelight');
-            }
-            this.prelitCell = td;
-            if (this.prelitCell) {
-                this.prelitCell.addClass('jxGridCellPrelight');
-            }
-        }    
-    },
-    
-    /** 
-     * Method: selectCell
-     * Select a cell and apply the jxGridCellSelected style to it.
-     * This deselects a previously selected cell.
-     *
-     * If the model supports cell selection, it should implement
-     * a cellSelected function to receive notification of the selection.
-     *
-     * Parameters:
-     * row - {Integer} the row of the cell to select
-     * col - {Integer} the column of the cell to select
-     */
-    selectCell: function(row, col) {
-         var td = (row >=0 && col >=0 && row < this.gridTableBody.rows.length - 1 && col < this.gridTableBody.rows[row+1].cells.length - 1) ? this.gridTableBody.rows[row+1].cells[col+1] : null;
-         if (!td) {
-             return;
-         }
-         
-         if (this.selectedCell) {
-             this.selectedCell.removeClass('jxGridCellSelected');
-         }
-         this.selectedCell = td;
-         this.selectedCell.addClass('jxGridCellSelected');
-    },
-    
-    /** 
-     * Method: selectRowHeader
-     * Apply the jxGridRowHeaderSelected style to the row header cell of a
-     * selected row.
-     *
-     * Parameters:
-     * row - {Integer} the row header to select
-     * selected - {Boolean} the new state of the row header
-     */
-    selectRowHeader: function(row, selected) {
-        var cell = (row >= 0 && row < this.rowTableHead.rows.length-1) ? this.rowTableHead.rows[row+1].cells[1] : null;
-        if (!cell) {
-            return;
-        }
-        if (selected) {
-            cell.addClass('jxGridRowHeaderSelected');
-        } else {
-            cell.removeClass('jxGridRowHeaderSelected');
-        }
-    },
-    
-    /** 
-     * Method: selectRow
-     * Select a row and apply the jxGridRowSelected style to it.
-     *
-     * If the model supports row selection, it should implement
-     * a rowSelected function to receive notification of the selection.
-     *
-     * Parameters:
-     * row - {Integer} the row to select
-     * selected - {Boolean} the new state of the row
-     */
-    selectRow: function(row, selected) {
-        var tr = (row >= 0 && row < this.gridTableBody.rows.length - 1) ? this.gridTableBody.rows[row+1] : null;
-        if (tr) {
-            if (selected) {
-                tr.addClass('jxGridRowSelected');
-            } else {
-                tr.removeClass('jxGridRowSelected');
-            }
-            this.selectRowHeader(row, selected);
-        }
-    },
-    
-    /** 
-     * method: selectColumnHeader
-     * Apply the jxGridColumnHeaderSelected style to the column header cell of a
-     * selected column.
-     *
-     * Parameters:
-     * col - {Integer} the column header to select
-     * selected - {Boolean} the new state of the column header
-     */
-    selectColumnHeader: function(col, selected) {
-        if (this.colTableBody.rows.length == 0) {
-            return;
-        }
-        var cell = (col >= 0 && col < this.colTableBody.rows[0].cells.length-1) ? this.colTableBody.rows[0].cells[col+1] : null;
-        if (cell == null) { 
-            return; 
-        }
-        
-        if (selected) {
-            cell.addClass('jxGridColumnHeaderSelected');
-        } else {
-            cell.removeClass('jxGridColumnHeaderSelected');
-        }
-    },
-    
-    /** 
-     * Method: selectColumn
-     * Select a column.
-     * This deselects a previously selected column.
-     *
-     * Parameters:
-     * col - {Integer} the column to select
-     * selected - {Boolean} the new state of the column
-     */
-    selectColumn: function(col, selected) {
-        /* todo: implement column selection */
-        if (col >= 0 && col < this.gridTable.rows[0].cells.length) {
-            if (selected) {
-                for (var i=0; i<this.gridTable.rows.length; i++) {
-                    this.gridTable.rows[i].cells[col + 1].addClass('jxGridColumnSelected');
-                }
-            } else {
-                for (var i=0; i<this.gridTable.rows.length; i++) {
-                    this.gridTable.rows[i].cells[col + 1].removeClass('jxGridColumnSelected');
-                }   
-            }
-            this.selectColumnHeader(col, selected);
-        }
-    },
-    
-    /**
-     * Method: onMouseMoveGrid
-     * handle the mouse moving over the main grid.  This pre-lights the cell,
-     * and subsquently the row and column (and headers).
-     *
-     * Parameters:
-     * e - {Event} the browser event object
-     */
-    onMouseMoveGrid: function(e) {
-        var rc = this.getRowColumnFromEvent(e);
-        if (this.options.cellPrelight) {
-            this.prelightCell(rc.row, rc.column);            
-        }
-        if (this.options.rowPrelight) {
-            this.prelightRow(rc.row);            
-        }
-        if (this.options.rowHeaderPrelight) {
-            this.prelightRowHeader(rc.row);            
-        }
-        if (this.options.columnPrelight) {
-            this.prelightColumn(rc.column);
-        }        
-        if (this.options.columnHeaderPrelight) {
-            this.prelightColumnHeader(rc.column);
-        }        
-    },
-    
-    /**
-     * Method: onMouseMoveRowHeader
-     * handle the mouse moving over the row header cells.  This pre-lights
-     * the row and subsequently the row header.
-     *
-     * Parameters:
-     * e - {Event} the browser event object
-     */
-    onMouseMoveRowHeader: function(e) {
-        if (this.options.rowPrelight) {
-            var rc = this.getRowColumnFromEvent(e);
-            this.prelightRow(rc.row);            
-        }
-    },
-
-    /**
-     * Method: onMouseMoveColumnHeader
-     * handle the mouse moving over the column header cells.  This pre-lights
-     * the column and subsequently the column header.
-     *
-     * Parameters:
-     * e - {Event} the browser event object
-     */
-    onMouseMoveColumnHeader: function(e) {
-        if (this.options.columnPrelight) {
-            var rc = this.getRowColumnFromEvent(e);
-            this.prelightColumn(rc.column);
-        }
-    },
-    
-    /**
-     * Method: onClickGrid
-     * handle the user clicking on the grid.  This triggers an
-     * event to the model (if a cellSelected function is provided).
-     *
-     * The following is an example of a function in the model that selects
-     * a row when the cellSelected function is called and deselects any rows
-     * that are currently selected.
-     *
-     * (code)
-     * cellSelected: function(grid, row,col) { 
-     *    if (this.selectedRow != null) {
-     *        grid.selectRow(this.selectedRow, false);
-     *    }
-     *    this.selectedRow = row;
-     *    grid.selectRow(row, true);
-     * }
-     *
-     * Parameters:
-     * e - {Event} the browser event object
-     */
-    onClickGrid: function(e) {
-        var rc = this.getRowColumnFromEvent(e);
-        
-        if (this.options.cellSelection && this.model.cellSelected) {
-            this.model.cellSelected(this, rc.row, rc.column);
-        }
-        if (this.options.rowSelection && this.model.rowSelected) {
-            this.model.rowSelected(this, rc.row);
-        }
-        if (this.options.columnSelection && this.model.columnSelected) {
-            this.model.columnSelected(this, rc.column);
-        }
-        
-    },
-    
-    /**
-     * Method: onClickRowHeader
-     * handle the user clicking on the row header.  This triggers an
-     * event to the model (if a rowSelected function is provided) which
-     * can then select the row if desired.  
-     *
-     * The following is an example of a function in the model that selects
-     * a row when the rowSelected function is called and deselects any rows
-     * that are currently selected.  More complex code could be written to 
-     * allow the user to select multiple rows.
-     *
-     * (code)
-     * rowSelected: function(grid, row) {
-     *    if (this.selectedRow != null) {
-     *        grid.selectRow(this.selectedRow, false);
-     *    }
-     *    this.selectedRow = row;
-     *    grid.selectRow(row, true);
-     * }
-     * (end)
-     *
-     * Parameters:
-     * e - {Event} the browser event object
-     */
-    onClickRowHeader: function(e) {
-        var rc = this.getRowColumnFromEvent(e);
-        
-        if (this.options.rowSelection && this.model.rowSelected) {
-            this.model.rowSelected(this, rc.row);
-        }
-    },
-    
-    /**
-     * Method: onClickColumnHeader
-     * handle the user clicking on the column header.  This triggers column
-     * selection and column (and header) styling changes and an
-     * event to the model (if a columnSelected function is provided)
-     *
-     * The following is an example of a function in the model that selects
-     * a column when the columnSelected function is called and deselects any 
-     * columns that are currently selected.  More complex code could be written
-     * to allow the user to select multiple columns.
-     *
-     * (code)
-     * colSelected: function(grid, col) {
-     *    if (this.selectedColumn != null) {
-     *        grid.selectColumn(this.selectedColumn, false);
-     *    }
-     *    this.selectedColumn = col;
-     *    grid.selectColumn(col, true);
-     * }
-     * (end)
-     *
-     * Parameters:
-     * e - {Event} the browser event object
-     */
-    onClickColumnHeader: function(e) {
-        var rc = this.getRowColumnFromEvent(e);
-        
-        if (this.options.columnSelection && this.model.columnSelected) {
-            this.model.columnSelected(this, rc.column);
-        }
-    },
-    
-    /**
-     * method: getRowColumnFromEvent
-     * retrieve the row and column indexes from an event click.
-     * This function is used by the grid, row header and column
-     * header to safely get these numbers.
-     *
-     * If the event isn't valid (i.e. it wasn't on a TD or TH) then
-     * the returned values will be -1, -1
-     *
-     * Parameters:
-     * e - {Event} the browser event object
-     *
-     * @return Object an object with two properties, row and column,
-     *         that contain the row and column that was clicked
-     */
-    getRowColumnFromEvent: function(e) {
-        var td = e.target;
-        if (td.tagName != 'TD' && td.tagName != 'TH') {
-            return {row:-1,column:-1};
-        }
-        var tr = td.parentNode;
-        var col = td.cellIndex - 1; /* because of hidden spacer column */
-        var row = tr.rowIndex - 1; /* because of hidden spacer row */
-        
-        if (col == -1) { 
-            /* bug in safari returns 0 for cellIndex - only choice seems
-             * to be to loop through the row
-             */
-            for (var i=0; i<tr.childNodes.length; i++) {
-                if (tr.childNodes[i] == td) {
-                    col = i - 1;
-                    break;
-                }
-            }
-        }
-        return {row:row,column:col};
+        this.domObj.resize();
+        this.fireEvent('doneCreateGrid',this);
     }
+    
 });
