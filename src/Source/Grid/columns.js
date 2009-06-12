@@ -80,10 +80,11 @@ Jx.Columns = new Class({
                 //do nothing
             } else if (!col.isHidden()) {
                 th = new Element('th', {
-                    'class':'jxGridColHead', 
-                    html: col.getHeaderHTML()
+                    'class':'jxGridColHead'
                 });
+                th.adopt(col.getHeaderHTML());
                 th.setStyle('width',col.getWidth());
+                th.addClass('jxColHead-'+col.options.modelField);
                 row.appendChild(th);
             }
         },this);
@@ -107,7 +108,8 @@ Jx.Columns = new Class({
     getColumnCell: function(col,row){
        
         td = new Element('td', {'class':'jxGridCell'});
-        td.innerHTML = col.getHTML();
+        td.adopt(col.getHTML());
+        td.addClass('jxCol-'+col.options.modelField);
         row.appendChild(td); 
         if (this.grid.model.getPosition() == 0){
             var colWidth = col.getWidth();

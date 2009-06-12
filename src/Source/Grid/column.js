@@ -15,14 +15,19 @@ Jx.Column = new Class({
         isSortable: false,
         isResizable: false,
         isHidden: false,
-        cssClass: '',
         formatter: null,
         name: '',
         dataType: 'alphanumeric',
         
         templates: {
-            header: '{text}',
-            cell: '{text}'
+            header: {
+                tag: 'span',
+                cssClass: null
+            },
+            cell: {
+                tag: 'span',
+                cssClass: null
+            }
         }
             
     },
@@ -35,12 +40,27 @@ Jx.Column = new Class({
             this.grid = grid;
         }
         this.name = this.options.name;
+        //we need to check the formatter
+        if ($defined(this.options.formatter) && !(this.options.formatter instanceof Jx.Formatter)){
+            var t = $type(this.options.formatter);
+            if (t === 'object'){
+                this.options.formatter = new Jx.Formatter[this.options.formatter.name](this.options.formatter.options);
+            }
+        }
     },
     
     getHeaderHTML: function(){
         var text = this.options.header ? this.options.header : this.options.modelField;
-        var obj = {"text": text};
-        return this.options.templates.header.substitute(obj);
+        ht = this.options.templates.header;
+        var el = new Element(ht.tag,{'html':text});
+        if ($defined(ht.cssClass)){
+            if ($type(ht.cssClass) === 'function'){
+                el.addClass(ht.cssClass.run(text));
+            } else {
+                el.addClass(ht.cssClass);
+            }
+        }
+        return el;
     },
     
     getWidth: function(recalculate){
@@ -90,6 +110,9 @@ Jx.Column = new Class({
     },
     
     measure: function(text,klass){
+        if ($defined(this.options.formatter) && text !== this.options.header){
+            text = this.options.formatter.format(text);
+        }
         var d = new Element('span',{
             'class': klass,
             'html': text
@@ -120,8 +143,20 @@ Jx.Column = new Class({
     },
     
     getHTML: function(){
-        var obj ={"text": this.grid.getModel().get(this.options.modelField)};
-        return this.options.templates.cell.substitute(obj);
+        var text = this.grid.getModel().get(this.options.modelField);
+        var ct = this.options.templates.cell;
+        if ($defined(this.options.formatter)){
+            text = this.options.formatter.format(text);
+        }
+        var el = new Element(ct.tag,{'html':text});
+        if ($defined(ct.cssClass)){
+            if ($type(ct.cssClass) === 'function'){
+                el.addClass(ct.cssClass.run(text));
+            } else {
+                el.addClass(ht.cssClass);
+            }
+        }
+        return el;
     }
     
 });

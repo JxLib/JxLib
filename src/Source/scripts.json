@@ -288,6 +288,36 @@
             "deps": ["common"],
             "desc": "A Jx.ColorPalette presents a user interface for selecting colors.  This is typically combined with a Jx.Button.Color which embeds the color palette in a flyout."
         }
+        
+    },
+    
+    "Formatter": {
+        
+        "formatter": {
+            "deps": ["object"],
+            "desc": ""
+        },
+        
+        "currency": {
+            "deps": ["number"],
+            "desc": ""
+        },
+        "number": {
+            "deps": ["formatter"],
+            "desc": ""
+        },
+        "date": {
+            "deps": ["Date.Extras","formatter"],
+            "desc": ""
+        },
+        "boolean": {
+            "deps": ["formatter"],
+            "desc": ""
+        },
+        "phone": {
+            "deps": ["formatter"],
+            "desc": ""
+        }
 
     }
 

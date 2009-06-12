@@ -366,7 +366,7 @@
         },{
             title: "Grid - event test",
             description: "This test is to verify that events fire as they are suppossed to and they contain the correct cell/row references.",
-            verify: "Did the grid render properly?",
+            verify: "Did the events show up in the console?",
             before: function(){
                 $('test-grid').empty();
                 //create store
