@@ -1,7 +1,9 @@
 /**
- * Class: Jx.Grid.Column
- * The class for defining columns for grids.
+ * Class: Jx.Column
+ * The class used for defining columns for grids.
  *
+ * copyright 2009 by Jonathan Bomgardner
+ * MIT style license
  */
 Jx.Column = new Class({
     

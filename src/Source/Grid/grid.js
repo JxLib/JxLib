@@ -4,7 +4,7 @@
  * 
  * Extends: <Jx.Widget>
  *
- * A tabular control that has fixed scrolling headers on the rows and columns
+ * A tabular control that has fixed, optional, scrolling headers on the rows and columns
  * like a spreadsheet.
  *
  * Jx.Grid is a tabular control with convenient controls for resizing columns,
@@ -14,15 +14,17 @@
  * of the grid to let it know that its container has been resized.
  *
  * When creating a new Jx.Grid, you can specify a number of options for the grid
- * that control its appearance and functionality.
+ * that control its appearance and functionality. You can also specify plugins to 
+ * load for additional functionality. Currently Jx provides the following plugins 
+ * 
+ * Prelighter - prelights rows, columns, and cells 
+ * Selector - selects rows, columns, and cells
  *
  * Jx.Grid renders data that comes from an external source.  This external 
- * source, called the model, must implement the following interface.
+ * source, called the model, must be a Jx.Store or extended from it (such as 
+ * Jx.Store.Remote).
  *
  *
- * Example:
- * (code)
- * (end)
  *
  * License: 
  * Copyright (c) 2008, DM Solutions Group Inc.
@@ -57,11 +59,14 @@ Jx.Grid = new Class({
         row: null,
         
         /* Option: plugins
-         * an array containing Jx.Grid.Plugin subclasses or a key:value pair 
-         * that indicates the name of a predefined plugin and it's options.
+         * an array containing Jx.Grid.Plugin subclasses or an object 
+         * that indicates the name of a predefined plugin and its options.
          */
         plugins: [],
         
+        /* Option: model
+         * An instance of Jx.Store or one of its descendants
+         */
         model: null
 
     },
@@ -72,6 +77,19 @@ Jx.Grid = new Class({
     plugins: new Hash(),
     currentCell: null,
     
+    /**
+     * Constructor: Jx.Grid
+     * 
+     * Parameters: 
+     * options - defined below
+     * 
+     * Options:
+     *  parent - The element, or an id of one, that the grid will be inserted into.
+     *  columns - A Jx.Columns object or the config object for one.
+     *  row - A Jx.Row object or the config object for one.
+     *  plugin - an array of Jx.Plugin descendants and/or config objects for them
+     *  model - A Jx.Store or a class that descends from it.
+     */
     initialize: function(options){
         this.parent(options);
         
@@ -114,8 +132,6 @@ Jx.Grid = new Class({
         //holds the column headers
         this.colObj = new Element('div', {'class':'jxGridContainer'});
         this.colTable = new Element('table', {'class':'jxGridTable'});
-        //this.colTableHead = new Element('thead');
-        //this.colTable.appendChild(this.colTableHead);
         this.colTableBody = new Element('tbody');
         this.colTable.appendChild(this.colTableBody);
         this.colObj.appendChild(this.colTable);
@@ -128,7 +144,7 @@ Jx.Grid = new Class({
         this.rowObj.appendChild(this.rowTable);
     
         //The actual body of the grid
-        this.gridObj = new Element('div', {'class':'jxGridContainer',styles:{overflow:'scroll'}});
+        this.gridObj = new Element('div', {'class':'jxGridContainer',styles:{overflow:'auto'}});
         this.gridTable = new Element('table', {'class':'jxGridTable'});
         this.gridTableBody = new Element('tbody');
         this.gridTable.appendChild(this.gridTableBody);
@@ -148,7 +164,7 @@ Jx.Grid = new Class({
         this.colObj.addEvent('mousemove', this.onMouseMove.bindWithEvent(this));
         
         //initialize the plugins
-        if ($defined(this.options.plugins) && $type(this.options.plugins)==='Array'){
+        if ($defined(this.options.plugins) && $type(this.options.plugins)==='array'){
             this.options.plugins.each(function(plugin){
                 if (plugin instanceof Jx.Plugin) {
                     plugin.init(this);
@@ -218,6 +234,9 @@ Jx.Grid = new Class({
      */
     getRowColumnFromEvent: function(e) {
         var td = e.target;
+        if (td.tagName == 'SPAN'){
+            td = $(td).getParent();
+        }
         if (td.tagName != 'TD' && td.tagName != 'TH') {
             return {row:-1,column:-1};
         }
@@ -267,7 +286,7 @@ Jx.Grid = new Class({
     },
     
     /**
-     * Method: resize
+     * APIMethod: resize
      * resize the grid to fit inside its container.  This involves knowing something
      * about the model it is displaying (the height of the column header and the
      * width of the row header) so nothing happens if no model is set
@@ -277,13 +296,21 @@ Jx.Grid = new Class({
             return;
         }
         
-        /* TODO: Jx.Grid.resize
-         * if not showing column or row, should we handle the resize differently
-         */
         var colHeight = this.columns.useHeaders() ? this.columns.getHeaderHeight() : 1;
         var rowWidth = this.row.useHeaders() ? this.row.getRowHeaderWidth() : 1;
         
         var size = this.domObj.getContentBoxSize();
+        
+        //sum all of the column widths except the hidden columns and the header column
+        var w = size.width - rowWidth - 1;
+        var totalCols = 0;
+        this.columns.columns.each(function(col){
+            if (col.options.modelField !== this.row.getRowHeaderField() && !col.isHidden()) {
+                totalCols += col.getWidth();
+            }
+        },this);
+        
+        //TODO: if totalCol width is less than the gridwidth (w) what do we do?
         
         /* -1 because of the right/bottom borders */
         this.rowColObj.setStyles({
@@ -304,16 +331,18 @@ Jx.Grid = new Class({
             height: colHeight - 1
         });
 
+
         this.gridObj.setStyles({
             top: colHeight,
             left: rowWidth,
-            width: size.width - rowWidth - 1,
+            width: size.width - rowWidth -1,
             height: size.height - colHeight - 1 
         });
+        
     },
     
     /**
-     * Method: setModel
+     * APIMethod: setModel
      * set the model for the grid to display.  If a model is attached to the grid
      * it is removed and the new model is displayed. However, It needs to have 
      * the same columns
@@ -324,22 +353,23 @@ Jx.Grid = new Class({
     setModel: function(model) {
         this.model = model;
         if (this.model) {
-            if (this.domObj.resize) {
-                this.domObj.resize();
-            }
-            this.createGrid();
-            this.resize();
+            this.render();
+            this.domObj.resize();
         } else {
             this.destroyGrid();
         }
     },
     
+    /**
+     * APIMethod: getModel
+     * gets the model set for this grid.
+     */
     getModel: function(){
         return this.model;
     },
     
     /**
-     * Method: destroyGrid
+     * APIMethod: destroyGrid
      * destroy the contents of the grid safely
      */
     destroyGrid: function() {
@@ -359,7 +389,7 @@ Jx.Grid = new Class({
     },
     
     /**
-     * Method: render
+     * APIMethod: render
      * Create the grid for the current model
      */
     render: function() {

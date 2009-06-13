@@ -158,6 +158,16 @@
         "plugin": {
             "deps": ["object"],
             "desc": ""
+        },
+        
+        "plugin.selector": {
+            "deps": ["plugin"],
+            "desc": ""
+        },
+        
+        "plugin.prelighter": {
+            "deps": ["plugin"],
+            "desc": ""
         }
 
     },

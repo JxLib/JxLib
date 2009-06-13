@@ -1,6 +1,10 @@
-
-
-
+/**
+ * Class: Jx.Columns
+ * 
+ * 
+ * copyright 2009 by Jonathan Bomgardner
+ * MIT style license
+ */
 Jx.Columns = new Class({
     
     Extends: Jx.Object,
