@@ -11,6 +11,6 @@
         "remote": ["all"]
     },
     "Grid": {
-        "grid": ["basic","headers","formatters","prelighter","selector"]
+        "grid": ["basic","headers","formatters","prelighter","selector","sorter"]
     }
 }

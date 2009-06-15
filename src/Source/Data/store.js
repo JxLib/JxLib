@@ -393,7 +393,7 @@ Jx.Store = new Class({
         this.fireEvent('sortStart',this);
         
         var c;
-        if ($defined(cols) && $type(cols) === 'Array') {
+        if ($defined(cols) && $type(cols) === 'array') {
             c = this.options.sortCols = cols;
         } else if ($defined(cols) && $type(cols) === 'string') {
             this.options.sortCols = [];
@@ -405,7 +405,9 @@ Jx.Store = new Class({
             return null;
         }
         
-        this.sort = sort;
+        
+        sort = (!$defined(sort))? this.options.defaultSort : sort;
+        
         //first sort on the first array item
         this.doSort(c[0], sort);
         

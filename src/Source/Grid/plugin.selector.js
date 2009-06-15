@@ -146,7 +146,7 @@ Jx.Plugin.Selector = new Class({
      * Parameters:
      * col - {Integer} the column to select
      */
-    selectColumn: function(col, selected) {
+    selectColumn: function(col) {
         if (col >= 0 && col < this.grid.gridTable.rows[0].cells.length) {
             if (col != this.selectedCol){
                 if ($defined(this.selectedCol)){
@@ -158,7 +158,7 @@ Jx.Plugin.Selector = new Class({
                 for (var i=0; i<this.grid.gridTable.rows.length; i++) {
                     this.grid.gridTable.rows[i].cells[col].addClass('jxGridColumnSelected');
                 }
-                this.selectColumnHeader(col, selected);
+                this.selectColumnHeader(col);
             }
         }
     },

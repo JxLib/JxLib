@@ -95,6 +95,8 @@ Jx.Grid = new Class({
         
         if ($defined(this.options.model) && this.options.model instanceof Jx.Store) {
             this.model = this.options.model;
+            this.model.addEvent('columnChanged',this.modelChanged.bind(this));
+            this.model.addEvent('sortFinished',this.render.bind(this));
         }
         
         if ($defined(this.options.columns)){
@@ -473,6 +475,22 @@ Jx.Grid = new Class({
         }
         this.domObj.resize();
         this.fireEvent('doneCreateGrid',this);
+    },
+    
+    /**
+     * Method: modelChanged
+     */
+    modelChanged: function(row, col){
+        //grab new TD
+        var column = this.columns.getIndexFromGrid(col.name);
+        var td = $(this.gridObj.childNodes[row].childNodes[column]);
+        
+        var currentRow = this.model.getPosition();
+        this.model.moveTo(row);
+        var newTD = this.columns.getColumnCell(this.column.getByName(col.name));
+        newTD.replaces(td);
+        this.model.moveTo(currentRow);
+        
     }
     
 });

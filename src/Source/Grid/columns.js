@@ -59,11 +59,13 @@ Jx.Columns = new Class({
     },
     
     getByName: function(colName){
+        var ret;
         this.columns.each(function(col){
             if (col.name === colName) {
-                return col;
+                ret = col;
             }
         },this);
+        return ret;
     },
     
     getByField: function(field){
@@ -74,6 +76,16 @@ Jx.Columns = new Class({
             }
         },this);
         return ret;
+    },
+    
+    getByGridIndex: function(index){
+        var headers = this.grid.colTableBody.getFirst().getChildren();
+        var cell = headers[index];
+        var hClasses = cell.get('class').split(' ').filter(function(cls){
+            return cls.test('jxColHead-');
+        });
+        var parts = hClasses[0].split('-');
+        return this.getByName(parts[1]);
     },
     
     getHeaders: function(row){
@@ -89,6 +101,16 @@ Jx.Columns = new Class({
                 th.adopt(col.getHeaderHTML());
                 th.setStyle('width',col.getWidth());
                 th.addClass('jxColHead-'+col.options.modelField);
+                //add other styles for different attributes
+                if (col.isEditable()) {
+                    th.addClass('jxColEditable');
+                }
+                if (col.isResizable()){
+                    th.addClass('jxColResizable');
+                }
+                if (col.isSortable()){
+                    th.addClass('jxColSortable');
+                }
                 row.appendChild(th);
             }
         },this);
@@ -101,28 +123,48 @@ Jx.Columns = new Class({
         h = r.useHeaders();
         this.columns.each(function(col){
             if (h && col.options.modelField !== f && !col.isHidden()) {
-                this.getColumnCell(col,row);
+                row.appendChild(this.getColumnCell(col));
             } else if (!h && !col.isHidden()) {
-                this.getColumnCell(col,row);
+                row.appendChild(this.getColumnCell(col));
             }
         },this);
         return row;
     },
     
-    getColumnCell: function(col,row){
+    getColumnCell: function(col){
        
         td = new Element('td', {'class':'jxGridCell'});
         td.adopt(col.getHTML());
         td.addClass('jxCol-'+col.options.modelField);
-        row.appendChild(td); 
         if (this.grid.model.getPosition() == 0){
             var colWidth = col.getWidth();
             td.setStyle('width',colWidth);
         }
+        
+        
+        return td;
     },
     
     getColumnCount: function(){
         return this.columns.length;
+    },
+    
+    getIndexFromGrid: function(name){
+        var headers = this.grid.colTableBody.getFirst().getChildren();
+        var c;
+        var i = -1;
+        headers.each(function(h){
+            i++;
+            var hClasses = h.get('class').split(' ').filter(function(cls){
+                return cls.test('jxGridColHead-');
+            });
+            hClasses.each(function(cls){
+                if (cls.test(name)){
+                    c = i;
+                }
+            });
+        },this);
+        return c;
     }
 
 });

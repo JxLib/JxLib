@@ -1208,6 +1208,22 @@ td.jxGridCellPrelight {
   background-color: #cce3ff;
 }
 
+/* Sort styles */
+.jxColSortable span {
+    background-image: url('images/emblems.png');
+    padding-right: 20px;
+    background-repeat: no-repeat;
+    background-position: right top;
+ }
+ 
+ .jxGridColumnSortedAsc span {
+    background-position: right -32px;
+ }
+ 
+ .jxGridColumnSortedDesc span {
+    background-position: right -16px;
+ }
+
 /**
  * @project         Jx
  * @revision        $Id: menu.css 321 2009-04-06 18:23:39Z fred.warnock $

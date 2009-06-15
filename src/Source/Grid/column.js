@@ -99,7 +99,17 @@ Jx.Column = new Class({
                 
                 //check the column header as well (unless this is the row header)
                 if (!(this.grid.row.useHeaders() && this.options.modelField == this.grid.row.getRowHeaderField())){
-                    s = this.measure(this.options.header,'jxGridColHead');
+                    var klass = 'jxGridColHead';
+                    if (this.isEditable()) {
+                       klass += ' jxColEditable';
+                    }
+                    if (this.isResizable()){
+                        klass += ' jxColResizable';
+                    }
+                    if (this.isSortable()){
+                        klass += ' jxColSortable';
+                    }
+                    s = this.measure(this.options.header, klass);
                     if (s.width > maxWidth) {
                         maxWidth = s.width;
                     }
@@ -116,9 +126,9 @@ Jx.Column = new Class({
             text = this.options.formatter.format(text);
         }
         var d = new Element('span',{
-            'class': klass,
-            'html': text
+            'class': klass
         });
+        new Element('span',{'html':text}).inject(d);
         d.setStyle('height',this.grid.row.getHeight());
         d.setStyles({'visibility':'hidden','width':'auto','font-family':'Arial'});
         d.inject(document.body,'bottom');
