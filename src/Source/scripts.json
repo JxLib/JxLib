@@ -15,7 +15,7 @@
         },
         
         "widget": {
-        	"deps": ["object"],
+        	"deps": ["object","Selectors"],
         	"desc": "Base class for all widgets (visual classes) in the JxLib Framework."
         } 
 
@@ -302,7 +302,12 @@
         "colorpalette": {
             "deps": ["common"],
             "desc": "A Jx.ColorPalette presents a user interface for selecting colors.  This is typically combined with a Jx.Button.Color which embeds the color palette in a flyout."
-        }
+        },
+        
+        "tooltip": {
+            "deps": ["widget"],
+            "desc": ""
+            }
         
     },
     
@@ -334,6 +339,54 @@
             "desc": ""
         }
 
+    },
+    
+    "Form": {
+        
+        "form": {
+            "deps": ["widget"],
+            "desc": ""
+        },
+        
+        "fieldset": {
+            "deps": ["widget"],
+            "desc": ""
+        },
+        
+        "field": {
+            "deps": ["widget"],
+            "desc": ""
+        },
+        
+        "checkbox": {
+            "deps": ["field"],
+            "desc": ""
+        },
+        
+        "hidden": {
+            "deps": ["field"],
+            "desc": ""
+        },
+        
+        "radio": {
+            "deps": ["field"],
+            "desc": ""
+        },
+        
+        "text": {
+            "deps": ["field"],
+            "desc": ""
+        },
+        
+        "select": {
+            "deps": ["field"],
+            "desc": ""
+        },
+        
+        "textarea": {
+            "deps": ["field"],
+            "desc": ""
+        }
     }
 
 }

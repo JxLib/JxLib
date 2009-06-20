@@ -12,5 +12,8 @@
     },
     "Grid": {
         "grid": ["basic","headers","formatters","prelighter","selector","sorter"]
+    },
+    "Form": {
+        "form": ["fields","fieldset"]
     }
 }

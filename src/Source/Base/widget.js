@@ -535,7 +535,8 @@ Jx.Widget = new Class({
     addTo: function(reference, where) {
         var el = $(this.addable) || $(this.domObj);
         if (el) {
-            el.inject(reference,where);
+            ref = $(reference);
+            el.inject(ref,where);
             this.fireEvent('addTo',this);            
         }
         return this;
@@ -543,6 +544,37 @@ Jx.Widget = new Class({
     
     toElement: function() {
         return this.domObj;
+    },
+    
+    /**
+     * APIMethod: processTemplate
+     * This function pulls the needed elements from a provided template
+     * 
+     * Parameters:
+     * template - the template to use in grabbing elements
+     * classes - an array of class names to use in grabbing elements
+     * 
+     * Returns:
+     * a hash object containing the requested Elements keyed by the class names
+     */
+    processTemplate: function(template,classes,container){
+        
+        var h = new Hash();
+        var element;
+        if ($defined(container)){
+            element = container.set('html',template);
+        } else {
+            element = new Element('div',{html:template});
+        }
+        classes.each(function(klass){
+            var el = element.getElement('.'+klass);
+            if ($defined(el)){
+                h.set(klass,el);
+            }
+        });
+        
+        return h;
+        
     }
 });
 
