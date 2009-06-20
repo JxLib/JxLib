@@ -2,8 +2,8 @@
     "tests": [
         {
             title: "Form Fieldset Tests - Fieldset using .addTo()",
-            description: "This test is to verify that a text field displays properly. You can change properties in the box below (drag to open it to see more) and click \"Run Test\" to see your changes. Try different combinations before marking this one as passing.",
-            verify: "Did the field render properly?",
+            description: "This test is to verify that a fieldset displays properly.",
+            verify: "Did the fieldset render properly?",
             before: function(){
                 $('test-field').empty();
                 var fieldset = new Jx.Fieldset({
@@ -47,7 +47,7 @@
             before: function(){
                 $('test-field').empty();
                 var fieldset = new Jx.Fieldset({
-                    legend: 'My Form',
+                    legend: 'My Form 2',
                     fieldsetClass: 'anotherClass',
                     legendClass: 'myLegendClass',
                     id: 'myFieldset'
@@ -72,7 +72,7 @@
                         checked: true,
                         value: 'one more thing'
                     })
-                );
+                ).addTo('test-field');
             },
             body: "",
             post: function(){

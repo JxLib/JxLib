@@ -20,7 +20,6 @@ Jx.Form = new Class({
 		name: '',
 		
 		showErrorMessages: 'together',
-		useValidation: true,
 		validationOptions: {
             validateOnSubmit: false,
             
@@ -122,7 +121,7 @@ Jx.Form = new Class({
 		}
 		
 		if ($defined(this.options.buttons)) {
-			//button container TODO: make this a Jx.Toolbar
+			
 			buttonContainer = new Jx.Toolbar.Container();
 			var toolbar = new Jx.Toolbar();
 			toolbar.addTo(buttonContainer);

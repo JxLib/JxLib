@@ -39,6 +39,7 @@ window.addEvent('load', function() {
     }    
 })();
 */
+
 Class.Mutators.Family = function(self,name) {
     if ($defined(name)){
         self.$family = {'name': name};
@@ -48,6 +49,11 @@ Class.Mutators.Family = function(self,name) {
     else {
         this.implement('$family',{'name':self});
     }
+};
+
+$['Jx.Object'] = function(obj, nocash, doc){
+    if (obj.toElement) return $.element(obj.toElement(doc), nocash);
+    return null;
 };
 
 /* Setup global namespace

@@ -74,11 +74,12 @@ Jx.Fieldset = new Class({
 	    for (x=0; x<arguments.length;x++){
 	        field = arguments[x];
 	        //add form to the field and field to the form if not already there
-	        if (!$defined(field.form) && defined(this.form)){
+	        if (!$defined(field.form) && $defined(this.form)){
 	            field.form = this.form;
 	            this.form.addField(field);
 	        }
 	        this.domObj.grab(field);
 	    }
+	    return this;
 	}
 });
