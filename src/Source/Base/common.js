@@ -47,13 +47,9 @@ Class.Mutators.Family = function(self,name) {
         return self;
     }
     else {
+        $[self] = $.object;
         this.implement('$family',{'name':self});
     }
-};
-
-$['Jx.Object'] = function(obj, nocash, doc){
-    if (obj.toElement) return $.element(obj.toElement(doc), nocash);
-    return null;
 };
 
 /* Setup global namespace
