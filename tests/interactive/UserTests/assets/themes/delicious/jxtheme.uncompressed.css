@@ -1028,6 +1028,12 @@ iframe.jxIframeShim{position:absolute;top:0px;left:0px;width:100%;height:100%;op
 .jxFormBlock label {
   display: block;
 }
+
+/** Error and validation classes */
+.jxFieldFeedback {
+    padding-left: 16px;
+    background: url("images/error.png") no-repeat left top;
+}
 /**
  * @project         Jx
  * @revision        $Id: grid.css 459 2009-06-15 04:32:50Z jonlb@comcast.net $

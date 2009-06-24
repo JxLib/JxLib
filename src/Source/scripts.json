@@ -251,7 +251,7 @@
         "desc": "This group contains components that are used to create toolbars.  Toolbars are typically used to contain buttons but they can also contain other HTML elements and Jx components.  If you are using toolbars in your application, you probably want to include this whole group.",
         
         "toolbar": {
-            "deps": ["common","container"],
+            "deps": ["common"],
             "desc": "A toolbar is a container object that contains other objects such as buttons."
         },
         

@@ -1,9 +1,8 @@
 /**
  * Class: Jx.Form
- * A class that represents an HTML form. It can construct the form based
- * on the fields passed in. It will also validate the form before outputting 
- * the values. The user of this form class will be responsible for send/saving 
- * the form values.
+ * A class that represents an HTML form. You add fields using either Jx.Form.add() 
+ * or by using the field's .addTo() method. You can get all form values or set them 
+ * using this class. It also handles validation of fields. 
  *    
  * 
  */
@@ -18,29 +17,17 @@ Jx.Form = new Class({
 		id: null,
 		formClass: null,
 		name: '',
-		
-		showErrorMessages: 'together',
 		validationOptions: {
-            validateOnSubmit: false,
-            
+            validateOnSubmit: false
         },
-		messageStyle: 'together',
-		displayError: 'single',
-		
-		buttons: ['submit','cancel','reset'],
-		buttonAlign: 'left',
-		buttonLoc: 'bottom',
-		
-		//events
-		onFormsubmit: $empty,
-		onFormcancel: $empty,
-		onFormvalidation: $empty
+        
+		errors: {
+		    showErrorMessages: 'together',
+            messageStyle: 'text',
+            displayError: 'all'
+        }
 	},
-	/**
-	 * Property: buttonBar
-	 * The Jx.Toolbar holding the buttons (submit, cancel, reset, etc..)
-	 */
-	buttonBar: null,
+
 	/**
 	 * Property: fields
 	 * An array of all of the single fields (not contained in a fieldset) for this form
@@ -105,7 +92,7 @@ Jx.Form = new Class({
 		this.setOptions(options);
 		
 		//create the form first
-		var f = new Element('form',{
+		this.domObj = new Element('form',{
 			'method': this.options.method,
 			'action': this.options.action,
 			'class': 'jxForm',
@@ -114,37 +101,11 @@ Jx.Form = new Class({
 		
 		
 		if ($defined(this.options.id)){
-			f.set('id',this.options.id);
+			this.domObj.set('id',this.options.id);
 		}
-		if ($defined(this.options.cssClass)){
-			f.addClass(this.options.cssClass);
+		if ($defined(this.options.formClass)){
+			this.domObj.addClass(this.options.formClass);
 		}
-		
-		if ($defined(this.options.buttons)) {
-			
-			buttonContainer = new Jx.Toolbar.Container();
-			var toolbar = new Jx.Toolbar();
-			toolbar.addTo(buttonContainer);
-			this.options.buttons.each(function(item){
-				if (item instanceof Jx.Button) {
-					toolbar.add(item);
-				} else {
-					t = $type(item);
-					switch (t) {
-						case "string":
-							i = this.createButton(item);
-							toolbar.add(i);
-							break;
-						case "object":
-							i = new Jx.Button(item);
-							toolbar.add(i);
-							break;
-					}
-				}
-			}, this);
-			buttonContainer.inject(f, this.options.buttonLoc);
-		}
-		this.domObj = f;
 	},
 	
 	enableValidation: function(){
@@ -157,119 +118,63 @@ Jx.Form = new Class({
 	},
 	
 	addField: function(field){
-	    this.fields.set(field.name,field);
+	    this.fields.set(field.id,field);
 	},
 	
 	elementFailedValidator: function(isValid, field, className, warn){
-	    var validator = this.getValidator(className);
-	    var name = field.get('name');
-        var fld = this.fields.get(name);
+	    var validator = this.validator.getValidator(className);
+        var fld = field.retrieve('field');
         if (!isValid && validator.getError(field)){
             var err = validator.getError(field);
-            fld.addError(err);
-            if (!this.errors.has(name)){
-                this.errors.set(name,[]);
+            fld.addError(err,className);
+            if (!this.errors.has(fld.name)){
+                this.errors.set(fld.name,new Hash());
             }
-            var errors = this.errors.get(name);
-            errors.push(err);
+            var errors = this.errors.get(fld.name);
+            errors.set(className,err);
+        } else {
+            fld.clearError(className);
+            if (this.errors.has(fld.name)){
+                var errors = this.errors.get(fld.name);
+                if (errors.has(className)){
+                    errors.erase(className);
+                }
+                if ($defined(this.errorMessages)){
+                    this.showErrors();
+                }
+            }
         }
 	},
 	
 	elementPassed: function(field){
-	    var fld = this.fields.get(field.get('name'));
+	    var fld = field.retrieve('field');
 	    fld.clearErrors();
 	},
 	
 	elementFailed: function(field){
-	    var fld = this.fields.get(field.get('name'));
-	    fld.showErrors();
+	    var fld = field.retrieve('field');
+	    fld.showErrors(this.options.errors);
 	},
 	
-	/**
-	 * Method: createButton
-	 * Creates a preconfigured button for the form
-	 * 
-	 * Parameters:
-	 * b - a string indicating what kind of button to create. One of "submit",
-	 * 		"cancel", or "reset"
-	 */
-	createButton: function(b){
-		switch (b){
-			case "submit":
-				return new Jx.Button({
-					label: 'Submit',
-					onClick: this.submit.bindWithEvent(this)
-				});
-				break;
-			case "cancel":
-				return new Jx.Button({
-					label: 'Cancel',
-					onClick: this.cancel.bindWithEvent(this)
-				});
-				break;
-			case "reset":
-				return new Jx.Button({
-					label: 'Reset',
-					onClick: this.reset.bindWithEvent(this)
-				});
-				break;
-		}
-	},
-	/**
-	 * Method: submit
-	 * Called when the pre-defined submit button is pressed.
-	 * 
-	 * Parameters:
-	 * obj - The object the method is called on
-	 * evt - The mootools event object
-	 */
-	submit: function(obj, evt){
-		
-		if (this.isValid(evt)){
-			if ($defined(this.errorMessages) && (this.errorMessages.getStyle('visibility') !== 'hidden')){
-				this.errorMessages.setStyle('visibility','hidden');
-			}
-			vals = this.getValues();
-			this.fireEvent('formsubmit',[this,vals]);
-		} else {
-			this.showErrors();
-		}
-	},
 	/**
 	 * Method: isValid
 	 * Determines if the form passes validation
 	 */
 	isValid: function(evt){
-		return this.validator.validate(evt);
+		var valid = this.validator.validate(evt);
+		if (!valid){
+		    this.showErrors();
+		} else {
+		    this.clearErrors();
+		}
+		return valid;
 	},
-	/**
-	 * Method: cancel
-	 * Called when the pre-defined cancel button is pressed.
-	 * 
-	 * Parameters:
-	 * obj - The object the method is called on
-	 * evt - The mootools event object
-	 */
-	cancel: function(obj, evt){
-		this.fireEvent('formcancel',this);
-	},
-	/**
-	 * Method: reset
-	 * Called when the pre-defined reset button is pressed.
-	 * 
-	 * Parameters:
-	 * obj - The object the method is called on
-	 * evt - The mootools event object
-	 */
-	reset: function(obj, evt){
-		this.fields.each(function(item){
-			item.reset();
-		},this);
-		this.fireEvent('formreset',this);
-	},
+	
 	/**
 	 * Method: getValues
-	 * Gets the values of all the fields in the form as a Hash object.
+	 * Gets the values of all the fields in the form as a Hash object. This
+	 * function doesn't account for arrayed names (i.e. 'user[]' or 'user[password]')
+	 * but will need to be enhanced for this use case.
 	 */
 	getValues: function(){
 		var vals = new Hash();
@@ -302,7 +207,7 @@ Jx.Form = new Class({
 	 * Displays all of the errors in the error object at the top of the form.
 	 */
 	showErrors: function(){
-		if (this.options.showErrorMessages === 'together' || this.options.showErrorMessages === 'both') {
+		if (this.options.errors.showErrorMessages === 'together' || this.options.errors.showErrorMessages === 'both') {
 			if ($defined(this.errorMessages)) {
 				this.errorMessages.empty();
 			} else {
@@ -328,21 +233,44 @@ Jx.Form = new Class({
 			errs.inject(this.errorMessages);
 			this.errorMessages.inject(this.domObj, 'top');
 		}
-		if (this.options.showErrorMessages === 'individual' || this.options.showErrorMessages === 'both') {
+		/*
+		if (this.options.errors.showErrorMessages === 'individual' || this.options.errors.showErrorMessages === 'both') {
 			//set single messages
 			this.fields.each(function(field, name){
-				field.showErrors();
+				field.showErrors(this.options.errors);
 			},this);
 		} 
+		*/
 	},
 	/**
 	 * Method: clearError
 	 * Private Method. Clears the error message from the top of the form.
 	 */
-	clearError: function(){
+	clearErrors: function(){
 		if ($defined(this.errorMessages)) {
 			this.errorMessages.dispose();
 		}
 		this.errors.empty();
+	},
+	
+	add: function(){
+	    var field;
+        for (x=0; x<arguments.length;x++){
+            field = arguments[x];
+            //add form to the field and field to the form if not already there
+            if (field instanceof Jx.Field && !$defined(field.form)){
+                field.form = this;
+                this.addField(field);
+            }
+            this.domObj.grab(field);
+        }
+        return this;
+	},
+	
+	reset: function(){
+	    this.fields.each(function(field,name){
+	        field.reset();
+	    },this);
+	    this.clearErrors();
 	}
 });

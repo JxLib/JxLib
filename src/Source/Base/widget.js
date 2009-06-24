@@ -575,6 +575,16 @@ Jx.Widget = new Class({
         
         return h;
         
+    },
+    
+    /**
+     * Method: generateId
+     * Used to generate a unique ID for Jx Widgets.
+     */
+    generateId: function(){
+        var uid = $uid(this);
+        delete this.uid;
+        return 'jx-'+uid;
     }
 });
 

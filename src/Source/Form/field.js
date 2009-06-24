@@ -57,10 +57,10 @@ Jx.Field = new Class({
 	 */
 	tag: null,
 	/**
-	 * Property: name
+	 * Property: id
 	 * The name of this field.
 	 */
-	name: null,
+	id: null,
 	/**
 	 * Property: overText
 	 * The overText instance for this field.
@@ -76,6 +76,11 @@ Jx.Field = new Class({
 	 * The classes to search for in the template. Not required, but we look for them.
 	 */
 	classes: ['jxInputLabel','jxInputTag'],
+	/**
+	 * Property: errors
+	 * A Hash to hold all of the validation errors for the current field.
+	 */
+	errors: new Hash(),
 	
 	/**
 	 * Constructor: Jx.Field
@@ -113,6 +118,7 @@ Jx.Field = new Class({
 	initialize: function(options){
 	    this.parent(options);
 	    
+	    this.id = ($defined(this.options.id)) ? this.options.id : this.generateId();
 		this.name = this.options.name;
 		
 		//first the container
@@ -124,6 +130,11 @@ Jx.Field = new Class({
 		}
 		if ($defined(this.options.required) && this.options.required){
 			this.domObj.addClass('jxFieldRequired');
+			if ($defined(this.options.validatorClasses)) {
+			    this.options.validatorClasses = 'required ' + this.options.validatorClasses;
+			} else {
+			    this.options.validatorClasses = 'required';
+			}
 		}
 		
 		var field = 'jxInput'+this.type;
@@ -186,6 +197,8 @@ Jx.Field = new Class({
     		if ($defined(this.options.validatorClasses)){
     		    this.field.addClass(this.options.validatorClasses);
     		}
+    		
+    		this.field.store('field',this);
 		}
 		
 		//TAG
@@ -248,8 +261,8 @@ Jx.Field = new Class({
 	    this.field.removeClass('jxFieldDisabled');
 	},
 	
-	addError: function(error){
-	    this.errors.push(error);
+	addError: function(error,validator){
+	    this.errors.set(validator,error);
 	},
 	
 	/**
@@ -257,20 +270,20 @@ Jx.Field = new Class({
      * Called on blur to validate the field and display 
      * the appropriate error messages.
      */
-    showErrors: function(){
+    showErrors: function(options){
                     
-        if (this.options.displayError === 'none') return;
+        if (options.displayError === 'none' || options.showErrorMessages === 'together') return;
             
         if ($defined(this.errorMessage)) {
             this.errorMessage.dispose();
         }
             
-        var el = this.setupErrorMessage();
-        if (this.form.options.messageStyle === 'text'){
+        var el = this.setupErrorMessage(options);
+        if (options.messageStyle === 'text'){
             el.addClass(this.errorClass);
             el.inject(this.label);
             this.errorMessage = el;
-        } else if (this.options.messageStyle === 'tip'){
+        } else if (options.messageStyle === 'tip'){
             icon = new Element('span', {
                 'class': 'jxFieldFeedback',
                 'html': '&nbsp;'
@@ -285,27 +298,28 @@ Jx.Field = new Class({
             this.tip = new Jx.Tooltip(icon,el,{cssClass: 'jxFieldFeedbackTip'});
             this.errorMessage = icon;
         }
-        this.field.addClass('jxFieldInvalid');
+        //this.field.addClass('jxFieldInvalid');
         
     },
     /**
      * Method: setupErrorMessage
      * Private method. Creates the Element containing the error message(s).
      */
-    setupErrorMessage: function(){
+    setupErrorMessage: function(options){
         wrapper = new Element('span',{
             'class': 'jxFieldFeedback',
             'id': this.field.name+'-error'
         });
-        if (this.form.options.displayError == 'single'){
-            wrapper.set('html', this.errors[0]);
+        var errs = this.errors.getValues();
+        if (options.displayError == 'single'){
+            wrapper.set('html', errs[0]);
         } else {
-            if (this.errors.length === 1) {
-                wrapper.set('html', this.errors[0]);
+            if (errs.length === 1) {
+                wrapper.set('html', errs[0]);
             }
             else {
                 list = new Element('ul');
-                this.errors.each(function(item){
+                errs.each(function(item){
                     li = new Element('li', {
                         'html': item
                     });
@@ -329,6 +343,12 @@ Jx.Field = new Class({
         }
         if ($defined(this.errorMessage)){
             this.errorMessage.dispose();
+        }
+    },
+    
+    clearError: function(className){
+        if (this.errors.has(className)){
+            this.errors.erase(className);
         }
     }
 	    

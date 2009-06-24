@@ -57,7 +57,7 @@ Jx.Tooltip = new Class({
 		if ($type(tip) == 'string'){
 			this.domObj.set('html',tip);
 		} else {
-			this.domd.grab(tip);
+			this.domObj.grab(tip);
 		}
 
 		this.domObj.addClass('jxTooltip');
@@ -124,7 +124,7 @@ Jx.Tooltip = new Class({
 		//TODO: Adjust this to account for the viewport. How do we change the positioning
 		//		near the edges?
 		var size = window.getSize(), scroll = window.getScroll();
-		var tip = {x: this.tip.offsetWidth, y: this.tip.offsetHeight};
+		var tip = {x: this.domObj.offsetWidth, y: this.domObj.offsetHeight};
 		this.domObj.setStyle('top',(event.page.y + this.options.offsets.y));
 		this.domObj.setStyle('left',(event.page.x + this.options.offsets.x));
 	},

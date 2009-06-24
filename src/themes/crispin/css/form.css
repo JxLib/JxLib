@@ -97,3 +97,10 @@
 .jxFormBlock label {
   display: block;
 }
+
+
+/** Error and validation classes */
+.jxFieldFeedback {
+    padding-left: 16px;
+    background: url("images/error.png") no-repeat left top;
+}
