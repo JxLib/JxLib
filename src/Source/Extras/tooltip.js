@@ -13,7 +13,7 @@ Jx.Tooltip = new Class({
 	options: {
 		offsets: {x:15,y:15},
 		showDelay: 100,
-		cssClass: null,
+		cssClass: null
 	},
 	
 	/**
