@@ -26,11 +26,11 @@ Jx.Field.Radio = new Class({
      * 
      *  checked - {true|false} whether this radio is selected (checked) or not.
      */
-    initialize: function(options){
+    initialize: function (options) {
         this.parent(options);
         
-        if ($defined(this.options.checked)){
-            this.field.set("checked","checked");
+        if ($defined(this.options.checked)) {
+            this.field.set("checked", "checked");
         }
         
     },
@@ -44,7 +44,7 @@ Jx.Field.Radio = new Class({
      * v - The value to set the field to, "checked" if a checkbox
      *      or radiobutton should be checked.
      */
-    setValue: function(v){
+    setValue: function (v) {
         if (v === 'checked') {
             this.field.set('checked', "checked");
         } else {
@@ -58,7 +58,7 @@ Jx.Field.Radio = new Class({
      * radiobutton then the field must be "checked" in order to return a value.
      * Otherwise it returns null.
      */
-    getValue: function(){
+    getValue: function () {
         if (this.field.get("checked")) {
             return this.field.get("value");
         } else {
@@ -71,7 +71,7 @@ Jx.Field.Radio = new Class({
      * Sets the field back to the value passed in the original
      * options
      */
-    reset: function(){
+    reset: function () {
         if (this.options.checked) {
             this.field.set('checked', "checked");
         } else {

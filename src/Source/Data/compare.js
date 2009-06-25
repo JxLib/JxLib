@@ -26,7 +26,7 @@ Jx.Compare = new Class({
      * Options:
      * separator - the decimal character in numbers
      */
-    initialize: function(options){
+    initialize: function (options) {
         this.parent(options);
     },
 	
@@ -38,8 +38,8 @@ Jx.Compare = new Class({
      * a - a value
      * b - another value
      */
-    alphanumeric: function(a,b){
-        return (a==b) ?0:(a<b)?-1:1;
+    alphanumeric: function (a, b) {
+        return (a === b) ? 0 :(a < b) ? -1 : 1;
     },
 	
     /**
@@ -50,8 +50,8 @@ Jx.Compare = new Class({
      * a - a number
      * b - another number
      */
-    numeric: function(a,b){
-        return this.alphanumeric(this._convert(a),this._convert(b));
+    numeric: function (a, b) {
+        return this.alphanumeric(this.convert(a), this.convert(b));
     },
 	
     /**
@@ -64,9 +64,9 @@ Jx.Compare = new Class({
      * Returns:
      * the normalized value
      */
-    _convert: function(val){
-        if ($type(val) == 'string') {
-            val = parseFloat(val.replace(/^[^\d\.]*([\d., ]+).*/g,"$1").replace(new RegExp("[^\\\d"+this.options.separator+"]","g"),'').replace(/,/,'.')) || 0;
+    convert: function (val) {
+        if ($type(val) === 'string') {
+            val = parseFloat(val.replace(/^[^\d\.]*([\d., ]+).*/g, "$1").replace(new RegExp("[^\\\d" + this.options.separator + "]", "g"), '').replace(/,/, '.')) || 0;
         }
         return val || 0;
     },
@@ -79,8 +79,8 @@ Jx.Compare = new Class({
      * a - a value
      * b - another value
      */
-    ignorecase: function(a,b){
-        return this.alphanumeric((""+a).toLowerCase(), (""+b).toLowerCase());
+    ignorecase: function (a, b) {
+        return this.alphanumeric(("" + a).toLowerCase(), ("" + b).toLowerCase());
     },
 	
     /**
@@ -91,8 +91,8 @@ Jx.Compare = new Class({
      * a - a currency value without the $
      * b - another currency value without the $
      */
-    currency: function(a,b){
-        return this.numeric(a,b);
+    currency: function (a, b) {
+        return this.numeric(a, b);
     },
 	
     /**
@@ -103,14 +103,14 @@ Jx.Compare = new Class({
      * a - a date value 
      * b - another date value
      */
-    date: function(a,b){
-        x = new Date().parse(a);
-        y = new Date().parse(b);
-        return (x < y)?-1:(x>y)?1:0
+    date: function (a, b) {
+        var x = new Date().parse(a);
+        var y = new Date().parse(b);
+        return (x < y) ? -1 : (x > y) ? 1 : 0;
     },
     
-    'boolean': function(a,b){
-        return (a===true && b===false)?-1: (a===b)?0:1;
+    'boolean': function (a, b) {
+        return (a === true && b === false) ? -1 : (a === b) ? 0 : 1;
     }
 	
 });

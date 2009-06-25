@@ -40,20 +40,20 @@ Jx.Field.Select = new Class({
      * comboOpts - Optional, defaults to null. When type is 'combo' this option sets the different select options available.
      *      format: [{value:'', selected: true|false, text:''},...]
      */
-    initialize: function(options, form){
+    initialize: function (options, form) {
         this.parent(options);
         
-        if ($defined(this.options.comboOpts)){
-            this.options.comboOpts.each(function(item){
-                opt = new Element('option',{
+        if ($defined(this.options.comboOpts)) {
+            this.options.comboOpts.each(function (item) {
+                var opt = new Element('option', {
                     'value': item.value,
                     'html': item.text
                 });
-                if ($defined(item.selected) && item.selected){
-                    opt.set("selected","selected");
+                if ($defined(item.selected) && item.selected) {
+                    opt.set("selected", "selected");
                 }
                 this.field.grab(opt);
-            },this);
+            }, this);
         }
     },
     
@@ -64,13 +64,13 @@ Jx.Field.Select = new Class({
      * Parameters:
      * v - The value to set the field to.
      */
-    setValue: function(v){
+    setValue: function (v) {
         //loop through the options and set the one that matches v
-        this.field.options.each(function(opt){
-            if (opt.value == v){
-                $(opt).set("selected",true);
+        this.field.options.each(function (opt) {
+            if (opt.value === v) {
+                $(opt).set("selected", true);
             }
-        },this);
+        }, this);
     },
     
     /**
@@ -79,7 +79,7 @@ Jx.Field.Select = new Class({
      * radiobutton then the field must be "checked" in order to return a value.
      * Otherwise it returns null.
      */
-    getValue: function(){
+    getValue: function () {
         var index = this.field.get("selectedIndex");
         return $(this.field.options[index]).get("value");
     }

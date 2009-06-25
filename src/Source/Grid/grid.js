@@ -33,50 +33,50 @@
  */
 Jx.Grid = new Class({
 
-    Family: 'Jx.Grid',
-    Extends: Jx.Widget,
+    Family : 'Jx.Grid',
+    Extends : Jx.Widget,
 
-    options: {
+    options : {
         /* Option: parent
          * the HTML element to create the grid inside. The grid will resize
          * to fill the domObj.
          */
-        parent: null,
-        
+        parent : null,
+
         /* Options: columns
          * an object consisting of a columns array that defines the individuals
          * columns as well as containing any options for Jx.Grid.Columns or 
          * a Jx.Grid.Columns object itself.
          */
-        columns: {
-            columns: []
+        columns : {
+            columns : []
         },
-        
+
         /* Option: row
          * Either a Jx.Grid.Row object or a json object defining options for
          * the class
          */
-        row: null,
-        
+        row : null,
+
         /* Option: plugins
          * an array containing Jx.Grid.Plugin subclasses or an object 
          * that indicates the name of a predefined plugin and its options.
          */
-        plugins: [],
-        
+        plugins : [],
+
         /* Option: model
          * An instance of Jx.Store or one of its descendants
          */
-        model: null
+        model : null
 
     },
-    
-    model: null,
-    columns: null,
-    row: null,
-    plugins: new Hash(),
-    currentCell: null,
-    
+
+    model : null,
+    columns : null,
+    row : null,
+    plugins : new Hash(),
+    currentCell : null,
+
     /**
      * Constructor: Jx.Grid
      * 
@@ -90,105 +90,132 @@ Jx.Grid = new Class({
      *  plugin - an array of Jx.Plugin descendants and/or config objects for them
      *  model - A Jx.Store or a class that descends from it.
      */
-    initialize: function(options){
+    initialize : function (options) {
         this.parent(options);
-        
-        if ($defined(this.options.model) && this.options.model instanceof Jx.Store) {
+
+        if ($defined(this.options.model)
+                && this.options.model instanceof Jx.Store) {
             this.model = this.options.model;
-            this.model.addEvent('columnChanged',this.modelChanged.bind(this));
-            this.model.addEvent('sortFinished',this.render.bind(this));
+            this.model.addEvent('columnChanged', this.modelChanged
+                    .bind(this));
+            this.model.addEvent('sortFinished', this.render.bind(this));
         }
-        
-        if ($defined(this.options.columns)){
-            if (this.options.columns instanceof Jx.Columns){
+
+        if ($defined(this.options.columns)) {
+            if (this.options.columns instanceof Jx.Columns) {
                 this.columns = this.options.columns;
             } else if ($type(this.options.columns) === 'object') {
-                this.columns = new Jx.Columns(this.options.columns, this);
+                this.columns = new Jx.Columns(this.options.columns,
+                        this);
             }
         }
-        
+
         //check for row
         if ($defined(this.options.row)) {
             if (this.options.row instanceof Jx.Row) {
                 this.row = this.options.row;
-            } else if ($type(this.options.row) === "object"){
-                this.row = new Jx.Row(this.options.row,this);
+            } else if ($type(this.options.row) === "object") {
+                this.row = new Jx.Row(this.options.row, this);
             }
         } else {
-            this.row = new Jx.Row({},this);
+            this.row = new Jx.Row({}, this);
         }
-        
+
         //initialize the grid
         this.domObj = new Element('div');
-        new Jx.Layout(this.domObj, {
-            onSizeChange: this.resize.bind(this)
+        var l = new Jx.Layout(this.domObj, {
+            onSizeChange : this.resize.bind(this)
         });
-        
+
         if (this.options.parent) {
             this.addTo(this.options.parent);
-        }        
-        
+        }
+
         //top left corner
-        this.rowColObj = new Element('div', {'class':'jxGridContainer'});
-        
+        this.rowColObj = new Element('div', {
+            'class' : 'jxGridContainer'
+        });
+
         //holds the column headers
-        this.colObj = new Element('div', {'class':'jxGridContainer'});
-        this.colTable = new Element('table', {'class':'jxGridTable'});
+        this.colObj = new Element('div', {
+            'class' : 'jxGridContainer'
+        });
+        this.colTable = new Element('table', {
+            'class' : 'jxGridTable'
+        });
         this.colTableBody = new Element('tbody');
         this.colTable.appendChild(this.colTableBody);
         this.colObj.appendChild(this.colTable);
-    
+
         //hold the row headers
-        this.rowObj = new Element('div', {'class':'jxGridContainer'});
-        this.rowTable = new Element('table', {'class':'jxGridTable'});
+        this.rowObj = new Element('div', {
+            'class' : 'jxGridContainer'
+        });
+        this.rowTable = new Element('table', {
+            'class' : 'jxGridTable'
+        });
         this.rowTableHead = new Element('thead');
         this.rowTable.appendChild(this.rowTableHead);
         this.rowObj.appendChild(this.rowTable);
-    
+
         //The actual body of the grid
-        this.gridObj = new Element('div', {'class':'jxGridContainer',styles:{overflow:'auto'}});
-        this.gridTable = new Element('table', {'class':'jxGridTable'});
+        this.gridObj = new Element('div', {
+            'class' : 'jxGridContainer',
+            styles : {
+                overflow : 'auto'
+            }
+        });
+        this.gridTable = new Element('table', {
+            'class' : 'jxGridTable'
+        });
         this.gridTableBody = new Element('tbody');
         this.gridTable.appendChild(this.gridTableBody);
         this.gridObj.appendChild(this.gridTable);
-        
+
         this.domObj.appendChild(this.rowColObj);
         this.domObj.appendChild(this.rowObj);
         this.domObj.appendChild(this.colObj);
         this.domObj.appendChild(this.gridObj);
-                        
+
         this.gridObj.addEvent('scroll', this.onScroll.bind(this));
-        this.gridObj.addEvent('click', this.onGridClick.bindWithEvent(this));
-        this.rowObj.addEvent('click', this.onGridClick.bindWithEvent(this));
-        this.colObj.addEvent('click', this.onGridClick.bindWithEvent(this));
-        this.gridObj.addEvent('mousemove', this.onMouseMove.bindWithEvent(this));
-        this.rowObj.addEvent('mousemove', this.onMouseMove.bindWithEvent(this));
-        this.colObj.addEvent('mousemove', this.onMouseMove.bindWithEvent(this));
-        
+        this.gridObj.addEvent('click', this.onGridClick
+                .bindWithEvent(this));
+        this.rowObj.addEvent('click', this.onGridClick
+                .bindWithEvent(this));
+        this.colObj.addEvent('click', this.onGridClick
+                .bindWithEvent(this));
+        this.gridObj.addEvent('mousemove', this.onMouseMove
+                .bindWithEvent(this));
+        this.rowObj.addEvent('mousemove', this.onMouseMove
+                .bindWithEvent(this));
+        this.colObj.addEvent('mousemove', this.onMouseMove
+                .bindWithEvent(this));
+
         //initialize the plugins
-        if ($defined(this.options.plugins) && $type(this.options.plugins)==='array'){
-            this.options.plugins.each(function(plugin){
+        if ($defined(this.options.plugins)
+                && $type(this.options.plugins) === 'array') {
+            this.options.plugins.each(function (plugin) {
                 if (plugin instanceof Jx.Plugin) {
                     plugin.init(this);
-                    this.plugins.set(plugin.name,plugin);
+                    this.plugins.set(plugin.name, plugin);
                 } else if ($type(plugin) === 'object') {
-                   var p = new Jx.Plugin[plugin.name](plugin.options);
-                   p.init(this);
-                   this.plugins.set(p.name,p);
+                    var p = new Jx.Plugin[plugin.name](plugin.options);
+                    p.init(this);
+                    this.plugins.set(p.name, p);
                 }
-            },this);
+            }, this);
         }
     },
-    
+
     /**
      * Method: onScroll
      * handle the grid scrolling by updating the position of the headers
      */
-    onScroll: function() {
+    onScroll : function () {
         this.colObj.scrollLeft = this.gridObj.scrollLeft;
-        this.rowObj.scrollTop = this.gridObj.scrollTop;        
+        this.rowObj.scrollTop = this.gridObj.scrollTop;
     },
-    
+
     /**
      * Method: onMouseMove
      * Handle the mouse moving over the grid. This determines
@@ -198,13 +225,14 @@ Jx.Grid = new Class({
      * Parameters:
      * e - {Event} the browser event object
      */
-    onMouseMove: function(e) {
+    onMouseMove : function (e) {
         var rc = this.getRowColumnFromEvent(e);
-        if (!$defined(this.currentCell) || (this.currentCell.row !== rc.row || this.currentCell.column !== rc.column)){
+        if (!$defined(this.currentCell)
+                || (this.currentCell.row !== rc.row || this.currentCell.column !== rc.column)) {
             this.currentCell = rc;
-            this.fireEvent('gridMove',rc);
+            this.fireEvent('gridMove', rc);
         }
-        
+
     },
     /**
      * Method: onGridClick
@@ -214,11 +242,11 @@ Jx.Grid = new Class({
      * Parameters:
      * e - {Event} the browser event object
      */
-    onGridClick: function(e) {
+    onGridClick : function (e) {
         var rc = this.getRowColumnFromEvent(e);
-        this.fireEvent('gridClick',rc);
+        this.fireEvent('gridClick', rc);
     },
-    
+
     /**
      * Method: getRowColumnFromEvent
      * retrieve the row and column indexes from an event click.
@@ -234,28 +262,31 @@ Jx.Grid = new Class({
      * @return Object an object with two properties, row and column,
      *         that contain the row and column that was clicked
      */
-    getRowColumnFromEvent: function(e) {
+    getRowColumnFromEvent : function (e) {
         var td = e.target;
-        if (td.tagName == 'SPAN'){
+        if (td.tagName === 'SPAN') {
             td = $(td).getParent();
         }
-        if (td.tagName != 'TD' && td.tagName != 'TH') {
-            return {row:-1,column:-1};
+        if (td.tagName !== 'TD' && td.tagName !== 'TH') {
+            return {
+                row : -1,
+                column : -1
+            };
         }
-        
+
         var colheader = false;
         var rowheader = false;
         //check if this is a header (row or column)
-        if (td.descendantOf(this.colTable)){
+        if (td.descendantOf(this.colTable)) {
             colheader = true;
         }
-        
-        if (td.descendantOf(this.rowTable)){
+    
+        if (td.descendantOf(this.rowTable)) {
             rowheader = true;
         }
-        
+    
         var tr = td.parentNode;
-        var col = td.cellIndex; 
+        var col = td.cellIndex;
         var row = tr.rowIndex;
         /*
          * if this is not a header cell, then increment the row and col. We do this
@@ -265,26 +296,29 @@ Jx.Grid = new Class({
          * 
          *  Plugins/event listeners should always take into account whether headers
          *  are displayed or not.
-         */ 
-        if (this.row.useHeaders() && !rowheader){
+         */
+        if (this.row.useHeaders() && !rowheader) {
             col++;
         }
-        if (this.columns.useHeaders() && !colheader){
+        if (this.columns.useHeaders() && !colheader) {
             row++;
         }
-        
-        if (Browser.Engine.webkit) { 
+    
+        if (Browser.Engine.webkit) {
             /* bug in safari (webkit) returns 0 for cellIndex - only choice seems
              * to be to loop through the row
              */
-            for (var i=0; i<tr.childNodes.length; i++) {
-                if (tr.childNodes[i] == td) {
+            for (var i = 0; i < tr.childNodes.length; i++) {
+                if (tr.childNodes[i] === td) {
                     col = i;
                     break;
                 }
             }
         }
-        return {row:row,column:col};
+        return {
+            row : row,
+            column : col
+        };
     },
     
     /**
@@ -293,56 +327,58 @@ Jx.Grid = new Class({
      * about the model it is displaying (the height of the column header and the
      * width of the row header) so nothing happens if no model is set
      */
-    resize: function() {
+    resize : function () {
         if (!this.model) {
             return;
         }
-        
-        var colHeight = this.columns.useHeaders() ? this.columns.getHeaderHeight() : 1;
-        var rowWidth = this.row.useHeaders() ? this.row.getRowHeaderWidth() : 1;
-        
+
+        var colHeight = this.columns.useHeaders() ? this.columns
+                .getHeaderHeight() : 1;
+        var rowWidth = this.row.useHeaders() ? this.row
+                .getRowHeaderWidth() : 1;
+
         var size = this.domObj.getContentBoxSize();
-        
+
         //sum all of the column widths except the hidden columns and the header column
         var w = size.width - rowWidth - 1;
         var totalCols = 0;
-        this.columns.columns.each(function(col){
-            if (col.options.modelField !== this.row.getRowHeaderField() && !col.isHidden()) {
+        this.columns.columns.each(function (col) {
+            if (col.options.modelField !== this.row.getRowHeaderField()
+                    && !col.isHidden()) {
                 totalCols += col.getWidth();
             }
-        },this);
-        
+        }, this);
+
         //TODO: if totalCol width is less than the gridwidth (w) what do we do?
-        
+
         /* -1 because of the right/bottom borders */
         this.rowColObj.setStyles({
-            width: rowWidth-1, 
-            height: colHeight-1
+            width : rowWidth - 1,
+            height : colHeight - 1
         });
         this.rowObj.setStyles({
-            top:colHeight,
-            left:0,
-            width:rowWidth-1,
-            height:size.height-colHeight-1
+            top : colHeight,
+            left : 0,
+            width : rowWidth - 1,
+            height : size.height - colHeight - 1
         });
 
         this.colObj.setStyles({
-            top: 0,
-            left: rowWidth,
-            width: size.width - rowWidth - 1,
-            height: colHeight - 1
+            top : 0,
+            left : rowWidth,
+            width : size.width - rowWidth - 1,
+            height : colHeight - 1
         });
-
 
         this.gridObj.setStyles({
-            top: colHeight,
-            left: rowWidth,
-            width: size.width - rowWidth -1,
-            height: size.height - colHeight - 1 
+            top : colHeight,
+            left : rowWidth,
+            width : size.width - rowWidth - 1,
+            height : size.height - colHeight - 1
         });
-        
+
     },
-    
+
     /**
      * APIMethod: setModel
      * set the model for the grid to display.  If a model is attached to the grid
@@ -352,7 +388,7 @@ Jx.Grid = new Class({
      * Parameters:
      * model - {Object} the model to use for this grid
      */
-    setModel: function(model) {
+    setModel : function (model) {
         this.model = model;
         if (this.model) {
             this.render();
@@ -361,136 +397,148 @@ Jx.Grid = new Class({
             this.destroyGrid();
         }
     },
-    
+
     /**
      * APIMethod: getModel
      * gets the model set for this grid.
      */
-    getModel: function(){
+    getModel : function () {
         return this.model;
     },
-    
+
     /**
      * APIMethod: destroyGrid
      * destroy the contents of the grid safely
      */
-    destroyGrid: function() {
-        
-        n = this.colTableBody.cloneNode(false);
+    destroyGrid : function () {
+
+        var n = this.colTableBody.cloneNode(false);
         this.colTable.replaceChild(n, this.colTableBody);
         this.colTableBody = n;
-        
+
         n = this.rowTableHead.cloneNode(false);
         this.rowTable.replaceChild(n, this.rowTableHead);
         this.rowTableHead = n;
-        
+
         n = this.gridTableBody.cloneNode(false);
         this.gridTable.replaceChild(n, this.gridTableBody);
         this.gridTableBody = n;
-        
+
     },
-    
+
     /**
      * APIMethod: render
      * Create the grid for the current model
      */
-    render: function() {
+    render : function () {
         this.destroyGrid();
-        
-        this.fireEvent('beginCreateGrid',this);
-        
+
+        this.fireEvent('beginCreateGrid', this);
+
         if (this.model) {
             var model = this.model;
             var nColumns = this.columns.getColumnCount();
             var nRows = model.count();
+            var th;
             
             /* create header if necessary */
             if (this.columns.useHeaders()) {
-                this.colTableBody.setStyle('visibility','visible');
+                this.colTableBody.setStyle('visibility', 'visible');
                 var colHeight = this.columns.getHeaderHeight();
-                var trBody = new Element('tr',{styles:{height:colHeight}});
+                var trBody = new Element('tr', {
+                    styles : {
+                        height : colHeight
+                    }
+                });
                 this.colTableBody.appendChild(trBody);
-                
+
                 this.columns.getHeaders(trBody);
-                
+
                 /* one extra column at the end for filler */
-                var th = new Element('th',{styles:{width:1000,height:colHeight - 1}});
+                th = new Element('th', {
+                    styles : {
+                        width : 1000,
+                        height : colHeight - 1
+                    }
+                });
                 th.addClass('jxGridColHead');
                 trBody.appendChild(th);
-                
+
             } else {
                 //hide the headers
-                this.colTableBody.setStyle('visibility','hidden');
+                this.colTableBody.setStyle('visibility', 'hidden');
             }
             
             if (this.row.useHeaders()) {
-                this.rowTableHead.setStyle('visibility','visible');
+                this.rowTableHead.setStyle('visibility', 'visible');
                 
+                var tr;
                 //loop through all rows and add header
                 this.model.first();
-                while (this.model.valid()){
+                while (this.model.valid()) {
                     tr = this.row.getRowHeader();
                     this.rowTableHead.appendChild(tr);
-                    if (this.model.hasNext()) { 
+                    if (this.model.hasNext()) {
                         this.model.next();
                     } else {
                         break;
                     }
                 }
                 /* one extra row at the end for filler */
-                var tr = new Element('tr');
-                var th = new Element('th',{
-                    'class':'jxGridRowHead',
-                    styles:{
-                        width:this.row.getRowHeaderWidth(),
-                        height:1000
+                tr = new Element('tr');
+                th = new Element('th', {
+                    'class' : 'jxGridRowHead',
+                    styles : {
+                        width : this.row.getRowHeaderWidth(),
+                        height : 1000
                     }
                 });
                 tr.appendChild(th);
-                this.rowTableHead.appendChild(tr);   
+                this.rowTableHead.appendChild(tr);
             } else {
                 //hide row headers
-                this.rowTableHead.setStyle('visibility','hidden');
+                this.rowTableHead.setStyle('visibility', 'hidden');
             }
             
-            var colHeight = this.columns.getHeaderHeight();
-           
+            colHeight = this.columns.getHeaderHeight();
+            
             //This section actually adds the rows
             this.model.first();
             while (this.model.valid()) {
                 tr = this.row.getGridRowElement();
                 this.gridTableBody.appendChild(tr);
-                
+        
                 //Actually add the columns 
                 this.columns.getColumnCells(tr);
-                
-                if (this.model.hasNext()){
+        
+                if (this.model.hasNext()) {
                     this.model.next();
                 } else {
                     break;
                 }
-               
+        
             }
-            
+        
         }
         this.domObj.resize();
-        this.fireEvent('doneCreateGrid',this);
+        this.fireEvent('doneCreateGrid', this);
     },
     
     /**
      * Method: modelChanged
      */
-    modelChanged: function(row, col){
+    modelChanged : function (row, col) {
         //grab new TD
         var column = this.columns.getIndexFromGrid(col.name);
         var td = $(this.gridObj.childNodes[row].childNodes[column]);
-        
+    
         var currentRow = this.model.getPosition();
         this.model.moveTo(row);
-        var newTD = this.columns.getColumnCell(this.column.getByName(col.name));
+        var newTD = this.columns.getColumnCell(this.column
+                .getByName(col.name));
         newTD.replaces(td);
         this.model.moveTo(currentRow);
-        
-    }
     
+    }
+
 });

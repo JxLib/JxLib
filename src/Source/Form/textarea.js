@@ -42,14 +42,14 @@ Jx.Field.Textarea = new Class({
      * row - the number of rows to show
      * cols - the number of columns to show
      */
-    initialize: function(options){
+    initialize: function (options) {
         this.parent(options);
                 
-        if ($defined(this.options.rows)){
-            this.field.set('rows',this.options.rows);
+        if ($defined(this.options.rows)) {
+            this.field.set('rows', this.options.rows);
         }
-        if ($defined(this.options.columns)){
-            this.field.set('cols',this.options.columns);
+        if ($defined(this.options.columns)) {
+            this.field.set('cols', this.options.columns);
         }
         
         //TODO: Do we need to use OverText here as well??

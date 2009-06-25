@@ -12,7 +12,7 @@ Jx.Plugin = new Class({
     
     options: {},
     
-    initialize: function(options){
+    initialize: function (options) {
         this.parent(options);
     },
     

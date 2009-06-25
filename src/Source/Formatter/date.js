@@ -9,7 +9,7 @@ Jx.Formatter.Date = new Class({
         format: '%B %d, %Y'
     },
     
-    format: function(value){
+    format: function (value) {
         var d = Date.parse(value);
         return d.format(this.options.format);
     }

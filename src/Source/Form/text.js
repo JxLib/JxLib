@@ -27,14 +27,14 @@ Jx.Field.Text = new Class({
      * overText - an object holding options for mootools-more's OverText class. Leave it null to 
      *            not enable it, make it an object to enable.
      */
-    initialize: function(options){
+    initialize: function (options) {
         this.parent(options);
         
         //create the overText instance if needed
-        if ($defined(this.options.overText)){
-            var opts = $extend({},this.options.overText);
-            this.field.set('alt',this.options.tip);
-            this.overText = new OverText(this.field,opts);
+        if ($defined(this.options.overText)) {
+            var opts = $extend({}, this.options.overText);
+            this.field.set('alt', this.options.tip);
+            this.overText = new OverText(this.field, opts);
             this.overText.show();
         }
         

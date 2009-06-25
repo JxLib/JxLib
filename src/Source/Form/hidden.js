@@ -24,7 +24,7 @@ Jx.Field.Hidden = new Class({
      * Options:
      * Same as <Jx.Form.Field>
      */
-    initialize: function(options){
+    initialize: function (options) {
         this.parent(options);
         
     }
