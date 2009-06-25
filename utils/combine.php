@@ -53,7 +53,7 @@ class combine {
 		
 		//sort the dependencies
 		foreach($this->_flat as $key => $arr3) {
-			$this->includeDependency($key, $depsOut, $depsFinal);
+			$this->includeDependency($key);
 		}
 		
 		//save the json file
@@ -71,26 +71,28 @@ class combine {
 	}
 	
 	private function includeDependency($key, $flag = false) {
-	  $dep = $this->_flat[$key];
-	  if (!$flag) {  
-		  //check to see if the filename is the same as the directory. If it is, this is
-		  //a toplevel namespace generating file so let's include it the first time we see it.
-		  $parts = explode('/',$dep['fname']);
-		  if (is_array($dep['deps'])) {
-		    foreach($dep['deps'] as $anotherDep) {
-		      if (!isset($this->_queue[$anotherDep]) && $anotherDep != $key && array_key_exists($anotherDep,$this->_flat) && (is_array($this->_cycle) && !array_key_exists($anotherDep,$this->_cycle))) {
-		        $this->includeDependency($anotherDep);
-		      } else if (is_array($this->_cycle) && array_key_exists($anotherDep, $this->_cycle)){
-		      	$parts = explode('/',$this->_flat[$anotherDep]['fname']);
-		      	if (strtolower($parts[0]) == strtolower($anotherDep)){
-		      		//just include it now
-		      		$this->includeDependency($anotherDep, true);
-		      	}//else skip it
-		      }
-		    }
-		  }
-	  }
-	  $this->_queue[$key] = $dep;
+        $dep = $this->_flat[$key];
+        if (!$flag) {  
+            //check to see if the filename is the same as the directory. If it is, this is
+            //a toplevel namespace generating file so let's include it the first time we see it.
+            $parts = explode('/',$dep['fname']);
+            if (is_array($dep['deps'])) {
+                foreach($dep['deps'] as $anotherDep) {
+                    if (!isset($this->_queue[$anotherDep]) && $anotherDep != $key && array_key_exists($anotherDep,$this->_flat) ){
+                        if (is_array($this->_cycle) && array_key_exists($anotherDep,$this->_cycle)) {
+                            $parts = explode('/',$this->_flat[$anotherDep]['fname']);
+                            if (strtolower($parts[0]) == strtolower($anotherDep)){
+                                //just include it now
+                                $this->includeDependency($anotherDep, true);
+                            } 
+                        } else {
+                            $this->includeDependency($anotherDep);
+                        }
+                    }
+                }
+            }
+        }
+        $this->_queue[$key] = $dep;
 	}
 
 	private function detectCycle() {
