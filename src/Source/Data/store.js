@@ -31,7 +31,7 @@ Jx.Store = new Class({
         quick: "Quicksort",
         merge: "Mergesort",
         heap: "Heapsort",
-        native: "Nativesort"
+        'native': "Nativesort"
     },
 	
     data: null,

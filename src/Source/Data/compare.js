@@ -109,7 +109,7 @@ Jx.Compare = new Class({
         return (x < y)?-1:(x>y)?1:0
     },
     
-    boolean: function(a,b){
+    'boolean': function(a,b){
         return (a===true && b===false)?-1: (a===b)?0:1;
     }
 	
