@@ -1,14 +1,12 @@
 /**
- * Class: Jx.Store
- * This class is the base store. It keeps track of data. It allows
- * adding, deleting, iterating, sorting etc...
+ * Class: Jx.Store This class is the base store. It keeps track of data. It
+ * allows adding, deleting, iterating, sorting etc...
  * 
- * Events:
- * onLoadFinished(store) - fired when the store finishes loading the data
- * onLoadError(store,data) - fired when there is an error loading the data
+ * Events: onLoadFinished(store) - fired when the store finishes loading the
+ * data onLoadError(store,data) - fired when there is an error loading the data
  */
 
-Jx.Store = new Class({
+Jx.Store = new Class( {
 
     Extends : Jx.Object,
 
@@ -16,23 +14,25 @@ Jx.Store = new Class({
 
     options : {
         id : null,
-        columns : [], //an array of objects, 1 for each column
+        columns : [], // an array of objects, 1 for each column
         defaultSort : 'merge',
-        separator : '.', //passed to an instance of Jx.Compare
-        sortCols : [], //used to define default sorting order
+        separator : '.', // passed to an instance of Jx.Compare
+        sortCols : [], // used to define default sorting order
 
-        //events
-        onLoadFinished : $empty, //event for a completed, successful data load: onLoadFinished(store)
-        onLoadError : $empty, //event for an unsuccessful load: onLoadError(store, data)
+        // events
+        onLoadFinished : $empty, // event for a completed, successful data
+                                    // load: onLoadFinished(store)
+        onLoadError : $empty, // event for an unsuccessful load:
+                                // onLoadError(store, data)
         onCellChanged : $empty
-    //event fired for changes to a cell (fired in set method)
+    // event fired for changes to a cell (fired in set method)
     },
 
     sorters : {
         quick : "Quicksort",
         merge : "Mergesort",
         heap : "Heapsort",
-        native : "Nativesort"
+        'native' : "Nativesort"
     },
 
     data : null,
@@ -41,47 +41,42 @@ Jx.Store = new Class({
     id : null,
 
     /**
-     * Constructor: Jx.Store
-     * Initializes this class
+     * Constructor: Jx.Store Initializes this class
      * 
-     * parameters:
-     * options - an object containing the class options listed above
+     * parameters: options - an object containing the class options listed above
      * 
-     * options:
-     * id - the identifier for this store
-     * columns - an array listing the columns of the store in order of their appearance in the data object
-     *      formatted as an object {name: 'column name', type: 'column type'} where type can be one of 
-     *      alphanumeric, numeric, date, or currency.
-     * defaultSort - The default sorting type, currently set to merge but can be any of the sorters available
-     * separator - The separator to pass to the comparator constructor - defaults to '.'
-     * sortCols - An array of columns to sort by arranged in the order you want them sorted.
+     * options: id - the identifier for this store columns - an array listing
+     * the columns of the store in order of their appearance in the data object
+     * formatted as an object {name: 'column name', type: 'column type'} where
+     * type can be one of alphanumeric, numeric, date, or currency. defaultSort -
+     * The default sorting type, currently set to merge but can be any of the
+     * sorters available separator - The separator to pass to the comparator
+     * constructor - defaults to '.' sortCols - An array of columns to sort by
+     * arranged in the order you want them sorted.
      * 
      */
-    initialize : function (options) {
+    initialize : function(options) {
         this.parent(options);
     },
 
-    /** 
-     * method: load
-     * Loads data into the store.
+    /**
+     * method: load Loads data into the store.
      * 
-     * Parameters:
-     * data - the data to load
+     * Parameters: data - the data to load
      */
-    load : function (data) {
+    load : function(data) {
         if ($defined(data)) {
             this.processData(data);
         }
     },
 
     /**
-     * Method: hasNext
-     * Determines if there are more records past the current one.
+     * Method: hasNext Determines if there are more records past the current
+     * one.
      * 
-     * Returns:
-     * true | false (Null if there's a problem)
+     * Returns: true | false (Null if there's a problem)
      */
-    hasNext : function () {
+    hasNext : function() {
         if ($defined(this.data)) {
             if (this.index < this.data.length - 1) {
                 return true;
@@ -94,13 +89,12 @@ Jx.Store = new Class({
     },
 
     /**
-     * Method: hasPrevious
-     * Determines if there are records before the current one.
+     * Method: hasPrevious Determines if there are records before the current
+     * one.
      * 
-     * Returns:
-     * true | false
+     * Returns: true | false
      */
-    hasPrevious : function () {
+    hasPrevious : function() {
         if ($defined(this.data)) {
             if (this.index > 0) {
                 return true;
@@ -113,25 +107,21 @@ Jx.Store = new Class({
     },
 
     /**
-     * Method: valid
-     * Tells us if the current index has any data (i.e. that the index is
-     * valid).
+     * Method: valid Tells us if the current index has any data (i.e. that the
+     * index is valid).
      * 
-     * Returns:
-     * true | false
+     * Returns: true | false
      */
-    valid : function () {
+    valid : function() {
         return ($defined(this.data[this.index]));
     },
 
     /**
-     * Method: next
-     * Moves the store to the next record
+     * Method: next Moves the store to the next record
      * 
-     * Returns:
-     * nothing | null if error
+     * Returns: nothing | null if error
      */
-    next : function () {
+    next : function() {
         if ($defined(this.data)) {
             this.index++;
             if (this.index === this.data.length) {
@@ -144,14 +134,12 @@ Jx.Store = new Class({
     },
 
     /**
-     * Method: previous
-     * moves the store to the previous record
+     * Method: previous moves the store to the previous record
      * 
-     * Returns:
-     * nothing | null if error
+     * Returns: nothing | null if error
      * 
      */
-    previous : function () {
+    previous : function() {
         if ($defined(this.data)) {
             this.index--;
             if (this.index === -1) {
@@ -164,14 +152,12 @@ Jx.Store = new Class({
     },
 
     /**
-     * Method: first
-     * Moves the store to the first record
+     * Method: first Moves the store to the first record
      * 
-     * Returns:
-     * nothing | null if error
+     * Returns: nothing | null if error
      * 
      */
-    first : function () {
+    first : function() {
         if ($defined(this.data)) {
             this.index = 0;
             this.fireEvent('storeMove', this);
@@ -181,13 +167,11 @@ Jx.Store = new Class({
     },
 
     /**
-     * Method: last
-     * Moves to the last record in the store
+     * Method: last Moves to the last record in the store
      * 
-     * Returns:
-     * nothing | null if error
+     * Returns: nothing | null if error
      */
-    last : function () {
+    last : function() {
         if ($defined(this.data)) {
             this.index = this.data.length - 1;
             this.fireEvent('storeMove', this);
@@ -197,14 +181,12 @@ Jx.Store = new Class({
     },
 
     /**
-     * Method: count
-     * Returns the number of records in the store
+     * Method: count Returns the number of records in the store
      * 
-     * Returns:
-     * an integer indicating the number of records in the store or 
-     * null if there's an error
+     * Returns: an integer indicating the number of records in the store or null
+     * if there's an error
      */
-    count : function () {
+    count : function() {
         if ($defined(this.data)) {
             return this.data.length;
         } else {
@@ -213,14 +195,12 @@ Jx.Store = new Class({
     },
 
     /**
-     * Method: getPosition
-     * Tells us where we are in the store
+     * Method: getPosition Tells us where we are in the store
      * 
-     * Returns:
-     * an integer indicating the position in the store or null
-     * if there's an error
+     * Returns: an integer indicating the position in the store or null if
+     * there's an error
      */
-    getPosition : function () {
+    getPosition : function() {
         if ($defined(this.data)) {
             return this.index;
         } else {
@@ -229,18 +209,13 @@ Jx.Store = new Class({
     },
 
     /**
-     * Method: moveTo
-     * Moves the index to a specific record in the store
+     * Method: moveTo Moves the index to a specific record in the store
      * 
-     * Parameters:
-     * index - the record to move to
+     * Parameters: index - the record to move to
      * 
-     * Returns:
-     * true - if successful
-     * false - if not successful
-     * null - on error
+     * Returns: true - if successful false - if not successful null - on error
      */
-    moveTo : function (index) {
+    moveTo : function(index) {
         if ($defined(this.data) && index >= 0 && index < this.data.length) {
             this.index = index;
             this.fireEvent('storeMove', this);
@@ -253,16 +228,14 @@ Jx.Store = new Class({
     },
 
     /**
-     * Method: get
-     * Retrieves the data for a specific column of the current record
+     * Method: get Retrieves the data for a specific column of the current
+     * record
      * 
-     * Parameters:
-     * col - the column to get (either an integer or a string)
+     * Parameters: col - the column to get (either an integer or a string)
      * 
-     * Returns:
-     * the data in the column or null if the column doesn't exist
+     * Returns: the data in the column or null if the column doesn't exist
      */
-    get : function (col) {
+    get : function(col) {
         if ($defined(this.data)) {
             col = this.resolveCol(col);
             var h = this.data[this.index];
@@ -277,19 +250,17 @@ Jx.Store = new Class({
     },
 
     /**
-     * Method: set
-     * Puts a value into a specific column of the current record and sets the dirty flag.
+     * Method: set Puts a value into a specific column of the current record and
+     * sets the dirty flag.
      * 
-     * Parameters:
-     * col - the column to put the value in
-     * value - the data to put into the column
+     * Parameters: col - the column to put the value in value - the data to put
+     * into the column
      * 
-     * returns:
-     * nothing | null if an error
+     * returns: nothing | null if an error
      */
-    set : function (col, value) {
+    set : function(col, value) {
         if ($defined(this.data)) {
-            //set the column to the value and set the dirty flag
+            // set the column to the value and set the dirty flag
             if ($type(col) === 'number') {
                 col = this.resolveCol(col);
             }
@@ -301,19 +272,16 @@ Jx.Store = new Class({
             return null;
         }
     },
-
+    
     /**
-     * Method: refresh
-     * Sets new data into the store
+     * Method: refresh Sets new data into the store
      * 
-     * Parameters:
-     * data - the data to set 
-     * reset - flag as to whether to reset the index to 0
+     * Parameters: data - the data to set reset - flag as to whether to reset the
+     * index to 0
      * 
-     * Returns:
-     * nothing or null if no data is passed
+     * Returns: nothing or null if no data is passed
      */
-    refresh : function (data, reset) {
+    refresh : function(data, reset) {
         if ($defined(data)) {
             this.processData(data);
             if (reset) {
@@ -325,16 +293,14 @@ Jx.Store = new Class({
     },
     
     /**
-     * Method: isDirty
-     * Tells us if the store is dirty and needs to be saved
+     * Method: isDirty Tells us if the store is dirty and needs to be saved
      * 
-     * Returns:
-     * true | false | null on error
+     * Returns: true | false | null on error
      */
-    isDirty : function () {
+    isDirty : function() {
         if ($defined(this.data)) {
             var dirty = false;
-            this.data.each(function (row) {
+            this.data.each(function(row) {
                 if (this.isRowDirty(row)) {
                     dirty = true;
                     return;
@@ -347,19 +313,18 @@ Jx.Store = new Class({
     },
     
     /**
-     * Method: newRow
-     * Adds a new row to the store. It can either be empty or made from an array of data
+     * Method: newRow Adds a new row to the store. It can either be empty or made
+     * from an array of data
      * 
-     * Parameters:
-     * data - data to use in the new row (optional)
+     * Parameters: data - data to use in the new row (optional)
      */
-    newRow : function (data) {
-        //check if array is not defined
+    newRow : function(data) {
+        // check if array is not defined
         if (!$defined(this.data)) {
-            //if not, then create a new array
+            // if not, then create a new array
             this.data = [];
         }
-    
+        
         var d;
         
         if (!$defined(data)) {
@@ -381,16 +346,15 @@ Jx.Store = new Class({
         this.fireEvent('newrow', this);
     },
     
-    /** 
-     * Method: sort
-     * Runs the sorting and grouping
+    /**
+     * Method: sort Runs the sorting and grouping
      * 
-     * Parameters:
-     * dir - the direction to sort. Set to "desc" for descending, anything else implies ascending (even null).     
-     * cols - Optional. An array of columns to sort/group by
-     * sort - the sort type (quick,heap,merge,native), defaults to options.defaultSort 
+     * Parameters: dir - the direction to sort. Set to "desc" for descending,
+     * anything else implies ascending (even null). cols - Optional. An array of
+     * columns to sort/group by sort - the sort type (quick,heap,merge,native),
+     * defaults to options.defaultSort
      */
-    sort : function (cols, sort, dir) {
+    sort : function(cols, sort, dir) {
         this.fireEvent('sortStart', this);
         
         var c;
@@ -405,12 +369,12 @@ Jx.Store = new Class({
         } else {
             return null;
         }
-    
+        
         this.sort = sort;
-        //first sort on the first array item
+        // first sort on the first array item
         this.doSort(c[0], sort);
     
-        c.each(function (item, index, array) {
+        c.each(function(item, index, array) {
             if (index !== 0) {
                 this.subSort(this.data, array[index - 1], item);
             }
@@ -424,32 +388,28 @@ Jx.Store = new Class({
     },
     
     /**
-     * Method: subSort
-     * Private function. Does the actual group sorting.
+     * Method: subSort Private function. Does the actual group sorting.
      * 
-     * Parameters:
-     * data - what to sort
-     * groupByCol - the column that determines the groups
-     * sortCol - the column to sort by
+     * Parameters: data - what to sort groupByCol - the column that determines the
+     * groups sortCol - the column to sort by
      * 
-     * returns:
-     * the result of the grouping/sorting
+     * returns: the result of the grouping/sorting
      */
-    subSort : function (data, groupByCol, sortCol) {
-        //loop through the data array and create another array with just the
-        //items for each group. Sort that sub-array and then concat it 
-        //to the result.
+    subSort : function(data, groupByCol, sortCol) {
+        // loop through the data array and create another array with just the
+        // items for each group. Sort that sub-array and then concat it
+        // to the result.
     
         var result = [];
         var sub = [];
     
         var group = data[0].get(groupByCol);
         this.sorter.setColumn(sortCol);
-        for (var i = 0; i < data.length; i++) {
+        for ( var i = 0; i < data.length; i++) {
             if (group === (data[i]).get(groupByCol)) {
                 sub.push(data[i]);
             } else {
-                //sort
+                // sort
     
                 if (sub.length > 1) {
                     result = result.concat(this.doSort(sortCol, this.sort, sub, true));
@@ -457,15 +417,15 @@ Jx.Store = new Class({
                     result = result.concat(sub);
                 }
             
-                //change group
+                // change group
                 group = (data[i]).get(groupByCol);
-                //clear sub
+                // clear sub
                 sub.empty();
-                //add to sub
+                // add to sub
                 sub.push(data[i]);
             }
         }
-    
+        
         if (sub.length > 1) {
             this.sorter.setData(sub);
             result = result.concat(this.doSort(sortCol, this.sort, sub, true));
@@ -477,20 +437,17 @@ Jx.Store = new Class({
     },
     
     /**
-     * Method: doSort
-     * Called to change the sorting of the data
+     * Method: doSort Called to change the sorting of the data
      * 
-     * Parameters:
-     * col - the column to sort by
-     * sort - the kind of sort to use (see list above)
-     * data - the data to sort (leave blank or pass null to sort data existing in the store)
-     * ret - flag that tells the function whether to pass back the sorted data or store it in the store
-     * options - any options needed to pass to the sorter upon creation
+     * Parameters: col - the column to sort by sort - the kind of sort to use (see
+     * list above) data - the data to sort (leave blank or pass null to sort data
+     * existing in the store) ret - flag that tells the function whether to pass
+     * back the sorted data or store it in the store options - any options needed to
+     * pass to the sorter upon creation
      * 
-     * returns:
-     * nothing or the data depending on the value of ret parameter.
+     * returns: nothing or the data depending on the value of ret parameter.
      */
-    doSort : function (col, sort, data, ret, options) {
+    doSort : function(col, sort, data, ret, options) {
         options = {} || options;
         
         sort = (sort) ? this.sorters[sort] : this.sorters[this.options.defaultSort];
@@ -498,7 +455,7 @@ Jx.Store = new Class({
         ret = ret ? true : false;
         
         if (!$defined(this.comparator)) {
-            this.comparator = new Jx.Compare({
+            this.comparator = new Jx.Compare( {
                 separator : this.options.separator
             });
         }
@@ -523,16 +480,13 @@ Jx.Store = new Class({
     },
     
     /**
-     * Method: isRowDirty
-     * Private function. Helps determine if a row is dirty
+     * Method: isRowDirty Private function. Helps determine if a row is dirty
      * 
-     * Parameters:
-     * row - the row to check
+     * Parameters: row - the row to check
      * 
-     * Returns:
-     * true | false
+     * Returns: true | false
      */
-    isRowDirty : function (row) {
+    isRowDirty : function(row) {
         if (row.has('dirty')) {
             return row.get('dirty');
         } else {
@@ -541,21 +495,19 @@ Jx.Store = new Class({
     },
     
     /**
-     * Method: resolveCol
-     * Private function. Determines which array index this column refers to
+     * Method: resolveCol Private function. Determines which array index this column
+     * refers to
      * 
-     * Parameters:
-     * col -  a number referencing a column in the store
+     * Parameters: col - a number referencing a column in the store
      * 
-     * Returns:
-     * the name of the column
+     * Returns: the name of the column
      */
-    resolveCol : function (col) {
+    resolveCol : function(col) {
         var t = $type(col);
         if (t === 'number') {
             col = this.options.columns[col];
         } else if (t === 'string') {
-            this.options.columns.each(function (column) {
+            this.options.columns.each(function(column) {
                 if (column.name === col) {
                     col = column;
                 }
@@ -565,31 +517,30 @@ Jx.Store = new Class({
     },
     
     /**
-     * Method: processData
-     * Private function. Processes the data passed into the function into the store.
+     * Method: processData Private function. Processes the data passed into the
+     * function into the store.
      * 
-     * Parameters:
-     * data - the data to put into the store
+     * Parameters: data - the data to put into the store
      */
-    processData : function (data) {
+    processData : function(data) {
         this.fireEvent('preload', [ this, data ]);
-        
+    
         if (!$defined(this.data)) {
             this.data = [];
         }
         if ($defined(data)) {
             this.data.empty();
             var type = $type(data);
-            //is this an array?
+            // is this an array?
             if (type === 'array') {
-                data.each(function (item, index) {
+                data.each(function(item, index) {
                     this.data.include(new Hash(item));
                 }, this);
             } else if (type === 'object') {
-                //is this an object?
+                // is this an object?
                 this.data.include(new Hash(data));
             } else if (type === 'string') {
-                //is this a string?
+                // is this a string?
                 try {
                     this.data.include(new Hash(JSON.decode(data)));
                 } catch (e) {
@@ -601,5 +552,4 @@ Jx.Store = new Class({
             this.fireEvent('loadError', [ this, data ]);
         }
     }
-
 });
