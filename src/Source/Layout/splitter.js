@@ -418,7 +418,6 @@ Jx.Splitter = new Class({
         var topJxl = topSide.retrieve('jxLayout');
         var bottomJxl = bottomSide.retrieve('jxLayout');
         
-        var paddingTop = this.domObj.getPaddingSize().top;
         var paddingTop = this.domObj.measure(function(){
             var m = this.getSizes(['padding'], ['top']);
             return m.padding.top;
