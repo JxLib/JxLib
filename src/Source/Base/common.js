@@ -42,14 +42,33 @@ window.addEvent('load', function() {
 
 Class.Mutators.Family = function(self,name) {
     if ($defined(name)){
-        self.$family = {'name': name};
-        $[name] = $.object;
+        self.jxFamily = name;
         return self;
     }
-    else {
-        $[self] = $.object;
-        this.implement('$family',{'name':self});
+    else {   
+        this.implement({'jxFamily':self});
     }
+};
+function $unlink(object){
+    if (object && object.jxFamily){
+        return object
+    }    
+    var unlinked;
+    switch ($type(object)){
+        case 'object':
+            unlinked = {};
+            for (var p in object) unlinked[p] = $unlink(object[p]);
+        break;
+        case 'hash':
+            unlinked = new Hash(object);
+        break;
+        case 'array':
+            unlinked = [];
+            for (var i = 0, l = object.length; i < l; i++) unlinked[i] = $unlink(object[i]);
+        break;
+        default: return object;
+    }
+    return unlinked;
 };
 
 /* Setup global namespace
@@ -240,6 +259,12 @@ Jx.getPageDimensions = function() {
     return {width: window.getWidth(), height: window.getHeight()};
 }
 
+Jx.type = function(obj){
+    if (typeof obj == undefined){
+        return false;
+    }
+    return obj.jxFamily ? obj.jxFamily : $type(obj);
+}
 /**
  * Class: Element
  *
@@ -256,6 +281,11 @@ Jx.getPageDimensions = function() {
  * NOTE: Many of these methods can be replaced with mootools-more's 
  * Element.Measure
  */
+ 
+ 
+;(function($){ // Wrapper for document.id
+
+    
 Element.implement({
     /**
      * Method: getBoxSizing
@@ -511,3 +541,6 @@ Array.implement({
     }
     
 });
+
+})(document.id || $); // End Wrapper for document.id 
+

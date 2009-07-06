@@ -14,7 +14,8 @@ describe('Store without Data',{
 		value_of(object.count()).should_be_null();
 	},
 	'type should be Jx.Store': function(){
-		value_of($type(object)).should_be('Jx.Store');
+        value_of(Jx.type(object)).should_be('Jx.Store');
+		value_of($type(object)).should_be('object');
 	},
 	'getPosition should return null': function(){
 		value_of(object.getPosition()).should_be_null();

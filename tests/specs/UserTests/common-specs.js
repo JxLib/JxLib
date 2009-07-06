@@ -7,12 +7,21 @@ describe('common tests',{
 			Family: 'Jx.Widget'
 		});
 		newC = new c();
-		value_of($type(newC)).should_be('Jx.Widget');
+        value_of(Jx.type(newC)).should_be('Jx.Widget');
+		value_of($type(newC)).should_be('object');
 	},
     'Jx.getNumber()':function() {
         value_of(Jx.getNumber()).should_be(0);
         value_of(Jx.getNumber('letter')).should_be(0);
         value_of(Jx.getNumber(10)).should_be(10);
+    },
+    '$(instance) gets the HTML Element from instance': function() {
+        var c = new Class({
+            elem : new Element('div'),
+            toElement: function(){return this.elem}
+        });
+        var i = new c();
+        value_of($(i).tagName).should_be('DIV');
     }
 });
 
