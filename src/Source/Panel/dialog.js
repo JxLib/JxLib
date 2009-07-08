@@ -447,9 +447,9 @@ Jx.Dialog.orderDialogs = function(d) {
         Jx.Dialog.BaseZIndex = Math.max(Jx.Dialog.Stack[0].domObj.getStyle('zIndex').toInt(), 1);
     }
     Jx.Dialog.Stack.each(function(d, i) {
-        var z = Jx.Dialog.BaseZIndex+i;
+        var z = Jx.Dialog.BaseZIndex+(i*2);
         if (d.blanket) {
-            d.blanket.setStyle('zIndex',z);
+            d.blanket.setStyle('zIndex',z-1);
         }
         d.domObj.setStyle('zIndex',z);
     });

@@ -1028,7 +1028,7 @@ Jx.Chrome = new Class({
         }
     },
     resizeChrome: function(o) {
-        if (this.chrome && Browser.Engine.trident4) {
+        if (this.chrome && Browser.Engine.trident) {
             this.chrome.setContentBoxSize($(o).getBorderBoxSize());
         }
     }
