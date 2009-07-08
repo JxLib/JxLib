@@ -184,7 +184,8 @@ Jx.ColorPalette = new Class({
                     a.store('swatchColor', bgColor);
                     td.adopt(a);
                 } else {
-                    var span = new Element('span', {'class':'emptyCell'});
+                    td.addClass('emptyCell');
+                    var span = new Element('span');
                     td.adopt(span);
                 }
                 tr.adopt(td);
