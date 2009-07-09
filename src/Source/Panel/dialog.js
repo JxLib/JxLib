@@ -403,9 +403,8 @@ Jx.Dialog = new Class({
         if (url) {
             this.options.contentURL = url;
             this.loadContent(this.content);
-        } else {
-            this.open();
         }
+        this.open();
     },
     
     /**
