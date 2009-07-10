@@ -138,7 +138,7 @@ Jx.Dialog = new Class({
             options,
             {type:'Dialog', position: 'absolute'} // these override anything passed to the options
         ));
-        
+        this.openOnLoaded = this.open.bind(this);
         this.options.parent = $(this.options.parent);
         
         if (this.options.modal) {
@@ -404,8 +404,11 @@ Jx.Dialog = new Class({
     openURL: function(url) {
         if (url) {
             this.options.contentURL = url;
+            this.options.content = null;  //force Url loading
             this.loadContent(this.content);
-        } else {
+            this.addEvent('contentLoaded', this.openOnLoaded); 
+        }
+        else {
             this.open();
         }
     },
@@ -422,11 +425,12 @@ Jx.Dialog = new Class({
             this.isOpening = true;
         }
         if (this.contentIsLoaded) {
+            this.removeEvent('contentLoaded', this.openOnLoaded);
             this.show();
             this.fireEvent('open', this);
             this.isOpening = false;
         } else {
-            this.addEvent('contentLoaded', this.open.bind(this));
+            this.addEvent('contentLoaded', this.openOnLoaded);
         }
     },
     /**
