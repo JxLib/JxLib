@@ -211,7 +211,7 @@ Jx.createIframeShim = function() {
 Jx.getNumber = function(n, def) {
   var result = n===null||isNaN(parseInt(n,10))?(def||0):parseInt(n,10);
   return result;
-}
+};
 
 /**
  * Method: getPageDimensions
@@ -223,7 +223,7 @@ Jx.getNumber = function(n, def) {
  */
 Jx.getPageDimensions = function() {
     return {width: window.getWidth(), height: window.getHeight()};
-}
+};
 
 /**
  * Class: Element
