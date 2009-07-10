@@ -141,6 +141,7 @@ Jx.Dialog = new Class({
             {type:'Dialog', position: 'absolute'} // these override anything passed to the options
         ));
         
+        this.openOnLoaded = this.open.bind(this);
         this.options.parent = $(this.options.parent);
         
         if (this.options.modal) {
@@ -400,11 +401,17 @@ Jx.Dialog = new Class({
      * url - <String> the url to load when opening.
      */
     openURL: function(url) {
-        if (url) {
-            this.options.contentURL = url;
-            this.loadContent(this.content);
+        if (!this.isOpening) {
+            this.isOpening = true;
         }
-        this.open();
+        if (this.contentIsLoaded) {
+            this.removeEvent('contentLoaded', this.openOnLoaded);
+            this.show();
+            this.fireEvent('open', this);
+            this.isOpening = false;
+        } else {
+            this.addEvent('contentLoaded', this.openOnLoaded);
+        }
     },
     
     /**
