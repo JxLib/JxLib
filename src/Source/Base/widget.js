@@ -553,6 +553,7 @@ Jx.Widget = new Class({
      * Parameters:
      * template - the template to use in grabbing elements
      * classes - an array of class names to use in grabbing elements
+     * container - the container to add the template into
      * 
      * Returns:
      * a hash object containing the requested Elements keyed by the class names

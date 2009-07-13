@@ -1,5 +1,9 @@
+// $Id: $
 /**
  * Class: Jx.Field.Select
+ * 
+ * Extends: <Jx.Field>
+ * 
  * This class represents a form select field.
  * 
  * These fields are rendered as below.
@@ -13,6 +17,15 @@
  * </div>
  * (end)
  * 
+ * Example:
+ * (code)
+ * (end)
+ *
+ * License: 
+ * Copyright (c) 2009, Jon Bomgardner.
+ * 
+ * This file is licensed under an MIT style license
+ * 
  */
 
 Jx.Field.Select = new Class({
@@ -20,27 +33,32 @@ Jx.Field.Select = new Class({
     Extends: Jx.Field,
     
     options: {
+        /**
+         * Options: comboOpts
+         * Optional, defaults to null. if not null, this should be an array of objects 
+         * formated like [{value:'', selected: true|false, text:''},...]
+         */
         comboOpts: null,
+        /**
+         * Option: template
+         * The template for creating this select input
+         */
         template: '<label class="jxInputLabel"></label><select class="jxInputSelect"></select><span class="jxInputTag"></span>'
     },
-    
+    /**
+     * Property: type
+     * Indictes this type of field.
+     */
     type: 'Select',
     
     /**
      * Constructor: Jx.Field.Select
      * Creates a select field.
      * 
-     * Params:
-     * options - see below
-     * form - Optional. The form this field is associated with.
-     * 
-     * Options:
-     * In addition to all options for Jx.Field, there are
-     * 
-     * comboOpts - Optional, defaults to null. When type is 'combo' this option sets the different select options available.
-     *      format: [{value:'', selected: true|false, text:''},...]
+     * Parameters:
+     * options - <Jx.Field.Select.Options> and <Jx.Field.Options>
      */
-    initialize: function (options, form) {
+    initialize: function (options) {
         this.parent(options);
         
         if ($defined(this.options.comboOpts)) {
@@ -75,9 +93,7 @@ Jx.Field.Select = new Class({
     
     /**
      * Method: getValue
-     * Returns the current value of the field. If the field is a checkbox or 
-     * radiobutton then the field must be "checked" in order to return a value.
-     * Otherwise it returns null.
+     * Returns the current value of the field.
      */
     getValue: function () {
         var index = this.field.get("selectedIndex");

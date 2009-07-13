@@ -1,29 +1,93 @@
+// $Id: $
 /**
  * Class: Jx.Form
+ * 
+ * Extends: <Jx.Widget>
+ * 
  * A class that represents an HTML form. You add fields using either Jx.Form.add() 
  * or by using the field's .addTo() method. You can get all form values or set them 
  * using this class. It also handles validation of fields. 
  *    
+ * Example:
+ * (code)
+ * (end)
+ *
+ * License: 
+ * Copyright (c) 2009, Jon Bomgardner.
  * 
+ * This file is licensed under an MIT style license
  */
 Jx.Form = new Class({
 	
 	Extends: Jx.Widget,
 	
 	options: {
+        /**
+         * Option: method
+         * the method used to submit the form
+         */
 		method: 'post',
+		/**
+         * Option: action
+         * where to submit it to
+         */
 		action: '',
-		fileUpload: false,    //not yet supported
+		/**
+         * Option: fileUpload
+         * whether this form handles file uploads or not. 
+         */
+		fileUpload: false,
+		/**
+         * Option: id
+         * the id of this form
+         */
 		id: null,
+		/**
+         * Option: formClass
+         */
 		formClass: null,
+		/**
+         * Option: name
+         * the name property for the form
+         */
 		name: '',
+		/**
+         * Option: validationOptions
+         * options for determining validation behavior. See docs for mootools-more's
+         * FormValidator for valid options.
+         */
 		validationOptions: {
             validateOnSubmit: false
         },
-        
+        /**
+         * Option: errors
+         * Error object used to determine error message settings
+         */
 		errors: {
+            /**
+             * Option: showErrorMessages
+             * How errors are shown. Values are 'together', 'individual', or 'both'.
+             * If 'together' then all errors are shown at the top of the page. If
+             * 'individual' then errors are only noted by the fields. 'both' will do both.
+             * In any case, a class will be added to the invalid field that can be used
+             * to style the field however you wish.
+             */
 		    showErrorMessages: 'together',
+		    /**
+		     * Option: messageStyle
+		     * Determines how error messages are displayed. Values are
+		     * either 'text', 'tip', or 'none'. 'text' shows the error in a span that 
+		     * you can style. 'tip' shows just an icon that when hovered will
+		     * pop up a tooltip with the error message. 'none' will not show
+		     * any message so that the form's caller can handle errors. In any case,
+		     * the input itself will have a class of 'jxFieldInvalid' added to it.
+		     */
             messageStyle: 'text',
+            /**
+             * Option: displayError
+             * Whether to display only a single error or all of them in the message.
+             * Valid values are 'single' or 'all'.
+             */
             displayError: 'all'
         }
 	},
@@ -55,38 +119,8 @@ Jx.Form = new Class({
      * should use form.addTo() to add the form to the DOM.
      * 
      * Parameters:
-     * options - {Object} an options object as described below.
+     * options - <Jx.Form.Options> and <Jx.Widget.Options>
      * 
-     * Options:
-     * method - the method used to submit the form
-     * action - where to submit it to
-     * fileUpload - whether this form handles file uploads or not. 
-     *    			NOTE: not currently implemented
-     * id - the id of this form
-     * name - the name property for the form
-     * formClass - a CSS class used to style the form (in addition to the standard)
-     * showErrorMessages - How errors are shown. Values are 'together', 'individual', or 'both'.
-     * 					   If 'together' then all errors are shown at the top of the page. If
-     * 					   'individual' then errors are only noted by the fields. 'both' will do both.
-     * 					   In any case, a class will be added to the invalid field that can be used
-     * 					   to style the field however you wish. The default styling will be
-     * 					   to change the background to red.
-     * validationOptions - options for determining validation behavior. See docs for mootools-more's
-     *                   FormValidator for valid options.
-     * messageStyle - Determines how error messages are displayed. Values are
-     *                either 'text', 'tip', or 'none'. 'text' shows the error in a span that 
-     *                you can style. 'tip' shows just an icon that when hovered will
-     *                pop up a tooltip with the error message. 'none' will not show
-     *                any message so that the form's caller can handle errors. In any case,
-     *                the input itself will have a class of 'jxFieldInvalid' added to it.
-     * displayError - Whether to display only a single error or all of them in the message.
-     *                Valid values are 'single' or 'all'.
-     * buttons - An array of buttons. This can either contain the standard, prepackaged buttons
-     * 			 which are 'submit','cancel', and 'reset' or you can pass in your own objects as
-     * 			 either configs or instantiated Jx.Button instances. If you do pass in your own, you will
-     * 			 need to handle the submitting, canceling, and resetting of your form as is appropriate
-     * 			 for your application.
-     * buttonLoc - Tells whether the buttons are placed at the 'top' or 'bottom' of the form. Default is 'bottom'.
      */
     initialize : function (options) {
         this.setOptions(options);
@@ -107,21 +141,46 @@ Jx.Form = new Class({
         }
     },
 
+    /**
+     * APIMethod: enableValidation
+     * Call this method after adding the form to the DOM to enable
+     * validation of the form
+     * 
+     */
     enableValidation : function () {
         this.validator = new FormValidator(this.domObj,
                 this.options.validationOptions);
         this.validator.addEvents({
-            'onElementValidate' : this.elementFailedValidator.bind(this),
+            'onElementValidate' : this.elementValidator.bind(this),
             'onElementPass' : this.elementPassed.bind(this),
             'onElementFail' : this.elementFailed.bind(this)
         });
     },
 
+    /**
+     * APIMethod: addField
+     * Adds a <Jx.Field> subclass to this form's fields hash
+     * 
+     * Parameters:
+     * field - <Jx.Field> to add
+     */
     addField : function (field) {
         this.fields.set(field.id, field);
     },
 
-    elementFailedValidator : function (isValid, field, className, warn) {
+    /**
+     * Method: elementValidator
+     * Event handler called when a specific element fails or passes
+     * a specific validator. It is used to automatically add the error
+     * to the field class and display errors is needed
+     * 
+     * Parameters:
+     * isValid - {boolean} indicates whether validator passed or not
+     * field - {Element} the element that was being validated
+     * className - {string} the name of the validator
+     * warn - {boolean} whether this should be a warning (not really used)
+     */
+    elementValidator : function (isValid, field, className, warn) {
         var validator = this.validator.getValidator(className);
         var fld = field.retrieve('field');
         var errors;
@@ -146,12 +205,26 @@ Jx.Form = new Class({
             }
         }
     },
-
+    
+    /**
+     * Method: elementPassed
+     * event handler for when a single element passes all validators
+     * 
+     * Parameters:
+     * field - an Element representing the passed field
+     */
     elementPassed : function (field) {
         var fld = field.retrieve('field');
         fld.clearErrors();
     },
 
+    /**
+     * Method: elementFailed
+     * event handler for when a single element fails validation
+     * 
+     * Parameters:
+     * field - an Element representing the failed field
+     */
     elementFailed : function (field) {
         var fld = field.retrieve('field');
         fld.showErrors(this.options.errors);
@@ -160,6 +233,9 @@ Jx.Form = new Class({
     /**
      * Method: isValid
      * Determines if the form passes validation
+     * 
+     * Parameters:
+     * evt - the Mootools event object
      */
     isValid : function (evt) {
         var valid = this.validator.validate(evt);
@@ -172,7 +248,7 @@ Jx.Form = new Class({
     },
 
     /**
-     * Method: getValues
+     * APIMethod: getValues
      * Gets the values of all the fields in the form as a Hash object. This
      * function doesn't account for arrayed names (i.e. 'user[]' or 'user[password]')
      * but will need to be enhanced for this use case.
@@ -188,7 +264,7 @@ Jx.Form = new Class({
         return vals;
     },
     /**
-     * Method: setValues
+     * APIMethod: setValues
      * Used to set values on the form
      * 
      * Parameters:
@@ -204,7 +280,7 @@ Jx.Form = new Class({
     },
 
     /**
-     * Method: showErrors
+     * APIMethod: showErrors
      * Displays all of the errors in the error object at the top of the form.
      */
     showErrors : function () {
@@ -239,8 +315,8 @@ Jx.Form = new Class({
         
     },
     /**
-     * Method: clearError
-     * Private Method. Clears the error message from the top of the form.
+     * APIMethod: clearError
+     * Clears the error message from the top of the form.
      */
     clearErrors : function () {
         if ($defined(this.errorMessages)) {
@@ -249,6 +325,13 @@ Jx.Form = new Class({
         this.errors.empty();
     },
 
+    /**
+     * APIMethod: add
+     * 
+     * Parameters:
+     * Pass as many parameters as you like. However, they should all be
+     * <Jx.Field> objects.
+     */
     add : function () {
         var field;
         for (var x = 0; x < arguments.length; x++) {
@@ -262,7 +345,11 @@ Jx.Form = new Class({
         }
         return this;
     },
-        
+    
+    /**
+     * APIMethod: reset
+     * 
+     */
     reset : function () {
         this.fields.each(function (field, name) {
             field.reset();

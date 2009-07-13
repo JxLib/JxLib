@@ -1,28 +1,49 @@
-
+// $Id: $
 /**
  * Class: Jx.Field.Check
- * This class represents a radio input field. 
+ * 
+ * Extends: <Jx.Field>
+ * 
+ * This class represents a radio input field.
+ * 
+ * Example:
+ * (code)
+ * (end)
+ *
+ * License: 
+ * Copyright (c) 2009, Jon Bomgardner.
+ * 
+ * This file is licensed under an MIT style license
+ * 
  */
 Jx.Field.Checkbox = new Class({
     
     Extends : Jx.Field,
 
     options : {
+        /**
+         * Option: template
+         * The template used for rendering this field
+         */
         template : '<input class="jxInputCheck" type="checkbox"/><label class="jxInputLabel"></label><span class="jxInputTag"></span>',
+        /**
+         * Option: checked
+         * Whether this field is checked or not
+         */
         checked : false
     },
-    
+    /**
+     * Property: type
+     * The type of this field
+     */
     type : 'Check',
     
     /**
-     * Constructor: Jx.Field.Check Creates a radiobutton input field.
+     * Constructor: Jx.Field.Check 
+     * Creates a checkbox input field.
      * 
-     * Params: options - see below
-     * 
-     * Options: In addition to all options for Jx.Form.Field, there are
-     * 
-     * checked - {true|false} whether this radio is selected (checked)
-     * or not.
+     * Params: 
+     * options - <Jx.Field.Checkbox.Options> and <Jx.Field.Options>
      */
     initialize : function (options, form) {
         this.parent(options, form);
@@ -34,10 +55,9 @@ Jx.Field.Checkbox = new Class({
     },
     
     /**
-     * Method: setValue Sets the value property of the field
+     * APIMethod: setValue Sets the value property of the field
      * 
-     * Parameters: v - The value to set the field to, "checked" if a
-     * checkbox or radiobutton should be checked.
+     * Parameters: v - The value to set the field to, "checked" if it should be checked.
      */
     setValue : function (v) {
         if (v === 'checked') {
@@ -48,8 +68,7 @@ Jx.Field.Checkbox = new Class({
     },
     
     /**
-     * Method: getValue Returns the current value of the field. If the
-     * field is a checkbox or radiobutton then the field must be
+     * APIMethod: getValue Returns the current value of the field. The field must be
      * "checked" in order to return a value. Otherwise it returns null.
      */
     getValue : function () {
@@ -61,7 +80,7 @@ Jx.Field.Checkbox = new Class({
     },
     
     /**
-     * Method: reset
+     * APIMethod: reset
      * Sets the field back to the value passed in the original
      * options
      */

@@ -1,17 +1,40 @@
-
+// $Id: $
 /**
  * Class: Jx.Field.Radio
- * This class represents a radio input field. 
+ * 
+ * Extends: <Jx.Field>
+ * 
+ * This class represents a radio input field.
+ * 
+ * Example:
+ * (code)
+ * (end)
+ *
+ * License: 
+ * Copyright (c) 2009, Jon Bomgardner.
+ * 
+ * This file is licensed under an MIT style license
  */
 Jx.Field.Radio = new Class({
     
     Extends: Jx.Field,
     
     options: {
+        /**
+         * Option: template
+         * The template used to create this field
+         */
         template: '<input class="jxInputRadio" type="radio" /><label class="jxInputLabel"></label><span class="jxInputTag"></span>',
+        /**
+         * Option: checked
+         * whether this radio button is checked or not
+         */
         checked: false
     },
-    
+    /**
+     * Property: type
+     * What kind of field this is
+     */
     type: 'Radio',
     
     /**
@@ -19,12 +42,7 @@ Jx.Field.Radio = new Class({
      * Creates a radiobutton input field.
      * 
      * Params:
-     * options - see below
-     * 
-     * Options:
-     * In addition to all options for Jx.Form.Field, there are
-     * 
-     *  checked - {true|false} whether this radio is selected (checked) or not.
+     * options - <Jx.Field.Radio.Options> and <Jx.Field.Options>
      */
     initialize: function (options) {
         this.parent(options);
@@ -37,12 +55,11 @@ Jx.Field.Radio = new Class({
     
 
     /**
-     * Method: setValue
+     * APIMethod: setValue
      * Sets the value property of the field
      * 
      * Parameters:
-     * v - The value to set the field to, "checked" if a checkbox
-     *      or radiobutton should be checked.
+     * v - The value to set the field to, "checked" it should be checked.
      */
     setValue: function (v) {
         if (v === 'checked') {
@@ -53,10 +70,9 @@ Jx.Field.Radio = new Class({
     },
     
     /**
-     * Method: getValue
-     * Returns the current value of the field. If the field is a checkbox or 
-     * radiobutton then the field must be "checked" in order to return a value.
-     * Otherwise it returns null.
+     * APIMethod: getValue
+     * Returns the current value of the field. The field must be "checked" 
+     * in order to return a value. Otherwise it returns null.
      */
     getValue: function () {
         if (this.field.get("checked")) {

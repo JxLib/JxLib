@@ -1,5 +1,9 @@
+// $Id: $
 /**
  * Class: Jx.Field.Textarea
+ * 
+ * Extends: <Jx.Field>
+ * 
  * This class represents a textarea field.
  * 
  * These fields are rendered as below.
@@ -13,34 +17,54 @@
  * </div>
  * (end)
  * 
+ * Example:
+ * (code)
+ * (end)
+ *
+ * License: 
+ * Copyright (c) 2009, Jon Bomgardner.
+ * 
+ * This file is licensed under an MIT style license
+ * 
  */
 Jx.Field.Textarea = new Class({
     
     Extends: Jx.Field,
     
     options: {
+        /**
+         * Option: rows
+         * the number of rows to show
+         */
         rows: null,
+        /**
+         * Option: columns
+         * the number of columns to show
+         */
         columns: null,
+        /**
+         * Option: template
+         * the template used to render this field
+         */
         template: '<label class="jxInputLabel"></label><textarea class="jxInputTextarea"></textarea><span class="jxInputTag"></span>'
     },
-    
+    /**
+     * Property: type
+     * The type of field this is.
+     */
     type: 'Textarea',
-    
+    /**
+     * Property: errorClass
+     * The class applied to error elements
+     */
     errorClass: 'jxFormErrorTextarea',
     
     /**
      * Constructor: Jx.Field.Textarea
      * Creates the input.
      * 
-     * Params:
-     * options - see below
-     * form - Optional. The form this field is associated to
-     * 
-     * Options:
-     * In addition to all options for Jx.Form.Field, there are
-     * 
-     * row - the number of rows to show
-     * cols - the number of columns to show
+     * Parameters:
+     * options - <Jx.Field.Textarea.Options> and <Jx.Field.Options>
      */
     initialize: function (options) {
         this.parent(options);

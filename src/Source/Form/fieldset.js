@@ -1,7 +1,19 @@
+// $Id: $
 /**
- * Class: Jx.Form.Group
- * This class represents a group/fieldset. It can be used to group fields together
- * and will create all necessary fields found in its fields option.
+ * Class: Jx.Fieldset
+ * 
+ * Extends: <Jx.Widget>
+ * 
+ * This class represents a fieldset. It can be used to group fields together.
+ * 
+ * Example:
+ * (code)
+ * (end)
+ *
+ * License: 
+ * Copyright (c) 2009, Jon Bomgardner.
+ * 
+ * This file is licensed under an MIT style license
  * 
  */
 Jx.Fieldset = new Class({
@@ -9,30 +21,52 @@ Jx.Fieldset = new Class({
     Extends : Jx.Widget,
 
     options : {
+        /**
+         * Option: legend
+         * The text for the legend of a fieldset. Default is null
+         * or no legend.
+         */
         legend : null,
+        /**
+         * Option: id
+         * The id to assign to this element
+         */
         id : null,
+        /**
+         * Option: fieldsetClass
+         * A CSS class to assign to the fieldset. Useful for custom styling of 
+         * the element
+         */
         fieldsetClass : null,
+        /**
+         * Option: legendClass
+         * A CSS class to assign to the legend. Useful for custom styling of 
+         * the element
+         */
         legendClass : null,
+        /**
+         * Option: template
+         * a template for how this element should be rendered
+         */
         template : '<fieldset class="jxFieldset"><legend class="jxFieldsetLegend"></legend></fieldset>',
+        /**
+         * Option: form
+         * The <Jx.Form> that this fieldset should be added to
+         */
         form : null
     },
-    
+    /**
+     * Property: legend
+     * a holder for the legend Element
+     */
     legend : null,
     
     /**
      * Constructor: Jx.Fieldset
      * Creates a fieldset.
      * 
-     * Parameters:
-     * 
-     * options - An option object as defined below.
-     * 
-     * Options:
-     * legend - The text for the legend of a fieldset. Default is null
-     * 			or no legend. Providing a legend will make this a fieldset,
-     *          otherwise, a div will be created.
-     * id - The id to assign to this element
-     * fieldsetClass - A CSS class to assign to the group/fieldset
+     * Parameters: 
+     * options - <Jx.Fieldset.Options> and <Jx.Widget.Options>
      */
     initialize : function (options) {
         this.parent(options);
@@ -69,7 +103,14 @@ Jx.Fieldset = new Class({
             }
         }
     },
-    
+    /**
+     * APIMethod: add
+     * Adds fields to this fieldset
+     * 
+     * Parameters:
+     * pass as many fields to this method as you like. They should be 
+     * <Jx.Field> objects
+     */
     add : function () {
         var field;
         for (var x = 0; x < arguments.length; x++) {
