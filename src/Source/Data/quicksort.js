@@ -1,6 +1,20 @@
+// $Id: $
 /**
- * Class: Jx.Sort.Quicksort Implementation of a quicksort algorithm designed to
+ * Class: Jx.Sort.Quicksort 
+ * 
+ * Extends: <Jx.Sort>
+ * 
+ * Implementation of a quicksort algorithm designed to
  * work on <Jx.Store> data.
+ * 
+ * Example:
+ * (code)
+ * (end)
+ *
+ * License: 
+ * Copyright (c) 2009, Jon Bomgardner.
+ * 
+ * This file is licensed under an MIT style license
  */
 Jx.Sort.Quicksort = new Class({
 
@@ -9,7 +23,8 @@ Jx.Sort.Quicksort = new Class({
     name : 'quicksort',
 
     /**
-     * Method: sort Actually runs the sort on the data
+     * APIMethod: sort 
+     * Actually runs the sort on the data
      * 
      * returns: the sorted data
      */
@@ -32,10 +47,12 @@ Jx.Sort.Quicksort = new Class({
     },
 
     /**
-     * Method: quicksort Private function. Initiates the sorting. Is
+     * Method: quicksort 
+     * Initiates the sorting. Is
      * called recursively
      * 
-     * Parameters: left - the left hand, or lower, bound of the sort
+     * Parameters: 
+     * left - the left hand, or lower, bound of the sort
      * right - the right hand, or upper, bound of the sort
      */
     quicksort : function (left, right) {
@@ -49,9 +66,10 @@ Jx.Sort.Quicksort = new Class({
     },
 
     /**
-     * Method: partition Private function.
+     * Method: partition
      * 
-     * Parameters: left - the left hand, or lower, bound of the sort
+     * Parameters: 
+     * left - the left hand, or lower, bound of the sort
      * right - the right hand, or upper, bound of the sort
      */
     partition : function (left, right) {
@@ -76,9 +94,10 @@ Jx.Sort.Quicksort = new Class({
     },
 
     /**
-     * Method: findMedianOfMedians Private function.
+     * Method: findMedianOfMedians
      * 
-     * Parameters: left - the left hand, or lower, bound of the sort
+     * Parameters: l
+     * eft - the left hand, or lower, bound of the sort
      * right - the right hand, or upper, bound of the sort
      */
     findMedianOfMedians : function (left, right) {
@@ -103,9 +122,10 @@ Jx.Sort.Quicksort = new Class({
     },
 
     /**
-     * Method: findMedianIndex Private function.
+     * Method: findMedianIndex 
      * 
-     * Parameters: left - the left hand, or lower, bound of the sort
+     * Parameters: 
+     * left - the left hand, or lower, bound of the sort
      * right - the right hand, or upper, bound of the sort
      */
     findMedianIndex : function (left, right, shift) {

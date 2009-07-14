@@ -1,5 +1,9 @@
+// $Id: $
 /**
  * Class: Jx.Compare
+ * 
+ * Extends: <Jx.Object>
+ * 
  * Class that holds functions for doing comparison operations.
  * This class requires the clientside Date() extensions (deps/date.js).
  * 
@@ -9,6 +13,15 @@
  * 0 - if equal.
  * 1 - if the first value is greater that the second.
  * -1 - if the first value is less than the second.
+ * 
+ * Example:
+ * (code)
+ * (end)
+ *
+ * License: 
+ * Copyright (c) 2009, Jon Bomgardner.
+ * 
+ * This file is licensed under an MIT style license
  */
 
 Jx.Compare = new Class({
@@ -21,17 +34,14 @@ Jx.Compare = new Class({
      * initializes this class
      * 
      * Parameters: 
-     * options - class options as listed below
-     * 
-     * Options:
-     * separator - the decimal character in numbers
+     * options - <Jx.Compare.Options>
      */
     initialize: function (options) {
         this.parent(options);
     },
 	
     /**
-     * Method: alphanumeric
+     * APIMethod: alphanumeric
      * Compare alphanumeric variables. This is case sensitive
      * 
      * Parameters:
@@ -43,7 +53,7 @@ Jx.Compare = new Class({
     },
 	
     /**
-     * Method: numeric
+     * APIMethod: numeric
      * Compares numbers
      *
      * Parameters:
@@ -72,7 +82,7 @@ Jx.Compare = new Class({
     },
 	
     /**
-     * Method: ignorecase
+     * APIMethod: ignorecase
      * Compares to alphanumeric strings without regard to case.
      * 
      * Parameters:
@@ -84,7 +94,7 @@ Jx.Compare = new Class({
     },
 	
     /**
-     * Method: currency
+     * APIMethod: currency
      * Compares to currency values.
      * 
      * Parameters:
@@ -96,7 +106,7 @@ Jx.Compare = new Class({
     },
 	
     /**
-     * Method: date
+     * APIMethod: date
      * Compares 2 date values (either a string or an object)
      * 
      * Parameters:
@@ -108,7 +118,14 @@ Jx.Compare = new Class({
         var y = new Date().parse(b);
         return (x < y) ? -1 : (x > y) ? 1 : 0;
     },
-    
+    /**
+     * APIMethod: boolean
+     * Compares 2 bolean values 
+     * 
+     * Parameters:
+     * a - a boolean value 
+     * b - another boolean value
+     */
     'boolean': function (a, b) {
         return (a === true && b === false) ? -1 : (a === b) ? 0 : 1;
     }

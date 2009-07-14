@@ -1,7 +1,20 @@
+// $Id: $
 /**
- * class: Jx.Sort.Mergesort Implementation of a mergesort algorithm designed to
+ * class: Jx.Sort.Mergesort 
+ * 
+ * Extends: <Jx.Sort>
+ * 
+ * Implementation of a mergesort algorithm designed to
  * work on <Jx.Store> data.
  * 
+ * Example:
+ * (code)
+ * (end)
+ *
+ * License: 
+ * Copyright (c) 2009, Jon Bomgardner.
+ * 
+ * This file is licensed under an MIT style license
  */
 Jx.Sort.Mergesort = new Class({
 
@@ -10,7 +23,8 @@ Jx.Sort.Mergesort = new Class({
     name : 'mergesort',
 
     /**
-     * Method: sort Actually runs the sort on the data
+     * APIMethod: sort 
+     * Actually runs the sort on the data
      * 
      * returns: the sorted data
      */
@@ -23,10 +37,12 @@ Jx.Sort.Mergesort = new Class({
     },
 
     /**
-     * Method: mergeSort Private function. Does the physical sorting. Called
+     * Method: mergeSort 
+     * Does the physical sorting. Called
      * recursively.
      * 
-     * Parameters: arr - the array to sort
+     * Parameters: 
+     * arr - the array to sort
      * 
      * returns: the sorted array
      */
@@ -45,10 +61,12 @@ Jx.Sort.Mergesort = new Class({
     },
 
     /**
-     * Method: merge Private function. Does the work of merging to arrays in
-     * order.
+     * Method: merge 
+     * Does the work of merging to arrays in order.
      * 
-     * parameters: left - the left hand array right - the right hand array
+     * parameters: 
+     * left - the left hand array 
+     * right - the right hand array
      * 
      * returns: the merged array
      */

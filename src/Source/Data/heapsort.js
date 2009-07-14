@@ -1,7 +1,21 @@
+// $Id: $
 /**
- * Class: Jx.Sort.Heapsort Implementation of a heapsort algorithm designed to
+ * Class: Jx.Sort.Heapsort 
+ * 
+ * Extends: <Jx.Sort>
+ * 
+ * Implementation of a heapsort algorithm designed to
  * work on <Jx.Store> data.
  * 
+ * 
+ * Example:
+ * (code)
+ * (end)
+ *
+ * License: 
+ * Copyright (c) 2009, Jon Bomgardner.
+ * 
+ * This file is licensed under an MIT style license
  */
 Jx.Sort.Heapsort = new Class({
 
@@ -10,7 +24,8 @@ Jx.Sort.Heapsort = new Class({
     name : 'heapsort',
 
     /**
-     * Method: sort Actually runs the sort on the data
+     * APIMethod: sort 
+     * Actually runs the sort on the data
      * 
      * Returns: the sorted data
      */
@@ -45,7 +60,8 @@ Jx.Sort.Heapsort = new Class({
     },
 
     /**
-     * Method: heapify Private function. Puts the data in Max-heap order
+     * Method: heapify 
+     * Puts the data in Max-heap order
      * 
      * Parameters: count - the number of records we're sorting
      */
@@ -59,7 +75,7 @@ Jx.Sort.Heapsort = new Class({
     },
 
     /**
-     * Method: siftDown Private function.
+     * Method: siftDown 
      * 
      * Parameters: start - the beginning of the sort range end - the end of the
      * sort range

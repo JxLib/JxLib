@@ -1,38 +1,62 @@
+// $Id: $
 /**
  * Class: Jx.Store.Remote
- * Extends <Jx.Store>. This class adds the ability to load/save data remotely.
  * 
- * Options:
- * In addition to the options for the basic store, it has the following
- * 	
- * dataUrl - The url to load data from
- * autoSave - true | false, indicated whether data should be saved as soon as it's changed
- * saveUrl - the url to send data to
+ * Extends: <Jx.Store>
  * 
+ * This class adds the ability to load/save data remotely.
+ *  
  * Events:
  * onSaveSuccess() - event fired when all saving happens successfully
  * onSaveError() - event fired when the server returns an error during saving
+ * 
+ * Example:
+ * (code)
+ * (end)
+ *
+ * License: 
+ * Copyright (c) 2009, Jon Bomgardner.
+ * 
+ * This file is licensed under an MIT style license
  */
 Jx.Store.Remote = new Class({
 
     Extends : Jx.Store,
 
     options : {
+        /**
+         * Option: dataUrl
+         * The URL to get data from
+         */
         dataUrl : '',
+        /**
+         * Option: autoSave
+         * Whether to automatically save data changes
+         */
         autoSave : false,
+        /**
+         * Option: saveUrl
+         * The URL to send data to to be saved
+         */
         saveUrl : ''
     },
 
     saveCount : 0,
     continueSaving : true,
-
+    /**
+     * Constructor: Jx.Store.Remote
+     * Creates the Remote Store.
+     * 
+     * Parameters: 
+     * options - <Jx.Store.Remote.Options> and <Jx.Store.Options>
+     */
     initialize : function (options) {
         this.parent(options);
         this.addEvent('newrow', this.onNewRow.bind(this));
     },
 
     /**
-     * Method: load
+     * APIMethod: load
      * Used to load data either locally or remote
      * 
      * Parameters:
@@ -47,7 +71,7 @@ Jx.Store.Remote = new Class({
     },
 
     /** 
-     * Method: refresh
+     * APIMethod: refresh
      * Override of base function <Jx.Store#refresh>. Allow refreshing data from the server
      * 
      * Parameters:
@@ -68,7 +92,7 @@ Jx.Store.Remote = new Class({
     },
     
     /** 
-     * Method: save
+     * APIMethod: save
      * Determines if a row is dirty and needs to be saved to the server.
      */
     save : function () {
@@ -104,7 +128,7 @@ Jx.Store.Remote = new Class({
     
     /** 
      * Method: remoteSave
-     * Private function. Actually does the work of sending the row to the server for saving.
+     * Actually does the work of sending the row to the server for saving.
      * 
      * Parameters:
      * data - the row to save
@@ -129,7 +153,7 @@ Jx.Store.Remote = new Class({
     
     /** 
      * Method: remoteLoad
-     * Private function. Calls the server to get data
+     * Calls the server to get data
      */
     remoteLoad : function () {
         var req = new Request.JSON({
@@ -141,6 +165,14 @@ Jx.Store.Remote = new Class({
         req.send();
     },
     
+    /**
+     * Method: processReturn
+     * processes the return from the save request
+     * 
+     * Parameters:
+     * data - decoded JSON object
+     * text - the JSON object as a string
+     */
     processReturn : function (data, text) {
         if ($defined(data.success) && data.success === true) {
             this.processSaveReturn(data.data);
@@ -148,7 +180,14 @@ Jx.Store.Remote = new Class({
             this.handleSaveError(data, text);
         }
     },
-    
+    /**
+     * Method: processGetReturn
+     * Processes returned data from the get request
+     * 
+     * Parameters:
+     * data - decoded JSON object
+     * text - the JSON object as a string
+     */
     processGetReturn : function (data, text) {
         if ($defined(data.success) && data.success === true) {
             this.processGetData(data.data);

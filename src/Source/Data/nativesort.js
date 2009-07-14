@@ -1,7 +1,20 @@
+// $Id: $
 /**
- * Class: Jx.Sort.Heapsort
- * Implementation of a heapsort algorithm designed to work on <Jx.Store> data.
+ * Class: Jx.Sort.Nativesort
  * 
+ * Extends: <Jx.Sort>
+ * 
+ * Implementation of a native sort algorithm designed to work on <Jx.Store> data.
+ * 
+ * 
+ * Example:
+ * (code)
+ * (end)
+ *
+ * License: 
+ * Copyright (c) 2009, Jon Bomgardner.
+ * 
+ * This file is licensed under an MIT style license
  */
 Jx.Sort.Nativesort = new Class({
 
