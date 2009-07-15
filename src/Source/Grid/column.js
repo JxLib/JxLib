@@ -1,26 +1,96 @@
+// $Id: $
 /**
  * Class: Jx.Column
+ * 
+ * Extends: <Jx.Object>
+ * 
  * The class used for defining columns for grids.
  *
- * copyright 2009 by Jonathan Bomgardner
- * MIT style license
+ * Example:
+ * (code)
+ * (end)
+ *
+ * License: 
+ * Copyright (c) 2009, Jon Bomgardner.
+ * 
+ * This file is licensed under an MIT style license
  */
 Jx.Column = new Class({
 
     Extends: Jx.Object,
 
     options: {
+        /**
+         * Option: header
+         * The text to be used as a header for this column
+         */
         header: null,
+        /**
+         * Option: modelField
+         * The field of the model that this column is keyed to
+         */
         modelField: null,
+        /**
+         * Option: width
+         * Determines the width of the column. Set to 'null' or 'auto'
+         * to allow the column to autocalculate it's width based on its
+         * contents
+         */
         width: null,
+        /**
+         * Option: isEditable
+         * allows/disallows editing of the column contents
+         */
         isEditable: false,
+        /**
+         * Option: isSortable
+         * allows/disallows sorting based on this column
+         */
         isSortable: false,
+        /**
+         * Option: isResizable
+         * allows/disallows resizing this column dynamically
+         */
         isResizable: false,
+        /**
+         * Option: isHidden
+         * determines if this column can be shown or not
+         */
         isHidden: false,
+        /**
+         * Option: formatter
+         * an instance of <Jx.Formatter> or one of its subclasses which 
+         * will be used to format the data in this column. It can also be 
+         * an object containing the name (This should be the part after 
+         * Jx.Formatter in the class name. For instance, to get a currency 
+         * formatter, specify 'Currency' as the name.) and options for the 
+         * needed formatter (see individual formatters for options). 
+         * (code)
+         * {
+         *    name: 'formatter name',
+         *    options: {}
+         * }
+         * (end)
+         */
         formatter: null,
+        /**
+         * Option: name
+         * The name given to this column
+         */
         name: '',
+        /**
+         * Option: dataType
+         * The type of the data in this column, used for sorting. Can be 
+         * alphanumeric, numeric, currency, boolean, or date
+         */
         dataType: 'alphanumeric',
-    
+        /**
+         * Option: templates
+         * objects used to determine the type of tag and css class to 
+         * assign to a header cell and a regular cell. The css class can 
+         * also be a function that returns a string to assign as the css 
+         * class. The function will be passed the text to be formatted.
+         */
         templates: {
             header: {
                 tag: 'span',
@@ -33,9 +103,20 @@ Jx.Column = new Class({
         }
     
     },
-    
+    /**
+     * Property: model
+     * holds a reference to the model (an instance of <Jx.Store> or subclass)
+     */
     model: null,
-    
+    /**
+     * Constructor: Jx.Column
+     * initializes the column object
+     * 
+     * Parameters:
+     * options - <Jx.Column.Options> and <Jx.Object.Options>
+     * grid - a reference to the grid this column is associated with. 
+     *          Must be a <Jx.Grid> or subclass. 
+     */
     initialize : function (options, grid) {
         this.parent(options);
         if ($defined(grid) && grid instanceof Jx.Grid) {
@@ -52,7 +133,11 @@ Jx.Column = new Class({
             }
         }
     },
-    
+    /**
+     * APIMethod: getHeaderHTML
+     * Returns the header text wrapped in the tag specified in 
+     * options.templates.hedaer.tag
+     */
     getHeaderHTML : function () {
         var text = this.options.header ? this.options.header
                 : this.options.modelField;
@@ -69,7 +154,15 @@ Jx.Column = new Class({
         }
         return el;
     },
-    
+    /**
+     * APIMethod: getWidth
+     * returns the width of the column. 
+     * 
+     * Parameters:
+     * recalculate - {boolean} determines if the width should be recalculated 
+     *          if the column is set to autocalculate. Has no effect if the width is 
+     *          preset
+     */
     getWidth : function (recalculate) {
         //check for null width or for "auto" setting and measure all contents in this column
         //in the entire model as well as the header (really only way to do it).
@@ -129,7 +222,15 @@ Jx.Column = new Class({
         }
         return this.width;
     },
-    
+    /**
+     * Method: measure
+     * This method does the dirty work of actually measuring a cell
+     * 
+     * Parameters:
+     * text - the text to measure
+     * klass - a string indicating and extra classes to add so that 
+     *          css classes can be taken into account.
+     */
     measure : function (text, klass) {
         if ($defined(this.options.formatter)
                 && text !== this.options.header) {
@@ -154,22 +255,40 @@ Jx.Column = new Class({
         d.destroy();
         return s;
     },
+    /**
+     * APIMethod: isEditable
+     * Returns whether this column can be edited
+     */
     isEditable : function () {
         return this.options.isEditable;
     },
-    
+    /**
+     * APIMethod: isSortable
+     * Returns whether this column can be sorted
+     */
     isSortable : function () {
         return this.options.isSortable;
     },
-    
+    /**
+     * APIMethod: isResizable
+     * Returns whether this column can be resized
+     */
     isResizable : function () {
         return this.options.isResizable;
     },
-    
+    /**
+     * APIMethod: isHidden
+     * Returns whether this column is hidden
+     */
     isHidden : function () {
         return this.options.isHidden;
     },
-    
+    /**
+     * APIMethod: getHTML
+     * returns the content of the current model row wrapped in the tag
+     * specified by options.templates.cell.tag and with the appropriate classes
+     * added
+     */
     getHTML : function () {
         var text = this.grid.getModel().get(this.options.modelField);
         var ct = this.options.templates.cell;

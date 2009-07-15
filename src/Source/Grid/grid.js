@@ -19,6 +19,7 @@
  * 
  * Prelighter - prelights rows, columns, and cells 
  * Selector - selects rows, columns, and cells
+ * Sorter - sorts rows by specific column
  *
  * Jx.Grid renders data that comes from an external source.  This external 
  * source, called the model, must be a Jx.Store or extended from it (such as 
@@ -28,6 +29,7 @@
  *
  * License: 
  * Copyright (c) 2008, DM Solutions Group Inc.
+ * This version Copyright (c) 2009, Jon Bomgardner.
  * 
  * This file is licensed under an MIT style license
  */
@@ -37,13 +39,15 @@ Jx.Grid = new Class({
     Extends : Jx.Widget,
 
     options : {
-        /* Option: parent
+        /**
+         * Option: parent
          * the HTML element to create the grid inside. The grid will resize
          * to fill the domObj.
          */
         parent : null,
 
-        /* Options: columns
+        /**
+         * Options: columns
          * an object consisting of a columns array that defines the individuals
          * columns as well as containing any options for Jx.Grid.Columns or 
          * a Jx.Grid.Columns object itself.
@@ -52,43 +56,60 @@ Jx.Grid = new Class({
             columns : []
         },
 
-        /* Option: row
+        /**
+         * Option: row
          * Either a Jx.Grid.Row object or a json object defining options for
          * the class
          */
         row : null,
 
-        /* Option: plugins
+        /**
+         * Option: plugins
          * an array containing Jx.Grid.Plugin subclasses or an object 
          * that indicates the name of a predefined plugin and its options.
          */
         plugins : [],
 
-        /* Option: model
+        /**
+         * Option: model
          * An instance of Jx.Store or one of its descendants
          */
         model : null
 
     },
-
+    /**
+     * Property: model
+     * holds a reference to the <Jx.Store> that is the model for this
+     * grid
+     */
     model : null,
+    /**
+     * Property: columns
+     * holds a reference to the columns object
+     */
     columns : null,
+    /**
+     * Property: row
+     * Holds a reference to the row object
+     */
     row : null,
+    /**
+     * Property: plugins
+     * A hash containing all of the plugins setup for this grid 
+     * keyed by plugin name
+     */
     plugins : new Hash(),
+    /**
+     * Property: currentCell
+     * holds an object indicating the current cell that the mouse is over
+     */
     currentCell : null,
 
     /**
      * Constructor: Jx.Grid
      * 
      * Parameters: 
-     * options - defined below
-     * 
-     * Options:
-     *  parent - The element, or an id of one, that the grid will be inserted into.
-     *  columns - A Jx.Columns object or the config object for one.
-     *  row - A Jx.Row object or the config object for one.
-     *  plugin - an array of Jx.Plugin descendants and/or config objects for them
-     *  model - A Jx.Store or a class that descends from it.
+     * options - <Jx.Grid.Options> and <Jx.Widget.Options>
      */
     initialize : function (options) {
         this.parent(options);
@@ -526,6 +547,7 @@ Jx.Grid = new Class({
     
     /**
      * Method: modelChanged
+     * Event listener that is fired when the model changes in some way
      */
     modelChanged : function (row, col) {
         //grab new TD

@@ -1,14 +1,47 @@
-
-
+// $Id: $
+/**
+ * Class: Jx.Formatter.Phone
+ * 
+ * Extends: <Jx.Formatter>
+ * 
+ * Formats data as phone numbers. Currently only US-style phone numbers
+ * are supported. 
+ *
+ * Example:
+ * (code)
+ * (end)
+ *
+ * License: 
+ * Copyright (c) 2009, Jon Bomgardner.
+ * 
+ * This file is licensed under an MIT style license
+ */
 Jx.Formatter.Phone = new Class({
     
     Extends: Jx.Formatter,
     
     options: {
+        /**
+         * Option: useParens
+         * Whether to use parenthesis () around the area code.
+         * Defaults to true
+         */
         useParens: true,
+        /**
+         * Option: separator
+         * The character to use as a separator in the phone number. 
+         * Defaults to a dash '-'.
+         */
         separator: "-"
     },
-    
+    /**
+     * APIMethod: format
+     * Format the input as a phone number. This will strip all non-numeric
+     * characters and apply the current default formatting
+     * 
+     * Parameters:
+     * value - the text to format
+     */
     format : function (value) {
         //first strip any non-numeric characters
         var sep = this.options.separator;

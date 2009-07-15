@@ -1,3 +1,4 @@
+// $Id: $
 /**
  * Class: Jx.Widget
  * Base class for all widgets (visual classes) in the JxLib Framework. This 
@@ -604,7 +605,7 @@ Jx.Widget = new Class({
 if (Jx.isAir){
     Jx.Widget.implement({
         /**
-         * Method: checkRequest()
+         * Method: checkRequest
          * Is fired after a delay to check the request to make sure it's not
          * failing in AIR.
          */

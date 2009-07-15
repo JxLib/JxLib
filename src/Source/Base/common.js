@@ -533,6 +533,14 @@ Element.implement({
 
 Array.implement({
     
+    /**
+     * Method: swap
+     * swaps 2 elements of an array
+     * 
+     * Parameters:
+     * a - the first position to swap
+     * b - the second position to swap
+     */
     'swap': function(a,b){
         var temp;
         temp = this[a];

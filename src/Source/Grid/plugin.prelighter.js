@@ -1,47 +1,55 @@
+// $Id: $
 /**
  * Class: Jx.Plugin.Prelighter
+ * 
+ * Extends: <Jx.Plugin>
+ * 
  * Grid plugin to prelight rows, columns, and cells
  * 
  * Inspired by the original code in Jx.Grid
- * MIT style license
+ * 
+ * License: 
+ * Original Copyright (c) 2008, DM Solutions Group Inc.
+ * This version Copyright (c) 2009, Jon Bomgardner.
+ * 
+ * This file is licensed under an MIT style license
  */
 Jx.Plugin.Prelighter = new Class({
 
     Extends : Jx.Plugin,
 
     options : {
-
-        /* Option: cell
+        /**
+         * Option: cell
          * defaults to false.  If set to true, the cell under the mouse is
          * highlighted as the mouse moves.
          */
         cell : false,
-
-        /* Option: row
+        /**
+         * Option: row
          * defaults to false.  If set to true, the row under the mouse is
          * highlighted as the mouse moves.
          */
         row : false,
-
-        /* Option: column
+        /**
+         * Option: column
          * defaults to false.  If set to true, the column under the mouse is
          * highlighted as the mouse moves.
          */
         column : false,
-
-        /* Option: rowHeader
+        /**
+         * Option: rowHeader
          * defaults to false.  If set to true, the row header of the row under
          * the mouse is highlighted as the mouse moves.
          */
         rowHeader : false,
-
-        /* Option: columnHeader
+        /**
+         * Option: columnHeader
          * defaults to false.  If set to true, the column header of the column
          * under the mouse is highlighted as the mouse moves.
          */
         columnHeader : false
     },
-
     /**
      * APIMethod: init
      * Sets up the plugin and connects it to the grid
@@ -56,7 +64,6 @@ Jx.Plugin.Prelighter = new Class({
         this.grid.addEvent('gridMove', this.prelight.bind(this));
 
     },
-
     /**
      * Method: prelight
      * dispatches the event to the various prelight methods.
@@ -90,7 +97,6 @@ Jx.Plugin.Prelighter = new Class({
             }
         }
     },
-
     /** 
      * Method: prelightRowHeader
      * apply the jxGridRowHeaderPrelight style to the header cell of a row.
@@ -114,7 +120,6 @@ Jx.Plugin.Prelighter = new Class({
             }
         }
     },
-
     /** 
      * Method: prelightColumnHeader
      * apply the jxGridColumnHeaderPrelight style to the header cell of a column.
@@ -142,7 +147,6 @@ Jx.Plugin.Prelighter = new Class({
             }
         }
     },
-
     /** 
      * Method: prelightRow
      * apply the jxGridRowPrelight style to row.
@@ -166,7 +170,6 @@ Jx.Plugin.Prelighter = new Class({
             }
         }
     },
-
     /** 
      * Method: prelightColumn
      * apply the jxGridColumnPrelight style to a column.
@@ -191,7 +194,6 @@ Jx.Plugin.Prelighter = new Class({
             this.prelightColumnHeader(col);
         }
     },
-
     /** 
      * Method: prelightCell
      * apply the jxGridCellPrelight style to a cell.

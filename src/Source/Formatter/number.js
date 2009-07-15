@@ -1,18 +1,63 @@
-
-
+// $Id: $
+/**
+ * Class: Jx.Formatter.Number
+ * 
+ * Extends: <Jx.Formatter>
+ * 
+ * This class formats numbers. You can have it do the following
+ * 
+ * o replace the decimal separator
+ * o use/add a thousands separator
+ * o change the precision (number of decimal places)
+ * o format negative numbers with parenthesis
+ *
+ * Example:
+ * (code)
+ * (end)
+ *
+ * License: 
+ * Copyright (c) 2009, Jon Bomgardner.
+ * 
+ * This file is licensed under an MIT style license
+ */
 Jx.Formatter.Number = new Class({
     
     Extends: Jx.Formatter,
     
     options: {
+        /**
+         * Option: decimalSeparator
+         * Character to use as the decimal separator
+         */
         decimalSeparator: '.',
+        /**
+         * Option: thousandSeparator
+         * Character to use as the thousands separator
+         */
         thousandsSeparator: ',',
+        /**
+         * Option: precision
+         * The number of decimal places to round to
+         */
         precision: 2,
-
+        /**
+         * Option: useParens
+         * Whether negative numbers should be done with parenthesis
+         */
         useParens: true,
+        /**
+         * Option: useThousands
+         * Whether to use the thousands separator
+         */
         useThousands: true
     },
-    
+    /**
+     * APIMethod: format
+     * Formats the provided number
+     * 
+     * Parameters:
+     * value - the raw number to format
+     */
     format : function (value) {
             //first set the decimal
         if ($type(value) === 'string') {

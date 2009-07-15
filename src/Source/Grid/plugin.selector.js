@@ -1,31 +1,40 @@
+// $Id: $
 /**
  * Class: Jx.Plugin.Selector
+ * 
+ * Extends: <Jx.Plugin>
+ * 
  * Grid plugin to select rows, columns, and/or cells.
  * 
  * Original selection code from Jx.Grid's original class
- * MIT style license
+ * 
+ * License: 
+ * Original Copyright (c) 2008, DM Solutions Group Inc.
+ * This version Copyright (c) 2009, Jon Bomgardner.
+ * 
+ * This file is licensed under an MIT style license
  */
 Jx.Plugin.Selector = new Class({
 
     Extends : Jx.Plugin,
 
     options : {
-        /* Option: cell
+        /**
+         * Option: cell
          * determines if cells are selectable
          */
         cell : false,
-
-        /* Option: row
+        /**
+         * Option: row
          * determines if rows are selectable
          */
         row : false,
-
-        /* Option: column
+        /**
+         * Option: column
          * determines if columns are selectable
          */
         column : false
     },
-
     /**
      * APIMethod: init
      * Sets up the plugin and attaches the plugin to the grid events it 
@@ -40,7 +49,6 @@ Jx.Plugin.Selector = new Class({
 
         this.grid.addEvent('gridClick', this.select.bind(this));
     },
-
     /**
      * Method: select
      * dispatches the grid click to the various selection methods
@@ -66,7 +74,6 @@ Jx.Plugin.Selector = new Class({
             }
         }
     },
-
     /** 
      * Method: selectCell
      * Select a cell and apply the jxGridCellSelected style to it.
@@ -93,7 +100,6 @@ Jx.Plugin.Selector = new Class({
         this.selectedCell = td;
         this.selectedCell.addClass('jxGridCellSelected');
     },
-
     /** 
      * Method: selectRow
      * Select a row and apply the jxGridRowSelected style to it.
@@ -113,7 +119,6 @@ Jx.Plugin.Selector = new Class({
             this.selectRowHeader(row);
         }
     },
-
     /** 
      * Method: selectRowHeader
      * Apply the jxGridRowHea}derSelected style to the row header cell of a
@@ -140,7 +145,6 @@ Jx.Plugin.Selector = new Class({
             cell.addClass('jxGridRowHeaderSelected');
         }
     },
-
     /** 
      * Method: selectColumn
      * Select a column.
@@ -167,7 +171,6 @@ Jx.Plugin.Selector = new Class({
             }
         }
     },
-
     /** 
      * method: selectColumnHeader
      * Apply the jxGridColumnHeaderSelected style to the column header cell of a

@@ -1,9 +1,18 @@
+// $Id: $
 /**
- * Class: Jx.Grid.Row
+ * Class: Jx.Row
+ * 
+ * Extends: <Jx.Object>
+ * 
  * A class defining a grid row.
  * 
  * Inspired by code in the original Jx.Grid class
- * MIT Style License
+ * 
+ * License: 
+ * Original Copyright (c) 2008, DM Solutions Group Inc.
+ * This version Copyright (c) 2009, Jon Bomgardner.
+ * 
+ * This file is licensed under an MIT style license
  */
 Jx.Row = new Class(
 {
@@ -11,18 +20,20 @@ Jx.Row = new Class(
     Extends : Jx.Object,
 
     options : {
-        /* Option: useHeaders
+        /**
+         * Option: useHeaders
          * defaults to false.  If set to true, then a column of row header
          * cells are displayed.
          */
         useHeaders : false,
-        /* Option: alternateRowColors
+        /**
+         * Option: alternateRowColors
          * defaults to false.  If set to true, then alternating CSS classes
          * are used for rows.
          */
         alternateRowColors : false,
-
-        /* Option: rowClasses
+        /**
+         * Option: rowClasses
          * object containing class names to apply to rows
          */
         rowClasses : {
@@ -30,28 +41,34 @@ Jx.Row = new Class(
             even : 'jxGridRowEven',
             all : 'jxGridRowAll'
         },
-
-        /* Option: rowHeight
+        /**
+         * Option: rowHeight
          * The height of the row. Make it null or 'auto' to auto-calculate
          */
         rowHeight : 20,
-
-        /* Option: headerWidth
+        /**
+         * Option: headerWidth
          * The width of the row header. Make it null or 'auto' to auto-calculate
          */
         headerWidth : 20,
-
-        /* Option: headerField
+        /**
+         * Option: headerField
          * The field in the model to use as the header
          */
         headerField : 'id'
     },
-
+    /**
+     * Property: grid
+     * A reference to the grid that this row model belongs to
+     */
     grid : null,
-
     /**
      * Constructor: Jx.Row
-     * Creates the row object.
+     * Creates the row model object.
+     * 
+     * Parameters:
+     * options - <Jx.Row.Options> and <Jx.Object.Options>
+     * grid - the <Jx.Grid> that this row model will belong to. 
      */
     initialize : function (options, grid) {
         this.parent(options);
@@ -60,7 +77,6 @@ Jx.Row = new Class(
             this.grid = grid;
         }
     },
-
     /**
      * APIMethod: getGridRowElement
      * Used to create the TR for the main grid row
@@ -77,7 +93,6 @@ Jx.Row = new Class(
         }
         return tr;
     },
-
     /**
      * Method: getRowHeaderCell
      * creates the TH for the row's header
@@ -92,7 +107,6 @@ Jx.Row = new Class(
             html : model.get(this.options.headerField)
         });
     },
-    
     /**
      * APIMethod: getRowHeaderWidth
      * determines the row header's width.
@@ -114,7 +128,6 @@ Jx.Row = new Class(
         //for all rows.
         return this.options.rowHeight;
     },
-    
     /**
      * APIMethod: useHeaders
      * determines and returns whether row headers should be used
@@ -122,7 +135,6 @@ Jx.Row = new Class(
     useHeaders : function () {
         return this.options.useHeaders;
     },
-    
     /**
      * APIMethod: getRowHeader
      * creates and returns the header for the current row
@@ -142,7 +154,6 @@ Jx.Row = new Class(
         tr.appendChild(th);
         return tr;
     },
-    
     /**
      * APIMethod: getRowHeaderField
      * returns the name of the model field that is used for the header
