@@ -76,20 +76,19 @@ Jx.Splitter.Snap = new Class({
      * Snap the element open or closed.
      */
     toggleElement: function() {
-        var size = this.element.getContentBoxSize();
         var newSize = {};
         if (this.layout == 'vertical') {
-            if (size.height == this.minimumSize) {
+            if (this.element.clientHeight <= this.minimumSize) {
                 newSize.height = this.originalSize;
             } else {
-                this.originalSize = size.height;
+                this.originalSize = this.element.clientHeight;
                 newSize.height = this.minimumSize;
             }
         } else {
-            if (size.width == this.minimumSize) {
+            if (this.element.clientWidth <= this.minimumSize) {
                 newSize.width = this.originalSize;
             } else {
-                this.originalSize = size.width;
+                this.originalSize = this.element.clientWidth;
                 newSize.width = this.minimumSize;
             }
         }
@@ -105,7 +104,7 @@ Jx.Splitter.Snap = new Class({
     sizeChange: function() {
         var size = this.element.getContentBoxSize();
         if (this.layout == 'vertical') {
-            if (size.height == this.minimumSize) {
+            if (this.element.clientHeight == this.minimumSize) {
                 this.snap.addClass('jxSnapClosed');
                 this.snap.removeClass('jxSnapOpened');
             } else {
@@ -113,7 +112,7 @@ Jx.Splitter.Snap = new Class({
                 this.snap.removeClass('jxSnapClosed');
             }
         } else {
-            if (size.width == this.minimumSize) {
+            if (this.element.clientWidth == this.minimumSize) {
                 this.snap.addClass('jxSnapClosed');
                 this.snap.removeClass('jxSnapOpened');
             } else {
