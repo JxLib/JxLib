@@ -118,7 +118,7 @@ Jx.Layout = new Class({
      */
     initialize: function(domObj, options) {
         this.setOptions(options);
-        this.domObj = $(domObj);
+        this.domObj = document.id(domObj);
         this.domObj.resize = this.resize.bind(this);
         this.domObj.setStyle('position', this.options.position);
         this.domObj.store('jxLayout', this);
@@ -172,7 +172,7 @@ Jx.Layout = new Class({
                 needsResize = true;
             }
         }
-        if (!$(this.domObj.parentNode)) {
+        if (!document.id(this.domObj.parentNode)) {
             return;
         }
         
@@ -180,7 +180,7 @@ Jx.Layout = new Class({
         if (this.domObj.parentNode.tagName == 'BODY') {
             parentSize = Jx.getPageDimensions();
         } else {
-            parentSize = $(this.domObj.parentNode).getContentBoxSize();
+            parentSize = document.id(this.domObj.parentNode).getContentBoxSize();
         }
     
         if (this.lastParentSize && !needsResize) {
@@ -393,7 +393,7 @@ Jx.Layout = new Class({
         /* apply the new sizes */
         var sizeOpts = {width: w};
         if (this.options.position == 'absolute') {
-            var m = $(this.domObj.parentNode).measure(function(){
+            var m = document.id(this.domObj.parentNode).measure(function(){
                 return this.getSizes(['padding'],['left','top']).padding;
             });
             this.domObj.setStyles({

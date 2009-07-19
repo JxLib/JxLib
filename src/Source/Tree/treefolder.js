@@ -50,7 +50,7 @@ Jx.TreeFolder = new Class({
     initialize : function( options ) {
         this.parent($merge(options,{type:'Branch'}));
 
-        $(this.domNode).addEvent('click', this.clicked.bindWithEvent(this));
+        document.id(this.domNode).addEvent('click', this.clicked.bindWithEvent(this));
         this.addEvent('click', this.clicked.bindWithEvent(this));
                 
         this.nodes = [];

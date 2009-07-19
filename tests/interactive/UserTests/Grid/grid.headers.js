@@ -154,7 +154,7 @@
             description: "This test is to verify that the grid draws properly without column headers (but with row headers).",
             verify: "Did the grid render properly?",
             before: function(){
-                $('test-grid').empty();
+                document.id('test-grid').empty();
                 //create store
                 var store = new Jx.Store({
                     columns: [
@@ -256,7 +256,7 @@
             description: "This test is to verify that the grid properly displays without headersat all.",
             verify: "Did the grid render properly?",
             before: function(){
-                $('test-grid').empty();
+                document.id('test-grid').empty();
                 //create store
                 var store = new Jx.Store({
                     columns: [
@@ -350,7 +350,7 @@
             description: "This test is to verify that events fire as they are suppossed to and they contain the correct cell/row references.",
             verify: "Did the grid render properly?",
             before: function(){
-                $('test-grid').empty();
+                document.id('test-grid').empty();
                 //create store
                 var store = new Jx.Store({
                     columns: [

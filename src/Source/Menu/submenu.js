@@ -87,7 +87,7 @@ Jx.Menu.SubMenu = new Class({
         
         this.contentContainer.setStyle('visibility','hidden');
         this.contentContainer.setStyle('display','block');
-        $(document.body).adopt(this.contentContainer);            
+        document.id(document.body).adopt(this.contentContainer);            
         /* we have to size the container for IE to render the chrome correctly
          * but just in the menu/sub menu case - there is some horrible peekaboo
          * bug in IE related to ULs that we just couldn't figure out
@@ -113,8 +113,8 @@ Jx.Menu.SubMenu = new Class({
             this.visibleItem.eventInMenu(e)) {
             return true;
         }
-        return $(e.target).descendantOf(this.domObj) ||
-               $(e.target).descendantOf(this.subDomObj) ||
+        return document.id(e.target).descendantOf(this.domObj) ||
+               document.id(e.target).descendantOf(this.subDomObj) ||
                this.items.some(
                    function(item) {
                        return item instanceof Jx.Menu.SubMenu && 

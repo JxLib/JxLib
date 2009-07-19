@@ -6,7 +6,7 @@
             verify: "When you click a column does it sort?",
             before: function(){
             
-            $('test-grid').empty();
+            document.id('test-grid').empty();
             
             var currencyCss = function(value){
                 return (value.contains('(') || value.contains('-'))? "negative":"positive";

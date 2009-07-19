@@ -139,7 +139,7 @@ Jx.Dialog = new Class({
             {type:'Dialog', position: 'absolute'} // these override anything passed to the options
         ));
         this.openOnLoaded = this.open.bind(this);
-        this.options.parent = $(this.options.parent);
+        this.options.parent = document.id(this.options.parent);
         
         if (this.options.modal) {
             this.blanket = new Element('div',{
@@ -150,7 +150,7 @@ Jx.Dialog = new Class({
                 }
             });
             this.blanket.resize = (function() {
-                var ss = $(document.body).getScrollSize();
+                var ss = document.id(document.body).getScrollSize();
                 this.setStyles({
                     width: ss.x,
                     height: ss.y

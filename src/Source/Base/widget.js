@@ -105,13 +105,13 @@ Jx.Widget = new Class({
      *     useful when using the contentURL method of loading content.
      */     
     loadContent: function(element) {
-        element = $(element);
+        element = document.id(element);
         if (this.options.content) {
             var c;
             if (this.options.content.domObj) {
-                c = $(this.options.content.domObj);
+                c = document.id(this.options.content.domObj);
             } else {
-                c = $(this.options.content);
+                c = document.id(this.options.content);
             }
             if (c) {
                 if (this.options.content.addTo) {
@@ -236,8 +236,8 @@ Jx.Widget = new Class({
      *    being positioned as top, right, bottom and left properties.
      */
     position: function(element, relative, options) {
-        element = $(element);
-        relative = $(relative);
+        element = document.id(element);
+        relative = document.id(relative);
         var hor = $splat(options.horizontal || ['center center']);
         var ver = $splat(options.vertical || ['center center']);
         var offsets = $merge({top:0,right:0,bottom:0,left:0}, options.offsets || {});
@@ -245,12 +245,12 @@ Jx.Widget = new Class({
         var coords = relative.getCoordinates(); //top, left, width, height
         var page;
         var scroll;
-        if (!$(element.parentNode) || element.parentNode ==  document.body) {
+        if (!document.id(element.parentNode) || element.parentNode ==  document.body) {
             page = Jx.getPageDimensions();
-            scroll = $(document.body).getScroll();
+            scroll = document.id(document.body).getScroll();
         } else {
-            page = $(element.parentNode).getContentBoxSize(); //width, height
-            scroll = $(element.parentNode).getScroll();
+            page = document.id(element.parentNode).getContentBoxSize(); //width, height
+            scroll = document.id(element.parentNode).getScroll();
         }
         if (relative == document.body) {
             // adjust coords for the scroll offsets to make the object
@@ -489,7 +489,7 @@ Jx.Widget = new Class({
      * element - {HTMLElement} the element to show the chrome on.
      */
     showChrome: function(element) {
-        element = $(element);
+        element = document.id(element);
         if (!this.chrome) {
             this.makeChrome(element);
         }
@@ -512,7 +512,7 @@ Jx.Widget = new Class({
     
     resizeChrome: function(o) {
         if (this.chrome && Browser.Engine.trident4) {
-            this.chrome.setContentBoxSize($(o).getBorderBoxSize());
+            this.chrome.setContentBoxSize(document.id(o).getBorderBoxSize());
         }
     },
     
@@ -534,9 +534,9 @@ Jx.Widget = new Class({
      * the object itself, which is useful for chaining calls together
      */
     addTo: function(reference, where) {
-        var el = $(this.addable) || $(this.domObj);
+        var el = document.id(this.addable) || document.id(this.domObj);
         if (el) {
-            ref = $(reference);
+            ref = document.id(reference);
             el.inject(ref,where);
             this.fireEvent('addTo',this);            
         }

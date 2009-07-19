@@ -60,7 +60,7 @@ Jx.Formatter.Number = new Class({
      */
     format : function (value) {
             //first set the decimal
-        if ($type(value) === 'string') {
+        if (Jx.type(value) === 'string') {
                 //remove commas from the string
             var p = value.split(',');
             value = p.join('');

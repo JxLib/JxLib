@@ -339,7 +339,7 @@ Jx.Store = new Class({
     set : function (column, value) {
         if ($defined(this.data)) {
             // set the column to the value and set the dirty flag
-            if ($type(column) === 'number') {
+            if (Jx.type(column) === 'number') {
                 column = this.resolveCol(column);
             }
             var oldValue = this.data[this.index].get(column.name);
@@ -413,7 +413,7 @@ Jx.Store = new Class({
         if (!$defined(data)) {
             d = new Hash();
         } else {
-            var t = $type(data);
+            var t = Jx.type(data);
             switch (t) {
             case 'object':
                 d = new Hash(data);
@@ -443,9 +443,9 @@ Jx.Store = new Class({
         this.fireEvent('sortStart', this);
         
         var c;
-        if ($defined(cols) && $type(cols) === 'Array') {
+        if ($defined(cols) && Jx.type(cols) === 'Array') {
             c = this.options.sortCols = cols;
-        } else if ($defined(cols) && $type(cols) === 'string') {
+        } else if ($defined(cols) && Jx.type(cols) === 'string') {
             this.options.sortCols = [];
             this.options.sortCols.push(cols);
             c = this.options.sortCols;
@@ -599,7 +599,7 @@ Jx.Store = new Class({
      * Returns: the name of the column
      */
     resolveCol : function (col) {
-        var t = $type(col);
+        var t = Jx.type(col);
         if (t === 'number') {
             col = this.options.columns[col];
         } else if (t === 'string') {
@@ -627,7 +627,7 @@ Jx.Store = new Class({
         }
         if ($defined(data)) {
             this.data.empty();
-            var type = $type(data);
+            var type = Jx.type(data);
             // is this an array?
             if (type === 'array') {
                 data.each(function (item, index) {

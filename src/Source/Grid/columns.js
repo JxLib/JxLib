@@ -60,7 +60,7 @@ Jx.Columns = new Class({
             //check the column to see if it's a Jx.Grid.Column or an object
                 if (col instanceof Jx.Column) {
                     this.columns.push(col);
-                } else if ($type(col) === "object") {
+                } else if (Jx.type(col) === "object") {
                     this.columns.push(new Jx.Column(col, grid));
                 }
 

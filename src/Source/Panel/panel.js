@@ -255,7 +255,7 @@ Jx.Panel = new Class({
         });
         this.domObj.adopt(this.contentContainer);
         
-        if ($type(this.options.toolbars) == 'array') {
+        if (Jx.type(this.options.toolbars) == 'array') {
             this.options.toolbars.each(function(tb){
                 var position = tb.options.position;
                 var tbc = this.toolbarContainers[position];
@@ -327,16 +327,16 @@ Jx.Panel = new Class({
                     this.toolbarContainers[position].style.height = '';                
                 }
             }, this);
-            if ($type(this.options.toolbars) == 'array') {
+            if (Jx.type(this.options.toolbars) == 'array') {
                 this.options.toolbars.each(function(tb){
                     position = tb.options.position;
                     tbc = this.toolbarContainers[position];
                     // IE 6 doesn't seem to want to measure the width of 
                     // things correctly
                     if (Browser.Engine.trident4) {
-                        var oldParent = $(tbc.parentNode);
+                        var oldParent = document.id(tbc.parentNode);
                         tbc.style.visibility = 'hidden';
-                        $(document.body).adopt(tbc);                    
+                        document.id(document.body).adopt(tbc);                    
                     }
                     var size = tbc.getBorderBoxSize();
                     // put it back into its real parent now we are done 

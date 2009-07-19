@@ -15,13 +15,13 @@ describe('common tests',{
         value_of(Jx.getNumber('letter')).should_be(0);
         value_of(Jx.getNumber(10)).should_be(10);
     },
-    '$(instance) gets the HTML Element from instance': function() {
+    'document.id(instance) gets the HTML Element from instance': function() {
         var c = new Class({
             elem : new Element('div'),
             toElement: function(){return this.elem}
         });
         var i = new c();
-        value_of($(i).tagName).should_be('DIV');
+        value_of(document.id(i).tagName).should_be('DIV');
     }
 });
 

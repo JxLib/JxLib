@@ -156,7 +156,7 @@
             description: "This test is to verify that the row header automatically sizes.",
             verify: "Did the grid render properly?",
             before: function(){
-                $('test-grid').empty();
+                document.id('test-grid').empty();
                 //create store
                 var store = new Jx.Store({
                     columns: [
@@ -265,7 +265,7 @@
             description: "This test is to verify that all columns automatically sizes.",
             verify: "Did the grid render properly?",
             before: function(){
-                $('test-grid').empty();
+                document.id('test-grid').empty();
                 //create store
                 var store = new Jx.Store({
                     columns: [
@@ -368,7 +368,7 @@
             description: "This test is to verify that events fire as they are suppossed to and they contain the correct cell/row references.",
             verify: "Did the events show up in the console?",
             before: function(){
-                $('test-grid').empty();
+                document.id('test-grid').empty();
                 //create store
                 var store = new Jx.Store({
                     columns: [
@@ -485,7 +485,7 @@
             description: "This test is to verify that the grid displays properly when some columns are hidden.",
             verify: "Did the grid render properly?",
             before: function(){
-                $('test-grid').empty();
+                document.id('test-grid').empty();
                 //create store
                 var store = new Jx.Store({
                     columns: [

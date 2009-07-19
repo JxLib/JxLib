@@ -86,7 +86,7 @@ Jx.Field.Select = new Class({
         //loop through the options and set the one that matches v
         this.field.options.each(function (opt) {
             if (opt.value === v) {
-                $(opt).set("selected", true);
+                document.id(opt).set("selected", true);
             }
         }, this);
     },
@@ -97,6 +97,6 @@ Jx.Field.Select = new Class({
      */
     getValue: function () {
         var index = this.field.get("selectedIndex");
-        return $(this.field.options[index]).get("value");
+        return document.id(this.field.options[index]).get("value");
     }
 });

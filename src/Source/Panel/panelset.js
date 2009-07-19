@@ -108,7 +108,7 @@ Jx.PanelSet = new Class({
                 
                 var panel = this.panels[i];
                 panel.title.setStyle('visibility', 'hidden');
-                $(document.body).adopt(panel.title);
+                document.id(document.body).adopt(panel.title);
                 var size = panel.title.getBorderBoxSize();
                 bar.adopt(panel.title);
                 panel.title.setStyle('visibility','');
@@ -120,7 +120,7 @@ Jx.PanelSet = new Class({
             }).bind(this)
         });
         this.addEvent('addTo', function() {
-            $(this.domObj.parentNode).setStyle('overflow', 'hidden');
+            document.id(this.domObj.parentNode).setStyle('overflow', 'hidden');
             this.domObj.resize();
         });
         if (this.options.parent) {

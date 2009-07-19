@@ -274,7 +274,7 @@ Jx.Form = new Class({
      * values - A Hash of values to set keyed by field name.
      */
     setValues : function (values) {
-        if ($type(values) === 'object') {
+        if (Jx.type(values) === 'object') {
             values = new Hash(values);
         }
         this.fields.each(function (item) {

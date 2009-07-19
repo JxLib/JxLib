@@ -128,7 +128,7 @@ Jx.Toolbar = new Class({
      * parent - the DOM element or toolbar container to add this toolbar to.
      */
     addTo: function(parent) {
-        var tbc = $(parent).retrieve('jxBarContainer');
+        var tbc = document.id(parent).retrieve('jxBarContainer');
         if (!tbc) {
             tbc = new Jx.Toolbar.Container({
                 parent: parent, 

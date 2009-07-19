@@ -5,7 +5,7 @@
             description: "This test is to verify that a fieldset displays properly.",
             verify: "Did the fieldset render properly?",
             before: function(){
-                $('test-field').empty();
+                document.id('test-field').empty();
                 var fieldset = new Jx.Fieldset({
                     legend: 'My Form',
                     fieldsetClass: 'anotherClass',
@@ -45,7 +45,7 @@
             description: "This test is to verify that a fieldset displays properly.",
             verify: "Did the fieldset render properly?",
             before: function(){
-                $('test-field').empty();
+                document.id('test-field').empty();
                 var fieldset = new Jx.Fieldset({
                     legend: 'My Form 2',
                     fieldsetClass: 'anotherClass',

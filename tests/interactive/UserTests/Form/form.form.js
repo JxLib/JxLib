@@ -5,7 +5,7 @@
             description: "This test is to verify that the form displays properly. This one has no buttons and doesn't really do anything.",
             verify: "Did the field render properly?",
             before: function(){
-                $('test-field').empty();
+                document.id('test-field').empty();
                 
                 var form = new Jx.Form({
                     formClass: 'someClass',
@@ -54,7 +54,7 @@
             description: "This test is to verify that a form displays properly. This one should have the some buttons at the bottom of the form.",
             verify: "Did the form render properly?",
             before: function(){
-                $('test-field').empty();
+                document.id('test-field').empty();
                 var form = new Jx.Form({
                     formClass: 'someClass',
                     name: 'somename',
@@ -111,7 +111,7 @@
             description: "This test is to verify that a form displays properly. This one should have some buttons at the bottom of the form which should work. Validation is also enabled and display error messages embeded in the label (suitable for styling).",
             verify: "Did the form render properly?",
             before: function(){
-                $('test-field').empty();
+                document.id('test-field').empty();
                 
                 var clickMethod = function(form){
                     if (form.isValid()){
@@ -197,7 +197,7 @@
             description: "This test is to verify that a form displays properly. This one should have some buttons at the bottom of the form which should work. Validation is also enabled and should display error messages as an icon with a tooltip and no messages at the top of the form.",
             verify: "Did the form render properly?",
             before: function(){
-                $('test-field').empty();
+                document.id('test-field').empty();
                 
                 var clickMethod = function(form){
                     if (form.isValid()){

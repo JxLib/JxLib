@@ -42,7 +42,7 @@ Jx.Formatter.Boolean = new Class({
      */
     format : function (value) {
         var b = false;
-        var t = $type(value);
+        var t = Jx.type(value);
         switch (t) {
         case 'string':
             if (value === 'true') {

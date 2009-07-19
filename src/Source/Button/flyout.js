@@ -115,14 +115,14 @@ Jx.Button.Flyout = new Class({
         /* find out what we are contained by if we don't already know */
         if (!this.owner) {
             this.owner = document.body;
-            var node = $(this.domObj.parentNode);
+            var node = document.id(this.domObj.parentNode);
             while (node != document.body && this.owner == document.body) {
                 var flyout = node.retrieve('jxFlyout');
                 if (flyout) {
                     this.owner = flyout;
                     break;
                 } else {
-                    node = $(node.parentNode);
+                    node = document.id(node.parentNode);
                 }
             }
         }
@@ -156,7 +156,7 @@ Jx.Button.Flyout = new Class({
         this.options.active = true;
         this.domA.addClass('jx'+this.options.type+'Active');
         this.contentContainer.setStyle('visibility','hidden');
-        $(document.body).adopt(this.contentContainer);
+        document.id(document.body).adopt(this.contentContainer);
         this.content.getChildren().each(function(child) {
             if (child.resize) { 
                 child.resize(); 
@@ -173,7 +173,7 @@ Jx.Button.Flyout = new Class({
         /* we have to size the container for IE to render the chrome correctly
          * there is some horrible peekaboo bug in IE 6
          */
-        this.contentContainer.setContentBoxSize($(this.content).getMarginBoxSize());
+        this.contentContainer.setContentBoxSize(document.id(this.content).getMarginBoxSize());
         
         this.contentContainer.setStyle('visibility','');
 
@@ -199,7 +199,7 @@ Jx.Button.Flyout = new Class({
     /* hide flyout if the user clicks outside of the flyout */
     clickHandler: function(e) {
         e = new Event(e);
-        var elm = $(e.target);
+        var elm = document.id(e.target);
         var flyout = Jx.Button.Flyout.Stack[Jx.Button.Flyout.Stack.length - 1];
         if (!elm.descendantOf(flyout.content) &&
             !elm.descendantOf(flyout.domObj)) {

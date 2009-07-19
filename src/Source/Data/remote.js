@@ -135,7 +135,7 @@ Jx.Store.Remote = new Class({
      */
     remoteSave : function (data) {
         //save the data passed in.
-        if ($type(data) === 'hash' && this.continueSaving) {
+        if (Jx.type(data) === 'hash' && this.continueSaving) {
             // save it
             var req = new Request.JSON({
                 data : JSON.encode(data),

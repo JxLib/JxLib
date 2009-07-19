@@ -6,7 +6,7 @@
             verify: "When you click a column does it select?",
             before: function(){
             
-                $('test-grid').empty();
+                document.id('test-grid').empty();
             
                 var currencyCss = function(value){
                     return (value.contains('(') || value.contains('-'))? "negative":"positive";
@@ -120,7 +120,7 @@
             verify: "When you click a row does it select?",
             before: function(){
             
-            $('test-grid').empty();
+            document.id('test-grid').empty();
             
             var currencyCss = function(value){
                 return (value.contains('(') || value.contains('-'))? "negative":"positive";
@@ -235,7 +235,7 @@
             verify: "When you a column does it select?",
             before: function(){
             
-            $('test-grid').empty();
+            document.id('test-grid').empty();
             
             var currencyCss = function(value){
                 return (value.contains('(') || value.contains('-'))? "negative":"positive";

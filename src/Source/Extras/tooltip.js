@@ -60,7 +60,7 @@ Jx.Tooltip = new Class({
      */
     initialize : function (target, tip, options) {
         this.parent(options);
-        this.target = $(target);
+        this.target = document.id(target);
 
         var t = this.target.retrieve('Tip');
         if (t) {
@@ -77,7 +77,7 @@ Jx.Tooltip = new Class({
             }
         }).inject(document.body);
     
-        if ($type(tip) === 'string') {
+        if (Jx.type(tip) === 'string') {
             this.domObj.set('html', tip);
         } else {
             this.domObj.grab(tip);

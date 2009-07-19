@@ -67,8 +67,19 @@ Group: Jx  {
       }  # Group: Base
 
    File: ColorPalette  (Extras/colorpalette.js)
-   File: Grid  (Grid/grid.js)
-   File: Grid.Model  (Grid/model.js)
+
+   Group: Grid  {
+
+      File: Column  (Grid/column.js)
+      File: Columns  (Grid/columns.js)
+      File: Grid  (Grid/grid.js)
+      File: Grid.Plugin  (Grid/plugin.js)
+      File: Plugin.Prelighter  (Grid/plugin.prelighter.js)
+      File: Plugin.Selector  (Grid/plugin.selector.js)
+      File: Plugin.Sorter  (Grid/plugin.sorter.js)
+      File: Row  (Grid/row.js)
+      }  # Group: Grid
+
    File: TabBox  (Tab/tabbox.js)
    File: TabSet  (Tab/tabset.js)
 
@@ -110,17 +121,43 @@ Group: Jx  {
       File: TreeItem  (Tree/treeitem.js)
       }  # Group: Tree
 
+   File: Tooltip  (Extras/tooltip.js)
    }  # Group: Jx
 
-File: Compare  (Data/compare.js)
-File: Sort  (Data/sort.js)
-File: Sort.Heapsort  (Data/heapsort.js)
-File: Sort.Mergesort  (Data/mergesort.js)
-File: Sort.Quicksort  (Data/quicksort.js)
-File: Store  (Data/store.js)
-File: Store.Groupable  (Data/groupable.js)
-File: Store.Remote  (Data/remote.js)
-File: Store.Sortable  (Data/sortable.js)
+Group: Formatter  {
+
+   File: Formatter  (Formatter/formatter.js)
+   File: Formatter.Boolean  (Formatter/boolean.js)
+   File: Formatter.Currency  (Formatter/currency.js)
+   File: Formatter.Date  (Formatter/date.js)
+   File: Formatter.Number  (Formatter/number.js)
+   File: Formatter.Phone  (Formatter/phone.js)
+   }  # Group: Formatter
+
+Group: Data  {
+
+   File: Compare  (Data/compare.js)
+   File: Sort Base class for all of the sorting algorithm classes.  (Data/sort.js)
+   File: Sort.Heapsort  (Data/heapsort.js)
+   File: Sort.Mergesort  (Data/mergesort.js)
+   File: Sort.Nativesort  (Data/nativesort.js)
+   File: Sort.Quicksort  (Data/quicksort.js)
+   File: Store  (Data/store.js)
+   File: Store.Remote  (Data/remote.js)
+   }  # Group: Data
+
+Group: Form  {
+
+   File: Field  (Form/field.js)
+   File: Field.Check  (Form/checkbox.js)
+   File: Field.Hidden  (Form/hidden.js)
+   File: Field.Radio  (Form/radio.js)
+   File: Field.Select  (Form/select.js)
+   File: Field.Text  (Form/text.js)
+   File: Field.Textarea  (Form/textarea.js)
+   File: Fieldset  (Form/fieldset.js)
+   File: Form  (Form/form.js)
+   }  # Group: Form
 
 Group: Index  {
 
@@ -130,5 +167,6 @@ Group: Index  {
    Function Index: Functions
    Property Index: Properties
    TODO Index: TODO
+   Event Index: Events
    }  # Group: Index
 

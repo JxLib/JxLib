@@ -502,9 +502,9 @@ Element.implement({
      * {Boolean} true if the element is a descendent, false otherwise.
      */
     descendantOf: function(node) {
-        var parent = $(this.parentNode);
+        var parent = document.id(this.parentNode);
         while (parent != node && parent && parent.parentNode && parent.parentNode != parent) {
-            parent = $(parent.parentNode);
+            parent = document.id(parent.parentNode);
         }
         return parent == node;
     },
@@ -525,7 +525,7 @@ Element.implement({
         var o = this;
         var tagName = o.tagName;
         while (o.tagName != type && o && o.parentNode && o.parentNode != o) {
-            o = $(o.parentNode);
+            o = document.id(o.parentNode);
         }
         return o.tagName == type ? o : false;
     }

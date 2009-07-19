@@ -126,7 +126,7 @@ Jx.Column = new Class({
         //we need to check the formatter
         if ($defined(this.options.formatter)
                 && !(this.options.formatter instanceof Jx.Formatter)) {
-            var t = $type(this.options.formatter);
+            var t = Jx.type(this.options.formatter);
             if (t === 'object') {
                 this.options.formatter = new Jx.Formatter[this.options.formatter.name](
                         this.options.formatter.options);
@@ -146,7 +146,7 @@ Jx.Column = new Class({
             'html' : text
         });
         if ($defined(ht.cssClass)) {
-            if ($type(ht.cssClass) === 'function') {
+            if (Jx.type(ht.cssClass) === 'function') {
                 el.addClass(ht.cssClass.run(text));
             } else {
                 el.addClass(ht.cssClass);
@@ -299,7 +299,7 @@ Jx.Column = new Class({
             'html' : text
         });
         if ($defined(ct.cssClass)) {
-            if ($type(ct.cssClass) === 'function') {
+            if (Jx.type(ct.cssClass) === 'function') {
                 el.addClass(ct.cssClass.run(text));
             } else {
                 el.addClass(ct.cssClass);

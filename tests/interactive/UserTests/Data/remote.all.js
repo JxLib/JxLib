@@ -5,7 +5,7 @@
             description: "This test gets remote data and displays the first column in the 3rd row.  Click the first button to begin the test.",
             verify: "Did an alert popup with the text \"The value of the first column in the third row is 3.value.1\"?",
             before: function(){
-	        	$("get-remote-data-test").addEvent('click',function(event){
+	        	document.id("get-remote-data-test").addEvent('click',function(event){
 	        		event.stop();
 	        		var store = new Jx.Store.Remote({ 
 	        			dataUrl: 'UserTests/Data/data.php',
@@ -28,7 +28,7 @@
             description: "This test gets remote data, makes a change, and then saves changes in the store.  Click the second button to begin the test.",
             verify: "Did you see a popup with the text \"Save completed successfully.\"?",
             before: function(){
-	        	$("save-remote-data-test").addEvent('click',function(event){
+	        	document.id("save-remote-data-test").addEvent('click',function(event){
 	    			event.stop();
 	    			var store = new Jx.Store.Remote({ 
 	    				dataUrl: 'UserTests/Data/data.php',
@@ -55,7 +55,7 @@
             description: "This test gets remote data, makes a change, and then saves changes in the store. It should result in an error.  Click the third button to begin the test.",
             verify: "Did you see an alert with the text \"Save error occurred.\" followed by information about the code and a message?",
             before: function(){
-	        	$("save-remote-data-error-test").addEvent('click',function(event){
+	        	document.id("save-remote-data-error-test").addEvent('click',function(event){
 	    			event.stop();
 	    			var store = new Jx.Store.Remote({ 
 	    				dataUrl: 'UserTests/Data/data.php',

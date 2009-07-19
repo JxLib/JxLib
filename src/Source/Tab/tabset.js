@@ -61,7 +61,7 @@ Jx.TabSet = new Class({
     initialize: function(domObj, options) {
         this.setOptions(options);
         this.tabs = [];
-        this.domObj = $(domObj);
+        this.domObj = document.id(domObj);
         if (!this.domObj.hasClass('jxTabSetContainer')) {
             this.domObj.addClass('jxTabSetContainer');
         }

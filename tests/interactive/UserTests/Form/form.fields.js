@@ -5,7 +5,7 @@
             description: "This test is to verify that a text field displays properly. You can change properties in the box below (drag to open it to see more) and click \"Run Test\" to see your changes. Try different combinations before marking this one as passing.",
             verify: "Did the field render properly?",
             before: function(){
-                $('test-field').empty();
+                document.id('test-field').empty();
             },
             body: "var opts = {" +
                     "\nname: 'test'," +
@@ -35,7 +35,7 @@
             description: "This test is to verify that a checkox field displays properly. You can change properties in the box below (drag to open it to see more) and click \"Run Test\" to see your changes. Try different combinations before marking this one as passing.",
             verify: "Did the field render properly (it should default as checked)?",
             before: function(){
-                $('test-field').empty();
+                document.id('test-field').empty();
             },
             body: "var opts = {" +
                     "\nname: 'test'," +
@@ -64,7 +64,7 @@
             description: "This test is to verify that a radio field displays properly. You can change properties in the box below (drag to open it to see more) and click \"Run Test\" to see your changes. Try different combinations before marking this one as passing.",
             verify: "Did the field render properly (it should be selected)?",
             before: function(){
-                $('test-field').empty();
+                document.id('test-field').empty();
             },
             body: "var opts = {" +
                     "\nname: 'test'," +
@@ -93,7 +93,7 @@
             description: "This test is to verify that a textarea field displays properly. You can change properties in the box below (drag to open it to see more) and click \"Run Test\" to see your changes. Try different combinations before marking this one as passing.",
             verify: "Did the field render properly?",
             before: function(){
-                $('test-field').empty();
+                document.id('test-field').empty();
             },
             body: "var opts = {" +
                     "\nname: 'test'," +
@@ -125,7 +125,7 @@
             description: "This test is to verify that a hidden field displays properly. You can change properties in the box below (drag to open it to see more) and click \"Run Test\" to see your changes. Try different combinations before marking this one as passing.",
             verify: "Did the field render properly?",
             before: function(){
-                $('test-field').empty();
+                document.id('test-field').empty();
             },
             body: "var opts = {" +
                     "\nname: 'test'," +
@@ -142,7 +142,7 @@
             description: "This test is to verify that a select field displays properly. You can change properties in the box below (drag to open it to see more) and click \"Run Test\" to see your changes. Try different combinations before marking this one as passing.",
             verify: "Did the field render properly?",
             before: function(){
-                $('test-field').empty();
+                document.id('test-field').empty();
             },
             body: "var opts = {" +
                     "\nname: 'test'," +

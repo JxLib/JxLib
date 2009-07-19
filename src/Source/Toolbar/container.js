@@ -62,7 +62,7 @@ Jx.Toolbar.Container = new Class({
     initialize : function(options) {
         this.setOptions(options);
         
-        var d = $(this.options.parent);
+        var d = document.id(this.options.parent);
         this.domObj = d || new Element('div');
         this.domObj.addClass('jxBarContainer');
         

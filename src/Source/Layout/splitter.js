@@ -119,7 +119,7 @@ Jx.Splitter = new Class({
     initialize: function(domObj, options) {
         this.setOptions(options);  
         
-        this.domObj = $(domObj);
+        this.domObj = document.id(domObj);
         this.domObj.addClass('jxSplitContainer');
         var jxLayout = this.domObj.retrieve('jxLayout');
         if (jxLayout) {
@@ -143,7 +143,7 @@ Jx.Splitter = new Class({
                     if (options.elements[i].domObj) {
                         el = options.elements[i].domObj;
                     } else {
-                        el = $(this.options.elements[i]);                        
+                        el = document.id(this.options.elements[i]);                        
                     }
                     if (!el) {
                         el = this.prepareElement();

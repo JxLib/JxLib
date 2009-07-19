@@ -75,7 +75,7 @@ Jx.Compare = new Class({
      * the normalized value
      */
     convert: function (val) {
-        if ($type(val) === 'string') {
+        if (Jx.type(val) === 'string') {
             val = parseFloat(val.replace(/^[^\d\.]*([\d., ]+).*/g, "$1").replace(new RegExp("[^\\\d" + this.options.separator + "]", "g"), '').replace(/,/, '.')) || 0;
         }
         return val || 0;

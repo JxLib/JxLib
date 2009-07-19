@@ -125,7 +125,7 @@ Jx.Grid = new Class({
         if ($defined(this.options.columns)) {
             if (this.options.columns instanceof Jx.Columns) {
                 this.columns = this.options.columns;
-            } else if ($type(this.options.columns) === 'object') {
+            } else if (Jx.type(this.options.columns) === 'object') {
                 this.columns = new Jx.Columns(this.options.columns,
                         this);
             }
@@ -135,7 +135,7 @@ Jx.Grid = new Class({
         if ($defined(this.options.row)) {
             if (this.options.row instanceof Jx.Row) {
                 this.row = this.options.row;
-            } else if ($type(this.options.row) === "object") {
+            } else if (Jx.type(this.options.row) === "object") {
                 this.row = new Jx.Row(this.options.row, this);
             }
         } else {
@@ -214,12 +214,12 @@ Jx.Grid = new Class({
 
         //initialize the plugins
         if ($defined(this.options.plugins)
-                && $type(this.options.plugins) === 'array') {
+                && Jx.type(this.options.plugins) === 'array') {
             this.options.plugins.each(function (plugin) {
                 if (plugin instanceof Jx.Plugin) {
                     plugin.init(this);
                     this.plugins.set(plugin.name, plugin);
-                } else if ($type(plugin) === 'object') {
+                } else if (Jx.type(plugin) === 'object') {
                     var p = new Jx.Plugin[plugin.name](plugin.options);
                     p.init(this);
                     this.plugins.set(p.name, p);
@@ -286,7 +286,7 @@ Jx.Grid = new Class({
     getRowColumnFromEvent : function (e) {
         var td = e.target;
         if (td.tagName === 'SPAN') {
-            td = $(td).getParent();
+            td = document.id(td).getParent();
         }
         if (td.tagName !== 'TD' && td.tagName !== 'TH') {
             return {
@@ -552,7 +552,7 @@ Jx.Grid = new Class({
     modelChanged : function (row, col) {
         //grab new TD
         var column = this.columns.getIndexFromGrid(col.name);
-        var td = $(this.gridObj.childNodes[row].childNodes[column]);
+        var td = document.id(this.gridObj.childNodes[row].childNodes[column]);
     
         var currentRow = this.model.getPosition();
         this.model.moveTo(row);
