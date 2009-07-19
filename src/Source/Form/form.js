@@ -132,7 +132,10 @@ Jx.Form = new Class({
             'class' : 'jxForm',
             'name' : this.options.name
         });
-
+        
+        if (this.options.fileUpload) {
+            this.domObj.set('enctype', 'multipart/form-data');
+        }
         if ($defined(this.options.id)) {
             this.domObj.set('id', this.options.id);
         }

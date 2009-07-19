@@ -455,7 +455,7 @@ Jx.Store = new Class({
             return null;
         }
         
-        this.sort = sort;
+        this.sortType = sort;
         // first sort on the first array item
         this.doSort(c[0], sort);
     
@@ -501,7 +501,7 @@ Jx.Store = new Class({
                 // sort
     
                 if (sub.length > 1) {
-                    result = result.concat(this.doSort(sortCol, this.sort, sub, true));
+                    result = result.concat(this.doSort(sortCol, this.sortType, sub, true));
                 } else {
                     result = result.concat(sub);
                 }
@@ -517,7 +517,7 @@ Jx.Store = new Class({
         
         if (sub.length > 1) {
             this.sorter.setData(sub);
-            result = result.concat(this.doSort(sortCol, this.sort, sub, true));
+            result = result.concat(this.doSort(sortCol, this.sortType, sub, true));
         } else {
             result = result.concat(sub);
         }
