@@ -149,6 +149,7 @@ Group: Data  {
 Group: Form  {
 
    File: Field  (Form/field.js)
+   File: Field.Button  (Form/jxbutton.js)
    File: Field.Check  (Form/checkbox.js)
    File: Field.Hidden  (Form/hidden.js)
    File: Field.Radio  (Form/radio.js)

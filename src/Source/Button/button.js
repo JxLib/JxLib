@@ -145,7 +145,7 @@ Jx.Button = new Class({
          * element with a class of jxButton.  jxButtonIcon and jxButtonLabel are
          * used if present to put the image and label into the button.
          */
-        template: '<div class="jxButtonContainer"><a class="jxButton"><span class="jxButtonContent"><img class="jxButtonIcon" src="'+Jx.aPixel.src+'"><span class="jxButtonLabel"></span></span></a></div>'
+        template: '<span class="jxButtonContainer"><a class="jxButton"><span class="jxButtonContent"><img class="jxButtonIcon" src="'+Jx.aPixel.src+'"><span class="jxButtonLabel"></span></span></a></span>'
     },
     type: 'Button',
     classes: ['jxButtonContainer', 'jxButton','jxButtonIcon','jxButtonLabel'],

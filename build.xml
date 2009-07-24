@@ -10,7 +10,7 @@ M.Adair    09-July-2007  initial version copied from fusion
 
 $Id$
 ***************************************************************************-->
-<project basedir="." default="build" name="jx">
+<project basedir="." default="deploy" name="jx">
 <!-- ===================== Property Definitions =========================== -->
 <!--
   Each of the following properties are used in the build script.

@@ -12,11 +12,11 @@
    Buttons can use the sliding door technique with background images to horizontally
    accomodate icons with labels. */
 
-div.jxButtonContainer {
+.jxButtonContainer {
   /* Base setup */
-  display: block;
+  display: inline-block;;
   position: relative;
-  float: left;
+  /* float: left; */
 
   margin: 0px;
   padding: 2px;
@@ -26,9 +26,11 @@ div.jxButtonContainer {
 /* normal button */
 .jxButton {
   /* Base setup */
-  display: block;
+  display: inline-block;;
   position: relative;
-  float: left;
+  font-size: 0px;
+  line-height: 0px;
+  /* float: left; */
 
   /* Using background images, the A contains the left side of the background */
   margin: 0px; /* margins don't seem to work properly in IE */
@@ -56,9 +58,9 @@ ul.jxToolbar .jxButton {
 
 span.jxButtonContent {
   /* Base setup */
-  display: block;
+  display: inline-block;;
   position: relative;
-  float: left;
+  /* float: left; */
   font-size: 0px;
   line-height: 0px;
 
@@ -194,8 +196,10 @@ ul.jxToolbar .jxDisabled .jxButtonActive:hover span.jxButtonContent,
 
 img.jxButtonIcon {
   /* Base setup */
+  display: inline-block;
   position: relative;
-  float: left;
+  vertical-align: middle;
+  /* float: left; */
 
   width: 16px;
   height: 16px;
@@ -205,9 +209,10 @@ img.jxButtonIcon {
 
 span.jxButtonContent span {
   /* Base setup */
-  display: block;
+  display: inline-block;;
   position: relative;
-  float: left;
+  vertical-align: middle;
+  /* float: left; */
   cursor: pointer;
 
   font-family: Arial, Helvetica, sans-serif;
@@ -249,7 +254,7 @@ span.jxButtonContent span.jxButtonLabel {
 
 a.jxButtonDisclose {
   position: absolute;
-  display: block;
+  display: inline-block;;
   padding: 4px 0px;
   font-size: 0px;
   line-height: 0px;
