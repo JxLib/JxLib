@@ -32,8 +32,7 @@
  */
 Jx.Button.Combo = new Class({
     Family: 'Jx.Button.Combo',
-    Extends: Jx.Button.Multi,
-    domObj : null,
+    Extends: Jx.Button,
     ul : null,
     /**
      * Property: currentSelection
@@ -42,16 +41,15 @@ Jx.Button.Combo = new Class({
     currentSelection : null,
     
     options: {
-        /* Option: editable
-         * boolean, default false.  Can the value be edited by the user?
-         */
-        editable: false,
         /* Option: label
          * string, default ''.  The label to display next to the combo.
          */
-        label: ''
-    },
-    
+        label: '',
+        /* Option: template
+         */
+         template: '<div class="jxButtonContainer"><a class="jxButton jxButtonCombo"><span class="jxButtonContent"><img class="jxButtonIcon" src="'+Jx.aPixel.src+'"><span class="jxButtonLabel"></span></span></a></div>'
+     },
+        
     /** 
      * Constructor: Jx.Combo
      * create a new instance of Jx.Combo
@@ -60,61 +58,20 @@ Jx.Button.Combo = new Class({
      * options - <Jx.button.Combo.Options>
      */
     initialize: function(options) {
-        this.parent(); //we don't want to pass options to parent
-        this.setOptions(options);
-        this.domA.removeClass('jxButtonMulti');
-        if (this.options.editable) {
-            // remove the button's normal A tag and replace it with a span
-            // so the input ends up not being inside an A tag - this was
-            // causing all kinds of problems for selecting text inside it
-            // due to some user-select: none classes that were introduced
-            // to make buttons not selectable in the first place.
-            //
-            // Ultimately I think we want to fix this so that the discloser
-            // in Jx.Button.Multi is a separate beast and we can use it here
-            // without inheriting from multi buttons
-            var s = new Element('span', {'class':'jxButton'});
-            s.adopt(this.domA.firstChild);
-            this.domA = s.replaces(this.domA);
-            this.domA.addClass('jxButtonComboDefault');
-            this.domA.addClass('jxButtonEditCombo');
-            this.domInput = new Element('input',{
-                type:'text',
-                events:{
-                    change: this.valueChanged.bindWithEvent(this),
-                    keydown: this.onKeyPress.bindWithEvent(this),
-                    focus: (function() {
-                        if (this.domA.hasClass('jxButtonComboDefault')) {
-                            this.domInput.value = '';
-                            this.domA.removeClass('jxButtonComboDefault');
-                        }
-                    }).bind(this)
-                },
-                value: this.options.label
-            });
-            this.domLabel.empty();
-            this.domLabel.addClass('jxComboInput');
-            this.domLabel.adopt(this.domInput);
-        } else {
-            this.discloser.dispose();
-            this.domA.addClass('jxButtonCombo');
-            this.addEvent('click', (function(e){
-                this.discloser.fireEvent('click', e);
-            }).bindWithEvent(this));
-        }
+        this.parent(options);
+
+        this.menu = new Jx.Menu();
+        this.menu.button = this;
+        this.buttonSet = new Jx.ButtonSet();
+
         this.buttonSet = new Jx.ButtonSet({
             onChange: (function(set) {
                 var button = set.activeButton;            
-                this.domA.removeClass('jxButtonComboDefault');
-                if (this.options.editable) {
-                    this.domInput.value = button.options.label;
-                } else {
-                    var l = button.options.label;
-                    if (l == '&nbsp;') {
-                        l = '';
-                    }
-                    this.setLabel(l);
+                var l = button.options.label;
+                if (l == '&nbsp;') {
+                    l = '';
                 }
+                this.setLabel(l);
                 var img = button.options.image;
                 if (img.indexOf('a_pixel') != -1) {
                     img = '';
@@ -133,29 +90,50 @@ Jx.Button.Combo = new Class({
         if (this.options.items) {
             this.add(this.options.items);
         }
-        this.setEnabled(this.options.enabled);
-    },
-    
-    /**
-     * Method: setEnabled
-     * enable or disable the combo button.
-     *
-     * Parameters:
-     * enabled - {Boolean} the new enabled state of the button
-     */
-    setEnabled: function(enabled) {
-        this.options.enabled = enabled;
-        if (this.options.enabled) {
-            this.domObj.removeClass('jxDisabled');
-            if (this.domInput) {
-                this.domInput.disabled = false;
+        var button = this;
+        this.addEvent('click', (function(e) {
+            if (this.items.length === 0) {
+                return;
             }
-        } else {
-            this.domObj.addClass('jxDisabled');
-            if (this.domInput) {
-                this.domInput.disabled = true;
+            if (!button.options.enabled) {
+                return;
             }
-        }
+            this.contentContainer.setStyle('visibility','hidden');
+            this.contentContainer.setStyle('display','block');
+            $(document.body).adopt(this.contentContainer);            
+            /* we have to size the container for IE to render the chrome correctly
+             * but just in the menu/sub menu case - there is some horrible peekaboo
+             * bug in IE related to ULs that we just couldn't figure out
+             */
+            this.contentContainer.setContentBoxSize(this.subDomObj.getMarginBoxSize());
+
+            this.showChrome(this.contentContainer);
+
+            this.position(this.contentContainer, this.button.domObj, {
+                horizontal: ['right right'],
+                vertical: ['bottom top', 'top bottom'],
+                offsets: this.chromeOffsets
+            });
+
+            this.contentContainer.setStyle('visibility','');
+
+            document.addEvent('mousedown', this.hideWatcher);
+            document.addEvent('keyup', this.keypressWatcher);
+            
+            this.fireEvent('show', this);
+        }).bindWithEvent(this.menu));
+        
+        this.menu.addEvents({
+            'show': (function() {
+                this.domA.addClass('jxButtonActive');                    
+            }).bind(this),
+            'hide': (function() {
+                if (this.options.active) {
+                    this.domA.addClass('jxButtonActive');                    
+                }
+            }).bind(this)
+        });
+        
     },
     
     /**
@@ -164,6 +142,18 @@ Jx.Button.Combo = new Class({
      */
     valueChanged: function() {
         this.fireEvent('change', this);
+    },
+    
+    /**
+     * Method: getValue
+     * returns the currently selected value
+     */
+    getValue: function() {
+        return this.options.label;
+    },
+    
+    setValue: function() {
+        
     },
     
     /**
@@ -208,38 +198,5 @@ Jx.Button.Combo = new Class({
      */
     remove: function(idx) {
         //TODO: implement remove?
-    },
-    
-    /**
-     * Method: setValue
-     * set the value of the Combo
-     *
-     * Parameters:
-     * value - {Object} the new value.  May be a string, a text node, or
-     * another DOM element.
-     */
-    setValue: function(value) {
-        if (this.options.editable) {
-            this.domInput.value = value;
-        } else {
-            this.setLabel(value);
-        }
-    },
-    
-    /**
-     * Method: getValue
-     * Return the current value
-     *
-     * Returns:
-     * {Object} returns the currently selected item
-     */
-    getValue: function() {
-        value = '';
-        if (this.options.editable) {
-            value = this.domInput.value;
-        } else {
-            value = this.getLabel();
-        }
-        return value;
     }
 });

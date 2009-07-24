@@ -32,11 +32,19 @@ Jx.Menu.Item = new Class({
      */
     owner: null,
     options: {
-        enabled: true,
         image: null,
         label: '&nbsp;',
-        toggleClass: 'Toggle'
+        /* Option: template
+         * the HTML structure of the button.  As a minimum, there must be a
+         * containing element with a class of jxMenuItemContainer and an
+         * internal element with a class of jxMenuItem.  jxMenuItemIcon and
+         * jxMenuItemLabel are used if present to put the image and label into
+         * the button.
+         */
+        template: '<li class="jxMenuItemContainer"><a class="jxMenuItem"><span class="jxMenuItemContent"><img class="jxMenuItemIcon" src="'+Jx.aPixel.src+'"><span class="jxMenuItemLabel"></span></span></a></li>'
     },
+    classes: ['jxMenuItemContainer', 'jxMenuItem','jxMenuItemIcon','jxMenuItemLabel'],
+    type: 'MenuItem',
     /**
      * Constructor: Jx.Menu.Item
      * Create a new instance of Jx.Menu.Item
@@ -45,15 +53,10 @@ Jx.Menu.Item = new Class({
      * options - See <Jx.Button.Options>
      */
     initialize: function(options) {
-        this.parent($merge({
-                image: Jx.aPixel.src
-            },
-            options, {
-                container:'li',
-                type:'MenuItem',
-                toggleClass: (options.image ? null : this.options.toggleClass)
-            }
-        ));
+        this.parent($merge({image: Jx.aPixel.src}, options));
+        if (options.image) {
+            this.domObj.removeClass('jx'+this.type+'Toggle');
+        }
         this.domObj.addEvent('mouseover', this.onMouseOver.bindWithEvent(this));
     },
     /**

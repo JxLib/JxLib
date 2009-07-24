@@ -108,12 +108,6 @@ Jx.Button = new Class({
          * container.
          */
         id: '',
-        /* Option: type
-         * optional.  A string value that indicates what type of button this
-         * is.  The default value is Button.  The type is used to form the CSS
-         * class names used for various HTML elements within the button.
-         */
-        type: 'Button',
         /* Option: image
          * optional.  A string value that is the url to load the image to
          * display in this button.  The default styles size this image to 16 x
@@ -136,21 +130,6 @@ Jx.Button = new Class({
          * default true, whether the button is a toggle button or not.
          */
         toggle: false,
-        /* Option: toggleClass
-         * defaults to Toggle, this is class is added to buttons with the
-         * option toggle: true
-         */
-        toggleClass: 'Toggle',
-        /* Option: halign
-         * horizontal alignment of the button label, 'center' by default. 
-         * Other values are 'left' and 'right'.
-         */
-        halign: 'center',
-        /* Option: valign
-         * {String} vertical alignment of the button label, 'middle' by
-         * default.  Other values are 'top' and 'bottom'.
-         */
-        valign: 'middle',
         /* Option: active
          * optional, default false.  Controls the initial state of toggle
          * buttons.
@@ -160,12 +139,17 @@ Jx.Button = new Class({
          * whether the button is enabled or not.
          */
         enabled: true,
-        /* Option: container
-         * the tag name of the HTML element that should be created to contain
-         * the button, by default this is 'div'.
+        /* Option: template
+         * the HTML structure of the button.  As a minimum, there must be a
+         * containing element with a class of jxButtonContainer and an internal
+         * element with a class of jxButton.  jxButtonIcon and jxButtonLabel are
+         * used if present to put the image and label into the button.
          */
-        container: 'div'
+        template: '<div class="jxButtonContainer"><a class="jxButton"><span class="jxButtonContent"><img class="jxButtonIcon" src="'+Jx.aPixel.src+'"><span class="jxButtonLabel"></span></span></a></div>'
     },
+    type: 'Button',
+    classes: ['jxButtonContainer', 'jxButton','jxButtonIcon','jxButtonLabel'],
+    elements: null,
     /**
      * Constructor: Jx.Button
      * create a new button.
@@ -177,106 +161,98 @@ Jx.Button = new Class({
     initialize : function( options ) {
         this.setOptions(options);
         
-        // the main container for the button
-        var d = new Element(this.options.container, {'class': 'jx'+this.options.type+'Container'});
-        if (this.options.toggle && this.options.toggleClass) {
-            d.addClass('jx'+this.options.type+this.options.toggleClass);
+        this.elements = this.processTemplate(this.options.template, this.classes);
+        
+        this.domObj = this.elements.get('jx'+this.type+'Container');
+        this.domA = this.elements.get('jx'+this.type);
+        this.domImg = this.elements.get('jx'+this.type+'Icon');
+        this.domLabel = this.elements.get('jx'+this.type + 'Label');
+        
+        /* is the button toggle-able? */
+        if (this.options.toggle) {
+            this.domObj.addClass('jx'+this.type+'Toggle');
         }
+        
         // the clickable part of the button
-        var hasFocus;
-        var mouseDown;
-        var a = new Element('a', {
-            'class': 'jx'+this.options.type, 
-            href: 'javascript:void(0)', 
-            title: this.options.tooltip, 
-            alt: this.options.tooltip,
-            events: {
+        if (this.domA) {
+            var hasFocus;
+            var mouseDown;
+            this.domA.set({
+                href: 'javascript:void(0)', 
+                title: this.options.tooltip, 
+                alt: this.options.tooltip
+            });
+            this.domA.addEvents({
                 click: this.clicked.bindWithEvent(this),
                 drag: (function(e) {e.stop();}).bindWithEvent(this),
                 mousedown: (function(e) {
-                    this.domA.addClass('jx'+this.options.type+'Pressed');
+                    this.domA.addClass('jx'+this.type+'Pressed');
                     hasFocus = true;
                     mouseDown = true;
                     this.focus();
                 }).bindWithEvent(this),
                 mouseup: (function(e) {
-                    this.domA.removeClass('jx'+this.options.type+'Pressed');
+                    this.domA.removeClass('jx'+this.type+'Pressed');
                     mouseDown = false;
                 }).bindWithEvent(this),
                 mouseleave: (function(e) {
-                    this.domA.removeClass('jx'+this.options.type+'Pressed');
+                    this.domA.removeClass('jx'+this.type+'Pressed');
                 }).bindWithEvent(this),
                 mouseenter: (function(e) {
                     if (hasFocus && mouseDown) {
-                        this.domA.addClass('jx'+this.options.type+'Pressed');
+                        this.domA.addClass('jx'+this.type+'Pressed');
                     }
                 }).bindWithEvent(this),
                 keydown: (function(e) {
                     if (e.key == 'enter') {
-                        this.domA.addClass('jx'+this.options.type+'Pressed');
+                        this.domA.addClass('jx'+this.type+'Pressed');
                     }
                 }).bindWithEvent(this),
                 keyup: (function(e) {
                     if (e.key == 'enter') {
-                        this.domA.removeClass('jx'+this.options.type+'Pressed');
+                        this.domA.removeClass('jx'+this.type+'Pressed');
                     }
                 }).bindWithEvent(this),
                 blur: function() { hasFocus = false; }
-            }
-        });
-        d.adopt(a);
-        
-        if (typeof Drag != 'undefined') {
-            new Drag(a, {
-                onStart: function() {this.stop();}
             });
-        }
-        
-        var s = new Element('span', {'class': 'jx'+this.options.type+'Content'});
-        a.adopt(s);
-        
-        if (this.options.image || !this.options.label) {
-            var i = new Element('img', {
-                'class':'jx'+this.options.type+'Icon',
-                'src': Jx.aPixel.src,
-                title: this.options.tooltip, 
-                alt: this.options.tooltip
-            });
-            //if image is not a_pixel, set the background image of the image
-            //otherwise let the default css take over.
-            if (this.options.image && this.options.image.indexOf('a_pixel.png') == -1) {
-                i.setStyle('backgroundImage',"url("+this.options.image+")");
+
+            if (typeof Drag != 'undefined') {
+                new Drag(this.domA, {
+                    onStart: function() {this.stop();}
+                });
             }
-            s.appendChild(i);
-            if (this.options.imageClass) {
-                i.addClass(this.options.imageClass);
+        }
+
+        if (this.domImg) {
+            if (this.options.image || !this.options.label) {
+                this.domImg.set({
+                    title: this.options.tooltip, 
+                    alt: this.options.tooltip
+                });
+                if (this.options.image && this.options.image.indexOf('a_pixel.png') == -1) {
+                    this.domImg.setStyle('backgroundImage',"url("+this.options.image+")");
+                }
+                if (this.options.imageClass) {
+                    this.domImg.addClass(this.options.imageClass);
+                }
+            } else {
+                //remove the image if we don't need it
+                this.domImg.setStyle('display','none');
             }
-            this.domImg = i;
         }
         
-        var l = new Element('span', {
-            html: this.options.label
-        });
-        if (this.options.label) {
-            l.addClass('jx'+this.options.type+'Label');
+        if (this.domLabel) {
+            if (this.options.label) {
+                this.domLabel.set('html',this.options.label);
+            } else {
+                this.domLabel.removeClass('jx'+this.type+'Label');
+            }
         }
-        s.appendChild(l);
         
         if (this.options.id) {
-            d.id = this.options.id;
-        }
-        if (this.options.halign == 'left') {
-            d.addClass('jx'+this.options.type+'ContentLeft');                
-        }
-
-        if (this.options.valign == 'top') {
-            d.addClass('jx'+this.options.type+'ContentTop');
+            this.domObj.set('id', this.options.id);
         }
         
-        this.domA = a;
-        this.domLabel = l;
-        this.domObj = d;        
-
         //update the enabled state
         this.setEnabled(this.options.enabled);
         
@@ -355,10 +331,10 @@ Jx.Button = new Class({
         }
         this.options.active = active;
         if (this.options.active) {
-            this.domA.addClass('jx'+this.options.type+'Active');
+            this.domA.addClass('jx'+this.type+'Active');
             this.fireEvent('down', this);
         } else {
-            this.domA.removeClass('jx'+this.options.type+'Active');
+            this.domA.removeClass('jx'+this.type+'Active');
             this.fireEvent('up', this);
         }
     },
@@ -371,42 +347,30 @@ Jx.Button = new Class({
      */
     setImage: function(path) {
         this.options.image = path;
-        if (path) {
-            if (!this.domImg) {
-                var i = new Element('img', {
-                    'class':'jx'+this.options.type+'Icon',
-                    'src': Jx.aPixel.src,
-                    alt: '',
-                    title: ''
-                });
-                if (this.options.imageClass) {
-                    i.addClass(this.options.imageClass);
-                }
-                this.domA.firstChild.grab(i, 'top');
-                this.domImg = i;
-            }
-            this.domImg.setStyle('backgroundImage',"url("+this.options.image+")");                        
-        } else if (this.domImg){
-            this.domImg.dispose();
-            this.domImg = null;
+        if (this.domImg) {
+            this.domImg.setStyle('backgroundImage',
+                                 "url("+this.options.image+")");
+            this.domImg.setStyle('display', path ? null : 'none');
         }
     },
     /**
      * Method: setLabel
      * 
-     * sets the text of the button.  Only works if a label was supplied
-     * when the button was constructed
+     * sets the text of the button.
      *
      * Parameters: 
      *
      * label - {String} the new label for the button
      */
     setLabel: function(label) {
-        this.domLabel.set('html', label);
-        if (!label && this.domLabel.hasClass('jxButtonLabel')) {
-            this.domLabel.removeClass('jxButtonLabel');
-        } else if (label && !this.domLabel.hasClass('jxButtonLabel')) {
-            this.domLabel.addClass('jxButtonLabel');
+        this.options.label = label;
+        if (this.domLabel) {
+            this.domLabel.set('html', label);
+            if (!label && this.domLabel.hasClass('jxButtonLabel')) {
+                this.domLabel.removeClass('jxButtonLabel');
+            } else if (label && !this.domLabel.hasClass('jxButtonLabel')) {
+                this.domLabel.addClass('jxButtonLabel');
+            }
         }
     },
     /**
@@ -415,7 +379,7 @@ Jx.Button = new Class({
      * returns the text of the button.
      */
     getLabel: function() {
-        return this.domLabel ? this.domLabel.innerHTML : '';
+        return this.options.label;
     },
     /**
      * Method: setTooltip

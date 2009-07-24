@@ -49,6 +49,13 @@ Jx.Button.Tab = new Class({
      * {HTMLElement} The content area that is displayed when the tab is active.
      */
     content: null,
+    
+    options: {
+        template: '<div class="jxTabContainer"><a class="jxTab"><span class="jxTabContent"><img class="jxTabIcon"><span class="jxTabLabel"></span></span></a><a class="jxTabClose"><img src="'+Jx.aPixel.src+'"></a></div>'
+    },
+    type: 'Tab',
+    classes: ['jxTabContainer','jxTab','jxTabIcon','jxTabLabel','jxTabClose'],
+    
     /**
      * Constructor: Jx.Button.Tab
      * Create a new instance of Jx.Button.Tab.  Any layout options passed are used
@@ -61,7 +68,7 @@ Jx.Button.Tab = new Class({
      * valid options.
      */
     initialize : function( options) {
-        this.parent($merge(options, {type:'Tab', toggle:true}));
+        this.parent($merge(options, {toggle:true}));
         this.content = new Element('div', {'class':'tabContent'});
         new Jx.Layout(this.content, options);
         this.loadContent(this.content);
@@ -69,22 +76,17 @@ Jx.Button.Tab = new Class({
         this.addEvent('down', function(){that.content.addClass('tabContentActive');});
         this.addEvent('up', function(){that.content.removeClass('tabContentActive');});
         
-        if (this.options.close) {
-            this.domObj.addClass('jxTabClose');
-            var a = new Element('a', {
-                'class': 'jxTabClose',
-                events: {
-                    'click': (function(){
-                        this.fireEvent('close');                        
-                    }).bind(this)
-                } 
-            });
-            a.adopt(new Element('img', {
-                src: Jx.aPixel.src,
-                alt: '',
-                title: ''
-            }));
-            this.domObj.adopt(a);
+        //remove the close button if necessary
+        var closer = this.elements.get('jx'+this.type+'Close');
+        if (closer) {
+            if (this.options.close) {
+                this.domObj.addClass('jx'+this.type+'Close');
+                closer.addEvent('click', (function(){
+                    this.fireEvent('close');
+                }).bind(this));
+            } else {
+                closer.dispose();
+            }
         }
     },
     /**

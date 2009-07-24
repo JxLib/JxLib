@@ -81,7 +81,7 @@ Jx.Button.Flyout = new Class({
             Jx.Button.Flyout.Stack = [];
         }
         this.parent(options);
-        this.domA.addClass('jx'+this.options.type+'Flyout');
+        this.domA.addClass('jx'+this.type+'Flyout');
         
         this.contentContainer = new Element('div',{
             'class':'jxFlyout'
@@ -154,7 +154,7 @@ Jx.Button.Flyout = new Class({
         Jx.Button.Flyout.Stack.push(this);
 
         this.options.active = true;
-        this.domA.addClass('jx'+this.options.type+'Active');
+        this.domA.addClass('jx'+this.type+'Active');
         this.contentContainer.setStyle('visibility','hidden');
         document.id(document.body).adopt(this.contentContainer);
         this.content.getChildren().each(function(child) {
