@@ -71,7 +71,7 @@ Jx.Button.Multi = new Class({
     buttons: null,
 
     options: {
-        template: '<div class="jxButtonContainer"><a class="jxButton jxButtonMulti"><span class="jxButtonContent"><img src="'+Jx.aPixel.src+'" class="jxButtonIcon"><span class="jxButtonLabel"></span></span></a><a class="jxButtonDisclose" href="javascript:void(0)"><img src="'+Jx.aPixel.src+'"></a></div>'
+        template: '<span class="jxButtonContainer"><a class="jxButton jxButtonMulti"><span class="jxButtonContent"><img src="'+Jx.aPixel.src+'" class="jxButtonIcon"><span class="jxButtonLabel"></span></span></a><a class="jxButtonDisclose" href="javascript:void(0)"><img src="'+Jx.aPixel.src+'"></a></span>'
     },
     classes: ['jxButtonContainer','jxButton','jxButtonIcon','jxButtonLabel','jxButtonDisclose'],
 

@@ -47,7 +47,7 @@ Jx.Button.Combo = new Class({
         label: '',
         /* Option: template
          */
-         template: '<div class="jxButtonContainer"><a class="jxButton jxButtonCombo"><span class="jxButtonContent"><img class="jxButtonIcon" src="'+Jx.aPixel.src+'"><span class="jxButtonLabel"></span></span></a></div>'
+         template: '<span class="jxButtonContainer"><a class="jxButton jxButtonCombo"><span class="jxButtonContent"><img class="jxButtonIcon" src="'+Jx.aPixel.src+'"><span class="jxButtonLabel"></span></span></a></span>'
      },
         
     /** 
