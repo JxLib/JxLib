@@ -16,6 +16,8 @@ Jx.Plugin = new Class({
     
     Extends: Jx.Object,
     
+    Family: "Jx.Plugin",
+    
     options: {},
     /**
      * Constructor: Jx.Plugin

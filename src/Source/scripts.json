@@ -344,7 +344,7 @@
     "Form": {
         
         "form": {
-            "deps": ["widget"],
+            "deps": ["widget", "String.QueryString"],
             "desc": ""
         },
         
@@ -375,6 +375,7 @@
         
         "text": {
             "deps": ["field"],
+            "opt": ["OverText"],
             "desc": ""
         },
         

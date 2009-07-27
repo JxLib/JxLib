@@ -443,7 +443,7 @@ Jx.Store = new Class({
         this.fireEvent('sortStart', this);
         
         var c;
-        if ($defined(cols) && Jx.type(cols) === 'Array') {
+        if ($defined(cols) && Jx.type(cols) === 'array') {
             c = this.options.sortCols = cols;
         } else if ($defined(cols) && Jx.type(cols) === 'string') {
             this.options.sortCols = [];
@@ -648,5 +648,13 @@ Jx.Store = new Class({
         } else {
             this.fireEvent('loadError', [ this, data ]);
         }
+    },
+    
+    /**
+     * APIMethod: getColumns
+     * Allows retieving the columns array
+     */
+    getColumns: function () {
+        return this.options.columns;
     }
 });

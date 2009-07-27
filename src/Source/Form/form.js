@@ -215,7 +215,7 @@ Jx.Form = new Class({
      * 
      * Parameters:
      * field - an Element representing the passed field
-     */
+     */ 
     elementPassed : function (field) {
         var fld = field.retrieve('field');
         fld.clearErrors();
@@ -252,19 +252,22 @@ Jx.Form = new Class({
 
     /**
      * APIMethod: getValues
-     * Gets the values of all the fields in the form as a Hash object. This
-     * function doesn't account for arrayed names (i.e. 'user[]' or 'user[password]')
-     * but will need to be enhanced for this use case.
+     * Gets the values of all the fields in the form as a Hash object. This 
+     * uses the mootools function Element.toQueryString to get the values and 
+     * will either return the values as a querystring or as an object (using 
+     * mootools-more's String.parseQueryString method).
+     * 
+     * Parameters:
+     * asQueryString - {boolean} indicates whether to return the value as a 
+     *                  query string or an object.
      */
-    getValues : function () {
-        var vals = new Hash();
-        this.fields.each(function (item) {
-            var v = item.getValue();
-            if ($defined(v)) {
-                vals.set(item.name, v);
-            }
-        }, this);
-        return vals;
+    getValues : function (asQueryString) {
+        var queryString = this.domObj.toQueryString();
+        if ($defined(asQueryString)) {
+            return queryString;
+        } else {
+            return queryString.parseQueryString();
+        }
     },
     /**
      * APIMethod: setValues
@@ -274,6 +277,7 @@ Jx.Form = new Class({
      * values - A Hash of values to set keyed by field name.
      */
     setValues : function (values) {
+        //TODO: This may have to change with change to getValues().
         if (Jx.type(values) === 'object') {
             values = new Hash(values);
         }

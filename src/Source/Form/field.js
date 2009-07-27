@@ -194,8 +194,8 @@ Jx.Field = new Class({
         this.domObj = new Element('div', {
             'class' : 'jxInputContainer'
         });
-        if ($defined(this.options.cssClass)) {
-            this.domObj.addClass(options.containerClass);
+        if ($defined(this.options.containerClass)) {
+            this.domObj.addClass(this.options.containerClass);
         }
         if ($defined(this.options.required) && this.options.required) {
             this.domObj.addClass('jxFieldRequired');
