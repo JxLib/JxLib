@@ -8,95 +8,134 @@
 /* =========== */
 /* FORM STYLES */
 /* =========== */
-/* JxForm classes are a set of styles that can be used forlaying out forms 
- * There are three different types of layouts: Inline, Float and Block.
- * Each can be usedto layout an entire form, or a portion of the form as is needed
+/* JxForm classes are a set of styles that can be used for laying out forms 
+ * There are three different types of layouts: Inline, Inlineblock and Block.
+ * Each can be used to layout an entire form, a fieldset or an individual input.
  */
 
- .jxForm {
+ /* Base and Typography Styles */
+ 
+.jxForm {
   display: block;
   position: relative;
   overflow: hidden; /* ensures that floated elements are contained */
   font-family: Arial, Helvetica, sans-serif;
   font-size: 12px;
   line-height: 18px;
-}
-
-.jxForm label {
-  background-color: transparent;
   color: #000;
 }
 
-.jxForm select, 
-.jxForm input {
+.jxFieldset {
+  display: block;
+  position: relative;
+  overflow: hidden; /* ensures that floated elements are contained */
+  border: 1px solid #ccc;
+  margin: 10px;
+  padding: 10px;
+  
+}
+
+.jxFieldsetLegend {
+  color: #000;
+  position: relative;
+}
+
+.jxInputContainer {
+  position: relative;
+  background-color: transparent;
+  padding: 2px 0px 2px 0px;
+  margin: 0px;
+  border: none;
+}
+
+.jxInputContainer * {
+  /* common styles to all children of a jx Input Container */
   color: #000;
 }
 
-.jxFormFloat .radioGroup {
-  display: block;
-  overflow: hidden;
+.jxInputLabel {
 }
 
-/* wrap the radio button in a label */
-.jxFormFloat .radioGroup input,
-.jxFormFloat .radioGroup label {
-  width: auto !important;
-  vertical-align: middle;
+.jxInputTag {
 }
 
-.jxForm .tipArea {
-  display: block;
-  padding: 5px 0px;
-  background-color: transparent;
-  color: #999;
+.jxInputText {
+}
+
+.jxInputSelect {
+}
+
+.jxInputTextarea {
+}
+
+.jxInputRadio {
+}
+
+.jxInputCheck {
+}
+
+.jxInputGroup {
+  border: none;
+  padding: 0px;
+  margin: 0px;
 }
 
 /* INLINE FORM 
- * Wrap an Inline Form with .jxFormInline to sets up form elements to work as 
- * inline objects like they do by default */
+ * Sets up form elements to work as inline objects like they do by default */
 
-.jxFormInline label {
+.jxFormInline .jxInputLabel,
+fieldset.jxFieldsetInline .jxInputLabel,
+fieldset span.jxInputLabelInline,
+span.jxInputLabelInline{
   display: inline;
 }
 
-/* FLOAT FORM 
- * Wrap a Floating Form with .jxFormFloat to sets up form elements to work as 
- * block objects so labels can have set widths to simulate a 2 column display 
- * for label / input pairs. */
-
-.jxFormFloat label {
-  display: block;
-  float: left;
-  clear: left;
-  width: 75px; /* Overide the width depending on the form layout */
-}
-
-.jxFormFloat select, 
-.jxFormFloat input {
-  float: left;
-}
-
-.jxFormFloat .radioGroup {
-  float: left;
-}
-
-/* wrap the radio button in a label */
-.jxFormFloat .radioGroup input,
-.jxFormFloat .radioGroup label {
-  float: none;
-}
-
-.jxFormFloat .tipArea {
-  clear: left;
+.jxFormInline .jxInputGroup,
+fieldset.jxFieldsetInline .jxInputGroup {
+  padding-left: 0px;
 }
 
 /* BLOCK FORM 
- *  Wrap a Block Form with .jxFormBlock to sets up form elements to work as 
- * block objects so they can label / input pairs */
+ *  Sets up form elements to work as block objects so they can appear stacked */
 
-.jxFormBlock label {
+.jxFormBlock .jxInputLabel,
+fieldset.jxFieldsetBlock .jxInputLabel,
+fieldset span.jxInputlabelBlock,
+span.jxInputlabelBlock {
   display: block;
 }
+
+/* INLINE-BLOCK FORM 
+ * Sets up form elements to work as inline-block objects so labels can have set 
+ * widths to simulate a 2 column display for label / input pairs. */
+
+.jxFormInlineblock .jxInputLabel,
+fieldset.jxFieldsetInlineblock .jxInputLabel,
+fieldset span.jxInputLabelInlineblock,
+span.jxInputLabelInlineblock {
+  display: inline-block;
+  width: 200px;
+}
+
+/* Inline-Block Input Group Styles */
+
+.jxFormInlineblock .jxInputGroup {
+  padding-left: 200px;
+}
+
+.jxFormInlineblock .jxInputGroup .jxFieldsetLegend {
+  position: absolute;
+  left: -200px;
+}
+
+
+
+
+
+
+
+
+
 
 /** Error and validation classes */
 .jxFieldFeedback {
