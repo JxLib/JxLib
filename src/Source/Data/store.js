@@ -339,9 +339,11 @@ Jx.Store = new Class({
     set : function (column, value) {
         if ($defined(this.data)) {
             // set the column to the value and set the dirty flag
-            if (Jx.type(column) === 'number') {
+
+            if (Jx.type(column) === 'number' || Jx.type(column) === 'string') {
                 column = this.resolveCol(column);
             }
+
             var oldValue = this.data[this.index].get(column.name);
             this.data[this.index].set(column.name, value);
             this.data[this.index].set('dirty', true);

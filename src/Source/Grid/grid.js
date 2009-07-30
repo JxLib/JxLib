@@ -552,15 +552,15 @@ Jx.Grid = new Class({
     modelChanged : function (row, col) {
         //grab new TD
         var column = this.columns.getIndexFromGrid(col.name);
-        var td = document.id(this.gridObj.childNodes[row].childNodes[column]);
-    
+        var td = document.id(this.gridObj.childNodes[0].childNodes[0].childNodes[row].childNodes[column]);
+
         var currentRow = this.model.getPosition();
         this.model.moveTo(row);
-        var newTD = this.columns.getColumnCell(this.column
-                .getByName(col.name));
+
+        var newTD = this.columns.getColumnCell(this.columns.getByName(col.name));
         newTD.replaces(td);
-        this.model.moveTo(currentRow);
-    
+
+        this.model.moveTo(currentRow);    
     }
 
 });

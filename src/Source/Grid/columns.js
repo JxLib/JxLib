@@ -236,7 +236,7 @@ Jx.Columns = new Class({
         headers.each(function (h) {
             i++;
             var hClasses = h.get('class').split(' ').filter(function (cls) {
-                return cls.test('jxGridColHead-');
+                return cls.test('jxColHead-'); 
             });
             hClasses.each(function (cls) {
                 if (cls.test(name)) {
