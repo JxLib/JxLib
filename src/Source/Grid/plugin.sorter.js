@@ -49,11 +49,11 @@ Jx.Plugin.Sorter = new Class({
         this.bound.addHeaderClass = this.addHeaderClass.bind(this);
     },
     /**
-     * APIMethod: init
+     * APIMethod: attach
      * Sets up the plugin and attaches the plugin to the grid events it 
      * will be monitoring
      */
-    init : function (grid) {
+    attach: function (grid) {
         if (!$defined(grid) && !(grid instanceof Jx.Grid)) {
             return;
         }
