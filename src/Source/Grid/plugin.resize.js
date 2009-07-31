@@ -26,7 +26,13 @@ Jx.Plugin.Resize = new Class({
          * Option: rows
          * set to true to make row heights resizeable
          */
-        rows: false
+        rows: false,
+        /**
+         * Option: tooltip
+         * the tooltip to display for the draggable portion of the
+         * cell header
+         */
+        tooltip: 'Drag to resize, double click to auto-size.'
     },
     /**
      * Property: els
@@ -92,10 +98,11 @@ Jx.Plugin.Resize = new Class({
                 if (col.header) {
                     var el = new Element('div', {
                         'class':'jxGridColumnResize',
+                        title: this.options.tooltip,
                         events: {
                             dblclick: function() {
                                 col.options.width = 'auto';
-                                col.setWidth(col.getWidth());
+                                col.setWidth(col.getWidth(true));
                             }
                         }
                     }).inject(col.header);
