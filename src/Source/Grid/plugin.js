@@ -30,10 +30,17 @@ Jx.Plugin = new Class({
         this.parent(options);
     },
     /**
-     * APIMethod: init
+     * APIMethod: attach
      * Empty method that must be overridden by subclasses. It is 
      * called by the user of the plugin to setup the plugin for use.
      */
-    init: $empty
+    attach: $empty,
+    
+    /**
+     * APIMethod: detach
+     * Empty method that must be overridden by subclasses. It is 
+     * called by the user of the plugin to remove the plugin.
+     */
+    detach: $empty
     
 });

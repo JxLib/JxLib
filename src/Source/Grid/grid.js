@@ -4,18 +4,19 @@
  * 
  * Extends: <Jx.Widget>
  *
- * A tabular control that has fixed, optional, scrolling headers on the rows and columns
- * like a spreadsheet.
+ * A tabular control that has fixed, optional, scrolling headers on the rows and
+ * columns like a spreadsheet.
  *
  * Jx.Grid is a tabular control with convenient controls for resizing columns,
- * sorting, and inline editing.  It is created inside another element, typically a
- * div.  If the div is resizable (for instance it fills the page or there is a
+ * sorting, and inline editing.  It is created inside another element, typically
+ * a div.  If the div is resizable (for instance it fills the page or there is a
  * user control allowing it to be resized), you must call the resize() method
  * of the grid to let it know that its container has been resized.
  *
  * When creating a new Jx.Grid, you can specify a number of options for the grid
- * that control its appearance and functionality. You can also specify plugins to 
- * load for additional functionality. Currently Jx provides the following plugins 
+ * that control its appearance and functionality. You can also specify plugins
+ * to load for additional functionality. Currently Jx provides the following
+ * plugins 
  * 
  * Prelighter - prelights rows, columns, and cells 
  * Selector - selects rows, columns, and cells
@@ -104,6 +105,12 @@ Jx.Grid = new Class({
      * holds an object indicating the current cell that the mouse is over
      */
     currentCell : null,
+    
+    /**
+     * Property: styleSheet
+     * the name of the dynamic style sheet to use for manipulating styles
+     */
+    styleSheet: 'JxGridStyles',
 
     /**
      * Constructor: Jx.Grid
@@ -113,6 +120,8 @@ Jx.Grid = new Class({
      */
     initialize : function (options) {
         this.parent(options);
+        
+        this.uniqueId = 'jxGrid_'+(new Date()).getTime();
 
         if ($defined(this.options.model)
                 && this.options.model instanceof Jx.Store) {
@@ -143,7 +152,7 @@ Jx.Grid = new Class({
         }
 
         //initialize the grid
-        this.domObj = new Element('div');
+        this.domObj = new Element('div', {'class':this.uniqueId});
         var l = new Jx.Layout(this.domObj, {
             onSizeChange : this.resize.bind(this)
         });
@@ -162,7 +171,7 @@ Jx.Grid = new Class({
             'class' : 'jxGridContainer'
         });
         this.colTable = new Element('table', {
-            'class' : 'jxGridTable'
+            'class' : 'jxGridTable jxGridHeader'
         });
         this.colTableBody = new Element('tbody');
         this.colTable.appendChild(this.colTableBody);
@@ -170,7 +179,7 @@ Jx.Grid = new Class({
 
         //hold the row headers
         this.rowObj = new Element('div', {
-            'class' : 'jxGridContainer'
+            'class' : 'jxGridContainer jxGridHeader'
         });
         this.rowTable = new Element('table', {
             'class' : 'jxGridTable'
@@ -217,11 +226,11 @@ Jx.Grid = new Class({
                 && Jx.type(this.options.plugins) === 'array') {
             this.options.plugins.each(function (plugin) {
                 if (plugin instanceof Jx.Plugin) {
-                    plugin.init(this);
+                    plugin.attach(this);
                     this.plugins.set(plugin.name, plugin);
                 } else if (Jx.type(plugin) === 'object') {
                     var p = new Jx.Plugin[plugin.name](plugin.options);
-                    p.init(this);
+                    p.attach(this);
                     this.plugins.set(p.name, p);
                 }
             }, this);
@@ -476,14 +485,16 @@ Jx.Grid = new Class({
                 this.columns.getHeaders(trBody);
 
                 /* one extra column at the end for filler */
-                th = new Element('th', {
+                th = new Element('td', {
+                    'class':'jxGridColHead'
+                }).inject(trBody);
+                new Element('span',{
+                    'class': 'jxGridCellContent',
                     styles : {
                         width : 1000,
                         height : colHeight - 1
                     }
-                });
-                th.addClass('jxGridColHead');
-                trBody.appendChild(th);
+                }).inject(th);
 
             } else {
                 //hide the headers
@@ -506,16 +517,14 @@ Jx.Grid = new Class({
                     }
                 }
                 /* one extra row at the end for filler */
-                tr = new Element('tr');
-                th = new Element('th', {
+                tr = new Element('tr').inject(this.rowTableHead);
+                th = new Element('td', {
                     'class' : 'jxGridRowHead',
                     styles : {
                         width : this.row.getRowHeaderWidth(),
                         height : 1000
                     }
-                });
-                tr.appendChild(th);
-                this.rowTableHead.appendChild(tr);
+                }).inject(tr);
             } else {
                 //hide row headers
                 this.rowTableHead.setStyle('visibility', 'hidden');
@@ -539,7 +548,9 @@ Jx.Grid = new Class({
                 }
         
             }
-        
+            
+            Jx.Styles.enableStyleSheet(this.styleSheet);
+            this.columns.createRules(this.styleSheet, "."+this.uniqueId);
         }
         this.domObj.resize();
         this.fireEvent('doneCreateGrid', this);

@@ -63,6 +63,7 @@ Group: Jx  {
 
       File: Common  (no auto-title, Base/common.js)
       File: Object  (Base/object.js)
+      File: Styles  (Base/styles.js)
       File: Widget  (Base/widget.js)
       }  # Group: Base
 
@@ -75,6 +76,7 @@ Group: Jx  {
       File: Grid  (Grid/grid.js)
       File: Grid.Plugin  (Grid/plugin.js)
       File: Plugin.Prelighter  (Grid/plugin.prelighter.js)
+      File: Plugin.Resize  (Grid/plugin.resize.js)
       File: Plugin.Selector  (Grid/plugin.selector.js)
       File: Plugin.Sorter  (Grid/plugin.sorter.js)
       File: Row  (Grid/row.js)

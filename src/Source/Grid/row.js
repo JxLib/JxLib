@@ -55,7 +55,21 @@ Jx.Row = new Class(
          * Option: headerField
          * The field in the model to use as the header
          */
-        headerField : 'id'
+        headerField : 'id',
+        /**
+         * Option: templates
+         * objects used to determine the type of tag and css class to 
+         * assign to a header cell. The css class can 
+         * also be a function that returns a string to assign as the css 
+         * class. The function will be passed the text to be formatted.
+         */
+        templates: {
+            header: {
+                tag: 'span',
+                cssClass: null
+            }
+        }
+        
     },
     /**
      * Property: grid
@@ -98,14 +112,28 @@ Jx.Row = new Class(
      * creates the TH for the row's header
      */
     getRowHeaderCell : function () {
-        //create element
-        var th = new Element('th');
         //get and set text for element
         var model = this.grid.getModel();
-        return new Element('th', {
-            'class' : 'jxGridRowHead',
-            html : model.get(this.options.headerField)
+        var th = new Element('td', {
+            'class' : 'jxGridRowHead'
         });
+        
+        var text = model.get(this.options.headerField);
+        var ht = this.options.templates.header;
+        var el = new Element(ht.tag, {
+            'class' : 'jxGridCellContent',
+            'html' : text
+        }).inject(th);
+        if ($defined(ht.cssClass)) {
+            if (Jx.type(ht.cssClass) === 'function') {
+                el.addClass(ht.cssClass.run(text));
+            } else {
+                el.addClass(ht.cssClass);
+            }
+        }
+        
+        return th;
+        
     },
     /**
      * APIMethod: getRowHeaderWidth

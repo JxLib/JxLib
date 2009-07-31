@@ -13,7 +13,7 @@ caption,th {text-align:left;}
 h1,h2,h3,h4,h5,h6{font-size:100%;}
 q:before,q:after{content:'';}/**
  * @project         Jx
- * @revision        $Id: button.css 302 2009-04-02 18:42:56Z fred.warnock $
+ * @revision        $Id: button.css 491 2009-07-24 22:05:00Z pagameba $
  * @author          Fred Warnock (fwarnock@dmsolutions.ca)
  * @copyright       (c) 2006 DM Solutions Group Inc.
  */
@@ -41,6 +41,8 @@ q:before,q:after{content:'';}/**
   /* Base setup */
   display: inline-block;;
   position: relative;
+  font-size: 0px;
+  line-height: 0px;
   /* float: left; */
 
   /* Using background images, the A contains the left side of the background */
@@ -1064,11 +1066,15 @@ iframe.jxIframeShim{position:absolute;top:0px;left:0px;width:100%;height:100%;op
     table-layout: fixed;
     border-collapse: collapse;
     border-style: none;
-    width: 100%;
+
     cursor: default;
     font-family: Arial, Verdana, sans-serif;
     font-size: 11px;
     font-weight: normal;
+}
+
+.jxGridHeader {
+    width: 100%;
 }
 
 .jxGridTableBody {
@@ -1110,6 +1116,11 @@ iframe.jxIframeShim{position:absolute;top:0px;left:0px;width:100%;height:100%;op
     border-right: 1px solid #d8d8d8;
     border-bottom: 1px solid #d8d8d8;
     border-left: 0px solid #d8d8d8;
+    overflow: hidden;
+}
+
+.jxGridCellContent {
+    display: inline-block;
     overflow: hidden;
     padding-left: 3px;
     padding-right: 3px;

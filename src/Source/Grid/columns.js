@@ -1,16 +1,16 @@
 // $Id: $
 /**
  * Class: Jx.Columns
- * 
+ *
  * Extends: <Jx.Object>
- * 
- * This class is the container for all columns needed for a grid. It 
- * consolidates many functions that didn't make sense to put directly 
+ *
+ * This class is the container for all columns needed for a grid. It
+ * consolidates many functions that didn't make sense to put directly
  * in the column class. Think of it as a model for columns.
- * 
- * License: 
+ *
+ * License:
  * Copyright (c) 2009, Jon Bomgardner.
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.Columns = new Class({
@@ -32,7 +32,7 @@ Jx.Columns = new Class({
         /**
          * Option: columns
          * an array holding all of the column instances or objects containing
-         * configuration info for the column 
+         * configuration info for the column
          */
         columns : []
     },
@@ -41,10 +41,11 @@ Jx.Columns = new Class({
      * an array holding the actual instantiated column objects
      */
     columns : [],
+    
     /**
      * Constructor: Jx.Columns
      * Creates the class.
-     * 
+     *
      * Parameters:
      * options - <Jx.Columns.Options> and <Jx.Object.Options>
      * grid - a reference to the <Jx.Grid> that this class is associated with
@@ -69,7 +70,7 @@ Jx.Columns = new Class({
     /**
      * APIMethod: getHeaderHeight
      * returns the height of the column header row
-     * 
+     *
      * Parameters:
      * recalculate - determines if we should recalculate the height. Currently does nothing.
      */
@@ -94,7 +95,7 @@ Jx.Columns = new Class({
     /**
      * APIMethod: getByName
      * Used to get a column object by the name of the column
-     * 
+     *
      * Parameters:
      * colName - the name of the column
      */
@@ -110,7 +111,7 @@ Jx.Columns = new Class({
     /**
      * APIMethod: getByField
      * Used to get a column by the model field it represents
-     * 
+     *
      *  Parameters:
      *  field - the field name to search by
      */
@@ -126,8 +127,8 @@ Jx.Columns = new Class({
     /**
      * APIMethod: getByGridIndex
      * Used to get a column when all you know is the cell index in the grid
-     * 
-     * Parameters: 
+     *
+     * Parameters:
      * index - an integer denoting the placement of the column in the grid (zero-based)
      */
     getByGridIndex : function (index) {
@@ -142,22 +143,22 @@ Jx.Columns = new Class({
     /**
      * APIMethod: getHeaders
      * Returns a row with the headers in it.
-     * 
-     * Parameters: 
+     *
+     * Parameters:
      * row - the row to add the headers to.
      */
     getHeaders : function (row) {
         var r = this.grid.row.useHeaders();
         var hf = this.grid.row.getRowHeaderField();
-        this.columns.each(function (col) {
+        this.columns.each(function (col, idx) {
             if (r && hf === col.options.modelField) {
                 //do nothing
             } else if (!col.isHidden()) {
-                var th = new Element('th', {
-                    'class' : 'jxGridColHead'
+                var th = new Element('td', {
+                    'class' : 'jxGridColHead jxGridCol'+idx
                 });
                 th.adopt(col.getHeaderHTML());
-                th.setStyle('width', col.getWidth());
+                // th.setStyle('width', col.getWidth());
                 th.addClass('jxColHead-' + col.options.modelField);
                 //add other styles for different attributes
                 if (col.isEditable()) {
@@ -177,7 +178,7 @@ Jx.Columns = new Class({
     /**
      * APIMethod: getColumnCells
      * Appends the cells from each column for a specific row
-     * 
+     *
      * Parameters:
      * row - the row (tr) to add the cells to.
      */
@@ -185,11 +186,11 @@ Jx.Columns = new Class({
         var r = this.grid.row;
         var f = r.getRowHeaderField();
         var h = r.useHeaders();
-        this.columns.each(function (col) {
+        this.columns.each(function (col, idx) {
             if (h && col.options.modelField !== f && !col.isHidden()) {
-                row.appendChild(this.getColumnCell(col));
+                row.appendChild(this.getColumnCell(col, idx));
             } else if (!h && !col.isHidden()) {
-                row.appendChild(this.getColumnCell(col));
+                row.appendChild(this.getColumnCell(col, idx));
             }
         }, this);
         return row;
@@ -197,24 +198,34 @@ Jx.Columns = new Class({
     /**
      * APIMethod: getColumnCell
      * Returns the cell (td) for a particular column.
-     * 
+     *
      * Paremeters:
      * col - the column to get a cell for.
      */
-    getColumnCell : function (col) {
+    getColumnCell : function (col, idx) {
 
         var td = new Element('td', {
             'class' : 'jxGridCell'
         });
         td.adopt(col.getHTML());
         td.addClass('jxCol-' + col.options.modelField);
-        if (this.grid.model.getPosition() === 0) {
-            var colWidth = col.getWidth();
-            td.setStyle('width', colWidth);
-        }
+        td.addClass('jxGridCol'+idx);
+        // if (this.grid.model.getPosition() === 0) {
+        //     var colWidth = col.getWidth();
+        //     td.setStyle('width', colWidth);
+        // }
 
         return td;
     },
+
+    createRules: function(styleSheet, scope) {
+        this.columns.each(function(col, idx) {
+            var selector = scope+' .jxGridCol'+idx+', '+scope + " .jxGridCol" + idx + " .jxGridCellContent";
+            col.rule = Jx.Styles.insertCssRule(selector, '', styleSheet);
+            col.rule.style.width = col.getWidth() + "px";
+        }, this);
+    },
+
     /**
      * APIMethod: getColumnCOunt
      * returns the number of columns in this model (including hidden).
@@ -225,9 +236,9 @@ Jx.Columns = new Class({
     /**
      * APIMethod: getIndexFromGrid
      * Gets the index of a column from its place in the grid.
-     * 
+     *
      * Parameters:
-     * name - the name of the column to get an index for 
+     * name - the name of the column to get an index for
      */
     getIndexFromGrid : function (name) {
         var headers = this.grid.colTableBody.getFirst().getChildren();

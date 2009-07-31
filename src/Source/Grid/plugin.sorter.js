@@ -34,6 +34,21 @@ Jx.Plugin.Sorter = new Class({
      */
     currentGridIndex : null,
     /**
+     * Property: bound
+     * storage for bound methods useful for working with events
+     */
+    bound: {},
+    /**
+     * APIMethod: initialize
+     * construct a new instance of the plugin.  The plugin must be attached
+     * to a Jx.Grid instance to be useful though.
+     */
+    initialize: function(options) {
+        this.parent(options);
+        this.bound.sort = this.sort.bind(this);
+        this.bound.addHeaderClass = this.addHeaderClass.bind(this);
+    },
+    /**
      * APIMethod: init
      * Sets up the plugin and attaches the plugin to the grid events it 
      * will be monitoring
@@ -45,8 +60,17 @@ Jx.Plugin.Sorter = new Class({
 
         this.grid = grid;
 
-        this.grid.addEvent('gridClick', this.sort.bind(this));
+        this.grid.addEvent('gridClick', this.bound.sort);
         this.boundAddHeader = this.addHeaderClass.bind(this);
+    },
+    /**
+     * APIMethod: detach
+     */
+    detach: function() {
+        if (this.grid) {
+            this.grid.removeEvent('gridClick', this.bound.sort);
+        }
+        this.grid = null;
     },
     /**
      * Method: sort
@@ -75,7 +99,7 @@ Jx.Plugin.Sorter = new Class({
     
                     //The grid should be listening for the sortFinished event and will re-render the grid
                     //we will listen for the grid's doneCreateGrid event to add the header
-                    this.grid.addEvent('doneCreateGrid', this.boundAddHeader);
+                    this.grid.addEvent('doneCreateGrid', this.bound.addHeaderClass);
                     //sort the store
                     var model = this.grid.getModel();
                     model.sort(this.current.name, null, this.direction);
@@ -90,7 +114,7 @@ Jx.Plugin.Sorter = new Class({
      * column we sorted by so that the sort arrow shows 
      */
     addHeaderClass : function () {
-        this.grid.removeEvent('doneCreateGrid', this.boundAddHeader);
+        this.grid.removeEvent('doneCreateGrid', this.bound.addHeaderClass);
         
         //get header TD
         var th = this.grid.colTable.rows[0].cells[this.currentGridIndex];

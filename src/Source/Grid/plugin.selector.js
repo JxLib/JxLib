@@ -36,18 +36,39 @@ Jx.Plugin.Selector = new Class({
         column : false
     },
     /**
-     * APIMethod: init
+     * Property: bound
+     * storage for bound methods useful for working with events
+     */
+    bound: {},
+    /**
+     * APIMethod: initialize
+     * construct a new instance of the plugin.  The plugin must be attached
+     * to a Jx.Grid instance to be useful though.
+     */
+    initialize: function(options) {
+        this.parent(options);
+        this.bound.select = this.select.bind(this);
+    },
+    /**
+     * APIMethod: attach
      * Sets up the plugin and attaches the plugin to the grid events it 
      * will be monitoring
      */
-    init : function (grid) {
+    attach: function (grid) {
         if (!$defined(grid) && !(grid instanceof Jx.Grid)) {
             return;
         }
-
         this.grid = grid;
-
-        this.grid.addEvent('gridClick', this.select.bind(this));
+        this.grid.addEvent('gridClick', this.bound.select);
+    },
+    /**
+     * APIMethod: detach
+     */
+    detach: function() {
+        if (this.grid) {
+            this.grid.removeEvent('gridClick', this.bound.select);
+        }
+        this.grid = null;
     },
     /**
      * Method: select

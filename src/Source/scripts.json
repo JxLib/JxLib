@@ -9,6 +9,11 @@
             "desc":"Jx namespace with methods and classes common to most Jx widgets"
         },
         
+        "styles": {
+            "deps": ["common"],
+            "desc": "A singleton object useful for dynamically creating and manipulating CSS styles"
+        },
+        
         "object": {
         	"deps": ["common", "Class.Extras"],
         	"desc": "Base class for all other object in the JxLib framework."
@@ -135,7 +140,7 @@
         "desc": "This group contains components related to the Grid control.",
         
         "grid": {
-            "deps": ["widget", "layout","columns","row","plugin","store"],
+            "deps": ["widget", "style", "layout","columns","row","plugin","store"],
             "opt": ["store"],
             "desc": "A tabular control that has fixed scrolling headers on the rows and columns like a spreadsheet."
         },
