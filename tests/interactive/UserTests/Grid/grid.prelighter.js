@@ -576,5 +576,5 @@
             }
         }
     ],
-    otherScripts: ["currency","date","boolean","phone","plugin.prelighter"]
+    otherScripts: ["currency","date","boolean","phone","grid.prelighter"]
 }

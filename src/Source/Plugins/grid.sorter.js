@@ -13,7 +13,7 @@
  * 
  * This file is licensed under an MIT style license
  */
-Jx.Plugin.Sorter = new Class({
+Jx.Plugin.Grid.Sorter = new Class({
 
     Extends : Jx.Plugin,
 

@@ -346,5 +346,5 @@
             }
         }
     ],
-    otherScripts: ["currency","date","boolean","phone","plugin.selector"]
+    otherScripts: ["currency","date","boolean","phone","grid.selector"]
 }

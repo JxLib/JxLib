@@ -583,10 +583,11 @@ Jx.Widget = new Class({
      * Method: generateId
      * Used to generate a unique ID for Jx Widgets.
      */
-    generateId: function(){
+    generateId: function(prefix){
+        prefix = (prefix) ? prefix : 'jx-';
         var uid = $uid(this);
         delete this.uid;
-        return 'jx-'+uid;
+        return prefix + uid;
     }
 });
 

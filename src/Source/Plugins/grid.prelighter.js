@@ -14,7 +14,7 @@
  * 
  * This file is licensed under an MIT style license
  */
-Jx.Plugin.Prelighter = new Class({
+Jx.Plugin.Grid.Prelighter = new Class({
 
     Extends : Jx.Plugin,
 

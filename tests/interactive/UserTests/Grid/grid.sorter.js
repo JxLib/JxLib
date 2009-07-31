@@ -120,5 +120,5 @@
             }
         }
     ],
-    otherScripts: ["currency","date","boolean","phone","plugin.sorter","mergesort"]
+    otherScripts: ["currency","date","boolean","phone","grid.sorter","mergesort"]
 }

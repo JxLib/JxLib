@@ -12,7 +12,7 @@
  * 
  * This file is licensed under an MIT style license
  */
-Jx.Plugin.Resize = new Class({
+Jx.Plugin.Grid.Resize = new Class({
 
     Extends : Jx.Plugin,
     

@@ -140,8 +140,7 @@
         "desc": "This group contains components related to the Grid control.",
         
         "grid": {
-            "deps": ["widget", "style", "layout","columns","row","plugin","store"],
-            "opt": ["store"],
+            "deps": ["widget", "styles", "layout","columns","row","plugin.grid","store"],
             "desc": "A tabular control that has fixed scrolling headers on the rows and columns like a spreadsheet."
         },
 
@@ -158,33 +157,42 @@
         "row": {
             "deps": ["object"],
             "desc": ""
-        },
+        }
+
+    },
+    
+    "Plugins" : {
         
         "plugin": {
             "deps": ["object"],
             "desc": ""
         },
         
-        "plugin.selector": {
+        "plugin.grid": {
             "deps": ["plugin"],
             "desc": ""
         },
         
-        "plugin.prelighter": {
-            "deps": ["plugin"],
+        "grid.selector": {
+            "deps": ["plugin.grid"],
             "desc": ""
         },
         
-        "plugin.sorter": {
-            "deps": ["plugin"],
+        "grid.prelighter": {
+            "deps": ["plugin.grid"],
+            "desc": ""
+        },
+        
+        "grid.sorter": {
+            "deps": ["plugin.grid"],
             "desc" : ""
         },
 
-        "plugin.resize": {
-            "deps": ["plugin"],
+        "grid.resize": {
+            "deps": ["plugin.grid"],
             "desc" : ""
         }
-
+        
     },
 
     "Menu": {

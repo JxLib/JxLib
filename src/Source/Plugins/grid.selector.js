@@ -14,7 +14,7 @@
  * 
  * This file is licensed under an MIT style license
  */
-Jx.Plugin.Selector = new Class({
+Jx.Plugin.Grid.Selector = new Class({
 
     Extends : Jx.Plugin,
 

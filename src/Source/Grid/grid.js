@@ -121,6 +121,8 @@ Jx.Grid = new Class({
     initialize : function (options) {
         this.parent(options);
         
+        //NOTE: I suggest using the base Widget class's .generateId()
+        //this.uniqueId = this.generateId('jxGrid_');
         this.uniqueId = 'jxGrid_'+(new Date()).getTime();
 
         if ($defined(this.options.model)
@@ -229,7 +231,8 @@ Jx.Grid = new Class({
                     plugin.attach(this);
                     this.plugins.set(plugin.name, plugin);
                 } else if (Jx.type(plugin) === 'object') {
-                    var p = new Jx.Plugin[plugin.name](plugin.options);
+                    //All grid plugins should be in Jx.Plugin.Grid namespace
+                    var p = new Jx.Plugin.Grid[plugin.name](plugin.options);
                     p.attach(this);
                     this.plugins.set(p.name, p);
                 }
