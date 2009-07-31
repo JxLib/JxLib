@@ -48,7 +48,7 @@ Jx.Field.Radio = new Class({
         this.parent(options);
         
         if ($defined(this.options.checked)) {
-            this.field.set("checked", "checked");
+            this.field.checked = this.options.checked;
         }
         
     },

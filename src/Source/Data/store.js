@@ -442,36 +442,38 @@ Jx.Store = new Class({
      * anything else implies ascending (even null). 
      */
     sort : function (cols, sort, dir) {
-        this.fireEvent('sortStart', this);
         
-        var c;
-        if ($defined(cols) && Jx.type(cols) === 'array') {
-            c = this.options.sortCols = cols;
-        } else if ($defined(cols) && Jx.type(cols) === 'string') {
-            this.options.sortCols = [];
-            this.options.sortCols.push(cols);
-            c = this.options.sortCols;
-        } else if ($defined(this.options.sortCols)) {
-            c = this.options.sortCols;
-        } else {
-            return null;
-        }
+        if (this.count()) {
         
-        this.sortType = sort;
-        // first sort on the first array item
-        this.doSort(c[0], sort);
-    
-        c.each(function (item, index, array) {
-            if (index !== 0) {
-                this.subSort(this.data, array[index - 1], item);
+            this.fireEvent('sortStart', this);
+            
+            var c;
+            if ($defined(cols) && Jx.type(cols) === 'array') {
+                c = this.options.sortCols = cols;
+            } else if ($defined(cols) && Jx.type(cols) === 'string') {
+                this.options.sortCols = [];
+                this.options.sortCols.push(cols);
+                c = this.options.sortCols;
+            } else if ($defined(this.options.sortCols)) {
+                c = this.options.sortCols;
+            } else {
+                return null;
             }
-        }, this);
-    
-        if ($defined(dir) && dir === 'desc') {
-            this.data.reverse();
+            
+            this.sortType = sort;
+            // first sort on the first array item
+            this.doSort(c[0], sort);
+        
+            if (c.length > 1) {
+                   this.data = this.subSort(this.data, 0, 1);
+            }
+        
+            if ($defined(dir) && dir === 'desc') {
+                this.data.reverse();
+            }
+        
+            this.fireEvent('sortFinished', this);
         }
-    
-        this.fireEvent('sortFinished', this);
     },
     
     /**
@@ -485,7 +487,11 @@ Jx.Store = new Class({
      * 
      * returns: the result of the grouping/sorting
      */
-    subSort : function (data, groupByCol, sortCol) {
+    subSort : function (data, groupByCol, sortByCol) {
+        
+        if (sortByCol >= this.options.sortCols.length) {
+            return data;
+        }
         /**
          *  loop through the data array and create another array with just the
          *  items for each group. Sort that sub-array and then concat it 
@@ -493,23 +499,26 @@ Jx.Store = new Class({
          */
         var result = [];
         var sub = [];
+        
+        var groupCol = this.options.sortCols[groupByCol];
+        var sortCol = this.options.sortCols[sortByCol];
     
-        var group = data[0].get(groupByCol);
+        var group = data[0].get(groupCol);
         this.sorter.setColumn(sortCol);
         for (var i = 0; i < data.length; i++) {
-            if (group === (data[i]).get(groupByCol)) {
+            if (group === (data[i]).get(groupCol)) {
                 sub.push(data[i]);
             } else {
                 // sort
     
                 if (sub.length > 1) {
-                    result = result.concat(this.doSort(sortCol, this.sortType, sub, true));
+                    result = result.concat(this.subSort(this.doSort(sortCol, this.sortType, sub, true),groupByCol + 1,sortByCol + 1));
                 } else {
                     result = result.concat(sub);
                 }
             
                 // change group
-                group = (data[i]).get(groupByCol);
+                group = (data[i]).get(groupCol);
                 // clear sub
                 sub.empty();
                 // add to sub
@@ -519,12 +528,14 @@ Jx.Store = new Class({
         
         if (sub.length > 1) {
             this.sorter.setData(sub);
-            result = result.concat(this.doSort(sortCol, this.sortType, sub, true));
+            result = result.concat(this.subSort(this.doSort(sortCol, this.sortType, sub, true),groupByCol + 1,sortByCol + 1));
         } else {
             result = result.concat(sub);
         }
         
-        this.data = result;
+        //this.data = result;
+        
+        return result;
     },
     
     /**
@@ -654,9 +665,52 @@ Jx.Store = new Class({
     
     /**
      * APIMethod: getColumns
-     * Allows retieving the columns array
+     * Allows retrieving the columns array
      */
     getColumns: function () {
         return this.options.columns;
+    },
+    
+    /**
+     * APIMethod: findByColumn
+     * Used to find a specific record by the value in a specific column. This
+     * is particularly useful for finding records by a unique id column. The search
+     * will stop on the first instance of the value
+     * 
+     * Parameters:
+     * column - the name of the column to search by
+     * value - the value to look for
+     */
+    findByColumn: function (column, value) {
+        
+        if (!$defined(this.comparator)) {
+            this.comparator = new Jx.Compare({
+                separator : this.options.separator
+            });
+        }
+        
+        column = this.resolveCol(column);
+        
+        var fn = this.comparator[column.type].bind(this.comparator);
+        
+        
+        var i = 0;
+        var index = null; 
+        this.data.each(function (record) {
+            if (fn(record.get(column.name), value) === 0) {
+                index = i;
+            }
+            i++;
+        }, this);
+        return index;
+    },
+    
+    /**
+     * APIMethod: getRowObject
+     * Allows the user to get all of the data for the current row as an object.
+     * 
+     */
+    getRowObject: function () {
+        return this.data[this.index].getClean();
     }
 });

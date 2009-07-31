@@ -60,14 +60,10 @@ Jx.Store.Remote = new Class({
      * Used to load data either locally or remote
      * 
      * Parameters:
-     * data - the data to load. Leave this blank to load data from the server
+     * params - an object of params to pass to load. These will be sent in the request. 
      */
-    load : function (data) {
-        if ($defined(data)) {
-            this.processData(data);
-        } else if ($defined(this.options.dataUrl)) {
-            this.remoteLoad();
-        }
+    load : function (params) {
+        this.remoteLoad(params);
     },
 
     /** 
@@ -155,9 +151,11 @@ Jx.Store.Remote = new Class({
      * Method: remoteLoad
      * Calls the server to get data
      */
-    remoteLoad : function () {
+    remoteLoad : function (params) {
+        params = $defined(params) ? params : {};
         var req = new Request.JSON({
             url : this.options.dataUrl,
+            data: params,
             onSuccess : this.processGetReturn.bind(this),
             onFailure : this.handleLoadError.bind(this),
             method : 'get'
@@ -174,7 +172,7 @@ Jx.Store.Remote = new Class({
      * text - the JSON object as a string
      */
     processReturn : function (data, text) {
-        if ($defined(data.success) && data.success === true) {
+        if ($defined(data) && $defined(data.success) && data.success === true) {
             this.processSaveReturn(data.data);
         } else {
             this.handleSaveError(data, text);
@@ -189,7 +187,7 @@ Jx.Store.Remote = new Class({
      * text - the JSON object as a string
      */
     processGetReturn : function (data, text) {
-        if ($defined(data.success) && data.success === true) {
+        if ($defined(data) && $defined(data.success) && data.success === true) {
             this.processGetData(data.data);
         } else {
             this.handleLoadError(data, text);

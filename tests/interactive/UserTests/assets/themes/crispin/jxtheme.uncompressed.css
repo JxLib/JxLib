@@ -936,7 +936,7 @@ iframe.jxIframeShim{position:absolute;top:0px;left:0px;width:100%;height:100%;op
   border: none;
 }/**
  * @project         Jx
- * @revision        $Id: form.css 464 2009-06-24 05:16:59Z jonlb@comcast.net $
+ * @revision        $Id: form.css 500 2009-07-31 19:48:14Z fred.warnock $
  * @author          Fred Warnock (fwarnock@dmsolutions.ca)
  * @copyright       (c) 2006 DM Solutions Group Inc.
  */
@@ -945,104 +945,298 @@ iframe.jxIframeShim{position:absolute;top:0px;left:0px;width:100%;height:100%;op
 /* FORM STYLES */
 /* =========== */
 /* JxForm classes are a set of styles that can be used for laying out forms 
- * There are three different types of layouts: Inline, Float and Block.
- * Each can be usedto layout an entire form, or a portion of the form as is needed
+ * There are three different types of layouts: Inline, Inlineblock and Block.
+ * Each can be used to layout an entire form, a fieldset or an individual input.
  */
 
- .jxForm {
+/* debuggiong styles */
+/*
+.jxForm           { background-color: yellow; }
+.jxFieldset       { background-color: cyan; }
+.jxInputGroup     { background-color: teal; }
+.jxFieldsetLegend { background-color: orange; }
+.jxInputContainer { background-color: pink; }
+.jxInputLabel     { background-color: magenta; }
+.jxInputTag       { background-color: lime; }
+*/
+ 
+ /* Base and Typography Styles */
+ 
+.jxForm {
   display: block;
   position: relative;
   overflow: hidden; /* ensures that floated elements are contained */
   font-family: Arial, Helvetica, sans-serif;
   font-size: 12px;
-  line-height: 18px;
-}
-
-.jxForm label {
-  background-color: transparent;
+  line-height: 16px;
   color: #000;
 }
 
-.jxForm select, 
-.jxForm input {
+.jxFieldset {
+  display: block;
+  position: relative;
+  overflow: hidden; /* ensures that floated elements are contained */
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -khtml-border-radius: 10px;
+  margin: 10px;
+  padding: 5px;
+}
+
+.jxFieldsetLegend,
+.jxFieldset legend {
+  position: relative;
+  margin: 0px;
+  padding: 0px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  line-height: 26px;
   color: #000;
 }
 
-.jxFormFloat .radioGroup {
+.jxInputContainer {
   display: block;
-  overflow: hidden;
+  position: relative;
+  padding: 0px;
+  margin: 2px;
+  border: none;
 }
 
-/* wrap the radio button in a label */
-.jxFormFloat .radioGroup input,
-.jxFormFloat .radioGroup label {
-  width: auto !important;
-  vertical-align: middle;
+.jxInputLabel,
+.jxInputTag {
+  display: inline-block;
+  margin: 0px;
+  padding: 0px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  line-height: 26px;
+  color: #000;
 }
 
-.jxForm .tipArea {
-  display: block;
-  padding: 5px 0px;
-  background-color: transparent;
-  color: #999;
+.jxInputLabel {
+  vertical-align: top;
 }
+
+.jxInputTag {
+  vertical-align: bottom;
+}
+
+.jxInputText,
+.jxInputTextarea {
+  margin: 0px 4px;
+  padding: 4px;
+  border: 1px solid #bbb;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+  color: #000;
+}
+
+.jxInputText:focus,
+.jxInputTextarea:focus {
+  border: 1px solid #000;
+}
+
+.jxInputSelect {
+  margin: 0px 4px;
+  padding: 3px 4px 3px 1px;
+  border: 1px solid #bbb;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+  color: #000;
+}
+
+.jxInputSelect:focus {
+  border: 1px solid #000;
+}
+
+.jxInputRadio,
+.jxInputCheck {
+  margin: 5px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+  color: #000;
+}
+
+.jxInputContainer .jxButtonContainer {
+  padding: 0px;
+  margin: 0px 4px;
+}
+
+/* Input Group */
+
+.jxInputGroup {
+  border: none;
+  padding: 0px;
+  margin: 2px;
+}
+
+.jxInputGroup legend {
+  font-size: 0px;
+  line-height: 0px;
+  padding: 0px;
+  margin: 0px;
+  border: none;
+}
+
+.jxInputGroup .jxFieldsetLegend {
+  font-size: 12px;
+}
+
+.jxInputGroup .jxInputLabel {
+  width: auto;
+}
+
 
 /* INLINE FORM 
- * Wrap an Inline Form with .jxFormInline to sets up form elements to work as 
- * inline objects like they do by default */
+ * Sets up form elements to work as inline objects like they do by default
+ * These styles rely on increasing specificity to provide overrides */
 
-.jxFormInline label {
-  display: inline;
+/* Inline Input Container */
+.jxFormInline .jxInputContainer,
+form .jxFieldsetInline .jxInputContainer,
+form .jxFieldset span.jxInputContainerInline,
+form.jxForm span.jxInputContainerInline {
+  display: inline-block;
 }
 
-/* FLOAT FORM 
- * Wrap a Floating Form with .jxFormFloat to sets up form elements to work as 
- * block objects so labels can have set widths to simulate a 2 column display 
- * for label / input pairs. */
-
-.jxFormFloat label {
-  display: block;
-  float: left;
-  clear: left;
-  width: 75px; /* Overide the width depending on the form layout */
+/* Inline Label */
+.jxFormInline .jxInputLabel,
+form .jxFieldsetInline .jxInputLabel,
+form span.jxInputContainerInline .jxInputLabel {
+  width: auto;
 }
 
-.jxFormFloat select, 
-.jxFormFloat input {
-  float: left;
+/* Inline Input Group */
+.jxFormInline .jxInputGroup,
+form .jxFieldsetInline .jxInputGroup {
+  padding-left: 0px;
 }
 
-.jxFormFloat .radioGroup {
-  float: left;
+.jxFormInline .jxInputGroup .jxFieldsetLegend,
+form .jxFieldsetInline .jxInputGroup .jxFieldsetLegend {
+  position: relative;
+  left: auto;
 }
 
-/* wrap the radio button in a label */
-.jxFormFloat .radioGroup input,
-.jxFormFloat .radioGroup label {
-  float: none;
+.jxFormInline .jxInputGroup .jxInputLabel,
+form .jxFieldsetInline .jxInputGroup .jxInputLabel {
+  display: inline-block;
+  width: auto;
 }
 
-.jxFormFloat .tipArea {
-  clear: left;
-}
 
 /* BLOCK FORM 
- *  Wrap a Block Form with .jxFormBlock to sets up form elements to work as 
- * block objects so they can label / input pairs */
+ *  Sets up form elements to work as block objects so they can appear stacked */
 
-.jxFormBlock label {
+/* Block Input Container */
+.jxFormBlock .jxInputContainer,
+form .jxFieldsetBlock .jxInputContainer,
+form .jxFieldset span.jxInputContainerBlock,
+form.jxform span.jxInputContainerBlock {
   display: block;
+}
+ 
+/* Block Label */
+.jxFormBlock .jxInputLabel,
+form .jxFieldsetBlock .jxInputLabel,
+form span.jxInputContainerBlock .jxInputLabel {
+  display: block;
+  width: auto;
+  margin-left: 4px;
+}
+
+/* Block Input Group */
+.jxFormBlock .jxInputGroup,
+form .jxFieldsetBlock .jxInputGroup {
+  padding-left: 0px;
+}
+
+.jxFormBlock .jxInputGroup .jxFieldsetLegend,
+form .jxFieldsetBlock .jxInputGroup .jxFieldsetLegend {
+  position: relative;
+  left: auto;
+}
+
+.jxFormBlock .jxInputGroup .jxInputLabel,
+form .jxFieldsetBlock .jxInputGroup .jxInputLabel {
+  display: inline-block;
+  width: auto;
 }
 
 
-/** Error and validation classes */
+/* INLINE-BLOCK FORM 
+ * Sets up form elements to work as inline-block objects so labels can have set 
+ * widths to simulate a 2 column display for label / input pairs. */
+
+/* Inline-Block Input Container */
+.jxFormInlineblock .jxInputContainer,
+form .jxFieldsetInlineblock .jxInputContainer,
+form .jxFieldset span.jxInputContainerInlineblock,
+form.jxForm span.jxInputContainerInlineblock {
+  display: block;
+}
+
+/* Inline-Block Label */
+.jxFormInlineblock .jxInputLabel,
+form .jxFieldsetInlineblock .jxInputLabel,
+form span.jxInputContainerInlineblock .jxInputLabel {
+  display: inline-block;
+  width: 200px;
+}
+
+/* Inline-Block Input Group */
+.jxFormInlineblock .jxInputGroup,
+form .jxFieldsetInlineblock .jxInputGroup {
+  padding-left: 200px;
+}
+
+.jxFormInlineblock .jxInputGroup .jxFieldsetLegend,
+form .jxFieldsetInlineblock .jxInputGroup .jxFieldsetLegend {
+  position: absolute;
+  left: -200px; /* for ie? */
+  width: 200px;
+}
+
+.jxFormInlineblock .jxInputGroup .jxInputLabel,
+form .jxFieldsetinlineBlock .jxInputGroup .jxInputLabel {
+  display: inline-block;
+  width: auto;
+}
+
+
+
+
+
+
+
+
+/* Success, notice and error boxes from Blueprint */
+
+.error,
+.notice, 
+.success    { padding: .8em; margin-bottom: 1em; border: 2px solid #ddd; }
+
+.error      { background: #FBE3E4; color: #8a1f11; border-color: #FBC2C4; }
+.notice     { background: #FFF6BF; color: #514721; border-color: #FFD324; }
+.success    { background: #E6EFC2; color: #264409; border-color: #C6D880; }
+.error a    { color: #8a1f11; }
+.notice a   { color: #514721; }
+.success a  { color: #264409; }
+
+
+/* Error and validation classes */
 .jxFieldFeedback {
     padding-left: 16px;
     background: url("images/error.png") no-repeat left top;
 }
 /**
  * @project         Jx
- * @revision        $Id: grid.css 486 2009-07-19 02:55:02Z jonlb@comcast.net $
+ * @revision        $Id: grid.css 501 2009-07-31 20:49:49Z pagameba $
  * @author          Fred Warnock (fwarnock@dmsolutions.ca)
  * @copyright       (c) 2006 DM Solutions Group Inc.
  */
@@ -1067,11 +1261,15 @@ iframe.jxIframeShim{position:absolute;top:0px;left:0px;width:100%;height:100%;op
     table-layout: fixed;
     border-collapse: collapse;
     border-style: none;
-    width: 100%;
+
     cursor: default;
     font-family: Arial, Verdana, sans-serif;
     font-size: 11px;
     font-weight: normal;
+}
+
+.jxGridHeader {
+    width: 100%;
 }
 
 .jxGridTableBody {
@@ -1085,6 +1283,7 @@ iframe.jxIframeShim{position:absolute;top:0px;left:0px;width:100%;height:100%;op
     font-size: 11px;
     font-weight: normal;
 }
+
 
 .jxGridColHeadHide {
     height: 0px;
@@ -1112,6 +1311,13 @@ iframe.jxIframeShim{position:absolute;top:0px;left:0px;width:100%;height:100%;op
     border-right: 1px solid #d8d8d8;
     border-bottom: 1px solid #d8d8d8;
     border-left: 0px solid #d8d8d8;
+    overflow: hidden;
+}
+
+.jxGridCellContent {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
     padding-left: 3px;
     padding-right: 3px;
     overflow: hidden;
@@ -1122,7 +1328,7 @@ iframe.jxIframeShim{position:absolute;top:0px;left:0px;width:100%;height:100%;op
     text-overflow: ellipsis;
 }
 
-/* Nornal Styles */
+/* Normal Styles */
 
 .jxGridColHead {
     border-top: 0px solid  #d8d8d8;
@@ -1223,20 +1429,42 @@ td.jxGridCellPrelight {
 /* Sort styles */
 .jxColSortable span {
     background-image: url('images/emblems.png');
-    padding-right: 20px;
+/*    padding-right: 20px;*/
     background-repeat: no-repeat;
     background-position: right top;
- }
+}
  
- .jxGridColumnSortedAsc span {
+.jxGridColumnSortedAsc span {
     background-position: right -160px;
- }
+}
  
- .jxGridColumnSortedDesc span {
+.jxGridColumnSortedDesc span {
     background-position: right -16px;
- }
+}
+ 
+.jxGridColumnResize,
+.jxGridRowResize {
+    display: block;
+    position: absolute;
+    background-image: url(images/a_pixel.png);
+    z-index: 1;
+    
+}
+.jxGridColumnResize {
+    right: 0px;
+    top: 0px;
+    height: 100%;
+    width: 4px;
+    cursor: col-resize;
+}
 
-/**
+.jxGridRowResize {
+    left: 0px;
+    bottom: 0px;
+    height: 4px;
+    width: 100%;
+    cursor: row-resize;
+}/**
  * @project         Jx
  * @revision        $Id: menu.css 321 2009-04-06 18:23:39Z fred.warnock $
  * @author          Fred Warnock (fwarnock@dmsolutions.ca)
