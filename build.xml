@@ -72,7 +72,7 @@ $Id$
   <property environment="env"/>
   <property name="app.name" value="jxlib"/>
   <property name="app.path" value="/${app.name}"/>
-  <property name="app.version" value="2.0-rc-1"/>
+  <property name="app.version" value="2.0.2"/>
   <property name="build.home" value="${basedir}/../../build"/>
   <property name="dist.home" value="${basedir}/../../dist"/>
   <property name="deploy.home" value="${basedir}/../../www"/>
