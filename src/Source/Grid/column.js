@@ -143,7 +143,7 @@ Jx.Column = new Class({
                 : this.options.modelField;
         var ht = this.options.templates.header;
         var el = new Element(ht.tag, {
-            //'class' : 'jxGridCellContent',
+            'class' : 'jxGridCellContent',
             'html' : text
         });
         if ($defined(ht.cssClass)) {
@@ -153,12 +153,14 @@ Jx.Column = new Class({
                 el.addClass(ht.cssClass);
             }
         }
+        this.header = el;
         return el;
     },
     
     setWidth: function(newWidth) {
         if (this.rule && parseInt(newWidth) >= 0) {
-            this.rule.width = parseInt(newWidth) + "px";
+            this.width = parseInt(newWidth);
+            this.rule.style.width = parseInt(newWidth) + "px";
         }
     },
     /**

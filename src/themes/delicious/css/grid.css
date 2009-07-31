@@ -79,6 +79,7 @@
 }
 
 .jxGridCellContent {
+    position: relative;
     display: inline-block;
     overflow: hidden;
     padding-left: 3px;
@@ -91,7 +92,7 @@
     text-overflow: ellipsis;
 }
 
-/* Nornal Styles */
+/* Normal Styles */
 
 .jxGridColHead {
     border-top: 0px solid  #d8d8d8;
@@ -192,17 +193,39 @@ td.jxGridCellPrelight {
 /* Sort styles */
 .jxColSortable span {
     background-image: url('images/emblems.png');
-    padding-right: 20px;
+/*    padding-right: 20px;*/
     background-repeat: no-repeat;
     background-position: right top;
- }
+}
  
- .jxGridColumnSortedAsc span {
+.jxGridColumnSortedAsc span {
     background-position: right -160px;
- }
+}
  
- .jxGridColumnSortedDesc span {
+.jxGridColumnSortedDesc span {
     background-position: right -16px;
- }
+}
  
- 
+.jxGridColumnResize,
+.jxGridRowResize {
+    display: block;
+    position: absolute;
+    background-image: url(images/a_pixel.png);
+    z-index: 1;
+    
+}
+.jxGridColumnResize {
+    right: 0px;
+    top: 0px;
+    height: 100%;
+    width: 4px;
+    cursor: col-resize;
+}
+
+.jxGridRowResize {
+    left: 0px;
+    bottom: 0px;
+    height: 4px;
+    width: 100%;
+    cursor: row-resize;
+}

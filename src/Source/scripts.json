@@ -178,6 +178,11 @@
         "plugin.sorter": {
             "deps": ["plugin"],
             "desc" : ""
+        },
+
+        "plugin.resize": {
+            "deps": ["plugin"],
+            "desc" : ""
         }
 
     },

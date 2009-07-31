@@ -140,6 +140,7 @@ Jx.Columns = new Class({
         var parts = hClasses[0].split('-');
         return this.getByName(parts[1]);
     },
+    
     /**
      * APIMethod: getHeaders
      * Returns a row with the headers in it.
@@ -170,6 +171,7 @@ Jx.Columns = new Class({
                 if (col.isSortable()) {
                     th.addClass('jxColSortable');
                 }
+                // col.header = th;
                 row.appendChild(th);
             }
         }, this);

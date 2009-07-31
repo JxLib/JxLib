@@ -25,11 +25,15 @@
     table-layout: fixed;
     border-collapse: collapse;
     border-style: none;
-    width: 100%;
+
     cursor: default;
     font-family: Arial, Verdana, sans-serif;
     font-size: 11px;
     font-weight: normal;
+}
+
+.jxGridHeader {
+    width: 100%;
 }
 
 .jxGridTableBody {
@@ -43,6 +47,7 @@
     font-size: 11px;
     font-weight: normal;
 }
+
 
 .jxGridColHeadHide {
     height: 0px;
@@ -70,6 +75,13 @@
     border-right: 1px solid #d8d8d8;
     border-bottom: 1px solid #d8d8d8;
     border-left: 0px solid #d8d8d8;
+    overflow: hidden;
+}
+
+.jxGridCellContent {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
     padding-left: 3px;
     padding-right: 3px;
     overflow: hidden;
@@ -80,7 +92,7 @@
     text-overflow: ellipsis;
 }
 
-/* Nornal Styles */
+/* Normal Styles */
 
 .jxGridColHead {
     border-top: 0px solid  #d8d8d8;
@@ -181,16 +193,39 @@ td.jxGridCellPrelight {
 /* Sort styles */
 .jxColSortable span {
     background-image: url('images/emblems.png');
-    padding-right: 20px;
+/*    padding-right: 20px;*/
     background-repeat: no-repeat;
     background-position: right top;
- }
+}
  
- .jxGridColumnSortedAsc span {
+.jxGridColumnSortedAsc span {
     background-position: right -160px;
- }
+}
  
- .jxGridColumnSortedDesc span {
+.jxGridColumnSortedDesc span {
     background-position: right -16px;
- }
+}
+ 
+.jxGridColumnResize,
+.jxGridRowResize {
+    display: block;
+    position: absolute;
+    background-image: url(images/a_pixel.png);
+    z-index: 1;
+    
+}
+.jxGridColumnResize {
+    right: 0px;
+    top: 0px;
+    height: 100%;
+    width: 4px;
+    cursor: col-resize;
+}
 
+.jxGridRowResize {
+    left: 0px;
+    bottom: 0px;
+    height: 4px;
+    width: 100%;
+    cursor: row-resize;
+}
