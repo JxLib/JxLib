@@ -13,6 +13,17 @@
  * Each can be used to layout an entire form, a fieldset or an individual input.
  */
 
+/* debuggiong styles */
+/*
+.jxForm           { background-color: yellow; }
+.jxFieldset       { background-color: cyan; }
+.jxInputGroup     { background-color: teal; }
+.jxFieldsetLegend { background-color: orange; }
+.jxInputContainer { background-color: pink; }
+.jxInputLabel     { background-color: magenta; }
+.jxInputTag       { background-color: lime; }
+*/
+ 
  /* Base and Typography Styles */
  
 .jxForm {
@@ -35,40 +46,45 @@
   -webkit-border-radius: 10px;
   -khtml-border-radius: 10px;
   margin: 10px;
-  padding: 10px;
-  
+  padding: 5px;
 }
 
-.jxFieldsetLegend {
-  color: #000;
+.jxFieldsetLegend,
+.jxFieldset legend {
   position: relative;
+  margin: 0px;
+  padding: 0px;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
-  padding: 4px;
+  line-height: 26px;
+  color: #000;
 }
 
 .jxInputContainer {
   display: block;
   position: relative;
-  background-color: transparent;
   padding: 0px;
   margin: 2px;
   border: none;
 }
 
-.jxInputContainer * {
-  /* common styles to all children of a jx Input Container */
-  text-align: top;
-  vertical-align: top;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 12px;
-  line-height: 16px;
-  color: #000;
-}
-
 .jxInputLabel,
 .jxInputTag {
   display: inline-block;
-  margin: 4px;
+  margin: 0px;
+  padding: 0px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  line-height: 26px;
+  color: #000;
+}
+
+.jxInputLabel {
+  vertical-align: top;
+}
+
+.jxInputTag {
+  vertical-align: bottom;
 }
 
 .jxInputText,
@@ -76,6 +92,10 @@
   margin: 0px 4px;
   padding: 4px;
   border: 1px solid #bbb;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+  color: #000;
 }
 
 .jxInputText:focus,
@@ -85,8 +105,12 @@
 
 .jxInputSelect {
   margin: 0px 4px;
-  padding: 4px 4px 4px 1px;
+  padding: 3px 4px 3px 1px;
   border: 1px solid #bbb;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+  color: #000;
 }
 
 .jxInputSelect:focus {
@@ -95,7 +119,16 @@
 
 .jxInputRadio,
 .jxInputCheck {
-  margin: 4px;
+  margin: 5px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+  color: #000;
+}
+
+.jxInputContainer .jxButtonContainer {
+  padding: 0px;
+  margin: 0px 4px;
 }
 
 /* Input Group */
@@ -106,63 +139,95 @@
   margin: 2px;
 }
 
+.jxInputGroup legend {
+  font-size: 0px;
+  line-height: 0px;
+  padding: 0px;
+  margin: 0px;
+  border: none;
+}
+
 .jxInputGroup .jxFieldsetLegend {
   font-size: 12px;
 }
 
 .jxInputGroup .jxInputLabel {
-  
+  width: auto;
 }
 
 
 /* INLINE FORM 
- * Sets up form elements to work as inline objects like they do by default */
+ * Sets up form elements to work as inline objects like they do by default
+ * These styles rely on increasing specificity to provide overrides */
 
 /* Inline Input Container */
 .jxFormInline .jxInputContainer,
-fieldset.jxFieldsetInline .jxInputContainer,
-span.jxInputContainerInline {
+form .jxFieldsetInline .jxInputContainer,
+form .jxFieldset span.jxInputContainerInline,
+form.jxForm span.jxInputContainerInline {
   display: inline-block;
 }
 
 /* Inline Label */
 .jxFormInline .jxInputLabel,
-fieldset.jxFieldsetInline .jxInputLabel,
-span.jxInputLabelInline{
+form .jxFieldsetInline .jxInputLabel,
+form span.jxInputContainerInline .jxInputLabel {
   width: auto;
 }
 
 /* Inline Input Group */
 .jxFormInline .jxInputGroup,
-fieldset.jxFieldsetInline .jxInputGroup {
+form .jxFieldsetInline .jxInputGroup {
   padding-left: 0px;
+}
+
+.jxFormInline .jxInputGroup .jxFieldsetLegend,
+form .jxFieldsetInline .jxInputGroup .jxFieldsetLegend {
+  position: relative;
+  left: auto;
+}
+
+.jxFormInline .jxInputGroup .jxInputLabel,
+form .jxFieldsetInline .jxInputGroup .jxInputLabel {
+  display: inline-block;
+  width: auto;
 }
 
 
 /* BLOCK FORM 
  *  Sets up form elements to work as block objects so they can appear stacked */
 
+/* Block Input Container */
+.jxFormBlock .jxInputContainer,
+form .jxFieldsetBlock .jxInputContainer,
+form .jxFieldset span.jxInputContainerBlock,
+form.jxform span.jxInputContainerBlock {
+  display: block;
+}
+ 
 /* Block Label */
 .jxFormBlock .jxInputLabel,
-fieldset.jxFieldsetBlock .jxInputLabel,
-span.jxInputlabelBlock {
+form .jxFieldsetBlock .jxInputLabel,
+form span.jxInputContainerBlock .jxInputLabel {
   display: block;
+  width: auto;
+  margin-left: 4px;
 }
 
 /* Block Input Group */
 .jxFormBlock .jxInputGroup,
-fieldset.jxFieldsetBlock .jxInputGroup {
+form .jxFieldsetBlock .jxInputGroup {
   padding-left: 0px;
 }
 
 .jxFormBlock .jxInputGroup .jxFieldsetLegend,
-fieldset.jxFieldsetBlock .jxInputGroup .jxFieldsetLegend {
+form .jxFieldsetBlock .jxInputGroup .jxFieldsetLegend {
   position: relative;
   left: auto;
 }
 
 .jxFormBlock .jxInputGroup .jxInputLabel,
-fieldset.jxFieldsetBlock .jxInputGroup .jxInputLabel {
+form .jxFieldsetBlock .jxInputGroup .jxInputLabel {
   display: inline-block;
   width: auto;
 }
@@ -172,25 +237,39 @@ fieldset.jxFieldsetBlock .jxInputGroup .jxInputLabel {
  * Sets up form elements to work as inline-block objects so labels can have set 
  * widths to simulate a 2 column display for label / input pairs. */
 
+/* Inline-Block Input Container */
+.jxFormInlineblock .jxInputContainer,
+form .jxFieldsetInlineblock .jxInputContainer,
+form .jxFieldset span.jxInputContainerInlineblock,
+form.jxForm span.jxInputContainerInlineblock {
+  display: block;
+}
+
 /* Inline-Block Label */
 .jxFormInlineblock .jxInputLabel,
-fieldset.jxFieldsetInlineblock .jxInputLabel,
-span.jxInputLabelInlineblock {
+form .jxFieldsetInlineblock .jxInputLabel,
+form span.jxInputContainerInlineblock .jxInputLabel {
   display: inline-block;
   width: 200px;
 }
 
 /* Inline-Block Input Group */
 .jxFormInlineblock .jxInputGroup,
-fieldset.jxFieldsetInlineblock .jxInputGroup {
-  padding-left: 208px;
+form .jxFieldsetInlineblock .jxInputGroup {
+  padding-left: 200px;
 }
 
 .jxFormInlineblock .jxInputGroup .jxFieldsetLegend,
-fieldset.jxFieldsetInlineblock .jxInputGroup .jxFieldsetLegend{
+form .jxFieldsetInlineblock .jxInputGroup .jxFieldsetLegend {
   position: absolute;
-/*  left: -204px;*/
+  left: -200px; /* for ie? */
   width: 200px;
+}
+
+.jxFormInlineblock .jxInputGroup .jxInputLabel,
+form .jxFieldsetinlineBlock .jxInputGroup .jxInputLabel {
+  display: inline-block;
+  width: auto;
 }
 
 
