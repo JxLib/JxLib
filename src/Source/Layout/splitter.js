@@ -271,9 +271,17 @@ Jx.Splitter = new Class({
                 new Drag(bar, {
                     //limit: limit,
                     modifiers: modifiers,
-                    onSnap : function(obj) {
+                    onSnap : (function(obj) {
                         obj.addClass('jxSplitBarDrag');
-                    },
+                        this.fireEvent('snap',[obj]);
+                    }).bind(this),
+                    onCancel: (function(obj){
+                        mask.destroy();  
+                        this.fireEvent('cancel',[obj]);
+                    }).bind(this),
+                    onDrag: (function(obj, event){
+                        this.fireEvent('drag',[obj,event]);
+                    }).bind(this),
                     onComplete : (function(obj) {
                         mask.destroy();
                         obj.removeClass('jxSplitBarDrag');
@@ -281,17 +289,15 @@ Jx.Splitter = new Class({
                             return;
                         }
                         fn.apply(this,[obj]);
+                        this.fireEvent('complete',[obj]);
+                        this.fireEvent('finish',[obj]);
                     }).bind(this),
-                    onStart: (function(obj) {
+                    onBeforeStart: (function(obj) {
+                        this.fireEvent('beforeStart',[obj]);
                         mask = new Element('div',{'class':'jxSplitterMask'}).inject(obj, 'after');
-                        if (this.options.onStart) {
-                            this.options.onStart();
-                        }
                     }).bind(this),
-                    onFinish: (function() {
-                        if (this.options.onFinish) {
-                            this.options.onFinish();
-                        }
+                    onStart: (function(obj, event) {
+                        this.fireEvent('start',[obj, event]);
                     }).bind(this)
                 });
             }, this);            
