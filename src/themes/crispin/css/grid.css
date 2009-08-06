@@ -80,6 +80,7 @@
 
 .jxGridCellContent {
     position: relative;
+    display: -moz-inline-box;
     display: inline-block;
     overflow: hidden;
     padding-left: 3px;

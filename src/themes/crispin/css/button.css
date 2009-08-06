@@ -14,7 +14,8 @@
 
 .jxButtonContainer {
   /* Base setup */
-  display: inline-block;;
+  display: -moz-inline-box;
+  display: inline-block;
   position: relative;
   font-size: 0px;
   line-height: 0px;
@@ -28,7 +29,8 @@
 /* normal button */
 .jxButton {
   /* Base setup */
-  display: inline-block;;
+  display: -moz-inline-box;
+  display: inline-block;
   position: relative;
   font-size: 0px;
   line-height: 0px;
@@ -60,7 +62,8 @@ ul.jxToolbar .jxButton {
 
 span.jxButtonContent {
   /* Base setup */
-  display: inline-block;;
+  display: -moz-inline-box;
+  display: inline-block;
   position: relative;
   /* float: left; */
   font-size: 0px;
@@ -198,6 +201,7 @@ ul.jxToolbar .jxDisabled .jxButtonActive:hover span.jxButtonContent,
 
 img.jxButtonIcon {
   /* Base setup */
+  display: -moz-inline-box;
   display: inline-block;
   position: relative;
   vertical-align: middle;
@@ -211,7 +215,8 @@ img.jxButtonIcon {
 
 span.jxButtonContent span {
   /* Base setup */
-  display: inline-block;;
+  display: -moz-inline-box;
+  display: inline-block;
   position: relative;
   vertical-align: middle;
   /* float: left; */
@@ -256,7 +261,8 @@ span.jxButtonContent span.jxButtonLabel {
 
 a.jxButtonDisclose {
   position: absolute;
-  display: inline-block;;
+  display: -moz-inline-box;
+  display: inline-block;
   padding: 4px 0px;
   font-size: 0px;
   line-height: 0px;
