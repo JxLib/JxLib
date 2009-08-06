@@ -16,6 +16,8 @@
   /* Base setup */
   display: inline-block;;
   position: relative;
+  font-size: 0px;
+  line-height: 0px;
   /* float: left; */
 
   margin: 0px;
