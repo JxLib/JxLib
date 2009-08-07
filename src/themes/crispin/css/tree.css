@@ -15,7 +15,7 @@
 */
 
 
-.jxTree, 
+.jxTree,
 .jxTreeRoot {
   /* relative positioning is required for IE to fix the peek-a-boo bug */
   position:relative;
@@ -60,11 +60,10 @@
 .jxTree a, 
 .jxTreeRoot a {
   position: relative;
-  display: -moz-inline-box;
-  display: inline-block;
+  display: block;
   cursor: pointer;
   outline: none;
- /* overflow: hidden;*/
+  overflow: hidden;
 
   background-image: url(images/tree_hover.png);
   background-repeat: repeat-x;
