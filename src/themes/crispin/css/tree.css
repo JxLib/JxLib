@@ -60,10 +60,11 @@
 .jxTree a, 
 .jxTreeRoot a {
   position: relative;
-  display: block;
+  display: -moz-inline-box;
+  display: inline-block;
   cursor: pointer;
   outline: none;
-  overflow: hidden;
+ /* overflow: hidden;*/
 
   background-image: url(images/tree_hover.png);
   background-repeat: repeat-x;
