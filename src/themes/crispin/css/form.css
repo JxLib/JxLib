@@ -14,15 +14,13 @@
  */
 
 /* debuggiong styles */
-/*
 .jxForm           { background-color: yellow; }
-.jxFieldset       { background-color: cyan; }
-.jxInputGroup     { background-color: teal; }
+.jxFieldset       { background-color: khaki; }
+.jxInputGroup     { background-color: tan; }
 .jxFieldsetLegend { background-color: orange; }
 .jxInputContainer { background-color: pink; }
-.jxInputLabel     { background-color: magenta; }
+.jxInputLabel     { background-color: plum; }
 .jxInputTag       { background-color: lime; }
-*/
  
  /* Base and Typography Styles */
  
@@ -163,33 +161,41 @@
 
 /* Inline Input Container */
 .jxFormInline .jxInputContainer,
-form .jxFieldsetInline .jxInputContainer,
-form .jxFieldset span.jxInputContainerInline,
-form.jxForm span.jxInputContainerInline {
+form .jxFormInline .jxInputContainer,
+form .jxFieldset span.jxFormInline,
+form.jxForm span.jxFormInline {
   display: inline;
 }
 
 /* Inline Label */
 .jxFormInline .jxInputLabel,
-form .jxFieldsetInline .jxInputLabel,
-form span.jxInputContainerInline .jxInputLabel {
+form .jxFormInline .jxInputLabel,
+form span.jxFormInline .jxInputLabel {
+  display: inline;
   width: auto;
+}
+
+/* Inline Tag */
+.jxFormInline .jxInputTag,
+form .jxFormInline .jxInputTag,
+form span.jxFormInline .jxInputTag {
+  display: inline;
 }
 
 /* Inline Input Group */
 .jxFormInline .jxInputGroup,
-form .jxFieldsetInline .jxInputGroup {
+form .jxFormInline .jxInputGroup {
   padding-left: 0px;
 }
 
 .jxFormInline .jxInputGroup .jxFieldsetLegend,
-form .jxFieldsetInline .jxInputGroup .jxFieldsetLegend {
+form .jxFormInline .jxInputGroup .jxFieldsetLegend {
   position: relative;
   left: auto;
 }
 
 .jxFormInline .jxInputGroup .jxInputLabel,
-form .jxFieldsetInline .jxInputGroup .jxInputLabel {
+form .jxFormInline .jxInputGroup .jxInputLabel {
   display: inline;
   width: auto;
 }
@@ -200,16 +206,16 @@ form .jxFieldsetInline .jxInputGroup .jxInputLabel {
 
 /* Block Input Container */
 .jxFormBlock .jxInputContainer,
-form .jxFieldsetBlock .jxInputContainer,
-form .jxFieldset span.jxInputContainerBlock,
-form.jxform span.jxInputContainerBlock {
+form .jxFormBlock .jxInputContainer,
+form .jxFieldset span.jxFormBlock,
+form.jxform span.jxFormBlock {
   display: block;
 }
  
 /* Block Label */
 .jxFormBlock .jxInputLabel,
-form .jxFieldsetBlock .jxInputLabel,
-form span.jxInputContainerBlock .jxInputLabel {
+form .jxFormBlock .jxInputLabel,
+form span.jxFormBlock .jxInputLabel {
   display: block;
   width: auto;
   margin-left: 4px;
@@ -217,18 +223,18 @@ form span.jxInputContainerBlock .jxInputLabel {
 
 /* Block Input Group */
 .jxFormBlock .jxInputGroup,
-form .jxFieldsetBlock .jxInputGroup {
+form .jxFormBlock .jxInputGroup {
   padding-left: 0px;
 }
 
 .jxFormBlock .jxInputGroup .jxFieldsetLegend,
-form .jxFieldsetBlock .jxInputGroup .jxFieldsetLegend {
+form .jxFormBlock .jxInputGroup .jxFieldsetLegend {
   position: relative;
   left: auto;
 }
 
 .jxFormBlock .jxInputGroup .jxInputLabel,
-form .jxFieldsetBlock .jxInputGroup .jxInputLabel {
+form .jxFormBlock .jxInputGroup .jxInputLabel {
   display: -moz-inline-box;
   display: inline-block;
   width: auto;
@@ -241,16 +247,16 @@ form .jxFieldsetBlock .jxInputGroup .jxInputLabel {
 
 /* Inline-Block Input Container */
 .jxFormInlineblock .jxInputContainer,
-form .jxFieldsetInlineblock .jxInputContainer,
-form .jxFieldset span.jxInputContainerInlineblock,
-form.jxForm span.jxInputContainerInlineblock {
+form .jxFormInlineblock .jxInputContainer,
+form .jxFieldset span.jxFormInlineblock,
+form.jxForm span.jxFormInlineblock {
   display: block;
 }
 
 /* Inline-Block Label */
 .jxFormInlineblock .jxInputLabel,
-form .jxFieldsetInlineblock .jxInputLabel,
-form span.jxInputContainerInlineblock .jxInputLabel {
+form .jxFormInlineblock .jxInputLabel,
+form span.jxFormInlineblock .jxInputLabel {
   display: -moz-inline-box;
   display: inline-block;
   width: 200px;
@@ -258,19 +264,19 @@ form span.jxInputContainerInlineblock .jxInputLabel {
 
 /* Inline-Block Input Group */
 .jxFormInlineblock .jxInputGroup,
-form .jxFieldsetInlineblock .jxInputGroup {
+form .jxFormInlineblock .jxInputGroup {
   padding-left: 200px;
 }
 
 .jxFormInlineblock .jxInputGroup .jxFieldsetLegend,
-form .jxFieldsetInlineblock .jxInputGroup .jxFieldsetLegend {
+form .jxFormInlineblock .jxInputGroup .jxFieldsetLegend {
   position: absolute;
   left: -200px; /* for ie? */
   width: 200px;
 }
 
 .jxFormInlineblock .jxInputGroup .jxInputLabel,
-form .jxFieldsetinlineBlock .jxInputGroup .jxInputLabel {
+form .jxFormInlineblock .jxInputGroup .jxInputLabel {
   display: -moz-inline-box;
   display: inline-block;
   width: auto;
