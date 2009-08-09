@@ -29,7 +29,12 @@ Jx.Field.Radio = new Class({
          * Option: checked
          * whether this radio button is checked or not
          */
-        checked: false
+        checked: false,
+        /**
+         * Option: clickableLabel
+         * Determines whether clicking the label also clicks the button
+         */
+        clickableLabel: true
     },
     /**
      * Property: type
@@ -47,12 +52,24 @@ Jx.Field.Radio = new Class({
     initialize: function (options) {
         this.parent(options);
         
-        if ($defined(this.options.checked)) {
+        if ($defined(this.options.checked) && this.options.checked) {
             this.field.checked = this.options.checked;
+        }
+        
+        if (this.options.clickableLabel) {
+            this.label.addEvent('click',this.onClick.bind(this));
+            this.label.setStyle('cursor','pointer');
         }
         
     },
     
+    /**
+     * Method: onClick
+     * calls the click function on the field when the label is clicked.
+     */
+    onClick: function () {
+        this.field.click();
+    },
 
     /**
      * APIMethod: setValue
