@@ -48,8 +48,12 @@ Jx.Field.Checkbox = new Class({
     initialize : function (options, form) {
         this.parent(options, form);
     
-        if ($defined(this.options.checked) && this.options.checked) {
-            this.field.set("checked", "checked");
+        if ($defined(this.options.checked) && this.options.checked ) {
+            if (Browser.Engine.trident && Browser.Engine.version === 6) {
+                this.field.set("defaultChecked",true);
+            } else {
+                this.field.set("checked", "checked");
+            }
         }
     
     },
