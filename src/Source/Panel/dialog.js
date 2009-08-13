@@ -312,7 +312,7 @@ Jx.Dialog = new Class({
         
         if (this.options.closed) {
             var m = this.domObj.measure(function(){
-                return this.getSize(['margin'],['top','bottom']).margin;
+                return this.getSizes(['margin'],['top','bottom']).margin;
             });
             var size = this.title.getMarginBoxSize();
             this.domObj.resize({height: m.top + size.height + m.bottom});
