@@ -49,8 +49,11 @@ Jx.Field.Checkbox = new Class({
         this.parent(options, form);
     
         if ($defined(this.options.checked) && this.options.checked ) {
-            if (Browser.Engine.trident && Browser.Engine.version === 6) {
-                this.field.set("defaultChecked",true);
+            if (Browser.Engine.trident) {
+                this.field.setStyle('display','none');
+                this.field.inject(document.body);
+                this.field.set("checked","checked");
+                this.field.dispose();
             } else {
                 this.field.set("checked", "checked");
             }
@@ -59,9 +62,11 @@ Jx.Field.Checkbox = new Class({
     },
     
     /**
-     * APIMethod: setValue Sets the value property of the field
+     * APIMethod: setValue 
+     * Sets the value property of the field
      * 
-     * Parameters: v - The value to set the field to, "checked" if it should be checked.
+     * Parameters: 
+     * v - The value to set the field to, "checked" if it should be checked.
      */
     setValue : function (v) {
         if (v === 'checked') {
@@ -72,7 +77,8 @@ Jx.Field.Checkbox = new Class({
     },
     
     /**
-     * APIMethod: getValue Returns the current value of the field. The field must be
+     * APIMethod: getValue 
+     * Returns the current value of the field. The field must be
      * "checked" in order to return a value. Otherwise it returns null.
      */
     getValue : function () {
@@ -86,7 +92,8 @@ Jx.Field.Checkbox = new Class({
     /**
      * APIMethod: reset
      * Sets the field back to the value passed in the original
-     * options
+     * options. no IE hack is implemented because the field should
+     * already be in the DOM when this is called.
      */
     reset : function () {
         if (this.options.checked) {

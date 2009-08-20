@@ -48,7 +48,7 @@ Jx.Fieldset = new Class({
          * Option: template
          * a template for how this element should be rendered
          */
-        template : '<fieldset class="jxFieldset"><legend class="jxFieldsetLegend"></legend></fieldset>',
+        template : '<fieldset class="jxFieldset"><legend><span class="jxFieldsetLegend"></span></legend></fieldset>',
         /**
          * Option: form
          * The <Jx.Form> that this fieldset should be added to

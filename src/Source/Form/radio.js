@@ -53,7 +53,14 @@ Jx.Field.Radio = new Class({
         this.parent(options);
         
         if ($defined(this.options.checked) && this.options.checked) {
-            this.field.checked = this.options.checked;
+            if (Browser.Engine.trident) {
+                this.field.setStyle('display','none');
+                this.field.inject(document.body);
+                this.field.set("checked","checked");
+                this.field.dispose();
+            } else {
+                this.field.set("checked", "checked");
+            }
         }
         
         if (this.options.clickableLabel) {

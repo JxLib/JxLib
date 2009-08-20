@@ -311,7 +311,8 @@ Jx.Field = new Class({
     },
 
     /**
-     * APIMethod: reset Sets the field back to the value passed in the
+     * APIMethod: reset 
+     * Sets the field back to the value passed in the
      * original options
      */
     reset : function () {
