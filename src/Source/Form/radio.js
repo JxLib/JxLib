@@ -34,7 +34,9 @@ Jx.Field.Radio = new Class({
          * Option: clickableLabel
          * Determines whether clicking the label also clicks the button
          */
-        clickableLabel: true
+        clickableLabel: true,
+        
+        labelSeparator: ''
     },
     /**
      * Property: type
@@ -64,18 +66,11 @@ Jx.Field.Radio = new Class({
         }
         
         if (this.options.clickableLabel) {
-            this.label.addEvent('click',this.onClick.bind(this));
-            this.label.setStyle('cursor','pointer');
+            this.label.addEvent('click', (function () {
+                this.field.click();
+            }).bind(this));
         }
         
-    },
-    
-    /**
-     * Method: onClick
-     * calls the click function on the field when the label is clicked.
-     */
-    onClick: function () {
-        this.field.click();
     },
 
     /**

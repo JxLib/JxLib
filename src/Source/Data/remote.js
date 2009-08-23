@@ -53,6 +53,7 @@ Jx.Store.Remote = new Class({
     initialize : function (options) {
         this.parent(options);
         this.addEvent('newrow', this.onNewRow.bind(this));
+        this.addEvent('columnChanged', this.saveRow.bind(this));
     },
 
     /**
@@ -63,6 +64,7 @@ Jx.Store.Remote = new Class({
      * params - an object of params to pass to load. These will be sent in the request. 
      */
     load : function (params) {
+        this.params = $defined(params) ? params : {};
         this.remoteLoad(params);
     },
 
@@ -77,7 +79,7 @@ Jx.Store.Remote = new Class({
         //Call the load function to get the data
         //from the server and reset the counter if requested
         if ($defined(this.options.dataUrl)) {
-            this.load();
+            this.load(this.params);
         } else {
             return null;
         }
@@ -111,6 +113,12 @@ Jx.Store.Remote = new Class({
         }
     },
     
+    saveRow: function (index, column, oldValue, newValue) {
+        if (this.options.autoSave) {
+            this.remoteSave(this.data[index]);
+        }
+    },
+    
     /**
      * Method: onNewRow
      * Called when a new row is added (event listener). If autoSave is set, this will
@@ -133,8 +141,9 @@ Jx.Store.Remote = new Class({
         //save the data passed in.
         if (Jx.type(data) === 'hash' && this.continueSaving) {
             // save it
+            var d = data.getClean();
             var req = new Request.JSON({
-                data : JSON.encode(data),
+                data : d,
                 url : this.options.saveUrl,
                 onSuccess : this.processReturn.bind(this),
                 onFailure : this.handleSaveError.bind(this),

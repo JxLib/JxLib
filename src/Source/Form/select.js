@@ -34,11 +34,20 @@ Jx.Field.Select = new Class({
     
     options: {
         /**
-         * Options: comboOpts
+         * Option: comboOpts
          * Optional, defaults to null. if not null, this should be an array of objects 
          * formated like [{value:'', selected: true|false, text:''},...]
          */
         comboOpts: null,
+        /**
+         * Option: optGroups
+         * Optional, defaults to null. if not null this should be an array of objects
+         * defining option groups for this select. The comboOpts and optGroups options
+         * are mutually exclusive. optGroups will always be shown if defined.
+         * 
+         * define them like [{name: '', options: [{value:'', selected: '', text: ''}...]},...]
+         */
+        optGroups: null,
         /**
          * Option: template
          * The template for creating this select input
@@ -61,7 +70,23 @@ Jx.Field.Select = new Class({
     initialize: function (options) {
         this.parent(options);
         
-        if ($defined(this.options.comboOpts)) {
+        if ($defined(this.options.optGroups)) {
+            this.options.optGroups.each(function(group){
+                var gr = new Element('optGroup');
+                gr.set('label',group.name);
+                group.options.each(function(option){
+                    var opt = new Element('option', {
+                        'value': option.value,
+                        'html': option.text
+                    });
+                    if ($defined(option.selected) && option.selected) {
+                        opt.set("selected", "selected");
+                    }
+                    gr.grab(opt);
+                },this);
+                this.field.grab(gr);
+            },this);
+        } else if ($defined(this.options.comboOpts)) {
             this.options.comboOpts.each(function (item) {
                 var opt = new Element('option', {
                     'value': item.value,
@@ -84,8 +109,8 @@ Jx.Field.Select = new Class({
      */
     setValue: function (v) {
         //loop through the options and set the one that matches v
-        this.field.options.each(function (opt) {
-            if (opt.value === v) {
+        $$(this.field.options).each(function (opt) {
+            if (opt.get('value') === v) {
                 document.id(opt).set("selected", true);
             }
         }, this);

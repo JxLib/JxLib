@@ -30,7 +30,14 @@ Jx.Field.Checkbox = new Class({
          * Option: checked
          * Whether this field is checked or not
          */
-        checked : false
+        checked : false,
+        /**
+         * Option: clickableLabel
+         * Determines whether clicking the label also clicks the button
+         */
+        clickableLabel: true,
+        
+        labelSeparator: ''
     },
     /**
      * Property: type
@@ -48,15 +55,21 @@ Jx.Field.Checkbox = new Class({
     initialize : function (options, form) {
         this.parent(options, form);
     
-        if ($defined(this.options.checked) && this.options.checked ) {
+        if ($defined(this.options.checked) && this.options.checked) {
             if (Browser.Engine.trident) {
-                this.field.setStyle('display','none');
+                this.field.setStyle('display', 'none');
                 this.field.inject(document.body);
-                this.field.set("checked","checked");
+                this.field.set("checked", "checked");
                 this.field.dispose();
             } else {
                 this.field.set("checked", "checked");
             }
+        }
+        
+        if (this.options.clickableLabel) {
+            this.label.addEvent('click', (function () {
+                this.field.click();
+            }).bind(this));
         }
     
     },

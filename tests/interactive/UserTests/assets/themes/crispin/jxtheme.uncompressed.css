@@ -13,7 +13,7 @@ caption,th {text-align:left;}
 h1,h2,h3,h4,h5,h6{font-size:100%;}
 q:before,q:after{content:'';}/**
  * @project         Jx
- * @revision        $Id: button.css 491 2009-07-24 22:05:00Z pagameba $
+ * @revision        $Id: button.css 507 2009-08-06 19:19:14Z fred.warnock $
  * @author          Fred Warnock (fwarnock@dmsolutions.ca)
  * @copyright       (c) 2006 DM Solutions Group Inc.
  */
@@ -27,8 +27,11 @@ q:before,q:after{content:'';}/**
 
 .jxButtonContainer {
   /* Base setup */
-  display: inline-block;;
+  display: -moz-inline-box;
+  display: inline-block;
   position: relative;
+  font-size: 0px;
+  line-height: 0px;
   /* float: left; */
 
   margin: 0px;
@@ -39,7 +42,8 @@ q:before,q:after{content:'';}/**
 /* normal button */
 .jxButton {
   /* Base setup */
-  display: inline-block;;
+  display: -moz-inline-box;
+  display: inline-block;
   position: relative;
   font-size: 0px;
   line-height: 0px;
@@ -71,7 +75,8 @@ ul.jxToolbar .jxButton {
 
 span.jxButtonContent {
   /* Base setup */
-  display: inline-block;;
+  display: -moz-inline-box;
+  display: inline-block;
   position: relative;
   /* float: left; */
   font-size: 0px;
@@ -209,6 +214,7 @@ ul.jxToolbar .jxDisabled .jxButtonActive:hover span.jxButtonContent,
 
 img.jxButtonIcon {
   /* Base setup */
+  display: -moz-inline-box;
   display: inline-block;
   position: relative;
   vertical-align: middle;
@@ -222,7 +228,8 @@ img.jxButtonIcon {
 
 span.jxButtonContent span {
   /* Base setup */
-  display: inline-block;;
+  display: -moz-inline-box;
+  display: inline-block;
   position: relative;
   vertical-align: middle;
   /* float: left; */
@@ -267,7 +274,8 @@ span.jxButtonContent span.jxButtonLabel {
 
 a.jxButtonDisclose {
   position: absolute;
-  display: inline-block;;
+  display: -moz-inline-box;
+  display: inline-block;
   padding: 4px 0px;
   font-size: 0px;
   line-height: 0px;
@@ -936,7 +944,7 @@ iframe.jxIframeShim{position:absolute;top:0px;left:0px;width:100%;height:100%;op
   border: none;
 }/**
  * @project         Jx
- * @revision        $Id: form.css 500 2009-07-31 19:48:14Z fred.warnock $
+ * @revision        $Id: form.css 509 2009-08-07 15:41:31Z fred.warnock $
  * @author          Fred Warnock (fwarnock@dmsolutions.ca)
  * @copyright       (c) 2006 DM Solutions Group Inc.
  */
@@ -952,11 +960,11 @@ iframe.jxIframeShim{position:absolute;top:0px;left:0px;width:100%;height:100%;op
 /* debuggiong styles */
 /*
 .jxForm           { background-color: yellow; }
-.jxFieldset       { background-color: cyan; }
-.jxInputGroup     { background-color: teal; }
+.jxFieldset       { background-color: khaki; }
+.jxInputGroup     { background-color: tan; }
 .jxFieldsetLegend { background-color: orange; }
 .jxInputContainer { background-color: pink; }
-.jxInputLabel     { background-color: magenta; }
+.jxInputLabel     { background-color: plum; }
 .jxInputTag       { background-color: lime; }
 */
  
@@ -1006,6 +1014,7 @@ iframe.jxIframeShim{position:absolute;top:0px;left:0px;width:100%;height:100%;op
 
 .jxInputLabel,
 .jxInputTag {
+  display: -moz-inline-box;
   display: inline-block;
   margin: 0px;
   padding: 0px;
@@ -1098,34 +1107,42 @@ iframe.jxIframeShim{position:absolute;top:0px;left:0px;width:100%;height:100%;op
 
 /* Inline Input Container */
 .jxFormInline .jxInputContainer,
-form .jxFieldsetInline .jxInputContainer,
-form .jxFieldset span.jxInputContainerInline,
-form.jxForm span.jxInputContainerInline {
-  display: inline-block;
+form .jxFormInline .jxInputContainer,
+form .jxFieldset span.jxFormInline,
+form.jxForm span.jxFormInline {
+  display: inline;
 }
 
 /* Inline Label */
 .jxFormInline .jxInputLabel,
-form .jxFieldsetInline .jxInputLabel,
-form span.jxInputContainerInline .jxInputLabel {
+form .jxFormInline .jxInputLabel,
+form span.jxFormInline .jxInputLabel {
+  display: inline;
   width: auto;
+}
+
+/* Inline Tag */
+.jxFormInline .jxInputTag,
+form .jxFormInline .jxInputTag,
+form span.jxFormInline .jxInputTag {
+  display: inline;
 }
 
 /* Inline Input Group */
 .jxFormInline .jxInputGroup,
-form .jxFieldsetInline .jxInputGroup {
+form .jxFormInline .jxInputGroup {
   padding-left: 0px;
 }
 
 .jxFormInline .jxInputGroup .jxFieldsetLegend,
-form .jxFieldsetInline .jxInputGroup .jxFieldsetLegend {
+form .jxFormInline .jxInputGroup .jxFieldsetLegend {
   position: relative;
   left: auto;
 }
 
 .jxFormInline .jxInputGroup .jxInputLabel,
-form .jxFieldsetInline .jxInputGroup .jxInputLabel {
-  display: inline-block;
+form .jxFormInline .jxInputGroup .jxInputLabel {
+  display: inline;
   width: auto;
 }
 
@@ -1135,16 +1152,16 @@ form .jxFieldsetInline .jxInputGroup .jxInputLabel {
 
 /* Block Input Container */
 .jxFormBlock .jxInputContainer,
-form .jxFieldsetBlock .jxInputContainer,
-form .jxFieldset span.jxInputContainerBlock,
-form.jxform span.jxInputContainerBlock {
+form .jxFormBlock .jxInputContainer,
+form .jxFieldset span.jxFormBlock,
+form.jxform span.jxFormBlock {
   display: block;
 }
  
 /* Block Label */
 .jxFormBlock .jxInputLabel,
-form .jxFieldsetBlock .jxInputLabel,
-form span.jxInputContainerBlock .jxInputLabel {
+form .jxFormBlock .jxInputLabel,
+form span.jxFormBlock .jxInputLabel {
   display: block;
   width: auto;
   margin-left: 4px;
@@ -1152,18 +1169,19 @@ form span.jxInputContainerBlock .jxInputLabel {
 
 /* Block Input Group */
 .jxFormBlock .jxInputGroup,
-form .jxFieldsetBlock .jxInputGroup {
+form .jxFormBlock .jxInputGroup {
   padding-left: 0px;
 }
 
 .jxFormBlock .jxInputGroup .jxFieldsetLegend,
-form .jxFieldsetBlock .jxInputGroup .jxFieldsetLegend {
+form .jxFormBlock .jxInputGroup .jxFieldsetLegend {
   position: relative;
   left: auto;
 }
 
 .jxFormBlock .jxInputGroup .jxInputLabel,
-form .jxFieldsetBlock .jxInputGroup .jxInputLabel {
+form .jxFormBlock .jxInputGroup .jxInputLabel {
+  display: -moz-inline-box;
   display: inline-block;
   width: auto;
 }
@@ -1175,35 +1193,37 @@ form .jxFieldsetBlock .jxInputGroup .jxInputLabel {
 
 /* Inline-Block Input Container */
 .jxFormInlineblock .jxInputContainer,
-form .jxFieldsetInlineblock .jxInputContainer,
-form .jxFieldset span.jxInputContainerInlineblock,
-form.jxForm span.jxInputContainerInlineblock {
+form .jxFormInlineblock .jxInputContainer,
+form .jxFieldset span.jxFormInlineblock,
+form.jxForm span.jxFormInlineblock {
   display: block;
 }
 
 /* Inline-Block Label */
 .jxFormInlineblock .jxInputLabel,
-form .jxFieldsetInlineblock .jxInputLabel,
-form span.jxInputContainerInlineblock .jxInputLabel {
+form .jxFormInlineblock .jxInputLabel,
+form span.jxFormInlineblock .jxInputLabel {
+  display: -moz-inline-box;
   display: inline-block;
   width: 200px;
 }
 
 /* Inline-Block Input Group */
 .jxFormInlineblock .jxInputGroup,
-form .jxFieldsetInlineblock .jxInputGroup {
+form .jxFormInlineblock .jxInputGroup {
   padding-left: 200px;
 }
 
 .jxFormInlineblock .jxInputGroup .jxFieldsetLegend,
-form .jxFieldsetInlineblock .jxInputGroup .jxFieldsetLegend {
+form .jxFormInlineblock .jxInputGroup .jxFieldsetLegend {
   position: absolute;
   left: -200px; /* for ie? */
   width: 200px;
 }
 
 .jxFormInlineblock .jxInputGroup .jxInputLabel,
-form .jxFieldsetinlineBlock .jxInputGroup .jxInputLabel {
+form .jxFormInlineblock .jxInputGroup .jxInputLabel {
+  display: -moz-inline-box;
   display: inline-block;
   width: auto;
 }
@@ -1236,7 +1256,7 @@ form .jxFieldsetinlineBlock .jxInputGroup .jxInputLabel {
 }
 /**
  * @project         Jx
- * @revision        $Id: grid.css 501 2009-07-31 20:49:49Z pagameba $
+ * @revision        $Id: grid.css 507 2009-08-06 19:19:14Z fred.warnock $
  * @author          Fred Warnock (fwarnock@dmsolutions.ca)
  * @copyright       (c) 2006 DM Solutions Group Inc.
  */
@@ -1316,6 +1336,7 @@ form .jxFieldsetinlineBlock .jxInputGroup .jxInputLabel {
 
 .jxGridCellContent {
     position: relative;
+    display: -moz-inline-box;
     display: inline-block;
     overflow: hidden;
     padding-left: 3px;
@@ -2703,7 +2724,7 @@ li.jxToolItem  span.jxBarSeparator {
 
 /**
  * @project         Jx
- * @revision        $Id: tree.css 308 2009-04-03 15:02:22Z fred.warnock $
+ * @revision        $Id: tree.css 510 2009-08-07 16:10:31Z fred.warnock $
  * @author          Fred Warnock (fwarnock@dmsolutions.ca)
  * @copyright       (c) 2006 DM Solutions Group Inc.
  */
@@ -2718,7 +2739,7 @@ li.jxToolItem  span.jxBarSeparator {
 */
 
 
-.jxTree, 
+.jxTree,
 .jxTreeRoot {
   /* relative positioning is required for IE to fix the peek-a-boo bug */
   position:relative;

@@ -86,6 +86,7 @@
 }
 
 .jxInputText,
+.jxInputPassword,
 .jxInputTextarea {
   margin: 0px 4px;
   padding: 4px;
@@ -97,6 +98,7 @@
 }
 
 .jxInputText:focus,
+.jxInputPassword,
 .jxInputTextarea:focus {
   border: 1px solid #000;
 }

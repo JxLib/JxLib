@@ -638,6 +638,7 @@ Jx.Store = new Class({
         if (!$defined(this.data)) {
             this.data = [];
         }
+        
         if ($defined(data)) {
             this.data.empty();
             var type = Jx.type(data);

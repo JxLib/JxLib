@@ -409,6 +409,10 @@
         "jxbutton": {
             "deps": ["field", "button"],
             "desc": ""
+        },
+        "password": {
+            "deps": ["field"],
+            "desc": ""
         }
     }
 
