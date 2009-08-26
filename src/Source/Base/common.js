@@ -228,7 +228,8 @@ Jx.createIframeShim = function() {
     return new Element('iframe', {
         'class':'jxIframeShim',
         'scrolling':'no',
-        'frameborder':0
+        'frameborder':0,
+        'src': Jx.baseUrl+'/empty.html'
     });
 };
 /**
