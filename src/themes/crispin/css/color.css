@@ -32,6 +32,7 @@ table.jxColorGrid {
     clear:both;
     padding: 0px;
     margin: 0px;
+    width: auto;
 }
 
 .jxColorGrid tr {
