@@ -278,10 +278,10 @@ $Id$
   	<copy file="${build.home}/images/a_pixel.png" todir="${deploy.home}/builder/assets" />
   	
 	<!-- Place JSON files -->
-  	<move file="${deploy.home}/lib/deps.json" todir="${deploy.home}/builder/work/" />
-  	<move file="${deploy.home}/lib/jxlib.json" todir="${deploy.home}/builder" />
-  	<move file="${deploy.home}/lib/core.json" todir="${deploy.home}/builder" />
-  	<move file="${deploy.home}/lib/more.json" todir="${deploy.home}/builder" />
+  	<move file="${build.home}/lib/deps.json" todir="${deploy.home}/builder/work/" />
+  	<move file="${build.home}/lib/jxlib.json" todir="${deploy.home}/builder" />
+  	<move file="${build.home}/lib/core.json" todir="${deploy.home}/builder" />
+  	<move file="${build.home}/lib/more.json" todir="${deploy.home}/builder" />
   </target>
 	
 	<target description="setup files for tests" name="tests" depends="builder">
