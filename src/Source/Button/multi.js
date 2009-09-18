@@ -76,12 +76,11 @@ Jx.Button.Multi = new Class({
     classes: ['jxButtonContainer','jxButton','jxButtonIcon','jxButtonLabel','jxButtonDisclose'],
 
     /**
-     * Constructor: Jx.Button.Multi
+     * APIMethod: render
      * construct a new instance of Jx.Button.Multi.
      */
-    initialize: function(opts) {
-        this.parent(opts);
-
+    render: function() {
+        this.parent();
         this.buttons = [];
 
         this.menu = new Jx.Menu();

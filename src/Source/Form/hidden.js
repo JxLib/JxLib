@@ -30,19 +30,7 @@ Jx.Field.Hidden = new Class({
      * Property: type
      * The type of this field
      */
-    type: 'Hidden',
-    
-    /**
-     * Constructor: Jx.Field.Hidden
-     * Creates a hidden input field.
-     * 
-     * Parameters:
-     * options - <Jx.Field.Hidden.Options> and <Jx.Field.Options>
-     */
-    initialize: function (options) {
-        this.parent(options);
-        
-    }
+    type: 'Hidden'
     
 });
 

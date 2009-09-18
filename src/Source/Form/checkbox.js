@@ -46,14 +46,11 @@ Jx.Field.Checkbox = new Class({
     type : 'Check',
     
     /**
-     * Constructor: Jx.Field.Check 
+     * APIMethod: render 
      * Creates a checkbox input field.
-     * 
-     * Params: 
-     * options - <Jx.Field.Checkbox.Options> and <Jx.Field.Options>
-     */
-    initialize : function (options, form) {
-        this.parent(options, form);
+    */
+    render : function () {
+        this.parent();
     
         if ($defined(this.options.checked) && this.options.checked) {
             if (Browser.Engine.trident) {

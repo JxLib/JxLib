@@ -42,19 +42,17 @@ Jx.Columns = new Class({
      */
     columns : [],
     
+    parameters: ['options','grid'],
+    
     /**
-     * Constructor: Jx.Columns
+     * APIMethod: init
      * Creates the class.
-     *
-     * Parameters:
-     * options - <Jx.Columns.Options> and <Jx.Object.Options>
-     * grid - a reference to the <Jx.Grid> that this class is associated with
      */
-    initialize : function (options, grid) {
-        this.parent(options);
+    init : function () {
+        this.parent();
 
-        if ($defined(grid) && grid instanceof Jx.Grid) {
-            this.grid = grid;
+        if ($defined(this.options.grid) && this.options.grid instanceof Jx.Grid) {
+            this.grid = this.options.grid;
         }
 
         this.options.columns.each(function (col) {
@@ -62,7 +60,8 @@ Jx.Columns = new Class({
                 if (col instanceof Jx.Column) {
                     this.columns.push(col);
                 } else if (Jx.type(col) === "object") {
-                    this.columns.push(new Jx.Column(col, grid));
+                    col.grid = this.grid;
+                    this.columns.push(new Jx.Column(col));
                 }
 
             }, this);

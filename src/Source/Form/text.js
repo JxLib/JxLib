@@ -39,14 +39,11 @@ Jx.Field.Text = new Class({
     type: 'Text',
     
     /**
-     * Constructor: Jx.Field.Text
+     * APIMethod: render
      * Creates a text input field.
-     * 
-     * Parameters:
-     * options - <Jx.Field.Text.Options> and <Jx.Field.Options> 
      */
-    initialize: function (options) {
-        this.parent(options);
+    render: function () {
+        this.parent();
         
         //create the overText instance if needed
         if ($defined(this.options.overText)) {

@@ -48,20 +48,22 @@ Jx.TabSet = new Class({
      */
     domObj : null,
     /**
-     * Constructor: Jx.TabSet
-     * Create a new instance of <Jx.TabSet> within a specific element of
-     * the DOM.
-     *
      * Parameters:
      * domObj - {HTMLElement} an element or id of an element to put the
      * content of the tabs into.
      * options - an options object, only event handlers are supported
      * as options at this time.
      */
-    initialize: function(domObj, options) {
-        this.setOptions(options);
+    parameters: ['domObj','options'],
+    
+    /**
+     * APIMethod: init
+     * Create a new instance of <Jx.TabSet> within a specific element of
+     * the DOM.
+     */
+    init: function() {
         this.tabs = [];
-        this.domObj = document.id(domObj);
+        this.domObj = document.id(this.options.domObj);
         if (!this.domObj.hasClass('jxTabSetContainer')) {
             this.domObj.addClass('jxTabSetContainer');
         }

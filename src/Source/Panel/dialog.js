@@ -43,7 +43,7 @@
 Jx.Dialog = new Class({
     Family: 'Jx.Dialog',
     Extends: Jx.Panel,
-    Implements: [Jx.AutoPosition, Jx.Chrome],
+    //Implements: [Jx.AutoPosition, Jx.Chrome],
     
     /**
      * Property: {HTMLElement} blanket
@@ -98,7 +98,7 @@ Jx.Dialog = new Class({
          * the dialog is to be contained by.  The default value is for the dialog
          * to be contained by the body element.
          */
-        parent: null,
+        //parent: null,
         /* Option: resize
          * (optional) {Boolean} determines whether the dialog is
          * resizeable by the user or not.  Default is false.
@@ -120,24 +120,21 @@ Jx.Dialog = new Class({
         close: true
     },
     /**
-     * Constructor: Jx.Dialog
-     * Construct a new instance of Jx.Dialog
-     *
-     * Parameters: 
-     * options - {Object} an object containing options for the dialog.
-     *
-     * Options: <Jx.Dialog.Options>, <Jx.Panel.Options>, <Jx.ContentLoader.Options>
+     * APIMethod: render
+     * renders Jx.Dialog
      */
-    initialize: function(options) {
+    render: function() {
         this.isOpening = false;
         this.firstShow = true;
         
-        /* initialize the panel overriding the type and position */
-        this.parent($merge(
+        this.options = $merge(
             {parent:document.body}, // these are defaults that can be overridden
-            options,
+            this.options,
             {type:'Dialog', position: 'absolute'} // these override anything passed to the options
-        ));
+        );
+        
+        /* initialize the panel overriding the type and position */
+        this.parent();
         this.openOnLoaded = this.open.bind(this);
         this.options.parent = document.id(this.options.parent);
         
@@ -442,6 +439,10 @@ Jx.Dialog = new Class({
         this.isOpening = false;
         this.hide();
         this.fireEvent('close');
+    },
+    
+    cleanup: function() {
+        this.blanket.destroy();
     }
 });
 

@@ -41,14 +41,12 @@ Jx.TreeFolder = new Class({
         open : false
     },
     /**
-     * Constructor: Jx.TreeFolder
+     * APIMethod: render
      * Create a new instance of Jx.TreeFolder
-     *
-     * Parameters:
-     * options - <Jx.TreeFolder.Options> and <Jx.TreeItem.Options>
      */
-    initialize : function( options ) {
-        this.parent($merge(options,{type:'Branch'}));
+    render : function() {
+        this.options = $merge(this.options,{type:'Branch'});
+        this.parent();
 
         document.id(this.domNode).addEvent('click', this.clicked.bindWithEvent(this));
         this.addEvent('click', this.clicked.bindWithEvent(this));

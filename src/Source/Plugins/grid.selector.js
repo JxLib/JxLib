@@ -41,12 +41,12 @@ Jx.Plugin.Grid.Selector = new Class({
      */
     bound: {},
     /**
-     * APIMethod: initialize
+     * APIMethod: init
      * construct a new instance of the plugin.  The plugin must be attached
      * to a Jx.Grid instance to be useful though.
      */
-    initialize: function(options) {
-        this.parent(options);
+    init: function() {
+        this.parent();
         this.bound.select = this.select.bind(this);
     },
     /**

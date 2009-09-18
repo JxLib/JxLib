@@ -42,22 +42,26 @@ Jx.Splitter.Snap = new Class({
      */
     layout: 'vertical',
     /**
-     * Constructor: Jx.Splitter.Snap
-     * Create a new Jx.Splitter.Snap
-     *
      * Parameters:
      * snap - {HTMLElement} the clickable thing that snaps the element
      *           open and closed
      * element - {HTMLElement} the element that gets controlled by the snap
      * splitter - {<Jx.Splitter>} the splitter that this all happens inside of.
      */
-    initialize: function(snap, element, splitter, events) {
-        this.snap = snap;
-        this.element = element;
-        var jxl = element.retrieve('jxLayout');
+    parameters: ['snap','element','splitter','events'],
+    
+    /**
+     * APIMethod: init
+     * Create a new Jx.Splitter.Snap
+     */
+    init: function() {
+        this.snap = this.options.snap;
+        this.element = this.options.element;
+        this.splitter = this.options.splitter;
+        this.events = this.options.events;
+        var jxl = this.element.retrieve('jxLayout');
         jxl.addEvent('sizeChange', this.sizeChange.bind(this));
-        this.splitter = splitter;
-        this.layout = splitter.options.layout; 
+        this.layout = this.splitter.options.layout; 
         var jxo = jxl.options;
         var size = this.element.getContentBoxSize();
         if (this.layout == 'vertical') {
@@ -67,8 +71,8 @@ Jx.Splitter.Snap = new Class({
             this.originalSize = size.width;
             this.minimumSize = jxo.minWidth ? jxo.minWidth : 0;
         }
-        events.each(function(eventName) {
-            snap.addEvent(eventName, this.toggleElement.bind(this));
+        this.events.each(function(eventName) {
+            this.snap.addEvent(eventName, this.toggleElement.bind(this));
         }, this);
     },
     

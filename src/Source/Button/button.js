@@ -151,16 +151,11 @@ Jx.Button = new Class({
     classes: ['jxButtonContainer', 'jxButton','jxButtonIcon','jxButtonLabel'],
     elements: null,
     /**
-     * Constructor: Jx.Button
+     * APIMethod: render
      * create a new button.
-     *
-     * Parameters:
-     * options - {Object} an object containing optional properties for this
-     * button as below.
      */
-    initialize : function( options ) {
-        this.setOptions(options);
-        
+    render: function() {
+        this.parent();
         this.elements = this.processTemplate(this.options.template, this.classes);
         
         this.domObj = this.elements.get('jx'+this.type+'Container');

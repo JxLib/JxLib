@@ -65,21 +65,14 @@ Jx.PanelSet = new Class({
      */
     firstLayout: true,
     /**
-     * Constructor: Jx.PanelSet
+     * APIMethod: render
      * Create a new instance of Jx.PanelSet.
-     *
-     * Parameters:
-     * options - <Jx.PanelSet.Options>
-     *
-     * TODO: Jx.PanelSet.initialize
-     * Remove the panels parameter in favour of an add method.
      */
-    initialize: function(options) {
-        if (options && options.panels) {
-            this.panels = options.panels;
-            options.panels = null;
+    render: function() {
+        if (this.options.panels) {
+            this.panels = this.options.panels;
+            this.options.panels = null;
         }
-        this.setOptions(options);
         this.domObj = new Element('div');
         new Jx.Layout(this.domObj);
         

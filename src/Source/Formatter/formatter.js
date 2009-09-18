@@ -20,17 +20,6 @@ Jx.Formatter = new Class({
     Extends: Jx.Object,
     
     /**
-     * Constructor: Jx.Formatter
-     * Initializes the formatter options. Can be overridden by 
-     * child classes for more specific functionality
-     * 
-     * Parameters:
-     * options - <Jx.Formatter.Options> and <Jx.Object.Options>
-     */
-    initialize: function (options) {
-        this.parent(options);
-    },
-    /**
      * APIMethod: format
      * Empty method that must be overridden by subclasses to provide
      * the needed formatting functionality.

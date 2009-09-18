@@ -30,10 +30,11 @@ Jx.Menu.Separator = new Class({
      */
     owner: null,
     /**
-     * Constructor: Jx.Menu.Separator
+     * APIMethod: render
      * Create a new instance of a menu separator
      */
-    initialize: function() {
+    render: function() {
+        this.parent();
         this.domObj = new Element('li',{'class':'jxMenuItem'});
         var span = new Element('span', {'class':'jxMenuSeparator','html':'&nbsp;'});
         this.domObj.appendChild(span);

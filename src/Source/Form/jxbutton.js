@@ -35,17 +35,6 @@ Jx.Field.Button = new Class({
      */
     type: 'Button',
     
-    /**
-     * Constructor: Jx.Field.JxButton
-     * Creates a button for use in a form.
-     * 
-     * Parameters:
-     * options - <Jx.Field.Jx.Button.Options> and <Jx.Button.Options> 
-     */
-    initialize: function (options) {
-        this.parent(options);
-    },
-    
     processTemplate: function(template, classes, container) {
         var h = this.parent(template, classes, container);
         var b = new Jx.Button(this.options.buttonOptions);

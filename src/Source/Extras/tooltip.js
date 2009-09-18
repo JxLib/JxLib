@@ -47,20 +47,25 @@ Jx.Tooltip = new Class({
          */
         cssClass : null
     },
-
+    
     /**
-     * Constructor: Jx.Tooltip
-     * Creates the tooltip
-     * 
      * Parameters:
      * target - The DOM element that triggers the toltip when moused over.
      * tip - The contents of the tip itself. This can be either a string or
      *       an Element.
      * options - <Jx.Tooltip.Options> and <Jx.Widget.Options>
      */
-    initialize : function (target, tip, options) {
-        this.parent(options);
-        this.target = document.id(target);
+    parameters: ['target','tip','options'],
+
+    /**
+     * APIMethod: render
+     * Creates the tooltip
+     * 
+     
+     */
+    render : function () {
+        this.parent();
+        this.target = document.id(this.options.target);
 
         var t = this.target.retrieve('Tip');
         if (t) {
@@ -77,10 +82,10 @@ Jx.Tooltip = new Class({
             }
         }).inject(document.body);
     
-        if (Jx.type(tip) === 'string') {
-            this.domObj.set('html', tip);
+        if (Jx.type(this.options.tip) === 'string') {
+            this.domObj.set('html', this.options.tip);
         } else {
-            this.domObj.grab(tip);
+            this.domObj.grab(this.options.tip);
         }
     
         this.domObj.addClass('jxTooltip');
@@ -88,12 +93,12 @@ Jx.Tooltip = new Class({
             this.domObj.addClass(this.options.cssClass);
         }
     
-        target.store('Tip', this);
+        this.options.target.store('Tip', this);
     
         //add events
-        target.addEvent('mouseenter', this.enter.bindWithEvent(this));
-        target.addEvent('mouseleave', this.leave.bindWithEvent(this));
-        target.addEvent('mousemove', this.move.bindWithEvent(this));
+        this.options.target.addEvent('mouseenter', this.enter.bindWithEvent(this));
+        this.options.target.addEvent('mouseleave', this.leave.bindWithEvent(this));
+        this.options.target.addEvent('mousemove', this.move.bindWithEvent(this));
     
     },
     
@@ -160,6 +165,6 @@ Jx.Tooltip = new Class({
      */
     detach : function () {
         this.target.eliminate('Tip');
-        this.domObj.dispose();
+        this.destroy();
     }
 });

@@ -55,14 +55,10 @@ Jx.Button.Color = new Class({
     },
 
     /**
-     * Constructor: Jx.Button.Color
-     * initialize a new color button.
-     *
-     * Parameters:
-     * options - <Jx.Button.Color.Options> initialize instance options.
-     *
+     * APIMethod: render
+     * creates a new color button.
      */
-    initialize: function(options) {
+    render: function() {
         if (!Jx.Button.Color.ColorPalette) {
             Jx.Button.Color.ColorPalette = new Jx.ColorPalette(this.options);
         }
@@ -75,10 +71,10 @@ Jx.Button.Color = new Class({
         this.hideFn = this.hide.bind(this);
         /* we need to have an image to replace, but if a label is 
            requested, there wouldn't normally be an image. */
-        options.image = Jx.aPixel.src;
+        this.options.image = Jx.aPixel.src;
 
         /* now we can safely initialize */
-        this.parent(options);
+        this.parent();
         
         // now replace the image with our swatch
         d.replaces(this.domImg);

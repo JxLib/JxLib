@@ -57,20 +57,15 @@ Jx.Button.Tab = new Class({
     classes: ['jxTabContainer','jxTab','jxTabIcon','jxTabLabel','jxTabClose'],
     
     /**
-     * Constructor: Jx.Button.Tab
+     * APIMethod: render
      * Create a new instance of Jx.Button.Tab.  Any layout options passed are used
      * to create a <Jx.Layout> for the tab content area.
-     *
-     * Parameters:
-     * options - {Object} an object containing options that are used
-     * to control the appearance of the tab.  See <Jx.Button>,
-     * <Jx.ContentLoader::loadContent> and <Jx.Layout::Jx.Layout> for
-     * valid options.
      */
-    initialize : function( options) {
-        this.parent($merge(options, {toggle:true}));
+    render : function( ) {
+        this.options = $merge(this.options, {toggle:true});
+        this.parent();
         this.content = new Element('div', {'class':'tabContent'});
-        new Jx.Layout(this.content, options);
+        new Jx.Layout(this.content, this.options);
         this.loadContent(this.content);
         var that = this;
         this.addEvent('down', function(){that.content.addClass('tabContentActive');});

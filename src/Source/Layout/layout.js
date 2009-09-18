@@ -108,17 +108,20 @@ Jx.Layout = new Class({
          */
         maxHeight: -1
     },
+    
     /**
-     * Constructor: Jx.Layout
-     * Create a new instance of Jx.Layout.
-     *
      * Parameters:
      * domObj - {HTMLElement} element or id to apply the layout to
      * options - <Jx.Layout.Options>
      */
-    initialize: function(domObj, options) {
-        this.setOptions(options);
-        this.domObj = document.id(domObj);
+    parameters: ['domObj','options'],
+    
+    /**
+     * APIMethod: init
+     * Create a new instance of Jx.Layout.
+     */
+    init: function() {
+        this.domObj = document.id(this.options.domObj);
         this.domObj.resize = this.resize.bind(this);
         this.domObj.setStyle('position', this.options.position);
         this.domObj.store('jxLayout', this);

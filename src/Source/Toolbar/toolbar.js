@@ -95,14 +95,11 @@ Jx.Toolbar = new Class({
         scroll: true
     },
     /**
-     * Constructor: Jx.Toolbar
+     * APIMethod: render
      * Create a new instance of Jx.Toolbar.
-     *
-     * Parameters:
-     * options - <Jx.Toolbar.Options>
      */
-    initialize : function(options) {
-        this.setOptions(options);
+    render : function() {
+        this.parent();
         this.items = [];
         
         this.domObj = new Element('ul', {

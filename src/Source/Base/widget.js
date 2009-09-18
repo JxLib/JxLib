@@ -43,7 +43,17 @@ Jx.Widget = new Class({
 	Extends: Jx.Object,
 	
 	options: {
+        /**
+         * Option: content
+         * content may be an HTML element reference, the id of an HTML element
+         *      already in the DOM, or an HTML string that becomes the inner HTML of
+         *      the element.
+         */
 		content: null,
+		/**
+		 * Option: contentURL
+		 * the URL to load content from
+		 */
 		contentURL: null
 	},
 	
@@ -69,16 +79,17 @@ Jx.Widget = new Class({
     
     
     /**
-     * Constructor: Jx.Widget
-     * 
-     * Options:
-     * content - content may be an HTML element reference, the id of an HTML element
-     * 		already in the DOM, or an HTML string that becomes the inner HTML of
-     * 		the element.
-     * contentURL - the URL to load content from
+     * APIMethod: init
+     * sets up the base widget code and runs the render function. 
      */
-    initialize: function(options){
-		this.parent(options);
+    init: function(){
+		if (!this.options.deferRender) {
+		    this.fireEvent('preRender');
+		    this.render();
+		    this.fireEvent('postRender');
+		} else {
+		    this.fireEvent('deferRender');
+		}
 	},
     
     
@@ -588,7 +599,29 @@ Jx.Widget = new Class({
         var uid = $uid(this);
         delete this.uid;
         return prefix + uid;
-    }
+    },
+    
+    remove: function(){
+        var el = document.id(this.addable) || document.id(this.domObj);
+        if (el) {
+            el.dispose();
+        }
+    },
+    
+    cleanup: function(){
+        if ($defined(this.domObj)) {
+            this.domObj.destroy();
+        }
+        if ($defined(this.addable)) {
+            this.addable.destroy();
+        }
+        if ($defined(this.domA)) {
+            this.domA.destroy();
+        }
+        this.parent();
+    },
+    
+    render: $empty
 });
 
 

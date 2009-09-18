@@ -38,15 +38,10 @@ Jx.ButtonSet = new Class({
      */
     buttons: null,
     /**
-     * Constructor: Jx.ButtonSet
-     * Create a new instance of <Jx.ButtonSet>
-     *
-     * Parameters:
-     * options - an options object, only event handlers are supported
-     * as options at this time.
+     * APIMethod: init
+     * initializes the button set.
      */
-    initialize : function(options) {
-        this.setOptions(options);
+    init : function() {
         this.buttons = [];
         this.buttonChangedHandler = this.buttonChanged.bind(this);
     },

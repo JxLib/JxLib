@@ -19,16 +19,7 @@ Jx.Plugin = new Class({
     Family: "Jx.Plugin",
     
     options: {},
-    /**
-     * Constructor: Jx.Plugin
-     * Initializes the plugin.
-     * 
-     * Parameters:
-     * options - <Jx.Plugin.Options> and <Jx.Object.Options>
-     */
-    initialize: function (options) {
-        this.parent(options);
-    },
+    
     /**
      * APIMethod: attach
      * Empty method that must be overridden by subclasses. It is 

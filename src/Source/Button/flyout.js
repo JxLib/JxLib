@@ -32,6 +32,9 @@
  * flyout buttons inside the content area of another flyout button.  In this
  * case, opening the inner flyout will not close the outer flyout but it will
  * close any other flyouts that are siblings.
+ * 
+ * The options argument takes a combination of options that apply to <Jx.Button>,
+ * <Jx.ContentLoader>, and <Jx.AutoPosition>.
  *
  * Example:
  * (code)
@@ -66,21 +69,14 @@ Jx.Button.Flyout = new Class({
      */
     content: null,
     /**
-     * Constructor: initialize
-     * construct a new instance of a flyout button.  The single options
-     * argument takes a combination of options that apply to <Jx.Button>,
-     * <Jx.ContentLoader>, and <Jx.AutoPosition>.
-     *
-     * Parameters: 
-     * options - an options object used to initialize the button, see 
-     * <Jx.Button.Options>, <Jx.ContentLoader.Options>, and
-     * <Jx.AutoPosition.Options> for details.
+     * APIMethod: render
+     * construct a new instance of a flyout button.  
      */
-    initialize: function(options) {
+    render: function() {
         if (!Jx.Button.Flyout.Stack) {
             Jx.Button.Flyout.Stack = [];
         }
-        this.parent(options);
+        this.parent();
         this.domA.addClass('jx'+this.type+'Flyout');
         
         this.contentContainer = new Element('div',{

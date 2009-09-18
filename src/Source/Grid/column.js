@@ -108,19 +108,17 @@ Jx.Column = new Class({
      * holds a reference to the model (an instance of <Jx.Store> or subclass)
      */
     model: null,
+    
+    parameters: ['options','grid'],
+    
     /**
      * Constructor: Jx.Column
      * initializes the column object
-     * 
-     * Parameters:
-     * options - <Jx.Column.Options> and <Jx.Object.Options>
-     * grid - a reference to the grid this column is associated with. 
-     *          Must be a <Jx.Grid> or subclass. 
      */
-    initialize : function (options, grid) {
-        this.parent(options);
-        if ($defined(grid) && grid instanceof Jx.Grid) {
-            this.grid = grid;
+    init : function () {
+        this.parent();
+        if ($defined(this.options.grid) && this.options.grid instanceof Jx.Grid) {
+            this.grid = this.options.grid;
         }
         this.name = this.options.name;
         //we need to check the formatter
@@ -249,13 +247,14 @@ Jx.Column = new Class({
             'class' : klass
         });
         var el = new Element('span', {
-            'html' : text
+            'html' : text,
+            'class': 'jxGridCellContent'
         }).inject(d);
         d.setStyle('height', this.grid.row.getHeight());
         d.setStyles({
             'visibility' : 'hidden',
-            'width' : 'auto',
-            'font-family' : 'Arial'
+            'width' : 'auto'
+            //'font-family' : 'Arial'  removed because CSS may impose different font(s)
         });
         d.inject(document.body, 'bottom');
         var s = d.measure(function () {

@@ -46,16 +46,13 @@ Jx.Menu.SubMenu = new Class({
      */
     items: null,
     /**
-     * Constructor: Jx.SubMenu
+     * APIMethod: render
      * Create a new instance of Jx.SubMenu
-     *
-     * Parameters:
-     * options - see <Jx.Button.Options>
      */
-    initialize: function(options) { 
+    render: function() { 
         this.open = false;
         this.items = [];
-        this.parent(options);
+        this.parent();
         this.domA.addClass('jxButtonSubMenu');
         
         this.contentContainer = new Element('div', {

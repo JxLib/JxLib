@@ -178,13 +178,10 @@ Jx.Field = new Class({
     errors : new Hash(),
 
     /**
-     * Constructor: Jx.Field
-     * 
-     * Parameters: 
-     * options - <Jx.Field.Options> and <Jx.Widget.Options>
-     */
-    initialize : function (options) {
-        this.parent(options);
+     * APIMethod: render
+      */
+    render : function () {
+        this.parent();
 
         this.id = ($defined(this.options.id)) ? this.options.id : this
                 .generateId();

@@ -32,7 +32,7 @@ Jx.Menu.Item = new Class({
      */
     owner: null,
     options: {
-        image: null,
+        //image: null,
         label: '&nbsp;',
         /* Option: template
          * the HTML structure of the button.  As a minimum, there must be a
@@ -46,15 +46,13 @@ Jx.Menu.Item = new Class({
     classes: ['jxMenuItemContainer', 'jxMenuItem','jxMenuItemIcon','jxMenuItemLabel'],
     type: 'MenuItem',
     /**
-     * Constructor: Jx.Menu.Item
+     * APIMethod: render
      * Create a new instance of Jx.Menu.Item
-     *
-     * Parameters:
-     * options - See <Jx.Button.Options>
      */
-    initialize: function(options) {
-        this.parent($merge({image: Jx.aPixel.src}, options));
-        if (options.image) {
+    render: function() {
+        this.options = $merge({image: Jx.aPixel.src}, this.options);
+        this.parent();
+        if (this.options.image) {
             this.domObj.removeClass('jx'+this.type+'Toggle');
         }
         this.domObj.addEvent('mouseover', this.onMouseOver.bindWithEvent(this));

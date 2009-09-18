@@ -66,14 +66,11 @@ Jx.TabBox = new Class({
      */
     tabSet: null,
     /**
-     * Constructor: Jx.TabBox
+     * APIMethod: render
      * Create a new instance of a TabBox.
-     *
-     * Parameters:
-     * options - <Jx.TabBox.Options>
      */
-    initialize : function(options) {
-        this.setOptions(options);
+    render : function() {
+        this.parent();
         this.tabBar = new Jx.Toolbar({
             type: 'TabBar', 
             position: this.options.position,

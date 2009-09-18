@@ -51,14 +51,11 @@ Jx.Button.Combo = new Class({
      },
         
     /** 
-     * Constructor: Jx.Combo
+     * APIMethod: render
      * create a new instance of Jx.Combo
-     *
-     * Parameters:
-     * options - <Jx.button.Combo.Options>
      */
-    initialize: function(options) {
-        this.parent(options);
+    render: function() {
+        this.parent();
 
         this.menu = new Jx.Menu();
         this.menu.button = this;

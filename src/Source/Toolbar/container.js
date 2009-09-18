@@ -53,14 +53,11 @@ Jx.Toolbar.Container = new Class({
         scroll: true
     },
     /**
-     * Constructor: Jx.Toolbar.Container
+     * APIMethod: render
      * Create a new instance of Jx.Toolbar.Container
-     *
-     * Parameters:
-     * options - <Jx.Toolbar.Options>
      */
-    initialize : function(options) {
-        this.setOptions(options);
+    render : function() {
+        this.parent();
         
         var d = document.id(this.options.parent);
         this.domObj = d || new Element('div');
@@ -169,6 +166,8 @@ Jx.Toolbar.Container = new Class({
     },
     
     measure: function() {
+        if (!this.options.scroll) { return; }
+        
         if ((!this.scrollLeftSize || !this.scrollLeftSize.x) && this.domObj.parentNode) {
             this.scrollLeftSize = this.scrollLeft.domObj.getSize();
             this.scrollRightSize = this.scrollRight.domObj.getSize();

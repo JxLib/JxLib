@@ -9,7 +9,7 @@
  * palette of web-safe colours.  The user can also enter an opacity value.
  *
  * A Jx.ColorPalette can be embedded anywhere in a web page using its addTo
- * method.  However, a <Jx.Button> subclass is provided (<Jx.Button.Color>)
+ * method.  However, a <Jx.Button> suJx.Tooltipbclass is provided (<Jx.Button.Color>)
  * that embeds a colour panel inside a button for easy use in toolbars.
  *
  * Colour changes are propogated via a change event.  To be notified 
@@ -60,15 +60,10 @@ Jx.ColorPalette = new Class({
         alphaLabel: 'alpha (%)'
     },
     /**
-     * Constructor: Jx.ColorPalette
+     * APIMethod: render
      * initialize a new instance of Jx.ColorPalette
-     *
-     * Parameters:
-     * options - <Jx.ColorPalette.Options>
      */
-    initialize: function(options) {
-        this.setOptions(options);
-
+    render: function() {
         this.domObj = new Element('div', {
             id: this.options.id,
             'class':'jxColorPalette'

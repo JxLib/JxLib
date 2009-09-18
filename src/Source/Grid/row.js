@@ -76,19 +76,18 @@ Jx.Row = new Class(
      * A reference to the grid that this row model belongs to
      */
     grid : null,
+    
+    parameters: ['options','grid'],
+    
     /**
-     * Constructor: Jx.Row
+     * APIMethod: init
      * Creates the row model object.
-     * 
-     * Parameters:
-     * options - <Jx.Row.Options> and <Jx.Object.Options>
-     * grid - the <Jx.Grid> that this row model will belong to. 
      */
-    initialize : function (options, grid) {
-        this.parent(options);
+    init : function () {
+        this.parent();
 
-        if ($defined(grid) && grid instanceof Jx.Grid) {
-            this.grid = grid;
+        if ($defined(this.options.grid) && this.options.grid instanceof Jx.Grid) {
+            this.grid = this.options.grid;
         }
     },
     /**

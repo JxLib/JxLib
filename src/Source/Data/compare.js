@@ -30,17 +30,6 @@ Jx.Compare = new Class({
     options: { separator: '.' },
 	
     /**
-     * Constructor: Jx.Compare
-     * initializes this class
-     * 
-     * Parameters: 
-     * options - <Jx.Compare.Options>
-     */
-    initialize: function (options) {
-        this.parent(options);
-    },
-	
-    /**
      * APIMethod: alphanumeric
      * Compare alphanumeric variables. This is case sensitive
      * 

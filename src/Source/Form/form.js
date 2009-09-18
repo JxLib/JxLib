@@ -112,19 +112,18 @@ Jx.Form = new Class({
      * An element representing the error messages for this form.
      */
     errorMessages : null,
+    /**
+     * Property: pluginNamespace
+     * required variable for plugins
+     */
+    pluginNamespace: 'Form',
 
     /**
-     * Constructor: Jx.Form
+     * APIMethod: render
      * Constructs the form but does not add it to anything to be shown. The caller
      * should use form.addTo() to add the form to the DOM.
-     * 
-     * Parameters:
-     * options - <Jx.Form.Options> and <Jx.Widget.Options>
-     * 
      */
-    initialize : function (options) {
-        this.setOptions(options);
-
+    render : function () {
         //create the form first
         this.domObj = new Element('form', {
             'method' : this.options.method,

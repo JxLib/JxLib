@@ -75,7 +75,9 @@ Jx.Grid = new Class({
          * Option: model
          * An instance of Jx.Store or one of its descendants
          */
-        model : null
+        model : null,
+        
+        deferRender: true
 
     },
     /**
@@ -95,12 +97,6 @@ Jx.Grid = new Class({
      */
     row : null,
     /**
-     * Property: plugins
-     * A hash containing all of the plugins setup for this grid 
-     * keyed by plugin name
-     */
-    plugins : new Hash(),
-    /**
      * Property: currentCell
      * holds an object indicating the current cell that the mouse is over
      */
@@ -111,19 +107,19 @@ Jx.Grid = new Class({
      * the name of the dynamic style sheet to use for manipulating styles
      */
     styleSheet: 'JxGridStyles',
+    /**
+     * Property: pluginNamespace
+     * the required variable for plugins
+     */
+    pluginNamespace: 'Grid',
 
     /**
      * Constructor: Jx.Grid
-     * 
-     * Parameters: 
-     * options - <Jx.Grid.Options> and <Jx.Widget.Options>
      */
-    initialize : function (options) {
-        this.parent(options);
-        
+    init : function () {
         //NOTE: I suggest using the base Widget class's .generateId()
-        //this.uniqueId = this.generateId('jxGrid_');
-        this.uniqueId = 'jxGrid_'+(new Date()).getTime();
+        this.uniqueId = this.generateId('jxGrid_');
+        //this.uniqueId = 'jxGrid_'+(new Date()).getTime();
 
         if ($defined(this.options.model)
                 && this.options.model instanceof Jx.Store) {
@@ -137,8 +133,9 @@ Jx.Grid = new Class({
             if (this.options.columns instanceof Jx.Columns) {
                 this.columns = this.options.columns;
             } else if (Jx.type(this.options.columns) === 'object') {
-                this.columns = new Jx.Columns(this.options.columns,
-                        this);
+                var opts = this.options.columns;
+                opts.grid = this;
+                this.columns = new Jx.Columns(opts);
             }
         }
 
@@ -147,10 +144,12 @@ Jx.Grid = new Class({
             if (this.options.row instanceof Jx.Row) {
                 this.row = this.options.row;
             } else if (Jx.type(this.options.row) === "object") {
-                this.row = new Jx.Row(this.options.row, this);
+                var opts = this.options.row;
+                opts.grid = this;
+                this.row = new Jx.Row(opts);
             }
         } else {
-            this.row = new Jx.Row({}, this);
+            this.row = new Jx.Row({grid: this});
         }
 
         //initialize the grid
@@ -223,21 +222,7 @@ Jx.Grid = new Class({
         this.colObj.addEvent('mousemove', this.onMouseMove
                 .bindWithEvent(this));
 
-        //initialize the plugins
-        if ($defined(this.options.plugins)
-                && Jx.type(this.options.plugins) === 'array') {
-            this.options.plugins.each(function (plugin) {
-                if (plugin instanceof Jx.Plugin) {
-                    plugin.attach(this);
-                    this.plugins.set(plugin.name, plugin);
-                } else if (Jx.type(plugin) === 'object') {
-                    //All grid plugins should be in Jx.Plugin.Grid namespace
-                    var p = new Jx.Plugin.Grid[plugin.name](plugin.options);
-                    p.attach(this);
-                    this.plugins.set(p.name, p);
-                }
-            }, this);
-        }
+        this.parent();
     },
 
     /**

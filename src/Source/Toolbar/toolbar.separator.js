@@ -17,17 +17,12 @@
  */
 Jx.Toolbar.Separator = new Class({
     Family: 'Jx.Toolbar.Separator',
-    Extends: Jx.Object,
+    Extends: Jx.Widget,
     /**
-     * Property: domObj
-     * {HTMLElement} The DOM element that goes in the <Jx.Toolbar>
-     */
-    domObj: null,
-    /**
-     * Constructor: Jx.Toolbar.Separator
+     * APIMethod: render
      * Create a new Jx.Toolbar.Separator
      */
-    initialize: function() {
+    render: function() {
         this.domObj = new Element('li', {'class':'jxToolItem'});
         this.domSpan = new Element('span', {'class':'jxBarSeparator'});
         this.domObj.appendChild(this.domSpan);

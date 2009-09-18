@@ -44,14 +44,11 @@ Jx.Store.Remote = new Class({
     saveCount : 0,
     continueSaving : true,
     /**
-     * Constructor: Jx.Store.Remote
+     * APIMethod: init
      * Creates the Remote Store.
-     * 
-     * Parameters: 
-     * options - <Jx.Store.Remote.Options> and <Jx.Store.Options>
      */
-    initialize : function (options) {
-        this.parent(options);
+    init : function () {
+        this.parent();
         this.addEvent('newrow', this.onNewRow.bind(this));
         this.addEvent('columnChanged', this.saveRow.bind(this));
     },

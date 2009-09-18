@@ -23,9 +23,5 @@ Jx.Field.Password = new Class({
         template: '<label class="jxInputLabel"></label><input class="jxInputPassword" type="password" /><span class="jxInputTag"></span>'
     },
     
-    type: 'Password',
-    
-    initialize: function (options) {
-        this.parent(options);
-    }
+    type: 'Password'
 });

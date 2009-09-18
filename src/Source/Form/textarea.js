@@ -60,14 +60,11 @@ Jx.Field.Textarea = new Class({
     errorClass: 'jxFormErrorTextarea',
     
     /**
-     * Constructor: Jx.Field.Textarea
+     * APIMethod: render
      * Creates the input.
-     * 
-     * Parameters:
-     * options - <Jx.Field.Textarea.Options> and <Jx.Field.Options>
-     */
-    initialize: function (options) {
-        this.parent(options);
+    */
+    render: function () {
+        this.parent();
                 
         if ($defined(this.options.rows)) {
             this.field.set('rows', this.options.rows);

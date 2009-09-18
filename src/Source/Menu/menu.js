@@ -23,11 +23,6 @@ Jx.Menu = new Class({
     Family: 'Jx.Menu',
     Extends: Jx.Widget,
     /**
-     * Property: domObj
-     * {HTMLElement} The HTML element containing the menu.
-     */
-    domObj : null,
-    /**
      * Property: button
      * {<Jx.Button>} The button that represents this menu in a toolbar and
      * opens the menu.
@@ -44,16 +39,15 @@ Jx.Menu = new Class({
      * {Array} the items in this menu
      */
     items : null,
+    
+    parameters: ['buttonOptions'],
+    
     /**
-     * Constructor: Jx.Menu
+     * APIMethod: render
      * Create a new instance of Jx.Menu.
-     *
-     * Parameters:
-     * options - see <Jx.Button.Options>.  If no options are provided then
-     * no button is created.
      */
-    initialize : function(options) {
-        this.setOptions(options);
+    render : function() {
+        this.parent();
         if (!Jx.Menu.Menus) {
             Jx.Menu.Menus = [];
         }
@@ -76,8 +70,8 @@ Jx.Menu = new Class({
         
         /* if options are passed, make a button inside an LI so the
            menu can be embedded inside a toolbar */
-        if (options) {
-            this.button = new Jx.Button($merge(options,{
+        if (this.options.buttonOptions) {
+            this.button = new Jx.Button($merge(this.options.buttonOptions,{
                 onClick:this.show.bind(this)
             }));
             this.button.domA.addClass('jxButtonMenu');

@@ -62,14 +62,11 @@ Jx.Fieldset = new Class({
     legend : null,
     
     /**
-     * Constructor: Jx.Fieldset
+     * APIMethod: render
      * Creates a fieldset.
-     * 
-     * Parameters: 
-     * options - <Jx.Fieldset.Options> and <Jx.Widget.Options>
      */
-    initialize : function (options) {
-        this.parent(options);
+    render : function () {
+        this.parent();
     
         this.id = this.options.id;
     

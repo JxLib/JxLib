@@ -108,18 +108,15 @@ Jx.Splitter = new Class({
          */
         onFinish: null
     },
+    
+    parameters: ['domObj','options'],
+    
     /**
-     * Constructor: Jx.Splitter
+     * APIMethod: init
      * Create a new instance of Jx.Splitter
-     *
-     * Parameters:
-     * domObj - {HTMLElement} the element or id of the element to split
-     * options - <Jx.Splitter.Options>
      */
-    initialize: function(domObj, options) {
-        this.setOptions(options);  
-        
-        this.domObj = document.id(domObj);
+    init: function() {
+        this.domObj = document.id(this.options.domObj);
         this.domObj.addClass('jxSplitContainer');
         var jxLayout = this.domObj.retrieve('jxLayout');
         if (jxLayout) {
@@ -140,8 +137,8 @@ Jx.Splitter = new Class({
             for (var i=0; i<nSplits; i++) {
                 var el;
                 if (this.options.elements && this.options.elements[i]) {
-                    if (options.elements[i].domObj) {
-                        el = options.elements[i].domObj;
+                    if (this.options.elements[i].domObj) {
+                        el = this.options.elements[i].domObj;
                     } else {
                         el = document.id(this.options.elements[i]);                        
                     }

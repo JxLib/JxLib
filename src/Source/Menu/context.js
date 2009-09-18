@@ -25,21 +25,19 @@ Jx.Menu.Context = new Class({
      * <Jx.Menu>
      */
     Extends: Jx.Menu,
+    
+    parameters: ['id'],
+    
     /**
-     * Constructor: Jx.ContextMenu
+     * APIMethod: render
      * create a new context menu
-     *
-     * Parameters:
-     * id - {HTMLElement} element or id to make this the context menu
-     * for.  The menu hooks the oncontextmenu event of the element
-     * and shows itself at the mouse position where the right-click
-     * happened.
      */
-    initialize : function(id) {
-        this.parent();
-        if (document.id(id)) {
-            document.id(id).addEvent('contextmenu', this.show.bindWithEvent(this));
+    render: function() {
+        this.id = document.id(this.options.id);
+        if (this.id) {
+            this.id.addEvent('contextmenu', this.show.bindWithEvent(this));
         }
+        this.parent();
     },
     /**
      * Method: show

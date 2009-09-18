@@ -29,25 +29,25 @@ Jx.Toolbar.Item = new Class( {
      * toolbar.
      */
     domObj: null,
+    
+    parameters: ['jxThing'],
+    
     /**
-     * Constructor: Jx.Toolbar.Item
+     * APIMethod: init
      * Create a new instance of Jx.Toolbar.Item.
-     *
-     * Parameters:
-     * jxThing - {Object} the thing to be contained.
      */
-    initialize : function( jxThing ) {
+    init : function() {
         this.al = [];
         this.domObj = new Element('li', {'class':'jxToolItem'});
-        if (jxThing) {
-            if (jxThing.domObj) {
-                this.domObj.appendChild(jxThing.domObj);
-                if (jxThing instanceof Jx.Button.Tab) {
+        if (this.options.jxThing) {
+            if (this.options.jxThing.domObj) {
+                this.domObj.appendChild(this.options.jxThing.domObj);
+                if (this.options.jxThing instanceof Jx.Button.Tab) {
                     this.domObj.addClass('jxTabItem');
                 }
             } else {
-                this.domObj.appendChild(jxThing);
-                if (jxThing.hasClass('jxTab')) {
+                this.domObj.appendChild(this.options.jxThing);
+                if (this.options.jxThing.hasClass('jxTab')) {
                     this.domObj.addClass('jxTabItem');
                 }
             }

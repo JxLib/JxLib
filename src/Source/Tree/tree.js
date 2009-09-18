@@ -21,14 +21,11 @@ Jx.Tree = new Class({
     Family: 'Jx.Tree',
     Extends: Jx.TreeFolder,
     /**
-     * Constructor: Jx.Tree
+     * APIMethod: render
      * Create a new instance of Jx.Tree
-     *
-     * Parameters:
-     * options: options for <Jx.Addable>
      */
-    initialize : function( options ) {
-        this.parent(options);
+    render : function() {
+        this.parent();
         this.subDomObj = new Element('ul',{
             'class':'jxTreeRoot'
         });

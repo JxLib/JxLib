@@ -61,14 +61,11 @@ Jx.Field.Select = new Class({
     type: 'Select',
     
     /**
-     * Constructor: Jx.Field.Select
+     * APIMethod: render
      * Creates a select field.
-     * 
-     * Parameters:
-     * options - <Jx.Field.Select.Options> and <Jx.Field.Options>
      */
-    initialize: function (options) {
-        this.parent(options);
+    render: function () {
+        this.parent();
         
         if ($defined(this.options.optGroups)) {
             this.options.optGroups.each(function(group){

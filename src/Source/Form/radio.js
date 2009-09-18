@@ -45,14 +45,11 @@ Jx.Field.Radio = new Class({
     type: 'Radio',
     
     /**
-     * Constructor: Jx.Field.Radio
+     * APIMethod: render
      * Creates a radiobutton input field.
-     * 
-     * Params:
-     * options - <Jx.Field.Radio.Options> and <Jx.Field.Options>
      */
-    initialize: function (options) {
-        this.parent(options);
+    render: function () {
+        this.parent();
         
         if ($defined(this.options.checked) && this.options.checked) {
             if (Browser.Engine.trident) {

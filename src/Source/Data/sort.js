@@ -59,25 +59,21 @@ Jx.Sort = new Class({
      * The column to sort by
      */
     col : null,
+    
+    parameters: ['data','fn','col','options'],
 
     /**
-     * Constructor: Jx.Sort Initializes the class
-     * 
-     * Parameters: 
-     * arr - the array to sort 
-     * fn - the function to use in sorting
-     * col - the column to sort by 
-     * options - <Jx.Sort.Options> 
+     * APIMethod: init
      */
-    initialize : function (arr, fn, col, options) {
-        this.parent(options);
+    init : function () {
+        this.parent();
         if (this.options.timeIt) {
             this.addEvent('start', this.startTimer.bind(this));
             this.addEvent('stop', this.stopTimer.bind(this));
         }
-        this.data = arr;
-        this.comparator = fn;
-        this.col = col;
+        this.data = this.options.data;
+        this.comparator = this.options.fn;
+        this.col = this.options.col;
     },
 
     /**

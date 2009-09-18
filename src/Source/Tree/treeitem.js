@@ -72,14 +72,11 @@ Jx.TreeItem = new Class ({
         imageClass: ''
     },
     /**
-     * Constructor: Jx.TreeItem
+     * APIMethod: render
      * Create a new instance of Jx.TreeItem with the associated options
-     *
-     * Parameters:
-     * options - <Jx.TreeItem.Options>
      */
-    initialize : function( options ) {
-        this.setOptions(options);
+    render : function() {
+        this.parent();
 
         this.domObj = new Element('li', {'class':'jxTree'+this.options.type});
         if (this.options.id) {

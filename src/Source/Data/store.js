@@ -110,17 +110,6 @@ Jx.Store = new Class({
     id : null,
 
     /**
-     * Constructor: Jx.Store 
-     * Initializes this class
-     * 
-     * Parameters: 
-     * options - <Jx.Store.Options>
-     */
-    initialize : function (options) {
-        this.parent(options);
-    },
-
-    /**
      * APIMethod: load 
      * Loads data into the store.
      * 

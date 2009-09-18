@@ -36,7 +36,7 @@ Jx.Panel = new Class({
     },
     
      options: {
-        position: 'absolute',
+        position: null,
         type: 'Panel',
         /* Option: id
          * String, an id to assign to the panel's container
@@ -110,18 +110,14 @@ Jx.Panel = new Class({
     },
     
     /** 
-     * Constructor: Jx.Panel
+     * APIMethod: render
      * Initialize a new Jx.Panel instance
-     *
-     * Options: <Jx.Panel.Options>, <Jx.ContentLoader.Options>
      */
-    initialize : function(options){
-        this.setOptions(options);
-        this.toolbars = options ? options.toolbars || [] : [];
+    render : function(){
+        this.parent();
+        this.toolbars = this.options ? this.options.toolbars || [] : [];
         
-        if ($defined(this.options.height) && !$defined(options.position)) {
-            this.options.position = 'relative';
-        }
+        this.options.position = ($defined(this.options.height) && !$defined(this.options.position)) ? 'relative' : 'absolute';
 
         /* set up the title object */
         this.title = new Element('div', {
