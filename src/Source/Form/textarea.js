@@ -46,7 +46,7 @@ Jx.Field.Textarea = new Class({
          * Option: template
          * the template used to render this field
          */
-        template: '<label class="jxInputLabel"></label><textarea class="jxInputTextarea"></textarea><span class="jxInputTag"></span>'
+        template: '<label class="jxInputLabel"></label><textarea class="jxInputTextarea" name="{name}"></textarea><span class="jxInputTag"></span>'
     },
     /**
      * Property: type

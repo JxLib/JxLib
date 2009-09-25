@@ -24,18 +24,13 @@ Jx.Field.Radio = new Class({
          * Option: template
          * The template used to create this field
          */
-        template: '<input class="jxInputRadio" type="radio" /><label class="jxInputLabel"></label><span class="jxInputTag"></span>',
+        template: '<input class="jxInputRadio" type="radio" name="{name}"/><label class="jxInputLabel"></label><span class="jxInputTag"></span>',
         /**
          * Option: checked
          * whether this radio button is checked or not
          */
         checked: false,
-        /**
-         * Option: clickableLabel
-         * Determines whether clicking the label also clicks the button
-         */
-        clickableLabel: true,
-        
+
         labelSeparator: ''
     },
     /**
@@ -53,21 +48,27 @@ Jx.Field.Radio = new Class({
         
         if ($defined(this.options.checked) && this.options.checked) {
             if (Browser.Engine.trident) {
-                this.field.setStyle('display','none');
-                this.field.inject(document.body);
-                this.field.set("checked","checked");
+                var parent = this.field.getParent();
+                var sibling;
+                if (parent) {
+                    sibling = this.field.getPrevious();
+                }
+                this.field.setStyle('visibility','hidden');
+                this.field.inject($(document.body));
+                this.field.checked = true;
+                this.field.defaultChecked = true;
                 this.field.dispose();
+                this.field.setStyle('visibility','visible');
+                if (sibling) {
+                    this.field.inject(sibling, 'after');
+                } else if (parent) {
+                    this.field.inject(parent, 'top');
+                }
             } else {
                 this.field.set("checked", "checked");
+                this.field.set("defaultChecked", "checked");
             }
         }
-        
-        if (this.options.clickableLabel) {
-            this.label.addEvent('click', (function () {
-                this.field.click();
-            }).bind(this));
-        }
-        
     },
 
     /**

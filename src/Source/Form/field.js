@@ -205,8 +205,10 @@ Jx.Field = new Class({
 
         var field = 'jxInput' + this.type;
         this.classes.push(field);
-        var els = this.processTemplate(this.options.template,
-                this.classes, this.domObj);
+        
+        var name = $defined(this.options.name) ? this.options.name : '';
+        var template = this.options.template.substitute({name:name});
+        var els = this.processTemplate(template, this.classes, this.domObj);
 
         // LABEL
         if (els.has('jxInputLabel')) {
@@ -241,10 +243,6 @@ Jx.Field = new Class({
 
             if ($defined(this.options.value)) {
                 this.field.set('value', this.options.value);
-            }
-
-            if ($defined(this.options.name)) {
-                this.field.set('name', this.options.name);
             }
 
             if ($defined(this.options.id)) {
