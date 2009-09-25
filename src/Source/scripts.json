@@ -32,17 +32,17 @@
     	
     	"store": {
     		"deps" : ["object","sort"],
-    		"desc" : ""
+    		"desc" : "An implementation of a basic data store."
     	},
     	
     	"remote": {
     		"deps": ["store","Request.JSON"],
-    		"desc": ""
+    		"desc": "A store with the ability to retrieve and save data to a remote server."
     	},
     	
     	"compare": {
     		"deps": ["object","Date.Extras"],
-    		"desc": ""
+    		"desc": "Class that provides functions for comparing various data types. Used by the Jx.Sort class and it's descendants"
     	},
     	
     	"sort": {
@@ -146,51 +146,53 @@
 
         "columns": {
             "deps": ["object","column"],
-            "desc": ""
+            "desc": "A container for defining and holding individual columns"
         },
         
         "column": {
             "deps": ["object"],
-            "desc": ""
+            "desc": "A representation of a single grid column"
         },
         
         "row": {
             "deps": ["object"],
-            "desc": ""
+            "desc": "Holds information related to display of rows in the grid."
         }
 
     },
     
     "Plugins" : {
         
+        "desc": "This group contains all of the plugins used throughout the framework. You can identify what plugins go with what widgets by the name. For example 'grid.selector' will work with the Jx.Grid class.",
+
         "plugin": {
             "deps": ["object"],
-            "desc": ""
+            "desc": "Base class for all plugins"
         },
         
         "plugin.grid": {
             "deps": ["plugin"],
-            "desc": ""
+            "desc": "Namespace for grid plugins"
         },
         
         "grid.selector": {
             "deps": ["plugin.grid"],
-            "desc": ""
+            "desc": "Allows selecting rows, columns, and cells in grids"
         },
         
         "grid.prelighter": {
             "deps": ["plugin.grid"],
-            "desc": ""
+            "desc": "Highlights rows, columns, cells, and headers in grids"
         },
         
         "grid.sorter": {
             "deps": ["plugin.grid"],
-            "desc" : ""
+            "desc" : "Enables column sorting in grids"
         },
 
         "grid.resize": {
             "deps": ["plugin.grid"],
-            "desc" : ""
+            "desc" : "Enables column resizing in grids"
         }
         
     },
@@ -318,101 +320,105 @@
         "desc": "This group contains extra components.",
         
         "colorpalette": {
-            "deps": ["common"],
+            "deps": ["widget"],
             "desc": "A Jx.ColorPalette presents a user interface for selecting colors.  This is typically combined with a Jx.Button.Color which embeds the color palette in a flyout."
         },
         
         "tooltip": {
             "deps": ["widget"],
-            "desc": ""
+            "desc": "These are very simple tooltips that are designed to be instantiated in javascript and directly attached to the object that they are the tip for."
             }
         
     },
     
     "Formatter": {
+    
+        "desc": "This group contains classes used for formatting display output.",
         
         "formatter": {
             "deps": ["object"],
-            "desc": ""
+            "desc": "Base formatter object"
         },
         
         "currency": {
             "deps": ["number"],
-            "desc": ""
+            "desc": "Formats input as currency. Currently only US currency is supported"
         },
         "number": {
             "deps": ["formatter"],
-            "desc": ""
+            "desc": "Formats numbers including negative and floats"
         },
         "date": {
             "deps": ["Date.Extras","formatter"],
-            "desc": ""
+            "desc": "Formats dates using the mootools-more Date extensions"
         },
         "boolean": {
             "deps": ["formatter"],
-            "desc": ""
+            "desc": "Formats boolean input"
         },
         "phone": {
             "deps": ["formatter"],
-            "desc": ""
+            "desc": "Formats phone numbers in US format including area code"
         }
 
     },
     
     "Form": {
         
+        "desc": "This group contains classes used for creating and manipulating forms and other inputs in script.",
+        
         "form": {
             "deps": ["widget", "String.QueryString"],
-            "desc": ""
+            "desc": "Represents a HTML Form"
         },
         
         "fieldset": {
             "deps": ["widget"],
-            "desc": ""
+            "desc": "Used to create fieldsets in Forms"
         },
         
         "field": {
             "deps": ["widget"],
-            "desc": ""
+            "desc": "Base class for all inputs"
         },
         
         "checkbox": {
             "deps": ["field"],
-            "desc": ""
+            "desc": "Represents a checkbox input"
         },
         
         "hidden": {
             "deps": ["field"],
-            "desc": ""
+            "desc": "Represents a hidden input"
         },
         
         "radio": {
             "deps": ["field"],
-            "desc": ""
+            "desc": "Represents a radio button input"
         },
         
         "text": {
             "deps": ["field"],
             "opt": ["OverText"],
-            "desc": ""
+            "desc": "Represents a text input"
         },
         
         "select": {
             "deps": ["field"],
-            "desc": ""
+            "desc": "Represents a select, or drop down, input"
         },
         
         "textarea": {
             "deps": ["field"],
-            "desc": ""
+            "desc": "Represents a textarea input"
         },
         "jxbutton": {
             "deps": ["field", "button"],
-            "desc": ""
+            "desc": "Represents a button input"
         },
         "password": {
             "deps": ["field"],
-            "desc": ""
+            "desc": "Represents a password input"
         }
     }
 
