@@ -220,11 +220,9 @@ Jx.Field = new Class({
                 this.label.set('html', this.options.label
                         + this.options.labelSeparator);
             }
-            if ($defined(this.options.id)) {
-                this.label.set('for', this.options.id);
-            } else if ($defined(this.options.name)) {
-                this.label.set('for', this.options.name);
-            }
+            
+            this.label.set('for', this.id);
+            
             if (this.options.required) {
                 var em = new Element('em', {
                     'html' : this.options.requiredText,
@@ -245,9 +243,7 @@ Jx.Field = new Class({
                 this.field.set('value', this.options.value);
             }
 
-            if ($defined(this.options.id)) {
-                this.field.set('id', this.options.id);
-            }
+            this.field.set('id', this.id);
 
             if ($defined(this.options.readonly)
                     && this.options.readonly) {
