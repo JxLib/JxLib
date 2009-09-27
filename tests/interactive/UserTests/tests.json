@@ -15,5 +15,9 @@
     },
     "Form": {
         "form": ["fields","fieldset","form"]
+    },
+    "Extras": {
+        "progressbar": ["all"],
+        "slider": ["all"]
     }
 }

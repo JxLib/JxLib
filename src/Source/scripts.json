@@ -327,7 +327,17 @@
         "tooltip": {
             "deps": ["widget"],
             "desc": "These are very simple tooltips that are designed to be instantiated in javascript and directly attached to the object that they are the tip for."
-            }
+        },
+        
+        "progressbar": {
+            "deps": ["widget","Fx.Tween"],
+            "desc": "A css-based progress bar."
+        },
+        
+        "slider": {
+            "deps": ["widget", "Slider"],
+            "desc": "A wrapper for mootools' slider class o=to make it more Jx Friendly."
+        }
         
     },
     

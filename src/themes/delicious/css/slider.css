@@ -1,0 +1,18 @@
+@CHARSET "ISO-8859-1";
+
+/**
+ * Slider classes
+ */
+.jxSliderContainer {
+    width: 100%;
+    height: 10px;
+    border: 1px solid black;
+}
+
+.jxSliderKnob {
+    width: 10px;
+    height: 10px;
+    background-color: black;
+    cursor: pointer;
+}
+

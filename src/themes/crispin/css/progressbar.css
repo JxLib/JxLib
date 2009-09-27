@@ -1,0 +1,50 @@
+@CHARSET "ISO-8859-1";
+
+
+/**
+ * progress bar classes
+ */
+.jxProgressBar-container {
+    width: 100%;
+    display: block;
+    clear: both;
+    
+}
+
+.jxProgressBar-message {
+    color: black;
+}
+
+.jxProgressBar-container .jxProgressBar {
+    width: 100%;
+    clear: both;
+    border-top: none;
+}
+
+.jxProgressBar-container .jxProgressBar .jxProgressBar-outline {
+    border: 1px solid #336600;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 10;
+}
+
+.jxProgressBar-container .jxProgressBar .jxProgressBar-fill {
+    background-color: #99cc66;
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    z-index: 20;
+}
+
+.jxProgressBar-container .jxProgressBar .jxProgressBar-text {
+    color: #336600;
+    margin: 0px;
+    padding: 2px;
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    width: auto;
+    z-index: 30;
+    border: none;
+}
