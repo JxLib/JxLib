@@ -191,6 +191,11 @@ Jx.Field = new Class({
         this.domObj = new Element('span', {
             'class' : 'jxInputContainer'
         });
+        
+        if ($defined(this.type)) {
+            this.domObj.addClass('jxInputContainer'+this.type);
+        }
+        
         if ($defined(this.options.containerClass)) {
             this.domObj.addClass(this.options.containerClass);
         }
