@@ -1,12 +1,12 @@
 // $Id$
 /**
- * Class: Jx.TreeItem 
+ * Class: Jx.TreeItem
  *
  * Extends: <Jx.Widget>
  *
  * An item in a tree.  An item is a leaf node that has no children.
  *
- * Jx.TreeItem supports selection via the click event.  The application 
+ * Jx.TreeItem supports selection via the click event.  The application
  * is responsible for changing the style of the selected item in the tree
  * and for tracking selection if that is important.
  *
@@ -21,9 +21,9 @@
  * Events - MooTools Class.Extras
  * Options - MooTools Class.Extras
  *
- * License: 
+ * License:
  * Copyright (c) 2008, DM Solutions Group Inc.
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.TreeItem = new Class ({
@@ -43,7 +43,7 @@ Jx.TreeItem = new Class ({
     options: {
         /* Option: label
          * {String} the label to display for the TreeItem
-         */        
+         */
         label: '',
         /* Option: data
          * {Object} any arbitrary data to be associated with the TreeItem
@@ -55,11 +55,10 @@ Jx.TreeItem = new Class ({
          */
         contextMenu: null,
         /* Option: enabled
-         * {Boolean} the initial state of the TreeItem.  If the 
+         * {Boolean} the initial state of the TreeItem.  If the
          * TreeItem is not enabled, it cannot be clicked.
          */
         enabled: true,
-        type: 'Item',
         /* Option: image
          * {String} URL to an image to use as the icon next to the
          * label of this TreeItem
@@ -69,105 +68,94 @@ Jx.TreeItem = new Class ({
          * {String} CSS class to apply to the image, useful for using CSS
          * sprites
          */
-        imageClass: ''
+        imageClass: '',
+        template: '<li class="jxTreeContainer jxTreeLeaf"><img class="jxTreeImage" src="'+Jx.aPixel.src+'" alt="" title=""><a class="jxTreeItem" href="javascript:void(0);"><img class="jxTreeIcon" src="'+Jx.aPixel.src+'" alt="" title=""><span class="jxTreeLabel"></span></a></li>'
     },
+    classes: ['jxTreeContainer', 'jxTreeImage', 'jxTreeIcon','jxTreeLabel'],
+    
     /**
      * APIMethod: render
      * Create a new instance of Jx.TreeItem with the associated options
      */
     render : function() {
         this.parent();
+        this.elements = this.processTemplate(this.options.template, this.classes);
 
-        this.domObj = new Element('li', {'class':'jxTree'+this.options.type});
-        if (this.options.id) {
-            this.domObj.id = this.options.id;
-        }
-      
-        this.domNode = new Element('img',{
-            'class': 'jxTreeImage', 
-            src: Jx.aPixel.src,
-            alt: '',
-            title: ''
-        });
-        this.domObj.appendChild(this.domNode);
-        
-        this.domLabel = (this.options.draw) ? 
-            this.options.draw.apply(this) : 
-            this.draw();
+        this.domObj = this.elements.get('jxTreeContainer');
+        var domA = this.elements.get('jxTreeItem');
+        var domImg = this.elements.get('jxTreeIcon');
+        var domLabel = this.elements.get('jxTreeLabel');
 
-        this.domObj.appendChild(this.domLabel);
-        this.domObj.store('jxTreeItem', this);
-        
-        if (!this.options.enabled) {
-            this.domObj.addClass('jxDisabled');
+        if (this.domObj) {
+            if (this.options.id) {
+                this.domObj.id = this.options.id;
+            }
+            this.domObj.store('jxTreeItem', this);
+            if (!this.options.enabled) {
+                this.domObj.addClass('jxDisabled');
+            }
         }
-    },
-    draw: function() {
-        var domImg = new Element('img',{
-            'class':'jxTreeIcon', 
-            src: Jx.aPixel.src,
-            alt: '',
-            title: ''
-        });
-        if (this.options.image) {
+
+        if (this.options.image && domImg) {
             domImg.setStyle('backgroundImage', 'url('+this.options.image+')');
+            if (this.options.imageClass) {
+                domImg.addClass(this.options.imageClass);
+            }
+            
         }
-        if (this.options.imageClass) {
-            domImg.addClass(this.options.imageClass);
+
+        if (this.options.label && domLabel) {
+            domLabel.set('html',this.options.label);
         }
-        // the clickable part of the button
-        var hasFocus;
-        var mouseDown;
-        
-        var domA = new Element('a',{
-            href:'javascript:void(0)',
-            html: this.options.label
-        });
-        domA.addEvents({
-            click: this.selected.bind(this),
-            dblclick: this.selected.bind(this),
-            drag: function(e) {e.stop();},
-            contextmenu: function(e) { e.stop(); },
-            mousedown: (function(e) {
-               domA.addClass('jxTreeItemPressed');
-               hasFocus = true;
-               mouseDown = true;
-               domA.focus();
-               if (e.rightClick && this.options.contextMenu) {
-                   this.options.contextMenu.show(e);
-               }
-            }).bind(this),
-            mouseup: function(e) {
-                domA.removeClass('jxTreeItemPressed');
-                mouseDown = false;
-            },
-            mouseleave: function(e) {
-                domA.removeClass('jxTreeItemPressed');
-            },
-            mouseenter: function(e) {
-                if (hasFocus && mouseDown) {
-                    domA.addClass('jxTreeItemPressed');
-                }
-            },
-            keydown: function(e) {
-                if (e.key == 'enter') {
-                    domA.addClass('jxTreeItemPressed');
-                }
-            },
-            keyup: function(e) {
-                if (e.key == 'enter') {
+
+        if (domA) {
+            var hasFocus;
+            var mouseDown;
+            domA.addEvents({
+                click: this.selected.bind(this),
+                dblclick: this.selected.bind(this),
+                drag: function(e) { e.stop(); },
+                contextmenu: function(e) { e.stop(); },
+                mousedown: (function(e) {
+                   domA.addClass('jxTreeItemPressed');
+                   hasFocus = true;
+                   mouseDown = true;
+                   domA.focus();
+                   if (e.rightClick && this.options.contextMenu) {
+                       this.options.contextMenu.show(e);
+                   }
+                }).bind(this),
+                mouseup: function(e) {
                     domA.removeClass('jxTreeItemPressed');
-                }
-            },
-            blur: function() { hasFocus = false; }
-        });
-        domA.appendChild(domImg);
-        if (typeof Drag != 'undefined') {
-            new Drag(domA, {
-                onStart: function() {this.stop();}
+                    mouseDown = false;
+                },
+                mouseleave: function(e) {
+                    domA.removeClass('jxTreeItemPressed');
+                },
+                mouseenter: function(e) {
+                    if (hasFocus && mouseDown) {
+                        domA.addClass('jxTreeItemPressed');
+                    }
+                },
+                keydown: function(e) {
+                    if (e.key == 'enter') {
+                        domA.addClass('jxTreeItemPressed');
+                    }
+                },
+                keyup: function(e) {
+                    if (e.key == 'enter') {
+                        domA.removeClass('jxTreeItemPressed');
+                    }
+                },
+                blur: function() { hasFocus = false; }
             });
+            domA.appendChild(domImg);
+            if (typeof Drag != 'undefined') {
+                new Drag(domA, {
+                    onStart: function() {this.stop();}
+                });
+            }
         }
-        return domA;
     },
     /**
      * Method: finalize
@@ -178,11 +166,10 @@ Jx.TreeItem = new Class ({
      * Method: finalizeItem
      * Clean up the TreeItem and remove all DOM references
      */
-    finalizeItem: function() {  
+    finalizeItem: function() {
         if (!this.domObj) {
             return;
         }
-        //this.domA.removeEvents();
         this.options = null;
         this.domObj.dispose();
         this.domObj = null;
@@ -191,8 +178,8 @@ Jx.TreeItem = new Class ({
     /**
      * Method: clone
      * Create a clone of the TreeItem
-     * 
-     * Returns: 
+     *
+     * Returns:
      * {<Jx.TreeItem>} a copy of the TreeItem
      */
     clone : function() {
@@ -207,14 +194,12 @@ Jx.TreeItem = new Class ({
      * shouldDescend - {Boolean} propagate changes to child nodes?
      */
     update : function(shouldDescend) {
-        var isLast = (arguments.length > 1) ? arguments[1] : 
+        var isLast = (arguments.length > 1) ? arguments[1] :
                      (this.owner && this.owner.isLastNode(this));
         if (isLast) {
-            this.domObj.removeClass('jxTree'+this.options.type);
-            this.domObj.addClass('jxTree'+this.options.type+'Last');
+            this.domObj.addClass('jxTreeLeafLast');
         } else {
-            this.domObj.removeClass('jxTree'+this.options.type+'Last');
-            this.domObj.addClass('jxTree'+this.options.type);
+            this.domObj.removeClass('jxTreeLeafLast');
         }
     },
     /**
@@ -232,13 +217,13 @@ Jx.TreeItem = new Class ({
      * Method: getName
      * Get the label associated with a TreeItem
      *
-     * Returns: 
+     * Returns:
      * {String} the name
      */
     getName : function() { return this.options.label; },
     /**
      * Method: propertyChanged
-     * A property of an object has changed, synchronize the state of the 
+     * A property of an object has changed, synchronize the state of the
      * TreeItem with the state of the object
      *
      * Parameters:

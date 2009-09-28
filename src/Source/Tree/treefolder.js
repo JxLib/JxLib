@@ -38,26 +38,32 @@ Jx.TreeFolder = new Class({
         /* Option: open
          * is the folder open?  false by default.
          */
-        open : false
+        open : false,
+        template: '<li class="jxTreeContainer jxTreeBranch"><img class="jxTreeImage" src="'+Jx.aPixel.src+'" alt="" title=""><a class="jxTreeItem" href="javascript:void(0);"><img class="jxTreeIcon" src="'+Jx.aPixel.src+'" alt="" title=""><span class="jxTreeLabel"></span></a><ul class="jxTree"></ul></li>'
     },
+    classes: ['jxTreeContainer','jxTreeImage','jxTreeItem','jxTreeIcon','jxTreeLabel','jxTree'],
     /**
      * APIMethod: render
      * Create a new instance of Jx.TreeFolder
      */
     render : function() {
-        this.options = $merge(this.options,{type:'Branch'});
         this.parent();
 
-        document.id(this.domNode).addEvent('click', this.clicked.bindWithEvent(this));
-        this.addEvent('click', this.clicked.bindWithEvent(this));
+        var node = this.elements.get('jxTreeImage');
+        if (node) {
+            document.id(node).addEvent('click', this.clicked.bindWithEvent(this));
+            this.addEvent('click', this.clicked.bindWithEvent(this));
+        }
                 
         this.nodes = [];
-        this.subDomObj = new Element('ul', {'class':'jxTree'});
-        this.domObj.appendChild(this.subDomObj);
-        if (this.options.open) {
-            this.expand();
-        } else {
-            this.collapse();
+        this.subDomObj = this.elements.get('jxTree');
+        if (this.subDomObj) {
+            this.subDomObj.inject(this.domObj);
+            if (this.options.open) {
+                this.expand();
+            } else {
+                this.collapse();
+            }
         }
     },
     /**
@@ -131,15 +137,17 @@ Jx.TreeFolder = new Class({
             isLast = (this.owner && this.owner.isLastNode(this));
         }
         
-        var c = 'jxTree'+this.options.type;
+        ['jxTreeBranchOpen','jxTreeBranchLastOpen','jxTreeBranchClosed','jxTreeBranchLastClosed'].each(function(c){this.removeClass(c);}.bind(this.domObj));
+        var c = 'jxTreeBranch';
         c += isLast ? 'Last' : '';
         c += this.options.open ? 'Open' : 'Closed';
-        this.domObj.className = c;
+        
+        this.domObj.addClass(c);
         
         if (isLast) {
-            this.subDomObj.className = 'jxTree';
+            this.subDomObj.removeClass('jxTreeNest');
         } else {
-            this.subDomObj.className = 'jxTree jxTreeNest';
+            this.subDomObj.addClass('jxTreeNest');
         }
         
         if (this.nodes && shouldDescend) {
@@ -302,25 +310,26 @@ Jx.TreeFolder = new Class({
      */
     findChild : function(path) {
         //path is empty - we are asking for this node
-        if (path.length == 0)
+        if (path.length == 0) {
             return this;
-        
+        }
+        var i;
         //path has only one thing in it - looking for something in this folder
-        if (path.length == 1)
-        {
-            for (var i=0; i<this.nodes.length; i++)
-            {
-                if (this.nodes[i].getName() == path[0])
+        if (path.length == 1) {
+            for (i=0; i<this.nodes.length; i++) {
+                if (this.nodes[i].getName() == path[0]) {
                     return this.nodes[i];
+                }
             }
             return null;
         }
         //path has more than one thing in it, find a folder and descend into it    
-        var childName = path.shift();
-        for (var i=0; i<this.nodes.length; i++)
+        var name = path.shift();
+        for (i=0; i<this.nodes.length; i++)
         {
-            if (this.nodes[i].getName() == childName && this.nodes[i].findChild)
+            if (this.nodes[i].getName() == name && this.nodes[i].findChild) {
                 return this.nodes[i].findChild(path);
+            }
         }
         return null;
     }

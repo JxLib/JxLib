@@ -50,13 +50,13 @@ Group: Jx  {
 
    Group: Button  {
 
-      File: Button  (no auto-title, Button/button.js)
       File: Button.Tab  (Button/tab.js)
       File: Button.Flyout  (Button/flyout.js)
       File: Button.Color  (Button/color.js)
       File: Button.Multi  (Button/multi.js)
       File: Button.Combo  (Button/combo.js)
       File: ButtonSet  (Button/set.js)
+      File: Button  (Button/button.js)
       }  # Group: Button
 
    Group: Base  {
@@ -74,14 +74,11 @@ Group: Jx  {
       File: Column  (Grid/column.js)
       File: Columns  (Grid/columns.js)
       File: Grid  (Grid/grid.js)
-      File: Grid.Plugin  (Grid/plugin.js)
-      File: Plugin.Prelighter  (Grid/plugin.prelighter.js)
-      File: Plugin.Resize  (Grid/plugin.resize.js)
-      File: Plugin.Selector  (Grid/plugin.selector.js)
-      File: Plugin.Sorter  (Grid/plugin.sorter.js)
       File: Row  (Grid/row.js)
       }  # Group: Grid
 
+   File: Progressbar  (Extras/progressbar.js)
+   File: Slider  (Extras/slider.js)
    File: TabBox  (Tab/tabbox.js)
    File: TabSet  (Tab/tabset.js)
 
@@ -154,6 +151,7 @@ Group: Form  {
    File: Field.Button  (Form/jxbutton.js)
    File: Field.Check  (Form/checkbox.js)
    File: Field.Hidden  (Form/hidden.js)
+   File: Field.Password  (Form/password.js)
    File: Field.Radio  (Form/radio.js)
    File: Field.Select  (Form/select.js)
    File: Field.Text  (Form/text.js)
@@ -161,6 +159,13 @@ Group: Form  {
    File: Fieldset  (Form/fieldset.js)
    File: Form  (Form/form.js)
    }  # Group: Form
+
+File: Grid.Plugin  (Plugins/plugin.js)
+File: Plugin.Grid  (Plugins/plugin.grid.js)
+File: Plugin.Prelighter  (Plugins/grid.prelighter.js)
+File: Plugin.Resize  (Plugins/grid.resize.js)
+File: Plugin.Selector  (Plugins/grid.selector.js)
+File: Plugin.Sorter  (Plugins/grid.sorter.js)
 
 Group: Index  {
 

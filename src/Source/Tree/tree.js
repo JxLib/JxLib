@@ -20,15 +20,17 @@
 Jx.Tree = new Class({
     Family: 'Jx.Tree',
     Extends: Jx.TreeFolder,
+    options: {
+        template: '<ul class="jxTreeRoot"></ul>'
+    },
+    classes: ['jxTreeRoot'],
     /**
      * APIMethod: render
      * Create a new instance of Jx.Tree
      */
     render : function() {
         this.parent();
-        this.subDomObj = new Element('ul',{
-            'class':'jxTreeRoot'
-        });
+        this.subDomObj = this.elements.get('jxTreeRoot');
         
         this.nodes = [];
         this.isOpen = true;

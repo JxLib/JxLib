@@ -1987,7 +1987,25 @@ ul.jxSubMenu span.jxMenuSeparator {
     width: auto;
     z-index: 30;
     border: none;
-}/**
+}@CHARSET "ISO-8859-1";
+
+/**
+ * Slider classes
+ */
+.jxSliderContainer {
+    width: 100%;
+    height: 10px;
+    border: 1px solid black;
+}
+
+.jxSliderKnob {
+    width: 10px;
+    height: 10px;
+    background-color: black;
+    cursor: pointer;
+}
+
+/**
  * @project         Jx
  * @revision        $Id: splitter.css 294 2009-04-02 12:26:26Z pagameba $
  * @author          Fred Warnock (fwarnock@dmsolutions.ca)
@@ -2774,7 +2792,7 @@ li.jxToolItem  span.jxBarSeparator {
 
 /**
  * @project         Jx
- * @revision        $Id: tree.css 308 2009-04-03 15:02:22Z fred.warnock $
+ * @revision        $Id: tree.css 535 2009-09-28 18:47:18Z fred.warnock $
  * @author          Fred Warnock (fwarnock@dmsolutions.ca)
  * @copyright       (c) 2006 DM Solutions Group Inc.
  */
@@ -2789,7 +2807,7 @@ li.jxToolItem  span.jxBarSeparator {
 */
 
 
-.jxTree, 
+.jxTree,
 .jxTreeRoot {
   /* relative positioning is required for IE to fix the peek-a-boo bug */
   position:relative;
@@ -2809,8 +2827,7 @@ li.jxToolItem  span.jxBarSeparator {
 
 /* Node Classes */
 
-.jxTree li, 
-.jxTreeRoot li {
+li.jxTreeContainer {
   /* relative positioning is required for IE to fix the peek-a-boo bug */
   position:relative;
   display: block;
@@ -2827,12 +2844,11 @@ li.jxToolItem  span.jxBarSeparator {
   -khtml-user-select: none;
 }
 
-.jxTree li {
+.jxTree li.jxTreeContainer {
   margin-left: 16px;
 }
 
-.jxTree a, 
-.jxTreeRoot a {
+a.jxTreeItem {
   position: relative;
   display: block;
   cursor: pointer;
@@ -2857,16 +2873,14 @@ li.jxToolItem  span.jxBarSeparator {
 }
 
 
-.jxTree a:focus,
-.jxTreeRoot a:focus {
+a.jxTreeItem:focus {
   border-left: 1px dotted #75ADFF;
   border-right: 1px dotted #75ADFF;
   margin: 0px 0px 0px 14px;
   background-position: left -72px;
 }
 
-.jxTree a:hover, 
-.jxTreeRoot a:hover {
+a.jxTreeItem:hover {
   /*border: 1px solid #C5E0FF;*/
   border-left: 1px solid #C5E0FF;
   border-right: 1px solid #C5E0FF;
@@ -2875,10 +2889,8 @@ li.jxToolItem  span.jxBarSeparator {
   background-position: left -24px;
 }
 
-.jxTree a.jxTreeItemPressed,
-.jxTree a.jxTreeItemPressed:hover,
-.jxTreeRoot a.jxTreeItemPressed,
-.jxTreeRoot a.jxTreeItemPressed:hover {
+a.jxTreeItemPressed,
+a.jxTreeItemPressed:hover {
   border-left: 1px solid #C5E0FF;
   border-right: 1px solid #C5E0FF;
   margin: 0px 0px 0px 14px;
@@ -2886,19 +2898,15 @@ li.jxToolItem  span.jxBarSeparator {
   background-position: left -48px;
 }
 
-.jxTree .jxDisabled a,
-.jxTreeRoot.jxDisabled a {
+.jxDisabled a.jxTreeItem,
+.jxDisabled a.jxTreeItem {
   cursor: default;
 }
-
-.jxTree .jxDisabled a:focus,
-.jxTree .jxDisabled a.jxTreeItemPressed,
-.jxTree .jxDisabled a.jxTreeItemPressed:hover,
-.jxTree .jxDisabled a:hover,
-.jxTreeRoot .jxDisabled a:focus,
-.jxTreeRoot .jxDisabled a.jxTreeItemPressed,
-.jxTreeRoot .jxDisabled a.jxTreeItemPressed:hover,
-.jxTreeRoot .jxDisabled a:hover {
+            
+.jxDisabled a.jxTreeItem:focus,
+.jxDisabled a.jxTreeItemPressed,
+.jxDisabled a.jxTreeItemPressed:hover,
+.jxDisabled a.jxTreeItem:hover {
   background-position: left top;
   border: none;
   margin: 0px 1px 0px 15px;
@@ -2908,8 +2916,8 @@ li.jxToolItem  span.jxBarSeparator {
   background-image: url(images/tree_vert_line.png);
 }
 
-.jxTreeImage,
-.jxTreeIcon {
+img.jxTreeImage,
+img.jxTreeIcon {
   position: absolute;
   display: inline;
 
@@ -2927,7 +2935,7 @@ li.jxToolItem  span.jxBarSeparator {
   margin: 0px;
 }
 
-.jxTreeIcon { 
+img.jxTreeIcon { 
   height: 16px;
   top: 1px;
   left: 1px;
@@ -2961,16 +2969,16 @@ li.jxToolItem  span.jxBarSeparator {
   background-position: left -140px; /* plus last image */
 }
 
-.jxTreeItem .jxTreeIcon,
-.jxTreeItemLast .jxTreeIcon {
+.jxTreeLeaf .jxTreeIcon,
+.jxTreeLeafLast .jxTreeIcon {
   background-position: left 0px; /* page image */
 }
 
-.jxTreeItem .jxTreeImage {
+.jxTreeLeaf .jxTreeImage {
   background-position: left -60px; /* node image */
 }
 
-.jxTreeItemLast .jxTreeImage {
+.jxTreeLeafLast .jxTreeImage {
   background-position: left -120px; /* last node image */
 }
 
@@ -2979,18 +2987,11 @@ li.jxToolItem  span.jxBarSeparator {
   font-weight:bold;
 }
 
-.jxTreeItem a,
-.jxTreeItem img,
-.jxTreeItem input,
-.jxTreeItemLast a,
-.jxTreeItemLast img,
-.jxTreeItemLast input,
-.jxTreeBranch a,
-.jxTreeBranch img,
-.jxTreeBranch input,
-.jxTreeBranchLast a,
-.jxTreeBranchLast img,
-.jxTreeBranchLast input {
+a.jxTreeItem,
+img.jxTreeImage,
+img.jxTreeIcon,
+span.jxTreeLabel,
+.jxTreeItemContainer input {
     vertical-align: middle;
 }
 
