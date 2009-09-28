@@ -23,7 +23,7 @@
 .jxInputLabel     { background-color: plum; }
 .jxInputTag       { background-color: lime; }
 */
- 
+
  /* Base and Typography Styles */
  
 .jxForm {
@@ -225,6 +225,19 @@ form span.jxFormBlock .jxInputLabel {
   margin-left: 4px;
 }
 
+/* Checks and Radios Label
+ * Most inputs are preceeded by their labels, but in the case of radio buttons
+ * and checkboxes, the inputs are followed by their labels */
+.jxFormBlock .jxInputContainerCheck .jxInputLabel,
+.jxFormBlock .jxInputContainerRadio .jxInputLabel,
+form .jxFormBlock .jxInputContainerCheck .jxInputLabel,
+form .jxFormBlock .jxInputContainerRadio .jxInputLabel,
+form span.jxFormBlock .jxInputContainerCheck .jxInputLabel,
+form span.jxFormBlock .jxInputContainerRadio .jxInputLabel {
+  display: -moz-inline-box;
+  display: inline-block;
+}
+
 /* Block Input Group */
 .jxFormBlock .jxInputGroup,
 form .jxFormBlock .jxInputGroup {
@@ -309,6 +322,20 @@ form .jxFormInlineblock .jxInputGroup .jxInputLabel {
 
 /* Error and validation classes */
 .jxFieldFeedback {
-    padding-left: 16px;
-    background: url("images/error.png") no-repeat left top;
+  padding: 4px 4px 4px 20px; 
+  border: 2px solid #ddd;
+  background: url("images/error.png") no-repeat left top;
 }
+
+.validation-failed { 
+  background-color: #FBE3E4; 
+  color: #8a1f11; 
+  border-color: #FBC2C4; 
+}
+
+.jxFormErrorText {
+  background-color: #FBE3E4; 
+  color: #8a1f11; 
+  border-color: #FBC2C4; 
+}
+
