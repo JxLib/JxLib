@@ -229,7 +229,7 @@ Jx.createIframeShim = function() {
         'class':'jxIframeShim',
         'scrolling':'no',
         'frameborder':0,
-        'src': Jx.baseUrl+'/empty.html'
+        'src': Jx.baseURL+'/empty.html'
     });
 };
 /**

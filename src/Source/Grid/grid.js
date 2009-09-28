@@ -117,9 +117,7 @@ Jx.Grid = new Class({
      * Constructor: Jx.Grid
      */
     init : function () {
-        //NOTE: I suggest using the base Widget class's .generateId()
         this.uniqueId = this.generateId('jxGrid_');
-        //this.uniqueId = 'jxGrid_'+(new Date()).getTime();
 
         if ($defined(this.options.model)
                 && this.options.model instanceof Jx.Store) {
