@@ -35,7 +35,7 @@
 
 /* Node Classes */
 
-li.jxTreeItemContainer {
+li.jxTreeContainer {
   /* relative positioning is required for IE to fix the peek-a-boo bug */
   position:relative;
   display: block;
@@ -52,7 +52,7 @@ li.jxTreeItemContainer {
   -khtml-user-select: none;
 }
 
-.jxTree li.jxTreeItemContainer {
+.jxTree li.jxTreeContainer {
   margin-left: 16px;
 }
 
@@ -177,16 +177,16 @@ img.jxTreeIcon {
   background-position: left -140px; /* plus last image */
 }
 
-.jxTreeItem .jxTreeIcon,
-.jxTreeItemLast .jxTreeIcon {
+.jxTreeLeaf .jxTreeIcon,
+.jxTreeLeafLast .jxTreeIcon {
   background-position: left 0px; /* page image */
 }
 
-.jxTreeItem .jxTreeImage {
+.jxTreeLeaf .jxTreeImage {
   background-position: left -60px; /* node image */
 }
 
-.jxTreeItemLast .jxTreeImage {
+.jxTreeLeafLast .jxTreeImage {
   background-position: left -120px; /* last node image */
 }
 
