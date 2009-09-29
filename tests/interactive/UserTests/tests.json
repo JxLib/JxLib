@@ -1,8 +1,6 @@
 {
     "Base": {
-        "common": [
-        	"dependencies"
-        ]
+        "common": ["dependencies"]
     },
     "Button": {
     	"button": ["all"]
@@ -18,6 +16,11 @@
     },
     "Extras": {
         "progressbar": ["all"],
-        "slider": ["all"]
+        "slider": ["all"],
+        "slide": ["all"]
+    },
+    "Panel": {
+        "message": ["all"],
+        "confirm": ["all"]
     }
 }

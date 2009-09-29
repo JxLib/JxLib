@@ -131,6 +131,16 @@
         "panelset": {
             "deps": ["splitter","panel"],
             "desc": "A panel set manages a set of panels within a DOM element."
+        },
+        
+        "message": {
+            "deps": ["dialog","button","toolbar.item"],
+            "desc": "A subclass of jx.Dialog for displaying messages w/a single OK button."
+        },
+        
+        "confirm": {
+            "deps": ["dialog","button","toolbar.item"],
+            "desc": "A subclass of Jx.dialog for asking a yes/no type question of the user. "
         }
 
     },
@@ -337,6 +347,11 @@
         "slider": {
             "deps": ["widget", "Slider"],
             "desc": "A wrapper for mootools' slider class o=to make it more Jx Friendly."
+        },
+        
+        "slide": {
+            "deps": ["object","Fx.Tween"],
+            "desc": "A class that shows and hides elements using a slide effect. Does not use a wrapper element or require a fixed width or height."
         }
         
     },

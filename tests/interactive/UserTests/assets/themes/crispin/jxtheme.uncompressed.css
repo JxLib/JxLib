@@ -689,7 +689,17 @@ a.jxColorClose img {
 .jxClearer{display:block;position:relative;float:none;clear:both;font-size:0;line-height:0;width:0;height:0;margin:0;padding:0;}
 .jxDisabled{opacity:0.4;-ms-filter: "Alpha(opacity=40)";}
 .jxDisabled * {-ms-filter: "Alpha(opacity=40)";}
-iframe.jxIframeShim{position:absolute;top:0px;left:0px;width:100%;height:100%;opacity:0;-ms-filter: "Alpha(opacity=0)";z-index:-1;}/**
+iframe.jxIframeShim{position:absolute;top:0px;left:0px;width:100%;height:100%;opacity:0;-ms-filter: "Alpha(opacity=0)";z-index:-1;}@CHARSET "ISO-8859-1";
+
+
+/**
+ * Confirm dialog classes
+ */
+.jxConfirmQuestion {
+    text-align: center;
+    padding: 10px;
+    margin-top: 10px;
+}/**
  * @project         Jx
  * @revision        $Id: dialog.css 302 2009-04-02 18:42:56Z fred.warnock $
  * @author          Fred Warnock (fwarnock@dmsolutions.ca)
@@ -1706,6 +1716,16 @@ ul.jxSubMenu span.jxMenuSeparator {
   background-image: url(images/toolbar_separator_v.png);
   background-repeat: repeat-x;
   background-position: left center;
+}@CHARSET "ISO-8859-1";
+
+
+/**
+ * Confirm dialog classes
+ */
+.jxMessage {
+    text-align: center;
+    padding: 10px;
+    margin-top: 10px;
 }/**
  * @project         Jx
  * @revision        $Id: panel.css 302 2009-04-02 18:42:56Z fred.warnock $
