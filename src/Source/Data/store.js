@@ -108,6 +108,11 @@ Jx.Store = new Class({
      * The id of this store.
      */
     id : null,
+    /**
+     * Property: loaded
+     * Tells whether the store has been loaded or not
+     */
+    loaded: false,
 
     /**
      * APIMethod: load 
@@ -118,7 +123,11 @@ Jx.Store = new Class({
      */
     load : function (data) {
         if ($defined(data)) {
+            this.loaded = false;
             this.processData(data);
+            
+        } else {
+            this.loaded = false;
         }
     },
 
@@ -622,6 +631,7 @@ Jx.Store = new Class({
      * data - the data to put into the store
      */
     processData : function (data) {
+        this.loaded = false;
         this.fireEvent('preload', [ this, data ]);
     
         if (!$defined(this.data)) {
@@ -647,8 +657,10 @@ Jx.Store = new Class({
                     this.fireEvent('loadError', [ this, data ]);
                 }
             }
+            this.loaded = true;
             this.fireEvent('loadFinished', this);
         } else {
+            this.loaded = false;
             this.fireEvent('loadError', [ this, data ]);
         }
     },

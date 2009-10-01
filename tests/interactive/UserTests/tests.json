@@ -21,6 +21,8 @@
     },
     "Panel": {
         "message": ["all"],
-        "confirm": ["all"]
+        "confirm": ["all"],
+        "dataview": ["all"],
+        "group": ["all"]
     }
 }

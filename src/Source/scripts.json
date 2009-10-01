@@ -118,7 +118,7 @@
         "desc": "This group contains components that act as a visual for content.",
 
         "panel": {
-            "deps": ["widget","menu.item","layout","container"],
+            "deps": ["widget","menu.item","layout","container","toolbar.item"],
             "desc":"A panel is a fundamental container object that has a content area and optional toolbars around the content area."
         },
         
@@ -141,6 +141,16 @@
         "confirm": {
             "deps": ["dialog","button","toolbar.item"],
             "desc": "A subclass of Jx.dialog for asking a yes/no type question of the user. "
+        },
+        
+        "dataview": {
+            "deps": ["panel","store"],
+            "desc": ""
+        },
+        
+        "group": {
+            "deps": ["dataview"],
+            "desc": ""
         }
 
     },

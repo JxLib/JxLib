@@ -1,0 +1,36 @@
+@CHARSET "UTF-8";
+
+.jxDVGroupContainer {
+    float: left;
+    clear: both;
+}
+
+.jxDVGroupHeader {
+    width: 100%;
+    float: left:
+    clear: both;
+    font-size: 14px;
+    font-weight: bold;
+    border-bottom: 2px solid black;
+}
+
+.jxDVContainer {
+    width: 100%;
+    clear: both;
+    float: left;
+}
+
+.jxDVItem {
+    float: left;
+    width: 100px;
+    margin: 5px;
+    height: 150px;
+}
+
+.jxDVItem img {
+    width: 100px;
+}
+
+.jxDVItem span {
+    display: block;
+}
