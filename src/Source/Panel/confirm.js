@@ -1,6 +1,16 @@
+// $Id:$
 /**
  * Class: Jx.Dialog.Confirm
- * A generic confirmation dialog. Provides Yes/No type options
+ *
+ * Extends: <Jx.Dialog>
+ *
+ * Jx.Dialog.Confirm is an extension of Jx.Dialog that allows the developer
+ * to prompt their user with e yes/no question.
+ *
+ * License: 
+ * Copyright (c) 2009, Jonathan Bomgardner
+ * 
+ * This file is licensed under an MIT style license
  */
 Jx.Dialog.Confirm = new Class({
     
@@ -22,13 +32,20 @@ Jx.Dialog.Confirm = new Class({
          * The text to use for the negative button. Defaults to 'No'.
          */
         negativeLabel: 'No',
+        
+        /**
+         * Jx.Dialog option defaults
+         */
         width: 300,
         height: 150,
         close: false,
         resize: true,
         collapse: false
     },
-    
+    /**
+     * APIMethod: render
+     * creates the dialog
+     */
     render: function () {
         //create content to be added
         this.buttons = new Jx.Toolbar({position: 'bottom'});
@@ -55,7 +72,11 @@ Jx.Dialog.Confirm = new Class({
         this.options.content = this.question;
         this.parent();
     },
-    
+    /**
+     * Method: onClick
+     * called when any button is clicked. It hides the dialog and fires
+     * the close event passing it the value of the button that was pressed.
+     */
     onClick: function (value) {
         this.isOpening = false;
         this.hide();

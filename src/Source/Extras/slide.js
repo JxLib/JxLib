@@ -42,7 +42,10 @@ Jx.Slide = new Class({
          */
         onSlideIn: $empty
     },
-    
+    /**
+     * APIMethod: init
+     * sets up the slide
+     */
     init: function () {
         
         this.target = $(this.options.target);
@@ -57,8 +60,11 @@ Jx.Slide = new Class({
         this.target.store('slider', this);
 
     },
-    
-    handleClick: function (e) {
+    /**
+     * APIMethod: handleClick
+     * event handler for clicks on the trigger. Starts the slide process
+     */
+    handleClick: function () {
         var sizes = this.target.getMarginBoxSize();
         if (sizes.height === 0) {
             this.slide('in');
@@ -66,7 +72,11 @@ Jx.Slide = new Class({
             this.slide('out');
         }
     },
-    
+    /**
+     * Method: setDisplay
+     * called at the end of the animation to set the target's width or
+     * height as well as other css values to the appropriate values
+     */
     setDisplay: function () {
         var h = this.target.getStyle(this.options.type).toInt();
         if (h === 0) {
@@ -80,7 +90,13 @@ Jx.Slide = new Class({
             this.fireEvent('slideIn', this.target);
         }   
     },
-    
+    /**
+     * APIMethod: slide
+     * Actually determines how to slide and initiates the animation.
+     * 
+     * Parameters:
+     * dir - the direction to slide (either "in" or "out")
+     */
     slide: function (dir) {
         var h;
         if (dir === 'in') {

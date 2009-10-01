@@ -34,32 +34,16 @@ Jx.Progressbar = new Class({
         onUpdate: $empty,
         onComplete: $empty,
         /**
-         * Option: containerClass
-         * The CSS class for the containing div
-         */
-        containerClass: 'progress-container',
-        /**
          * Option: messageText
          * The text of a message displayed above the bar. Set to NULL to prevent any text from appearing
          */
         messageText: 'Loading...',
-        /**
-         * Option: messageClass
-         * The CSS class used to style the message
-         */
-        messageClass: 'progress-message',
         /**
          * Option: progressText
          * The text displayed inside the bar. This defaults to "{progress} of {total}" 
          * where {progress} and {total} are substituted for passed in values.
          */
         progressText: '{progress} of {total}',
-        /**
-         * Option: progressClass
-         * The CSS class used to style the bar itself. This is used as the 
-         * bar's containing class as well as the beginning of the outline and fill classes
-         */
-        progressClass: 'progress-bar',
         /**
          * Option: bar
          * an object that gives options for the bar itself. Specifically, 
@@ -75,7 +59,10 @@ Jx.Progressbar = new Class({
          * The element to put this progressbar into
          */
         parent: null,
-        
+        /**
+         * Option: template
+         * The template used to create the progressbar
+         */
         template: '<div class="jxProgressBar-message"></div><div class="jxProgressBar"><div class="jxProgressBar-outline"></div><div class="jxProgressBar-fill"></div><div class="jxProgressBar-text"></div></div>'
     },
     /**
@@ -180,7 +167,15 @@ Jx.Progressbar = new Class({
         }
         
     },
-    
+    /**
+     * APIMethod: update
+     * called to update the progress bar with new percentage.
+     * 
+     * Parameters: 
+     * total - the total # to progress up to
+     * progress - the current position in the progress (must be less than or
+     *              equal to the total)
+     */
     update: function (total, progress) {
         var newWidth = (progress * this.options.bar.width) / total;
         
