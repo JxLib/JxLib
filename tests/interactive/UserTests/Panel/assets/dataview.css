@@ -3,6 +3,8 @@
 .jxDVGroupContainer {
     float: left;
     clear: both;
+    width: 90%;
+    margin-left: 5px;
 }
 
 .jxDVGroupHeader {
@@ -12,6 +14,7 @@
     font-size: 14px;
     font-weight: bold;
     border-bottom: 2px solid black;
+    cursor: pointer;
 }
 
 .jxDVContainer {

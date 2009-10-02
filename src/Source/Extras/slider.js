@@ -6,7 +6,6 @@
  * Copyright 2009 by Jonathan Bomgardner
  * License: MIT-style
  */
- */
 Jx.Slider = new Class({
     
     Extends: Jx.Widget,

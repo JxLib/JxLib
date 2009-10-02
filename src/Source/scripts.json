@@ -213,6 +213,16 @@
         "grid.resize": {
             "deps": ["plugin.grid"],
             "desc" : "Enables column resizing in grids"
+        },
+        
+        "plugin.dataview": {
+            "deps": ["plugin"],
+            "desc" : "Namespace for DataView plugins"
+        },
+        
+        "dataview.groupfolder": {
+            "deps": ["plugin.dataview", "slide"],
+            "desc" : "Enables closing and opening groups in a group dataview"
         }
         
     },

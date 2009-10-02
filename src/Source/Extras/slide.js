@@ -85,7 +85,7 @@ Jx.Slide = new Class({
         } else {
             //this.target.setStyle('overflow', 'auto');
             if (this.target.getStyle('position') !== 'absolute') {
-                this.target.setStyle(this.options.type, this.opitons.setOpenTo);
+                this.target.setStyle(this.options.type, this.options.setOpenTo);
             }
             this.fireEvent('slideIn', this.target);
         }   
