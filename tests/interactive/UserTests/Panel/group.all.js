@@ -156,9 +156,9 @@
                 
             }
         },{
-            title: "Dataview using base store",
-            description: "This tests that the dataview works. This tests using the base store with it being filled after the dataview is created.",
-            verify: "Did the dataview work correctly?",
+            title: "Dataview using base store and GroupFolder plugin",
+            description: "This tests that the dataview works with groupfolder plugin. This tests that clicking on the headers opens and closes the group.",
+            verify: "Did the dataview work correctly with the plugin?",
             before: function(){
                 $('container').empty();
                 var store = new Jx.Store({
