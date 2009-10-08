@@ -1,6 +1,7 @@
 {
     "Base": {
-        "common": ["dependencies"]
+        "common": ["dependencies"],
+        "list": ["all"]
     },
     "Button": {
     	"button": ["all"]

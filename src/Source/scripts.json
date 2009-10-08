@@ -22,7 +22,12 @@
         "widget": {
         	"deps": ["object","Selectors"],
         	"desc": "Base class for all widgets (visual classes) in the JxLib Framework."
-        } 
+        },
+        
+        "list": {
+            "deps":["object"],
+            "desc":"A class that is used to manage lists of DOM elements"
+        }
 
     },
     

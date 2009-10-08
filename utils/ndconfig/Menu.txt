@@ -62,12 +62,11 @@ Group: Jx  {
    Group: Base  {
 
       File: Common  (no auto-title, Base/common.js)
+      File: List  (Base/list.js)
       File: Object  (Base/object.js)
       File: Styles  (Base/styles.js)
       File: Widget  (Base/widget.js)
       }  # Group: Base
-
-   File: ColorPalette  (Extras/colorpalette.js)
 
    Group: Grid  {
 
@@ -77,8 +76,15 @@ Group: Jx  {
       File: Row  (Grid/row.js)
       }  # Group: Grid
 
-   File: Progressbar  (Extras/progressbar.js)
-   File: Slider  (Extras/slider.js)
+   Group: Extras  {
+
+      File: ColorPalette  (Extras/colorpalette.js)
+      File: Progressbar  (Extras/progressbar.js)
+      File: Slide  (Extras/slide.js)
+      File: Slider  (Extras/slider.js)
+      File: Tooltip  (Extras/tooltip.js)
+      }  # Group: Extras
+
    File: TabBox  (Tab/tabbox.js)
    File: TabSet  (Tab/tabset.js)
 
@@ -101,7 +107,11 @@ Group: Jx  {
    Group: Panel  {
 
       File: Dialog  (Panel/dialog.js)
+      File: Dialog.Confirm  (Panel/confirm.js)
+      File: Dialog.Message  (Panel/message.js)
       File: Panel  (Panel/panel.js)
+      File: Panel.DataView  (Panel/dataview.js)
+      File: Panel.DataView.Group  (Panel/group.js)
       File: PanelSet  (Panel/panelset.js)
       }  # Group: Panel
 
@@ -120,7 +130,6 @@ Group: Jx  {
       File: TreeItem  (Tree/treeitem.js)
       }  # Group: Tree
 
-   File: Tooltip  (Extras/tooltip.js)
    }  # Group: Jx
 
 Group: Formatter  {
@@ -161,6 +170,8 @@ Group: Form  {
    }  # Group: Form
 
 File: Grid.Plugin  (Plugins/plugin.js)
+File: Plugin.DataView  (Plugins/plugin.dataview.js)
+File: Plugin.DataView.GroupFolder  (Plugins/dataview.groupfolder.js)
 File: Plugin.Grid  (Plugins/plugin.grid.js)
 File: Plugin.Prelighter  (Plugins/grid.prelighter.js)
 File: Plugin.Resize  (Plugins/grid.resize.js)
