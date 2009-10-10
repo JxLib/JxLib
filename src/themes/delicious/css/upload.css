@@ -1,0 +1,50 @@
+/* FileUploadPanel */
+.jxFileUploadPanel {
+    padding: 5px;
+}
+
+.jxFileUploadPanel .jxInputContainer {
+    width: 300px;
+}
+ 
+.jxUploadQueue {
+    width: 100%;  
+    margin-top: 10px;  
+}
+
+.jxUploadQueue div {
+    position: relative;
+    width: 95%;
+    clear: both;
+    border-top: 1px solid black;
+    padding: 2px;
+}
+
+.jxUploadQueue div span {
+    display: block;
+}
+
+.jxUploadQueue div span.jxUploadFileName {
+    float: left;
+    font-size: 16px;
+}
+
+.jxUploadQueue div span.jxUploadFileDelete {
+    float: right;
+    width: 16px;
+    height: 16px;
+    background-image: url('images/delete.gif');
+    background-repeat: no-repeat;
+    background-position: top left;
+    cursor: pointer;
+}
+
+.jxUploadQueue div span.jxUploadFileProgress {
+    float: right;
+    width: 16px;
+    height: 16px;
+    background-image: url('images/loading.gif');
+    background-repeat: no-repeat;
+    background-position: top left;
+    cursor: pointer;
+}

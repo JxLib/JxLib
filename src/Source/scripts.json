@@ -120,7 +120,7 @@
 
     "Panel": {
 
-        "desc": "This group contains components that act as a visual for content.",
+        "desc": "This group contains components that act as a visual container for content.",
 
         "panel": {
             "deps": ["widget","menu.item","layout","container","toolbar.item"],
@@ -130,7 +130,7 @@
         "dialog": {
             "deps": ["panel"],
             "opt": ["Drag"],
-            "desc": "A Jx.Dialog implements a floating dialog."
+            "desc": "A Jx.Dialog that implements a floating dialog."
         },
 
         "panelset": {
@@ -155,6 +155,11 @@
         
         "group": {
             "deps": ["dataview"],
+            "desc": ""
+        },
+        
+        "upload": {
+            "deps": ["panel","file","progressbar","button","toolbar.item"],
             "desc": ""
         }
 
@@ -462,13 +467,20 @@
             "deps": ["field"],
             "desc": "Represents a textarea input"
         },
+        
         "jxbutton": {
             "deps": ["field", "button"],
             "desc": "Represents a button input"
         },
+        
         "password": {
             "deps": ["field"],
             "desc": "Represents a password input"
+        },
+        
+        "file": {
+            "deps": ["field", "text", "button", "Request.JSON", "hidden","form"],
+            "desc": "Represents a file input w/upload and prgress tracking capabilities (requires APC for progress)"
         }
     }
 

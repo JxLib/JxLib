@@ -13,7 +13,7 @@
         "grid": ["basic","headers","formatters","prelighter","selector","sorter"]
     },
     "Form": {
-        "form": ["fields","fieldset","form"]
+        "form": ["fields","fieldset","form","file"]
     },
     "Extras": {
         "progressbar": ["all"],
@@ -24,6 +24,7 @@
         "message": ["all"],
         "confirm": ["all"],
         "dataview": ["all"],
-        "group": ["all"]
+        "group": ["all"],
+        "upload": ["all"]
     }
 }

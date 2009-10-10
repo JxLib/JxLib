@@ -20,7 +20,7 @@ Jx.Field.Password = new Class({
     Extends: Jx.Field,
     
     options: {
-        template: '<label class="jxInputLabel" name="{name}"></label><input class="jxInputPassword" type="password" /><span class="jxInputTag"></span>'
+        template: '<label class="jxInputLabel" ></label><input class="jxInputPassword" type="password" name="{name}"/><span class="jxInputTag"></span>'
     },
     
     type: 'Password'
