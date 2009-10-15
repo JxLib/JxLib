@@ -217,9 +217,9 @@ Jx.Field.File = new Class({
                 value : this.progressID
             });
             id.addTo(this.form, 'top');
-        } else {
-            this.iframe.addEvent('load', this.processIFrameUpload.bind(this));
         }
+        this.iframe.addEvent('load', this.processIFrameUpload.bind(this));
+        
         
         //submit the form
         $(this.form).submit();
@@ -253,12 +253,16 @@ Jx.Field.File = new Class({
      */
     processProgress: function (data) {
         if ($defined(data)) {
-            if (data.done) {
-                this.uploadCleanUp();
-                this.fireEvent('uploadComplete', [data, this]);
-            } else {
-                this.fireEvent('uploadProgress', [data, this]);
+            this.fireEvent('uploadProgress', [data, this]);
+            if (data.current < data.total) {
+                this.polling = true;
                 this.pollUpload();
+            } else {
+                this.polling = false;
+                if (this.done) {
+                    this.uploadCleanUp();
+                    this.fireEvent('uploadComplete', [this.doneData, this]);
+                }
             }
         }
     },
@@ -267,7 +271,7 @@ Jx.Field.File = new Class({
      * called if there is a problem getting progress on the upload
      */
     uploadFailure: function (xhr) {
-        this.fireEvent('uploadError', this);
+        this.fireEvent('uploadProgressError', this);
     },
     /**
      * Method: processIFrameUpload
@@ -281,10 +285,14 @@ Jx.Field.File = new Class({
         
         var data = JSON.decode(iframeBody);
         if ($defined(data.success) && data.success) {
-            this.uploadCleanUp();
-            this.fireEvent('uploadComplete', [data, this]);
+            this.done = true;
+            this.doneData = data;
+            if (!this.polling) {
+                this.uploadCleanUp();
+                this.fireEvent('uploadComplete', [data, this]);
+            }
         } else {
-            this.fireEvent('uploadError', [this, data]);
+            this.fireEvent('uploadError', [data , this]);
         }
     },
     /**

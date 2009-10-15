@@ -29,22 +29,38 @@
     font-size: 16px;
 }
 
-.jxUploadQueue div span.jxUploadFileDelete {
+.jxUploadQueue div span.jxUploadFileDelete,
+.jxUploadQueue div span.jxUploadFileProgress,
+.jxUploadQueue div span.jxUploadFileComplete,
+.jxUploadQueue div span.jxUploadFileError {
     float: right;
     width: 16px;
     height: 16px;
-    background-image: url('images/delete.gif');
     background-repeat: no-repeat;
     background-position: top left;
     cursor: pointer;
 }
 
+.jxUploadQueue div span.jxUploadFileDelete {
+    background-image: url('images/delete.gif');
+}
+
 .jxUploadQueue div span.jxUploadFileProgress {
-    float: right;
-    width: 16px;
-    height: 16px;
     background-image: url('images/loading.gif');
-    background-repeat: no-repeat;
-    background-position: top left;
-    cursor: pointer;
+}
+
+.jxUploadQueue div span.jxUploadFileComplete {
+    background-image: url('images/green_tick.png');
+}
+
+.jxUploadQueue div span.jxUploadFileError {
+    background-image: url('images/error.png');
+}
+
+.jxUploadFileErrorTip {
+  padding: 4px 4px 4px 20px; 
+  border: 2px solid #ddd;
+  background: url("images/error.png") no-repeat left top;
+  color: black;
+  width: 100px;
 }

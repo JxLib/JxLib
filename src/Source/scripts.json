@@ -159,7 +159,7 @@
         },
         
         "upload": {
-            "deps": ["panel","file","progressbar","button","toolbar.item"],
+            "deps": ["panel","file","progressbar","button","toolbar.item","tooltip"],
             "desc": ""
         }
 

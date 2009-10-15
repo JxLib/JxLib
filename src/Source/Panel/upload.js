@@ -30,9 +30,14 @@ Jx.Panel.FileUpload = new Class({
         },
         /**
          * Option: onFileUploadComplete
+         * An event handler that is called when a file has been uploaded
+         */
+        onFileComplete: $empty,
+        /**
+         * Option: onComplete
          * An event handler that is called when all files have been uploaded
          */
-        onFileUploadComplete: $empty,
+        onComplete: $empty,
         /**
          * Option: prompt
          * The prompt to display at the top of the panel - before the 
@@ -41,9 +46,14 @@ Jx.Panel.FileUpload = new Class({
         prompt: null,
         /**
          * Option: buttonText
-         * The text to place onthe upload button
+         * The text to place on the upload button
          */
-        buttonText: 'Upload Files'
+        buttonText: 'Upload Files',
+        /**
+         * Option: removeOnComplete
+         * Determines whether a file is removed from the queue after uploading
+         */
+        removeOnComplete: false
     },
     /**
      * Property: domObjA
@@ -143,10 +153,11 @@ Jx.Panel.FileUpload = new Class({
      */
     upload: function () {
         var file = this.fileQueue.shift();
+        file.addEvent('uploadComplete', this.fileUploadComplete.bind(this));
+        file.addEvent('uploadError', this.fileUploadError.bind(this));
+        
         if (this.options.file.progress) {
             file.addEvent('uploadProgress', this.fileUploadProgress.bind(this));
-            file.addEvent('uploadComplete', this.fileUploadComplete.bind(this));
-            
             //progressbar
             //setup options
             var options = {
@@ -158,23 +169,20 @@ Jx.Panel.FileUpload = new Class({
                 bar: {
                     width: file.queuedDiv.getStyle('width').toInt(),
                     height: file.queuedDiv.getFirst().getStyle('height').toInt()
-                },
-                onComplete: this.removeUploadedFile.bind(this, file)
+                }
             };
             var pb = new Jx.Progressbar(options);
             file.pb = pb;
             $(pb).replaces(file.queuedDiv);
         } else {
             file.queuedDiv.getLast().removeClass('jxUploadFileDelete').addClass('jxUploadFileProgress');
-            file.addEvent('uploadComplete', this.fileUploadComplete.bind(this));
         }
         file.upload();
     },
     /**
      * Method: fileUploadComplete
      * Called when a single file is uploaded completely (called by 
-     * Jx.Field.File's uploadComplete event). Passes the information to the 
-     * progressbar. This method is only used if we're tracking progress.
+     * Jx.Field.File's uploadComplete event). 
      * 
      * Parameters:
      * data - the data returned from the event
@@ -182,12 +190,34 @@ Jx.Panel.FileUpload = new Class({
      */
     fileUploadComplete: function (data, file) {
         if ($defined(data.success) && data.success ){
-            if ($defined(data.total)) {
-                file.pb.update(data.total, data.current);
-            } else {
-                this.removeUploadedFile(file);
-            }
-        } 
+            this.removeUploadedFile(file);
+        } else {
+            this.fileUploadError(data, file);
+        }
+    },
+    /**
+     * Method: fileUploadError
+     * Called when there is an error uploading a file.
+     * 
+     * Parameters:
+     * data - the data passed back from the server, if any.
+     * file - the file we're tracking
+     */
+    fileUploadError: function (data, file) {
+        var icon = file.queuedDiv.getLast(); 
+        icon.erase('title');
+        if (icon.hasClass('jxUploadFileProgress')) {
+            icon.removeClass('jxUploadFileProgress').addClass('jxUploadFileError');
+        } else {
+            //queued div is hidden, show it
+            file.queuedDiv.replaces(file.pb);
+            icon.removeClass('jxUploadFileDelete').addClass('jxUploadFileError');
+        }
+        if ($defined(data.error.message)) {
+            var tt = new Jx.Tooltip(icon, data.error.message, {
+                cssClass : 'jxUploadFileErrorTip'
+            });
+        }
     },
     /**
      * Method: removeUploadedFile
@@ -197,12 +227,27 @@ Jx.Panel.FileUpload = new Class({
      * file - the file we're tracking
      */
     removeUploadedFile: function (file) {
-        if ($defined(file.pb)) {
-            file.pb.destroy();
+        
+        if (this.options.removeOnComplete) {
+            if ($defined(file.pb)) {
+                file.pb.destroy();
+            }
+            file.queuedDiv.dispose();
+            var name = file.getFileName();
+            this.fileQueue.erase(name);
+        } else {
+            if ($defined(file.pb)) {
+                file.queuedDiv.replaces(file.pb);
+                file.pb.destroy();
+            }
+            var l = file.queuedDiv.getLast();
+            if (l.hasClass('jxUploadFileDelete')) {
+                l.removeClass('jxUploadFileDelete').addClass('jxUploadFileComplete');
+            } else if (l.hasClass('jxUploadFileProgress')) {
+                l.removeClass('jxUploadFileProgress').addClass('jxUploadFileComplete');
+            }
         }
-        file.queuedDiv.dispose();
-        var name = file.getFileName();
-        this.fileQueue.erase(name);
+        
         this.fireEvent('fileComplete', file);
         if (this.fileQueue.length > 0) {
             this.upload();
@@ -221,7 +266,7 @@ Jx.Panel.FileUpload = new Class({
     /**
      * Method: removeFromQueue
      * Called when the delete icon is clicked for an individual file. It 
-     * removes the file fro mthe queue, disposes of it, and does NOT upload 
+     * removes the file from the queue, disposes of it, and does NOT upload 
      * the file to the server.
      * 
      * Pparameters:
