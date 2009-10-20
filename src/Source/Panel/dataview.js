@@ -54,7 +54,15 @@ Jx.Panel.DataView = new Class({
          * Option: itemClass
          * The class to add to each item. Used for styling purposes
          */
-        itemClass: null
+        itemClass: null,
+        /**
+         * Option: itemOptions
+         * Options to pass to the list object
+         */
+        listOptions: {
+            select: true,
+            hover: true
+        }
     },
     
     /**
@@ -82,7 +90,9 @@ Jx.Panel.DataView = new Class({
         //pass to parent
         this.parent();
         
-        this.domA.addClass(this.options.containerClass);
+        this.domA.addClass(this.options.containerClass, this.options.listOptions);
+        
+        this.list = this.createList(this.domA);
        
         //parse templates so we know what values are needed in each
         this.itemCols = this.parseTemplate(this.options.itemTemplate);
@@ -110,11 +120,11 @@ Jx.Panel.DataView = new Class({
                 this.options.data.moveTo(i);
                 
                 var item = this.createItem();
-                item.inject(this.domA);
+                this.list.add(item);
             }
         } else {
             var empty = new Element('div', {html: this.options.emptyTemplate});
-            empty.inject(this.domA);
+            this.list.add(item);
         }
         this.fireEvent('renderDone', this);
     },
@@ -144,7 +154,7 @@ Jx.Panel.DataView = new Class({
     update: function () {
         if (!this.updating) {
             this.updating = true;
-            this.domA.empty();
+            this.list.empty();
             this.options.data.sort(this.options.sortColumns);
             this.draw();
             this.updating = false;
@@ -171,5 +181,89 @@ Jx.Panel.DataView = new Class({
             }
         }, this);
         return arr;
+    },
+    /**
+     * Method: enterItem
+     * Fires mouseenter event
+     * 
+     * Parameters: 
+     * item - the item that is the target of the event
+     * list - the list this item is in.
+     */
+    enterItem: function(item, list){
+        this.fireEvent('mouseenter', item, list);
+    },
+    /**
+     * Method: leaveItem
+     * Fires mouseleave event
+     * 
+     * Parameters: 
+     * item - the item that is the target of the event
+     * list - the list this item is in.
+     */
+    leaveItem: function(item, list){
+        this.fireEvent('mouseleave', item, list);
+    },
+    /**
+     * Method: selectItem
+     * Fires select event
+     * 
+     * Parameters: 
+     * item - the item that is the target of the event
+     * list - the list this item is in.
+     */
+    selectItem: function(item, list){
+        this.fireEvent('select', item, list);
+    },
+    /**
+     * Method: unselectItem
+     * Fires unselect event
+     * 
+     * Parameters: 
+     * item - the item that is the target of the event
+     * list - the list this item is in.
+     */
+    unselectItem: function(item, list){
+        this.fireEvent('unselect', item, list);
+    },
+    /**
+     * Method: addItem
+     * Fires add event
+     * 
+     * Parameters: 
+     * item - the item that is the target of the event
+     * list - the list this item is in.
+     */
+    addItem: function(item, list) {
+        this.fireEvent('add', item, list);
+    },
+    /**
+     * Method: removeItem
+     * Fires remove event
+     * 
+     * Parameters: 
+     * item - the item that is the target of the event
+     * list - the list this item is in.
+     */
+    removeItem: function(item, list) {
+        this.fireEvent('remove', item, list);
+    },
+    /**
+     * Method: createList
+     * Creates the list object
+     * 
+     * Parameters:
+     * container - the container to use in the list
+     * options - the options for the list
+     */
+    createList: function(container, options){
+        return new Jx.List(container, $extend({
+            onMouseenter: this.enterItem.bind(this),
+            onMouseleave: this.leaveItem.bind(this),
+            onSelect:  this.selectItem.bind(this),
+            onAdd: this.addItem.bind(this),
+            onRemove: this.removeItem.bind(this),
+            onUnselect: this.unselectItem.bind(this)
+        }, options));
     }
 });

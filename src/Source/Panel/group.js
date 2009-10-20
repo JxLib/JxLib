@@ -32,7 +32,25 @@ Jx.Panel.DataView.Group = new Class({
          * Option: groupHeaderClass
          * The class added to the heading. Used for styling.
          */
-        groupHeaderClass: null
+        groupHeaderClass: null,
+        /**
+         * Option: listOption
+         * Options to pass to the main list 
+         */
+        listOptions: {
+            select: false,
+            hover: false
+        },
+        /**
+         * Option: itemOption
+         * Options to pass to the item lists
+         */
+        itemOptions: {
+            select: true,
+            hover: true,
+            hoverClass: 'jxItemHover',
+            selectClass: 'jxItemSelect'
+        }
     },
     /**
      * APIMethod: render
@@ -41,6 +59,7 @@ Jx.Panel.DataView.Group = new Class({
     render: function () {
         this.groupCols = this.parseTemplate(this.options.groupTemplate);
         this.parent();
+        
     },
     /**
      * Method: draw
@@ -52,7 +71,7 @@ Jx.Panel.DataView.Group = new Class({
         
         if ($defined(n) && n > 0) {
             var currentGroup = '';
-            var currentItemContainer = null;
+            var itemList = null;
             
             for (var i = 0; i < n; i++) {
                 d.moveTo(i);
@@ -65,7 +84,11 @@ Jx.Panel.DataView.Group = new Class({
                     var container =  new Element('div', {
                         'class': this.options.groupContainerClass
                     });
-                    container.inject(this.domA);
+                    var l = this.createList(container,{
+                        select: false,
+                        hover: false
+                    });
+                    this.list.add(l.container);
                     
                     //group header
                     currentGroup = group;
@@ -79,23 +102,24 @@ Jx.Panel.DataView.Group = new Class({
                         'html': temp,
                         id: 'group-' + group.replace(" ","-","g")
                     });
-                    g.inject(container);
+                    l.add(g);
                     
                     //items container
-                    currentItemContainer = new Element('div', {
+                    var currentItemContainer = new Element('div', {
                         'class': this.options.containerClass
                     });
-                    
-                    currentItemContainer.inject(container);
+                    itemList = this.createList(currentItemContainer, this.options.itemOptions);
+                    l.add(itemList.container);
                 }
                 
                 var item = this.createItem();
-                item.inject(currentItemContainer);
+                itemList.add(item);
             }
         } else {
             var empty = new Element('div', {html: this.options.emptyTemplate});
-            empty.inject(this.domA);
+            this.list.add(empty);
         }
         this.fireEvent('renderDone', this);
     }
+    
 });

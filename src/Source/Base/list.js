@@ -292,6 +292,15 @@ Jx.List = new Class({
      */
     selected: function() {
         return this.selection;
+    },
+    /**
+     * APIMethod: empty
+     * clears all of the items from the list
+     */
+    empty: function(){
+        this.container.getChildren().each(function(item){
+            this.remove(item);
+        }, this);
     }
 
 });
