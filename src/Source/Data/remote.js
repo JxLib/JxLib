@@ -70,12 +70,14 @@ Jx.Store.Remote = new Class({
      * Override of base function <Jx.Store#refresh>. Allow refreshing data from the server
      * 
      * Parameters:
+     * params - an object of params to pass to load. These will be sent in the request. 
      * reset - whether to reset the counter after the refresh
      */
-    refresh : function (reset) {
+    refresh : function (params, reset) {
         //Call the load function to get the data
         //from the server and reset the counter if requested
         if ($defined(this.options.dataUrl)) {
+            this.params = $defined(params) ? params : this.params;
             this.load(this.params);
         } else {
             return null;
