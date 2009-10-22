@@ -52,12 +52,32 @@ Jx.Panel.DataView.Group = new Class({
             selectClass: 'jxItemSelect'
         }
     },
+    
+    init: function() {
+        this.groupCols = this.parseTemplate(this.options.groupTemplate);
+        this.itemManager = new Jx.SelectionManager(this, {
+            eventToFire: { 
+                select: 'itemselect',
+                unselect: 'itemunselect'
+            },
+            selectClass: 'jxItemSelected'
+        });
+        this.groupManager = new Jx.SelectionManager(this, {
+            eventToFire: { 
+                select: 'groupselect',
+                unselect: 'groupunselect'
+            },
+            selectClass: 'jxGroupSelected'
+        });
+        this.parent();
+        
+    },
     /**
      * APIMethod: render
-     * sets up the template and calls the parent class' render function.
+     * sets up the list container and calls the parent class' render function.
      */
     render: function () {
-        this.groupCols = this.parseTemplate(this.options.groupTemplate);
+        this.list = this.createList(this.domA, this.listOptions, this.groupManager);
         this.parent();
         
     },
@@ -108,7 +128,7 @@ Jx.Panel.DataView.Group = new Class({
                     var currentItemContainer = new Element('div', {
                         'class': this.options.containerClass
                     });
-                    itemList = this.createList(currentItemContainer, this.options.itemOptions);
+                    itemList = this.createList(currentItemContainer, this.options.itemOptions, this.itemManager);
                     l.add(itemList.container);
                 }
                 
@@ -120,6 +140,24 @@ Jx.Panel.DataView.Group = new Class({
             this.list.add(empty);
         }
         this.fireEvent('renderDone', this);
+    },
+    
+    /**
+     * Method: createList
+     * Creates the list object
+     * 
+     * Parameters:
+     * container - the container to use in the list
+     * options - the options for the list
+     * manager - which selectionManager to connect to this list
+     */
+    createList: function(container, options, manager){
+        return new Jx.List(container, $extend({
+            onMouseenter: this.enterItem.bind(this),
+            onMouseleave: this.leaveItem.bind(this),
+            onAdd: this.addItem.bind(this),
+            onRemove: this.removeItem.bind(this)
+        }, options), manager);
     }
     
 });

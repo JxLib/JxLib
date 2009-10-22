@@ -71,6 +71,11 @@ Jx.Panel.DataView = new Class({
      */
     bound: {},
     
+    init: function () {
+        this.domA = new Element('div');
+        this.list = this.createList(this.domA, this.options.listOptions);
+        this.parent();
+    },
     /**
      * APIMethod: render
      * Renders the dataview. If the store already has data loaded it will be rendered
@@ -82,18 +87,13 @@ Jx.Panel.DataView = new Class({
             return;
         }
         
-        //the main container for the library
-        this.domA = new Element('div');
-        
         this.options.content = this.domA;
         
         //pass to parent
         this.parent();
         
-        this.domA.addClass(this.options.containerClass, this.options.listOptions);
+        this.domA.addClass(this.options.containerClass);
         
-        this.list = this.createList(this.domA);
-       
         //parse templates so we know what values are needed in each
         this.itemCols = this.parseTemplate(this.options.itemTemplate);
         

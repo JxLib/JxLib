@@ -25,7 +25,7 @@
 Jx.List = new Class({
     Family: 'Jx.List',
     Extends: Jx.Object,
-    parameters: ['container', 'options'],
+    parameters: ['container', 'options', 'manager'],
     /**
      * APIProperty: itemContainer
      * the element that will contain items as they are added
@@ -101,6 +101,7 @@ Jx.List = new Class({
         this.container = document.id(this.options.container);
         this.container.store('jxList', this);
         this.selection = [];
+        
         var target = this;
         this.bound = {
             mouseenter: function() {
@@ -110,10 +111,18 @@ Jx.List = new Class({
             mouseleave: function() {
                 this.removeClass(target.options.hoverClass);
                 target.fireEvent('mouseleave', this, target);
-            },
-            click: function() {
-                target.select(this);
             }
+        };
+        if ($defined(this.options.manager)) {
+            this.manager = this.options.manager;
+            this.manager.add(target);
+            this.bound.click = function () {
+                target.manager.select(this, target);
+            };
+        } else {
+            this.bound.click = function () {
+                target.select(this);
+            };
         };
         if ($defined(this.options.items)) {
             this.add(this.options.items);
@@ -125,11 +134,14 @@ Jx.List = new Class({
             this.remove(item);
         }, this);
         this.bound = null;
+        if ($defined(this.manager)) {
+            this.manager.remove(this);
+            this.manager = null;
+        }
         this.container.eliminate('jxList');
+        
     },
     
-    /**
-     * APIProperty
     /**
      * APIMethod: add
      * add an item to the list of items at the specified position
@@ -254,12 +266,15 @@ Jx.List = new Class({
                     this.selection.push(item);
                     this.fireEvent('select', item, this);
                 }
-            } else if (this.options.selectMode == 'single' &&
-                       !this.selection.contains(item)) {
-                document.id(item).addClass(this.options.selectClass);
-                this.selection.push(item);
-                if (this.selection.length > 1) {
-                    this.unselect(this.selection[0]);
+            } else if (this.options.selectMode == 'single') {
+                if (!this.selection.contains(item)) {
+                    document.id(item).addClass(this.options.selectClass);
+                    this.selection.push(item);
+                    if (this.selection.length > 1) {
+                        this.unselect(this.selection[0]);
+                    }
+                } else {
+                    this.unselect(item);
                 }
                 this.fireEvent('select', item, this);
             }
@@ -275,11 +290,15 @@ Jx.List = new Class({
      * be provided.
      */
     unselect: function(item) {
-        if (this.container.hasChild(item) && this.selection.contains(item)) {
-            if (this.selection.length > this.options.minimumSelection) {
-                document.id(item).removeClass(this.options.selectClass);
-                this.selection.erase(item);
-                this.fireEvent('unselect', item, this);
+        if ($defined(this.manager)) {
+            this.manager.unselect(item, this);
+        } else {
+            if (this.container.hasChild(item) && this.selection.contains(item)) {
+                if (this.selection.length > this.options.minimumSelection) {
+                    document.id(item).removeClass(this.options.selectClass);
+                    this.selection.erase(item);
+                    this.fireEvent('unselect', item, this);
+                }
             }
         }
     },
