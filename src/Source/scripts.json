@@ -428,7 +428,7 @@
         "desc": "This group contains classes used for creating and manipulating forms and other inputs in script.",
         
         "form": {
-            "deps": ["widget", "String.QueryString","FormValidator"],
+            "deps": ["widget", "String.QueryString","Form.Validator"],
             "desc": "Represents a HTML Form"
         },
         
@@ -438,7 +438,7 @@
         },
         
         "field": {
-            "deps": ["widget"],
+            "deps": ["widget","tooltip"],
             "desc": "Base class for all inputs"
         },
         

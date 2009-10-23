@@ -282,5 +282,5 @@
         }
         
     ],
-    "otherScripts": ["text","OverText","checkbox","hidden","radio","select","textarea","fieldset","toolbar.item","container","FormValidator.Extras","tooltip"]
+    "otherScripts": ["text","OverText","checkbox","hidden","radio","select","textarea","fieldset","toolbar.item","container","Form.Validator.Extras","tooltip"]
 }

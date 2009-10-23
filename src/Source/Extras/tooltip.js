@@ -149,8 +149,6 @@ Jx.Tooltip = new Class({
      * event - the event object
      */
     position : function (event) {
-        //TODO: Adjust this to account for the viewport. How do we change the positioning
-        //      near the edges?
         var size = window.getSize(), scroll = window.getScroll();
         var tipSize = this.domObj.getMarginBoxSize();
         var tip = {
@@ -160,14 +158,14 @@ Jx.Tooltip = new Class({
         var tipPlacement = { 
             x: event.page.x + this.options.offsets.x, 
             y: event.page.y + this.options.offsets.y 
-        }
+        };
         
         if (event.page.y + this.options.offsets.y + tip.y + tipSize.height - scroll.y > size.y) {
-            tipPlacement.y = event.page.y - this.options.offsets.y -tipSize.height -scroll.y;
-        } 
+            tipPlacement.y = event.page.y - this.options.offsets.y - tipSize.height - scroll.y;
+        }
         
         if (event.page.x + this.options.offsets.x + tip.x + tipSize.width - scroll.x > size.x) {
-            tipPlacement.x = event.page.x - this.options.offsets.x -tipSize.width - scroll.x;
+            tipPlacement.x = event.page.x - this.options.offsets.x - tipSize.width - scroll.x;
         }
         
         this.domObj.setStyle('top', tipPlacement.y);

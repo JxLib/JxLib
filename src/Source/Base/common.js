@@ -261,7 +261,7 @@ Jx.getPageDimensions = function() {
 }
 
 Jx.type = function(obj){
-    if (typeof obj == undefined){
+    if (typeof obj == 'undefined'){
         return false;
     }
     return obj.jxFamily ? obj.jxFamily : $type(obj);

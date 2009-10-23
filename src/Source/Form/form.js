@@ -150,7 +150,7 @@ Jx.Form = new Class({
      * 
      */
     enableValidation : function () {
-        this.validator = new FormValidator(this.domObj,
+        this.validator = new Form.Validator(this.domObj,
                 this.options.validationOptions);
         this.validator.addEvents({
             'onElementValidate' : this.elementValidator.bind(this),
