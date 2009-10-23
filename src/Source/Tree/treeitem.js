@@ -71,7 +71,7 @@ Jx.TreeItem = new Class ({
         imageClass: '',
         template: '<li class="jxTreeContainer jxTreeLeaf"><img class="jxTreeImage" src="'+Jx.aPixel.src+'" alt="" title=""><a class="jxTreeItem" href="javascript:void(0);"><img class="jxTreeIcon" src="'+Jx.aPixel.src+'" alt="" title=""><span class="jxTreeLabel"></span></a></li>'
     },
-    classes: ['jxTreeContainer', 'jxTreeImage', 'jxTreeIcon','jxTreeLabel'],
+    classes: ['jxTreeContainer', 'jxTreeItem', 'jxTreeImage', 'jxTreeIcon','jxTreeLabel'],
     
     /**
      * APIMethod: render
