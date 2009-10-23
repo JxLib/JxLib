@@ -148,7 +148,7 @@ $Id$
 	</exec>
   	<echo message="exec 3"/>
     <exec executable="php">
-  		<arg line="${basedir}/utils/combine.php -filelist ${vendor.home}/vendor/mootools-more/current/Source/scripts.json -jsonFile ${build.home}/lib/more.json -target ${build.home}/lib/mootools-more.js -basedir ${vendor.home}/mootools-more/current/Source" />
+  		<arg line="${basedir}/utils/combine.php -filelist ${vendor.home}/mootools-more/current/Source/scripts.json -jsonFile ${build.home}/lib/more.json -target ${build.home}/lib/mootools-more.js -basedir ${vendor.home}/mootools-more/current/Source" />
 	</exec>
   	<echo message="exec 4"/>
     <exec executable="php">
