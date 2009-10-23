@@ -493,7 +493,7 @@ ul.jxToolbar .jxButtonHover span.jxButtonContent {
 
 /**
  * @project         Jx
- * @revision        $Id: color.css 424 2009-05-12 12:51:44Z pagameba $
+ * @revision        $Id: color.css 520 2009-09-02 19:41:17Z pagameba $
  * @author          Fred Warnock (fwarnock@dmsolutions.ca)
  * @copyright       (c) 2006 DM Solutions Group Inc.
  */
@@ -525,6 +525,7 @@ table.jxColorGrid {
     clear:both;
     padding: 0px;
     margin: 0px;
+    width: auto;
 }
 
 .jxColorGrid tr {
