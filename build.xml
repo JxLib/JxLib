@@ -75,12 +75,12 @@ $Id$
   <property name="app.version" value="2.0.1"/>
   <!-- when branching jxlib, modify build.xml in the branch to set the
        correct jxlib.home value (add an extra ../) -->
-  <property name="jxlib.home" value="${basedir}/.."/>
+  <property name="jxlib.home" value="${basedir}"/>
   <property name="build.home" value="${jxlib.home}/build"/>
   <property name="dist.home" value="${jxlib.home}/dist"/>
   <property name="deploy.home" value="${jxlib.home}/www"/>
   <property name="docs.home" value="${jxlib.home}/www/reference"/>
-  <property name="vendor.home" value="${jxlib.home}/vendor"/>
+  <property name="vendor.home" value="${jxlib.home}/../vendor"/>
 
 <!-- ==================== External Dependencies =========================== -->
 
@@ -148,7 +148,7 @@ $Id$
 	</exec>
   	<echo message="exec 3"/>
     <exec executable="php">
-  		<arg line="${basedir}/utils/combine.php -filelist ${basedir}/../vendor/mootools-more/current/Source/scripts.json -jsonFile ${build.home}/lib/more.json -target ${build.home}/lib/mootools-more.js -basedir ${vendor.home}/mootools-more/current/Source" />
+  		<arg line="${basedir}/utils/combine.php -filelist ${vendor.home}/vendor/mootools-more/current/Source/scripts.json -jsonFile ${build.home}/lib/more.json -target ${build.home}/lib/mootools-more.js -basedir ${vendor.home}/mootools-more/current/Source" />
 	</exec>
   	<echo message="exec 4"/>
     <exec executable="php">

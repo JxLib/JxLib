@@ -11,8 +11,16 @@
 var grid;
 var panel;
 var aboutDialog;
+var prelighter;
+var selector;
+var sorter;
 
 window.addEvent('load', function() {
+  
+    prelighter = new Jx.Plugin.Grid.Prelighter({});
+    selector = new Jx.Plugin.Grid.Selector({});
+    sorter = new Jx.Plugin.Grid.Sorter({});
+  
     drawToolbar();
     drawGrid();
     
@@ -36,54 +44,54 @@ function drawToolbar() {
         new Jx.Menu.Item({
             label: 'Row Prelight',
             toggle: true,
-            onDown: function() { grid.options.rowPrelight = true; },
-            onUp: function() { grid.options.rowPrelight = false; }
+            onDown: function() { prelighter.options.row = true; },
+            onUp: function() { prelighter.options.row = false; }
         }),
         new Jx.Menu.Item({
             label: 'Row Header Prelight',
             toggle: true,
-            onDown: function() { grid.options.rowHeaderPrelight = true; },
-            onUp: function() { grid.options.rowHeaderPrelight = false; }
+            onDown: function() { prelighter.options.rowHeader = true; },
+            onUp: function() { prelighter.options.rowHeader = false; }
         }),
         new Jx.Menu.Item({
             label: 'Row Selection',
             toggle: true,
-            onDown: function() { grid.options.rowSelection = true; },
-            onUp: function() { grid.options.rowSelection = false; }
+            onDown: function() { selector.options.row = true; },
+            onUp: function() { selector.options.row = false; }
         })
     );
     new Jx.Menu({label: 'Column Options'}).addTo('buttons').add(
         new Jx.Menu.Item({
             label: 'Column Prelight',
             toggle: true,
-            onDown: function() { grid.options.columnPrelight = true; },
-            onUp: function() { grid.options.columnPrelight = false; }
+            onDown: function() { prelighter.options.column = true; },
+            onUp: function() { prelighter.options.column = false; }
         }),
         new Jx.Menu.Item({
             label: 'Column Header Prelight',
             toggle: true,
-            onDown: function() { grid.options.columnHeaderPrelight = true; },
-            onUp: function() { grid.options.columnHeaderPrelight = false; }
+            onDown: function() { prelighter.options.columnHeader = true; },
+            onUp: function() { prelighter.options.columnHeader = false; }
         }),
         new Jx.Menu.Item({
             label: 'Column Selection',
             toggle: true,
-            onDown: function() { grid.options.columnSelection = true; },
-            onUp: function() { grid.options.columnSelection = false; }
+            onDown: function() { selector.options.column = true; },
+            onUp: function() { selector.options.column = false; }
         })
     );
     new Jx.Menu({label: 'Cell Options'}).addTo('buttons').add(
         new Jx.Menu.Item({
             label: 'Cell Prelight',
             toggle: true,
-            onDown: function() { grid.options.cellPrelight = true; },
-            onUp: function() { grid.options.cellPrelight = false; }
+            onDown: function() { prelighter.options.cell = true; },
+            onUp: function() { prelighter.options.cell = false; }
         }),
         new Jx.Menu.Item({
             label: 'Cell Selection',
             toggle: true,
-            onDown: function() { grid.options.cellSelection = true; },
-            onUp: function() { grid.options.cellSelection = false; }
+            onDown: function() { selector.options.cell = true; },
+            onUp: function() { selector.options.cell = false; }
         })
     );
     aboutDialog = null;
@@ -91,7 +99,6 @@ function drawToolbar() {
         label: 'About',
         onClick: function() {
             if (!aboutDialog) {
-                var pageDims = Element.getPageDimensions();
                 aboutDialog = new Jx.Dialog({
                     label: 'About',
                     contentURL: 'grid_about.html',
@@ -108,54 +115,150 @@ function drawToolbar() {
 </script>
 <script id="gridScript" type="text/javascript">
 function drawGrid() {
-    grid = new Jx.Grid({
-      alternateRowColors: false,
-      rowHeaders: true,
-      columnHeaders: true,
-      rowPrelight: false,
-      columnPrelight: false,
-      rowHeaderPrelight: false,
-      columnHeaderPrelight: false,
-      cellPrelight: false,
-      rowSelection: false,
-      columnSelection: false,
-      cellSelection: false
-    }).addTo('gridArea');
-    var colHeaders = ['2002','2003','2004','2005','2006','2007'];
-    var rowHeaders = [
-    'Exports','United States','Japan','United Kingdom','Other EC Countries','Other OECD','Other Countries',
-    'Imports','United States','Japan','United Kingdom','Other EC Countries','Other OECD','Other Countries',
-    'Balance','United States','Japan','United Kingdom','Other EC Countries','Other OECD','Other Countries'];
-    var data = [
-        ['414,038.50','399,122.10','429,005.80','450,149.90','453,732.40','463,051.40'],
-        ['347,051.80','328,983.30','350,576.30','368,414.70','361,440.40','356,094.20'],
-        ['10,115.00','9,799.50','9,846.40','10,168.20','10,279.20','9,989.20'],
-        ['6,161.50','7,695.30','9,364.00','9,355.40','11,281.20','14,154.80'],
-        ['16,294.30','16,423.40','17,533.80','18,630.60','20,900.20','24,187.00'],
-        ['12,670.70','12,754.10','14,189.10','14,528.00','16,773.90','19,690.50'],
-        ['21,745.20','23,466.40','27,496.20','29,052.90','33,057.60','38,935.80'],
-        ['356,727.10','342,709.50','363,157.80','387,804.00','404,252.60','415,005.70'],
-        ['255,232.50','240,356.30','250,038.30','259,348.20','265,023.00','269,752.50'],
-        ['11,732.60','10,645.50','10,094.50','11,210.80','11,858.30','11,972.30'],
-        ['10,181.30','9,183.00','9,460.00','9,061.20','9,549.20','9,894.30'],
-        ['25,867.00','26,001.00','27,007.00','29,457.00','32,529.80','32,402.90'],
-        ['19,686.60','19,696.90','22,283.60','24,304.50','23,673.30','25,034.20'],
-        ['34,027.10','36,826.80','44,274.40','54,422.30','61,618.90','65,949.40'],
-        ['57,311.40','56,412.60','65,848.00','62,345.90','49,479.80','48,045.70'],
-        ['91,819.30','88,627.00','100,538.00','109,066.50','96,417.40','86,341.70'],
-        ['-1,617.60','-846','-248.1','-1,042.60','-1,579.10','-1,983.10'],
-        ['-4,019.80','-1,487.70','-96','294.2','1,732.00','4,260.50'],
-        ['-9,572.70','-9,577.60','-9,473.20','-10,826.40','-11,629.60','-8,215.90'],
-        ['-7,015.90','-6,942.80','-8,094.50','-9,776.50','-6,899.40','-5,343.70'],
-        ['-12,281.90','-13,360.40','-16,778.20','-25,369.40','-28,561.30','-27,013.60']];
-    var model = new Jx.Grid.Model(data, {
-        rowHeaders: rowHeaders, 
-        columnHeaders: colHeaders,
-        rowHeaderWidth: 150,
-        colWidth: 75
-    });
-    
-    grid.setModel(model);
+  var store = new Jx.Store({
+      columns: [
+          {name: 'header',type: 'alphanumeric'},
+          {name: '2002', type: 'currency'},
+          {name: '2003', type: 'currency'},
+          {name: '2004', type: 'currency'},
+          {name: '2005', type: 'currency'},
+          {name: '2006', type: 'currency'},
+          {name: '2007', type: 'currency'}
+      ]
+  });
+  store.load([
+      {'header': 'Exports','2002': '414,038.50','2003': '399,122.10','2004': '429,005.80','2005': '450,149.90','2006': '453,732.40','2007': '463,051.40'},
+      {'header': 'United States','2002': '347,051.80','2003': '328,983.30','2004': '350,576.30','2005': '368,414.70','2006': '361,440.40','2007': '356,094.20'},
+      {'header': 'Japan','2002': '10,115.00','2003': '9,799.50','2004': '9,846.40','2005': '10,168.20','2006': '10,279.20','2007': '9,989.20'},
+      {'header': 'United Kingdom','2002': '6,161.50','2003': '7,695.30','2004': '9,364.00','2005': '9,355.40','2006': '11,281.20','2007':'14,154.80'},
+      {'header': 'Other EC Countries','2002':'16,294.30','2003':'16,423.40','2004':'17,533.80','2005':'18,630.60','2006':'20,900.20','2007':'24,187.00'},
+      {'header': 'Other OECD', '2002': '12,670.70', '2003': '12,754.10', '2004': '14,189.10', '2005': '14,528.00', '2006': '16,773.90', '2007': '19,690.50'},
+      {'header': 'Other Countries', '2002': '21,745.20', '2003': '23,466.40', '2004': '27,496.20', '2005': '29,052.90', '2006': '33,057.60', '2007':'38,935.80'},
+      {'header': 'Imports', '2002': '356,727.10', '2003': '342,709.50', '2004': '363,157.80', '2005': '387,804.00', '2006': '404,252.60', '2007':'415,005.70'},
+      {'header': 'United States','2002': '255,232.50', '2003': '240,356.30', '2004': '250,038.30', '2005': '259,348.20', '2006': '265,023.00','2007': '269,752.50'},
+      {'header': 'Japan', '2002': '11,732.60', '2003': '10,645.50', '2004': '10,094.50', '2005': '11,210.80', '2006': '11,858.30', '2007':'11,972.30'},
+      {'header': 'United Kingdom', '2002': '10,181.30', '2003': '9,183.00', '2004': '9,460.00', '2005': '9,061.20', '2006': '9,549.20', '2007':'9,894.30'},
+      {'header': 'Other EC Countries', '2002': '25,867.00', '2003': '26,001.00', '2004': '27,007.00', '2005': '29,457.00', '2006': '32,529.80', '2007':'32,402.90'},
+      {'header': 'Other OECD', '2002': '19,686.60', '2003': '19,696.90', '2004': '22,283.60', '2005': '24,304.50', '2006': '23,673.30','2007': '25,034.20'},
+      {'header': 'Other Countries', '2002': '34,027.10', '2003': '36,826.80', '2004': '44,274.40','2005': '54,422.30', '2006': '61,618.90', '2007':'65,949.40'},
+      {'header': 'Balance', '2002': '57,311.40', '2003': '56,412.60', '2004': '65,848.00', '2005': '62,345.90', '2006': '49,479.80', '2007': '48,045.70'},
+      {'header': 'United States', '2002': '91,819.30', '2003': '88,627.00', '2004': '100,538.00', '2005': '109,066.50', '2006': '96,417.40', '2007': '86,341.70'},
+      {'header': 'Japan', '2002': '-1,617.60','2003': '-846', '2004': '-248.1', '2005': '-1,042.60', '2006': '-1,579.10', '2007': '-1,983.10'},
+      {'header': 'United Kingdom', '2002': '-4,019.80', '2003': '-1,487.70', '2004': '-96','2005': '294.2', '2006': '1,732.00', '2007': '4,260.50'},
+      {'header': 'Other EC Countries', '2002': '-9,572.70', '2003': '-9,577.60', '2004': '-9,473.20', '2005': '-10,826.40', '2006': '-11,629.60', '2007': '-8,215.90'},
+      {'header': 'Other OECD', '2002': '-7,015.90', '2003': '-6,942.80', '2004': '-8,094.50', '2005': '-9,776.50', '2006': '-6,899.40', '2007': '-5,343.70'},
+      {'header': 'Other Countries', '2002': '-12,281.90', '2003': '-13,360.40', '2004': '-16,778.20', '2005': '-25,369.40', '2006': '-28,561.30', '2007': '-27,013.60'}
+  ]);
+
+  //setup options
+  var options = {
+      parent: 'gridArea',
+      row: {
+          useHeaders: true,
+          alternateRowColors: true,
+          headerField: 'header',
+          rowHeight: 20
+      },
+      columns: {
+          headerRowHeight: 20,
+          useHeaders: true,
+          columns: [{
+              header: null,
+              modelField: 'header',
+              width: 'auto',
+              isEditable: false,
+              isSortable: false,
+              isResizable: true,
+              isHidden: false,
+              cssClass: '',
+              formatter: null,
+              name: 'header',
+              dataType: 'alphanumeric'
+          },{
+              header: '2002',
+              modelField: '2002',
+              width: 'auto',
+              isEditable: true,
+              isSortable: true,
+              isResizable: true,
+              isHidden: false,
+              cssClass: '',
+              formatter: null,
+              name: '2002',
+              dataType: 'currency'
+          },{
+              header: '2003',
+              modelField: '2003',
+              width: 'auto',
+              isEditable: false,
+              isSortable: false,
+              isResizable: true,
+              isHidden: false,
+              cssClass: '',
+              formatter: null,
+              name: '2003',
+              dataType: 'currency'
+          },{
+              header: '2004',
+              modelField: '2004',
+              width: 'auto',
+              isEditable: false,
+              isSortable: false,
+              isResizable: true,
+              isHidden: false,
+              cssClass: '',
+              formatter: null,
+              name: '2004',
+              dataType: 'currency'
+          },{
+              header: '2005',
+              modelField: '2005',
+              width: 'auto',
+              isEditable: false,
+              isSortable: false,
+              isResizable: true,
+              isHidden: false,
+              cssClass: '',
+              formatter: null,
+              name: '2005',
+              dataType: 'currency'
+          },{
+              header: '2006',
+              modelField: '2006',
+              width: 'auto',
+              isEditable: false,
+              isSortable: false,
+              isResizable: true,
+              isHidden: false,
+              cssClass: '',
+              formatter: null,
+              name: '2006',
+              dataType: 'currency'
+          },{
+              header: '2007',
+              modelField: '2007',
+              width: 'auto',
+              isEditable: false,
+              isSortable: false,
+              isResizable: true,
+              isHidden: false,
+              cssClass: '',
+              formatter: null,
+              name: '2007',
+              dataType: 'currency'
+          }
+         ]
+      },
+      model: store
+  };
+  //create grid
+  var grid = new Jx.Grid(options);
+  grid.render();
+  
+  prelighter.attach(grid);
+  selector.attach(grid);
+  sorter.attach(grid);
+  
 }
 </script>
 </head>
