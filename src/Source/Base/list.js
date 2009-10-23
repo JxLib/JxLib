@@ -3,7 +3,13 @@
  * Class: Jx.List
  * 
  * Manage a list of DOM elements and provide an API and events for managing
- * those items within a container.
+ * those items within a container.  Works with Jx.Selection to manage
+ * selection of items in the list.  You have two options for managing
+ * selections.  The first, and default, option is to specify select: true
+ * in the constructor options and any of the <Jx.Selection> options as well.
+ * This will create a default Jx.Selection object to manage selections.  The
+ * second option is to pass a Jx.Selection object as the third constructor
+ * argument.  This allows sharing selection between multiple lists.
  *
  * Example:
  * (code)
@@ -25,7 +31,9 @@
 Jx.List = new Class({
     Family: 'Jx.List',
     Extends: Jx.Object,
-    parameters: ['container', 'options', 'manager'],
+    parameters: ['container', 'options', 'selection'],
+    /* does this object own the selection object (and should clean it up) */
+    ownsSelection: false,
     /**
      * APIProperty: itemContainer
      * the element that will contain items as they are added
@@ -33,7 +41,7 @@ Jx.List = new Class({
     container: null,
     /**
      * APIProperty: selection
-     * the current selection
+     * <Jx.Selection> a selection object if selection is enabled
      */
     selection: null,
     options: {
@@ -49,11 +57,6 @@ Jx.List = new Class({
          */
         hoverClass: 'jxHover',
         /**
-         * APIProperty: selectClass
-         * the CSS class name to add to the wrapper element when it is selected
-         */
-        selectClass: 'jxSelected',
-        /**
          * Option: hover
          * {Boolean} default true.  If set to true, the wrapper element will
          * obtain the defined hoverClass if set and mouseenter/mouseleave
@@ -64,43 +67,15 @@ Jx.List = new Class({
          * Option: select
          * {Boolean} default true.  If set to true, the wrapper element will
          * obtain the defined selectClass if set and select/unselect events
-         * will be emitted when items are selected and unselected.
+         * will be emitted when items are selected and unselected.  For other
+         * selection objects, see <Jx.Selection>
          */
         select: true,
-        /**
-         * Option: selectMode
-         * {string} default single.  May be single or multiple.  In single mode
-         * only one item may be selected.  Selecting a new item will implicitly
-         * unselect the currently selected item.
-         */
-        selectMode: 'single',
-        /**
-         * Option: selectEvents
-         * {Array} Default ['click'].  An array of event names that will 
-         * trigger selection.
-         */
-        selectEvents: ['click'],
-        /**
-         * Option: selectToggle
-         * {Boolean} Default true.  Selection of a selected item will unselect
-         * it.
-         */
-        selectToggle: true,
-        /**
-         * Option: minimumSelection
-         * {Integer} Default 0.  The minimum number of items that must be
-         * selected.  If set to a number higher than 0, items added to a list
-         * are automatically selected until this minimum is met.  The user may
-         * not unselect items if unselecting them will drop the total number of
-         * items selected below the minimum.
-         */
-        minimumSelection: 0
     },
     
     init: function() {
         this.container = document.id(this.options.container);
         this.container.store('jxList', this);
-        this.selection = [];
         
         var target = this;
         this.bound = {
@@ -113,17 +88,26 @@ Jx.List = new Class({
                 target.fireEvent('mouseleave', this, target);
             }
         };
-        if ($defined(this.options.manager)) {
-            this.manager = this.options.manager;
-            this.manager.add(target);
+        if (this.options.selection) {
+            this.selection = this.options.selection;
+        } else if (this.options.select) {
+            this.selection = new Jx.Selection(this.options);
+            this.ownsSelection = true;
+        }
+            
+        if (this.selection) {
             this.bound.click = function () {
-                target.manager.select(this, target);
+                target.selection.select(this, target);
             };
-        } else {
-            this.bound.click = function () {
-                target.select(this);
-            };
-        };
+            this.selection.addEvents({
+                select: function(item) {
+                    target.fireEvent('select', item);
+                },
+                unselect: function(item) {
+                    target.fireEvent('select', item);
+                }
+            })
+        }
         if ($defined(this.options.items)) {
             this.add(this.options.items);
         }
@@ -134,12 +118,10 @@ Jx.List = new Class({
             this.remove(item);
         }, this);
         this.bound = null;
-        if ($defined(this.manager)) {
-            this.manager.remove(this);
-            this.manager = null;
+        if (this.ownsSelection && this.selection) {
+            this.selection.destroy();
         }
         this.container.eliminate('jxList');
-        
     },
     
     /**
@@ -168,7 +150,7 @@ Jx.List = new Class({
                     mouseleave: this.bound.mouseleave
                 });
             }
-            if (this.options.select) {
+            if (this.selection) {
                 el.addEvents({
                     click: this.bound.click
                 });
@@ -188,8 +170,8 @@ Jx.List = new Class({
             } else {
                 el.inject(this.container, 'bottom');
             }
-            if (this.selection.length < this.options.minimumSelection) {
-                this.select(el);
+            if (this.selection) {
+                this.selection.defaultSelect(el);
             }
         }
     },
@@ -207,7 +189,7 @@ Jx.List = new Class({
      */
     remove: function(item) {
         if (this.container.hasChild(item)) {
-            this.unselect(item);
+            this.unselect(item, true);
             document.id(item).dispose();
             document.id(item).removeEvents(this.bound);
             this.fireEvent('remove', item, this);
@@ -248,6 +230,13 @@ Jx.List = new Class({
         return $A(this.container.childNodes).indexOf(item);
     },
     /**
+     * APIMethod: count
+     * returns the number of items in the list
+     */
+    count: function() {
+        return this.container.childNodes.length;
+    },
+    /**
      * APIMethod: select
      * select an item
      *
@@ -257,27 +246,8 @@ Jx.List = new Class({
      * provided.
      */
     select: function(item) {
-        if (this.container.hasChild(item)) {
-            if (this.options.selectMode == 'multiple') {
-                if (this.selection.contains(item)) {
-                    this.unselect(item);
-                } else {
-                    document.id(item).addClass(this.options.selectClass);
-                    this.selection.push(item);
-                    this.fireEvent('select', item, this);
-                }
-            } else if (this.options.selectMode == 'single') {
-                if (!this.selection.contains(item)) {
-                    document.id(item).addClass(this.options.selectClass);
-                    this.selection.push(item);
-                    if (this.selection.length > 1) {
-                        this.unselect(this.selection[0]);
-                    }
-                } else {
-                    this.unselect(item);
-                }
-                this.fireEvent('select', item, this);
-            }
+        if (this.selection) {
+            this.selection.select(item);
         }
     },
     /**
@@ -288,18 +258,12 @@ Jx.List = new Class({
      * item - {mixed} the object to select, a DOM element, a Jx.Object, or an
      * object that provides a getElement method.  An array of elements may also
      * be provided.
+     * force - {Boolean} force deselection even if this violates the minimum
+     * selection constraint (used internally when removing items)
      */
-    unselect: function(item) {
-        if ($defined(this.manager)) {
-            this.manager.unselect(item, this);
-        } else {
-            if (this.container.hasChild(item) && this.selection.contains(item)) {
-                if (this.selection.length > this.options.minimumSelection) {
-                    document.id(item).removeClass(this.options.selectClass);
-                    this.selection.erase(item);
-                    this.fireEvent('unselect', item, this);
-                }
-            }
+    unselect: function(item, force) {
+        if (this.selection) {
+            this.selection.unselect(item);
         }
     },
     /**
@@ -310,7 +274,7 @@ Jx.List = new Class({
      * {mixed} the selected item or an array of selected items
      */
     selected: function() {
-        return this.selection;
+        return this.selection ? this.selection.selected : [];
     },
     /**
      * APIMethod: empty

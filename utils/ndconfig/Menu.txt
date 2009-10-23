@@ -64,6 +64,7 @@ Group: Jx  {
       File: Common  (no auto-title, Base/common.js)
       File: List  (Base/list.js)
       File: Object  (Base/object.js)
+      File: selection.js  (Base/selection.js)
       File: Styles  (Base/styles.js)
       File: Widget  (Base/widget.js)
       }  # Group: Base
@@ -112,6 +113,7 @@ Group: Jx  {
       File: Panel  (Panel/panel.js)
       File: Panel.DataView  (Panel/dataview.js)
       File: Panel.DataView.Group  (Panel/group.js)
+      File: Panel.FileUpload  (Panel/upload.js)
       File: PanelSet  (Panel/panelset.js)
       }  # Group: Panel
 
@@ -159,6 +161,7 @@ Group: Form  {
    File: Field  (Form/field.js)
    File: Field.Button  (Form/jxbutton.js)
    File: Field.Check  (Form/checkbox.js)
+   File: Field.File  (Form/file.js)
    File: Field.Hidden  (Form/hidden.js)
    File: Field.Password  (Form/password.js)
    File: Field.Radio  (Form/radio.js)
@@ -187,5 +190,6 @@ Group: Index  {
    Property Index: Properties
    TODO Index: TODO
    Event Index: Events
+   File Index: Files
    }  # Group: Index
 

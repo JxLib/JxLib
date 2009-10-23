@@ -10,7 +10,7 @@
  * (code)
  * (end)
  *
- * Extends: <Jx.TreeFolder>
+ * Extends: <Jx.Widget>
  *
  * License: 
  * Copyright (c) 2008, DM Solutions Group Inc.
@@ -19,7 +19,10 @@
  */
 Jx.Tree = new Class({
     Family: 'Jx.Tree',
-    Extends: Jx.TreeFolder,
+    Extends: Jx.Widget,
+    isOpen: true,
+    list: null,
+    domObj: null,
     options: {
         template: '<ul class="jxTreeRoot"></ul>'
     },
@@ -28,38 +31,38 @@ Jx.Tree = new Class({
      * APIMethod: render
      * Create a new instance of Jx.Tree
      */
-    render : function() {
+    render: function() {
         this.parent();
-        this.subDomObj = this.elements.get('jxTreeRoot');
-        
-        this.nodes = [];
-        this.isOpen = true;
-        
-        this.addable = this.subDomObj;
-        
+        this.elements = this.processTemplate(this.options.template, this.classes);
+        this.domObj = this.elements.get('jxTreeRoot');
+        this.list = new Jx.List(this.domObj, {
+            onAdd: function(item) {
+                this.update();
+                this.fireEvent('add', item);
+            }.bind(this),
+            onRemove: function(item) {
+                this.update();
+                this.fireEvent('remove', item);
+            }.bind(this),
+            onSelect: function(item) {
+                this.fireEvent('select',item);
+            }.bind(this)
+        });
+        this.add = this.list.add;
+        this.remove = this.list.remove;
+        this.replace = this.list.replace;
         if (this.options.parent) {
             this.addTo(this.options.parent);
         }
     },
     
     /**
-     * Method: finalize
+     * Method: cleanup
      * Clean up a Jx.Tree instance
      */
-    finalize: function() { 
-        this.clear(); 
-        this.subDomObj.parentNode.removeChild(this.subDomObj); 
-    },
-    /**
-     * Method: clear
-     * Clear the tree of all child nodes
-     */
-    clear: function() {
-        for (var i=this.nodes.length-1; i>=0; i--) {
-            this.subDomObj.removeChild(this.nodes[i].domObj);
-            this.nodes[i].finalize();
-            this.nodes.pop();
-        }
+    cleanup: function() {
+        this.list.destroy();
+        this.domObj.dispose();
     },
     /**
      * Method: update
@@ -71,31 +74,20 @@ Jx.Tree = new Class({
      */
     update: function(shouldDescend) {
         var bLast = true;
-        if (this.subDomObj)
-        {
+        if (this.domObj) {
             if (bLast) {
-                this.subDomObj.removeClass('jxTreeNest');
+                this.domObj.removeClass('jxTreeNest');
             } else {
-                this.subDomObj.addClass('jxTreeNest');
+                this.domObj.addClass('jxTreeNest');
             }
         }
         if (this.nodes && shouldDescend) {
             this.nodes.each(function(n){n.update(false);});
         }
     },
-    /**
-     * Method: append
-     * Append a node at the end of the sub-tree
-     * 
-     * Parameters:
-     * node - {Object} the node to append.
-     */
-    append: function( node ) {
-        node.owner = this;
-        this.nodes.push(node);
-        this.subDomObj.appendChild( node.domObj );
-        this.update(true);
-        return this;    
+    
+    isLastNode: function(node) {
+        return this.list.indexOf(node)+1 == this.list.count();
     }
 });
 

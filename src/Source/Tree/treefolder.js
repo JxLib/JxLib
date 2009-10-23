@@ -23,22 +23,16 @@ Jx.TreeFolder = new Class({
     Family: 'Jx.TreeFolder',
     Extends: Jx.TreeItem,
     /**
-     * Property: subDomObj
-     * {HTMLElement} an HTML container for the things inside the folder
+     * Property: tree
+     * {<Jx.Tree>} a Jx.Tree instance for managing the folder contents
      */
-    subDomObj : null,
-    /**
-     * Property: nodes
-     * {Array} an array of references to the javascript objects that are
-     * children of this folder
-     */
-    nodes : null,
+    tree : null,
 
     options: {
         /* Option: open
          * is the folder open?  false by default.
          */
-        open : false,
+        open: false,
         template: '<li class="jxTreeContainer jxTreeBranch"><img class="jxTreeImage" src="'+Jx.aPixel.src+'" alt="" title=""><a class="jxTreeItem" href="javascript:void(0);"><img class="jxTreeIcon" src="'+Jx.aPixel.src+'" alt="" title=""><span class="jxTreeLabel"></span></a><ul class="jxTree"></ul></li>'
     },
     classes: ['jxTreeContainer','jxTreeImage','jxTreeItem','jxTreeIcon','jxTreeLabel','jxTree'],
@@ -55,40 +49,18 @@ Jx.TreeFolder = new Class({
             this.addEvent('click', this.clicked.bindWithEvent(this));
         }
                 
-        this.nodes = [];
-        this.subDomObj = this.elements.get('jxTree');
-        if (this.subDomObj) {
-            this.subDomObj.inject(this.domObj);
-            if (this.options.open) {
-                this.expand();
-            } else {
-                this.collapse();
-            }
-        }
-    },
-    /**
-     * Method: finalize
-     * Clean up a TreeFolder.
-     */
-    finalize: function() {
-        this.finalizeFolder();
-        this.finalizeItem();
-        this.subDomObj.dispose();
-        this.subDomObj = null;
-    },
-    /**
-     * Method: finalizeFolder
-     * Internal method to clean up folder-related stuff.
-     */
-    finalizeFolder: function() {
-        this.domObj.childNodes[0].removeEvents();
-        for (var i=this.nodes.length-1; i>=0; i--) {
-            this.nodes[i].finalize();
-            this.nodes.pop();
+        this.tree = new Jx.Tree({template: this.options.template});
+        if (this.options.open) {
+            this.expand();
+        } else {
+            this.collapse();
         }
         
+        this.addEvent('postDestroy',function() {
+            this.tree.destroy();
+        }.bind(this));
     },
-    
+
     /**
      * Method: clone
      * Create a clone of the TreeFolder
@@ -113,11 +85,7 @@ Jx.TreeFolder = new Class({
      * {Boolean}
      */
     isLastNode : function(node) {
-        if (this.nodes.length == 0) {
-            return false;
-        } else {
-            return this.nodes[this.nodes.length-1] == node;
-        }
+        return this.tree.isLastNode(node);
     },
     /**
      * Method: update

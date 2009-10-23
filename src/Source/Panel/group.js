@@ -55,14 +55,14 @@ Jx.Panel.DataView.Group = new Class({
     
     init: function() {
         this.groupCols = this.parseTemplate(this.options.groupTemplate);
-        this.itemManager = new Jx.SelectionManager(this, {
+        this.itemManager = new Jx.Selection({
             eventToFire: { 
                 select: 'itemselect',
                 unselect: 'itemunselect'
             },
             selectClass: 'jxItemSelected'
         });
-        this.groupManager = new Jx.SelectionManager(this, {
+        this.groupManager = new Jx.Selection({
             eventToFire: { 
                 select: 'groupselect',
                 unselect: 'groupunselect'
@@ -149,7 +149,7 @@ Jx.Panel.DataView.Group = new Class({
      * Parameters:
      * container - the container to use in the list
      * options - the options for the list
-     * manager - which selectionManager to connect to this list
+     * manager - <Jx.Selection> which selection obj to connect to this list
      */
     createList: function(container, options, manager){
         return new Jx.List(container, $extend({

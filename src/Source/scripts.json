@@ -25,11 +25,11 @@
         },
         
         "list": {
-            "deps":["object"],
+            "deps":["object", "selection"],
             "desc":"A class that is used to manage lists of DOM elements"
         },
         
-        "selectionManager": {
+        "selection": {
             "deps": ["object"],
             "desc": "A class to manage selection across multiple list objects"
         }
@@ -159,7 +159,7 @@
         },
         
         "group": {
-            "deps": ["dataview", "selectionManager"],
+            "deps": ["dataview", "selection"],
             "desc": ""
         },
         
