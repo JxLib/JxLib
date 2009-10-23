@@ -1,0 +1,229 @@
+@CHARSET "UTF-8";
+
+
+#profile-form {
+	margin-left: 25px;
+	margin-bottom: 50px;
+	font-size: 14px;	
+}
+	
+.library {
+	width: 90%;
+	margin: 0px auto;
+	border: 2px solid #E3996D; 
+	background-color: #EEE1D9;
+	padding: 5px;
+	color: #E3996D;
+	font-weight: bold;
+}
+
+.library p {
+	float: left;
+	font-family:Arial,Helvetica,sans-serif;
+	font-size:18px;
+	font-weight: bold;
+	line-height:24px;
+	margin: 0;
+	padding:0;
+	color: #E3996D;
+}
+
+.library div {
+	float: right;
+	font-family:Arial,Helvetica,sans-serif;
+	font-size:18px;
+	font-weight:normal;
+	line-height:24px;
+	margin:0;
+	padding:0;
+}
+
+.library-selector {
+	clear: both;
+	width: 85%;
+	margin: 0 auto;
+	border: 1px solid #DCEAEE;
+	border-top: none;
+	padding: 5px;
+	background-color: #DCEAEE;
+}
+
+.library-selector div {
+	float: left;
+	margin: 0 0 0 10px;
+	padding: 0;
+	font-size: 14px;
+	line-height: 16px;
+}
+
+.files {
+	clear: both;
+	width: 85%;
+	margin: 0 auto;
+	border: 1px solid #DCEAEE;
+	border-top: none;
+	padding: 5px;
+}
+
+.folder {
+	border-bottom: 1px solid #DCEAEE;
+	margin: 5px 5px 10px 3px;
+	width: 98%;
+	position: relative;
+	padding-left: 20px;
+	background-image: url("../img/check-gray16.png");
+	background-repeat: no-repeat;
+	overflow: hidden;
+}
+
+h2 {
+	padding-left: 25px;
+}	
+
+h2.toggle {
+	background-position: 5px;
+
+	background-image: url("../img/go-next.png");
+	background-repeat: no-repeat;
+}
+
+.folder:hover, h2.toggle:hover, h2.hover, .hover {
+	cursor: pointer;
+}
+
+h2.open {
+	background-image: url("../img/go-down.png");
+}
+
+.folder:hover {
+	cursor: pointer;
+}
+
+div.full {
+	background-image: url("../img/check-green16.png");
+}
+
+div.some {
+	background-image: url("../img/check-blue16.png");
+}
+
+.filelist {
+	position: relative;
+}
+
+.file  {
+	padding: 2px;
+}
+
+.file:hover {
+	background-color: teal;
+	color: white;
+	cursor: pointer;
+}
+
+input:hover {
+	cursor: pointer;
+}
+
+.toggles {
+	font-size: 12px;
+	/*margin-left: 20px;*/
+	margin: 5px 0px;
+	display: block;
+}
+
+.folder-name {
+	width: 100px;
+	display: inline-block;
+	float: left;
+	margin-right: 20px;
+}
+
+.all:hover, .none:hover {
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+.description {
+    display: block;
+	font-size: 13px;
+	line-height: 18px;
+/*  margin-left: 20px;*/
+	margin-top: 0px;
+	padding-top: 0px;
+	margin-bottom: 5px;
+	color: #6EAFC5;
+}
+
+.file span {
+	display: block;
+	float: left;
+	font-size: 13px;
+}
+
+.check {
+	margin-left: 10px;
+	width: 2%;
+	clear: left;
+	padding-top: 2px;
+}
+
+.name {
+	width: 13%;
+	margin-left: 5px;
+}
+
+.desc {
+	margin-left: 5px;
+	font-size: 12px;
+	width: 72%;
+}
+
+#options div, #download {
+	font-size: 14px;
+	margin-left: 15px;
+}
+
+#download div.jxButtonContainer {
+	margin-bottom: 20px;	
+}
+
+#options div div {
+	margin-bottom: 10px;
+	margin-left: 30px;
+}
+
+#options label {
+	margin-left: 5px;	
+}
+
+#options div#dependencies {
+	margin-left: 30px;
+}
+
+#build span:hover {
+	cursor: pointer;
+	text-decoration: underline;	
+}
+
+#progress-message {
+	text-align: center;
+}
+
+.defaults {
+	font-size: 12px;
+	font-weight: bold;
+	color: #6EAFC5;
+}
+
+ul {
+	margin-bottom: 20px;
+}
+	
+.clear {
+	clear: both;
+}
+
+.spacer {
+	margin-top: 20px;
+}

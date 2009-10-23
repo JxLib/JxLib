@@ -1,0 +1,209 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Jx.Dialog Advanced Examples</title>
+<meta http-equiv="Content-type" content="text/html; charset=iso-8859-1" />
+<script type="text/javascript" src="../../lib/mootools-core.js"></script>
+<script type="text/javascript" src="../../lib/mootools-more.js"></script>
+<script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
+<script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
+
+<script  type="text/javascript">
+var dialog1, dialog2, dialog3;
+window.addEvent('load', function() {
+    drawPanelSetDialog();
+    drawTabDialog();
+    drawSplitDialog();
+});
+
+/* normally we wouldn't switch the stylesheet on the fly - the stylesheet switcher emits
+ * an event that the stylesheet has changed and we tear down any existing chrome so that
+ * we can rebuild it from the new stylesheet.  This still has some problems with layout
+ * inside the dialog but it is functional if you resize the dialog
+ */
+window.addEvent('stylesheetChanged', function() {
+    [dialog1,dialog2,dialog3].each(function(d) {
+        if (d && d.chrome) {
+            d.close();
+            d.chrome.dispose();
+            d.chrome = null;                
+        }
+    });
+});
+
+</script>
+
+<script id="drawPanelSetDialogScript" type='text/javascript'>
+function drawPanelSetDialog() {
+    // A Dialog with a Panel Set for content, resizeable and moveable.
+    // Panel definition
+    var panelSet = new Jx.PanelSet({panels: [
+        new Jx.Panel({
+            contentURL: 'panel_content.html',
+            label: 'Panel 1',
+            maximize: true,
+            collapse: false
+        }),
+        new Jx.Panel({
+            contentURL: 'panel_content.html',
+            label: 'Panel 2',
+            maximize: true,
+            collapse: false
+        }),
+        new Jx.Panel({
+            contentURL: 'panel_content.html',
+            label: 'Panel 2',
+            maximize: true,
+            collapse: false
+        })
+    ]});
+    
+    // Dialog Definitions
+    dialog1 = new Jx.Dialog({
+        id: 'panelDialog',
+        label: 'Panel in a Dialog', 
+        modal: false, 
+        width: 400,
+        height: 400,
+        resize: true,
+        content: panelSet
+    });
+
+
+    // Button to launch Dialog
+    new Jx.Button({
+        label: 'Panel Set', 
+        onClick: dialog1.open.bind(dialog1)
+    }).addTo('panelSetButton'); 
+}
+</script>
+
+<script id="drawTabDialogScript" type='text/javascript'>
+function drawTabDialog() {
+    // A Dialog with a Tab Box for content, resizeable and moveable.
+    // Tab Box definition
+    var tabBox = new Jx.TabBox().add(
+        new Jx.Button.Tab({
+            label: 'Tab 1', 
+            content: 'tab1'
+        }),
+        new Jx.Button.Tab({
+            label: 'Tab 2', 
+            content: 'tab2'
+        })
+    );
+
+    // Dialog Definitions
+    dialog2 = new Jx.Dialog({
+        id: 'tabDialog',
+        label: 'Tabs in a Dialog', 
+        modal: false, 
+        resize: true,
+        content: tabBox
+    });
+
+
+    // Button to launch Dialog
+    new Jx.Button({
+        label: 'Tab Box', 
+        onClick: dialog2.open.bind(dialog2)
+    }).addTo('tabBoxButton'); 
+}
+</script>
+
+<script id="drawSplitDialogScript" type='text/javascript'>
+function drawSplitDialog() {
+    // A Dialog with a Split Panel for content, resizeable and moveable.
+    
+    var toolbar = new Jx.Toolbar().add(
+        new Jx.Button({
+            label:'b1'
+        }),
+        new Jx.Button({
+            label:'b2'
+        })
+    );
+
+
+    dialog3 = new Jx.Dialog({
+        label: 'dialog with splitter', 
+        modal: false, 
+        width: 600,
+        height: 400,
+        toolbars: [toolbar],
+        resize: true
+    });
+
+    var splitter = new Jx.Splitter(dialog3.content, {
+       elements:['d3left','d3right']
+    });
+    
+    var tabBox = new Jx.TabBox({parent: splitter.elements[0]}).add(
+       new Jx.Button.Tab({
+           label: 'Tab 1', 
+           content: 'tab3'
+       }),
+       new Jx.Button.Tab({
+           label: 'Tab 2', 
+           content: 'tab4'
+       })
+    );
+
+    // Button to launch Dialog
+    new Jx.Button({
+        label: 'Split Dialog', 
+        onClick: dialog3.open.bind(dialog3)
+    }).addTo('splitterButton'); 
+};
+</script>
+
+</head>
+<body>
+
+<h1>Jx.Dialog Integrated Examples</h1>
+<p></p>
+
+<h2 id="drawPanelSetDialog">Panel Set inside a Dialog</h2>
+<p>This is an example of a dialog that uses a panelset as its content.</p>
+<div id="panelSetButton" class="buttonBox"></div>
+
+<h2 id="drawTabDialog">Tabs inside a Dialog</h2>
+<p>This is an example of using a tab box as the content of a dialog.</p>
+<div id="tabBoxButton" class="buttonBox"></div>
+
+<h2 id="drawSplitDialog">Splitter inside a Dialog</h2>
+<p>This is a more complex test of various dialog constructions including embedding various kinds of content inside dialogs.</p>
+<div id="splitterButton" class="buttonBox"></div>
+
+  
+<div id="tab1">
+    <h3>Tab 1 Content</h3>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </p>
+</div>
+
+<div id="tab2">
+    <h3>Tab 2 Contnet</h3>
+    <p>Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </p>
+</div>
+
+<div id="tab3">
+    <h3>Tab 1 Content</h3>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </p>
+</div>
+
+<div id="tab4">
+    <h3>Tab 2 Content</h3>
+    <p>Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </p>
+</div>
+
+<div id='d3right' class="splitContent">
+  <h3>Right Content</h3>
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+</div>
+
+</body>
+</html>

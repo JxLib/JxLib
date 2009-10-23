@@ -1,0 +1,455 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <title>Browsr - a JxLib Example</title>
+  <script src="../lib/jxlib.uncompressed.js" type="text/javascript" charset="utf-8"></script>
+  <link rel="stylesheet" href="../lib/themes/delicious/jxtheme.css" type="text/css" media="screen" charset="utf-8">
+  <script type="text/javascript" charset="utf-8">
+    var tabBox;
+    var firstButton;
+    var prevButton;
+    var nextButton;
+    var lastButton;
+    var currentPage=1;
+    var totalPages;
+    var mostRecentFx;
+    
+    window.addEvent('load', function() {
+        // make thePage fill the browser's viewable area
+        new Jx.Layout('thePage');
+
+        // the main layout is a title area, a fixed-width sidebar on the left
+        // and a flexible area for the tabs
+        new Jx.Layout('header', {height: 75});
+        new Jx.Layout('sidebar', {top: 75, width: 300});
+        new Jx.Layout('tabarea', {top: 75, left: 300});
+        
+        // the side bar contains a search input at the top
+        // and pagination controls at the bottom, the rest of the height
+        // is given to the search results
+        new Jx.Layout('searchContainer', {height: 28});
+        new Jx.Layout('searchResults', {top:28,bottom:28});
+        new Jx.Layout('searchControl', {height:28, bottom: 0, top: null});
+        
+        // the tab box will contain an initial about tab that can't be closed
+        // and tabs for each of the images that a user clicks on
+        tabBox = new Jx.TabBox().add(
+            new Jx.Button.Tab({
+                // this is not really recommended :)
+                label: '<span style="color:#0063DC">brows</span><span style="color:#FF0084">r</span>', 
+                contentURL: 'about.html', 
+                image: 'images/page.png',
+                onContentLoaded: function() {
+                    mostRecentFx = new Fx.Slide('recentList', {mode: 'horizontal'});
+                    updateMostRecent();
+                    new Jx.Button({
+                        label: 'Update Most Recent',
+                        onClick: updateMostRecent
+                    }).addTo('refreshRecent');
+                }
+            })
+        ).addTo('tabarea');
+        
+        // an initial resize is usually required to get everything laid out correctly
+        $('thePage').resize();
+                
+        var searchButton = new Jx.Button({
+            label: 'search',
+            image: 'images/magnifier.png',
+            tooltip: 'click to search',
+            onClick: function() {
+                currentPage = 1;
+                jsonFlickrRequest($('search').value);
+            }
+        }).addTo('searchButton');
+        
+        
+        // keep a reference to these buttons - the idea being that we could
+        // disable them when the pagination is in a certain state (first and
+        // previous would be disabled on page 1 for instance) but I didn't
+        // get around to it yet.
+        firstButton = new Jx.Button({
+            image: 'images/resultset_first.png',
+            tooltip: 'click to return to the first page of the results.',
+            onClick: function() {
+                currentPage = 1;
+                jsonFlickrRequest($('search').value);
+            }
+        });
+        prevButton = new Jx.Button({
+            image: 'images/resultset_previous.png',
+            tooltip: 'click to return to the previous page of the results.',
+            onClick: function() {
+                if (currentPage > 1) {
+                    currentPage --;
+                }
+                jsonFlickrRequest($('search').value);
+            }
+        });
+        nextButton = new Jx.Button({
+            image: 'images/resultset_next.png',
+            tooltip: 'click to move to the next page of the results.',
+            onClick: function() {
+                if (currentPage < totalPages) {
+                    currentPage ++;
+                }
+                jsonFlickrRequest($('search').value);
+            }
+        });
+        lastButton = new Jx.Button({
+            image: 'images/resultset_last.png',
+            tooltip: 'click to move to the last page of the results.',
+            onClick: function() {
+                currentPage = totalPages;
+                jsonFlickrRequest($('search').value);
+            }
+        });
+        
+        // a little toolbar to hold the search controls, note it
+        // doesn't scroll so we can size the pages element
+        // to make it look right
+        new Jx.Toolbar({parent: 'searchControl', scroll: false}).add(
+            firstButton,
+            prevButton,
+            new Element('div', {id: 'pages', html: ''}),
+            nextButton,
+            lastButton
+        );
+        
+        $('search').addEvent('keypress', function(e){
+            if (e.key == 'enter') {
+                searchButton.clicked();
+            }
+        })
+
+        // an initial request to populate the search results with the
+        // most recently uploaded images
+        jsonFlickrRequest('');
+        
+    });
+    
+    // update the 10 most recent images that we show on the About tab.
+    function updateMostRecent() {
+        var url = 'http://www.flickr.com/services/rest/?method=flickr.photos.getRecent&jsoncallback=displayMostRecent&format=json&api_key=2d40b54d95f5e9e2b9a4bcc35a2b8727&page=1&per_page=10&ts='+Math.random();
+        (function() {
+            new Asset.javascript(url);
+        }).delay(1);
+    }
+    
+    // callback to actually display the pics and hook them up to the tab creation function when clicked
+    function displayMostRecent(response) {
+        if (response && response.stat == 'ok' && response.photos) {
+            mostRecentFx.slideOut().chain( function() {
+                var photos = response.photos.photo;
+                var recentList = $('recentList');
+                recentList.empty();
+                photos.each(function(photo) {
+                    var li = new Element('li');
+                    var a = new Element('a', {
+                        events: {
+                            click: function() {
+                                createTab(photo);
+                            }
+                        }
+                    });
+                    var img = new Element('img', {
+                        src: 'http://farm'+photo.farm+'.static.flickr.com/'+photo.server+'/'+photo.id+'_'+photo.secret+'_t.jpg',
+                        styles: {
+                            width: 60,
+                            padding: 2
+                        },
+                        alt: '',
+                        title: ''
+                    });
+                    a.adopt(img);
+                    li.adopt(a);
+                    recentList.adopt(li);
+                });
+                mostRecentFx.slideIn();
+            });
+        }    
+    }
+    
+    // general search 
+    function jsonFlickrRequest(text) {
+        var method = text ? 'search' : 'getRecent';
+        var search = '';
+        if (method == 'search') {
+            if (text.contains('tag:')) {
+                search = 'tag_mode=all&tags='+encodeURIComponent(text.substring(4).trim().replace(' ', ','));
+            } else {
+                search = 'text='+encodeURIComponent(text);
+            }
+        }
+        var url = 'http://www.flickr.com/services/rest/?ts='+Math.random()+'&method=flickr.photos.'+method+'&format=json&api_key=2d40b54d95f5e9e2b9a4bcc35a2b8727&'+search+'&page='+currentPage+'&per_page=5';
+        (function(){
+            new Asset.javascript(url);
+        }).delay(1);
+    }
+    
+    // display search results
+    function jsonFlickrApi(response) {
+        if (response && response.stat == 'ok' && response.photos) {
+            var photos = response.photos;
+            totalPages = photos.pages;
+            $('pages').set('html', 'page ' + photos.page + ' of ' + photos.pages)
+            var searchResults = $('searchResultsList');
+            searchResults.empty();
+            photos.photo.each(function(photo) {
+                var li = new Element('li', {
+                    'class': 'searchResult'
+                });
+                var a = new Element('a', {
+                    events: {
+                        click: function() {
+                            createTab(photo);
+                        }
+                    }
+                });
+                
+                var img = new Element('div', {
+                    'class': 'thumbnail',
+                    styles: {
+                        backgroundImage: 'url(http://farm'+photo.farm+'.static.flickr.com/'+photo.server+'/'+photo.id+'_'+photo.secret+'_t.jpg)'
+                    }
+                });
+                a.adopt(img);
+                a.adopt(new Element('h1', {html: photo.title}));
+                li.adopt(a);
+                searchResults.adopt(li);
+            });
+        }
+    }
+    
+    // when any thumbnail is clicked, we want to create a tab for it
+    // if the tab isn't already in the tab set
+    function createTab(photo) {
+        if ($(photo.id)) {
+            $(photo.id).retrieve('tab').setActive(true);
+            return;
+        }
+        var title = photo.title;
+        if (title.length > 20) {
+            title = title.substring(0,20) + '...';
+        }
+        var tab = new Jx.Button.Tab({
+            label: title,
+            image: 'http://farm'+photo.farm+'.static.flickr.com/'+photo.server+'/'+photo.id+'_'+photo.secret+'_t.jpg',
+            close: true,
+            active: true,
+            contentId: photo.id,
+            onContentLoaded: function() {
+                (function(){
+                    new Asset.javascript('http://www.flickr.com/services/rest/?ts='+Math.random()+'&method=flickr.photos.getInfo&jsoncallback=updatePhotoInfo&format=json&api_key=2d40b54d95f5e9e2b9a4bcc35a2b8727&photo_id='+photo.id);
+                }).delay(1);
+            }
+        });
+        tab.content.store('tab', tab);
+        
+        tabBox.add(tab);
+    }
+    
+    // details on the photos get filled in asynchronously
+    function updatePhotoInfo(response) {
+        if (response && response.stat == 'ok' && response.photo) {
+            var photo = response.photo;
+            var content = $(photo.id);
+            if (!content) return;
+            content.addClass('imageTab');
+            var title = new Element('h1', {html: photo.title._content});
+            var upload = new Element('p');
+            upload.appendText('Uploaded by ');
+            new Element('a', {
+                href: 'javascript:void(0);',
+                html: photo.owner.username,
+                events: {
+                    click: function() {
+                        tabBox.add(
+                            new Jx.Button.Tab({
+                                label: photo.owner.username,
+                                image: 'images/user.png',
+                                close: true,
+                                active: true,
+                                content: '<iframe src="'+photo.urls.url[0]._content+'" style="width: 100%; height: 100%; border: 1px solid #ccc"></iframe>'
+                            })
+                        );
+                    }
+                }
+            }).inject(upload);
+            upload.appendText(' on '+ photo.dates.taken+'.');
+            upload.appendText(' '+photo.comments._content+' comments.');
+            var d = new Element('div', {
+                'class': 'photoContainer'
+            });
+            new Element('img', {
+                src: 'http://farm'+photo.farm+'.static.flickr.com/'+photo.server+'/'+photo.id+'_'+photo.secret+'.jpg',
+                alt: '',
+                title: ''
+            }).inject(d);
+            var tags = new Element('div', {
+                'class': 'photoTagsContainer'
+            });
+            tags.adopt(new Element('h3', {html: 'Tags'}));
+            var tagList = new Element('ul');
+            photo.tags.tag.each(function(tag) {
+                var li = new Element('li');
+                new Element('a', {
+                    html: tag._content,
+                    events: {
+                        click: function() {
+                            $('search').value = 'tag: ' + tag._content;
+                            currentPage = 1;
+                            jsonFlickrRequest($('search').value);
+                        }
+                    },
+                    styles: {
+                        cursor: 'pointer'
+                    }
+                }).inject(li);
+                tagList.adopt(li);
+            });
+            tags.adopt(tagList);
+            content.adopt(title);
+            content.adopt(upload);
+            content.adopt(d);
+            content.adopt(tags);
+        }
+    }
+  </script>
+  <style>
+  /* general styles because reset wipes them out */
+  body {
+      font-family: Verdana, Arial, Helvetica, sans-serif;
+      font-size: 11px;
+  }
+  h1, h2, h3, h4 {
+      font-family: "Trebuchet MS", Trebuchet, Arial, Helvetica, sans-serif;
+  }
+  h1 { font-size: 26px; }
+  h2 { font-size: 22px; }
+  h3 { font-size: 18px; }
+  h4 { font-size: 14px; }
+  p { margin: 10px; line-height: 16px; }
+  
+  /* our layout elements need some style */
+  
+  #sidebar {
+      margin: 0px 10px 10px 10px;
+  }
+  #tabarea {
+      margin: 0px 10px 10px 0px;
+  }
+  #tabarea .tabContent {
+      background-color: #f0f0f0;
+      padding: 20px;
+  }
+  #header { }
+  
+  #pages {
+      font-size: 11px;
+      line-height: 22px;
+      margin: 2px;
+      width: 164px;
+      text-align: center;
+  }
+  
+  #recentList {
+      display: block;
+      clear: both;
+  }
+  
+  #recentList li {
+      float: left;
+  }
+  #search {
+    float: left;
+    margin: 4px;
+  }
+  
+  #searchResults {
+      clear: both;
+      overflow: auto;
+  }
+  
+  .searchResult {
+      display: block;
+      vertical-align: middle;
+      clear: both;
+  }
+  .searchResult a {
+      display: block;
+      height: 87px;
+      cursor: pointer;
+      float: left;
+  }
+  .searchResult a:hover {
+    background-color: #fcfcfc;
+  }
+
+  .thumbnail {
+      float: left;
+      margin: 6px;
+      width: 100px;
+      height: 75px;
+      background-repeat: no-repeat;
+      background-position: top left;
+  }
+
+  .searchResult h1 {
+      float: left;
+      margin: 6px;
+      width: 140px;
+      font-size: 13px;
+  }
+  
+  #searchControl ul.jxToolbar {
+      width: 100%;
+  }
+  
+  
+  .jxTabBox .jxTabBarTop {
+      background-image: url(images/tabbar.png);
+  }
+  
+  .jxBarContainer {
+      background-color: transparent;
+  }
+  
+  .jxPanelContentContainer {
+      background-color: transparent;
+  }
+  
+  .photoContainer {
+      float: left;
+  }
+  
+  .photoTagsContainer {
+      float: left;
+      margin-left: 20px;
+  }
+  
+  .imageTab p {
+      margin-left: 0px;
+      color: #666;
+  }
+  
+  </style>
+  
+</head>
+<body>
+<div id="thePage">
+    <div id="header"><img width="172" height="64" alt="browsr" src="images/browsr.png"/></div>
+    <div id="sidebar">
+        <div id="searchContainer">
+            <input id="search" name="search"><span id="searchButton"></span>
+        </div>
+        <div id="searchResults">
+            <ul id="searchResultsList">
+            </ul>
+        </div>
+        <div id="searchControl"></div>
+    </div>
+    <div id="tabarea"></div>
+</div>
+</body>
+</html>

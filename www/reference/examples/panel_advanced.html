@@ -1,0 +1,169 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Jx.Panel Advanced Examples</title>
+<meta http-equiv="Content-type" content="text/html; charset=iso-8859-1" />
+<script type="text/javascript" src="../../lib/mootools-core.js"></script>
+<script type="text/javascript" src="../../lib/mootools-more.js"></script>
+<script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
+<script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
+
+<script  type="text/javascript">
+window.addEvent('load', function() {
+    drawPanelSet();
+    drawTabPanel();
+    drawSplitPanel();
+});
+</script>
+
+<script id="drawPanelSetScript" type='text/javascript'>
+function drawPanelSet() {
+    // A Panel with a Panel Set for content.
+    //Toolbar definition
+    var toolbar1 = new Jx.Toolbar().add(
+        new Jx.Button({
+            label:'b1'
+        }),
+        new Jx.Button({
+            label:'b2'
+        })
+    );
+    // Panel definition
+    var panelSet = new Jx.PanelSet({panels: [
+        new Jx.Panel({
+            contentURL: 'panel_content.html',
+            label: 'Panel 1',
+            maximize: true,
+            collapse: false
+        }),
+        new Jx.Panel({
+            contentURL: 'panel_content.html',
+            label: 'Panel 2',
+            toolbars: [toolbar1],
+            maximize: true,
+            collapse: false
+        })
+    ]});
+    
+    // Panel Definitions
+    var panel1 = new Jx.Panel({
+        id: 'panelSetPanel',
+        label: 'Panelset in a Panel', 
+        height: 300,
+        content: panelSet
+    }).addTo('panelSetBox'); 
+}
+</script>
+
+<script id="drawTabPanelScript" type='text/javascript'>
+function drawTabPanel() {
+    // A Panel with a Tab Box for content.
+    // Tab Box definition
+    var tabBox = new Jx.TabBox().add(
+        new Jx.Button.Tab({
+            label: 'Tab 1', 
+            content: 'tab1'
+        }),
+        new Jx.Button.Tab({
+            label: 'Tab 2', 
+            content: 'tab2'
+        })
+    );
+
+    // Dialog Definitions
+    var panel2 = new Jx.Panel({
+        id: 'tabDialog',
+        label: 'Tabs in a Panel', 
+        height: 200,
+        content: tabBox
+    }).addTo('tabPanelBox');
+}
+</script>
+
+<script id="drawSplitPanelScript" type='text/javascript'>
+function drawSplitPanel() {
+    // A Split Panel for content.
+    
+    var toolbar = new Jx.Toolbar().add(
+        new Jx.Button({
+            label:'b1'
+        }),
+        new Jx.Button({
+            label:'b2'
+        })
+    );
+
+    var panel3 = new Jx.Panel({
+        label: 'Panel with Splitter', 
+        height: 200,
+        toolbars: [toolbar],
+        parent: 'splitPanelBox'
+    });
+
+    var splitter = new Jx.Splitter(panel3.content, {
+        elements:['d3left','d3right']
+    });
+
+    var tabBox = new Jx.TabBox({parent: splitter.elements[0]}).add(
+        new Jx.Button.Tab({
+            label: 'Tab 1', 
+            content: 'tab3'
+        }),
+        new Jx.Button.Tab({
+            label: 'Tab 2', 
+            content: 'tab4'
+        })
+    );
+};
+</script>
+
+</head>
+<body>
+
+<h1>Jx.Panel Integrated Examples</h1>
+<p></p>
+
+<h2 id="drawPanelSet">Panel Set inside a Panel</h2>
+<p>This is an example of a panel with a panelset as its content.</p>
+<div id="panelSetBox" class="panelBox"></div>
+
+<h2 id="drawTabPanel">Tabs inside a Panel</h2>
+<p>This is an example of using a tab box as the content of a panel.</p>
+<div id="tabPanelBox" class="panelBox"></div>
+
+<h2 id="drawSplitPanel">Splitter inside a Panel</h2>
+<p>This is a more complex example of using various kinds of content inside panels.</p>
+<div id="splitPanelBox" class="panelBox"></div>
+
+  
+<div id="tab1">
+    <h3>Tab 1 Content</h3>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </p>
+</div>
+
+<div id="tab2">
+    <h3>Tab 2 Contnet</h3>
+    <p>Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </p>
+</div>
+
+<div id="tab3">
+    <h3>Tab 1 Content</h3>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </p>
+</div>
+
+<div id="tab4">
+    <h3>Tab 2 Content</h3>
+    <p>Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </p>
+</div>
+
+<div id='d3right' class="splitContent">
+  <h3>Right Content</h3>
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+</div>
+
+</body>
+</html>

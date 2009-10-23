@@ -1,0 +1,192 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Jx.Dialog Examples</title>
+<meta http-equiv="Content-type" content="text/html; charset=iso-8859-1" />
+<script type="text/javascript" src="../../lib/mootools-core.js"></script>
+<script type="text/javascript" src="../../lib/mootools-more.js"></script>
+<script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
+<script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
+<script  type="text/javascript">
+    var d1, d2, d3, d4;
+    window.addEvent('load', function() {
+        drawBasicDialog();
+        drawPositionedDialog();
+        drawToolbarDialog();
+        drawAjaxFailedDialog();
+    });
+    
+    /* normally we wouldn't switch the stylesheet on the fly - 
+     * the stylesheet switcher emits an event that the 
+     * stylesheet has changed and we tear down any existing 
+     * chrome so that we can rebuild it from the new stylesheet.
+     * This still has some problems with layout inside the 
+     * dialog but it is functional if you resize the dialog
+     */
+    window.addEvent('stylesheetChanged', function() {
+        [d1,d2,d3,d4].each(function(d) {
+            if (d && d.chrome) {
+                d.close();
+                d.chrome.dispose();
+                d.chrome = null;                
+            }
+        });
+    });
+    
+</script>
+<script id="basicDialogScript" type='text/javascript'>
+function drawBasicDialog() {
+    /* a simple dialog with HTML content, not moveable.
+     */
+    d1 = new Jx.Dialog({
+        label: 'Static Dialog',
+        image: 'images/page_white_text.png',
+        modal: false, 
+        resize: false,
+        move: false,
+        content: "<h3>Content from HTML String</h3>"+
+            "<p>This dialog cannot be moved or resized, but it can be collapsed.</p>"
+    });
+
+    new Jx.Button({
+        image: 'images/page_white_text.png', 
+        label: 'Static', 
+        onClick: d1.open.bind(d1)
+    }).addTo('basicDialogButton'); 
+    
+    
+}
+</script>
+<script id="positionedDialogScript" type='text/javascript'>
+function drawPositionedDialog() {
+    
+    /* another simple dialog that picks up its content from an existing 
+     * element by id and has an initial starting position.  It is also
+     * modal.
+     */
+    d2 = new Jx.Dialog({
+        label: 'Positioned Dialog',
+        image: 'images/page_white_code.png',
+        modal: true, 
+        horizontal: '200 left', 
+        vertical: '50 top', 
+        content: 'inlineContent', 
+        resize: true
+    });
+    
+    new Jx.Button({
+        image: 'images/page_white_code.png', 
+        label: 'Positioned Modal', 
+        onClick: d2.open.bind(d2)
+    }).addTo('positionedDialogButton');
+}
+</script>
+<script id="toolbarDialogScript">
+function drawToolbarDialog() {   
+    /* A dialog with a toolbar that loads its content from a URL
+     * and does something with the content after it is loaded.
+     *
+      This dialog is positioned relative to the right and bottom
+     * of the page.
+     */
+    var toolbar = new Jx.Toolbar({position:'top'});
+    toolbar.add(
+        new Jx.Button({
+            label: 'button 1', 
+            onClick: function() {
+                log('button 1 inside dialog clicked');
+            }
+        }),
+        new Jx.Button({
+            label: 'button 2', 
+            onClick: function() {
+                log('button 2 inside dialog clicked');
+            }
+        })
+    );
+    
+    d3 = new Jx.Dialog({
+        label: 'Toolbar Dialog with Ajax Content',
+        image: 'images/page_white_world.png',
+        modal: false, 
+        horizontal: 'right -200',
+        vertical: 'bottom -5',
+        width: 400,
+        height: 400,
+        contentURL: 'dialog_content.html',
+        onContentLoaded: function () {
+            var el = this.content.getElementById('updateMe')
+            if (el) {
+                el.set('html', 'Content Updated!');
+            }
+        },
+        toolbars: [toolbar]
+    });
+    
+    new Jx.Button({
+        image: 'images/page_white_world.png', 
+        label: 'Dynamic Content and Toolbar', 
+        onClick: d3.open.bind(d3)
+    }).addTo('toolbarDialogButton');
+}
+</script>
+<script id="ajaxFailedDialogScript">
+function drawAjaxFailedDialog() {
+    /* a dialog that fails to load some content so we can test the
+     * content events
+     */
+    d4 = new Jx.Dialog({
+        label: 'Invalid Content URL',
+        image: 'images/page_white_world.png',
+        modal: false, 
+        width: 400,
+        height: 400,
+        /* test failure to load content */
+        contentURL: 'invalid_content_url.html',
+        onContentLoaded: function() {
+          log('Loaded content when it shouldn\'t have');
+          this.content.innerHTML = "<h3>Fail!</h3>" +
+              "<p>We tried to load content from a URL" + 
+              "that doesn't exist and it worked when it "+
+              "shouldn't have.</p>";
+        },
+        onContentLoadFailed: function() {
+          log('content correctly failed to load');
+          this.content.innerHTML = "<h3>Content Failed To Load</h3>"+
+            "<p>We tried to load content from a URL that doesn't " +
+            "exist and have inserted this content in the function "+
+            "that handles the failure event.</p>";
+        }
+    });
+    new Jx.Button({
+       image: 'images/page_white_world.png', 
+       label: 'Invalid Content URL', 
+       onClick: d4.open.bind(d4)
+    }).addTo('ajaxFailedDialogButton');
+}
+</script>
+</head>
+<body>
+<h1>Jx.Dialog Examples</h1>
+<h2 id="basicDialog">Basic Dialog</h2>
+<p>This is a basic dialog that uses inline content.  Its static on the page (you can't do anything but close it).</p>
+<div id="basicDialogButton" class="buttonBox"></div>
+
+<h2 id="positionedDialog">Positioning Dialog</h2>
+<p>This dialog is modal and has an initial position other than the default centering logic.  It is also resizable and movable.</p>
+<div id="positionedDialogButton" class="buttonBox"></div>
+
+<h2 id="toolbarDialog">Toolbars in Dialogs</h2>
+<p>Dialogs can also contain toolbars in any of the four sides of the content area.  This dialog also demonstrates loading content from a URL and processing it after it has loaded.  It also tries some other positioning logic.</p>
+<div id="toolbarDialogButton" class="buttonBox"></div>
+
+<h2 id="ajaxFailedDialog">Ajax Content Fails to Load</h2>
+<p>If dialog content fails to load, you can trap that error and do something useful for the user.</p>
+<div id="ajaxFailedDialogButton" class="buttonBox"></div>
+
+<div id='inlineContent'>
+  <h3>Inline Content</h3>
+  <p>This content is loaded by specifying the id of the element to use in the dialog.  The dialog should be modal and start at a specific location (200 pixels from left of modal background, 100 pixels from top).  The content background is white because the content itself has a background color style.</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Jx.Tree Test Page</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<script type="text/javascript" src="../../lib/mootools-core.js"></script>
+<script type="text/javascript" src="../../lib/mootools-more.js"></script>
+<script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
+<script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+window.addEvent('load', function() {
+    tree();
+});
+</script>
+
+<script id="treeScript" type="text/javascript">
+function tree() {
+  
+    var cm = new Jx.Menu.Context();
+    var mi = new Jx.Menu.Item({label:'test'});
+    cm.add(mi);
+    
+    /* the tree object goes in a div */
+    var tree = new Jx.Tree({parent: 'treeArea'});
+
+    /* you can put an item right into the tree */
+    var item = new Jx.TreeItem({
+        label: 'Tree item with custom icon',
+        image: 'images/bug.png',
+        onClick: function() {
+            log('you clicked the bug!');
+        },
+        contextMenu: cm
+    });
+    tree.append(item);
+    
+    /* add a folder to the tree */
+    var folder = new Jx.TreeFolder({
+        label: 'Tree folder with custom icon',
+        image: 'images/blue_folder.png',
+        imageClass: 'blueFolder',
+        contextMenu: cm
+    });
+    tree.append(folder);
+    
+    /* put an item into the folder */
+    var item = new Jx.TreeItem({
+        label: 'A Sub Item'
+    });
+    folder.append(item);
+    
+    /* you can put a folder into a folder */
+    var subFolder = new Jx.TreeFolder({label: 'A Sub Folder'});
+    folder.append(subFolder);
+
+    /* and items into that too! */
+    var item = new Jx.TreeItem({label: 'Another Sub Item'});
+    subFolder.append(item);
+    
+    /* add a lot more stuff */
+    for (var j=1; j<4; j++) {
+        var folder = new Jx.TreeFolder({label: 'Folder ' + j});
+        tree.append(folder);
+        for (var i=1; i<10; i++) {
+            var item = new Jx.TreeItem({label: 'Item ' + i});
+            folder.append(item);
+        }        
+    }    
+};
+</script>
+</head>
+<body>
+<h1>Jx.Tree Examples</h1>
+<p>API Reference: <a id="tree-js" href="javascript:void();" title="link to API Reference">Jx.Tree</a>, <a id="treefolder-js" href="javascript:void();" title="link to API Reference">Jx.TreeFolder</a>, <a id="treeitem-js" href="javascript:void();" title="link to API Reference">Jx.TreeItem</a></p>
+<h2 id="tree">Basic Tree</h2>
+<p>A tree is a component that organizes items into folders and sub folders, allowing the user to open and close the folders as needed to find them.</p>
+<div id="treeArea" class="treeBox"></div>
+</body>
+</html>

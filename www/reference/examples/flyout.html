@@ -1,0 +1,144 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Jx.Button.Flyout Examples</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<script type="text/javascript" src="../../lib/mootools-core.js"></script>
+<script type="text/javascript" src="../../lib/mootools-more.js"></script>
+<script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
+<script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+window.addEvent('load', function() {
+    inlineFlyout();
+    ajaxFlyout();
+    embeddedFlyout();
+    disabledFlyout();
+});
+</script>
+
+<script id="inlineFlyoutScript" type="text/javascript">
+function inlineFlyout() {
+    /* a simple flyout that picks up it's content from
+     * an inline div by id.
+     */
+    new Jx.Button.Flyout({
+        label: 'Inline Content',
+        image: 'images/page_white_code.png',
+        content: 'inlineContent'
+    }).addTo('flyoutInline');
+}
+</script>
+
+<script id="ajaxFlyoutScript" type="text/javascript">
+function ajaxFlyout() {
+    /* this is a flyout using content loaded from a url */
+    new Jx.Button.Flyout({
+      label: 'Asynchronous Content',
+      image: 'images/page_white_world.png',
+      contentURL: 'button_content.html',
+      onOpen: function() {log('flyout open event');},
+      onClose: function() {log('flyout close event');}
+    }).addTo('flyoutAjax');
+}
+</script>
+
+<script id="embeddedFlyoutScript" type="text/javascript">
+function embeddedFlyout() {
+    /* this is a flyout embedded in another one, we need to make it first
+       because it pulls its content from the page until it is
+       first opened */
+    new Jx.Button.Flyout({
+      label:'Embedded 1',
+      contentURL: 'button_content.html'
+    }).addTo('embeddedFlyouts');
+
+    /* this is a flyout embedded in another one, we need to make it first
+       because it pulls its content from the page until it is
+       first opened */
+    new Jx.Button.Flyout({
+      label:'Embedded 2',
+      contentURL: 'button_content.html'
+    }).addTo('embeddedFlyouts');    
+
+    /* the main flyout that includes two embedded ones */
+    new Jx.Button.Flyout({
+        label: 'Embedded Flyouts',
+        image: 'images/page_white_text.png',
+      content: 'embeddedContent'
+    }).addTo('flyoutEmbedded');
+}
+</script>
+
+<script id="disabledFlyoutScript" type="text/javascript">
+function disabledFlyout() {
+    /* this is a flyout using content loaded from a url */
+    var flyout = new Jx.Button.Flyout({
+      label: 'Disabled Flyout',
+      enabled: false,
+      image: 'images/page_white_world.png',
+      contentURL: 'button_content.html'
+    }).addTo('flyoutDisabled');
+    
+    new Jx.Button({
+      label: 'Toggle Flyout Button',
+      toggle: true,
+      onDown: function(){
+          flyout.setEnabled(true); 
+          flyout.setLabel('Enabled Flyout')
+      },
+      onUp: function(){
+          flyout.setEnabled(false); 
+          flyout.setLabel('Disabled Flyout')
+      }
+    }).addTo('flyoutDisabled');
+}
+</script>
+
+<style type="text/css">
+  #inlineContent {
+    width: 251px;
+    height: 200px;
+  }
+  #embeddedContent {
+      width: 401px;
+      height: 300px;
+  }
+</style>
+</head>
+<body>
+<h1>Jx.Button.Flyout Examples</h1>
+
+<p>API Reference: <a id="button-flyout-js" href="javascript:void(0)" title="link to API Reference">Jx.Button.Flyout</a> Extends <a id="button-js" href="javascript:void();" title="link to API Reference">Jx.Button</a></p>
+
+<h2 id="inlineFlyout">Basic Flyouts</h2>
+<p>A flyout button is one that opens a panel next to the button when clicked.  Flyout buttons have the same options as regular buttons (they can have images and labels) and an extra option for specifying the content of the flyout.  This flyout uses an existing &lt;div&gt; element in the page for its content:</p>
+<div id="flyoutInline" class="buttonBox"></div>
+
+<h2 id="ajaxFlyout">Flyouts with asynchronous content</h2>
+<p>A flyout can also load content from a remote page using an asynchronous request:</p>
+<div id="flyoutAjax" class="buttonBox"></div>
+
+<h2 id="embeddedFlyout">Nested Flyouts</h2>
+<p>Flyout buttons can be contained in the content of other flyouts as well:</p>
+<div id="flyoutEmbedded" class="buttonBox"></div>
+
+<h2 id="disabledFlyout">Disabled Flyouts</h2>
+<p>Flyout buttons can be enabled and disabled just like other buttons:</p>
+<div id="flyoutDisabled" class="buttonBox"></div>
+
+<div id="inlineContent">
+  <h3>Inline Content</h3>
+  <p>Lorem ipsum dolor sit ajax, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+</div>
+
+<div id="embeddedContent">
+  <h3>Flyout with Children</h3>
+  <div id="embeddedFlyouts" class="buttonBox"></div>
+
+  <p>Lorem ipsum dolor sit ajax, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+</div>
+
+</div>
+</div>
+</body>
+</html>

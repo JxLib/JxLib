@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Jx.Button Examples</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<script type="text/javascript" src="../../lib/mootools-core.js"></script>
+<script type="text/javascript" src="../../lib/mootools-more.js"></script>
+<script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
+<script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+window.addEvent('load', function() {
+    basicButtons();
+    toggleButtons();
+    buttonSets();
+});
+</script>
+
+<script id="basicButtonsScript" type="text/javascript">
+function basicButtons() {
+    /* buttons in normal content */
+    new Jx.Button({
+      id: 'basic1',
+      label: 'Label and Icon',
+      image: 'images/asterisk_orange.png',
+      tooltip: 'a tooltip',
+      onClick: function() { log('click button with just a label, put a message in the log'); }
+    }).addTo('buttons');
+    /* just a label on this one */
+    new Jx.Button({
+      id: 'basic2',
+      label: 'Just a label',
+      tooltip: 'a tooltip',
+      onClick: function() { log('click button with just a label'); }
+    }).addTo('buttons');
+    /* just an image on this one */
+    new Jx.Button({
+      image: 'images/bug.png',
+      tooltip: 'a tooltip',
+      onClick: function() {log('button with just an image clicked')}
+    }).addTo('buttons');
+    /* test button with nothing */
+    new Jx.Button({tooltip:'another tooltip'}).addTo('buttons');
+}
+</script>
+
+<script id="toggleButtonsScript" type="text/javascript">
+function toggleButtons() {
+    /* this is a toggle style button */
+    var transmit = new Jx.Button({
+      label: 'Start Transmitting',
+      image: 'images/transmit.png',
+      tooltip: 'a tooltip',
+      toggle: true,
+      enabled: false,
+      onDown: function(){this.setLabel('Stop Transmitting')},
+      onUp: function(){this.setLabel('Start Transmitting')}
+    }).addTo('toggleButton');
+    /* this is another toggle button that controls the first one
+     * and demonstrates changing labels on the fly
+     */
+    new Jx.Button({
+      label: 'Enable Transmission',
+      image: 'images/lightbulbs.png',
+      imageClass: 'toggleLight',
+      tooltip: 'a tooltip',
+      toggle: true,
+      onDown: function(){
+          transmit.setEnabled(true); 
+          this.setLabel('Disable Transmission')
+      },
+      onUp: function(){
+          transmit.setEnabled(false); 
+          this.setLabel('Enable Transmission')
+      }
+    }).addTo('toggleButton');    
+}
+</script>
+
+<script id="buttonSetsScript" type="text/javascript">
+function buttonSets() {
+    /* create some toggle buttons to group as a set */
+    var tLeft = new Jx.Button({
+        label: 'left', 
+        image:'images/text.png', 
+        imageClass: 'text-align-left',
+        toggle:true
+    }).addTo('toggleSet');
+    var tCenter = new Jx.Button({
+        label: 'center', 
+        image:'images/text.png', 
+        imageClass: 'text-align-center',
+        toggle:true
+    }).addTo('toggleSet');
+    var tRight = new Jx.Button({
+        label: 'right', 
+        image:'images/text.png', 
+        imageClass: 'text-align-right',
+        toggle:true
+    }).addTo('toggleSet');
+    var tJustify = new Jx.Button({
+        label: 'justify', 
+        image:'images/text.png', 
+        imageClass: 'text-align-justify',
+        toggle:true
+    }).addTo('toggleSet');
+
+    /* make the button set and add our buttons to it */
+    var buttonSet = new Jx.ButtonSet({
+        onChange: function(){
+            log('text justify: '+this.activeButton.getLabel())
+        }
+    }).add(tLeft,tCenter,tRight,tJustify);
+}
+</script>
+</head>
+<body>
+  <h1>Jx.Button Examples</h1>
+  <p>API Reference: <a id="button-js" href="javascript:void();" title="link to API Reference">Jx.Button</a> See Also: <a id="buttonset-js" href="javascript:void();" title="link to API Reference">Jx.ButtonSet</a></p>
+  
+  <h2 id="basicButtons">Basic Buttons</h2>
+  <p>A basic button normally triggers some action when it is clicked.  It can have an icon, a label, both or nothing at all. All button subclasses support the same set of options.</p>
+  <div id="buttons" class="buttonBox"></div>
+  
+  <h2 id="toggleButtons">Toggle Buttons</h2>
+  <p>A button can be a toggle button, indicating that it is on or off.  They can start on or off as well.  Buttons can also be disabled and enabled programmatically.  The first button starts disabled.  The second button toggles the disabled state of the first one.</p>
+  <div id="toggleButton" class="buttonBox"></div>
+  
+  <h2 id="buttonSets">Button Sets</h2>
+  <p>Toggle buttons can also be organized using a ButtonSet, so only one of the buttons can be active at a time.  The button set also fires events, which we are using in this case (see the event log).</p>
+  <div id="toggleSet" class="buttonBox"></div>
+  
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Jx.Panel Examples</title>
+<meta http-equiv="Content-type" content="text/html; charset=iso-8859-1" />
+<script type="text/javascript" src="../../lib/mootools-core.js"></script>
+<script type="text/javascript" src="../../lib/mootools-more.js"></script>
+<script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
+<script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
+<script  type="text/javascript">
+window.addEvent('load', function() {
+    drawBasicPanel();
+    drawToolbarPanel();
+}); 
+</script>
+<script id="basicPanelScript" type="text/javascript" charset="utf-8">
+function drawBasicPanel() {
+    /* draw a couple of basic panels with content.  Note that the
+     * fixed height means they become relatively positioned so
+     * collapsing the first one will move the other one.
+     */
+    new Jx.Panel({
+        label: 'Basic Panel 1',
+        content: 'basicPanelContent',
+        height: 200
+    }).addTo('panelBasic');
+    new Jx.Panel({
+        image: 'images/page_white_world.png',
+        label: 'Basic Panel 2',
+        contentURL: 'panel_content.html',
+        menu: true,
+        height: 200
+    }).addTo('panelBasic');
+}
+</script>
+<script id="toolbarPanelScript" type="text/javascript" charset="utf-8">
+function drawToolbarPanel() {
+    /* panels can contain toolbars.  The position of the toolbar
+     * determines which edge of the panel the toolbar will be placed
+     * in.
+     */
+    var tbTop = new Jx.Toolbar({position: 'top'}).add(
+        new Jx.Button({label:'Top'})
+    );
+    var tbRight = new Jx.Toolbar({position: 'right'}).add(
+        new Jx.Button({label:'Right'})
+    );
+    var tbBottom = new Jx.Toolbar({position: 'bottom'}).add(
+        new Jx.Button({label:'Bottom'})
+    );
+    var tbLeft = new Jx.Toolbar({position: 'left'}).add(
+        new Jx.Button({label:'Left'})
+    );
+    new Jx.Panel({
+        label: 'Panel with Toolbars',
+        content: 'toolbarPanelContent',
+        height: 200,
+        toolbars:[tbTop, tbRight, tbBottom, tbLeft]
+    }).addTo('panelToolbar');
+}
+</script>
+</head>
+<body>
+
+<h1>Jx.Panel Examples</h1>
+<p>API Reference: <a id="panel-js" href="javascript:void();" title="link to API Reference">Jx.Panel</a> See Also: <a id="toolbar-js" href="javascript:void();" title="link to API Reference">Jx.Toolbar</a></p>
+
+<h2 id="basicPanel">A Panel with content</h2>
+<p>A panel is a container that wraps around existing content using the Jx.ContentLoader API and adds a few extras such as an optional title bar and managed toolbars.  Panels are the basic building block of dialogs and tab boxes, but can be used by themselves.</p>
+<div id="panelBasic" class="panelBox"></div>
+
+<h2 id="toolbarPanel">Toolbars in Panels</h2>
+<p>A panel is a container that wraps around existing content using the Jx.ContentLoader API and adds a few extras such as an optional title bar and managed toolbars.  Panels are the basic building block of dialogs and tab boxes, but can be used by themselves.</p>
+<div id="panelToolbar" class="panelBox"></div>
+
+<div id="basicPanelContent">
+    <h3>Basic Panel</h3>
+    <p>This panel is built with mostly default options, which means it has a title bar and it can be collapsed and expanded.  It has a fixed height specified in the options (100 pixels).  The title is specified by the <code>label</code>.  This panel loads content from a &lt;div&gt; element that already exists in the page by referring to it by id.</p>
+</div>
+
+<div id="toolbarPanelContent">
+    <h3>Toolbars in Panels</h3>
+    <p>Toolbars can be added to any of the four sides of a panel (top, right, bottom or left) or any combination thereof.</p>
+</div>
+</body>
+</html>

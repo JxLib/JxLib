@@ -1,0 +1,47 @@
+body {
+  background-color: #fcfcfc;
+  color: #333;
+}
+
+h1 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 24px;
+  line-height: 30px;
+  font-weight: normal;
+  padding: 10px 0px;
+  margin: 0px 20px;
+  clear: both;
+}
+
+h2 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: normal;
+  margin: 10px 20px;
+  clear: both;
+  position: relative;
+  border-bottom: 1px solid #d8d8d8;
+}
+
+p {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: normal;
+  margin: 10px 20px;
+  clear: both;
+  position: relative;
+}
+
+#testIndex {
+  margin-left: 5px;
+}
+
+.jxTree a, .jxTreeRoot a {
+  color: #333;
+}
+
+.jxTree a:hover, .jxTreeRoot a:hover {
+  color: #333;
+}

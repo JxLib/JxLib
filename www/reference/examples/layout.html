@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Jx.Layout Example Page</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<script type="text/javascript" src="../../lib/mootools-core.js"></script>
+<script type="text/javascript" src="../../lib/mootools-more.js"></script>
+<script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
+<script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
+<script  type="text/javascript">
+window.addEvent('load', function() {
+    var jxl = new Jx.Layout('thePage');
+    jxl.resize();
+    drawBasicLayout();
+    drawOffsetLayout();
+    jxl.addEvent('sizeChange', function() {
+       $('layoutBasicElement').resize();
+       $('layoutOffsetContainer').resize();
+    });
+});
+</script>
+<script id="basicLayoutScript" type="text/javascript" charset="utf-8">
+function drawBasicLayout() {
+    /* layouts don't resize automatically */
+    new Jx.Layout('layoutBasicElement').resize();
+}
+</script>
+<script id="offsetLayoutScript" type="text/javascript" charset="utf-8">
+function drawOffsetLayout() {
+    /* the main layout on this one uses the default settings to
+     * fill its container.  The child elements each have their
+     * own layout.  Resizing the main layout causes all the children
+     * to be resized too.
+     */
+    new Jx.Layout('layoutOffsetContainer');
+    new Jx.Layout('layoutOffsetElement1', {
+        height:50
+    });
+    new Jx.Layout('layoutOffsetElement2', {
+        top:50,
+        bottom:50,
+        width: 200
+    });
+    new Jx.Layout('layoutOffsetElement3', {
+        top:50,
+        bottom:50,
+        right:200,
+        left: 200
+    });
+    new Jx.Layout('layoutOffsetElement4', {
+        left: null,
+        top:50,
+        bottom:50,
+        width: 200
+    });
+    new Jx.Layout('layoutOffsetElement5', {
+        top:null,
+        height: 50
+    });
+    
+    $('layoutOffsetContainer').resize();
+}
+</script>
+
+</head>
+<body>
+<div id="thePage">
+    <h1>Jx.Layout Examples</h1>
+    <p>API Reference: <a id="layout-js" href="javascript:void(0)" title="link to API Reference">Jx.Layout</a></p>
+    <p>Note: The examples on this page are mostly set up to trigger a resize on Layout-managed elements when the page is resized.</p>
+    <h2 id="basicLayout">Filling an element</h2>
+    <p>The most basic use of Jx.Layout is to make an element fill another element.  This basic use has one main advantage over CSS, it accommodates margins, borders and padding on both the container and the contained element.</p>
+    <div id="layoutBasic" class="layoutBox">
+        <div id="layoutBasicElement" class="layoutElement">
+            <p>In this example, this white &lt;div&gt; fills the light grey container, respecting the 10px CSS padding on the container.  If we had done this using CSS and a width and height of 100%, the inner box would be the same size as the outer dimensions of the outer box.  Using width: auto will work (the element will fill the width correct, considering margins, borders and padding on both elements), but there is no other solution for height unfortunately.</p>
+        </div>
+    </div>
+    
+    <h2 id="offsetLayout">Specifying Offsets on Layouts</h2>
+    <p>Layout starts to shine when you want to establish a more complex set of constraints.  In this example, we have a layout that might be used for an application with a fixed height header and footer that stretch to fill the width, and a content area with fixed width left and right columns and a stretchy center area, all of which fill the available height.  All these elements are contained in a single container (defined by the darker gray border) that is also managed by Jx.Layout.  We call the resize method on the outer element when the page size changes, and Jx.Layout automatically cascades this to the inner elements for us if it is required.</p>
+    <div id="layoutOffset" class="layoutBox">
+        <div id="layoutOffsetContainer">
+            <div id="layoutOffsetElement1" class="layoutElement">
+                <p>This element has variable width and a fixed height, attached to the top of the container.</p>
+            </div>
+            <div id="layoutOffsetElement2" class="layoutElement">
+                <p>This element has variable height, fixed width and top offset.</p>
+            </div>
+            <div id="layoutOffsetElement3" class="layoutElement">
+                <p>This element has variable width and height with fixed left, top, right and bottom offsets.</p>
+            </div>
+            <div id="layoutOffsetElement4" class="layoutElement">
+                <p>This element has variable height, fixed width and top offset, attached to the right side.</p>
+            </div>
+            <div id="layoutOffsetElement5" class="layoutElement">
+                <p>This element has variable width and fixed height, attached to the bottom of the container.</p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

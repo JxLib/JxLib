@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Jx.Tab Advanced Examples</title>
+<script type="text/javascript" src="../../lib/mootools-core.js"></script>
+<script type="text/javascript" src="../../lib/mootools-more.js"></script>
+<script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
+<script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
+
+<script type="text/javascript">
+window.addEvent('load', function() {
+    drawTabBox();
+});
+</script>
+
+<script id="tabBoxScript" type="text/javascript" charset="utf-8">
+function drawTabBox() {
+    new Jx.TabBox().add(
+        new Jx.Button.Tab({
+            label: 'Sub tabs', 
+            content: new Jx.TabBox().add(
+                new Jx.Button.Tab({
+                    label: 'Sub Tab 1', 
+                    content: 'content4'
+                }),
+                new Jx.Button.Tab({
+                    label: 'Sub Tab 2', 
+                    content: 'content5'
+                })
+            )
+        }),
+        new Jx.Button.Tab({
+            label: 'Panel', 
+            content: new Jx.Panel({
+                label: 'A Panel', 
+                content: 'content3',
+                toolbars: [
+                    new Jx.Toolbar().add(
+                        new Jx.Button({label: 'a button'})
+                    )
+                ]
+            })            
+        }),
+        new Jx.Button.Tab({
+            active: true,
+            label: 'Panel Set',
+            content: new Jx.PanelSet({
+                panels: [
+                    new Jx.Panel({
+                        label: 'Panel 1', 
+                        content: 'content1'
+                    }),
+                    new Jx.Panel({
+                        label: 'Panel 2', 
+                        content: 'content2'
+                    })
+                ]
+            })
+        })
+    ).addTo('tabArea');
+};
+</script>
+<style>
+.tabBox {
+    height: 400px;
+}
+
+.jxPanelContent .tabContent {
+    overflow: hidden;
+}
+</style>
+</head>
+<body>
+
+<h1>Jx.Tab Advanced Examples</h1>
+<h2 id="tabBox">Tab Box with other JxLib objects inside</h2>
+<p>Tabs can contain other JxLib objects like other tab boxes, panels and even splitters.</p>
+<div id="tabArea" class="tabBox"></div>
+
+<div id="content1">
+    <h3>Panel Content 1</h3>
+    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+</div>
+<div id="content2">
+    <h3>Panel Content 2</h3>
+    <p>Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+</div>
+<div id="content3">
+    <h3>A Panel Content</h3>
+    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p> 
+</div>
+<div id="content4">
+    <h3>Sub Tab 1 Content</h3>
+    <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+</div>
+<div id="content5">
+    <h3>Sub Tab 2 Content</h3>
+    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+</div>
+</body>
+</html>

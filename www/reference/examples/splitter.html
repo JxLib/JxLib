@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Jx.Splitter Examples</title>
+<meta http-equiv="Content-type" content="text/html; charset=iso-8859-1" />
+<script type="text/javascript" src="../../lib/mootools-core.js"></script>
+<script type="text/javascript" src="../../lib/mootools-more.js"></script>
+<script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
+<script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
+<script  type="text/javascript">
+window.addEvent('load', function() {
+    drawBasicSplit();
+    drawVerticalSplit();
+    drawSnapSplit();
+});
+</script>
+<script id="basicSplitScript" type="text/javascript" charset="utf-8">
+function drawBasicSplit() {
+    /* no options means it will split horizontally in two and create
+     * new elements for each side of the splitter
+     */
+    new Jx.Splitter('splitBasic');
+}
+</script>
+<script id="verticalSplitScript" type="text/javascript" charset="utf-8">
+function drawVerticalSplit() {
+    /* we can change the orientation of the splitter and ask it to use
+     * existing child nodes.  We can also set specific layout constraints
+     * on some or all of the areas in the splitter
+     */
+    new Jx.Splitter('splitVertical', {
+        layout: 'vertical',
+        useChildren: true,
+        containerOptions: [{height: 50}]
+    });
+}
+</script>
+<script id="snapSplitScript" type="text/javascript" charset="utf-8">
+function drawSnapSplit() {
+    var snapImg = new Element('img', {
+        src: 'images/a_pixel.png',
+        width: 5,
+        height: 14,
+        alt: '',
+        title: ''
+    });
+    /* we can change the orientation of the splitter and ask it to use
+     * existing child nodes.  We can also set specific layout constraints
+     * on some or all of the areas in the splitter
+     */
+    new Jx.Splitter('splitSnap', {
+        useChildren: true,
+        /* the first bar will snap the area before it
+         * open and closed on double click, the second
+         * uses another element for the snap.
+         */
+        barOptions: [
+            {snap:'before'},
+            {snap:'after',snapElement: snapImg, snapEvents:['click']}
+        ]
+    });
+}
+</script>
+</head>
+<body>
+
+    <h1>Jx.Splitter Examples</h1>
+    <p>API Reference: <a id="splitter-js" href="javascript:void(0)" title="link to API Reference">Jx.Splitter</a>, <a id="splitter-snap-js" href="javascript:void(0)" title="link to API Reference">Jx.Splitter.Snap</a></p>
+    <h2 id="basicSplit">Splitting an element</h2>
+    <p>The Jx.Splitter class is used to split an element into 2 or more areas that can be resized by the user.  There are a variety of options for setting up a splitter, but the most basic use splits a container horizontally into two equally sized areas by creating new elements and a bar to resize them.</p>
+    <div id="splitBasic" class="splitterBox"></div>
+    
+    <h2 id="verticalSplit">Splitting Vertically</h2>
+    <p>In this example, the element is split vertically and we also show off using existing child nodes instead of creating elements.</p>
+    <div id="splitVertical" class="splitterBox">
+        <div class="splitContent"><p>This is the first child.</p></div>
+        <div class="splitContent"><p>This is the second child.</div>
+    </div>
+    
+    <h2 id="snapSplit">Snaps</h2>
+    <p>Snaps are controls that allow the user to snap one of the areas in a splitter closed and open.  The first child can be snapped open and closed by double clicking on the bar.  The third child can be snapped by clicking on the.</p>
+    <div id="splitSnap" class="splitterBox">
+        <div class="splitContent"><p>This is the first child.</p></div>
+        <div class="splitContent"><p>This is the second child.</div>
+        <div class="splitContent"><p>This is the third child.</div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Jx.PanelSet Test Page</title>
+<meta http-equiv="Content-type" content="text/html; charset=iso-8859-1" />
+<script type="text/javascript" src="../../lib/mootools-core.js"></script>
+<script type="text/javascript" src="../../lib/mootools-more.js"></script>
+<script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
+<script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
+<script  type="text/javascript">
+window.addEvent('load', function() {
+    drawPanelSet();
+});
+</script>
+<script id="basicPanelSetScript" type="text/javascript" charset="utf-8">
+function drawPanelSet() {
+    /* make some panels to go in the panel set */
+    var p1 = new Jx.Panel({
+        height: 100,
+        minHeight: 50,
+        label: 'Panel 1',
+        collapse: false,
+        maximize: true,
+        image: 'images/page_white_code.png',
+        content: 'panelContent1'
+    });
+    var p2 = new Jx.Panel({
+        label: 'Ajax Panel',
+        collapse: false,
+        maximize: true,
+        image: 'images/page_white_world.png',
+        contentURL: 'panel_content.html'
+    });
+    var p3 = new Jx.Panel({
+        height: 100,
+        maxHeight: 150,
+        label: 'Panel 3',
+        collapse: false,
+        maximize: true,
+        image: 'images/page_white_code.png',
+        content: 'panelContent2'
+    });
+    
+    /* not much to configure for a panel set, just the
+     * element it should go in and the panels it should
+     * manage.
+     */
+    new Jx.PanelSet({
+        parent: 'panelSetBasic', 
+        panels: [p1,p2,p3]
+    });
+}
+</script>
+</head>
+<body>
+<h1>Jx.PanelSet Examples</h1>
+<p>API Reference: <a id="panelset-js" href="javascript:void();" title="link to API Reference">Jx.PanelSet</a> See Also: <a id="panel-js" href="javascript:void();" title="link to API Reference">Jx.Panel</a></p>
+
+<h2 id="basicPanelSet">The PanelSet</h2>
+<p>The PanelSet manages two or more panels in a vertical layout such that the panels can be resized and maximized while distributing the vertical space of the panels to all the panels.  This works very much like an Accordion except that more than one panel can be open at a time and the vertical space is constant rather than adapting to the height of the open element.</p>
+<div id="panelSetBasic" class="panelSetBox"></div>
+
+<div id="panelContent1">
+    <h3>Basic Panel</h3>
+    <p>This panel has a specific height of 100 pixels that it starts with and has an additional constraint of a minimum height of 50 pixels.  This means that even if you maximize another panel, this one won't get any smaller than 50 pixels high.</p>
+</div>
+<div id="panelContent2">
+    <h3>A Second Panel</h3>
+    <p>This panel has an initial height of 100 pixels and a maximum height of 150 pixels.</p>
+</div>
+
+</body>
+</html>

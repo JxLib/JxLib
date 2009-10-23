@@ -1,0 +1,208 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Jx.Menu Examples</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<script type="text/javascript" src="../../lib/mootools-core.js"></script>
+<script type="text/javascript" src="../../lib/mootools-more.js"></script>
+<script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
+<script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+window.addEvent('load', function() {
+    menuButton();
+    menuSubmenu();
+    menuStates();
+    menuToggle();
+});
+</script>
+
+<script id="menuButtonScript" type="text/javascript">
+function menuButton() {
+    /* menus work like buttons, they take the same options */
+    new Jx.Menu({
+       label: 'Menu Button',
+       image: 'images/bug.png' 
+    }).add(
+        /* you can add menu items to a menu.  They also work like buttons. */
+        new Jx.Menu.Item({
+            label: 'Bar Chart',
+            image: 'images/charts.png',
+            imageClass: 'chart_bar'
+        }),
+        new Jx.Menu.Item({
+            label: 'Pie Chart',
+            image: 'images/charts.png',
+            imageClass: 'chart_line'
+        }),
+        new Jx.Menu.Item({
+            label: 'Line Chart',
+            image: 'images/charts.png',
+            imageClass: 'chart_line'
+        }),
+        new Jx.Menu.Item({
+            label: 'Curve Chart',
+            image: 'images/charts.png',
+            imageClass: 'chart_curve'
+        })
+        /* and then add the menu to the page */
+    ).addTo('buttonMenu');
+}
+</script>
+
+<script id="menuSubmenuScript" type="text/javascript">
+function menuSubmenu() {
+    /* menus work like buttons, they take the same options */
+    var menu = new Jx.Menu({
+       label: 'Menu Button',
+       image: 'images/bug.png' 
+    }).add(
+        new Jx.Menu.SubMenu({
+            label: 'Charts'
+        }).add(
+        /* you can add menu items and sub menus to a sub menu */
+            new Jx.Menu.Item({
+                label: 'Bar Chart',
+                image: 'images/charts.png',
+                imageClass: 'chart_bar'
+            }),
+            new Jx.Menu.Item({
+                label: 'Pie Chart',
+                image: 'images/charts.png',
+                imageClass: 'chart_line'
+            }),
+            new Jx.Menu.Item({
+                label: 'Line Chart',
+                image: 'images/charts.png',
+                imageClass: 'chart_line'
+            }),
+            new Jx.Menu.Item({
+                label: 'Curve Chart',
+                image: 'images/charts.png',
+                imageClass: 'chart_curve'
+            })
+        )
+    ).addTo('submenuMenu');
+}
+</script>
+
+<script id="menuStatesScript" type="text/javascript">
+function menuStates() {
+    /* menus work like buttons, they take the same options */
+    new Jx.Menu({
+        label: 'Charts'
+    }).add(
+        new Jx.Menu.Item({
+            label: 'Bar Chart',
+            image: 'images/charts.png',
+            imageClass: 'chart_bar',
+            enabled: false,
+            onClick: function(){log('bar chart selected')}
+        }),
+        new Jx.Menu.Item({
+            label: 'Pie Chart',
+            image: 'images/charts.png',
+            imageClass: 'chart_line',
+            onClick: function(){log('pie chart selected')}
+        }),
+        new Jx.Menu.Item({
+            label: 'Line Chart',
+            image: 'images/charts.png',
+            imageClass: 'chart_line',
+            onClick: function(){log('line chart selected')}
+        }),
+        new Jx.Menu.Item({
+            label: 'Curve Chart',
+            image: 'images/charts.png',
+            imageClass: 'chart_curve',
+            onClick: function(){log('curve chart selected')}
+        })
+    ).addTo('statesMenu');
+}
+</script>
+
+<script id="menuToggleScript" type="text/javascript">
+function menuToggle() {
+    /* make some toggle menu items that we want to group together */
+    var justifyLeft = new Jx.Menu.Item({
+        label: 'Left',
+        toggle: true,
+        imageClass: 'format-justify-left', 
+        image: 'images/file-edit-menu.png'
+    });
+    var justifyCenter = new Jx.Menu.Item({
+        label: 'Center',
+        toggle: true,
+        imageClass: 'format-justify-center', 
+        image: 'images/file-edit-menu.png'
+    });
+    var justifyRight = new Jx.Menu.Item({
+        label: 'Right',
+        toggle: true,
+        imageClass: 'format-justify-right', 
+        image: 'images/file-edit-menu.png'
+    });
+    var justifyFill = new Jx.Menu.Item({
+        label: 'Fill',
+        toggle: true,
+        imageClass: 'format-justify-fill', 
+        image: 'images/file-edit-menu.png'
+    });
+    /* add them to a button set so they are mutually exclusive */
+    new Jx.ButtonSet().add(
+        justifyLeft, justifyCenter, justifyRight, justifyFill
+    );
+    /* create a menu from some toggle items plus the stuff in the set */
+    new Jx.Menu({
+        label: 'Formatting'
+    }).add(
+        new Jx.Menu.Item({
+            label: 'Bold',
+            toggle: true,
+            imageClass: 'format-text-bold', 
+            image: 'images/file-edit-menu.png'}),
+        new Jx.Menu.Item({
+            label: 'Italic',
+            toggle: true,
+            imageClass: 'format-text-italic', 
+            image: 'images/file-edit-menu.png'}),
+        new Jx.Menu.Item({
+            label: 'Strikethrough',
+            toggle: true,
+            imageClass: 'format-text-strikethrough', 
+            image: 'images/file-edit-menu.png'}),
+        new Jx.Menu.Item({
+            label: 'Underline',
+            toggle: true,
+            imageClass: 'format-text-underline', 
+            image: 'images/file-edit-menu.png'}),
+        new Jx.Menu.Separator(),
+        justifyLeft, 
+        justifyCenter, 
+        justifyRight, 
+        justifyFill
+    ).addTo('toggleMenu');
+}
+</script>
+</head>
+<body>
+
+  <h1>Jx.Menu Examples</h1>
+  <p>API Reference: <a id="menu-js" href="javascript:void();" title="link to API Reference">Jx.Menu</a>, <a id="menu-submenu-js" href="javascript:void();" title="link to API Reference">Jx.Menu.SubMenu</a>, <a id="menu-item-js" href="javascript:void();" title="link to API Reference">Jx.Menu.Item</a>, <a id="menu-separator-js" href="javascript:void();" title="link to API Reference">Jx.Menu.Separator</a></p>
+  <h2 id="menuButton">Basic Menus</h2>
+  <p>Menus are buttons that expose a list of menu items when clicked.</p>
+  <div id="buttonMenu" class="buttonBox"></div>
+
+  <h2 id="menuSubmenu">Sub Menus</h2>
+  <p>Menus can also contain sub-menus.</p>
+  <div id="submenuMenu" class="buttonBox"></div>
+  
+  <h2 id="menuStates">Menu Item Events</h2>
+  <p>Menu items trigger events and can be disabled.</p>
+  <div id="statesMenu" class="buttonBox"></div>
+  
+  <h2 id="menuToggle">Menu Toggle Items</h2>
+  <p>Like buttons, menu items can also be set to toggle and grouped using a Button Set.  When a menu item is toggled, it gets a marker next to it in the menu (if it has no image) or a box around an existing image.  When it is part of a set, only one of the set is toggled on at a time.</p>
+  <div id="toggleMenu" class="buttonBox"></div>
+
+</body>
+</html>

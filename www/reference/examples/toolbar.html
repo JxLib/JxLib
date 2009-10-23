@@ -1,0 +1,172 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Jx.Toolbar Examples</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<script type="text/javascript" src="../../lib/mootools-core.js"></script>
+<script type="text/javascript" src="../../lib/mootools-more.js"></script>
+<script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
+<script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+window.addEvent('load', function() {
+    hToolbar();
+    vToolbar();
+    drawMultiToolbar();
+});
+</script>
+
+<script id="hToolbarScript" type="text/javascript">
+function hToolbar() {
+    /* a toolbar is a container for a variety of Jx components.
+     * You can specify the parent when it is created or create
+     * it without a parent if you are going to use it with a panel
+     * or dialog.
+     */
+    new Jx.Toolbar().add(
+        new Jx.Button({
+          id: 'basic1',
+          label: 'Basic Button',
+          image: 'images/asterisk_orange.png',
+          tooltip: 'a tooltip',
+          onClick: function() { log('click button with just a label'); }
+        }),
+        new Jx.Button({
+          id: 'basic2',
+          image: 'images/asterisk_orange.png',
+          tooltip: 'a tooltip',
+          onClick: function() { log('click button with just a label'); }
+        }),
+        /* a visual separator in the toolbar */
+        new Jx.Toolbar.Separator(),
+        new Jx.Button.Flyout({
+            label: 'flyout inline', 
+            content: 'inlineContent'
+        }),
+        new Jx.Button.Combo({
+            label: 'Basic Combo',
+            items: [
+                {label: 'apples'},
+                {label: 'bananas'},
+                {label: 'grapes'},
+                {label: 'oranges'}
+            ]
+        }),
+        new Jx.Button.Combo({
+            label: 'Editable Combo',
+            editable: true,
+            items: [
+                {label: 'Pecans'},
+                {label: 'Almonds'},
+                {label: 'Filberts'},
+                {label: 'Cashews'}
+            ]
+        })
+    ).addTo('toolbar1');
+
+    new Jx.Toolbar().add(
+        new Jx.Button.Multi({
+            items: [
+                new Jx.Button({
+                  image: 'images/charts.png',
+                  imageClass: 'chart_bar',
+                  onClick: function(){log('bar chart tool activated');}
+                }),
+                new Jx.Button({
+                  image: 'images/charts.png',
+                  imageClass: 'chart_pie',
+                  onClick: function(){log('pie chart tool activated');}
+                }),
+                new Jx.Button({
+                  image: 'images/charts.png',
+                  imageClass: 'chart_line',
+                  onClick: function(){log('line chart tool activated');}
+                }),
+                new Jx.Button({
+                  image: 'images/charts.png',
+                  imageClass: 'chart_curve',
+                  onClick: function(){log('curve chart tool activated');}
+                })
+            ]
+        })
+    ).addTo('toolbar1');
+};
+</script>
+
+<script id="vToolbarScript" type="text/javascript">
+function vToolbar() {
+    /* toolbars can be oriented vertically by specifying a position of
+     * left or right.
+     */
+    var b1 = new Jx.Button({label:'toggle 1', toggle:true});
+    var b2 = new Jx.Button({label:'toggle 2', toggle:true, enabled: false});
+    var b3 = new Jx.Button({label:'toggle 3', toggle:true});
+    var b4 = new Jx.Button({label:'toggle 4', toggle:true});
+    
+    new Jx.ButtonSet().add(b1,b2,b3,b4);
+    
+    new Jx.Toolbar({
+        parent: 'toolbar2', 
+        position: 'right'
+    }).add(b1,b2,b3,b4)
+
+};
+</script>
+
+<script id="multiToolbarScript" type="text/javascript">
+function drawMultiToolbar() {
+    new Jx.Toolbar.Container().addTo(
+        'toolbar3'
+    ).add(
+        new Jx.Toolbar().add(
+            new Jx.Button({label: 'button one'}),
+            new Jx.Button({label: 'button two'}),
+            new Jx.Button({label: 'button three'}),
+            new Jx.Button({label: 'button four'}),
+            new Jx.Button({label: 'button five'}),
+            new Jx.Button({label: 'button six'})
+        ),
+        new Jx.Toolbar().add(
+            new Jx.Button({label: 'button one'}),
+            new Jx.Button({label: 'button two'}),
+            new Jx.Button({label: 'button three'}),
+            new Jx.Button({label: 'button four'}),
+            new Jx.Button({label: 'button five'}),
+            new Jx.Button({label: 'button six'})
+        )
+    )
+    new Jx.Toolbar.Container().addTo(
+        'toolbar3'
+    ).add(
+        new Jx.Toolbar().add(
+            new Jx.Button({label: 'button one'}),
+            new Jx.Button({label: 'button two'}),
+            new Jx.Button({label: 'button three'}),
+            new Jx.Button({label: 'button four'}),
+            new Jx.Button({label: 'button five'}),
+            new Jx.Button({label: 'button six'})
+        )
+    )
+};
+</script>
+</head>
+<body>
+<h1>Jx.Toolbar Examples</h1>
+<p>API Reference: <a id="toolbar-js" href="javascript:void(0)" title="link to API Reference">Jx.Toolbar</a>, <a id="toolbar-item-js" href="javascript:void(0)" title="link to API Reference">Jx.Toolbar.Item</a>, <a id="toolbar-separator-js" href="javascript:void(0)" title="link to API Reference">Jx.Toolbar.Separator</a> See also: <a id="button-js" href="javascript:void();" title="link to API Reference">Jx.Button</a></p>
+
+<h2 id="hToolbar">Horizontal Toolbar</h2>
+<p>Toolbars are horizontal by default.  They are best used in this orientation as toolbars above and below content areas.</p>
+<div id="toolbar1" class="toolbarBox"></div>
+
+<h2 id="vToolbar">Vertical Toolbar</h2>
+<p>Toolbars can also be oriented vertically.  They can be used to the right or left of a panel's content in this orientation, or positioned absolutely, anywhere on the page.</p>
+<div id="toolbar2" style="height: auto; width: auto" class="toolbarBox"></div>
+
+<h2 id="multiToolbar">Multiple Stacked Toolbars with Scrolling</h2>
+<p>blah blah blah.</p>
+<div id="toolbar3" style="width: 500px" class="toolbarBox"></div>
+
+<h2 id="inlineContent">Basic Flyouts</h2>
+<p>A flyout button is one that opens a panel next to the button when clicked.  Flyout buttons have the same options as regular buttons (they can have images and labels) and an extra option for specifying the content of the flyout.  This flyout uses an existing &lt;div&gt; element in the page for its content:</p>
+<div id="flyoutInline" class="buttonBox"></div>
+</body>
+</html>
