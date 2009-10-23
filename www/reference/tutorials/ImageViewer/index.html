@@ -1,0 +1,304 @@
+<html>
+<head>
+<title></title>
+<!--
+
+ Include the JXLib
+
+-->
+ <script src="../../../lib/jxlib.js" type="text/javascript" charset="utf-8"></script>
+
+<link rel="stylesheet" href="../../../lib/jxskin_crispin.css" type="text/css" media="screen" charset="utf-8">
+<script  type="text/javascript">
+/*
+Add Event Handler for on load event - Initializes JX and JXLayout
+*/
+
+var gaImages = [];
+var gFitToWindow = true;
+window.addEvent('load', function() {
+    /*
+    JX.Layout
+    */
+
+    // The Main Container of the application. 
+    var mainContainer = new Jx.Layout('thePage', {bottom: 35});
+
+    // the toolbar that rests on the top 
+    var theToolBar = new Jx.Layout('theToolBar', {width: null, height:35, left: 0, right: null, top: 0, bottom: 0, minWidth: 100});
+
+    // the leftLayout houses the Panel's for navigating the images and the ExifData
+    var leftLayout = new Jx.Layout('leftLayout', {width: 200, left: 0, right: null, top: 35, bottom: 0, minWidth: 100});
+
+    // the rightLayout is the Image window
+    var rightLayout = new Jx.Layout('rightLayout',  {width: null, left: 200, right: 0, top: 35, bottom: 0});
+
+
+    /*
+    JX.Splitter
+    */
+
+    new Jx.Splitter('leftLayout', {
+      elements: ['treeArea','exifArea'],
+      containerOptions: [{height:200}],
+      layout: 'vertical'
+    });
+
+    /*
+
+    Jx.Dialog
+
+    */
+    var aboutDialog = new Jx.Dialog({
+        label: 'About',
+        modal: false,
+        resize: true,
+        move: true,
+        width: 400,
+        height: 400,
+        parent: 'thePage'
+    });
+
+    
+    /*
+    JX.Toolbar
+    */
+  
+    var theToolBar = new Jx.Toolbar({parent: 'theToolBar'});
+
+    /*
+     Jx.Menu
+    */
+
+    // create the root menu item container
+    var optionMenu = new Jx.Menu({label: 'Options'});
+
+    // create menu item
+    var menuitem1 = new Jx.Menu.Item({
+      label: ' Display Settings',
+      onClick:function(){alert('One way to skin a cat')}
+    });
+
+    // add the menu item to the menu container
+    optionMenu.add(menuitem1);
+
+    // add the menu to the toolbar
+    theToolBar.add(optionMenu);
+
+     // create the root menu item container
+    var helpMenu = new Jx.Menu({label: 'Help'});
+    // create menu item
+    var menuItem1 = new Jx.Menu.Item({
+        label: 'Info' ,
+        onClick:myInfoFunction.bind(null)
+    });
+    // create menu item
+    var menuItem2 = new Jx.Menu.Item({
+        label: 'About',
+        onClick: aboutDialog.open.bind(aboutDialog)
+    });
+
+    // add the menu item to the menu container
+    helpMenu.add(menuItem1,menuItem2);
+    
+    // add the menu to the toolbar
+    theToolBar.add(helpMenu);
+   
+    function myInfoFunction(){
+        alert("another.. way to skin a cat");
+    }
+
+    /*
+
+    JX.Tree
+
+    */
+    // we need to do a bunch of stuff here so lets call it outside the object. 
+    updateTree();
+
+
+    /*
+
+    Jx.tabset
+
+    */
+    var tabBox = new Jx.TabBox(aboutDialog.content);
+    var t1 = new Jx.Button.Tab({label: 'Tab 1', content: 'aboutDialog_TabContent_1'});
+    var t2 = new Jx.Button.Tab({label: 'Tab 2', content: 'aboutDialog_TabContent_2'});
+    var t3 = new Jx.Button.Tab({label: 'Tab 3', content: 'aboutDialog_TabContent_3'});
+    
+   tabBox.add(t1, t2, t3);
+
+
+    // we want to call this last in our onload event 
+    mainContainer.resize();
+    
+});
+
+function updateTree(){
+
+    // get the file listings in a JSON Array from "getImages.php"
+    new Request({url:"./getImages.php", onComplete: updateTree_CB}).send();
+}
+
+function updateTree_CB(oObject){
+    // create / set the images global
+    eval("gaImages = "+oObject);
+
+    // call buildTree and start working with Jx.Tree
+    buildTree();
+}
+
+function buildTree(){
+
+    // create the root Jx.Tree
+    var tree = new Jx.Tree('treeArea');
+
+    // create a folder to be added to Jx.Tree
+    var folder = new Jx.TreeFolder({
+        label: 'My Folder'
+    });
+
+    // add the folder to the tree
+    tree.append(folder);
+
+    // cycle through the global gaImages and add Jx.TreeItem's 
+    for(var i=0;i<gaImages.length;i++){
+        var item = new Jx.TreeItem({
+            label: gaImages[i],
+            onClick: treeItemClicked
+        });
+        
+        // add the item to the folder
+        folder.append(item);
+    }
+}
+
+function treeItemClicked(){
+    // store the active fileName in a global
+    gImageFileName = this.options.label;
+
+    // see what the width of the rightLayout is set to currently
+    var divWidth = $('rightLayout').offsetWidth-17;
+
+    // if the global gFitToWindow is set to true then we will resize the images on the fly to fit in the rightLayout
+    if(gFitToWindow == true){
+        $('largeImage').src = "./viewImage.php?f="+gImageFileName+"&w="+divWidth;
+    }
+    else
+    {
+        // just change the src of the image. 
+        $('largeImage').src = "./samples/"+gImageFileName
+    }
+    
+    // get the exif Data for the image
+    new Request({url:"./getImages.php?exif="+this.options.label, onComplete: treeItemClicked_CB}).send();
+}
+
+function treeItemClicked_CB(oObject){
+    eval("var ExifData = "+oObject);
+    var oDiv = $('exifArea');
+    oDiv.innerHTML = "";
+    var szInnerHtml = "";
+    var szTheValue = "";
+    
+    for(var item in ExifData){
+        
+        if(ExifData[item] == null){
+            szTheValue = "";
+        }
+        else
+        {
+            szTheValue = ExifData[item];
+        }
+        szInnerHtml = szInnerHtml +"<span class='exifTitle'>"+ item+ "</span>:<span class='exifValue'>"+szTheValue +"<br>";
+    }
+    oDiv.innerHTML = szInnerHtml;
+}
+
+
+</script>
+<style type="text/css">
+/*
+    The Main Page Container
+*/
+#thePage {
+  border: 1px solid red;
+  margin: 10px;
+  padding: 10px;
+}
+
+/*
+    The Left Side:
+*/
+
+#leftLayout {
+  border: 1px solid green;
+  /*margin: 10px;*/
+}
+
+/*
+    The Right Side:
+*/
+
+#rightLayout {
+  border: 1px solid blue;
+  overflow:auto;
+  /*margin: 10px;*/
+}
+/*
+    The Toolbar:
+*/
+#theToolBar{
+  border: 1px solid orange;
+}
+
+
+#exifArea {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  line-height: 18px;
+  overflow:auto;
+  padding:3px;
+}
+
+#exifArea .exifTitle{
+  font-weight:bold;
+}
+
+#aboutDialog_TabArea{
+
+}
+
+
+.jxTreeBranchOpen .blueFolder,
+.jxTreeBranchLastOpen .blueFolder {
+    background-position: left -20px;    
+}
+
+.jxTreeBranchClosed .blueFolder,
+.jxTreeBranchLastClosed .blueFolder {
+    background-position: left 0px;
+}
+
+</style>
+</head>
+<body>
+    <div id="thePage">
+        <div id="theToolBar"></div>
+        <div id="leftLayout">
+            <div id="treeArea"></div>
+            <div id="exifArea"></div>
+        </div>
+        <div id="rightLayout">
+            <img id="largeImage" src="../../../lib/images/a_pixel.png">
+        </div>
+    </div>
+    
+    <div id="aboutDialog">
+        <div id="aboutDialog_TabContent_1">Content for Tab 1</div>
+        <div id="aboutDialog_TabContent_2">Content for Tab 2</div>
+        <div id="aboutDialog_TabContent_3">Content for Tab 3</div>
+    </div>
+</body>
+</html>

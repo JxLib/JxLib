@@ -1,0 +1,165 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Jx.Menu Examples</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<script type="text/javascript" src="../../lib/mootools-core.js"></script>
+<script type="text/javascript" src="../../lib/mootools-more.js"></script>
+<script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
+<script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+window.addEvent('load', function() {
+    menuContext();
+});
+</script>
+
+<script id="menuContextScript" type="text/javascript">
+function menuContext() {
+    /* put together some sub menus for the context menu */
+    var fileMenu = new Jx.Menu.SubMenu({label: 'File'});
+    fileMenu.add(
+        new Jx.Menu.Item({
+            label: 'New', 
+            imageClass: 'file-new', 
+            image: 'images/file-edit-menu.png',
+            onClick: function() {log('new file');}}),
+        new Jx.Menu.Item({
+            label: 'Open', 
+            imageClass: 'file-open', 
+            image: 'images/file-edit-menu.png'}),
+        new Jx.Menu.Item({
+            label: 'Save', 
+            imageClass: 'file-save', 
+            image: 'images/file-edit-menu.png'}),
+        new Jx.Menu.Item({
+            label: 'Save As', 
+            imageClass: 'file-save-as', 
+            image: 'images/file-edit-menu.png'}),
+        new Jx.Menu.Separator(),
+        new Jx.Menu.Item({
+            label: 'Print', 
+            imageClass: 'file-print', 
+            image: 'images/file-edit-menu.png'}),
+        new Jx.Menu.Item({
+            label: 'Print Preview', 
+            imageClass: 'file-print-preview', 
+            image: 'images/file-edit-menu.png'}),
+        new Jx.Menu.Separator(),
+        new Jx.Menu.Item({
+            label: 'Properties', 
+            imageClass: 'file-properties', 
+            image: 'images/file-edit-menu.png'})
+    );
+    var editMenu = new Jx.Menu.SubMenu({label: 'Edit'});
+    editMenu.add(
+        new Jx.Menu.Item({
+            label: 'Undo', 
+            imageClass: 'edit-undo', 
+            image: 'images/file-edit-menu.png', enabled: false}),
+        new Jx.Menu.Item({
+            label: 'Redo', 
+            imageClass: 'edit-redo', 
+            image: 'images/file-edit-menu.png', enabled: false}),
+        new Jx.Menu.Separator(),
+        new Jx.Menu.Item({
+            label: 'Cut', 
+            imageClass: 'edit-cut', 
+            image: 'images/file-edit-menu.png'}),
+        new Jx.Menu.Item({
+            label: 'Copy',
+            imageClass: 'edit-copy', 
+            image: 'images/file-edit-menu.png'}),
+        new Jx.Menu.Item({
+            label: 'Paste',
+            imageClass: 'edit-paste', 
+            image: 'images/file-edit-menu.png'})
+    );
+    
+    var fontMenu = new Jx.Menu.SubMenu({label: 'Font'});
+    fontMenu.add(
+        new Jx.Menu.Item({
+            label: 'Bold',
+            toggle: true,
+            imageClass: 'format-text-bold', 
+            image: 'images/file-edit-menu.png'}),
+        new Jx.Menu.Item({
+            label: 'Italic',
+            toggle: true,
+            imageClass: 'format-text-italic', 
+            image: 'images/file-edit-menu.png'}),
+        new Jx.Menu.Item({
+            label: 'Strikethrough',
+            toggle: true,
+            imageClass: 'format-text-strikethrough', 
+            image: 'images/file-edit-menu.png'}),
+        new Jx.Menu.Item({
+            label: 'Underline',
+            toggle: true,
+            imageClass: 'format-text-underline', 
+            image: 'images/file-edit-menu.png'})
+    );
+    
+    var justifyLeft = new Jx.Menu.Item({
+        label: 'Left',
+        toggle: true,
+        imageClass: 'format-justify-left', 
+        image: 'images/file-edit-menu.png'
+    });
+    var justifyCenter = new Jx.Menu.Item({
+        label: 'Center',
+        toggle: true,
+        imageClass: 'format-justify-center', 
+        image: 'images/file-edit-menu.png'
+    });
+    var justifyRight = new Jx.Menu.Item({
+        label: 'Right',
+        toggle: true,
+        imageClass: 'format-justify-right', 
+        image: 'images/file-edit-menu.png'
+    });
+    var justifyFill = new Jx.Menu.Item({
+        label: 'Fill',
+        toggle: true,
+        imageClass: 'format-justify-fill', 
+        image: 'images/file-edit-menu.png'
+    });
+    new Jx.ButtonSet().add(
+        justifyLeft, justifyCenter, justifyRight, justifyFill
+    );
+    
+    var justifyMenu = new Jx.Menu.SubMenu({label: 'Justify'});
+    justifyMenu.add(justifyLeft, justifyCenter, justifyRight, justifyFill);
+    
+    var formatMenu = new Jx.Menu.SubMenu({label: 'Format'});
+    formatMenu.add(
+        new Jx.Menu.Item({
+            label: 'Indent More',
+            toggle: true,
+            imageClass: 'format-indent-more', 
+            image: 'images/file-edit-menu.png'}),
+        new Jx.Menu.Item({
+            label: 'Indent Less',
+            toggle: true,
+            imageClass: 'format-indent-less', 
+            image: 'images/file-edit-menu.png'}),
+        fontMenu, 
+        justifyMenu
+    );
+    
+    /* you can specify the id of the element to attach the context menu
+     * to in the constructor
+     */
+    var contextMenu = new Jx.Menu.Context(document.body);
+    contextMenu.add(fileMenu,editMenu,formatMenu);   
+}
+</script>
+</head>
+<body>
+<div>
+  <h1>Jx.Menu.Context Examples</h1>
+  <p>API Reference: <a id="menu-context-js" href="javascript:void();" title="link to API Reference">Jx.Menu.Context</a>, <a id="menu-submenu-js" href="javascript:void();" title="link to API Reference">Jx.Menu.SubMenu</a>, <a id="menu-item-js" href="javascript:void();" title="link to API Reference">Jx.Menu.Item</a>, <a id="menu-separator-js" href="javascript:void();" title="link to API Reference">Jx.Menu.Separator</a> Extends <a id="menu-js" href="javascript:void();" title="link to API Reference">Jx.Menu</a></p>
+  <h2 id="menuContext">Context Menus</h2>
+  <p id="contextMenuText">Context menus are menus that pop up when the user clicks the right mouse button.  A context menu has been added to the content of this page, go ahead and try it out - it should work on this text and above.</p>
+</div>
+</body>
+</html>

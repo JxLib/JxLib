@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Jx.TabSet Examples</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<script type="text/javascript" src="../../lib/mootools-core.js"></script>
+<script type="text/javascript" src="../../lib/mootools-more.js"></script>
+<script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
+<script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+window.addEvent('load', function() {
+    drawTabSet();
+});
+</script>
+
+<script id="tabSetScript" type="text/javascript">
+function drawTabSet() {
+    /* tabs should go in a tab box, but for more advanced use
+     * you can separate them from their content areas by
+     * separately creating a toolbar and tabset and adding the
+     * tabs to each.  This gives you more flexibility for 
+     * layout options, but does require more work ...
+     *
+     * In particular, have to add the tab to both and
+     * also manually remove it from both when the tab
+     * is 'closed'.
+     */
+    var tb = new Jx.Toolbar({parent: 'toolbar'});
+    var tabSet = new Jx.TabSet('tabContentArea');
+    
+    var panel = new Jx.Panel({
+        label: 'Panel in a Tab',
+        collapse: false,
+        content: '<p>This is a panel embedded in a tab.</p>'
+    });
+    
+    var t1 = new Jx.Button.Tab({
+        image: 'images/star.png',
+        content: 'starContent',
+        onClose: function() {
+            tb.remove(this);
+            tabSet.remove(this);
+        }
+    });
+    var t2 = new Jx.Button.Tab({
+        label: 'Embedded Panel',
+        content: panel,
+        onClose: function() {
+            tb.remove(this);
+            tabSet.remove(this);
+        }
+    });
+    var t3 = new Jx.Button.Tab({
+        label: 'Inline Content',
+        image: 'images/page_white_code.png',
+        content: 'labelContent',
+        onClose: function() {
+            tb.remove(this);
+            tabSet.remove(this);
+        }
+    });
+    var t4 = new Jx.Button.Tab({
+        label: 'Ajax Content',
+        image: 'images/page_white_world.png',
+        contentURL: 'tab_content.html',
+        onClose: function() {
+            tb.remove(this);
+            tabSet.remove(this);
+        }
+    });
+    var t5 = new Jx.Button.Tab({
+        label: 'Closeable Tab',
+        close: true,
+        contentURL: 'tab_content.html',
+        onClose: function() {
+            tb.remove(this);
+            tabSet.remove(this);
+        }
+    });
+    tb.add(t1,t2,t3,t4,t5);
+    tabSet.add(t1,t2,t3,t4,t5);
+
+    new Jx.Button({
+        label: 'Add New Tab',
+        onClick: function() {
+            var t = new Jx.Button.Tab({
+                label: 'Closeable Tab',
+                close: true,
+                contentURL: 'tab_content.html',
+                onClose: function() {
+                    tb.remove(this);
+                    tabSet.remove(this);
+                }
+            });
+            tb.add(t);
+            tabSet.add(t);
+        }
+    }).addTo('addTabArea');
+};
+</script>
+
+</head>
+<body>
+<div>
+    <h1>Jx.TabSet Examples</h1>
+    <p>API Reference: <a id="button-tab-js" href="javascript:void(0)" title="link to API Reference">Jx.Button.Tab</a> Extends <a id="button-js" href="javascript:void(0)" title="link to API Reference">Jx.Button</a> See Also: <a id="tabset-js" href="javascript:void(0)" title="link to API Reference">jx.TabSet</a></p>
+    <h2 id="tabSet">Tab Sets</h2>
+    <p>A tab set manages tabs and their content areas so only one tab is active at a time and that only one content area is visible at a time.  A tab set puts the content areas of each tab into a single container.  Unlike a tab box, a tab set does not display the tabs themselves, so you have to explicitly add them to a toolbar or other container on the page.  This allows more flexibility for some advanced layout options.</p>
+    <div id="addTabArea" class="buttonBox"></div>
+    <div id="toolbar" class="toolbarBox"></div>
+    <p>The tab content area is disassociated from the toolbar containing the tabs.</p>
+    <div id="tabContentArea" class="tabBox"></div>
+</div>
+
+<div id="starContent"><p>This tab just has an image.</p></div>
+<div id="labelContent"><p>This tab just has a label.</p></div>
+
+</body>
+</html>

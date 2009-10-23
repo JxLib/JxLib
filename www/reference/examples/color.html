@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Jx.Button.Color Examples</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<script type="text/javascript" src="../../lib/mootools-core.js"></script>
+<script type="text/javascript" src="../../lib/mootools-more.js"></script>
+<script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
+<script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+window.addEvent('load', function() {
+    colorButton();
+    colorDisabled();
+});
+</script>
+
+<script id="colorButtonScript" type="text/javascript">
+function colorButton() {
+    /* a basic color button with an initial color and label */
+    new Jx.Button.Color({
+      color: '#FF0000',
+      label: 'Color',
+      onChange: function() { log('color changed: '+this.options.color); }
+    }).addTo('buttons');
+
+    /* and another one without a label */
+    new Jx.Button.Color({
+      color: '#00FF00',
+      onChange: function() { log('color changed: '+this.options.color); }
+    }).addTo('buttons');
+}
+</script>
+
+<script id="colorButtonScript" type="text/javascript">
+function colorDisabled() {
+    /* color buttons can be disabled */
+    var cb = new Jx.Button.Color({
+      color: '#FF0000',
+      label: 'Disabled',
+      enabled: false,
+      onChange: function() { log('color changed: '+this.options.color); }
+    }).addTo('buttonsDisabled');
+    /* provide a way of toggling it and demonstrate
+     * changing the label at the same time */
+    new Jx.Button({
+        label: 'Toggle Color Button',
+        toggle: true,
+        onDown: function() {
+            cb.setEnabled(true);
+            cb.setLabel('Enabled');
+        },
+        onUp: function() {
+            cb.setEnabled(false);
+            cb.setLabel('Disabled');
+        }
+    }).addTo('buttonsDisabled');
+}
+</script>
+</head>
+<body>
+<h1>Jx.Button.Color Examples</h1>
+<p>API Reference: <a id="button-color-js" href="javascript:void(0)" title="link to API Reference">Jx.Button.Color</a> Extends <a id="button-js" href="javascript:void();" title="link to API Reference">Jx.Button</a> See Also: <a id="colorpalette-js" href="javascript:void();" title="link to API Reference">Jx.ColorPalette</a></p>
+<h2 id="colorButton">Color Buttons</h2>
+<p>The color button is an extension of the flyout style button.  It has the same options as a regular button except that instead of an icon it has a color swatch.</p>
+<p>The flyout contains a Jx.ColorPalette that is hooked up to the color swatch on the button.</p>
+<div id="buttons" class="buttonBox"></div>
+
+<h2 id="colorButton">Disabled Color Button</h2>
+<p>Color buttons can be enabled and disabled too.</p>
+<div id="buttonsDisabled" class="buttonBox"></div>
+</body>
+</html>

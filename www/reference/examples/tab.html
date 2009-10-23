@@ -1,0 +1,190 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Jx.Tab Examples</title>
+<script type="text/javascript" src="../../lib/mootools-core.js"></script>
+<script type="text/javascript" src="../../lib/mootools-more.js"></script>
+<script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
+<script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+window.addEvent('load', function() {
+    drawTabBox();
+    drawEventTabs();
+    drawTabsOnLeft();
+});
+</script>
+
+<script id="tabBoxScript" type="text/javascript" charset="utf-8">
+function drawTabBox() {
+    /* the simplest and best looking way to work with tabs is to
+     * place them in a tab box
+     */
+    var tabBox = new Jx.TabBox({parent: 'tabArea'});
+    
+    /* we can put other Jx components into tabs as content */
+    var panel = new Jx.Panel({
+        label: 'Panel in a Tab',
+        collapse: false,
+        content: '<p>This is a panel embedded in a tab.</p>'
+    });
+    
+    /* make some tabs */
+    tabBox.add(
+        new Jx.Button.Tab({
+            image: 'images/star.png',
+            content: 'starContent'
+        }),
+        new Jx.Button.Tab({
+            label: 'Embedded Panel',
+            content: panel
+        }),
+        new Jx.Button.Tab({
+            label: 'Inline Content',
+            image: 'images/page_white_code.png',
+            content: 'labelContent'
+        }),
+        new Jx.Button.Tab({
+            active: true,
+            label: 'Ajax Content',
+            image: 'images/page_white_world.png',
+            contentURL: 'tab_content.html'
+        }),
+        new Jx.Button.Tab({
+            label: 'Closeable Tab',
+            close: true,
+            contentURL: 'tab_content.html'
+        })
+    );
+    /* we can dynamically add and remove tabs too */
+    new Jx.Button({
+        label: 'Add New Tab',
+        onClick: function() {
+            tabBox.add(
+                new Jx.Button.Tab({
+                    label: 'Closeable Tab',
+                    close: true,
+                    contentURL: 'tab_content.html'
+                })
+            );
+        }
+    }).addTo('addTabArea');
+    /* we can dynamically add and remove tabs too */
+    new Jx.Button({
+        label: 'Add New Active Tab',
+        onClick: function() {
+            tabBox.add(
+                new Jx.Button.Tab({
+                    label: 'Active Tab',
+                    active: true,
+                    close: true,
+                    contentURL: 'tab_content.html'
+                })
+            );
+        }
+    }).addTo('addTabArea');
+}    
+</script>
+<script id="eventTabScript" type="text/javascript" charset="utf-8">
+function drawEventTabs() {
+    /* tabs can also be enabled and disabled */
+    var tabBox = new Jx.TabBox({
+        parent: 'eventTabArea', 
+        position: 'bottom'
+    });
+
+    var disabledTab = new Jx.Button.Tab({
+        label: 'Disabled',
+        enabled: false,
+        content: 'disabledContent'
+    });
+    
+    /* use a button to do the dirty work */
+
+    new Jx.Button({
+        label: 'Toggle the Disabled Tab',
+        toggle: true,
+        active: false,
+        onUp: function() {
+            disabledTab.setEnabled(false);
+            disabledTab.setLabel('Disabled');
+        },
+        onDown: function() {
+            disabledTab.setEnabled(true);
+            disabledTab.setLabel('Enabled');
+        }
+    }).addTo('eventButton');
+
+    /* handle some events in the second tab to show how that works */
+    tabBox.add(
+        disabledTab,
+        new Jx.Button.Tab({
+            label: 'Events (active)',
+            content: 'eventContent',
+            onUp: function() {
+                log('Events tab is no longer the active tab');
+                this.setLabel('Events (inactive)');
+            },
+            onDown: function() {
+                log('Events tab is now the active tab');
+                this.setLabel('Events (active)');
+            }
+        })
+    );
+}    
+</script>
+
+<script id="tabsOnLeftScript" type="text/javascript" charset="utf-8">
+function drawTabsOnLeft() {
+    var tabBox = new Jx.TabBox({
+        parent: 'leftTabArea', 
+        position: 'left'
+    });
+    /* when using tabs on the left or right, labels need to be rendered into
+     * rotated images because we can't do it in all browsers (just WebKit so far).
+     * But we can set the label to be HTML so we can create an image tag of the
+     * right size (note that it is important to specify at least the width
+     * of the tab here).
+     */
+    tabBox.add(
+        new Jx.Button.Tab({
+            label: '<img src="images/tab1.png" width="16" height="32">',
+            content: 'leftTabContent'
+        }),
+        new Jx.Button.Tab({
+            label: '<img src="images/tab2.png" width="16" height="53">', 
+            content: 'leftTabCloseable',
+            close: true
+        })
+    );
+}    
+</script>
+
+</head>
+<body>
+
+    <h1>Jx.Tab Examples</h1>
+    <p>API Reference: <a id="button-tab-js" href="javascript:void(0)" title="link to API Reference">Jx.Button.Tab</a> Extends <a id="button-js" href="javascript:void(0)" title="link to API Reference">Jx.Button</a> See Also: <a id="tabbox-js" href="javascript:void(0)" title="link to API Reference">Jx.TabBox</a></p>
+    <h2 id="tabBox">Basic Tabs in a Tab Box</h2>
+    <p>Tabs are essentially buttons that toggle a content area.  Tabs can have images, labels, or both.  Tabs can attach to inline HTML content, load content asynchronously from a URL, or embed other JxLib objects such as panels.</p>
+    <p>A tab box is a single control that uses a panel to display a toolbar attached to a content area and puts the tabs in the toolbar and the tab content areas into the box's content area.</p>
+    <p>When you activate a tab in a tab box, the tab will scroll into view if it is not fully visible.  If you add a new active tab using the button below, the tab bar should scroll to make the newly added tab visible.  If you add new tabs using the other button, then it will not scroll.</p>
+    <div id="addTabArea" class="buttonBox"></div>
+    <div id="tabArea" class="tabBox"></div>
+    
+    <h2 id="eventTab">Tabs with State and Events</h2>
+    <p>Tabs can be enabled and disabled like other buttons, and you can react to tabs becoming active or inactive through events.</p>
+    <div id="eventTabArea" class="tabBox"></div>
+    
+    <h2 id="tabsOnLeft">Tabs on Left</h2>
+    <p>You can put the tabs on any edge of the box, but if you want to put them on the left or right with labels, you'll need to use an image with rotated text if you want labels in them.</p>
+    <div id="leftTabArea" class="tabBox"></div>
+
+<div id="starContent"><p>This tab just has an image.</p></div>
+<div id="labelContent"><p>This tab just has a label.</p></div>
+<div id="eventContent"><p>The label on this tab changes when it is active or inactive.  Click the button to enable the other tab and then you can switch to it to see the event happen.</p><div id="eventButton" class="buttonBox"></div></div>
+<div id="disabledContent"><p>This tab was disabled to start with.</p></div>
+<div id="leftTabContent"><p>This tab is on the left.</p></div>
+<div id="leftTabCloseable"><p>This tab is on the left and it is closeable.</p></div>
+</body>
+</html>

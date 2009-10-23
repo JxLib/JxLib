@@ -1,0 +1,243 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Jx.Form Examples</title>
+<meta http-equiv="Content-type" content="text/html; charset=iso-8859-1" />
+<script type="text/javascript" src="../../lib/mootools-core.js"></script>
+<script type="text/javascript" src="../../lib/mootools-more.js"></script>
+<script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
+<script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
+<script  type="text/javascript">
+window.addEvent('load', function() {
+    drawBasicForm();
+}); 
+</script>
+<script id="basicFormScript" type="text/javascript" charset="utf-8">
+function drawBasicForm() {
+  var form = new Jx.Form({
+    name: 'testForm',
+    formClass: 'jxFormInline'
+  }).addTo('formBasic');
+  
+// First Fieldset
+
+  var fieldSet1 = new Jx.Fieldset({
+    legend: 'Inline-Block Form',
+    id: 'FieldSet1',
+    fieldsetClass: 'jxFormInlineblock'
+  }).addTo(form);
+  
+  new Jx.Field.Text({
+    id: 'Text11',
+    name: 'Text11',
+    label: 'Text One',
+    value: 'Initial Value',
+    tag: 'a tag'
+  }).addTo(fieldSet1);
+
+  new Jx.Field.Select({
+    id: 'Select11',
+    name: 'Select11',
+    label: 'Select One',
+    tag: 'another tag',
+    comboOpts: [{
+        value: 'opt11',
+        text: 'Option #1',
+        selected: false
+    },{
+        value: 'opt12',
+        text: 'Option #2',
+        selected: true
+    },{
+        value: 'opt13',
+        text: 'Option #3',
+        selected: false
+    }]
+  }).addTo(fieldSet1);
+  
+  new Jx.Field.Textarea({
+    id: 'TextArea11',
+    name: 'TextArea11',
+    label: 'TextArea One',
+    rows: 6,
+    columns: 40,
+    tag: 'textarea tag'
+  }).addTo(fieldSet1);
+  
+  var radioSet = new Jx.Fieldset({
+    legend: 'Radio Group',
+    fieldsetClass: 'jxInputGroup',
+    template: '<fieldset class="jxFieldset"><legend><span class="jxFieldsetLegend"></span></legend></fieldset>'
+  }).addTo(fieldSet1);
+  
+  new Jx.Field.Radio({
+    id: 'radio11',
+    name: 'InputGroup1',
+    value: 'radio11',
+    label: 'Radio 1',
+    labelSeparator: ''
+  }).addTo(radioSet);
+  
+  new Jx.Field.Radio({
+    id: 'radio12',
+    name: 'InputGroup1',
+    value: 'radio12',
+    label: 'Radio 2',
+    checked: true,
+    labelSeparator: ''
+  }).addTo(radioSet);
+  
+  new Jx.Field.Button({
+    buttonOptions:{label: 'Go'}
+  }).addTo(fieldSet1);
+  
+// Second Fieldset
+
+  var fieldSet2 = new Jx.Fieldset({
+    legend: 'Inline Form',
+    id: 'FieldSet2',
+    fieldsetClass: 'jxFormInline'
+  }).addTo(form);
+
+  new Jx.Field.Text({
+    id: 'Text21',
+    name: 'Text21',
+    label: 'Text One',
+    value: 'Initial Value',
+    tag: 'a tag'
+  }).addTo(fieldSet2);
+  
+  new Jx.Field.Select({
+    id: 'Select21',
+    name: 'Select21',
+    label: 'Select One',
+    comboOpts: [{
+        value: 'opt21',
+        text: 'Option #1',
+        selected: false
+    },{
+        value: 'opt22',
+        text: 'Option #2',
+        selected: true
+    },{
+        value: 'opt23',
+        text: 'Option #3',
+        selected: false
+    }]
+  }).addTo(fieldSet2);
+  
+  new Jx.Field.Text({
+    id: 'Text22',
+    name: 'Text22',
+    label: 'Text Two',
+    value: 'Initial Value',
+    tag: 'a tag'
+  }).addTo(fieldSet2);
+
+  var checkSet = new Jx.Fieldset({
+    legend: 'Check Group',
+    fieldsetClass: 'jxInputGroup',
+    template: '<fieldset class="jxFieldset"><legend><span class="jxFieldsetLegend"></span></legend></fieldset>'
+  }).addTo(fieldSet2);
+  
+  new Jx.Field.Checkbox({
+    id: 'check21',
+    name: 'check21',
+    value: 'check21',
+    label: 'Check 1',
+    checked: true,
+    labelSeparator: ''
+  }).addTo(checkSet);
+  
+  new Jx.Field.Checkbox({
+    id: 'check22',
+    name: 'check22',
+    value: 'check22',
+    label: 'check 2',
+    checked: false,
+    labelSeparator: ''
+  }).addTo(checkSet);
+
+  new Jx.Field.Button({
+    buttonOptions:{label: 'Apply'}
+  }).addTo(fieldSet2);
+
+  new Jx.Field.Button({
+    buttonOptions:{label: 'Cancel'}
+  }).addTo(fieldSet2);
+  
+// Third Fieldset
+
+  var fieldSet3 = new Jx.Fieldset({
+    // no legend in this one
+    id: 'FieldSet3',
+    fieldsetClass: 'jxFormBlock'
+  }).addTo(form);
+  
+  new Jx.Field.Text({
+    id: 'Text31',
+    name: 'Text31',
+    label: 'Text One',
+    value: 'Initial Value',
+    tag: 'a tag'
+  }).addTo(fieldSet3);
+
+  new Jx.Field.Select({
+    id: 'Select31',
+    name: 'Select31',
+    label: 'Select One',
+    tag: 'another tag',
+    comboOpts: [{
+        value: 'opt31',
+        text: 'Option #1',
+        selected: false
+    },{
+        value: 'opt32',
+        text: 'Option #2',
+        selected: true
+    },{
+        value: 'opt33',
+        text: 'Option #3',
+        selected: false
+    }]
+  }).addTo(fieldSet3);
+
+  new Jx.Field.Checkbox({
+    id: 'check31',
+    name: 'check31',
+    value: 'check31',
+    label: 'Check 1',
+    labelSeparator: ''
+  }).addTo(fieldSet3);
+
+  new Jx.Field.Checkbox({
+    id: 'check32',
+    name: 'check32',
+    value: 'check32',
+    label: 'Check 2',
+    labelSeparator: ''
+  }).addTo(fieldSet3);
+
+  new Jx.Field.Textarea({
+    id: 'TextArea31',
+    name: 'TextArea31',
+    label: 'TextArea One',
+    rows: 6,
+    columns: 40
+  }).addTo(fieldSet3);
+  
+  
+}
+</script>
+</head>
+<body>
+
+<h1>Jx.Form Examples</h1>
+<p>API Reference: <a id="form-js" href="javascript:void();" title="link to API Reference">Jx.Form</a> See Also: <a id="toolbar-js" href="javascript:void();" title="link to API Reference">Jx.Toolbar</a></p>
+
+<h2 id="basicForm">A Form with Inline-Block Class</h2>
+<p>A programmatically created form with several fieldsets of fields oriented in various ways.</p>
+<div id="formBasic" class="formBox"></div>
+
+</body>
+</html>

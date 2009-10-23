@@ -1,0 +1,76 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Jx.Button.Flyout Integrated Examples</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<script type="text/javascript" src="../../lib/mootools-core.js"></script>
+<script type="text/javascript" src="../../lib/mootools-more.js"></script>
+<script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
+<script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+window.addEvent('load', function() {
+    panelFlyout();
+    tabFlyout();
+});
+</script>
+
+<script id="panelFlyoutScript" type="text/javascript">
+function panelFlyout() {
+    /* a flyout with a Panel as content */
+    new Jx.Button.Flyout({
+        label: 'Panel in Flyout',
+        image: 'images/page_white_code.png',
+        content: new Jx.Panel({
+            contentURL: 'panel_content.html',
+            label: 'Panel in Flyout',
+            width: 300,
+            height: 300,
+            collapse: false
+        })        
+    }).addTo('flyoutPanel');
+}
+</script>
+
+<script id="tabFlyoutScript" type="text/javascript">
+function tabFlyout() {
+    /* this is a flyout with a tab box and for fun, 
+     * a color palette in one of the tabs
+     */
+    new Jx.Button.Flyout({
+        label: 'TabBox in Flyout',
+        image: 'images/page_white_world.png',
+        content: new Jx.TabBox({
+            width: 192,
+            height: 174
+        }).add(
+            new Jx.Button.Tab({
+                label: 'Colors', 
+                content: new Jx.ColorPalette()
+            }),
+            new Jx.Button.Tab({
+                label: 'Ajax Content', 
+                image: 'images/page_white_world.png',
+                contentURL: 'tab_content.html'
+            })
+        )
+    }).addTo('flyoutTab');
+}
+</script>
+
+</head>
+<body>
+<h1>Jx.Button.Flyout Integrated Examples</h1>
+<p>API Reference: <a id="button-flyout-js" href="javascript:void(0)" title="link to API Reference">Jx.Button.Flyout</a> Extends <a id="button-js" href="javascript:void();" title="link to API Reference">Jx.Button</a></p>
+
+<p>These examples show integration of various other JxLib components into flyouts.</p>
+
+<h2 id="panelFlyout">Panel in Flyout</h2>
+<p>This flyout contains a panel.</p>
+<div id="flyoutPanel" class="buttonBox"></div>
+
+<h2 id="tabFlyout">TabBox in Flyout</h2>
+<p>This flyout contains a TabBox.  For fun, there's a color palette in one of the tabs too!</p>
+<div id="flyoutTab" class="buttonBox"></div>
+
+</body>
+</html>

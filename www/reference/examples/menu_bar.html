@@ -1,0 +1,165 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Jx.Menu Bar Examples</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<script type="text/javascript" src="../../lib/mootools-core.js"></script>
+<script type="text/javascript" src="../../lib/mootools-more.js"></script>
+<script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
+<script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+window.addEvent('load', function() {
+    menuToolbar();
+});
+</script>
+
+<script id="menuToolbarScript" type="text/javascript">
+function menuToolbar() {
+    /* a set of grouped menu items */
+    var justifyLeft = new Jx.Menu.Item({
+        label: 'Left',
+        toggle: true,
+        imageClass: 'format-justify-left', 
+        image: 'images/file-edit-menu.png',
+        onDown: function() { log('left justify'); }
+    });
+    var justifyCenter = new Jx.Menu.Item({
+        label: 'Center',
+        toggle: true,
+        imageClass: 'format-justify-center', 
+        image: 'images/file-edit-menu.png',
+        onDown: function() { log('center justify'); }
+    });
+    var justifyRight = new Jx.Menu.Item({
+        label: 'Right',
+        toggle: true,
+        imageClass: 'format-justify-right', 
+        image: 'images/file-edit-menu.png',
+        onDown: function() { log('right justify'); }
+    });
+    var justifyFill = new Jx.Menu.Item({
+        label: 'Fill',
+        toggle: true,
+        imageClass: 'format-justify-fill', 
+        image: 'images/file-edit-menu.png',
+        onDown: function() { log('full justify'); }
+    });
+    new Jx.ButtonSet().add(
+        justifyLeft, justifyCenter, justifyRight, justifyFill
+    );
+    
+    /* menus in toolbars work pretty much the same way as menu
+     * buttons
+     */
+    new Jx.Toolbar({parent: 'toolbarMenu'}).add(
+        new Jx.Menu({label: 'File'}).add(
+            new Jx.Menu.Item({
+                label: 'New', 
+                imageClass: 'file-new', 
+                image: 'images/file-edit-menu.png'}),
+            new Jx.Menu.Item({
+                label: 'Open', 
+                imageClass: 'file-open', 
+                image: 'images/file-edit-menu.png'}),
+            new Jx.Menu.Item({
+                label: 'Save', 
+                imageClass: 'file-save', 
+                image: 'images/file-edit-menu.png'}),
+            new Jx.Menu.Item({
+                label: 'Save As', 
+                imageClass: 'file-save-as', 
+                image: 'images/file-edit-menu.png'}),
+            new Jx.Menu.Separator(),
+            new Jx.Menu.Item({
+                label: 'Print', 
+                imageClass: 'file-print', 
+                image: 'images/file-edit-menu.png'}),
+            new Jx.Menu.Item({
+                label: 'Print Preview', 
+                imageClass: 'file-print-preview', 
+                image: 'images/file-edit-menu.png'}),
+            new Jx.Menu.Separator(),
+            new Jx.Menu.Item({
+                label: 'Properties', 
+                imageClass: 'file-properties', 
+                image: 'images/file-edit-menu.png'})
+        ),
+        new Jx.Menu({label: 'Edit'}).add(
+            new Jx.Menu.Item({
+                label: 'Undo', 
+                imageClass: 'edit-undo', 
+                image: 'images/file-edit-menu.png', enabled: false}),
+            new Jx.Menu.Item({
+                label: 'Redo', 
+                imageClass: 'edit-redo', 
+                image: 'images/file-edit-menu.png', enabled: false}),
+            new Jx.Menu.Separator(),
+            new Jx.Menu.Item({
+                label: 'Cut', 
+                imageClass: 'edit-cut', 
+                image: 'images/file-edit-menu.png'}),
+            new Jx.Menu.Item({
+                label: 'Copy',
+                imageClass: 'edit-copy', 
+                image: 'images/file-edit-menu.png'}),
+            new Jx.Menu.Item({
+                label: 'Paste',
+                imageClass: 'edit-paste', 
+                image: 'images/file-edit-menu.png'})
+        ),
+        new Jx.Menu({label: 'Format'}).add(
+            new Jx.Menu.Item({
+                label: 'Indent More',
+                toggle: true,
+                imageClass: 'format-indent-more', 
+                image: 'images/file-edit-menu.png',
+                onClick: function() { log('indent more'); }}),
+            new Jx.Menu.Item({
+                label: 'Indent Less',
+                toggle: true,
+                imageClass: 'format-indent-less', 
+                image: 'images/file-edit-menu.png',
+                onClick: function() { log('indent less'); }}),
+            new Jx.Menu.SubMenu({label: 'Font'}).add(
+                new Jx.Menu.Item({
+                    label: 'Bold',
+                    toggle: true,
+                    imageClass: 'format-text-bold', 
+                    image: 'images/file-edit-menu.png'}),
+                new Jx.Menu.Item({
+                    label: 'Italic',
+                    toggle: true,
+                    imageClass: 'format-text-italic', 
+                    image: 'images/file-edit-menu.png'}),
+                new Jx.Menu.Item({
+                    label: 'Strikethrough',
+                    toggle: true,
+                    imageClass: 'format-text-strikethrough', 
+                    image: 'images/file-edit-menu.png'}),
+                new Jx.Menu.Item({
+                    label: 'Underline',
+                    toggle: true,
+                    imageClass: 'format-text-underline', 
+                    image: 'images/file-edit-menu.png'})
+            ), 
+            new Jx.Menu.SubMenu({label: 'Justify'}).add(
+                justifyLeft, 
+                justifyCenter, 
+                justifyRight, 
+                justifyFill
+            )
+        )
+    );
+}
+</script>
+</head>
+<body>
+
+  <h1>Jx.Menu Bar Examples</h1>
+  <p>API Reference: <a id="menu-js" href="javascript:void();" title="link to API Reference">Jx.Menu</a>, <a id="menu-submenu-js" href="javascript:void();" title="link to API Reference">Jx.Menu.SubMenu</a>, <a id="menu-item-js" href="javascript:void();" title="link to API Reference">Jx.Menu.Item</a>, <a id="menu-separator-js" href="javascript:void();" title="link to API Reference">Jx.Menu.Separator</a> See Also: <a id="toolbar-js" href="javascript:void();" title="link to API Reference">Jx.Toolbar</a></p>
+  <h2 id="menuToolbar">Menus in a Toolbar</h2>
+  <p>Menus are typically used with a toolbar to create a menu bar for use in panels, dialogs or just in the layout as shown here.  This menu illustrates several different aspects of using menus in one consolidated example, including menu items, sub menus, toggle menu items, and grouped toggle menu items.</p>
+  <div id="toolbarMenu" class="toolbarBox"></div>
+
+</body>
+</html>

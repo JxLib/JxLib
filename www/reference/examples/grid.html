@@ -1,0 +1,176 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Jx.Grid Test Page</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<script type="text/javascript" src="../../lib/mootools-core.js"></script>
+<script type="text/javascript" src="../../lib/mootools-more.js"></script>
+<script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
+<script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+var grid;
+var panel;
+var aboutDialog;
+
+window.addEvent('load', function() {
+    drawToolbar();
+    drawGrid();
+    
+    window.addEvent('stylesheetChanged', function() {
+        if (aboutDialog && aboutDialog.chrome) {
+            aboutDialog.close();
+            aboutDialog.chrome.dispose();
+            aboutDialog.chrome = null;                
+        }
+    });
+    
+});
+</script>
+<script id="toolbarScript" type="text/javascript">
+function drawToolbar() {
+    /* this sets up some options for controlling the grid via
+     * a menu and then creates a panel to host the grid in
+     * The actual grid code is in another sample
+     */
+    new Jx.Menu({label: 'Row Options'}).addTo('buttons').add(
+        new Jx.Menu.Item({
+            label: 'Row Prelight',
+            toggle: true,
+            onDown: function() { grid.options.rowPrelight = true; },
+            onUp: function() { grid.options.rowPrelight = false; }
+        }),
+        new Jx.Menu.Item({
+            label: 'Row Header Prelight',
+            toggle: true,
+            onDown: function() { grid.options.rowHeaderPrelight = true; },
+            onUp: function() { grid.options.rowHeaderPrelight = false; }
+        }),
+        new Jx.Menu.Item({
+            label: 'Row Selection',
+            toggle: true,
+            onDown: function() { grid.options.rowSelection = true; },
+            onUp: function() { grid.options.rowSelection = false; }
+        })
+    );
+    new Jx.Menu({label: 'Column Options'}).addTo('buttons').add(
+        new Jx.Menu.Item({
+            label: 'Column Prelight',
+            toggle: true,
+            onDown: function() { grid.options.columnPrelight = true; },
+            onUp: function() { grid.options.columnPrelight = false; }
+        }),
+        new Jx.Menu.Item({
+            label: 'Column Header Prelight',
+            toggle: true,
+            onDown: function() { grid.options.columnHeaderPrelight = true; },
+            onUp: function() { grid.options.columnHeaderPrelight = false; }
+        }),
+        new Jx.Menu.Item({
+            label: 'Column Selection',
+            toggle: true,
+            onDown: function() { grid.options.columnSelection = true; },
+            onUp: function() { grid.options.columnSelection = false; }
+        })
+    );
+    new Jx.Menu({label: 'Cell Options'}).addTo('buttons').add(
+        new Jx.Menu.Item({
+            label: 'Cell Prelight',
+            toggle: true,
+            onDown: function() { grid.options.cellPrelight = true; },
+            onUp: function() { grid.options.cellPrelight = false; }
+        }),
+        new Jx.Menu.Item({
+            label: 'Cell Selection',
+            toggle: true,
+            onDown: function() { grid.options.cellSelection = true; },
+            onUp: function() { grid.options.cellSelection = false; }
+        })
+    );
+    aboutDialog = null;
+    new Jx.Button({
+        label: 'About',
+        onClick: function() {
+            if (!aboutDialog) {
+                var pageDims = Element.getPageDimensions();
+                aboutDialog = new Jx.Dialog({
+                    label: 'About',
+                    contentURL: 'grid_about.html',
+                    width: 400,
+                    height: 400,
+                    modal: true
+                });
+            }
+            aboutDialog.show();
+        }
+    }).addTo('buttons');
+
+}
+</script>
+<script id="gridScript" type="text/javascript">
+function drawGrid() {
+    grid = new Jx.Grid({
+      alternateRowColors: false,
+      rowHeaders: true,
+      columnHeaders: true,
+      rowPrelight: false,
+      columnPrelight: false,
+      rowHeaderPrelight: false,
+      columnHeaderPrelight: false,
+      cellPrelight: false,
+      rowSelection: false,
+      columnSelection: false,
+      cellSelection: false
+    }).addTo('gridArea');
+    var colHeaders = ['2002','2003','2004','2005','2006','2007'];
+    var rowHeaders = [
+    'Exports','United States','Japan','United Kingdom','Other EC Countries','Other OECD','Other Countries',
+    'Imports','United States','Japan','United Kingdom','Other EC Countries','Other OECD','Other Countries',
+    'Balance','United States','Japan','United Kingdom','Other EC Countries','Other OECD','Other Countries'];
+    var data = [
+        ['414,038.50','399,122.10','429,005.80','450,149.90','453,732.40','463,051.40'],
+        ['347,051.80','328,983.30','350,576.30','368,414.70','361,440.40','356,094.20'],
+        ['10,115.00','9,799.50','9,846.40','10,168.20','10,279.20','9,989.20'],
+        ['6,161.50','7,695.30','9,364.00','9,355.40','11,281.20','14,154.80'],
+        ['16,294.30','16,423.40','17,533.80','18,630.60','20,900.20','24,187.00'],
+        ['12,670.70','12,754.10','14,189.10','14,528.00','16,773.90','19,690.50'],
+        ['21,745.20','23,466.40','27,496.20','29,052.90','33,057.60','38,935.80'],
+        ['356,727.10','342,709.50','363,157.80','387,804.00','404,252.60','415,005.70'],
+        ['255,232.50','240,356.30','250,038.30','259,348.20','265,023.00','269,752.50'],
+        ['11,732.60','10,645.50','10,094.50','11,210.80','11,858.30','11,972.30'],
+        ['10,181.30','9,183.00','9,460.00','9,061.20','9,549.20','9,894.30'],
+        ['25,867.00','26,001.00','27,007.00','29,457.00','32,529.80','32,402.90'],
+        ['19,686.60','19,696.90','22,283.60','24,304.50','23,673.30','25,034.20'],
+        ['34,027.10','36,826.80','44,274.40','54,422.30','61,618.90','65,949.40'],
+        ['57,311.40','56,412.60','65,848.00','62,345.90','49,479.80','48,045.70'],
+        ['91,819.30','88,627.00','100,538.00','109,066.50','96,417.40','86,341.70'],
+        ['-1,617.60','-846','-248.1','-1,042.60','-1,579.10','-1,983.10'],
+        ['-4,019.80','-1,487.70','-96','294.2','1,732.00','4,260.50'],
+        ['-9,572.70','-9,577.60','-9,473.20','-10,826.40','-11,629.60','-8,215.90'],
+        ['-7,015.90','-6,942.80','-8,094.50','-9,776.50','-6,899.40','-5,343.70'],
+        ['-12,281.90','-13,360.40','-16,778.20','-25,369.40','-28,561.30','-27,013.60']];
+    var model = new Jx.Grid.Model(data, {
+        rowHeaders: rowHeaders, 
+        columnHeaders: colHeaders,
+        rowHeaderWidth: 150,
+        colWidth: 75
+    });
+    
+    grid.setModel(model);
+}
+</script>
+</head>
+<body>
+
+  <h1>Jx.Grid Examples</h1>
+  <p>API Reference: <a id="grid-js" href="javascript:void();" title="link to API Reference">Jx.Grid</a></p>
+  <p>This example demonstrates some basic and advanced ways of using Jx.Grid.  The actual data comes live from the USGS earthquake site and may take a little while to load - please be patient, its worth the wait!</p>
+  <h2 id="toolbar">Grid Options</h2>
+  <p>There are a number of options for configuring a grid, try them out by using the menus to turn various options on and off.</p>
+  <h2 id="grid">The Grid</h2>
+  <p>The grid itself has a lot of options when you first construct it, for this example most of the options are turned off so we can use the menus to demonstrate the effect of turning them on and off.</p>
+  <p>The grid component uses an architecture that requires a separate object to provide the data to the grid through a specific api.  This object is called the model for the grid.  The grid allows the model to be changed at any time and the grid will redraw itself with the new model's data.</p>
+  <div id="buttons" class="buttonBox"></div>
+  <div id="gridArea" class="gridBox"></div>
+
+</body>
+</html>

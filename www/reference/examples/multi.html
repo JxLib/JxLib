@@ -1,0 +1,160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Jx.Button.Multi Examples</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<script type="text/javascript" src="../../lib/mootools-core.js"></script>
+<script type="text/javascript" src="../../lib/mootools-more.js"></script>
+<script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
+<script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+window.addEvent('load', function() {
+    basicMulti();
+    toggleMulti();
+    disabledMulti();
+});
+</script>
+
+<script id="basicMultiScript" type="text/javascript">
+function basicMulti() {
+    /* this is a multi button which shows an active button but can contain
+     * a palette of buttons to choose from
+     */
+    new Jx.Button.Multi({
+        items: [
+            new Jx.Button({
+              label: 'Create Bar Chart',
+              image: 'images/charts.png',
+              imageClass: 'chart_bar',
+              onClick: function(){log('bar chart tool activated');}
+            }),
+            new Jx.Button({
+              label: 'Create Pie Chart',
+              image: 'images/charts.png',
+              imageClass: 'chart_pie',
+              onClick: function(){log('pie chart tool activated');}
+            }),
+            new Jx.Button({
+              label: 'Create Line Chart',
+              image: 'images/charts.png',
+              imageClass: 'chart_line',
+              onClick: function(){log('line chart tool activated');}
+            }),
+            new Jx.Button({
+              label: 'Create Curve Chart',
+              image: 'images/charts.png',
+              imageClass: 'chart_curve',
+              onClick: function(){log('curve chart tool activated');}
+            })
+        ]
+    }).addTo('multiBasic');
+}
+</script>
+
+<script id="toggleMultiScript" type="text/javascript">
+function toggleMulti() {
+    /* by setting the toggle property to true, we can have sets of 
+     * multi-buttons
+     */
+    var drawingTools = new Jx.Button.Multi({
+        toggle: true,
+        items: [
+            new Jx.Button({
+              label: 'Pencil Tool',
+              image: 'images/pencil.png',
+              onClick: function(){log('draw with pencil');}
+            }),
+            new Jx.Button({
+              label: 'Brush Tool',
+              image: 'images/paintbrush.png',
+              onClick: function(){log('draw with brush');}
+            }),
+            new Jx.Button({
+              label: 'Paint Can Tool',
+              image: 'images/paintcan.png',
+              onClick: function(){log('dump a paint can on it');}
+            })
+        ]
+    }).addTo('multiToggle');
+    var selectTools = new Jx.Button.Multi({
+        toggle: true,
+        items: [
+            new Jx.Button({
+                image:'images/select-rectangle.png',
+                onClick: function(){log('select rectangular region');}
+            }),
+            new Jx.Button({
+                image:'images/select-polygon.png',
+                onClick: function(){log('select using a polygon');}
+            }),
+            new Jx.Button({
+                image:'images/select-radius.png',
+                onClick: function(){log('select using a radius');}
+            })
+        ]
+    }).addTo('multiToggle');
+    var navTools = new Jx.Button.Multi({
+        toggle: true,
+        items: [
+            new Jx.Button({label:'Zoom'}),
+            new Jx.Button({label:'Pan'}),
+            new Jx.Button({label:'info'})
+        ]
+    }).addTo('multiToggle');
+    new Jx.ButtonSet().add(drawingTools, selectTools, navTools);
+}
+</script>
+
+<script id="disabledMultiScript" type="text/javascript">
+function disabledMulti() {
+    /* by setting the toggle property to true, we can have sets of 
+     * multi-buttons
+     */
+    var multi = new Jx.Button.Multi({
+        enabled: false,
+        items: [
+            new Jx.Button({
+              label: 'Pencil Tool',
+              onClick: function(){log('draw with pencil');}
+            }),
+            new Jx.Button({
+              image: 'images/paintbrush.png',
+              onClick: function(){log('draw with brush');}
+            }),
+            new Jx.Button({
+              label: 'Paint Can Tool',
+              image: 'images/paintcan.png',
+              onClick: function(){log('dump a paint can on it');}
+            })
+        ]
+    }).addTo('multiDisabled');
+    new Jx.Button({
+      label: 'Toggle Multi Button',
+      toggle: true,
+      onDown: function(){
+          multi.setEnabled(true); 
+      },
+      onUp: function(){
+          multi.setEnabled(false); 
+      }
+    }).addTo('multiDisabled');
+}
+</script>
+
+</head>
+<body>
+
+  <h1>Jx.Button.Multi Examples</h1>
+  <p>API Reference: <a id="button-multi-js" href="javascript:void(0)" title="link to API Reference">Jx.Button.Multi</a> Extends <a id="button-js" href="javascript:void();" title="link to API Reference">Jx.Button</a></p>
+  <h2 id="basicMulti">Basic Multi Button</h2>
+  <p>Multi buttons are both a button and a menu that has a toggle set in it.  Selecting an item from the list sets the button's action.</p>
+  <div id="multiBasic" class="buttonBox"></div>
+  <h2 id="toggleMulti">Toggled Multi Button</h2>
+  <p>Multi buttons work like regular buttons and can be set to toggle as part of a button set.</p>
+  <div id="multiToggle" class="buttonBox"></div>
+  <h2 id="disabledMulti">Disabled Multi Button</h2>
+  <p>Multi buttons can be enabled and disabled.</p>
+  <div id="multiDisabled" class="buttonBox"></div>
+  
+</body>
+</html>

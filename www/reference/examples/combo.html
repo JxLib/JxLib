@@ -1,0 +1,180 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Jx.Button.Combo Examples</title>
+<meta http-equiv="Content-type" content="text/html; charset=iso-8859-1" />
+<script type="text/javascript" src="../../lib/mootools-core.js"></script>
+<script type="text/javascript" src="../../lib/mootools-more.js"></script>
+<script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
+<script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+window.addEvent('load', function() {
+    basicCombo();
+    editableCombo();
+    disabledCombo();
+});
+</script>
+
+<script id="basicComboScript" type="text/javascript">
+function basicCombo() {
+    /* build a basic combo button with entries that have 
+     * both a label and an image.  The image comes from a
+     * strip of images and we use the imageClass to provide
+     * a background offset so the image is only loaded once.
+     */
+    new Jx.Button.Combo({
+        label: 'Choose a symbol',
+        items: [
+            {label: 'Star', image: 'images/swatches.png', imageClass: 'comboStar'},
+            {label: 'Square', image: 'images/swatches.png', imageClass: 'comboSquare'},
+            {label: 'Triangle', image: 'images/swatches.png', imageClass: 'comboTriangle'},
+            {label: 'Circle', image: 'images/swatches.png', imageClass: 'comboCircle'},
+            {label: 'Plus', image: 'images/swatches.png', imageClass: 'comboPlus'},
+            {label: 'Cross', image: 'images/swatches.png', imageClass: 'comboCross'}
+        ]
+    }).addTo('comboBasic');
+    /* just an image (and the imageClass thing again) */
+    new Jx.Button.Combo({
+        label: 'Choose a color',
+        items: [
+            {image: 'images/swatches.png', imageClass: 'comboRed'},
+            {image: 'images/swatches.png', imageClass: 'comboMagenta'},
+            {image: 'images/swatches.png', imageClass: 'comboBlue'},
+            {image: 'images/swatches.png', imageClass: 'comboCyan'},
+            {image: 'images/swatches.png', imageClass: 'comboGreen'},
+            {image: 'images/swatches.png', imageClass: 'comboYellow'}
+        ]
+    }).addTo('comboBasic');
+    /* and just a label this time */
+    var c = new Jx.Button.Combo({
+        label: 'Choose a symbol',
+        items: [
+            {label: 'Small'},
+            {label: 'Medium'},
+            {label: 'Large'},
+            {label: 'Extra large'}
+        ]
+    }).addTo('comboBasic');
+    c.setValue('Medium');
+}
+</script>
+
+<script id="editableComboScript" type="text/javascript">
+function editableCombo() {
+    /* this combo is editable and has text and icons for the entries */
+    new Jx.Button.Combo({
+        label: 'Choose a province',
+        editable: true,
+        items: [
+            {image: 'images/flags.png', imageClass: 'bc', label: 'British Columbia'},
+            {image: 'images/flags.png', imageClass: 'alberta', label: 'Alberta'},
+            {image: 'images/flags.png', imageClass: 'sask', label: 'Saskatchewan'},
+            {image: 'images/flags.png', imageClass: 'manitoba', label: 'Manitoba'},
+            {image: 'images/flags.png', imageClass: 'ontario', label: 'Ontario'},
+            {image: 'images/flags.png', imageClass: 'quebec', label: 'Quebec'},
+            {image: 'images/flags.png', imageClass: 'newbrunswick', label: 'New Brunswick'},
+            {image: 'images/flags.png', imageClass: 'novascotia', label: 'Nova Scotia'},
+            {image: 'images/flags.png', imageClass: 'pei', label: 'Prince Edward Island'},
+            {image: 'images/flags.png', imageClass: 'newfoundland', label: 'Newfoundland'},
+            {image: 'images/flags.png', imageClass: 'labrador', label: 'Labrador'},
+            {image: 'images/flags.png', imageClass: 'northwest', label: 'Northwest Territories'},
+            {image: 'images/flags.png', imageClass: 'yukon', label: 'Yukon'},
+            {image: 'images/flags.png', imageClass: 'nunavut', label: 'Nunavut'}
+        ]
+    }).addTo('comboEditable');
+    /* this is editable and just has labels */
+    new Jx.Button.Combo({
+        label: 'Choose a city',
+        editable: true,
+        items: [
+            {label: 'Victoria'},
+            {label: 'Edmonton'},
+            {label: 'Regina'},
+            {label: 'Winnipeg'},
+            {label: 'Toronto'},
+            {label: 'Quebec City'},
+            {label: 'Fredericton'},
+            {label: 'Halifax'},
+            {label: 'Charolettetown'},
+            {label: 'St. Johns'},
+            {label: 'Yellowknife'},
+            {label: 'Whitehorse'},
+            {label: 'Iqaluit'}
+        ]
+    }).addTo('comboEditable');
+}
+</script>
+<script id="disabledComboScript" type="text/javascript">
+function disabledCombo() {
+    /* combos are like other buttons and can be disabled */
+    var flags = new Jx.Button.Combo({
+        label: 'Choose a color',
+        enabled: false,
+        editable: true,
+        items: [
+            {image: 'images/flags.png', imageClass: 'bc', label: 'British Columbia'},
+            {image: 'images/flags.png', imageClass: 'alberta', label: 'Alberta'},
+            {image: 'images/flags.png', imageClass: 'sask', label: 'Saskatchewan'},
+            {image: 'images/flags.png', imageClass: 'manitoba', label: 'Manitoba'},
+            {image: 'images/flags.png', imageClass: 'ontario', label: 'Ontario'},
+            {image: 'images/flags.png', imageClass: 'quebec', label: 'Quebec'},
+            {image: 'images/flags.png', imageClass: 'newbrunswick', label: 'New Brunswick'},
+            {image: 'images/flags.png', imageClass: 'novascotia', label: 'Nova Scotia'},
+            {image: 'images/flags.png', imageClass: 'pei', label: 'Prince Edward Island'},
+            {image: 'images/flags.png', imageClass: 'newfoundland', label: 'Newfoundland'},
+            {image: 'images/flags.png', imageClass: 'labrador', label: 'Labrador'},
+            {image: 'images/flags.png', imageClass: 'northwest', label: 'Northwest Territories'},
+            {image: 'images/flags.png', imageClass: 'yukon', label: 'Yukon'},
+            {image: 'images/flags.png', imageClass: 'nunavut', label: 'Nunavut'}
+        ]
+    }).addTo('comboDisabled');
+    /* another disabled combo that also tests what happens if we have a
+     * mixture of labels, images and labels plus images
+     */
+    var combo = new Jx.Button.Combo({
+        label: 'Disabled Combo',
+        enabled: false,
+        items: [
+            {label: 'Square'},
+            {label: 'Plus'},
+            {image: 'images/swatches.png', imageClass: 'comboTriangle'},
+            {image: 'images/swatches.png', imageClass: 'comboCircle'},
+            {label: 'Cross', image: 'images/swatches.png', imageClass: 'comboCross'},
+            {label: 'Star', image: 'images/swatches.png', imageClass: 'comboStar'}
+        ]
+    }).addTo('comboDisabled');
+    /* add a toggle to enable/disable them */
+    new Jx.Button({
+      label: 'Toggle Combo Buttons',
+      toggle: true,
+      onDown: function(){
+          combo.setEnabled(true); 
+          flags.setEnabled(true); 
+      },
+      onUp: function(){
+          combo.setEnabled(false); 
+          flags.setEnabled(false); 
+      }
+    }).addTo('comboDisabled');
+}
+</script>
+</head>
+<body>
+
+<h1>Jx.Button.Combo Examples</h1>
+<p>API Reference: <a id="button-combo-js" href="javascript:void(0)" title="link to API Reference">Jx.Button.Combo</a> Extends <a id="button-js" href="javascript:void();" title="link to API Reference">Jx.Button</a></p>
+
+<h2 id="basicCombo">Basic Combos</h2>
+<p>Combo buttons are useful for allowing the user to choose a value from a list of values.</p>
+<div id="comboBasic" class="buttonBox"></div>
+
+<h2 id="editableCombo">Editable Combo</h2>
+<p>Combo buttons can also be editable by the user.</p>
+<div id="comboEditable" class="buttonBox"></div>
+
+<h2 id="disabledCombo">Disabled Combos</h2>
+<p>Combo buttons can be disabled and enabled.</p>
+<div id="comboDisabled" class="buttonBox"></div>
+    
+</body>
+</html>
