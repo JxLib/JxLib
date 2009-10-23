@@ -121,6 +121,23 @@ Jx.Menu = new Class({
         return this;
     },
     /**
+     * Method: remove
+     * Remove a single menu item from the menu.
+     *
+     * Parameters:
+     * item - {<Jx.MenuItem} the menu item to remove.
+     */
+    remove: function(item) {
+        for (var i=0; i<this.items.length; i++) {
+            if (this.items[i] == item) {
+                this.items.splice(i,1);
+                this.subDomObj.removeChild(item.domObj);
+                break;
+            }
+        }
+    },
+    
+    /**
      * Method: deactivate
      * Deactivate the menu by hiding it.
      */
