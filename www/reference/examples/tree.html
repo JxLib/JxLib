@@ -32,7 +32,7 @@ function tree() {
         },
         contextMenu: cm
     });
-    tree.append(item);
+    tree.add(item);
     
     /* add a folder to the tree */
     var folder = new Jx.TreeFolder({
@@ -41,29 +41,29 @@ function tree() {
         imageClass: 'blueFolder',
         contextMenu: cm
     });
-    tree.append(folder);
+    tree.add(folder);
     
     /* put an item into the folder */
     var item = new Jx.TreeItem({
         label: 'A Sub Item'
     });
-    folder.append(item);
+    folder.add(item);
     
     /* you can put a folder into a folder */
     var subFolder = new Jx.TreeFolder({label: 'A Sub Folder'});
-    folder.append(subFolder);
+    folder.add(subFolder);
 
     /* and items into that too! */
     var item = new Jx.TreeItem({label: 'Another Sub Item'});
-    subFolder.append(item);
+    subFolder.add(item);
     
     /* add a lot more stuff */
     for (var j=1; j<4; j++) {
         var folder = new Jx.TreeFolder({label: 'Folder ' + j});
-        tree.append(folder);
+        tree.add(folder);
         for (var i=1; i<10; i++) {
             var item = new Jx.TreeItem({label: 'Item ' + i});
-            folder.append(item);
+            folder.add(item);
         }        
     }    
 };

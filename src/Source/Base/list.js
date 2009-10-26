@@ -162,13 +162,13 @@ Jx.List = new Class({
                     } else {
                         el.inject(this.container, 'bottom');
                     }
-                    this.fireEvent('add', item, this);
                 } else if (this.container.hasChild(position)) {
                     el.inject(position,'after');
-                    this.fireEvent('add', item, this);
                 }
+                this.fireEvent('add', item, this);
             } else {
                 el.inject(this.container, 'bottom');
+                this.fireEvent('add', item, this);
             }
             if (this.selection) {
                 this.selection.defaultSelect(el);
@@ -235,6 +235,24 @@ Jx.List = new Class({
      */
     count: function() {
         return this.container.childNodes.length;
+    },
+    /**
+     * APIMethod: items
+     * returns an array of the items in the list
+     */
+    items: function() {
+        return $A(this.container.childNodes);
+    },
+    /**
+     * APIMethod: each
+     * applies the supplied function to each item
+     *
+     * Parameters:
+     * func - {function} the function to apply, it will receive the item and
+     * index of the item as parameters
+     */
+    each: function(f) {
+        $A(this.container.childNodes).each(f);
     },
     /**
      * APIMethod: select

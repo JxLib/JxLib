@@ -20,6 +20,7 @@
 Jx.Tree = new Class({
     Family: 'Jx.Tree',
     Extends: Jx.Widget,
+    parameters: ['options','container'],
     isOpen: true,
     list: null,
     domObj: null,
@@ -33,8 +34,13 @@ Jx.Tree = new Class({
      */
     render: function() {
         this.parent();
-        this.elements = this.processTemplate(this.options.template, this.classes);
-        this.domObj = this.elements.get('jxTreeRoot');
+        if ($defined(this.options.container) && 
+            document.id(this.options.container)) {
+            this.domObj = this.options.container;
+        } else {
+            this.elements = this.processTemplate(this.options.template, this.classes);
+            this.domObj = this.elements.get('jxTreeRoot');
+        }
         this.list = new Jx.List(this.domObj, {
             onAdd: function(item) {
                 this.update();
@@ -48,12 +54,19 @@ Jx.Tree = new Class({
                 this.fireEvent('select',item);
             }.bind(this)
         });
-        this.add = this.list.add;
-        this.remove = this.list.remove;
-        this.replace = this.list.replace;
         if (this.options.parent) {
             this.addTo(this.options.parent);
         }
+    },
+    
+    add: function(item, position) {
+        this.list.add(item, position);
+    },
+    remove: function(item) {
+        this.list.remove(item);
+    },
+    replace: function(item, withItem) {
+        this.list.replace(item, withItem);
     },
     
     /**
@@ -72,22 +85,62 @@ Jx.Tree = new Class({
      * Parameters:
      * shouldDescend - {Boolean} propagate changes to child nodes?
      */
-    update: function(shouldDescend) {
-        var bLast = true;
-        if (this.domObj) {
-            if (bLast) {
+    update: function(shouldDescend, isLast) {
+        
+        if ($defined(isLast)) {
+            if (isLast) {
                 this.domObj.removeClass('jxTreeNest');
             } else {
                 this.domObj.addClass('jxTreeNest');
             }
         }
-        if (this.nodes && shouldDescend) {
-            this.nodes.each(function(n){n.update(false);});
-        }
+        var last = this.list.count() - 1;
+        this.list.each(function(item, idx){
+            var lastItem = idx == last;
+            if (item.retrieve('jxTreeFolder')) {
+                item.retrieve('jxTreeFolder').update(shouldDescend, lastItem);
+            }
+            if (item.retrieve('jxTreeItem')) {
+                item.retrieve('jxTreeItem').update(lastItem);
+            }
+        });
     },
     
-    isLastNode: function(node) {
-        return this.list.indexOf(node)+1 == this.list.count();
+    /**
+     * Method: findChild
+     * Get a reference to a child node by recursively searching the tree
+     * 
+     * Parameters:
+     * path - {Array} an array of labels of nodes to search for
+     *
+     * Returns:
+     * {Object} the node or null if the path was not found
+     */
+    findChild : function(path) {
+        //path is empty - we are asking for this node
+        if (path.length == 0) {
+            return this;
+        }
+        var i;
+        //path has only one thing in it - looking for something in this folder
+        if (path.length == 1) {
+            for (i=0; i<this.nodes.length; i++) {
+                if (this.nodes[i].getName() == path[0]) {
+                    return this.nodes[i];
+                }
+            }
+            return null;
+        }
+        //path has more than one thing in it, find a folder and descend into it    
+        var name = path.shift();
+        for (i=0; i<this.nodes.length; i++)
+        {
+            if (this.nodes[i].getName() == name && this.nodes[i].findChild) {
+                return this.nodes[i].findChild(path);
+            }
+        }
+        return null;
     }
+    
 });
 

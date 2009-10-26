@@ -69,6 +69,7 @@ Jx.TreeItem = new Class ({
          * sprites
          */
         imageClass: '',
+        lastLeafClass: 'jxTreeLeafLast',
         template: '<li class="jxTreeContainer jxTreeLeaf"><img class="jxTreeImage" src="'+Jx.aPixel.src+'" alt="" title=""><a class="jxTreeItem" href="javascript:void(0);"><img class="jxTreeIcon" src="'+Jx.aPixel.src+'" alt="" title=""><span class="jxTreeLabel"></span></a></li>'
     },
     classes: ['jxTreeContainer', 'jxTreeItem', 'jxTreeImage', 'jxTreeIcon','jxTreeLabel'],
@@ -82,6 +83,7 @@ Jx.TreeItem = new Class ({
         this.elements = this.processTemplate(this.options.template, this.classes);
 
         this.domObj = this.elements.get('jxTreeContainer');
+        this.domObj.store('jxTreeItem', this);
         var domA = this.elements.get('jxTreeItem');
         var domImg = this.elements.get('jxTreeIcon');
         var domLabel = this.elements.get('jxTreeLabel');
@@ -191,15 +193,13 @@ Jx.TreeItem = new Class ({
      * position
      *
      * Parameters:
-     * shouldDescend - {Boolean} propagate changes to child nodes?
+     * isLast - {Boolean} is the item the last one or not?
      */
-    update : function(shouldDescend) {
-        var isLast = (arguments.length > 1) ? arguments[1] :
-                     (this.owner && this.owner.isLastNode(this));
+    update : function(isLast) {
         if (isLast) {
-            this.domObj.addClass('jxTreeLeafLast');
+            this.domObj.addClass(this.options.lastLeafClass);
         } else {
-            this.domObj.removeClass('jxTreeLeafLast');
+            this.domObj.removeClass(this.options.lastLeafClass);
         }
     },
     /**
