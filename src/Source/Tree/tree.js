@@ -20,7 +20,7 @@
 Jx.Tree = new Class({
     Family: 'Jx.Tree',
     Extends: Jx.Widget,
-    parameters: ['options','container'],
+    parameters: ['options','container', 'selection'],
     isOpen: true,
     list: null,
     domObj: null,
@@ -34,6 +34,11 @@ Jx.Tree = new Class({
      */
     render: function() {
         this.parent();
+        if ($defined(this.options.selection)) {
+            this.selection = this.options.selection;
+        } else {
+            this.selection = new Jx.Selection();
+        }
         if ($defined(this.options.container) && 
             document.id(this.options.container)) {
             this.domObj = this.options.container;
@@ -53,7 +58,7 @@ Jx.Tree = new Class({
             onSelect: function(item) {
                 this.fireEvent('select',item);
             }.bind(this)
-        });
+        }, this.selection);
         if (this.options.parent) {
             this.addTo(this.options.parent);
         }
@@ -119,28 +124,26 @@ Jx.Tree = new Class({
     findChild : function(path) {
         //path is empty - we are asking for this node
         if (path.length == 0) {
-            return this;
-        }
-        var i;
-        //path has only one thing in it - looking for something in this folder
-        if (path.length == 1) {
-            for (i=0; i<this.nodes.length; i++) {
-                if (this.nodes[i].getName() == path[0]) {
-                    return this.nodes[i];
-                }
-            }
-            return null;
+            return false;
         }
         //path has more than one thing in it, find a folder and descend into it    
         var name = path.shift();
-        for (i=0; i<this.nodes.length; i++)
-        {
-            if (this.nodes[i].getName() == name && this.nodes[i].findChild) {
-                return this.nodes[i].findChild(path);
+        var result = false;
+        this.list.items().some(function(item) {
+            var treeItem = item.retrieve('jxTreeItem');
+            if (treeItem && treeItem.options.label == name) {
+                if (path.length > 0) {
+                    var folder = item.retrieve('jxTreeFolder');
+                    if (folder) {
+                        result = folder.findChild(path)
+                    }
+                } else {
+                    result = treeItem;
+                }
             }
-        }
-        return null;
+            return result;
+        });
+        return result;
     }
-    
 });
 

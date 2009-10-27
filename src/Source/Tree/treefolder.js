@@ -120,9 +120,7 @@ Jx.TreeFolder = new Class({
         c += this.options.open ? 'Open' : 'Closed';
         this.domObj.addClass(c);
 
-        if (shouldDescend) {
-            this.tree.update(shouldDescend, isLast);
-        }
+        this.tree.update(shouldDescend, isLast);
     },
     /**
      * Method: clicked
@@ -158,5 +156,13 @@ Jx.TreeFolder = new Class({
         document.id(this.tree).setStyle('display', 'none');
         this.update(true);
         this.fireEvent('disclosed', this);
+    },
+    findChild : function(path) {
+        //path is empty - we are asking for this node
+        if (path.length == 0) {
+            return this;
+        } else {
+            return this.tree.findChild(path);
+        }
     }
 });
