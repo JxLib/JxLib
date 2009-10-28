@@ -13,7 +13,7 @@
         "grid": ["basic","headers","formatters","prelighter","selector","sorter"]
     },
     "Form": {
-        "form": ["fields","fieldset","form","file"]
+        "form": ["fields","fieldset","form","file", "validation"]
     },
     "Extras": {
         "progressbar": ["all"],

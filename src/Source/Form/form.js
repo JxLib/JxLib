@@ -50,46 +50,7 @@ Jx.Form = new Class({
          * Option: name
          * the name property for the form
          */
-		name: '',
-		/**
-         * Option: validationOptions
-         * options for determining validation behavior. See docs for mootools-more's
-         * FormValidator for valid options.
-         */
-		validationOptions: {
-            validateOnSubmit: false
-        },
-        /**
-         * Option: errors
-         * Error object used to determine error message settings
-         */
-		errors: {
-            /**
-             * Option: showErrorMessages
-             * How errors are shown. Values are 'together', 'individual', or 'both'.
-             * If 'together' then all errors are shown at the top of the page. If
-             * 'individual' then errors are only noted by the fields. 'both' will do both.
-             * In any case, a class will be added to the invalid field that can be used
-             * to style the field however you wish.
-             */
-		    showErrorMessages: 'together',
-		    /**
-		     * Option: messageStyle
-		     * Determines how error messages are displayed. Values are
-		     * either 'text', 'tip', or 'none'. 'text' shows the error in a span that 
-		     * you can style. 'tip' shows just an icon that when hovered will
-		     * pop up a tooltip with the error message. 'none' will not show
-		     * any message so that the form's caller can handle errors. In any case,
-		     * the input itself will have a class of 'jxFieldInvalid' added to it.
-		     */
-            messageStyle: 'text',
-            /**
-             * Option: displayError
-             * Whether to display only a single error or all of them in the message.
-             * Valid values are 'single' or 'all'.
-             */
-            displayError: 'all'
-        }
+		name: ''
 	},
 
 	/**
@@ -97,21 +58,6 @@ Jx.Form = new Class({
      * An array of all of the single fields (not contained in a fieldset) for this form
      */
     fields : new Hash(),
-    /**
-     * Property: validator
-     * Holds a reference to the FormValidator instance
-     */
-    validator : null,
-    /**
-     * Property: errors
-     * an array of error objects
-     */
-    errors : new Hash(),
-    /**
-     * Property: errorMessages
-     * An element representing the error messages for this form.
-     */
-    errorMessages : null,
     /**
      * Property: pluginNamespace
      * required variable for plugins
@@ -144,22 +90,6 @@ Jx.Form = new Class({
     },
 
     /**
-     * APIMethod: enableValidation
-     * Call this method after adding the form to the DOM to enable
-     * validation of the form
-     * 
-     */
-    enableValidation : function () {
-        this.validator = new Form.Validator(this.domObj,
-                this.options.validationOptions);
-        this.validator.addEvents({
-            'onElementValidate' : this.elementValidator.bind(this),
-            'onElementPass' : this.elementPassed.bind(this),
-            'onElementFail' : this.elementFailed.bind(this)
-        });
-    },
-
-    /**
      * APIMethod: addField
      * Adds a <Jx.Field> subclass to this form's fields hash
      * 
@@ -170,68 +100,7 @@ Jx.Form = new Class({
         this.fields.set(field.id, field);
     },
 
-    /**
-     * Method: elementValidator
-     * Event handler called when a specific element fails or passes
-     * a specific validator. It is used to automatically add the error
-     * to the field class and display errors is needed
-     * 
-     * Parameters:
-     * isValid - {boolean} indicates whether validator passed or not
-     * field - {Element} the element that was being validated
-     * className - {string} the name of the validator
-     * warn - {boolean} whether this should be a warning (not really used)
-     */
-    elementValidator : function (isValid, field, className, warn) {
-        var validator = this.validator.getValidator(className);
-        var fld = field.retrieve('field');
-        var errors;
-        if (!isValid && validator.getError(field)) {
-            var err = validator.getError(field);
-            fld.addError(err, className);
-            if (!this.errors.has(fld.name)) {
-                this.errors.set(fld.name, new Hash());
-            }
-            errors = this.errors.get(fld.name);
-            errors.set(className, err);
-        } else {
-            fld.clearError(className);
-            if (this.errors.has(fld.name)) {
-                errors = this.errors.get(fld.name);
-                if (errors.has(className)) {
-                    errors.erase(className);
-                }
-                if ($defined(this.errorMessages)) {
-                    this.showErrors();
-                }
-            }
-        }
-    },
     
-    /**
-     * Method: elementPassed
-     * event handler for when a single element passes all validators
-     * 
-     * Parameters:
-     * field - an Element representing the passed field
-     */ 
-    elementPassed : function (field) {
-        var fld = field.retrieve('field');
-        fld.clearErrors();
-    },
-
-    /**
-     * Method: elementFailed
-     * event handler for when a single element fails validation
-     * 
-     * Parameters:
-     * field - an Element representing the failed field
-     */
-    elementFailed : function (field) {
-        var fld = field.retrieve('field');
-        fld.showErrors(this.options.errors);
-    },
-
     /**
      * Method: isValid
      * Determines if the form passes validation
@@ -240,13 +109,7 @@ Jx.Form = new Class({
      * evt - the Mootools event object
      */
     isValid : function (evt) {
-        var valid = this.validator.validate(evt);
-        if (!valid) {
-            this.showErrors();
-        } else {
-            this.clearErrors();
-        }
-        return valid;
+        return true;
     },
 
     /**
@@ -286,52 +149,6 @@ Jx.Form = new Class({
     },
 
     /**
-     * APIMethod: showErrors
-     * Displays all of the errors in the error object at the top of the form.
-     */
-    showErrors : function () {
-        if (this.options.errors.showErrorMessages === 'together'
-                || this.options.errors.showErrorMessages === 'both') {
-            if ($defined(this.errorMessages)) {
-                this.errorMessages.empty();
-            } else {
-                this.errorMessages = new Element('div', {
-                    'id' : 'error-messages',
-                    'class' : 'jxFormErrors'
-                });
-            }
-            var errs = new Element('ul');
-            this.errors.each(function (errors, name) {
-                var nameEl = new Element('li', {
-                    'html' : name
-                });
-                nameEl.inject(errs);
-                var msgs = new Element('ul');
-                msgs.inject(nameEl);
-                errors.each(function (message) {
-                    var li = new Element('li', {
-                        'html' : message
-                    });
-                    li.inject(msgs);
-                }, this);
-            }, this);
-            errs.inject(this.errorMessages);
-            this.errorMessages.inject(this.domObj, 'top');
-        }
-        
-    },
-    /**
-     * APIMethod: clearError
-     * Clears the error message from the top of the form.
-     */
-    clearErrors : function () {
-        if ($defined(this.errorMessages)) {
-            this.errorMessages.dispose();
-        }
-        this.errors.empty();
-    },
-
-    /**
      * APIMethod: add
      * 
      * Parameters:
@@ -360,6 +177,16 @@ Jx.Form = new Class({
         this.fields.each(function (field, name) {
             field.reset();
         }, this);
-        this.clearErrors();
+        this.fireEvent('reset',this);
+    },
+    
+    getFieldsByName: function (name) {
+        var fields = [];
+        this.fields.each(function(val, id){
+            if (val.name === name) {
+                fields.push(val);
+            }
+        },this);
+        return fields;
     }
 });

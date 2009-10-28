@@ -21,7 +21,8 @@
 Jx.Field = new Class({
 
     Extends : Jx.Widget,
-
+    pluginNamespace: 'Field',
+    
     options : {
         /**
          * Option: id
@@ -88,14 +89,6 @@ Jx.Field = new Class({
          */
         tagClass : null,
         /**
-         * Option: validatorClasses
-         * a string containing the validator information to add to the
-         * field. See the mootools-more FormValidator and 
-         * FormValidator.Extras documentation for documentation. Do not
-         * add "required" if you need it. Set the required option instead.
-         */
-        validatorClasses : null,
-        /**
          * Option: required
          * Whether the field is required. Setting this to true will trigger
          * the addition of a "required" validator class and the form
@@ -120,11 +113,7 @@ Jx.Field = new Class({
         disabled : false
 
     },
-    /**
-     * Property: errorClass
-     * The class to add to error elements
-     */
-    errorClass : 'jxFormErrorText',
+    
     /**
      * Property: overtextOptions
      * The default options Jx uses for mootools-more's OverText
@@ -170,16 +159,10 @@ Jx.Field = new Class({
      * required, but we look for them.
      */
     classes : [ 'jxInputLabel', 'jxInputTag' ],
-    /**
-     * Property: errors 
-     * A Hash to hold all of the validation errors for
-     * the current field.
-     */
-    errors : new Hash(),
-
+    
     /**
      * APIMethod: render
-      */
+     */
     render : function () {
         this.parent();
 
@@ -313,7 +296,7 @@ Jx.Field = new Class({
      */
     reset : function () {
         this.field.set('value', this.options.value);
-        this.clearErrors();
+        this.fireEvent('reset', this);
     },
     /**
      * APIMethod: disable
@@ -330,108 +313,6 @@ Jx.Field = new Class({
     enable : function () {
         this.field.erase("disabled");
         this.field.removeClass('jxFieldDisabled');
-    },
-    /**
-     * APIMethod: addError
-     * Adds an error to this field's errors hash
-     */
-    addError : function (error, validator) {
-        this.errors.set(validator, error);
-    },
-
-    /**
-     * APIMethod: showError
-     * Called to display the assigned error messages.
-     * 
-     * Parameters: 
-     * options - the error options from <Jx.Form>
-     */
-    showErrors : function (options) {
-
-        if (options.displayError === 'none'
-            || options.showErrorMessages === 'together') {
-            return;
-        }
-
-        if ($defined(this.errorMessage)) {
-            this.errorMessage.dispose();
-        }
-
-        var el = this.setupErrorMessage(options);
-        if (options.messageStyle === 'text') {
-            el.addClass(this.errorClass);
-            el.inject(this.label);
-            this.errorMessage = el;
-        } else if (options.messageStyle === 'tip') {
-            var icon = new Element('span', {
-                'class' : 'jxFieldFeedback',
-                'html' : '&nbsp;'
-            });
-            icon.inject(this.label);
-            //setup tip
-            if ($defined(this.tip)) {
-                this.tip.detach();
-                this.tip = null;
-            }
-            icon.addClass(this.errorClass);
-            this.tip = new Jx.Tooltip(icon, el, {
-                cssClass : 'jxFieldFeedbackTip'
-            });
-            this.errorMessage = icon;
-        }
-
-    },
-    /**
-     * Method: setupErrorMessage
-     * Private method. Creates the Element containing the error message(s).
-     */
-    setupErrorMessage : function (options) {
-        var wrapper = new Element('span', {
-            'class' : 'jxFieldFeedback',
-            'id' : this.field.name + '-error'
-        });
-        var errs = this.errors.getValues();
-        if (options.displayError === 'single') {
-            wrapper.set('html', errs[0]);
-        } else {
-            if (errs.length === 1) {
-                wrapper.set('html', errs[0]);
-            } else {
-                var list = new Element('ul');
-                errs.each(function (item) {
-                    var li = new Element('li', {
-                        'html' : item
-                    });
-                    li.inject(list);
-                }, this);
-                list.inject(wrapper);
-            }
-        }
-        return wrapper;
-    },
-
-    /**
-     * APIMethod: clearErrors
-     * Used to clear any error messages when a reset is 
-     * called for or the field passes validation after it had failed.
-     */
-    clearErrors : function () {
-        this.errors.empty();
-        if (this.field.hasClass('jxFieldInvalid')) {
-            this.field.removeClass('jxFieldInvalid');
-        }
-        if ($defined(this.errorMessage)) {
-            this.errorMessage.dispose();
-        }
-    },
-    /**
-     * APIMethod: clearError
-     * Used to remove single error messages from the errors hash
-     */
-    clearError : function (className) {
-        if (this.errors.has(className)) {
-            this.errors.erase(className);
-        }
     }
 
 });

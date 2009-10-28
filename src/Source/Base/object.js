@@ -66,43 +66,57 @@ Jx.Object = new Class({
         this.fireEvent('initializeDone');
     },
     
-    initPlugins: function(){
-      //initialize the plugins
-        if ($defined(this.options.plugins)
-                && Jx.type(this.options.plugins) === 'array') {
-            this.options.plugins.each(function (plugin) {
-                if (plugin instanceof Jx.Plugin) {
-                    plugin.attach(this);
-                    this.plugins.set(plugin.name, plugin);
-                } else if (Jx.type(plugin) === 'object') {
-                    //All plugin-enabled objects should define a pluginNamespace member variable
-                    //that is used for locating the plugins. The default namespace is 'Other' for
-                    //now until we come up with a better idea
-                    var p = new Jx.Plugin[this.pluginNamespace][plugin.name](plugin.options);
-                    p.attach(this);
-                    this.plugins.set(p.name, p);
-                }
-            }, this);
+    initPlugins: function () {
+        //pluginNamespace must be defined in order to pass plugins to the object
+        if ($defined(this.pluginNamespace)) {
+            if ($defined(this.options.plugins)
+                    && Jx.type(this.options.plugins) === 'array') {
+                this.options.plugins.each(function (plugin) {
+                    if (plugin instanceof Jx.Plugin) {
+                        plugin.attach(this);
+                        this.plugins.set(plugin.name, plugin);
+                    } else if (Jx.type(plugin) === 'object') {
+                        //All plugin-enabled objects should define a pluginNamespace member variable
+                        //that is used for locating the plugins. The default namespace is 'Other' for
+                        //now until we come up with a better idea
+                        var p = new Jx.Plugin[this.pluginNamespace][plugin.name](plugin.options);
+                        p.attach(this);
+                        this.plugins.set(p.name, p);
+                    }
+                }, this);
+            }
         }
     },
     
-    destroy: function(){
+    destroy: function () {
         this.fireEvent('preDestroy');
         this.cleanup();
         this.fireEvent('postDestroy');
     },
     
-    cleanup: function() {
+    cleanup: function () {
         //detach plugins
         if (this.plugins.getLength > 0) {
-            this.plugins.each(function(plugin){
+            this.plugins.each(function (plugin) {
                 plugin.detach();
                 plugin.destroy();
-            },this);
+            }, this);
         }
     },
     
-    init: $empty
+    init: $empty,
+    
+    registerPlugin: function (plugin) {
+        if (!this.plugins.has(plugin.name)) {
+            this.plugins.set(plugin.name,  plugin);
+        }
+    },
+    
+    deregisterPlugin: function (plugin) {
+        if (this.plugins.has(plugin.name)) {
+            this.plugins.erase(plugin.name);
+        } 
+    }
 
 });
  

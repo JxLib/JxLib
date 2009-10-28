@@ -238,6 +238,26 @@
         "dataview.groupfolder": {
             "deps": ["plugin.dataview", "slide"],
             "desc" : "Enables closing and opening groups in a group dataview"
+        },
+        
+        "plugin.field": {
+            "deps": ["plugin"],
+            "desc": "Namespace for Jx.Field plugins"
+        },
+        
+        "field.validator": {
+            "deps": ["plugin.field","Form.Validator","Form.Validator.Extras", "tooltip"],
+            "desc": "Provides validation services for Jx.Field subclasses"
+        },
+        
+        "plugin.form": {
+            "deps": ["plugin"],
+            "desc": "Namespace for Jx.Form plugins"
+        },
+        
+        "form.validator": {
+            "deps": ["plugin.form", "field.validator"],
+            "desc": "Provides validation services for Jx.Form"
         }
         
     },
