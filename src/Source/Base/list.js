@@ -70,7 +70,7 @@ Jx.List = new Class({
          * will be emitted when items are selected and unselected.  For other
          * selection objects, see <Jx.Selection>
          */
-        select: true,
+        select: true
     },
     
     init: function() {
