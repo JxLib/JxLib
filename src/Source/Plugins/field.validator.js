@@ -142,7 +142,7 @@ Jx.Plugin.Field.Validator = new Class({
             }          
         }, this);
         if (!this.valid) {
-            this.field.domObj.addClass('jxFieldInvalid');
+            this.field.domObj.removeClass('jxFieldValidated').addClass('jxFieldInvalid');
             this.fireEvent('fieldValidationFailed', [this.field, this]);
         } else {
             this.field.domObj.removeClass('jxFieldInvalid').addClass('jxFieldValidated');
