@@ -286,7 +286,7 @@ Jx.Store = new Class({
      * there's an error
      */
     getPosition : function () {
-        if ($defined(this.data)) {
+        if ($defined(this.data[this.pageIndex])) {
             return this.index;
         } else {
             return null;
@@ -483,7 +483,7 @@ Jx.Store = new Class({
             }
         
             if ($defined(dir) && dir === 'desc') {
-                this.data.reverse();
+                this.data[this.pageIndex].reverse();
             }
         
             this.fireEvent('sortFinished', this);
