@@ -421,7 +421,7 @@ Jx.Store = new Class({
         if (!$defined(this.data)) {
             // if not, then create a new array
             this.data = [];
-            this.data[this.pageIndex] = []
+            this.data[this.pageIndex] = [];
         }
         
         var d;
@@ -753,6 +753,6 @@ Jx.Store = new Class({
      * 
      */
     getRowObject: function () {
-        return this.data[this.index].getClean();
+        return this.data[this.pageIndex][this.index].getClean();
     }
 });
