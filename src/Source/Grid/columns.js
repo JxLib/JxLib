@@ -211,10 +211,16 @@ Jx.Columns = new Class({
         td.adopt(col.getHTML());
         td.addClass('jxCol-' + col.options.modelField);
         td.addClass('jxGridCol'+idx);
-        // if (this.grid.model.getPosition() === 0) {
-        //     var colWidth = col.getWidth();
-        //     td.setStyle('width', colWidth);
-        // }
+        //add other styles for different attributes
+        if (col.isEditable()) {
+            td.addClass('jxColEditable');
+        }
+        if (col.isResizable()) {
+            td.addClass('jxColResizable');
+        }
+        if (col.isSortable()) {
+            td.addClass('jxColSortable');
+        }
 
         return td;
     },

@@ -73,7 +73,17 @@ Jx.Store = new Class({
          * Event: onColumnChanged
          * event fired for changes to a column
          */
-        onColumnChanged : $empty
+        onColumnChanged : $empty,
+        /**
+         * Option: paginate
+         * Set to true to enable pagination
+         */
+        paginate: false,
+        /**
+         * Option: pageSize
+         * Sets the size of each page. Only used if paginate is true.
+         */
+        pageSize: 0
    
     },
 
@@ -94,10 +104,15 @@ Jx.Store = new Class({
     data : null,
     /**
      * Property: index
-     * Holds the current position of the store relative to the data.
+     * Holds the current position of the store relative to the data and the pageIndex.
      * Zero-based index.
      */
     index : 0,
+    /**
+     * Property: pageIndex
+     * Holds the current page index
+     */
+    pageIndex: 0,
     /**
      * Property: dirty
      * Tells us if the store is dirty
@@ -140,7 +155,7 @@ Jx.Store = new Class({
      */
     hasNext : function () {
         if ($defined(this.data)) {
-            if (this.index < this.data.length - 1) {
+            if (this.index < this.data[this.pageIndex].length - 1) {
                 return true;
             } else {
                 return false;
@@ -177,7 +192,7 @@ Jx.Store = new Class({
      * Returns: true | false
      */
     valid : function () {
-        return ($defined(this.data[this.index]));
+        return ($defined(this.data[this.pageIndex][this.index]));
     },
 
     /**
@@ -189,8 +204,8 @@ Jx.Store = new Class({
     next : function () {
         if ($defined(this.data)) {
             this.index++;
-            if (this.index === this.data.length) {
-                this.index = this.data.length - 1;
+            if (this.index === this.data[this.pageIndex].length) {
+                this.index = this.data[this.pageIndex].length - 1;
             }
             this.fireEvent('storeMove', this);
         } else {
@@ -208,7 +223,7 @@ Jx.Store = new Class({
     previous : function () {
         if ($defined(this.data)) {
             this.index--;
-            if (this.index === -1) {
+            if (this.index < 0) {
                 this.index = 0;
             }
             this.fireEvent('storeMove', this);
@@ -241,7 +256,7 @@ Jx.Store = new Class({
      */
     last : function () {
         if ($defined(this.data)) {
-            this.index = this.data.length - 1;
+            this.index = this.data[this.pageIndex].length - 1;
             this.fireEvent('storeMove', this);
         } else {
             return null;
@@ -257,7 +272,7 @@ Jx.Store = new Class({
      */
     count : function () {
         if ($defined(this.data)) {
-            return this.data.length;
+            return this.data[this.pageIndex].length;
         } else {
             return null;
         }
@@ -288,7 +303,7 @@ Jx.Store = new Class({
      * Returns: true - if successful false - if not successful null - on error
      */
     moveTo : function (index) {
-        if ($defined(this.data) && index >= 0 && index < this.data.length) {
+        if ($defined(this.data) && index >= 0 && index < this.data[this.pageIndex].length) {
             this.index = index;
             this.fireEvent('storeMove', this);
             return true;
@@ -312,7 +327,7 @@ Jx.Store = new Class({
     get : function (col) {
         if ($defined(this.data)) {
             col = this.resolveCol(col);
-            var h = this.data[this.index];
+            var h = this.data[this.pageIndex][this.index];
             if (h.has(col.name)) {
                 return h.get(col.name);
             } else {
@@ -342,9 +357,9 @@ Jx.Store = new Class({
                 column = this.resolveCol(column);
             }
 
-            var oldValue = this.data[this.index].get(column.name);
-            this.data[this.index].set(column.name, value);
-            this.data[this.index].set('dirty', true);
+            var oldValue = this.data[this.pageIndex][this.index].get(column.name);
+            this.data[this.pageIndex][this.index].set(column.name, value);
+            this.data[this.pageIndex][this.index].set('dirty', true);
             this.fireEvent('columnChanged', [ this.index, column, oldValue, value ]);
         } else {
             return null;
@@ -406,6 +421,7 @@ Jx.Store = new Class({
         if (!$defined(this.data)) {
             // if not, then create a new array
             this.data = [];
+            this.data[this.pageIndex] = []
         }
         
         var d;
@@ -424,8 +440,8 @@ Jx.Store = new Class({
             }
         }
         d.set('dirty', true);
-        this.data[this.data.length] = d;
-        this.index = this.data.length - 1;
+        this.data[this.pageIndex][this.data[this.pageIndex].length] = d;
+        this.index = this.data[this.pageIndex].length - 1;
         this.fireEvent('newrow', this);
     },
     
@@ -460,10 +476,10 @@ Jx.Store = new Class({
             
             this.sortType = sort;
             // first sort on the first array item
-            this.doSort(c[0], sort);
+            this.data[this.pageIndex] = this.doSort(c[0], sort, this.data[this.pageIndex], true);
         
             if (c.length > 1) {
-                   this.data = this.subSort(this.data, 0, 1);
+                this.data[this.pageIndex] = this.subSort(this.data[this.pageIndex], 0, 1);
             }
         
             if ($defined(dir) && dir === 'desc') {
@@ -510,7 +526,7 @@ Jx.Store = new Class({
                 // sort
     
                 if (sub.length > 1) {
-                    result = result.concat(this.subSort(this.doSort(sortCol, this.sortType, sub, true),groupByCol + 1,sortByCol + 1));
+                    result = result.concat(this.subSort(this.doSort(sortCol, this.sortType, sub, true), groupByCol + 1, sortByCol + 1));
                 } else {
                     result = result.concat(sub);
                 }
@@ -526,7 +542,7 @@ Jx.Store = new Class({
         
         if (sub.length > 1) {
             this.sorter.setData(sub);
-            result = result.concat(this.subSort(this.doSort(sortCol, this.sortType, sub, true),groupByCol + 1,sortByCol + 1));
+            result = result.concat(this.subSort(this.doSort(sortCol, this.sortType, sub, true), groupByCol + 1, sortByCol + 1));
         } else {
             result = result.concat(sub);
         }
@@ -636,29 +652,38 @@ Jx.Store = new Class({
     
         if (!$defined(this.data)) {
             this.data = [];
+            this.data[this.pageIndex] = [];
         }
         
         if ($defined(data)) {
-            this.data.empty();
+            this.data[this.pageIndex].empty();
             var type = Jx.type(data);
             // is this an array?
             if (type === 'array') {
-                data.each(function (item, index) {
-                    this.data.include(new Hash(item));
-                }, this);
-            } else if (type === 'object') {
-                // is this an object?
-                this.data.include(new Hash(data));
-            } else if (type === 'string') {
-                // is this a string?
-                try {
-                    this.data.include(new Hash(JSON.decode(data)));
-                } catch (e) {
-                    this.fireEvent('loadError', [ this, data ]);
+                if (this.options.paginate) {
+                    var i = 1;
+                    var p = 0;
+                    data.each(function (item) {
+                        this.data[p].include(new Hash(item));
+                        i++;
+                        if (i === this.options.pageSize) {
+                            i = 1;
+                            p++;
+                            this.data[p] = [];
+                        }
+                    }, this);
+                } else {
+                    data.each(function (item, index) {
+                        this.data[this.pageIndex].include(new Hash(item));
+                    }, this);
                 }
+                
+                this.loaded = true;
+                this.fireEvent('loadFinished', this);
+            } else {
+                this.fireEvent('loadError', [this, data]);
             }
-            this.loaded = true;
-            this.fireEvent('loadFinished', this);
+            
         } else {
             this.loaded = false;
             this.fireEvent('loadError', [ this, data ]);
@@ -682,8 +707,12 @@ Jx.Store = new Class({
      * Parameters:
      * column - the name of the column to search by
      * value - the value to look for
+     * inPage - flag telling method whether to search only in the current page.
+     *          Defaults to true.
      */
-    findByColumn: function (column, value) {
+    findByColumn: function (column, value, inPage) {
+        
+        inPage = $defined(inPage) ? inPage : true;
         
         if (!$defined(this.comparator)) {
             this.comparator = new Jx.Compare({
@@ -697,13 +726,24 @@ Jx.Store = new Class({
         
         
         var i = 0;
-        var index = null; 
-        this.data.each(function (record) {
-            if (fn(record.get(column.name), value) === 0) {
-                index = i;
-            }
-            i++;
-        }, this);
+        var index = null;
+        if (inPage) {
+            this.data[this.pageIndex].each(function (record) {
+                if (fn(record.get(column.name), value) === 0) {
+                    index = i;
+                }
+                i++;
+            }, this);
+        } else {
+            this.data.each(function (page) {
+                page.each(function (record) {
+                    if (fn(record.get(column.name), value) === 0) {
+                        index = i;
+                    }
+                    i++;
+                }, this);
+            }, this);
+        }
         return index;
     },
     

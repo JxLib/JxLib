@@ -169,32 +169,35 @@ Jx.Column = new Class({
      * recalculate - {boolean} determines if the width should be recalculated 
      *          if the column is set to autocalculate. Has no effect if the width is 
      *          preset
+     * rowHeader - flag to tell us if this calculation is for the row header
      */
-    getWidth : function (recalculate) {
+    getWidth : function (recalculate, rowHeader) {
+        rowHeader = $defined(rowHeader) ? rowHeader : false;
+        var maxWidth;
         //check for null width or for "auto" setting and measure all contents in this column
         //in the entire model as well as the header (really only way to do it).
         if (!$defined(this.width) || recalculate) {
             if (this.options.width !== null
                     && this.options.width !== 'auto') {
-                this.width = Jx.getNumber(this.options.width);
+                maxWidth = this.width = Jx.getNumber(this.options.width);
             } else {
                 //calculate the width
                 var model = this.grid.getModel();
                 var oldPos = model.getPosition();
-                var maxWidth = 0;
+                maxWidth = 0;
                 model.first();
                 while (model.valid()) {
                     //check size by placing text into a TD and measuring it.
                     //TODO: this should add .jxGridRowHead/.jxGridColHead if 
                     //      this is a header to get the correct measurement.
-                    var text = model.get(this.name);
+                    var text = model.get(this.options.modelField);
                     var klass = 'jxGridCell';
                     if (this.grid.row.useHeaders()
                             && this.options.modelField === this.grid.row
                             .getRowHeaderField()) {
                         klass = 'jxGridRowHead';
                     }
-                    var s = this.measure(text, klass);
+                    var s = this.measure(text, klass, rowHeader);
                     if (s.width > maxWidth) {
                         maxWidth = s.width;
                     }
@@ -223,11 +226,17 @@ Jx.Column = new Class({
                         maxWidth = s.width;
                     }
                 }
-                this.width = maxWidth;
+                if (!rowHeader) {
+                    this.width = maxWidth;
+                }
                 model.moveTo(oldPos);
             }
         }
-        return this.width;
+        if (!rowHeader) {
+            return this.width;
+        } else {
+            return maxWidth;
+        }
     },
     /**
      * Method: measure
@@ -238,7 +247,7 @@ Jx.Column = new Class({
      * klass - a string indicating and extra classes to add so that 
      *          css classes can be taken into account.
      */
-    measure : function (text, klass) {
+    measure : function (text, klass, rowHeader) {
         if ($defined(this.options.formatter)
                 && text !== this.options.header) {
             text = this.options.formatter.format(text);
@@ -258,7 +267,12 @@ Jx.Column = new Class({
         });
         d.inject(document.body, 'bottom');
         var s = d.measure(function () {
-            return this.getMarginBoxSize();
+            //if nogt rowHeader, get size of innner span
+            if (!rowHeader) {
+                return this.getFirst().getContentBoxSize();
+            } else {
+                return this.getMarginBoxSize();
+            }
         });
         d.destroy();
         return s;

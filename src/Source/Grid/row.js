@@ -142,7 +142,7 @@ Jx.Row = new Class(
         //this can be drawn from the column for the
         //header field
         var col = this.grid.columns.getByField(this.options.headerField);
-        return col.getWidth();
+        return col.getWidth(true, true);
     },
     
     /**

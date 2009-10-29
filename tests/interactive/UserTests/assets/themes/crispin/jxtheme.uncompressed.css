@@ -1525,9 +1525,17 @@ td.jxGridCellPrelight {
 }
 
 /* Sort styles */
+.jxColSortable {
+    padding-right: 20px;
+}
+
+.jxGridCell.jxColSortable {
+    padding-right: 0;
+}
+
 .jxColSortable span {
     background-image: url('images/emblems.png');
-/*    padding-right: 20px;*/
+    padding-right: 20px;
     background-repeat: no-repeat;
     background-position: right top;
 }

@@ -118,7 +118,12 @@ Jx.Field.Select = new Class({
      * Returns the current value of the field.
      */
     getValue: function () {
-        var index = this.field.get("selectedIndex");
-        return document.id(this.field.options[index]).get("value");
+        var index = this.field.selectedIndex;
+        //check for a set "value" attribute. If not there return the text
+        var ret = this.field.options[index].get("value");
+        if (!$defined(ret)) {
+           ret = this.field.options[index].get("text");
+        }
+        return ret;
     }
 });

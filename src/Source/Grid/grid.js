@@ -221,6 +221,8 @@ Jx.Grid = new Class({
                 .bindWithEvent(this));
 
         this.parent();
+        
+        this.domObj.store('grid', this);
     },
 
     /**
@@ -364,8 +366,6 @@ Jx.Grid = new Class({
                 totalCols += col.getWidth();
             }
         }, this);
-
-        //TODO: if totalCol width is less than the gridwidth (w) what do we do?
 
         /* -1 because of the right/bottom borders */
         this.rowColObj.setStyles({
