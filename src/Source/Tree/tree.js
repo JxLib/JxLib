@@ -21,10 +21,17 @@ Jx.Tree = new Class({
     Family: 'Jx.Tree',
     Extends: Jx.Widget,
     parameters: ['options','container', 'selection'],
+    selection: null,
+    ownsSelection: false,
     isOpen: true,
     list: null,
     domObj: null,
     options: {
+        /* APIProperty: select
+         * {Boolean} are items in the tree selectable?  See <Jx.Selection>
+         * for other options relating to selections that can be set here.
+         */
+        select: true,
         template: '<ul class="jxTreeRoot"></ul>'
     },
     classes: ['jxTreeRoot'],
@@ -34,10 +41,18 @@ Jx.Tree = new Class({
      */
     render: function() {
         this.parent();
-        if ($defined(this.options.selection)) {
+        
+        if (this.options.selection) {
             this.selection = this.options.selection;
-        } else {
-            this.selection = new Jx.Selection();
+        } else if (this.options.select) {
+            this.selection = new Jx.Selection(this.options);
+            this.ownsSelection = true;
+        }
+
+        if (this.selection && this.ownsSelection) {
+            this.selection.addEvent('select', function(item) {
+                this.fireEvent('select', item.retrieve('jxTreeItem'));
+            }.bind(this));
         }
         if ($defined(this.options.container) && 
             document.id(this.options.container)) {
@@ -47,31 +62,34 @@ Jx.Tree = new Class({
             this.domObj = this.elements.get('jxTreeRoot');
         }
         this.list = new Jx.List(this.domObj, {
-            onAdd: function(item) {
-                this.update();
-                this.fireEvent('add', item);
-            }.bind(this),
-            onRemove: function(item) {
-                this.update();
-                this.fireEvent('remove', item);
-            }.bind(this),
-            onSelect: function(item) {
-                this.fireEvent('select',item);
-            }.bind(this)
-        }, this.selection);
+                onAdd: function(item) {this.update();}.bind(this),
+                onRemove: function(item) {this.update();}.bind(this)
+            }, this.selection);
         if (this.options.parent) {
             this.addTo(this.options.parent);
         }
     },
     
     add: function(item, position) {
+        item.addEvents({
+            add: function(what) { this.fireEvent('add', what).bind(this); },
+            remove: function(what) { this.fireEvent('remove', what).bind(this); },
+            disclose: function(what) { this.fireEvent('disclose', what).bind(this); }
+        })
+        item.setSelection(this.selection);
         this.list.add(item, position);
     },
     remove: function(item) {
+        item.removeEvents('add');
+        item.removeEvents('remove');
+        item.removeEvents('disclose');
         this.list.remove(item);
+        item.setSelection(null);
     },
     replace: function(item, withItem) {
         this.list.replace(item, withItem);
+        withItem.setSelection(this.selection);
+        item.setSelection(null);
     },
     
     /**
@@ -79,6 +97,9 @@ Jx.Tree = new Class({
      * Clean up a Jx.Tree instance
      */
     cleanup: function() {
+        if (this.ownsSelection) {
+            this.selection.destroy();
+        }
         this.list.destroy();
         this.domObj.dispose();
     },
@@ -131,7 +152,7 @@ Jx.Tree = new Class({
         var result = false;
         this.list.items().some(function(item) {
             var treeItem = item.retrieve('jxTreeItem');
-            if (treeItem && treeItem.options.label == name) {
+            if (treeItem && treeItem.getName() == name) {
                 if (path.length > 0) {
                     var folder = item.retrieve('jxTreeFolder');
                     if (folder) {

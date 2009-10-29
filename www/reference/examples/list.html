@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Jx.ListView Test Page</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<script type="text/javascript" src="../../lib/mootools-core.js"></script>
+<script type="text/javascript" src="../../lib/mootools-more.js"></script>
+<script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
+<script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+window.addEvent('load', function() {
+  basicListView();
+  accessibleListView();
+  complexListView();
+});
+</script>
+
+<script id="basicListView" type="text/javascript">
+function basicListView() {
+    var listView = new Jx.ListView().addTo('listViewArea').add([
+      new Jx.ListItem({content: 'item 1'}),
+      new Jx.ListItem({content: 'item 2'}),
+      new Jx.ListItem({content: 'item 3'}),
+      new Jx.ListItem({content: 'item 4'}),
+      new Jx.ListItem({content: 'item 5'})
+    ]);
+}
+</script>
+
+<script id="accessibleListView" type="text/javascript">
+function accessibleListView() {
+  var linkTempl = "<li class='jxListItemContainer'><a class='jxListItem' href='javascript:void(0);'></a></li>";
+  var listView = new Jx.ListView().addTo('listViewArea2').add([
+      new Jx.ListItem({template: linkTempl, content: 'item 1'}),
+      new Jx.ListItem({template: linkTempl, content: 'item 2'}),
+      new Jx.ListItem({template: linkTempl, content: 'item 3'}),
+      new Jx.ListItem({template: linkTempl, content: 'item 4'}),
+      new Jx.ListItem({template: linkTempl, content: 'item 5'})
+    ]);
+}
+</script>
+
+<script id="complexListView" type="text/javascript">
+function complexListView() {
+  var linkTempl = "<li class='jxListItemContainer'><a class='jxListItem' href='javascript:void(0);'><img src='"+Jx.aPixel.src+"' class='itemImg {class}'><span class='itemLabel'>{label}</span><span class='itemTools'><img src='images/delete.png'></span></span></a><span class='itemInput'><input type='checkbox'><span></li>";
+  var listView = new Jx.ListView().addTo('listViewArea3');
+  [{'class':'comboSquare', label: 'Square'},
+   {'class':'comboPlus', label: 'Plus'},
+   {'class':'comboTriangle', label: 'Triangle'},
+   {'class':'comboCircle', label: 'Circle'},
+   {'class':'comboCross', label: 'Cross'},
+   {'class':'comboStar', label: 'Star'},
+   {'class':'comboRed', label: 'Red'},
+   {'class':'comboMagenta', label: 'Magenta'},
+   {'class':'comboBlue', label: 'Blue'},
+   {'class':'comboCyan', label: 'Cyan'},
+   {'class':'comboGreen', label: 'Green'},
+   {'class':'comboYellow', label: 'Yellow'}].each(function(o) {
+      var theTemplate = new String(linkTempl).substitute(o);
+      var item = new Jx.ListItem({template:theTemplate});
+      $(item).getElement('.itemTools').addEvent('click', function(){
+        listView.remove(item);
+      });
+      listView.add(item);
+   });
+}
+</script>
+<style>
+#listViewArea3 .itemImg {
+  width: 16px;
+  height: 16px;
+  background-image: url(images/swatches.png);
+  background-repeat: no-repeat;
+  vertical-align: middle;
+}
+
+#listViewArea3 .itemLabel {
+  vertical-align: middle;
+  line-height: 16px;
+  padding-left: 4px;
+}
+
+#listViewArea3 .itemTools {
+  position: absolute;
+  display: none;
+  right: 18px;
+  top: 0;
+  height: 20px;
+  width: 16px;
+}
+
+#listViewArea3 .jxHover .itemTools {
+  display: block;
+}
+
+#listViewArea3 .itemTools img {
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+}
+
+#listViewArea3 .itemInput {
+  position: absolute;
+  right: 1px;
+  top: 0;
+  height: 20px;
+  width: 16px;
+  background-color: #f9f9f9;
+}
+
+#listViewArea3 .listInput input {
+  vertical-align: middle;
+  
+}
+</style>
+</head>
+<body>
+<h1>Jx.ListView Examples</h1>
+<p>API Reference: <a id="listview-js" href="javascript:void();" title="link to API Reference">Jx.ListView</a></p>
+<h2 id="basicListView">Basic ListView</h2>
+<p>A list.</p>
+<div id="listViewArea" class="listBox"></div>
+<h2 id="accessibleListView">Accessible ListView</h2>
+<p>Use the new templating support to wrap each item in an anchor for accessibility.  Try clicking an item then hitting the tab key to move between them.  Notice the items in the first example do not participate in the tab order.</p>
+<div id="listViewArea2" class="listBox"></div>
+<h2 id="complexListView">Complex List Elements</h2>
+<p>Customize list elements to do some very fancy styling!</p>
+<div id="listViewArea3" class="listBox"></div>
+</body>
+</html>

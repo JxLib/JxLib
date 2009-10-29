@@ -51,18 +51,33 @@ Jx.List = new Class({
          */
         items: null,
         /**
-         * APIProperty: hoverClass
-         * the CSS class name to add to the wrapper element when the mouse is
-         * over an item
-         */
-        hoverClass: 'jxHover',
-        /**
          * Option: hover
          * {Boolean} default true.  If set to true, the wrapper element will
          * obtain the defined hoverClass if set and mouseenter/mouseleave
          * events will be emitted when the user hovers over and out of elements
          */
         hover: true,
+        /**
+         * APIProperty: hoverClass
+         * the CSS class name to add to the wrapper element when the mouse is
+         * over an item
+         */
+        hoverClass: 'jxHover',
+
+        /**
+         * Option: press
+         * {Boolean} default true.  If set to true, the wrapper element will
+         * obtain the defined pressClass if set and mousedown/mouseup
+         * events will be emitted when the user clicks on elements
+         */
+        press: true,
+        /**
+         * APIProperty: pressedClass
+         * the CSS class name to add to the wrapper element when the mouse is
+         * down on an item
+         */
+        pressClass: 'jxPressed',
+        
         /**
          * Option: select
          * {Boolean} default true.  If set to true, the wrapper element will
@@ -79,6 +94,14 @@ Jx.List = new Class({
         
         var target = this;
         this.bound = {
+            mousedown: function() {
+                this.addClass(target.options.pressClass);
+                target.fireEvent('mousedown', this, target);
+            },
+            mouseup: function() {
+                this.removeClass(target.options.pressClass);
+                target.fireEvent('mouseup', this, target);
+            },
             mouseenter: function() {
                 this.addClass(target.options.hoverClass);
                 target.fireEvent('mouseenter', this, target);
@@ -144,6 +167,12 @@ Jx.List = new Class({
         /* the element being wrapped */
         var el = document.id(item);
         if (el) {
+            if (this.options.press && this.options.pressClass) {
+                el.addEvents({
+                    mousedown: this.bound.mousedown,
+                    mouseup: this.bound.mouseup
+                });
+            }
             if (this.options.hover && this.options.hoverClass) {
                 el.addEvents({
                     mouseenter: this.bound.mouseenter,

@@ -166,6 +166,16 @@
         "upload": {
             "deps": ["panel","file","progressbar","button","toolbar.item","tooltip"],
             "desc": ""
+        },
+        
+        "listview": {
+            "deps": ["widget", "listitem"],
+            "desc":""
+        },
+        
+        "listitem": {
+            "deps": ["widget"],
+            "desc":""
         }
 
     },

@@ -29,6 +29,7 @@
 Jx.TreeItem = new Class ({
     Family: 'Jx.TreeItem',
     Extends: Jx.Widget,
+    selection: null,
     /**
      * Property: domObj
      * {HTMLElement} a reference to the HTML element that is the TreeItem
@@ -114,8 +115,8 @@ Jx.TreeItem = new Class ({
             var hasFocus;
             var mouseDown;
             domA.addEvents({
-                click: this.selected.bind(this),
-                dblclick: this.selected.bind(this),
+                click: this.click.bind(this),
+                dblclick: this.dblclick.bind(this),
                 drag: function(e) { e.stop(); },
                 contextmenu: function(e) { e.stop(); },
                 mousedown: (function(e) {
@@ -178,16 +179,6 @@ Jx.TreeItem = new Class ({
         this.owner = null;
     },
     /**
-     * Method: clone
-     * Create a clone of the TreeItem
-     *
-     * Returns:
-     * {<Jx.TreeItem>} a copy of the TreeItem
-     */
-    clone : function() {
-        return new Jx.TreeItem(this.options);
-    },
-    /**
      * Method: update
      * Update the CSS of the TreeItem's DOM element in case it has changed
      * position
@@ -202,16 +193,23 @@ Jx.TreeItem = new Class ({
             this.domObj.removeClass(this.options.lastLeafClass);
         }
     },
-    /**
-     * Method: selected
-     * Called when the DOM element for the TreeItem is clicked, the
-     * node is selected.
-     *
-     * Parameters:
-     * e - {Event} the DOM event
-     */
-    selected : function(e) {
+    click: function() {
         this.fireEvent('click', this);
+        this.select();
+    },
+    dblclick: function() {
+        this.fireEvent('dblclick', this);
+        this.select();
+    },
+    /**
+     * Method: select
+     * Select a tree node.
+     */
+    select: function() {
+        if (this.selection) {
+            console.log('select: '+this.options.label);
+            this.selection.select(document.id(this));
+        }
     },
     /**
      * Method: getName
@@ -236,5 +234,8 @@ Jx.TreeItem = new Class ({
         } else {
             this.domObj.addClass('jxDisabled');
         }
+    },
+    setSelection: function(selection){
+        this.selection = selection;
     }
 });

@@ -997,7 +997,7 @@ div.jxFileFake .jxButtonContainer {
     width: 100%;
 }/**
  * @project         Jx
- * @revision        $Id: form.css 539 2009-09-28 19:38:35Z fred.warnock $
+ * @revision        $Id: form.css 570 2009-10-28 15:32:02Z fred.warnock $
  * @author          Fred Warnock (fwarnock@dmsolutions.ca)
  * @copyright       (c) 2006 DM Solutions Group Inc.
  */
@@ -1038,10 +1038,6 @@ div.jxFileFake .jxButtonContainer {
   position: relative;
   overflow: hidden; /* ensures that floated elements are contained */
   border: 1px solid #ccc;
-  border-radius: 10px;
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
-  -khtml-border-radius: 10px;
   margin: 10px;
   padding: 5px;
 }
@@ -1097,12 +1093,6 @@ div.jxFileFake .jxButtonContainer {
   color: #000;
 }
 
-.jxInputText:focus,
-.jxInputPassword:focus,
-.jxInputTextarea:focus {
-  border: 1px solid #000;
-}
-
 .jxInputSelect {
   margin: 0px 4px;
   padding: 3px 4px 3px 1px;
@@ -1113,6 +1103,9 @@ div.jxFileFake .jxButtonContainer {
   color: #000;
 }
 
+.jxInputText:focus,
+.jxInputPassword:focus,
+.jxInputTextarea:focus,
 .jxInputSelect:focus {
   border: 1px solid #000;
 }
@@ -1154,6 +1147,64 @@ div.jxFileFake .jxButtonContainer {
 .jxInputGroup .jxInputLabel {
   width: auto;
 }
+
+/* Field Validation */
+
+.jxFieldInvalid .jxInputText,
+.jxFieldInvalid .jxInputPassword,
+.jxFieldInvalid .jxInputTextarea,
+.jxFieldInvalid .jxInputSelect {
+  background-color: #FBE3E4; 
+  color: #8a1f11; 
+  border-color: #FBC2C4;
+}
+
+.jxFieldValidated .jxInputText,
+.jxFieldValidated .jxInputPassword,
+.jxFieldValidated .jxInputTextarea,
+.jxFieldValidated .jxInputSelect {
+  background-color: #E6EFC2; 
+  color: #264409; 
+  border-color: #C6D880;
+}
+
+.jxFieldInvalid .jxInputText:focus,
+.jxFieldInvalid .jxInputPassword:focus,
+.jxFieldInvalid .jxInputTextarea:focus,
+.jxFieldInvalid .jxInputSelect:focus {
+  border-color: #8a1f11;
+}
+
+.jxFieldValidated .jxInputText:focus,
+.jxFieldValidated .jxInputPassword:focus,
+.jxFieldValidated .jxInputTextarea:focus,
+.jxFieldValidated .jxInputSelect:focus {
+  border-color: #264409;
+}
+
+.jxFieldInvalid .jxInputLabel,
+.jxFieldInvalid .jxInputTag {
+  color: #8a1f11; 
+}
+
+.jxFieldValidated .jxInputLabel,
+.jxFieldValidated .jxInputTag {
+  color: #264409; 
+}
+
+
+/* For Reference
+   Success, notice and error boxes from Blueprint */
+
+/* 
+.error      { background: #FBE3E4; color: #8a1f11; border-color: #FBC2C4; }
+.notice     { background: #FFF6BF; color: #514721; border-color: #FFD324; }
+.success    { background: #E6EFC2; color: #264409; border-color: #C6D880; }
+.error a    { color: #8a1f11; }
+.notice a   { color: #514721; }
+.success a  { color: #264409; }
+*/
+
 
 
 /* INLINE FORM 
@@ -1296,49 +1347,9 @@ form .jxFormInlineblock .jxInputGroup .jxInputLabel {
   width: auto;
 }
 
-
-
-
-
-
-
-
-/* Success, notice and error boxes from Blueprint */
-
-.error,
-.notice, 
-.success    { padding: .8em; margin-bottom: 1em; border: 2px solid #ddd; }
-
-.error      { background: #FBE3E4; color: #8a1f11; border-color: #FBC2C4; }
-.notice     { background: #FFF6BF; color: #514721; border-color: #FFD324; }
-.success    { background: #E6EFC2; color: #264409; border-color: #C6D880; }
-.error a    { color: #8a1f11; }
-.notice a   { color: #514721; }
-.success a  { color: #264409; }
-
-
-/* Error and validation classes */
-.jxFieldFeedback {
-  padding: 4px 4px 4px 20px; 
-  border: 2px solid #ddd;
-  background: url("images/error.png") no-repeat left top;
-}
-
-.validation-failed { 
-  background-color: #FBE3E4; 
-  color: #8a1f11; 
-  border-color: #FBC2C4; 
-}
-
-.jxFormErrorText {
-  background-color: #FBE3E4; 
-  color: #8a1f11; 
-  border-color: #FBC2C4; 
-}
-
 /**
  * @project         Jx
- * @revision        $Id: grid.css 507 2009-08-06 19:19:14Z fred.warnock $
+ * @revision        $Id: grid.css 572 2009-10-29 05:53:36Z jonlb@comcast.net $
  * @author          Fred Warnock (fwarnock@dmsolutions.ca)
  * @copyright       (c) 2006 DM Solutions Group Inc.
  */
@@ -1575,6 +1586,79 @@ td.jxGridCellPrelight {
     height: 4px;
     width: 100%;
     cursor: row-resize;
+}.jxListView {
+}
+
+.jxListView .jxListItemContainer {
+    position: relative;
+    display: block;
+    outline: none;
+    overflow: hidden;
+    
+    border: none;
+    margin: 0px 1px;
+    padding: 0px;
+}
+
+.jxListItem {
+    position: relative;
+    display: block;
+    cursor: pointer;
+    outline: none;
+    overflow: hidden;
+
+    border: none;
+    margin: 0px 1px;
+    padding: 0px;
+    z-index: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    color: #000;
+    text-decoration: none;
+    /* Line Height needs to be an even number so branches line up properly */
+    line-height: 20px;
+    height: 20px;
+}
+
+.jxListView .jxHover {
+    margin: 0px;
+    border-left: 1px solid #C5E0FF;
+    border-right: 1px solid #C5E0FF;
+    background-image: url(images/listitem.png);
+    background-repeat: repeat-x;
+    background-color: #CDE5FF;
+    background-position: left -24px;
+    
+}
+
+.jxListItem:focus {
+    margin: 0px;
+    border-left: 1px dotted #75ADFF;
+    border-right: 1px dotted #75ADFF;
+    background-image: url(images/listitem.png);
+    background-repeat: repeat-x;
+    background-position: left -72px;
+}
+
+.jxListView .jxPressed {
+  margin: 0px;
+  border-left: 1px solid #C5E0FF;
+  border-right: 1px solid #C5E0FF;
+  background-color: #CDE5FF;
+  background-image: url(images/listitem.png);
+  background-repeat: repeat-x;
+  background-position: left -48px;
+}
+
+
+.jxListView .jxSelected {
+    margin: 0px;
+    border-left: 1px solid #C5E0FF;
+    border-right: 1px solid #C5E0FF;
+    background-color: #CDE5FF;
+    background-image: url(images/listitem.png);
+    background-repeat: repeat-x;
+    background-position: left -48px;
 }/**
  * @project         Jx
  * @revision        $Id: menu.css 321 2009-04-06 18:23:39Z fred.warnock $

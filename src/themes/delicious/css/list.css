@@ -1,0 +1,74 @@
+.jxListView {
+}
+
+.jxListView .jxListItemContainer {
+    position: relative;
+    display: block;
+    outline: none;
+    overflow: hidden;
+    
+    border: none;
+    margin: 0px 1px;
+    padding: 0px;
+}
+
+.jxListItem {
+    position: relative;
+    display: block;
+    cursor: pointer;
+    outline: none;
+    overflow: hidden;
+
+    border: none;
+    margin: 0px 1px;
+    padding: 0px;
+    z-index: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    color: #000;
+    text-decoration: none;
+    /* Line Height needs to be an even number so branches line up properly */
+    line-height: 20px;
+    height: 20px;
+}
+
+.jxListView .jxHover {
+    margin: 0px;
+    border-left: 1px solid #C5E0FF;
+    border-right: 1px solid #C5E0FF;
+    background-image: url(images/listitem.png);
+    background-repeat: repeat-x;
+    background-color: #CDE5FF;
+    background-position: left -24px;
+    
+}
+
+.jxListItem:focus {
+    margin: 0px;
+    border-left: 1px dotted #75ADFF;
+    border-right: 1px dotted #75ADFF;
+    background-image: url(images/listitem.png);
+    background-repeat: repeat-x;
+    background-position: left -72px;
+}
+
+.jxListView .jxPressed {
+  margin: 0px;
+  border-left: 1px solid #C5E0FF;
+  border-right: 1px solid #C5E0FF;
+  background-color: #CDE5FF;
+  background-image: url(images/listitem.png);
+  background-repeat: repeat-x;
+  background-position: left -48px;
+}
+
+
+.jxListView .jxSelected {
+    margin: 0px;
+    border-left: 1px solid #C5E0FF;
+    border-right: 1px solid #C5E0FF;
+    background-color: #CDE5FF;
+    background-image: url(images/listitem.png);
+    background-repeat: repeat-x;
+    background-position: left -48px;
+}

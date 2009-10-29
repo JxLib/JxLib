@@ -33,6 +33,8 @@ Jx.TreeFolder = new Class({
          * is the folder open?  false by default.
          */
         open: false,
+        /* folders will share a selection with the tree they are in */
+        select: false, 
         template: '<li class="jxTreeContainer jxTreeBranch"><img class="jxTreeImage" src="'+Jx.aPixel.src+'" alt="" title=""><a class="jxTreeItem" href="javascript:void(0);"><img class="jxTreeIcon" src="'+Jx.aPixel.src+'" alt="" title=""><span class="jxTreeLabel"></span></a><ul class="jxTree"></ul></li>'
     },
     classes: ['jxTreeContainer','jxTreeImage','jxTreeItem','jxTreeIcon','jxTreeLabel','jxTree'],
@@ -43,11 +45,14 @@ Jx.TreeFolder = new Class({
     render : function() {
         this.parent();
         this.domObj.store('jxTreeFolder', this);
+        this.addEvents({
+            click: this.toggle.bind(this),
+            dblclick: this.toggle.bind(this)
+        })
         
         var node = this.elements.get('jxTreeImage');
         if (node) {
-            document.id(node).addEvent('click', this.clicked.bindWithEvent(this));
-            this.addEvent('click', this.clicked.bindWithEvent(this));
+            document.id(node).addEvent('click', this.toggle.bind(this));
         }
                 
         this.tree = new Jx.Tree({
@@ -59,9 +64,6 @@ Jx.TreeFolder = new Class({
             onRemove: function(item) {
                 this.update();
                 this.fireEvent('remove', item);
-            }.bind(this),
-            onSelect: function(item) {
-                this.fireEvent('select',item);
             }.bind(this)
         }, this.elements.get('jxTree'));
         if (this.options.open) {
@@ -84,15 +86,6 @@ Jx.TreeFolder = new Class({
     replace: function(item, withItem) {
         this.tree.replace(item, withItem);
     },
-
-    /**
-     * Method: clone
-     * Create a clone of the TreeFolder
-     * 
-     * Returns: 
-     * {<Jx.TreeFolder>} a copy of the TreeFolder
-     */
-    clone : function() { },
     /**
      * Method: update
      * Update the CSS of the TreeFolder's DOM element in case it has changed
@@ -102,7 +95,7 @@ Jx.TreeFolder = new Class({
      * shouldDescend - {Boolean} propagate changes to child nodes?
      * isLast - {Boolean} is this the last item in the list?
      */
-    update : function(shouldDescend,isLast) {
+    update: function(shouldDescend,isLast) {
         /* avoid update if not attached to tree yet */
         if (!this.domObj.parentNode) return;
         
@@ -122,15 +115,7 @@ Jx.TreeFolder = new Class({
 
         this.tree.update(shouldDescend, isLast);
     },
-    /**
-     * Method: clicked
-     * handle the user clicking on this folder by expanding or
-     * collapsing it.
-     *
-     * Parameters: 
-     * e - {Event} the event object
-     */
-    clicked : function(e) {
+    toggle: function() {
         if (this.options.open) {
             this.collapse();
         } else {
