@@ -61,7 +61,7 @@ window.addEvent('load', function() {
                 for (var j=0; j<v.length; j++) {
                     makeTreeItem(v[j], folder);
                 }
-                tree.append(folder);
+                tree.add(folder);
             } else {
                 var item = new Jx.TreeItem({
                     label: i,
@@ -70,7 +70,7 @@ window.addEvent('load', function() {
                         Cookie.write('JxExamples.CurrentExample', v);
                     }
                 });
-                tree.append(item);
+                tree.add(item);
             }
         }
     };
