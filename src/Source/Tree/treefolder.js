@@ -79,12 +79,15 @@ Jx.TreeFolder = new Class({
     
     add: function(item, position) {
         this.tree.add(item, position);
+        return this;
     },
     remove: function(item) {
         this.tree.remove(item);
+        return this;
     },
     replace: function(item, withItem) {
         this.tree.replace(item, withItem);
+        return this;
     },
     /**
      * Method: update

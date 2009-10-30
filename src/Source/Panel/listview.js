@@ -16,7 +16,16 @@ Jx.ListView = new Class({
     Extends: Jx.Widget,
     
     options: {
-        template: '<ul class="jxListView"></ul>'
+        template: '<ul class="jxListView"></ul>',
+        /**
+         * Option: listOptions
+         * control the behaviour of the list, see <Jx.List>
+         */
+        listOptions: {
+            hover: true,
+            press: true,
+            select: true
+        }
     },
     
     classes: ['jxListView'],
@@ -36,7 +45,7 @@ Jx.ListView = new Class({
             this.ownsSelection = true;
         }
         
-        this.list = new Jx.List(this.domObj, {}, this.selection);
+        this.list = new Jx.List(this.domObj, this.listOptions, this.selection);
         
     },
     
@@ -49,13 +58,16 @@ Jx.ListView = new Class({
     
     add: function(item, where) {
         this.list.add(item, where);
+        return this;
     },
     
     remove: function(item) {
         this.list.remove(item);
+        return this;
     },
     
     replace: function(item, withItem) {
         this.list.replace(item, withItem);
+        return this;
     }
 });

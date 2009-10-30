@@ -52,7 +52,7 @@ function menuToolbar() {
      * buttons
      */
     new Jx.Toolbar({parent: 'toolbarMenu'}).add(
-        new Jx.Menu({label: 'File'}).add(
+        new Jx.Menu({label: 'File'}).add([
             new Jx.Menu.Item({
                 label: 'New', 
                 imageClass: 'file-new', 
@@ -82,9 +82,9 @@ function menuToolbar() {
             new Jx.Menu.Item({
                 label: 'Properties', 
                 imageClass: 'file-properties', 
-                image: 'images/file-edit-menu.png'})
+                image: 'images/file-edit-menu.png'})]
         ),
-        new Jx.Menu({label: 'Edit'}).add(
+        new Jx.Menu({label: 'Edit'}).add([
             new Jx.Menu.Item({
                 label: 'Undo', 
                 imageClass: 'edit-undo', 
@@ -105,9 +105,9 @@ function menuToolbar() {
             new Jx.Menu.Item({
                 label: 'Paste',
                 imageClass: 'edit-paste', 
-                image: 'images/file-edit-menu.png'})
+                image: 'images/file-edit-menu.png'})]
         ),
-        new Jx.Menu({label: 'Format'}).add(
+        new Jx.Menu({label: 'Format'}).add([
             new Jx.Menu.Item({
                 label: 'Indent More',
                 toggle: true,
@@ -120,7 +120,7 @@ function menuToolbar() {
                 imageClass: 'format-indent-less', 
                 image: 'images/file-edit-menu.png',
                 onClick: function() { log('indent less'); }}),
-            new Jx.Menu.SubMenu({label: 'Font'}).add(
+            new Jx.Menu.SubMenu({label: 'Font'}).add([
                 new Jx.Menu.Item({
                     label: 'Bold',
                     toggle: true,
@@ -140,14 +140,14 @@ function menuToolbar() {
                     label: 'Underline',
                     toggle: true,
                     imageClass: 'format-text-underline', 
-                    image: 'images/file-edit-menu.png'})
+                    image: 'images/file-edit-menu.png'})]
             ), 
-            new Jx.Menu.SubMenu({label: 'Justify'}).add(
+            new Jx.Menu.SubMenu({label: 'Justify'}).add([
                 justifyLeft, 
                 justifyCenter, 
                 justifyRight, 
-                justifyFill
-            )
+                justifyFill]
+            )]
         )
     );
 }

@@ -29,13 +29,14 @@
 
 .jxMenuContainer {
   position: absolute;
-  display: block;
+  top: 0;
+  left: -10000px;
+  display: none;
   z-index: 2000;
   padding: 0px;
 }
 
-ul.jxMenu,
-ul.jxSubMenu {
+ul.jxMenu {
   /* Base setup */
   display: block;
   position: relative;
@@ -207,8 +208,7 @@ span.jxMenuItemContent span.jxMenuItemLabel {
   background-position: 2px -64px;
 }
 
-ul.jxMenu span.jxMenuSeparator,
-ul.jxSubMenu span.jxMenuSeparator {
+ul.jxMenu span.jxMenuSeparator {
   /* Base setup */
   display: block;
 

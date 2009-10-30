@@ -35,12 +35,23 @@ Jx.Menu = new Class({
      */
     subDomObj : null,
     /**
-     * Property: items
-     * {Array} the items in this menu
+     * Property: list
+     * {<Jx.List>} the list of items in the menu
      */
-    items : null,
+    list: null,
     
-    parameters: ['buttonOptions'],
+    parameters: ['buttonOptions', 'options'],
+    
+    options: {
+        template: "<div class='jxMenuContainer'><ul class='jxMenu'></ul></div>",
+        buttonTemplate: '<span class="jxButtonContainer"><a class="jxButton jxButtonMenu"><span class="jxButtonContent"><img class="jxButtonIcon" src="'+Jx.aPixel.src+'"><span class="jxButtonLabel"></span></span></a></span>',
+        position: {
+            horizontal: ['left left'],
+            vertical: ['bottom top', 'top bottom']
+        }
+    },
+    
+    classes: ['jxMenuContainer','jxMenu'],
     
     /**
      * APIMethod: render
@@ -51,30 +62,31 @@ Jx.Menu = new Class({
         if (!Jx.Menu.Menus) {
             Jx.Menu.Menus = [];
         }
-        /* stores menu items and sub menus */
-        this.items = [];
+
+        this.elements = this.processTemplate(this.options.template, this.classes);
+
+        this.contentContainer = this.elements.get('jxMenuContainer');
+        this.contentContainer.addEvent('onContextmenu', function(e){e.stop();});
         
-        this.contentContainer = new Element('div',{
-            'class':'jxMenuContainer',
-            events: {
-                contextmenu: function(e){e.stop();}
-            }
+        this.subDomObj = this.elements.get('jxMenu');
+        
+        this.list = new Jx.List(this.subDomObj, {
+            onAdd: function(item) {
+                item.setOwner(this);
+            }.bind(this),
+            onRemove: function(item) {
+                item.setOwner(null);
+            }.bind(this)
         });
-        
-        /* the DOM element that holds the actual menu */
-        this.subDomObj = new Element('ul',{
-            'class':'jxMenu'
-        });
-        
-        this.contentContainer.adopt(this.subDomObj);
-        
+
         /* if options are passed, make a button inside an LI so the
            menu can be embedded inside a toolbar */
         if (this.options.buttonOptions) {
             this.button = new Jx.Button($merge(this.options.buttonOptions,{
+                template: this.options.buttonTemplate,
                 onClick:this.show.bind(this)
             }));
-            this.button.domA.addClass('jxButtonMenu');
+
             this.button.domA.addEvent('mouseover', this.onMouseOver.bindWithEvent(this));
             
             this.domObj = this.button.domObj;
@@ -96,12 +108,31 @@ Jx.Menu = new Class({
      * item - {<Jx.MenuItem>} the menu item to add.  Multiple menu items
      * can be added by passing multiple arguments to this function.
      */
-    add : function() {
-        $A(arguments).flatten().each(function(item){
-            this.items.push(item);
-            item.setOwner(this);
-            this.subDomObj.adopt(item.domObj);
-        }, this);
+    add: function(item, position) {
+        this.list.add(item, position);
+        return this;
+    },
+    /**
+     * Method: remove
+     * Remove a menu item from the menu
+     *
+     * Parameters:
+     * item - {<Jx.MenuItem>} the menu item to remove
+     */
+    remove: function(item) {
+        this.list.remove(item);
+        return this;
+    },
+    /**
+     * Method: replace
+     * Replace a menu item with another menu item
+     *
+     * Parameters:
+     * what - {<Jx.MenuItem>} the menu item to replace
+     * withWhat - {<Jx.MenuItem>} the menu item to replace it with
+     */
+    replace: function(item, withItem) {
+        this.list.replace(item, withItem);
         return this;
     },
     /**
@@ -159,6 +190,16 @@ Jx.Menu = new Class({
             }
             return false;
         }
+        
+        /*
+        this.list.items().some(
+            function(item) {
+                var menuItem = item.retrieve('jxMenuItem');
+                return menuItem instanceof Jx.Menu.SubMenu && 
+                       menuItem.eventInMenu(e);
+            }
+        );
+        */
     },
     
     /**
@@ -184,38 +225,40 @@ Jx.Menu = new Class({
         if (this.button && this.button.domA) {
             this.button.domA.removeClass('jx'+this.button.options.type+'Active');            
         }
-        this.items.each(function(item){item.hide(e);});
+        this.list.each(function(item){item.retrieve('jxMenuItem').hide(e);});
         document.removeEvent('mousedown', this.hideWatcher);
         document.removeEvent('keydown', this.keypressWatcher);
-        this.contentContainer.setStyle('display','none');
+        this.contentContainer.dispose();
         this.fireEvent('hide', this); 
     },
     /**
      * Method: show
      * Show the menu
-     *
-     * Parameters:
-     * e - {Event} the mouse event
      */
-    show : function(o) {
-        var e = o.event;
-        if (Jx.Menu.Menus[0]) {
-            if (Jx.Menu.Menus[0] != this) {
-                Jx.Menu.Menus[0].button.blur();
-                Jx.Menu.Menus[0].hide(e);
-            } else {
-                this.hide();
+    show : function() {
+        if (this.button) {
+            if (Jx.Menu.Menus[0]) {
+                if (Jx.Menu.Menus[0] != this) {
+                    Jx.Menu.Menus[0].button.blur();
+                    Jx.Menu.Menus[0].hide();
+                } else {
+                    this.hide();
+                    return;
+                }  
+            } 
+            Jx.Menu.Menus[0] = this;
+            this.button.focus();
+            if (this.list.count() == 0) {
                 return;
-            }  
-        } 
-        if (this.items.length === 0) {
-            return;
+            } 
         }
-        Jx.Menu.Menus[0] = this;
-        this.button.focus();
-        this.contentContainer.setStyle('visibility','hidden');
-        this.contentContainer.setStyle('display','block');
+        this.contentContainer.setStyle('display','none');
         document.id(document.body).adopt(this.contentContainer);            
+        this.contentContainer.setStyles({
+            visibility: 'hidden',
+            display: 'block'
+        });
+        
         /* we have to size the container for IE to render the chrome correctly
          * but just in the menu/sub menu case - there is some horrible peekaboo
          * bug in IE related to ULs that we just couldn't figure out
@@ -223,22 +266,16 @@ Jx.Menu = new Class({
         this.contentContainer.setContentBoxSize(this.subDomObj.getMarginBoxSize());
         this.showChrome(this.contentContainer);
         
-        this.position(this.contentContainer, this.button.domObj, {
-            horizontal: ['left left'],
-            vertical: ['bottom top', 'top bottom'],
+        this.position(this.contentContainer, this.domObj, $merge({
             offsets: this.chromeOffsets
-        });
+        }, this.options.position));
 
-        this.contentContainer.setStyle('visibility','');
+        this.contentContainer.setStyle('visibility','visible');
         
         if (this.button && this.button.domA) {
             this.button.domA.addClass('jx'+this.button.options.type+'Active');            
         }
-        if (e) {
-            //why were we doing this? it is affecting the closing of
-            //other elements like flyouts (issue 13)
-            //e.stop();
-        }
+
         /* fix bug in IE that closes the menu as it opens because of bubbling */
         document.addEvent('mousedown', this.hideWatcher);
         document.addEvent('keydown', this.keypressWatcher);

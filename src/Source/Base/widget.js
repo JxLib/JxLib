@@ -577,7 +577,7 @@ Jx.Widget = new Class({
         if ($defined(container)){
             element = container.set('html',template);
         } else {
-            element = new Element('div',{html:template});
+            element = new Element('div',{html:template,styles:{border:'20px solid red'}});
         }
         classes.each(function(klass){
             var el = element.getElement('.'+klass);

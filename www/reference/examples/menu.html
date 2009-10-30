@@ -22,7 +22,7 @@ function menuButton() {
     new Jx.Menu({
        label: 'Menu Button',
        image: 'images/bug.png' 
-    }).add(
+    }).add([
         /* you can add menu items to a menu.  They also work like buttons. */
         new Jx.Menu.Item({
             label: 'Bar Chart',
@@ -43,7 +43,7 @@ function menuButton() {
             label: 'Curve Chart',
             image: 'images/charts.png',
             imageClass: 'chart_curve'
-        })
+        })]
         /* and then add the menu to the page */
     ).addTo('buttonMenu');
 }
@@ -58,7 +58,7 @@ function menuSubmenu() {
     }).add(
         new Jx.Menu.SubMenu({
             label: 'Charts'
-        }).add(
+        }).add([
         /* you can add menu items and sub menus to a sub menu */
             new Jx.Menu.Item({
                 label: 'Bar Chart',
@@ -79,7 +79,7 @@ function menuSubmenu() {
                 label: 'Curve Chart',
                 image: 'images/charts.png',
                 imageClass: 'chart_curve'
-            })
+            })]
         )
     ).addTo('submenuMenu');
 }
@@ -90,7 +90,7 @@ function menuStates() {
     /* menus work like buttons, they take the same options */
     new Jx.Menu({
         label: 'Charts'
-    }).add(
+    }).add([
         new Jx.Menu.Item({
             label: 'Bar Chart',
             image: 'images/charts.png',
@@ -115,7 +115,7 @@ function menuStates() {
             image: 'images/charts.png',
             imageClass: 'chart_curve',
             onClick: function(){log('curve chart selected')}
-        })
+        })]
     ).addTo('statesMenu');
 }
 </script>
@@ -154,7 +154,7 @@ function menuToggle() {
     /* create a menu from some toggle items plus the stuff in the set */
     new Jx.Menu({
         label: 'Formatting'
-    }).add(
+    }).add([
         new Jx.Menu.Item({
             label: 'Bold',
             toggle: true,
@@ -179,7 +179,7 @@ function menuToggle() {
         justifyLeft, 
         justifyCenter, 
         justifyRight, 
-        justifyFill
+        justifyFill]
     ).addTo('toggleMenu');
 }
 </script>

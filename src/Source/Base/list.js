@@ -56,7 +56,7 @@ Jx.List = new Class({
          * obtain the defined hoverClass if set and mouseenter/mouseleave
          * events will be emitted when the user hovers over and out of elements
          */
-        hover: true,
+        hover: false,
         /**
          * APIProperty: hoverClass
          * the CSS class name to add to the wrapper element when the mouse is
@@ -70,7 +70,7 @@ Jx.List = new Class({
          * obtain the defined pressClass if set and mousedown/mouseup
          * events will be emitted when the user clicks on elements
          */
-        press: true,
+        press: false,
         /**
          * APIProperty: pressedClass
          * the CSS class name to add to the wrapper element when the mouse is
@@ -85,7 +85,7 @@ Jx.List = new Class({
          * will be emitted when items are selected and unselected.  For other
          * selection objects, see <Jx.Selection>
          */
-        select: true
+        select: false
     },
     
     init: function() {

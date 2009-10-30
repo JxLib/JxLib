@@ -41,27 +41,32 @@ Jx.Menu.SubMenu = new Class({
      */
     visibleItem: null,
     /**
-     * Property: items
-     * {Array} the menu items that are in this sub menu.
+     * Property: list
+     * {<Jx.List>} a list to manage menu items
      */
-    items: null,
+    list: null,
+    options: {
+        template: '<li class="jxMenuItemContainer"><a class="jxMenuItem jxButtonSubMenu"><span class="jxMenuItemContent"><img class="jxMenuItemIcon" src="'+Jx.aPixel.src+'"><span class="jxMenuItemLabel"></span></span></a></li>',
+        position: {
+            horizontal: ['right left', 'left right'],
+            vertical: ['top top']
+        }
+    },
+    
+    classes: ['jxMenuItemContainer', 'jxMenuItem','jxMenuItemIcon','jxMenuItemLabel'],
+    
     /**
      * APIMethod: render
      * Create a new instance of Jx.SubMenu
      */
     render: function() { 
-        this.open = false;
-        this.items = [];
         this.parent();
-        this.domA.addClass('jxButtonSubMenu');
+        this.open = false;
         
-        this.contentContainer = new Element('div', {
-            'class': 'jxMenuContainer'
+        this.menu = new Jx.Menu(null, {
+            position: this.options.position
         });
-        this.subDomObj = new Element('ul', {
-            'class':'jxSubMenu'
-        });
-        this.contentContainer.adopt(this.subDomObj);
+        this.menu.domObj = this.domObj;
     },
     /**
      * Method: setOwner
@@ -78,29 +83,11 @@ Jx.Menu.SubMenu = new Class({
      * Show the sub menu
      */
     show: function() {
-        if (this.open || this.items.length == 0) {
+        if (this.open || this.menu.list.count() == 0) {
             return;
         }
-        
-        this.contentContainer.setStyle('visibility','hidden');
-        this.contentContainer.setStyle('display','block');
-        document.id(document.body).adopt(this.contentContainer);            
-        /* we have to size the container for IE to render the chrome correctly
-         * but just in the menu/sub menu case - there is some horrible peekaboo
-         * bug in IE related to ULs that we just couldn't figure out
-         */
-        this.contentContainer.setContentBoxSize(this.subDomObj.getMarginBoxSize());
-        this.showChrome(this.contentContainer);
-        
-        this.position(this.contentContainer, this.domObj, {
-            horizontal: ['right left', 'left right'],
-            vertical: ['top top'],
-            offsets: this.chromeOffsets
-        });
-        
+        this.menu.show();
         this.open = true;
-        this.contentContainer.setStyle('visibility','');
-        
         this.setActive(true);
     },
     
@@ -111,13 +98,8 @@ Jx.Menu.SubMenu = new Class({
             return true;
         }
         return document.id(e.target).descendantOf(this.domObj) ||
-               document.id(e.target).descendantOf(this.subDomObj) ||
-               this.items.some(
-                   function(item) {
-                       return item instanceof Jx.Menu.SubMenu && 
-                              item.eventInMenu(e);
-                   }
-               );
+               this.menu.eventInMenu(e);
+               document.id(e.target).descendantOf(this.menusubDomObj);
     },
     
     /**
@@ -129,8 +111,7 @@ Jx.Menu.SubMenu = new Class({
             return;
         }
         this.open = false;
-        this.items.each(function(item){item.hide();});
-        this.contentContainer.setStyle('display','none');
+        this.menu.hide();
         this.visibleItem = null;
     },
     /**
@@ -141,52 +122,32 @@ Jx.Menu.SubMenu = new Class({
      * item - {<Jx.MenuItem>} the menu item to add.  Multiple menu items
      * can be added by passing multiple arguments to this function.
      */
-    add : function() { /* menu */
-        var that = this;
-        $A(arguments).each(function(item){
-            that.items.push(item);
-            item.setOwner(that);
-            that.subDomObj.adopt(item.domObj);
-        });
+    add: function(item, position) {
+        this.menu.add(item, position);
         return this;
     },
     /**
-     * Method: insertBefore
-     * Insert a menu item before another menu item.
-     *
-     * Parameters:
-     * newItem - {<Jx.MenuItem>} the menu item to insert
-     * targetItem - {<Jx.MenuItem>} the menu item to insert before
-     */
-    insertBefore: function(newItem, targetItem) {
-        var bInserted = false;
-        for (var i=0; i<this.items.length; i++) {
-            if (this.items[i] == targetItem) {
-                this.items.splice(i, 0, newItem);
-                this.subDomObj.insertBefore(newItem.domObj, targetItem.domObj);
-                bInserted = true;
-                break;
-            }
-        }
-        if (!bInserted) {
-            this.add(newItem);
-        }
-    },
-    /**
      * Method: remove
-     * Remove a single menu item from the menu.
+     * Remove a menu item from the menu
      *
      * Parameters:
-     * item - {<Jx.MenuItem} the menu item to remove.
+     * item - {<Jx.MenuItem>} the menu item to remove
      */
     remove: function(item) {
-        for (var i=0; i<this.items.length; i++) {
-            if (this.items[i] == item) {
-                this.items.splice(i,1);
-                this.subDomObj.removeChild(item.domObj);
-                break;
-            }
-        }
+        this.menu.remove(item);
+        return this;
+    },
+    /**
+     * Method: replace
+     * Replace a menu item with another menu item
+     *
+     * Parameters:
+     * what - {<Jx.MenuItem>} the menu item to replace
+     * withWhat - {<Jx.MenuItem>} the menu item to replace it with
+     */
+    replace: function(item, withItem) {
+        this.menu.replace(item, withItem);
+        return this;
     },
     /**
      * Method: deactivate

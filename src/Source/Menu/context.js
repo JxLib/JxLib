@@ -47,7 +47,7 @@ Jx.Menu.Context = new Class({
      * e - {Event} the mouse event
      */
     show : function(e) {
-        if (this.items.length ==0) {
+        if (this.list.count() ==0) {
             return;
         }
         

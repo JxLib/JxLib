@@ -17,7 +17,7 @@ window.addEvent('load', function() {
 function menuContext() {
     /* put together some sub menus for the context menu */
     var fileMenu = new Jx.Menu.SubMenu({label: 'File'});
-    fileMenu.add(
+    fileMenu.add([
         new Jx.Menu.Item({
             label: 'New', 
             imageClass: 'file-new', 
@@ -48,10 +48,10 @@ function menuContext() {
         new Jx.Menu.Item({
             label: 'Properties', 
             imageClass: 'file-properties', 
-            image: 'images/file-edit-menu.png'})
+            image: 'images/file-edit-menu.png'})]
     );
     var editMenu = new Jx.Menu.SubMenu({label: 'Edit'});
-    editMenu.add(
+    editMenu.add([
         new Jx.Menu.Item({
             label: 'Undo', 
             imageClass: 'edit-undo', 
@@ -72,11 +72,11 @@ function menuContext() {
         new Jx.Menu.Item({
             label: 'Paste',
             imageClass: 'edit-paste', 
-            image: 'images/file-edit-menu.png'})
+            image: 'images/file-edit-menu.png'})]
     );
     
     var fontMenu = new Jx.Menu.SubMenu({label: 'Font'});
-    fontMenu.add(
+    fontMenu.add([
         new Jx.Menu.Item({
             label: 'Bold',
             toggle: true,
@@ -96,7 +96,7 @@ function menuContext() {
             label: 'Underline',
             toggle: true,
             imageClass: 'format-text-underline', 
-            image: 'images/file-edit-menu.png'})
+            image: 'images/file-edit-menu.png'})]
     );
     
     var justifyLeft = new Jx.Menu.Item({
@@ -128,10 +128,10 @@ function menuContext() {
     );
     
     var justifyMenu = new Jx.Menu.SubMenu({label: 'Justify'});
-    justifyMenu.add(justifyLeft, justifyCenter, justifyRight, justifyFill);
+    justifyMenu.add([justifyLeft, justifyCenter, justifyRight, justifyFill]);
     
     var formatMenu = new Jx.Menu.SubMenu({label: 'Format'});
-    formatMenu.add(
+    formatMenu.add([
         new Jx.Menu.Item({
             label: 'Indent More',
             toggle: true,
@@ -143,14 +143,14 @@ function menuContext() {
             imageClass: 'format-indent-less', 
             image: 'images/file-edit-menu.png'}),
         fontMenu, 
-        justifyMenu
+        justifyMenu]
     );
     
     /* you can specify the id of the element to attach the context menu
      * to in the constructor
      */
     var contextMenu = new Jx.Menu.Context(document.body);
-    contextMenu.add(fileMenu,editMenu,formatMenu);   
+    contextMenu.add([fileMenu,editMenu,formatMenu]);   
 }
 </script>
 </head>

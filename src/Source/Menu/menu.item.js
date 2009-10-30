@@ -55,7 +55,8 @@ Jx.Menu.Item = new Class({
         if (this.options.image) {
             this.domObj.removeClass('jx'+this.type+'Toggle');
         }
-        this.domObj.addEvent('mouseover', this.onMouseOver.bindWithEvent(this));
+        this.domObj.addEvent('mouseover', this.onMouseOver.bind(this));
+        this.domObj.store('jxMenuItem', this);
     },
     /**
      * Method: setOwner
@@ -100,15 +101,11 @@ Jx.Menu.Item = new Class({
     /**
      * Method: onmouseover
      * handle the mouse moving over the menu item
-     *
-     * Parameters:
-     * e - {Event} the mousemove event
      */
-    onMouseOver: function(e) {
+    onMouseOver: function() {
         if (this.owner && this.owner.setVisibleItem) {
             this.owner.setVisibleItem(this);
         }
-        this.show(e);
     }
 });
 

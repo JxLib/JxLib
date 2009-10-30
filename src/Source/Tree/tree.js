@@ -62,6 +62,9 @@ Jx.Tree = new Class({
             this.domObj = this.elements.get('jxTreeRoot');
         }
         this.list = new Jx.List(this.domObj, {
+                hover: true,
+                press: true,
+                select: true,
                 onAdd: function(item) {this.update();}.bind(this),
                 onRemove: function(item) {this.update();}.bind(this)
             }, this.selection);
@@ -78,6 +81,7 @@ Jx.Tree = new Class({
         })
         item.setSelection(this.selection);
         this.list.add(item, position);
+        return this;
     },
     remove: function(item) {
         item.removeEvents('add');
@@ -85,11 +89,13 @@ Jx.Tree = new Class({
         item.removeEvents('disclose');
         this.list.remove(item);
         item.setSelection(null);
+        return this;
     },
     replace: function(item, withItem) {
         this.list.replace(item, withItem);
         withItem.setSelection(this.selection);
         item.setSelection(null);
+        return this;
     },
     
     /**
