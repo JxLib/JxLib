@@ -417,6 +417,11 @@
         "slide": {
             "deps": ["object","Fx.Tween"],
             "desc": "A class that shows and hides elements using a slide effect. Does not use a wrapper element or require a fixed width or height."
+        },
+        
+        "notification": {
+            "deps": ["widget","Fx.Tween","layout","list"],
+            "desc": "A notification widget that can be anchored to a side of a container or floated in a container."
         }
         
     },

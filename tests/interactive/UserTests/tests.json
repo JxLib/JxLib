@@ -18,7 +18,8 @@
     "Extras": {
         "progressbar": ["all"],
         "slider": ["all"],
-        "slide": ["all"]
+        "slide": ["all"],
+        "notification": ["all"]
     },
     "Panel": {
         "message": ["all"],

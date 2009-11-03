@@ -1,0 +1,28 @@
+.jxNotificationContainer {
+    border: 1px black solid;
+    padding: 2px;
+}
+
+.jxNotificationMinimize {
+    width: 100%;
+    height: 10px;
+    margin: 2px;
+    background-color: blue;
+    cursor: pointer;
+    display: block;
+}
+
+.jxNotice {
+    margin: 5 auto;
+    border: 1px solid black;
+    position: relative;
+    display: block;
+}
+
+.jxNoticeClose {
+    float: right;
+    width: 15px;
+    height: 15px;
+    background-color: black;
+    cursor: pointer;
+}
