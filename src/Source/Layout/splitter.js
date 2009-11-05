@@ -159,7 +159,12 @@ Jx.Splitter = new Class({
             if (!jxl) {
                 new Jx.Layout(this.elements[i], this.options.containerOptions[i]);
             } else {
-                jxl.resize({position: 'absolute'});
+                if (this.options.containerOptions[i]) {
+                    jxl.resize($merge(this.options.containerOptions[i],
+                        {position:'absolute'}));
+                } else {
+                    jxl.resize({position: 'absolute'});
+                }
             }
         }
         
