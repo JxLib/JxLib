@@ -17,7 +17,7 @@
  */
 Jx.Menu.Separator = new Class({
     Family: 'Jx.Menu.Separator',
-    Extends: Jx.Object,
+    Extends: Jx.Widget,
     /**
      * Property: domObj
      * {HTMLElement} the HTML element that the separator is contained

@@ -16,6 +16,7 @@ Jx.ListItem = new Class({
     Extends: Jx.Widget,
     
     options: {
+        enabled: true,
         template: '<li class="jxListItemContainer jxListItem"></li>'
     },
     
@@ -28,7 +29,12 @@ Jx.ListItem = new Class({
         this.parent();
         this.elements = this.processTemplate(this.options.template, this.classes);
         this.domObj = this.elements.get('jxListItemContainer');
-        this.domContent = this.elements.get('jxListItem')
+        this.domContent = this.elements.get('jxListItem');
+        this.domObj.store('jxListTarget', this.domContent);
         this.loadContent(this.domContent);
+    },
+    
+    enable: function(state) {
+        
     }
 });

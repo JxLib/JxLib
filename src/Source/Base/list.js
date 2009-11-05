@@ -93,44 +93,78 @@ Jx.List = new Class({
         this.container.store('jxList', this);
         
         var target = this;
+        var isEnabled = function(el) {
+            var item = el.retrieve('jxListTargetItem') || el;
+            return !item.hasClass('jxDisabled');
+        };
+        var isSelectable = function(el) {
+            var item = el.retrieve('jxListTargetItem') || el;
+            return !item.hasClass('jxUnselectable');
+        };
         this.bound = {
             mousedown: function() {
-                this.addClass(target.options.pressClass);
-                target.fireEvent('mousedown', this, target);
+                if (isEnabled(this)) {
+                    this.addClass(target.options.pressClass);
+                    target.fireEvent('mousedown', this, target);
+                }
             },
             mouseup: function() {
-                this.removeClass(target.options.pressClass);
-                target.fireEvent('mouseup', this, target);
+                if (isEnabled(this)) {
+                    this.removeClass(target.options.pressClass);
+                    target.fireEvent('mouseup', this, target);
+                }
             },
             mouseenter: function() {
-                this.addClass(target.options.hoverClass);
-                target.fireEvent('mouseenter', this, target);
+                if (isEnabled(this)) {
+                    this.addClass(target.options.hoverClass);
+                    target.fireEvent('mouseenter', this, target);
+                }
             },
             mouseleave: function() {
-                this.removeClass(target.options.hoverClass);
-                target.fireEvent('mouseleave', this, target);
+                if (isEnabled(this)) {
+                    this.removeClass(target.options.hoverClass);
+                    target.fireEvent('mouseleave', this, target);
+                }
+            },
+            keydown: function(e) {
+                if (e.key == 'enter' && isEnabled(this)) {
+                    this.addClass('jxPressed');
+                }
+            },
+            keyup: function(e) {
+                if (e.key == 'enter' && isEnabled(this)) {
+                    this.removeClass('jxPressed');
+                }
+            },
+            click: function () {
+                if (target.selection && 
+                    isEnabled(this) && 
+                    isSelectable(this)) {
+                    target.selection.select(this, target);
+                }
+            },
+            select: function(item) {
+                if (isEnabled(item)) {
+                    var itemTarget = item.retrieve('jxListTargetItem') || item;
+                    target.fireEvent('select', itemTarget);
+                }
+            },
+            unselect: function(item) {
+                if (isEnabled(item)) {
+                    var itemTarget = item.retrieve('jxListTargetItem') || item;
+                    target.fireEvent('unselect', itemTarget);
+                }
             }
         };
+        
         if (this.options.selection) {
             this.selection = this.options.selection;
+            this.options.select = true;
         } else if (this.options.select) {
             this.selection = new Jx.Selection(this.options);
             this.ownsSelection = true;
         }
             
-        if (this.selection) {
-            this.bound.click = function () {
-                target.selection.select(this, target);
-            };
-            this.selection.addEvents({
-                select: function(item) {
-                    target.fireEvent('select', item);
-                },
-                unselect: function(item) {
-                    target.fireEvent('select', item);
-                }
-            })
-        }
         if ($defined(this.options.items)) {
             this.add(this.options.items);
         }
@@ -140,10 +174,8 @@ Jx.List = new Class({
         this.container.getChildren().each(function(item){
             this.remove(item);
         }, this);
+        this.setSelection(null);
         this.bound = null;
-        if (this.ownsSelection && this.selection) {
-            this.selection.destroy();
-        }
         this.container.eliminate('jxList');
     },
     
@@ -166,21 +198,25 @@ Jx.List = new Class({
         }
         /* the element being wrapped */
         var el = document.id(item);
-        if (el) {
+        var target = el.retrieve('jxListTarget') || el;
+        if (target) {
+            target.store('jxListTargetItem', el);
             if (this.options.press && this.options.pressClass) {
-                el.addEvents({
+                target.addEvents({
                     mousedown: this.bound.mousedown,
-                    mouseup: this.bound.mouseup
+                    mouseup: this.bound.mouseup,
+                    keyup: this.bound.keyup,
+                    keydown: this.bound.keydown
                 });
             }
             if (this.options.hover && this.options.hoverClass) {
-                el.addEvents({
+                target.addEvents({
                     mouseenter: this.bound.mouseenter,
                     mouseleave: this.bound.mouseleave
                 });
             }
             if (this.selection) {
-                el.addEvents({
+                target.addEvents({
                     click: this.bound.click
                 });
             }
@@ -220,7 +256,8 @@ Jx.List = new Class({
         if (this.container.hasChild(item)) {
             this.unselect(item, true);
             document.id(item).dispose();
-            document.id(item).removeEvents(this.bound);
+            var target = item.retrieve('jxListTarget') || item;
+            target.removeEvents(this.bound);
             this.fireEvent('remove', item, this);
             return item;
         }
@@ -331,6 +368,23 @@ Jx.List = new Class({
         this.container.getChildren().each(function(item){
             this.remove(item);
         }, this);
+    },
+    setSelection: function(selection) {
+        if (this.selection) {
+            this.selection.removeEvents(this.bound);
+            if (this.ownsSelection) {
+                this.selection.destroy();
+                this.ownsSelection = false;
+            }
+        }
+        
+        this.selection = selection;
+        if (this.selection) {
+            this.selection.addEvents({
+                select: this.bound.select,
+                unselect: this.bound.unselect
+            });
+        }
     }
 
 });

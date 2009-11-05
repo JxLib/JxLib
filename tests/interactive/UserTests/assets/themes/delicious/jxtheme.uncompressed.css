@@ -1622,8 +1622,8 @@ td.jxGridCellPrelight {
 
 .jxListView .jxHover {
     margin: 0px;
-    border-left: 1px solid #C5E0FF;
-    border-right: 1px solid #C5E0FF;
+    border-left: 1px solid #CDDFFD;
+    border-right: 1px solid #CDDFFD;
     background-image: url(images/listitem.png);
     background-repeat: repeat-x;
     background-color: #CDE5FF;
@@ -1640,26 +1640,17 @@ td.jxGridCellPrelight {
     background-position: left -72px;
 }
 
-.jxListView .jxPressed {
+.jxListView .jxPressed,
+.jxListView .jxSelected {
   margin: 0px;
-  border-left: 1px solid #C5E0FF;
-  border-right: 1px solid #C5E0FF;
+  border-left: 1px solid #8AABFB;
+  border-right: 1px solid #8AABFB;
   background-color: #CDE5FF;
   background-image: url(images/listitem.png);
   background-repeat: repeat-x;
   background-position: left -48px;
 }
-
-
-.jxListView .jxSelected {
-    margin: 0px;
-    border-left: 1px solid #C5E0FF;
-    border-right: 1px solid #C5E0FF;
-    background-color: #CDE5FF;
-    background-image: url(images/listitem.png);
-    background-repeat: repeat-x;
-    background-position: left -48px;
-}/**
+/**
  * @project         Jx
  * @revision        $Id: menu.css 582 2009-10-30 22:03:58Z pagameba $
  * @author          Fred Warnock (fwarnock@dmsolutions.ca)
@@ -2976,7 +2967,7 @@ li.jxToolItem  span.jxBarSeparator {
 
 /**
  * @project         Jx
- * @revision        $Id: tree.css 536 2009-09-28 19:02:46Z pagameba $
+ * @revision        $Id: tree.css 535 2009-09-28 18:47:18Z fred.warnock $
  * @author          Fred Warnock (fwarnock@dmsolutions.ca)
  * @copyright       (c) 2006 DM Solutions Group Inc.
  */
@@ -2991,7 +2982,7 @@ li.jxToolItem  span.jxBarSeparator {
 */
 
 
-.jxTree,
+.jxTreeFolder,
 .jxTreeRoot {
   /* relative positioning is required for IE to fix the peek-a-boo bug */
   position:relative;
@@ -3028,7 +3019,7 @@ li.jxTreeContainer {
   -khtml-user-select: none;
 }
 
-.jxTree li.jxTreeContainer {
+.jxTreeFolder li.jxTreeContainer {
   margin-left: 16px;
 }
 
@@ -3044,7 +3035,7 @@ a.jxTreeItem {
   background-position: left top;
   border: none;
 
-  margin: 0px 1px 0px 15px;
+  margin: 0px 1px 0px 17px;
   padding: 0px 0px 0px 20px;
   z-index: 0;
   font-family: Arial, Helvetica, sans-serif;
@@ -3060,40 +3051,41 @@ a.jxTreeItem {
 a.jxTreeItem:focus {
   border-left: 1px dotted #75ADFF;
   border-right: 1px dotted #75ADFF;
-  margin: 0px 0px 0px 14px;
+  margin: 0px 0px 0px 16px;
   background-position: left -72px;
 }
 
-a.jxTreeItem:hover {
+a.jxTreeItem:hover,
+li.jxTreeContainer a.jxHover {
   /*border: 1px solid #C5E0FF;*/
-  border-left: 1px solid #C5E0FF;
-  border-right: 1px solid #C5E0FF;
-  margin: 0px 0px 0px 14px;
+  border-left: 1px solid #CDDFFD;
+  border-right: 1px solid #CDDFFD;
+  margin: 0px 0px 0px 16px;
   background-color: #CDE5FF;
   background-position: left -24px;
 }
 
-a.jxTreeItemPressed,
-a.jxTreeItemPressed:hover {
-  border-left: 1px solid #C5E0FF;
-  border-right: 1px solid #C5E0FF;
-  margin: 0px 0px 0px 14px;
+li.jxTreeContainer a.jxSelected,
+li.jxTreeContainer a.jxSelected:hover,
+li.jxTreeContainer a.jxPressed,
+li.jxTreeContainer a.jxPressed:hover {
+  border-left: 1px solid #8AABFB;
+  border-right: 1px solid #8AABFB;
+  margin: 0px 0px 0px 16px;
   background-color: #CDE5FF;
   background-position: left -48px;
 }
 
-.jxDisabled a.jxTreeItem,
-.jxDisabled a.jxTreeItem {
+li.jxDisabled a.jxTreeItem {
   cursor: default;
 }
             
-.jxDisabled a.jxTreeItem:focus,
-.jxDisabled a.jxTreeItemPressed,
-.jxDisabled a.jxTreeItemPressed:hover,
-.jxDisabled a.jxTreeItem:hover {
+li.jxDisabled a.jxTreeItem:focus,
+li.jxDisabled a.jxTreeItem:hover {
   background-position: left top;
+  background-color: transparent;
   border: none;
-  margin: 0px 1px 0px 15px;
+  margin: 0px 1px 0px 17px;
 }
 
 .jxTreeNest {
@@ -3121,7 +3113,7 @@ img.jxTreeIcon {
 
 img.jxTreeIcon { 
   height: 16px;
-  top: 1px;
+  top: 2px;
   left: 1px;
 }
 
@@ -3166,10 +3158,6 @@ img.jxTreeIcon {
   background-position: left -120px; /* last node image */
 }
 
-.jxTreeItemSelected {
-  background-color: #AFD4FA;
-  font-weight:bold;
-}
 
 a.jxTreeItem,
 img.jxTreeImage,

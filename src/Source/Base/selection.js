@@ -63,7 +63,7 @@ Jx.Selection = new Class({
             } else {
                 document.id(item).addClass(this.options.selectClass);
                 this.selection.push(item);
-                this.fireEvent(this.options.eventToFire.select, item, this);
+                this.fireEvent(this.options.eventToFire.select, item);
             }
         } else if (this.options.selectMode == 'single') {
             if (!this.selection.contains(item)) {
@@ -75,7 +75,7 @@ Jx.Selection = new Class({
             } else {
                 this.unselect(item);
             }
-            this.fireEvent(this.options.eventToFire.select, item, this);
+            this.fireEvent(this.options.eventToFire.select, item);
         }
     },
     

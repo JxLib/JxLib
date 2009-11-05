@@ -45,7 +45,7 @@ Jx.ListView = new Class({
             this.ownsSelection = true;
         }
         
-        this.list = new Jx.List(this.domObj, this.listOptions, this.selection);
+        this.list = new Jx.List(this.domObj, this.options.listOptions, this.selection);
         
     },
     

@@ -35,9 +35,9 @@ Jx.TreeFolder = new Class({
         open: false,
         /* folders will share a selection with the tree they are in */
         select: false, 
-        template: '<li class="jxTreeContainer jxTreeBranch"><img class="jxTreeImage" src="'+Jx.aPixel.src+'" alt="" title=""><a class="jxTreeItem" href="javascript:void(0);"><img class="jxTreeIcon" src="'+Jx.aPixel.src+'" alt="" title=""><span class="jxTreeLabel"></span></a><ul class="jxTree"></ul></li>'
+        template: '<li class="jxTreeContainer jxTreeBranch"><img class="jxTreeImage" src="'+Jx.aPixel.src+'" alt="" title=""><a class="jxTreeItem" href="javascript:void(0);"><img class="jxTreeIcon" src="'+Jx.aPixel.src+'" alt="" title=""><span class="jxTreeLabel"></span></a><ul class="jxTreeFolder"></ul></li>'
     },
-    classes: ['jxTreeContainer','jxTreeImage','jxTreeItem','jxTreeIcon','jxTreeLabel','jxTree'],
+    classes: ['jxTreeContainer','jxTreeImage','jxTreeItem','jxTreeIcon','jxTreeLabel','jxTreeFolder'],
     /**
      * APIMethod: render
      * Create a new instance of Jx.TreeFolder
@@ -45,14 +45,19 @@ Jx.TreeFolder = new Class({
     render : function() {
         this.parent();
         this.domObj.store('jxTreeFolder', this);
+        
+        this.bound = {
+            toggle: this.toggle.bind(this)
+        };
+        
         this.addEvents({
-            click: this.toggle.bind(this),
-            dblclick: this.toggle.bind(this)
-        })
+            click: this.bound.toggle,
+            dblclick: this.bound.toggle
+        });
         
         var node = this.elements.get('jxTreeImage');
         if (node) {
-            document.id(node).addEvent('click', this.toggle.bind(this));
+            document.id(node).addEvent('click', this.bound.toggle);
         }
                 
         this.tree = new Jx.Tree({
@@ -65,7 +70,7 @@ Jx.TreeFolder = new Class({
                 this.update();
                 this.fireEvent('remove', item);
             }.bind(this)
-        }, this.elements.get('jxTree'));
+        }, this.elements.get('jxTreeFolder'));
         if (this.options.open) {
             this.expand();
         } else {
@@ -88,6 +93,18 @@ Jx.TreeFolder = new Class({
     replace: function(item, withItem) {
         this.tree.replace(item, withItem);
         return this;
+    },
+    /**
+     * APIMethod: items
+     * return an array of tree item instances contained in this tree.
+     * Does not descend into folders but does return a reference to the
+     * folders
+     */
+    items: function() {
+        return this.tree.items();
+    },
+    empty: function() {
+        this.tree.empty();
     },
     /**
      * Method: update
@@ -119,10 +136,12 @@ Jx.TreeFolder = new Class({
         this.tree.update(shouldDescend, isLast);
     },
     toggle: function() {
-        if (this.options.open) {
-            this.collapse();
-        } else {
-            this.expand();
+        if (this.options.enabled) {
+            if (this.options.open) {
+                this.collapse();
+            } else {
+                this.expand();
+            }
         }
     },
     /**
@@ -152,5 +171,8 @@ Jx.TreeFolder = new Class({
         } else {
             return this.tree.findChild(path);
         }
+    },
+    setSelection: function(selection) {
+        this.tree.setSelection(selection);
     }
 });

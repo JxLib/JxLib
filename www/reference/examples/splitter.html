@@ -19,7 +19,9 @@ function drawBasicSplit() {
     /* no options means it will split horizontally in two and create
      * new elements for each side of the splitter
      */
-    new Jx.Splitter('splitBasic');
+    new Jx.Splitter('splitBasic',{
+      containerOptions: [{width: 100}]
+    });
 }
 </script>
 <script id="verticalSplitScript" type="text/javascript" charset="utf-8">

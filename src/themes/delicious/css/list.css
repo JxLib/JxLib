@@ -34,8 +34,8 @@
 
 .jxListView .jxHover {
     margin: 0px;
-    border-left: 1px solid #C5E0FF;
-    border-right: 1px solid #C5E0FF;
+    border-left: 1px solid #CDDFFD;
+    border-right: 1px solid #CDDFFD;
     background-image: url(images/listitem.png);
     background-repeat: repeat-x;
     background-color: #CDE5FF;
@@ -52,23 +52,13 @@
     background-position: left -72px;
 }
 
-.jxListView .jxPressed {
+.jxListView .jxPressed,
+.jxListView .jxSelected {
   margin: 0px;
-  border-left: 1px solid #C5E0FF;
-  border-right: 1px solid #C5E0FF;
+  border-left: 1px solid #8AABFB;
+  border-right: 1px solid #8AABFB;
   background-color: #CDE5FF;
   background-image: url(images/listitem.png);
   background-repeat: repeat-x;
   background-position: left -48px;
-}
-
-
-.jxListView .jxSelected {
-    margin: 0px;
-    border-left: 1px solid #C5E0FF;
-    border-right: 1px solid #C5E0FF;
-    background-color: #CDE5FF;
-    background-image: url(images/listitem.png);
-    background-repeat: repeat-x;
-    background-position: left -48px;
 }

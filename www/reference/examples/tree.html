@@ -34,12 +34,16 @@ function basicTree() {
         },
         onSelect: function(item) {
          log('item selected: '+item.options.label);
+        },
+        onUnselect: function(item) {
+         log('item unselected: '+item.options.label);
         }
     });
 
     /* you can put an item right into the tree */
     var item = new Jx.TreeItem({
         label: 'Tree item with custom icon',
+        selectable: false,
         image: 'images/bug.png',
         onClick: function() {
             log('you clicked the bug!');
@@ -53,6 +57,7 @@ function basicTree() {
         label: 'Tree folder with custom icon',
         image: 'images/blue_folder.png',
         imageClass: 'blueFolder',
+        enabled: false,
         contextMenu: cm
     });
     tree.add(folder);
@@ -86,7 +91,11 @@ function basicTree() {
 <script id="customTreeScript" type="text/javascript">
 function customTree() {
     /* the tree object goes in a div */
-   var tree = new Jx.Tree({parent: 'treeArea2'});
+   var root = new Jx.Tree({parent: 'treeArea2'});
+   
+   var tree = new Jx.TreeFolder({label: 'root test'});
+   
+   root.add(tree);
    
    Jx.TreeItem.Check = new Class({
      Extends: Jx.TreeItem,

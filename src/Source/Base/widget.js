@@ -549,7 +549,7 @@ Jx.Widget = new Class({
         if (el) {
             ref = document.id(reference);
             el.inject(ref,where);
-            this.fireEvent('addTo',this);            
+            this.fireEvent('addTo',this);
         }
         return this;
     },

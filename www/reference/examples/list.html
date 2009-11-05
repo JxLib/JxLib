@@ -20,7 +20,7 @@ function basicListView() {
     var listView = new Jx.ListView().addTo('listViewArea').add([
       new Jx.ListItem({content: 'item 1'}),
       new Jx.ListItem({content: 'item 2'}),
-      new Jx.ListItem({content: 'item 3'}),
+      new Jx.ListItem({content: 'item 3', enabled: false}),
       new Jx.ListItem({content: 'item 4'}),
       new Jx.ListItem({content: 'item 5'})
     ]);
@@ -33,7 +33,7 @@ function accessibleListView() {
   var listView = new Jx.ListView().addTo('listViewArea2').add([
       new Jx.ListItem({template: linkTempl, content: 'item 1'}),
       new Jx.ListItem({template: linkTempl, content: 'item 2'}),
-      new Jx.ListItem({template: linkTempl, content: 'item 3'}),
+      new Jx.ListItem({template: linkTempl, content: 'item 3', enabled: false}),
       new Jx.ListItem({template: linkTempl, content: 'item 4'}),
       new Jx.ListItem({template: linkTempl, content: 'item 5'})
     ]);
@@ -42,11 +42,11 @@ function accessibleListView() {
 
 <script id="complexListView" type="text/javascript">
 function complexListView() {
-  var linkTempl = "<li class='jxListItemContainer'><a class='jxListItem' href='javascript:void(0);'><img src='"+Jx.aPixel.src+"' class='itemImg {class}'><span class='itemLabel'>{label}</span><span class='itemTools'><img src='images/delete.png'></span></span></a><span class='itemInput'><input type='checkbox'><span></li>";
+  var linkTempl = "<li class='jxListItemContainer'><a class='jxListItem' href='javascript:void(0);'><img src='"+Jx.aPixel.src+"' class='itemImg {class}'><span class='itemLabel'>{label}</span><span class='itemTools'><img src='images/delete.png'></span></span></a><span class='itemInput'><input type='checkbox'></span></li>";
   var listView = new Jx.ListView().addTo('listViewArea3');
   [{'class':'comboSquare', label: 'Square'},
    {'class':'comboPlus', label: 'Plus'},
-   {'class':'comboTriangle', label: 'Triangle'},
+   {'class':'comboTriangle', label: 'Triangle', enabled: false},
    {'class':'comboCircle', label: 'Circle'},
    {'class':'comboCross', label: 'Cross'},
    {'class':'comboStar', label: 'Star'},
@@ -57,7 +57,8 @@ function complexListView() {
    {'class':'comboGreen', label: 'Green'},
    {'class':'comboYellow', label: 'Yellow'}].each(function(o) {
       var theTemplate = new String(linkTempl).substitute(o);
-      var item = new Jx.ListItem({template:theTemplate});
+      enabled = $defined(o.enabled) ? o.enabled : true;
+      var item = new Jx.ListItem({template:theTemplate, enabled: enabled});
       $(item).getElement('.itemTools').addEvent('click', function(){
         listView.remove(item);
       });
@@ -108,7 +109,7 @@ function complexListView() {
   background-color: #f9f9f9;
 }
 
-#listViewArea3 .listInput input {
+#listViewArea3 .itemInput input {
   vertical-align: middle;
   
 }

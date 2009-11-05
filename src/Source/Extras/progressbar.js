@@ -181,8 +181,7 @@ Jx.Progressbar = new Class({
         
         //update bar width
         //TODO: animate this
-        
-        this.fill.get('tween', {property: 'width', onComplete: (function () {
+        this.text.get('tween', {property:'width', onComplete: function() {
             var obj = {};
             if (this.options.progressText.contains('{progress}')) {
                 obj.progress = progress;
@@ -192,6 +191,9 @@ Jx.Progressbar = new Class({
             }
             var t = this.options.progressText.substitute(obj);
             this.text.set('text', t);
+        }.bind(this)}).start(newWidth);
+        
+        this.fill.get('tween', {property: 'width', onComplete: (function () {
             
             if (total === progress) {
                 this.complete = true;
