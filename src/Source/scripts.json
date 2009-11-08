@@ -185,7 +185,7 @@
         "desc": "This group contains components related to the Grid control.",
         
         "grid": {
-            "deps": ["widget", "styles", "layout","columns","row","plugin.grid","store"],
+            "deps": ["widget", "styles", "layout","columns","row","plugin.grid","store","list","selection"],
             "desc": "A tabular control that has fixed scrolling headers on the rows and columns like a spreadsheet."
         },
 

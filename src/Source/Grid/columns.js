@@ -147,7 +147,7 @@ Jx.Columns = new Class({
      * Parameters:
      * row - the row to add the headers to.
      */
-    getHeaders : function (row) {
+    getHeaders : function (list) {
         var r = this.grid.row.useHeaders();
         var hf = this.grid.row.getRowHeaderField();
         this.columns.each(function (col, idx) {
@@ -170,31 +170,34 @@ Jx.Columns = new Class({
                 if (col.isSortable()) {
                     th.addClass('jxColSortable');
                 }
-                // col.header = th;
-                row.appendChild(th);
+                list.add(th);
+                th.store('jxCellData', {
+                   column: col,
+                   colHeader: true,
+                   index: idx
+                });
             }
         }, this);
-        return row;
+        return list;
     },
     /**
      * APIMethod: getColumnCells
      * Appends the cells from each column for a specific row
      *
      * Parameters:
-     * row - the row (tr) to add the cells to.
+     * list - the Jx.List instance to add the cells to.
      */
-    getColumnCells : function (row) {
+    getColumnCells : function (list) {
         var r = this.grid.row;
         var f = r.getRowHeaderField();
         var h = r.useHeaders();
         this.columns.each(function (col, idx) {
             if (h && col.options.modelField !== f && !col.isHidden()) {
-                row.appendChild(this.getColumnCell(col, idx));
+                list.add(this.getColumnCell(col, idx));
             } else if (!h && !col.isHidden()) {
-                row.appendChild(this.getColumnCell(col, idx));
+                list.add(this.getColumnCell(col, idx));
             }
         }, this);
-        return row;
     },
     /**
      * APIMethod: getColumnCell
@@ -221,6 +224,12 @@ Jx.Columns = new Class({
         if (col.isSortable()) {
             td.addClass('jxColSortable');
         }
+        
+        td.store('jxCellData',{
+            col: col,
+            index: idx,
+            row: this.grid.model.getPosition()
+        });
 
         return td;
     },
@@ -234,7 +243,7 @@ Jx.Columns = new Class({
     },
 
     /**
-     * APIMethod: getColumnCOunt
+     * APIMethod: getColumnCount
      * returns the number of columns in this model (including hidden).
      */
     getColumnCount : function () {

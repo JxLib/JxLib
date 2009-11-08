@@ -60,7 +60,7 @@ Jx.Plugin.Grid.Sorter = new Class({
 
         this.grid = grid;
 
-        this.grid.addEvent('gridClick', this.bound.sort);
+        this.grid.addEvent('gridCellSelect', this.bound.sort);
         this.boundAddHeader = this.addHeaderClass.bind(this);
     },
     /**
@@ -68,7 +68,7 @@ Jx.Plugin.Grid.Sorter = new Class({
      */
     detach: function() {
         if (this.grid) {
-            this.grid.removeEvent('gridClick', this.bound.sort);
+            this.grid.removeEvent('gridCellSelect', this.bound.sort);
         }
         this.grid = null;
     },
@@ -77,35 +77,30 @@ Jx.Plugin.Grid.Sorter = new Class({
      * called when a grid header is clicked.
      * 
      * Parameters:
-     * rc - an object holding the row and column indexes for the clicked header
+     * cell - The cell clicked
      */
-    sort : function (rc) {
-        if ($defined(rc) && rc.column !== -1 && rc.row !== -1) {
-            //check to find the header
-            if (rc.row === 0) {
-                if (this.grid.row.useHeaders()) {
-                    rc.column--;
+    sort : function (cell) {
+        var data = cell.retrieve('jxCellData');
+        if (data.colHeader) {
+            var column = data.column;
+            if (column.isSortable()) {
+                if (column === this.current) {
+                    //reverse sort order
+                    this.direction = (this.direction === 'asc') ? 'desc' : 'asc';
+                } else {
+                    this.current = column;
+                    this.direction = 'asc';
+                    this.currentGridIndex = data.index - 1;
                 }
-                var column = this.grid.columns.getByGridIndex(rc.column);
-                if (column.isSortable()) {
-                    if (column === this.current) {
-                        //reverse sort order
-                        this.direction = (this.direction === 'asc') ? 'desc' : 'asc';
-                    } else {
-                        this.current = column;
-                        this.direction = 'asc';
-                        this.currentGridIndex = rc.column;
-                    }
-    
-                    //The grid should be listening for the sortFinished event and will re-render the grid
-                    //we will listen for the grid's doneCreateGrid event to add the header
-                    this.grid.addEvent('doneCreateGrid', this.bound.addHeaderClass);
-                    //sort the store
-                    var model = this.grid.getModel();
-                    model.sort(this.current.name, null, this.direction);
-                }
-        
+
+                //The grid should be listening for the sortFinished event and will re-render the grid
+                //we will listen for the grid's doneCreateGrid event to add the header
+                this.grid.addEvent('doneCreateGrid', this.bound.addHeaderClass);
+                //sort the store
+                var model = this.grid.getModel();
+                model.sort(this.current.name, null, this.direction);
             }
+    
         }
     },
     /**

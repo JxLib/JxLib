@@ -25,7 +25,11 @@
  * Jx.Grid renders data that comes from an external source.  This external 
  * source, called the model, must be a Jx.Store or extended from it (such as 
  * Jx.Store.Remote).
- *
+ * 
+ * Events: 
+ * gridCellEnter(cell, list) - called when the mouse enters a cell
+ * gridCellLeave(cell, list) - called when the mouse leaves a cell
+ * gridCellSelect(cell) - called when a cell is clicked
  *
  *
  * License: 
@@ -97,12 +101,6 @@ Jx.Grid = new Class({
      */
     row : null,
     /**
-     * Property: currentCell
-     * holds an object indicating the current cell that the mouse is over
-     */
-    currentCell : null,
-    
-    /**
      * Property: styleSheet
      * the name of the dynamic style sheet to use for manipulating styles
      */
@@ -112,6 +110,17 @@ Jx.Grid = new Class({
      * the required variable for plugins
      */
     pluginNamespace: 'Grid',
+    /**
+     * Property: selection
+     * holds the Jx.Selection instance used by the cell lists
+     */
+    selection: null,
+    /**
+     * Property: lists
+     * An array of Jx.List instances, one per row. All of them use the same
+     * Jx.Selection instance
+     */
+    lists: [],
 
     /**
      * Constructor: Jx.Grid
@@ -149,6 +158,8 @@ Jx.Grid = new Class({
         } else {
             this.row = new Jx.Row({grid: this});
         }
+        
+        
 
         //initialize the grid
         this.domObj = new Element('div', {'class':this.uniqueId});
@@ -200,6 +211,8 @@ Jx.Grid = new Class({
         this.gridTableBody = new Element('tbody');
         this.gridTable.appendChild(this.gridTableBody);
         this.gridObj.appendChild(this.gridTable);
+        
+        var target = this;
 
         this.domObj.appendChild(this.rowColObj);
         this.domObj.appendChild(this.rowObj);
@@ -207,19 +220,21 @@ Jx.Grid = new Class({
         this.domObj.appendChild(this.gridObj);
 
         this.gridObj.addEvent('scroll', this.onScroll.bind(this));
-        this.gridObj.addEvent('click', this.onGridClick
-                .bindWithEvent(this));
-        this.rowObj.addEvent('click', this.onGridClick
-                .bindWithEvent(this));
-        this.colObj.addEvent('click', this.onGridClick
-                .bindWithEvent(this));
-        this.gridObj.addEvent('mousemove', this.onMouseMove
-                .bindWithEvent(this));
-        this.rowObj.addEvent('mousemove', this.onMouseMove
-                .bindWithEvent(this));
-        this.colObj.addEvent('mousemove', this.onMouseMove
-                .bindWithEvent(this));
-
+        
+        //bind events
+        this.bound = {
+            select: this.onSelect.bind(this),
+            unselect: this.onUnselect.bind(this),
+            mouseenter: this.onMouseEnter.bind(this),
+            mouseleave: this.onMouseLeave.bind(this)
+        };
+        
+        //setup the selection
+        this.selection = new Jx.Selection();
+        this.selection.addEvents({
+            select: this.bound.select,
+            unselect: this.bound.unselect
+        });
         this.parent();
         
         this.domObj.store('grid', this);
@@ -234,110 +249,6 @@ Jx.Grid = new Class({
         this.rowObj.scrollTop = this.gridObj.scrollTop;
     },
 
-    /**
-     * Method: onMouseMove
-     * Handle the mouse moving over the grid. This determines
-     * what column and row it's over and fires the gridMove event 
-     * with that information for plugins to respond to.
-     *
-     * Parameters:
-     * e - {Event} the browser event object
-     */
-    onMouseMove : function (e) {
-        var rc = this.getRowColumnFromEvent(e);
-        if (!$defined(this.currentCell)
-                || (this.currentCell.row !== rc.row || this.currentCell.column !== rc.column)) {
-            this.currentCell = rc;
-            this.fireEvent('gridMove', rc);
-        }
-
-    },
-    /**
-     * Method: onGridClick
-     * handle the user clicking on the grid. Fires gridClick
-     * event for plugins to respond to.
-     *
-     * Parameters:
-     * e - {Event} the browser event object
-     */
-    onGridClick : function (e) {
-        var rc = this.getRowColumnFromEvent(e);
-        this.fireEvent('gridClick', rc);
-    },
-
-    /**
-     * Method: getRowColumnFromEvent
-     * retrieve the row and column indexes from an event click.
-     * This function is used by the grid, row header and column
-     * header to safely get these numbers.
-     *
-     * If the event isn't valid (i.e. it wasn't on a TD or TH) then
-     * the returned values will be -1, -1
-     *
-     * Parameters:
-     * e - {Event} the browser event object
-     *
-     * @return Object an object with two properties, row and column,
-     *         that contain the row and column that was clicked
-     */
-    getRowColumnFromEvent : function (e) {
-        var td = e.target;
-        if (td.tagName === 'SPAN') {
-            td = document.id(td).getParent();
-        }
-        if (td.tagName !== 'TD' && td.tagName !== 'TH') {
-            return {
-                row : -1,
-                column : -1
-            };
-        }
-
-        var colheader = false;
-        var rowheader = false;
-        //check if this is a header (row or column)
-        if (td.descendantOf(this.colTable)) {
-            colheader = true;
-        }
-    
-        if (td.descendantOf(this.rowTable)) {
-            rowheader = true;
-        }
-    
-        var tr = td.parentNode;
-        var col = td.cellIndex;
-        var row = tr.rowIndex;
-        /*
-         * if this is not a header cell, then increment the row and col. We do this
-         * based on whether the header is shown. This way the row/col remains consistent
-         * to the grid but also takes into account the headers. It also allows
-         * us to refrain from having to fire a separate event for headers.
-         * 
-         *  Plugins/event listeners should always take into account whether headers
-         *  are displayed or not.
-         */
-        if (this.row.useHeaders() && !rowheader) {
-            col++;
-        }
-        if (this.columns.useHeaders() && !colheader) {
-            row++;
-        }
-    
-        if (Browser.Engine.webkit) {
-            /* bug in safari (webkit) returns 0 for cellIndex - only choice seems
-             * to be to loop through the row
-             */
-            for (var i = 0; i < tr.childNodes.length; i++) {
-                if (tr.childNodes[i] === td) {
-                    col = i;
-                    break;
-                }
-            }
-        }
-        return {
-            row : row,
-            column : col
-        };
-    },
     
     /**
      * APIMethod: resize
@@ -467,8 +378,10 @@ Jx.Grid = new Class({
                     }
                 });
                 this.colTableBody.appendChild(trBody);
+                
+                var headerList = this.makeList(trBody);
 
-                this.columns.getHeaders(trBody);
+                this.columns.getHeaders(headerList);
 
                 /* one extra column at the end for filler */
                 th = new Element('td', {
@@ -490,11 +403,20 @@ Jx.Grid = new Class({
             if (this.row.useHeaders()) {
                 this.rowTableHead.setStyle('visibility', 'visible');
                 
-                var tr;
+                var rowHeight = this.row.getHeight();
+                
+                
+                
                 //loop through all rows and add header
                 this.model.first();
                 while (this.model.valid()) {
-                    tr = this.row.getRowHeader();
+                    var tr = new Element('tr', {
+                        styles : {
+                            height : rowHeight
+                        }
+                    });
+                    var rowHeaderList = this.makeList(tr);
+                    this.row.getRowHeader(rowHeaderList);
                     this.rowTableHead.appendChild(tr);
                     if (this.model.hasNext()) {
                         this.model.next();
@@ -518,14 +440,20 @@ Jx.Grid = new Class({
             
             colHeight = this.columns.getHeaderHeight();
             
+            
             //This section actually adds the rows
             this.model.first();
             while (this.model.valid()) {
                 tr = this.row.getGridRowElement();
+                tr.store('jxRowData', {row: this.model.getPosition()});
+                
+                
+                var rl = this.makeList(tr);
                 this.gridTableBody.appendChild(tr);
-        
+                //this.rowList.add(rl.container);
+                
                 //Actually add the columns 
-                this.columns.getColumnCells(tr);
+                this.columns.getColumnCells(rl);
         
                 if (this.model.hasNext()) {
                     this.model.next();
@@ -555,9 +483,48 @@ Jx.Grid = new Class({
         this.model.moveTo(row);
 
         var newTD = this.columns.getColumnCell(this.columns.getByName(col.name));
-        newTD.replaces(td);
+        //get parent list
+        var list = td.getParent().retrieve('jxList');
+        list.replace(td, newTD);
+        //newTD.replaces(td);
 
         this.model.moveTo(currentRow);    
+    },
+    /**
+     * Method: makeList
+     * utility method used to make row lists
+     * 
+     * Parameters:
+     * container - the row to use as the Jx.List container
+     */
+    makeList: function (container) {
+        var l = new Jx.List(container, {
+            hover: true,
+            select: true
+        }, this.selection);
+        var target = this;
+        l.addEvents({
+            mouseenter: this.bound.mouseenter,
+            mouseleave: this.bound.mouseleave
+        });
+        this.lists.push(l);
+        return l;
+    },
+    
+    onSelect: function (cell, select) {
+        this.fireEvent('gridCellSelect', [cell,select,this]);
+    },
+    
+    onUnselect: function (cell, select) {
+        this.fireEvent('gridCellUnselect', [cell,select,this]);
+    },
+    
+    onMouseEnter: function (cell, list) {
+        this.fireEvent('gridCellEnter', [cell,list,this]);
+    },
+    
+    onMouseLeave: function (cell, list) {
+        this.fireEvent('gridCellLeave', [cell,list,this]);
     }
 
 });

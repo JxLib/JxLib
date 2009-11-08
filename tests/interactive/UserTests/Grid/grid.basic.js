@@ -461,11 +461,25 @@
                 //create grid
                 var grid = new Jx.Grid(options);
                 grid.addEvents({
-                    'gridMove': function(rc){
-                        console.log("moving over grid - row %d, col %d",rc.row,rc.column);
+                    'gridCellSelect': function(cell, list, grid){
+                        var d = cell.retrieve('jxCellData');
+                        console.log("cell selected");
+                        console.log(d);
                     },
-                    'gridClick': function(rc){
-                        console.log("cell clicked - row %d, col %d",rc.row,rc.column);
+                    'gridCellUnselect': function(cell, list, grid){
+                        var d = cell.retrieve('jxCellData');
+                        console.log("cell unselected");
+                        console.log(d);
+                    },
+                    'gridCellEnter': function(cell, list, grid){
+                        var d = cell.retrieve('jxCellData');
+                        console.log("cell entered");
+                        console.log(d);
+                    },
+                    'gridCellLeave': function(cell, list, grid){
+                        var d = cell.retrieve('jxCellData');
+                        console.log("cell left");
+                        console.log(d);
                     },
                     'beginCreateGrid': function(grid){
                         console.log('Grid creation started');

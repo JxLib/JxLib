@@ -165,21 +165,21 @@ Jx.Row = new Class(
     /**
      * APIMethod: getRowHeader
      * creates and returns the header for the current row
+     * 
+     * Parameters: 
+     * list - Jx.List instance to add the header to
      */
-    getRowHeader : function () {
-        var rowHeight = this.getHeight();
-        var tr = new Element('tr', {
-            styles : {
-                height : rowHeight
-            }
-        });
+    getRowHeader : function (list) {
         var th = this.getRowHeaderCell();
         if (this.grid.model.getPosition() === 0) {
             var rowWidth = this.getRowHeaderWidth();
             th.setStyle("width", rowWidth);
         }
-        tr.appendChild(th);
-        return tr;
+        th.store('jxCellData', {
+            rowHeader: true,
+            row: this.grid.model.getPosition()
+        });
+        list.add(th);
     },
     /**
      * APIMethod: getRowHeaderField
