@@ -89,7 +89,7 @@ Jx.Panel.FileUpload = new Class({
         
         //add the file field
         this.fileOpt = this.options.file;
-        this.fileOpt.template = '<div class="jxFileInputs"><input class="jxInputFile" type="file" name={name} /></div>';
+        this.fileOpt.template = '<div class="jxInputContainer jxFileInputs"><input class="jxInputFile" type="file" name={name} /></div>';
         
         this.currentFile = new Jx.Field.File(this.fileOpt);
         this.currentFile.addEvent('fileSelected', this.moveToQueue.bind(this));

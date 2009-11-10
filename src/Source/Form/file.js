@@ -104,11 +104,12 @@ Jx.Field.File = new Class({
         }
         
         //now, create the fake inputs
+        
         this.fake = new Element('div', {
             'class' : 'jxFileFake'
         });
         this.text = new Jx.Field.Text({
-            template : '<input class="jxInputText" type="text" />'
+            template : '<span class="jxInputContainer"><input class="jxInputText" type="text" /></span>'
         });
         this.browseButton = new Jx.Button({
             label : 'Browse...'
