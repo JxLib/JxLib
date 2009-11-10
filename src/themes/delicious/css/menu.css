@@ -194,7 +194,7 @@ span.jxMenuItemContent span.jxMenuItemLabel {
 }
 
 .jxMenuItemToggle img.jxMenuItemIcon,
-.jxMenuItemSet img.jxMenuItemIcon {
+.jxMenuItemToggleSet img.jxMenuItemIcon {
   background-image: url(images/emblems.png);
   background-position: 2px 0px;
   background-repeat: no-repeat;
@@ -204,7 +204,7 @@ span.jxMenuItemContent span.jxMenuItemLabel {
   background-position: 2px -48px;
 }
 
-.jxMenuItemSet a.jxMenuItemActive img.jxMenuItemIcon {
+.jxMenuItemToggleSet a.jxMenuItemActive img.jxMenuItemIcon {
   background-position: 2px -64px;
 }
 
