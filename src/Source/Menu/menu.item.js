@@ -103,7 +103,6 @@ Jx.Menu.Item = new Class({
             }
             this.fireEvent('click', this);
             if (this.owner && this.owner.deactivate) {
-                debugger;
                 this.owner.deactivate(obj.event);
             }
         }
