@@ -309,12 +309,14 @@ a.jxTabClose img {
 
 .jxBarTop img.jxTabIcon,
 .jxBarBottom img.jxTabIcon {
+  vertical-align: middle;
   /* Base setup */
 }
 
 .jxBarTop span.jxTabLabel,
 .jxBarBottom span.jxTabLabel {
   /* Base setup */
+  vertical-align: middle;
   height: 16px;
 
   padding: 0px 4px 0px 4px;
