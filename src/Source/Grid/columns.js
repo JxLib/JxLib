@@ -78,9 +78,9 @@ Jx.Columns = new Class({
             if ($defined(this.options.headerRowHeight)
                     && this.options.headerRowHeight !== 'auto') {
                 this.height = this.options.headerRowHeight;
-            } else {
+            } //else {
                 //figure out a height.
-            }
+            //}
         }
         return this.height;
     },

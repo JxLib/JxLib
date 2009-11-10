@@ -50,21 +50,32 @@ Jx.Toolbar.Container = new Class({
          * container if the content exceeds the size of the container.  
          * Default is true.
          */
-        scroll: true
+        scroll: true,
+        template: "<div class='jxBarContainer'></div>",
+        scrollerTemplate: "<div class='jxBarScroller'></div>"
     },
+    classes: new Hash({
+        domObj: 'jxBarContainer',
+        scroller: 'jxBarScroller'
+    }),
     /**
      * APIMethod: render
      * Create a new instance of Jx.Toolbar.Container
      */
     render : function() {
         this.parent();
-        
-        var d = document.id(this.options.parent);
-        this.domObj = d || new Element('div');
-        this.domObj.addClass('jxBarContainer');
+        /* if a container was passed in, use it instead of the one from the
+         * template
+         */
+        if (document.id(this.options.parent)) {
+            this.domObj = document.id(this.options.parent);
+            this.elements = new Hash({'jxBarContainer':this.domObj});
+            this.domObj.addClass('jxBarContainer');
+            this.domObj.adopt(this.scroller);
+        }
         
         if (this.options.scroll) {
-            this.scroller = new Element('div', {'class':'jxBarScroller'});
+            this.processElements(this.options.scrollerTemplate, this.classes);
             this.domObj.adopt(this.scroller);
         }
 
@@ -240,7 +251,7 @@ Jx.Toolbar.Container = new Class({
             } else {
                 this.domObj.adopt(thing.domObj);
             }
-            this.domObj.addClass('jx'+thing.options.type+this.options.position.capitalize());
+            this.domObj.addClass('jxBar'+this.options.position.capitalize());
         }, this);
         if (this.options.scroll) {
             this.update();            

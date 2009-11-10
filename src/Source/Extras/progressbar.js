@@ -63,18 +63,20 @@ Jx.Progressbar = new Class({
          * Option: template
          * The template used to create the progressbar
          */
-        template: '<div class="jxProgressBar-message"></div><div class="jxProgressBar"><div class="jxProgressBar-outline"></div><div class="jxProgressBar-fill"></div><div class="jxProgressBar-text"></div></div>'
+        template: '<div class="jxProgressBar-container"><div class="jxProgressBar-message"></div><div class="jxProgressBar"><div class="jxProgressBar-outline"></div><div class="jxProgressBar-fill"></div><div class="jxProgressBar-text"></div></div></div>'
     },
     /**
      * Property: classes
      * The classes used in the template
      */
-    classes: [
-        'jxProgressBar-message', 
-        'jxProgressBar',
-        'jxProgressBar-outline',
-        'jxProgressBar-fill',
-        'jxProgressBar-text'],
+    classes: new Hash({
+        domObj: 'jxProgressBar-container',
+        message: 'jxProgressBar-message', 
+        container: 'jxProgressBar',
+        outline: 'jxProgressBar-outline',
+        fill: 'jxProgressBar-fill',
+        text: 'jxProgressBar-text'
+    }),
     /**
      * Property: bar
      * the bar that is filled
@@ -91,12 +93,7 @@ Jx.Progressbar = new Class({
      * Creates a new progressbar.
      */
     render: function () {
-            
-        this.domObj = new Element('div', {
-            'class': 'jxProgressBar-container'
-        });
-        
-        var els = this.processTemplate(this.options.template,this.classes,this.domObj);
+        this.parent();
         
         if ($defined(this.options.parent)) {
             this.domObj.inject($(this.options.parent));
@@ -114,8 +111,7 @@ Jx.Progressbar = new Class({
         }
         
         //Message
-        if (els.has('jxProgressBar-message')) {
-            this.message = els.get('jxProgressBar-message');
+        if (this.message) {
             if ($defined(this.options.messageText)) {
                 this.message.set('html', this.options.messsageText);
             } else {
@@ -124,8 +120,7 @@ Jx.Progressbar = new Class({
         }
         
         //bar container itself
-        if (els.has('jxProgressBar')) {
-            this.container = els.get('jxProgressBar');
+        if (this.container) {
             this.container.setStyles({
                 'position': 'relative',
                 'width': this.options.bar.width,
@@ -134,8 +129,7 @@ Jx.Progressbar = new Class({
         }
         
         //Outline
-        if (els.has('jxProgressBar-outline')) {
-            this.outline = els.get('jxProgressBar-outline');
+        if (this.outline) {
             this.outline.setStyles({
                 'width': this.options.bar.width,
                 'height' : this.options.bar.height
@@ -143,8 +137,7 @@ Jx.Progressbar = new Class({
         }
         
         //Fill
-        if (els.has('jxProgressBar-fill')) {
-            this.fill = els.get('jxProgressBar-fill');
+        if (this.fill) {
             this.fill.setStyles({
                 'width': 0,
                 'height' : this.options.bar.height
@@ -161,8 +154,7 @@ Jx.Progressbar = new Class({
         }
         
         //Progress text
-        if (els.has('jxProgressBar-text')) {
-            this.text = els.get('jxProgressBar-text');
+        if (this.text) {
             this.text.set('html', this.options.progressText.substitute(obj));
         }
         

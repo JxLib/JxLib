@@ -70,7 +70,13 @@ Jx.TreeItem = new Class ({
         lastLeafClass: 'jxTreeLeafLast',
         template: '<li class="jxTreeContainer jxTreeLeaf"><img class="jxTreeImage" src="'+Jx.aPixel.src+'" alt="" title=""><a class="jxTreeItem" href="javascript:void(0);"><img class="jxTreeIcon" src="'+Jx.aPixel.src+'" alt="" title=""><span class="jxTreeLabel"></span></a></li>'
     },
-    classes: ['jxTreeContainer', 'jxTreeItem', 'jxTreeImage', 'jxTreeIcon','jxTreeLabel'],
+    classes: new Hash({
+        domObj: 'jxTreeContainer', 
+        domA: 'jxTreeItem', 
+        domImg: 'jxTreeImage', 
+        domIcon: 'jxTreeIcon',
+        domLabel: 'jxTreeLabel'
+    }),
     
     /**
      * APIMethod: render
@@ -78,17 +84,13 @@ Jx.TreeItem = new Class ({
      */
     render : function() {
         this.parent();
-        this.elements = this.processTemplate(this.options.template, this.classes);
 
         this.domObj = this.elements.get('jxTreeContainer');
         this.domObj.store('jxTreeItem', this);
-        var domA = this.elements.get('jxTreeItem');
-        domA.store('jxTreeItem', this);
-        var domImg = this.elements.get('jxTreeIcon');
-        var domLabel = this.elements.get('jxTreeLabel');
+        this.domA.store('jxTreeItem', this);
 
         /* the target for jxPressed, jxSelected, jxHover classes */
-        this.domObj.store('jxListTarget', domA);
+        this.domObj.store('jxListTarget', this.domA);
         
         if (!this.options.selectable) {
             this.domObj.addClass('jxUnselectable');
@@ -104,28 +106,27 @@ Jx.TreeItem = new Class ({
             }
         }
 
-        if (this.options.image && domImg) {
-            domImg.setStyle('backgroundImage', 'url('+this.options.image+')');
+        if (this.options.image && this.domIcon) {
+            this.domIcon.setStyle('backgroundImage', 'url('+this.options.image+')');
             if (this.options.imageClass) {
-                domImg.addClass(this.options.imageClass);
+                this.domIcon.addClass(this.options.imageClass);
             }
             
         }
 
-        if (this.options.label && domLabel) {
-            domLabel.set('html',this.options.label);
+        if (this.options.label && this.domLabel) {
+            this.domLabel.set('html',this.options.label);
         }
 
-        if (domA) {
-            domA.addEvents({
+        if (this.domA) {
+            this.domA.addEvents({
                 click: this.click.bind(this),
                 dblclick: this.dblclick.bind(this),
                 drag: function(e) { e.stop(); },
-                contextmenu: function(e) { e.stop(); },
+                contextmenu: function(e) { e.stop(); }
             });
-            domA.appendChild(domImg);
             if (typeof Drag != 'undefined') {
-                new Drag(domA, {
+                new Drag(this.domA, {
                     onStart: function() {this.stop();}
                 });
             }
@@ -205,22 +206,20 @@ Jx.TreeItem = new Class ({
      */
     setLabel: function(label) {
         this.options.label = label;
-        var el = this.elements.get('jxTreeLabel');
-        if (el) {
-            el.set('html',label);
+        if (this.domLabel) {
+            this.domLabel.set('html',label);
         }
     },
     
     setImage: function(url, imageClass) {
-        var el = this.elements.get('jxTreeIcon')
-        if (el && $defined(url)) {
+        if (this.domIcon && $defined(url)) {
             this.options.image = url;
-            el.setStyle('backgroundImage', 'url('+this.options.image+')');
+            this.domIcon.setStyle('backgroundImage', 'url('+this.options.image+')');
         }
-        if (el && $defined(imageClass)) {
-            el.removeClass(this.options.imageClass);
+        if (this.domIcon && $defined(imageClass)) {
+            this.domIcon.removeClass(this.options.imageClass);
             this.options.imageClass = imageClass;
-            el.addClass(imageClass);
+            this.domIcon.addClass(imageClass);
         }
     },
     enable: function(state, force) {

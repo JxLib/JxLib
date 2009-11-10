@@ -29,7 +29,7 @@ Jx.Field.File = new Class({
          * Option: template
          * The template used to render the field
          */
-        template: '<label class="jxInputLabel"></label><div class="jxFileInputs"><input class="jxInputFile" type="file" name="{name}" /></div><span class="jxInputTag"></span>',
+        template: '<span class="jxInputContainer"><label class="jxInputLabel"></label><div class="jxFileInputs"><input class="jxInputFile" type="file" name="{name}" /></div><span class="jxInputTag"></span></span>',
         /**
          * Option: autoUpload
          * Whether to upload the file immediatelly upon selection

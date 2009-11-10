@@ -30,17 +30,18 @@ Jx.Menu.Separator = new Class({
      */
     owner: null,
     options: {
-        template: "<li class='jxMenuItem'><span class='jxMenuSeparator'></span></li>"
+        template: "<li class='jxMenuItemContainer jxMenuItem'><span class='jxMenuSeparator'>&nbsp;</span></li>"
     },
-    classes: ['jxMenuItem'],
+    classes: new Hash({
+        domObj: 'jxMenuItem'
+    }),
     /**
      * APIMethod: render
      * Create a new instance of a menu separator
      */
     render: function() {
         this.parent();
-        this.elements = this.processTemplate(this.options.template, this.classes);
-        this.domObj = this.elements.get('jxMenuItem');
+        this.domObj.store('jxMenuItem', this);
     },
     /**
      * Method: setOwner

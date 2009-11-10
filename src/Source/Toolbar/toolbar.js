@@ -54,10 +54,10 @@ Jx.Toolbar = new Class({
     Family: 'Jx.Toolbar',
     Extends: Jx.Widget,
     /**
-     * Property: items
-     * {Array} an array of the things in the toolbar.
+     * Property: list
+     * {<Jx.List>} the list that holds the items in this toolbar
      */
-    items : null,
+    list : null,
     /**
      * Property: domObj
      * {HTMLElement} the HTML element that the toolbar lives in
@@ -71,7 +71,6 @@ Jx.Toolbar = new Class({
      */
     isActive : false,
     options: {
-        type: 'Toolbar',
         /* Option: position
          * the position of this toolbar in the container.  The position
          * affects some items in the toolbar, such as menus and flyouts, which
@@ -92,19 +91,30 @@ Jx.Toolbar = new Class({
          * if true, the toolbar may scroll if the contents are wider than
          * the size of the toolbar
          */
-        scroll: true
+        scroll: true,
+        template: '<ul class="jxToolbar"></ul>'
     },
+    classes: new Hash({
+        domObj: 'jxToolbar'
+    }),
     /**
      * APIMethod: render
      * Create a new instance of Jx.Toolbar.
      */
-    render : function() {
+    render: function() {
         this.parent();
-        this.items = [];
+        this.domObj.store('jxToolbar', this);
+        if ($defined(this.options.id)) {
+            this.domObj.id = this.options.id;
+        }
         
-        this.domObj = new Element('ul', {
-            id: this.options.id,
-            'class':'jx'+this.options.type
+        this.list = new Jx.List(this.domObj, {
+            onAdd: function(item) {
+                this.fireEvent('add', this);
+            }.bind(this),
+            onRemove: function(item) {
+                this.fireEvent('remove', this);
+            }.bind(this)
         });
         
         if (this.options.parent) {
@@ -151,23 +161,20 @@ Jx.Toolbar = new Class({
      */
     add: function( ) {
         $A(arguments).flatten().each(function(thing) {
-            if (thing.domObj) {
-                thing = thing.domObj;
+            var item = thing;
+            if (item.domObj) {
+                item = item.domObj;
             }
-            if (thing.tagName == 'LI') {
-                if (!thing.hasClass('jxToolItem')) {
-                    thing.addClass('jxToolItem');
+            
+            if (item.tagName == 'LI') {
+                if (!item.hasClass('jxToolItem')) {
+                    item.addClass('jxToolItem');
                 }
-                this.domObj.appendChild(thing);
             } else {
-                var item = new Jx.Toolbar.Item(thing);
-                this.domObj.appendChild(item.domObj);
+                item = new Jx.Toolbar.Item(thing);
             }            
+            this.list.add(item);
         }, this);
-
-        if (arguments.length > 0) {
-            this.fireEvent('add', this);
-        }
         return this;
     },
     /**
@@ -187,20 +194,19 @@ Jx.Toolbar = new Class({
             item = item.domObj;
         }
         var li = item.findElement('LI');
-        if (li && li.parentNode == this.domObj) {
-            item.dispose();
-            li.dispose();
-            this.fireEvent('remove', this);
-        } else {
-            return null;
-        }
+        this.list.remove(li);
+        return this;
     },
     /**
      * Method: deactivate
      * Deactivate the Toolbar (when it is acting as a menu bar).
      */
     deactivate: function() {
-        this.items.each(function(o){o.hide();});
+        this.list.each(function(item){
+            if (item.retrieve('jxMenu')) {
+                item.retrieve('jxMenu').hide();
+            }
+        });
         this.setActive(false);
     },
     /**

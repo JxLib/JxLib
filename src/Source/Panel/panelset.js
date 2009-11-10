@@ -130,17 +130,16 @@ Jx.PanelSet = new Class({
         var domHeight = this.domObj.getContentBoxSize().height;
         var space = domHeight;
         var panelSize = panel.domObj.retrieve('jxLayout').options.maxHeight;
-        var panelIndex;
-        
+        var panelIndex,i,p,thePanel,o,panelHeight;
         /* calculate how much space might be left after setting all the panels to
          * their minimum height (except the one we are resizing of course)
          */
-        for (var i=1; i<this.splitter.elements.length; i++) {
-            var p = this.splitter.elements[i];
+        for (i=1; i<this.splitter.elements.length; i++) {
+            p = this.splitter.elements[i];
             space -= p.retrieve('leftBar').getBorderBoxSize().height;
             if (p !== panel.domObj) {
-                var thePanel = p.retrieve('Jx.Panel');
-                var o = p.retrieve('jxLayout').options;
+                thePanel = p.retrieve('Jx.Panel');
+                o = p.retrieve('jxLayout').options;
                 space -= o.minHeight;
             } else {
                 panelIndex = i;
@@ -155,13 +154,13 @@ Jx.PanelSet = new Class({
             space = space - panelSize;
         }
         var top = 0;
-        for (var i=1; i<this.splitter.elements.length; i++) {
-            var p = this.splitter.elements[i];
+        for (i=1; i<this.splitter.elements.length; i++) {
+            p = this.splitter.elements[i];
             top += p.retrieve('leftBar').getBorderBoxSize().height;
             if (p !== panel.domObj) {
-                var thePanel = p.retrieve('Jx.Panel');
-                var o = p.retrieve('jxLayout').options;
-                var panelHeight = $chk(o.height) ? o.height : p.getBorderBoxSize().height;
+                thePanel = p.retrieve('Jx.Panel');
+                o = p.retrieve('jxLayout').options;
+                panelHeight = $chk(o.height) ? o.height : p.getBorderBoxSize().height;
                 if (space > 0) {
                     if (space >= panelHeight) {
                         // this panel can stay open at its current height
@@ -193,11 +192,11 @@ Jx.PanelSet = new Class({
         
         /* now work from the bottom up */
         var bottom = domHeight;
-        for (var i=this.splitter.elements.length - 1; i > 0; i--) {
+        for (i=this.splitter.elements.length - 1; i > 0; i--) {
             p = this.splitter.elements[i];
             if (p !== panel.domObj) {
-                var o = p.retrieve('jxLayout').options;
-                var panelHeight = $chk(o.height) ? o.height : p.getBorderBoxSize().height;
+                o = p.retrieve('jxLayout').options;
+                panelHeight = $chk(o.height) ? o.height : p.getBorderBoxSize().height;
                 if (space > 0) {
                     if (space >= panelHeight) {
                         // panel can stay open

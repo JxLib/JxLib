@@ -53,8 +53,6 @@ Jx.Menu.SubMenu = new Class({
         }
     },
     
-    classes: ['jxMenuItemContainer', 'jxMenuItem','jxMenuItemIcon','jxMenuItemLabel'],
-    
     /**
      * APIMethod: render
      * Create a new instance of Jx.SubMenu
@@ -99,7 +97,6 @@ Jx.Menu.SubMenu = new Class({
         }
         return document.id(e.target).descendantOf(this.domObj) ||
                this.menu.eventInMenu(e);
-               document.id(e.target).descendantOf(this.menusubDomObj);
     },
     
     /**
@@ -123,7 +120,7 @@ Jx.Menu.SubMenu = new Class({
      * can be added by passing multiple arguments to this function.
      */
     add: function(item, position) {
-        this.menu.add(item, position);
+        this.menu.add(item, position, this);
         return this;
     },
     /**

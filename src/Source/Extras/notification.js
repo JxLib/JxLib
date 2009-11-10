@@ -84,22 +84,23 @@ Jx.Notification = new Class({
     
     noticeTemplate: '<span class="jxNotice"><span class="jxNoticeClose"></span></span>',
     
-    classes: ['jxNotificationContainer','jxNotificationMinimize', 'jxNoticeContainer'],
+    classes: new Hash({
+        domObj: 'jxNotificationContainer',
+        elements: 'jxNotificationMinimize',
+        elements: 'jxNoticeContainer'
+    }),
     
     noticeClasses: ['jxNotice','jxNoticeClose'],
     
     bound: {},
     
     init: function () {
-        this.elements = this.processTemplate(this.options.template, this.classes);
         this.bound.closeNotice = this.closeNotice.bind(this);
         this.parent();
     },
     
     render: function () {
-        
         this.parent();
-        this.domObj = this.elements.get('jxNotificationContainer');
         this.list = new Jx.List(this.elements.get('jxNoticeContainer'), this.options.listOptions);
         this.containerFx = $defined(this.options.fx) ? this.options.fx : {};
         
@@ -208,14 +209,6 @@ Jx.Notification = new Class({
     getOpenAnchorOpts: function (state) {
         var ret = {};
         switch (this.options.position) {
-            case 'top':
-                ret.opts = {
-                    height: this.options.sizes[state]
-                };
-                ret.odOpts = {
-                    top : opts.height
-                };
-                break;
             case 'bottom':
                 ret.opts = {
                     top: null,
@@ -237,6 +230,15 @@ Jx.Notification = new Class({
                     width: this.options.sizes[state]
                 };
                 ret.odOpts = {};
+                break;
+            case 'top':
+            default:
+                ret.opts = {
+                    height: this.options.sizes[state]
+                };
+                ret.odOpts = {
+                    top : opts.height
+                };
                 break;
         }  
         return ret;

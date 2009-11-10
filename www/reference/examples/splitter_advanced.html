@@ -25,18 +25,15 @@ function drawAdvancedSplit() {
     /* top left */
     new Jx.Tree({
         parent: splitV1.elements[0]
-    }).append(
+    }).add(
         new Jx.TreeFolder({
             label: 'Tree Root'
-        }).append(
-            new Jx.TreeItem({label: 'Item 1'})
-        ).append(
-            new Jx.TreeItem({label: 'Item 2'})
-        ).append(
-            new Jx.TreeItem({label: 'Item 3'})
-        ).append(
+        }).add([
+            new Jx.TreeItem({label: 'Item 1'}),
+            new Jx.TreeItem({label: 'Item 2'}),
+            new Jx.TreeItem({label: 'Item 3'}),
             new Jx.TreeItem({label: 'Item 4'})
-        )
+        ])
     );
     
     /* bottom left */

@@ -47,7 +47,7 @@ Jx.Button.Combo = new Class({
         label: '',
         /* Option: template
          */
-         template: '<span class="jxButtonContainer"><a class="jxButton jxButtonCombo"><span class="jxButtonContent"><img class="jxButtonIcon" src="'+Jx.aPixel.src+'"><span class="jxButtonLabel"></span></span></a></span>'
+         template: '<span class="jxButtonContainer"><a class="jxButton jxButtonCombo jxDiscloser"><span class="jxButtonContent"><img class="jxButtonIcon" src="'+Jx.aPixel.src+'"><span class="jxButtonLabel"></span></span></a></span>'
      },
         
     /** 
@@ -89,7 +89,7 @@ Jx.Button.Combo = new Class({
         }
         var button = this;
         this.addEvent('click', (function(e) {
-            if (this.items.length === 0) {
+            if (this.list.count() === 0) {
                 return;
             }
             if (!button.options.enabled) {
@@ -122,12 +122,10 @@ Jx.Button.Combo = new Class({
         
         this.menu.addEvents({
             'show': (function() {
-                this.domA.addClass('jxButtonActive');                    
+                this.setActive(true);
             }).bind(this),
             'hide': (function() {
-                if (this.options.active) {
-                    this.domA.addClass('jxButtonActive');                    
-                }
+                this.setActive(false);
             }).bind(this)
         });
         

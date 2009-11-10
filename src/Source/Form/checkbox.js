@@ -25,7 +25,7 @@ Jx.Field.Checkbox = new Class({
          * Option: template
          * The template used for rendering this field
          */
-        template : '<input class="jxInputCheck" type="checkbox" name="{name}"/><label class="jxInputLabel"></label><span class="jxInputTag"></span>',
+        template : '<span class="jxInputContainer"><input class="jxInputCheck" type="checkbox" name="{name}"/><label class="jxInputLabel"></label><span class="jxInputTag"></span></span>',
         /**
          * Option: checked
          * Whether this field is checked or not

@@ -20,16 +20,16 @@ Jx.ListItem = new Class({
         template: '<li class="jxListItemContainer jxListItem"></li>'
     },
     
-    classes: ['jxListItemContainer','jxListItem'],
+    classes: new Hash({
+        domObj: 'jxListItemContainer',
+        domContent: 'jxListItem'
+    }),
     
     /**
      * APIMethod: render
      */
     render: function () {
         this.parent();
-        this.elements = this.processTemplate(this.options.template, this.classes);
-        this.domObj = this.elements.get('jxListItemContainer');
-        this.domContent = this.elements.get('jxListItem');
         this.domObj.store('jxListTarget', this.domContent);
         this.loadContent(this.domContent);
     },

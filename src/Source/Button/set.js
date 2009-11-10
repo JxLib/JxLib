@@ -56,19 +56,18 @@ Jx.ButtonSet = new Class({
      */
     add : function() {
         $A(arguments).each(function(button) {
-            if (button.domObj.hasClass('jx'+button.options.type+'Toggle')) {
-                button.domObj.removeClass('jx'+button.options.type+'Toggle');
-                button.domObj.addClass('jx'+button.options.type+'Set');                
+            if (button.domObj.hasClass(button.options.toggleClass)) {
+                button.domObj.removeClass(button.options.toggleClass);
+                button.domObj.addClass(button.options.toggleClass+'Set');                
             }
             button.addEvent('down',this.buttonChangedHandler);
-            var that = this;
             button.setActive = function(active) {
-                if (this.options.active && that.activeButton == this) {
+                if (button.options.active && this.activeButton == button) {
                     return;
                 } else {
-                    Jx.Button.prototype.setActive.apply(this, [active]);
+                    Jx.Button.prototype.setActive.apply(button, [active]);
                 }
-            };
+            }.bind(this);
             if (!this.activeButton || button.options.active) {
                 button.options.active = false;
                 button.setActive(true);
@@ -121,6 +120,3 @@ Jx.ButtonSet = new Class({
         this.fireEvent('change', this);
     }
 });
-
-
-

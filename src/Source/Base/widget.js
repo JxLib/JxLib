@@ -54,8 +54,13 @@ Jx.Widget = new Class({
 		 * Option: contentURL
 		 * the URL to load content from
 		 */
-		contentURL: null
+		contentURL: null,
+		template: '<div class="jxWidget"></div>'
 	},
+	
+	classes: new Hash({
+	    domObj: 'jxWidget'
+	}),
 	
 	/**
 	 * Property: domObj
@@ -621,7 +626,23 @@ Jx.Widget = new Class({
         this.parent();
     },
     
-    render: $empty
+    render: function() {
+        this.elements = this.processElements(this.options.template,
+            this.classes);
+    },
+    
+    elements: null,
+    
+    processElements: function(template, classes) {
+        var keys = classes.getValues();
+        elements = this.processTemplate(template, keys);
+        classes.each(function(value, key) {
+            if (key != 'elements' && elements.get(value)) {
+                this[key] = elements.get(value);
+            }
+        }, this);
+        return elements;
+    }
 });
 
 

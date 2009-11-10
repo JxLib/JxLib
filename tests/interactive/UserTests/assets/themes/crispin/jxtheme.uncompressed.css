@@ -13,7 +13,7 @@ caption,th {text-align:left;}
 h1,h2,h3,h4,h5,h6{font-size:100%;}
 q:before,q:after{content:'';}/**
  * @project         Jx
- * @revision        $Id: button.css 507 2009-08-06 19:19:14Z fred.warnock $
+ * @revision        $Id: button.css 593 2009-11-09 20:29:54Z fred.warnock $
  * @author          Fred Warnock (fwarnock@dmsolutions.ca)
  * @copyright       (c) 2006 DM Solutions Group Inc.
  */
@@ -253,19 +253,11 @@ span.jxButtonContent span.jxButtonLabel {
 /* JX BUTTON EXTENSION STYLES */
 /* ========================== */
 
-.jxButtonMenu span.jxButtonContent,
-.jxButtonMulti span.jxButtonContent,
-.jxButtonFlyout span.jxButtonContent,
-.jxButtonCombo span.jxButtonContent,
-.jxButtonEditCombo span.jxButtonContent {
+.jxDiscloser span.jxButtonContent {
   padding-right: 0px;
 }
 
-.jxButtonMenu span.jxButtonContent span,
-.jxButtonFlyout span.jxButtonContent span,
-.jxButtonMulti span.jxButtonContent span,
-.jxButtonCombo span.jxButtonContent span,
-.jxButtonEditCombo span.jxButtonContent span {
+.jxDiscloser span.jxButtonContent span {
   padding-right: 16px;
   background-image: url(images/emblems.png);
   background-position: right -16px;
@@ -1652,7 +1644,7 @@ td.jxGridCellPrelight {
 }
 /**
  * @project         Jx
- * @revision        $Id: menu.css 582 2009-10-30 22:03:58Z pagameba $
+ * @revision        $Id: menu.css 601 2009-11-10 18:44:35Z fred.warnock $
  * @author          Fred Warnock (fwarnock@dmsolutions.ca)
  * @copyright       (c) 2006 DM Solutions Group Inc.
  */
@@ -1846,7 +1838,7 @@ span.jxMenuItemContent span.jxMenuItemLabel {
 }
 
 .jxMenuItemToggle img.jxMenuItemIcon,
-.jxMenuItemSet img.jxMenuItemIcon {
+.jxMenuItemToggleSet img.jxMenuItemIcon {
   background-image: url(images/emblems.png);
   background-position: 2px 0px;
   background-repeat: no-repeat;
@@ -1856,7 +1848,7 @@ span.jxMenuItemContent span.jxMenuItemLabel {
   background-position: 2px -48px;
 }
 
-.jxMenuItemSet a.jxMenuItemActive img.jxMenuItemIcon {
+.jxMenuItemToggleSet a.jxMenuItemActive img.jxMenuItemIcon {
   background-position: 2px -64px;
 }
 
@@ -2293,7 +2285,7 @@ ul.jxMenu span.jxMenuSeparator {
   background-color: #aaa;
 }/**
  * @project         Jx
- * @revision        $Id: tab.css 241 2008-12-10 15:11:05Z pagameba $
+ * @revision        $Id: tab.css 599 2009-11-10 16:06:38Z fred.warnock $
  * @author          Fred Warnock (fwarnock@dmsolutions.ca)
  * @copyright       (c) 2006 DM Solutions Group Inc.
  */
@@ -2311,7 +2303,8 @@ ul.jxMenu span.jxMenuSeparator {
      the position need to be explicitly set, as well as the width and height. */
   /* Base setup */
   position: relative;
-  display: block;
+  display: -moz-inline-box;
+  display: inline-block;
   overflow: hidden;
 
   width: 200px;
@@ -2347,7 +2340,7 @@ ul.jxMenu span.jxMenuSeparator {
 /* BASE TAB (BUTTON) STYLES */
 /* ======================== */
 
-div.jxTabContainer {
+span.jxTabContainer {
   /* Base setup */
   display: block;
   position: relative;
@@ -2359,7 +2352,8 @@ div.jxTabContainer {
 
 a.jxTab {
   /* Base setup */
-  display: block;
+  display: -moz-inline-box;
+  display: inline-block;
   position: relative;
   cursor: pointer;
   user-select: none;
@@ -2377,7 +2371,8 @@ a.jxTab {
 
 span.jxTabContent {
   /* Base setup */
-  display: block;
+  display: -moz-inline-box;
+  display: inline-block;
   font-size: 0px;
   line-height: 0px;
 
@@ -2391,6 +2386,8 @@ span.jxTabContent {
 
 img.jxTabIcon {
   /* Base setup */
+  display: -moz-inline-box;
+  display: inline-block;
   position: relative;
 
   width: 16px;
@@ -2401,7 +2398,8 @@ img.jxTabIcon {
 
 span.jxTabLabel {
   /* Base setup */
-  display: block;
+  display: -moz-inline-box;
+  display: inline-block;
   position: relative;
   cursor: pointer;
 
@@ -2446,7 +2444,6 @@ a.jxTabClose img {
 .jxBarTop div.jxTabContainer,
 .jxBarBottom div.jxTabContainer {
   /* Base setup */
-  float: left;
 }
 
 .jxBarTop a.jxTab,
@@ -2462,8 +2459,8 @@ a.jxTabClose img {
 /* Closeable Tab */
 .jxBarTop a.jxTabClose,
 .jxBarBottom a.jxTabClose {
-  top: 3px;
-  right: 3px;
+  top: 5px;
+  right: 5px;
 }
 
 .jxBarTop .jxTabClose span.jxTabContent,
@@ -2475,7 +2472,6 @@ a.jxTabClose img {
 .jxBarTop a.jxTab,
 .jxBarBottom a.jxTab {
   /* Base setup */
-  float: left;
 
   padding-left: 4px; /* makes room for the left of the tab bg */
   background-position: left -24px; 
@@ -2484,7 +2480,6 @@ a.jxTabClose img {
 .jxBarTop span.jxTabContent,
 .jxBarBottom span.jxTabContent {
   /* Base setup */
-  float: left;
 
   padding: 4px 4px 4px 0px; /* makes space around the label */
   background-position: right -24px; 
@@ -2599,14 +2594,14 @@ a.jxTabClose img {
 
 .jxBarTop img.jxTabIcon,
 .jxBarBottom img.jxTabIcon {
+  vertical-align: middle;
   /* Base setup */
-  float: left;
 }
 
 .jxBarTop span.jxTabLabel,
 .jxBarBottom span.jxTabLabel {
   /* Base setup */
-  float: left;
+  vertical-align: middle;
   height: 16px;
 
   padding: 0px 4px 0px 4px;
@@ -2617,8 +2612,8 @@ a.jxTabClose img {
 /* VERTICAL TAB BAR - LEFT and RIGHT */
 /* ================================= */
 
-.jxBarLeft div.jxTabContainer,
-.jxBarRight div.jxTabContainer {
+.jxBarLeft span.jxTabContainer,
+.jxBarRight span.jxTabContainer {
   /* Base setup */
 }
 
@@ -2635,8 +2630,8 @@ a.jxTabClose img {
 /* Closeable Tab */
 .jxBarLeft a.jxTabClose,
 .jxBarRight a.jxTabClose {
-  top: 3px;
-  left: 3px;
+  top: 5px;
+  left: 5px;
 }
 
 .jxBarLeft .jxTabClose span.jxTabContent,
@@ -3001,7 +2996,7 @@ li.jxToolItem  span.jxBarSeparator {
 */
 
 
-.jxTreeFolder,
+.jxTree,
 .jxTreeRoot {
   /* relative positioning is required for IE to fix the peek-a-boo bug */
   position:relative;
@@ -3038,7 +3033,7 @@ li.jxTreeContainer {
   -khtml-user-select: none;
 }
 
-.jxTreeFolder li.jxTreeContainer {
+.jxTree li.jxTreeContainer {
   margin-left: 16px;
 }
 

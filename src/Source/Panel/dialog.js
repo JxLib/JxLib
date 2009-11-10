@@ -117,8 +117,24 @@ Jx.Dialog = new Class({
          * (optional) {Boolean} determines whether the dialog is
          * closeable by the user or not.  Default is true.
          */
-        close: true
+        close: true,
+        collapsedClass: 'jxDialogMin',
+        collapseClass: 'jxDialogCollapse',
+        menuClass: 'jxDialogMenu',
+        maximizeClass: 'jxDialogMaximize',
+        closeClass: 'jxDialogClose',
+        
+        template: '<div class="jxDialog"><div class="jxDialogTitle"><img class="jxDialogIcon" src="'+Jx.aPixel.src+'" alt="" title=""/><span class="jxDialogLabel"></span><div class="jxDialogControls"></div></div><div class="jxDialogContentContainer"><div class="jxDialogContent"></div></div></div>'
     },
+    classes: new Hash({
+        domObj: 'jxDialog',
+        title: 'jxDialogTitle',
+        domImg: 'jxDialogIcon',
+        domLabel: 'jxDialogLabel',
+        domControls: 'jxDialogControls',
+        contentContainer: 'jxDialogContentContainer',
+        content: 'jxDialogContent'
+    }),
     /**
      * APIMethod: render
      * renders Jx.Dialog
@@ -130,7 +146,7 @@ Jx.Dialog = new Class({
         this.options = $merge(
             {parent:document.body}, // these are defaults that can be overridden
             this.options,
-            {type:'Dialog', position: 'absolute'} // these override anything passed to the options
+            {position: 'absolute'} // these override anything passed to the options
         );
         
         /* initialize the panel overriding the type and position */
@@ -290,16 +306,16 @@ Jx.Dialog = new Class({
             this.options.closed = !this.options.closed;
         }
         if (this.options.closed) {
-            if (!this.domObj.hasClass('jx'+this.options.type+'Min')) {
-                this.domObj.addClass('jx'+this.options.type+'Min');
+            if (!this.domObj.hasClass(this.options.collapsedClass)) {
+                this.domObj.addClass(this.options.collapsedClass);
             }
             this.contentContainer.setStyle('display','none');
             if (this.resizeHandle) {
                 this.resizeHandle.setStyle('display','none');
             }
         } else {
-            if (this.domObj.hasClass('jx'+this.options.type+'Min')) {
-                this.domObj.removeClass('jx'+this.options.type+'Min');
+            if (this.domObj.hasClass(this.options.collapsedClass)) {
+                this.domObj.removeClass(this.options.collapsedClass);
             }
             this.contentContainer.setStyle('display','block');
             if (this.resizeHandle) {

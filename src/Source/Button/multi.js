@@ -71,9 +71,16 @@ Jx.Button.Multi = new Class({
     buttons: null,
 
     options: {
-        template: '<span class="jxButtonContainer"><a class="jxButton jxButtonMulti"><span class="jxButtonContent"><img src="'+Jx.aPixel.src+'" class="jxButtonIcon"><span class="jxButtonLabel"></span></span></a><a class="jxButtonDisclose" href="javascript:void(0)"><img src="'+Jx.aPixel.src+'"></a></span>'
+        template: '<span class="jxButtonContainer"><a class="jxButton jxButtonMulti jxDiscloser"><span class="jxButtonContent"><img src="'+Jx.aPixel.src+'" class="jxButtonIcon"><span class="jxButtonLabel"></span></span></a><a class="jxButtonDisclose" href="javascript:void(0)"><img src="'+Jx.aPixel.src+'"></a></span>'
     },
-    classes: ['jxButtonContainer','jxButton','jxButtonIcon','jxButtonLabel','jxButtonDisclose'],
+    classes: new Hash({
+        domObj: 'jxButtonContainer',
+        domA: 'jxButton',
+        domImg: 'jxButtonIcon',
+        domLabel: 'jxButtonLabel',
+        domDisclose: 'jxButtonDisclose'
+    }),
+    
 
     /**
      * APIMethod: render
@@ -89,14 +96,13 @@ Jx.Button.Multi = new Class({
 
         this.clickHandler = this.clicked.bind(this);
 
-        var a = this.elements.get('jxButtonDisclose');
-        if (a) {
+        if (this.domDisclose) {
             var button = this;
             var hasFocus;
 
-            a.addEvents({
+            this.domDisclose.addEvents({
                 'click': (function(e) {
-                    if (this.items.length === 0) {
+                    if (this.list.count() === 0) {
                         return;
                     }
                     if (!button.options.enabled) {
@@ -105,9 +111,10 @@ Jx.Button.Multi = new Class({
                     this.contentContainer.setStyle('visibility','hidden');
                     this.contentContainer.setStyle('display','block');
                     document.id(document.body).adopt(this.contentContainer);
-                    /* we have to size the container for IE to render the chrome correctly
-                     * but just in the menu/sub menu case - there is some horrible peekaboo
-                     * bug in IE related to ULs that we just couldn't figure out
+                    /* we have to size the container for IE to render the chrome
+                     * correctly but just in the menu/sub menu case - there is
+                     * some horrible peekaboo bug in IE related to ULs that we
+                     * just couldn't figure out
                      */
                     this.contentContainer.setContentBoxSize(this.subDomObj.getMarginBoxSize());
 
@@ -129,49 +136,48 @@ Jx.Button.Multi = new Class({
                 'mouseenter':(function(){
                     document.id(this.domObj.firstChild).addClass('jxButtonHover');
                     if (hasFocus) {
-                        a.addClass('jx'+this.type+'Pressed');
+                        this.domDisclose.addClass(this.options.pressedClass);
                     }
                 }).bind(this),
                 'mouseleave':(function(){
                     document.id(this.domObj.firstChild).removeClass('jxButtonHover');
-                    a.removeClass('jx'+this.type+'Pressed');
+                    this.domDisclose.removeClass(this.options.pressedClass);
                 }).bind(this),
                 mousedown: (function(e) {
-                    a.addClass('jx'+this.type+'Pressed');
+                    this.domDisclose.addClass(this.options.pressedClass);
                     hasFocus = true;
                     this.focus();
                 }).bindWithEvent(this),
                 mouseup: (function(e) {
-                    a.removeClass('jx'+this.type+'Pressed');
+                    this.domDisclose.removeClass(this.options.pressedClass);
                 }).bindWithEvent(this),
                 keydown: (function(e) {
                     if (e.key == 'enter') {
-                        a.addClass('jx'+this.type+'Pressed');
+                        this.domDisclose.addClass(this.options.pressedClass);
                     }
                 }).bindWithEvent(this),
                 keyup: (function(e) {
                     if (e.key == 'enter') {
-                        a.removeClass('jx'+this.type+'Pressed');
+                        this.domDisclose.removeClass(this.options.pressedClass);
                     }
                 }).bindWithEvent(this),
                 blur: function() { hasFocus = false; }
 
             });
             if (typeof Drag != 'undefined') {
-                new Drag(a, {
+                new Drag(this.domDisclose, {
                     onStart: function() {this.stop();}
                 });
             }
-            this.discloser = a;
         }
 
         this.menu.addEvents({
             'show': (function() {
-                this.domA.addClass('jx'+this.type+'Active');
+                this.domA.addClass(this.options.activeClass);
             }).bind(this),
             'hide': (function() {
                 if (this.options.active) {
-                    this.domA.addClass('jx'+this.type+'Active');
+                    this.domA.addClass(this.options.activeClass);
                 }
             }).bind(this)
         });
@@ -194,6 +200,8 @@ Jx.Button.Multi = new Class({
             if (!theButton instanceof Jx.Button) {
                 return;
             }
+            theButton.domA.addClass('jxDiscloser');
+            theButton.setLabel(theButton.options.label);
             this.buttons.push(theButton);
             var f = this.setButton.bind(this, theButton);
             var opts = {
@@ -262,7 +270,7 @@ Jx.Button.Multi = new Class({
     setActiveButton: function(button) {
         if (this.activeButton) {
             this.activeButton.domA.dispose();
-            this.activeButton.domA.removeEvent(this.clickHandler);
+            this.activeButton.domA.removeEvent('click', this.clickHandler);
         }
         if (button && button.domA) {
             this.domObj.grab(button.domA, 'top');

@@ -16,41 +16,29 @@
  */
 Jx.Toolbar.Item = new Class( {
     Family: 'Jx.Toolbar.Item',
-    Extends: Jx.Object,
+    Extends: Jx.Widget,
     options: {
         /* Option: active
          * is this item active or not?  Default is true.
          */
-        active: true
+        active: true,
+        template: '<li class="jxToolItem"></li>'
     },
-    /**
-     * Property: domObj
-     * {HTMLElement} an element to contain the thing to be placed in the
-     * toolbar.
-     */
-    domObj: null,
+    classes: new Hash({
+        domObj: 'jxToolItem'
+    }),
     
     parameters: ['jxThing'],
     
     /**
-     * APIMethod: init
+     * APIMethod: render
      * Create a new instance of Jx.Toolbar.Item.
      */
-    init : function() {
-        this.al = [];
-        this.domObj = new Element('li', {'class':'jxToolItem'});
-        if (this.options.jxThing) {
-            if (this.options.jxThing.domObj) {
-                this.domObj.appendChild(this.options.jxThing.domObj);
-                if (this.options.jxThing instanceof Jx.Button.Tab) {
-                    this.domObj.addClass('jxTabItem');
-                }
-            } else {
-                this.domObj.appendChild(this.options.jxThing);
-                if (this.options.jxThing.hasClass('jxTab')) {
-                    this.domObj.addClass('jxTabItem');
-                }
-            }
+    render: function() {
+        this.parent();
+        var el = document.id(this.options.jxThing);
+        if (el) {
+            this.domObj.adopt(el);
         }
     }
 });

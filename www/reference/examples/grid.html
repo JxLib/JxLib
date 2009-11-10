@@ -40,7 +40,7 @@ function drawToolbar() {
      * a menu and then creates a panel to host the grid in
      * The actual grid code is in another sample
      */
-    new Jx.Menu({label: 'Row Options'}).addTo('buttons').add(
+    new Jx.Menu({label: 'Row Options'}).addTo('buttons').add([
         new Jx.Menu.Item({
             label: 'Row Prelight',
             toggle: true,
@@ -58,9 +58,9 @@ function drawToolbar() {
             toggle: true,
             onDown: function() { selector.options.row = true; },
             onUp: function() { selector.options.row = false; }
-        })
+        })]
     );
-    new Jx.Menu({label: 'Column Options'}).addTo('buttons').add(
+    new Jx.Menu({label: 'Column Options'}).addTo('buttons').add([
         new Jx.Menu.Item({
             label: 'Column Prelight',
             toggle: true,
@@ -78,9 +78,9 @@ function drawToolbar() {
             toggle: true,
             onDown: function() { selector.options.column = true; },
             onUp: function() { selector.options.column = false; }
-        })
+        })]
     );
-    new Jx.Menu({label: 'Cell Options'}).addTo('buttons').add(
+    new Jx.Menu({label: 'Cell Options'}).addTo('buttons').add([
         new Jx.Menu.Item({
             label: 'Cell Prelight',
             toggle: true,
@@ -92,7 +92,7 @@ function drawToolbar() {
             toggle: true,
             onDown: function() { selector.options.cell = true; },
             onUp: function() { selector.options.cell = false; }
-        })
+        })]
     );
     aboutDialog = null;
     new Jx.Button({

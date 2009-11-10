@@ -63,6 +63,16 @@ Jx.Button.Flyout = new Class({
     Family: 'Jx.Button.Flyout',
     Extends: Jx.Button,
     
+    options: {
+        template: '<span class="jxButtonContainer"><a class="jxButton jxButtonFlyout jxDiscloser"><span class="jxButtonContent"><img class="jxButtonIcon" src="'+Jx.aPixel.src+'"><span class="jxButtonLabel "></span></a></span>',
+        contentTemplate: '<div class="jxFlyout"><div class="jxFlyoutContent"></div></div>'
+    },
+    
+    contentClasses: new Hash({
+        contentContainer: 'jxFlyout',
+        content: 'jxFlyoutContent'
+    }),
+    
     /**
      * Property: content
      * the HTML element that contains the flyout content
@@ -77,19 +87,11 @@ Jx.Button.Flyout = new Class({
             Jx.Button.Flyout.Stack = [];
         }
         this.parent();
-        this.domA.addClass('jx'+this.type+'Flyout');
+        this.processElements(this.options.contentTemplate, this.contentClasses);
         
-        this.contentContainer = new Element('div',{
-            'class':'jxFlyout'
-        });
-        
-        this.content = new Element('div', {
-            'class': 'jxFlyoutContent'
-        });
         if (this.options.contentClass) {
             this.content.addClass(this.options.contentClass);
         }
-        this.contentContainer.adopt(this.content);
         
         this.content.store('jxFlyout', this);
         this.loadContent(this.content);
@@ -150,7 +152,7 @@ Jx.Button.Flyout = new Class({
         Jx.Button.Flyout.Stack.push(this);
 
         this.options.active = true;
-        this.domA.addClass('jx'+this.type+'Active');
+        this.domA.addClass(this.options.activeClass);
         this.contentContainer.setStyle('visibility','hidden');
         document.id(document.body).adopt(this.contentContainer);
         this.content.getChildren().each(function(child) {

@@ -1,14 +1,14 @@
 Jx.Compare = {
     'string': function(a,b){
-        if (a==b) return 0
+        if (a==b) return 0;
         return a > b ? 1 : -1;
     },
-    'int': function(a,b){return a-b}
-}
+    'int': function(a,b){return a-b;}
+};
 Jx.Extract = {
     'string':$arguments(0),
     'int':Jx.getNumber
-}
+};
 Jx.Store = new Class({
     Extends:Jx.Object,
     Family:'Jx.Store',
@@ -21,7 +21,7 @@ Jx.Store = new Class({
         if (this.options.columns){
             $each(this.options.columns, function(column, name){
                 this.addColumn(column, name);
-            },this)
+            },this);
         }
         if (this.options.data){
             this.setData(this.options.data);
@@ -36,7 +36,7 @@ Jx.Store = new Class({
             'pos':this.columns.length,
             'extract':column.extract || Jx.Extract[column.type || 'string'],
             'compare':column.compare || Jx.Compare[column.type || 'string'] 
-        }
+        };
         this.columns.push(col);
     },
     getColumn: function(id){
@@ -75,7 +75,7 @@ Jx.Store = new Class({
             var dataCell = {
                 value:value,
                 sortValue:this.columns[num].extract(value)
-            }
+            };
             newRow.push(dataCell);
         },this);
         this.data.push(newRow);
@@ -89,7 +89,7 @@ Jx.Store = new Class({
     },
     next: function() {
         if (this.hasNext()){
-            this.current++
+            this.current++;
             return true;
         }
         return false;
@@ -109,7 +109,7 @@ Jx.Store = new Class({
         var comp = column.compare;
         var compare = function(a,b){
             return comp(a[pos].sortValue, b[pos].sortValue); 
-        }
+        };
         this.fireEvent('sortstart',[this]);
         this.data.sort(compare);
         if (desc) {
@@ -127,8 +127,7 @@ Jx.Store = new Class({
             {
                 onSuccess:this.handleJsonSuccess.bind(this),
                 onFailed: this.handleJsonFailed.bind(this)
-            }
-            )
+            });
             this.jsonRequest = new Request.JSON(options);
         }
         return this.jsonRequest;
@@ -144,7 +143,7 @@ Jx.Store = new Class({
         }
     },
     handleJsonFailed: function(){
-        this.fireEvent('loadfailed',[this])
+        this.fireEvent('loadfailed',[this]);
     },
     loadData: function(data){
         if ($type(data) === 'array'){
@@ -154,4 +153,4 @@ Jx.Store = new Class({
             this.getJsonRequest().send(data);
         }
     }
-})
+});

@@ -28,15 +28,15 @@ Jx.ListView = new Class({
         }
     },
     
-    classes: ['jxListView'],
+    classes: new Hash({
+        domObj: 'jxListView'
+    }),
     
     /**
      * APIMethod: render
      */
     render: function () {
         this.parent();
-        this.elements = this.processTemplate(this.options.template, this.classes);
-        this.domObj = this.elements.get('jxListView');
         
         if (this.options.selection) {
             this.selection = this.options.selection;

@@ -80,6 +80,7 @@ Group: Jx  {
    Group: Extras  {
 
       File: ColorPalette  (Extras/colorpalette.js)
+      File: notification.js  (Extras/notification.js)
       File: Progressbar  (Extras/progressbar.js)
       File: Slide  (Extras/slide.js)
       File: Slider  (Extras/slider.js)

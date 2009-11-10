@@ -44,14 +44,17 @@ Jx.Menu = new Class({
     
     options: {
         template: "<div class='jxMenuContainer'><ul class='jxMenu'></ul></div>",
-        buttonTemplate: '<span class="jxButtonContainer"><a class="jxButton jxButtonMenu"><span class="jxButtonContent"><img class="jxButtonIcon" src="'+Jx.aPixel.src+'"><span class="jxButtonLabel"></span></span></a></span>',
+        buttonTemplate: '<span class="jxButtonContainer"><a class="jxButton jxButtonMenu jxDiscloser"><span class="jxButtonContent"><img class="jxButtonIcon" src="'+Jx.aPixel.src+'"><span class="jxButtonLabel"></span></span></a></span>',
         position: {
             horizontal: ['left left'],
             vertical: ['bottom top', 'top bottom']
         }
     },
     
-    classes: ['jxMenuContainer','jxMenu'],
+    classes: new Hash({
+        contentContainer: 'jxMenuContainer',
+        subDomObj: 'jxMenu'
+    }),
     
     /**
      * APIMethod: render
@@ -63,12 +66,7 @@ Jx.Menu = new Class({
             Jx.Menu.Menus = [];
         }
 
-        this.elements = this.processTemplate(this.options.template, this.classes);
-
-        this.contentContainer = this.elements.get('jxMenuContainer');
         this.contentContainer.addEvent('onContextmenu', function(e){e.stop();});
-        
-        this.subDomObj = this.elements.get('jxMenu');
         
         this.list = new Jx.List(this.subDomObj, {
             onAdd: function(item) {
@@ -90,6 +88,7 @@ Jx.Menu = new Class({
             this.button.domA.addEvent('mouseover', this.onMouseOver.bindWithEvent(this));
             
             this.domObj = this.button.domObj;
+            this.domObj.store('jxMenu', this);
         }
         
         /* pre-bind the hide function for efficiency */
@@ -107,8 +106,16 @@ Jx.Menu = new Class({
      * Parameters:
      * item - {<Jx.MenuItem>} the menu item to add.  Multiple menu items
      * can be added by passing multiple arguments to this function.
+     * position -
+     * owner - 
      */
-    add: function(item, position) {
+    add: function(item, position, owner) {
+        owner = owner || this;
+        if (Jx.type(item) == 'array') {
+            item.each(function(i){i.setOwner(owner);});
+        } else {
+            item.setOwner(owner);
+        }
         this.list.add(item, position);
         return this;
     },

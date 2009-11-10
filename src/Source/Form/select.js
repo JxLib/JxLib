@@ -52,7 +52,7 @@ Jx.Field.Select = new Class({
          * Option: template
          * The template for creating this select input
          */
-        template: '<label class="jxInputLabel"></label><select class="jxInputSelect" name="{name}"></select><span class="jxInputTag"></span>'
+        template: '<span class="jxInputContainer"><label class="jxInputLabel"></label><select class="jxInputSelect" name="{name}"></select><span class="jxInputTag"></span></span>'
     },
     /**
      * Property: type

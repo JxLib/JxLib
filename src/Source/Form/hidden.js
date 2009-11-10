@@ -24,7 +24,7 @@ Jx.Field.Hidden = new Class({
          * Option: template
          * The template used to render this field
          */
-        template: '<input class="jxInputHidden" type="hidden" name="{name}"/>'
+        template: '<span class="jxInputContainer"><input class="jxInputHidden" type="hidden" name="{name}"/></span>'
     },
     /**
      * Property: type

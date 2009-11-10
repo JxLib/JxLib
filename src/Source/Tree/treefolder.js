@@ -35,9 +35,16 @@ Jx.TreeFolder = new Class({
         open: false,
         /* folders will share a selection with the tree they are in */
         select: false, 
-        template: '<li class="jxTreeContainer jxTreeBranch"><img class="jxTreeImage" src="'+Jx.aPixel.src+'" alt="" title=""><a class="jxTreeItem" href="javascript:void(0);"><img class="jxTreeIcon" src="'+Jx.aPixel.src+'" alt="" title=""><span class="jxTreeLabel"></span></a><ul class="jxTreeFolder"></ul></li>'
+        template: '<li class="jxTreeContainer jxTreeBranch"><img class="jxTreeImage" src="'+Jx.aPixel.src+'" alt="" title=""><a class="jxTreeItem" href="javascript:void(0);"><img class="jxTreeIcon" src="'+Jx.aPixel.src+'" alt="" title=""><span class="jxTreeLabel"></span></a><ul class="jxTree"></ul></li>'
     },
-    classes: ['jxTreeContainer','jxTreeImage','jxTreeItem','jxTreeIcon','jxTreeLabel','jxTreeFolder'],
+    classes: new Hash({
+        domObj: 'jxTreeContainer', 
+        domA: 'jxTreeItem', 
+        domImg: 'jxTreeImage', 
+        domIcon: 'jxTreeIcon',
+        domLabel: 'jxTreeLabel',
+        domTree: 'jxTree'
+    }),
     /**
      * APIMethod: render
      * Create a new instance of Jx.TreeFolder
@@ -55,9 +62,8 @@ Jx.TreeFolder = new Class({
             dblclick: this.bound.toggle
         });
         
-        var node = this.elements.get('jxTreeImage');
-        if (node) {
-            document.id(node).addEvent('click', this.bound.toggle);
+        if (this.domImg) {
+            this.domImg.addEvent('click', this.bound.toggle);
         }
                 
         this.tree = new Jx.Tree({
@@ -70,7 +76,7 @@ Jx.TreeFolder = new Class({
                 this.update();
                 this.fireEvent('remove', item);
             }.bind(this)
-        }, this.elements.get('jxTreeFolder'));
+        }, this.domTree);
         if (this.options.open) {
             this.expand();
         } else {

@@ -61,7 +61,10 @@ Jx.Slider = new Class({
         onChange: $empty,
         onComplete: $empty
     },
-    
+    classes: new Hash({
+        domObj: 'jxSliderContainer',
+        knob: 'jxSliderKnob'
+    }),
     slider: null,
     knob: null,
     sliderOpts: null,
@@ -73,14 +76,9 @@ Jx.Slider = new Class({
     render: function () {
         this.parent();
         
-        var els = this.processTemplate(this.options.template, ['jxSliderContainer', 'jxSliderKnob']);
-        
-        if (!els.has('jxSliderContainer')) {
+        if (this.domObj) {
             return;
         }
-        
-        this.domObj = els.get('jxSliderContainer');
-        this.knob = els.get('jxSliderKnob');
         
         this.sliderOpts = {
             range: [this.options.min, this.options.max],

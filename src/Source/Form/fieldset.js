@@ -55,6 +55,12 @@ Jx.Fieldset = new Class({
          */
         form : null
     },
+    
+    classes: new Hash({
+        domObj: 'jxFieldset',
+        legend: 'jxFieldsetLegend'
+    }),
+    
     /**
      * Property: legend
      * a holder for the legend Element
@@ -75,11 +81,8 @@ Jx.Fieldset = new Class({
             this.form = this.options.form;
         }
     
-        var els = this.processTemplate(this.options.template, ['jxFieldset', 'jxFieldsetLegend']);
-    
         //FIELDSET
-        if (els.has('jxFieldset')) {
-            this.domObj = els.get('jxFieldset');
+        if (this.domObj) {
             if ($defined(this.options.id)) {
                 this.domObj.set('id', this.options.id);
             }
@@ -88,8 +91,7 @@ Jx.Fieldset = new Class({
             }
         }
     
-        if (els.has('jxFieldsetLegend')) {
-            this.legend = els.get('jxFieldsetLegend');
+        if (this.legend) {
             if ($defined(this.options.legend)) {
                 this.legend.set('html', this.options.legend);
                 if ($defined(this.options.legendClass)) {

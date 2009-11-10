@@ -130,6 +130,11 @@ Jx.Button = new Class({
          * default true, whether the button is a toggle button or not.
          */
         toggle: false,
+        
+        toggleClass: 'jxButtonToggle',
+        pressedClass: 'jxButtonPressed',
+        activeClass: 'jxButtonActive',
+        
         /* Option: active
          * optional, default false.  Controls the initial state of toggle
          * buttons.
@@ -147,25 +152,24 @@ Jx.Button = new Class({
          */
         template: '<span class="jxButtonContainer"><a class="jxButton"><span class="jxButtonContent"><img class="jxButtonIcon" src="'+Jx.aPixel.src+'"><span class="jxButtonLabel"></span></span></a></span>'
     },
-    type: 'Button',
-    classes: ['jxButtonContainer', 'jxButton','jxButtonIcon','jxButtonLabel'],
-    elements: null,
+    
+    classes: new Hash({
+        domObj: 'jxButtonContainer',
+        domA: 'jxButton',
+        domImg: 'jxButtonIcon',
+        domLabel: 'jxButtonLabel'
+    }),
+    
     /**
      * APIMethod: render
      * create a new button.
      */
     render: function() {
         this.parent();
-        this.elements = this.processTemplate(this.options.template, this.classes);
-        
-        this.domObj = this.elements.get('jx'+this.type+'Container');
-        this.domA = this.elements.get('jx'+this.type);
-        this.domImg = this.elements.get('jx'+this.type+'Icon');
-        this.domLabel = this.elements.get('jx'+this.type + 'Label');
         
         /* is the button toggle-able? */
         if (this.options.toggle) {
-            this.domObj.addClass('jx'+this.type+'Toggle');
+            this.domObj.addClass(this.options.toggleClass);
         }
         
         // the clickable part of the button
@@ -181,31 +185,31 @@ Jx.Button = new Class({
                 click: this.clicked.bindWithEvent(this),
                 drag: (function(e) {e.stop();}).bindWithEvent(this),
                 mousedown: (function(e) {
-                    this.domA.addClass('jx'+this.type+'Pressed');
+                    this.domA.addClass(this.options.pressedClass);
                     hasFocus = true;
                     mouseDown = true;
                     this.focus();
                 }).bindWithEvent(this),
                 mouseup: (function(e) {
-                    this.domA.removeClass('jx'+this.type+'Pressed');
+                    this.domA.removeClass(this.options.pressedClass);
                     mouseDown = false;
                 }).bindWithEvent(this),
                 mouseleave: (function(e) {
-                    this.domA.removeClass('jx'+this.type+'Pressed');
+                    this.domA.removeClass(this.options.pressedClass);
                 }).bindWithEvent(this),
                 mouseenter: (function(e) {
                     if (hasFocus && mouseDown) {
-                        this.domA.addClass('jx'+this.type+'Pressed');
+                        this.domA.addClass(this.options.pressedClass);
                     }
                 }).bindWithEvent(this),
                 keydown: (function(e) {
                     if (e.key == 'enter') {
-                        this.domA.addClass('jx'+this.type+'Pressed');
+                        this.domA.addClass(this.options.pressedClass);
                     }
                 }).bindWithEvent(this),
                 keyup: (function(e) {
                     if (e.key == 'enter') {
-                        this.domA.removeClass('jx'+this.type+'Pressed');
+                        this.domA.removeClass(this.options.pressedClass);
                     }
                 }).bindWithEvent(this),
                 blur: function() { hasFocus = false; }
@@ -237,10 +241,11 @@ Jx.Button = new Class({
         }
         
         if (this.domLabel) {
-            if (this.options.label) {
+            if (this.options.label || this.domA.hasClass('jxDiscloser')) {
                 this.domLabel.set('html',this.options.label);
             } else {
-                this.domLabel.removeClass('jx'+this.type+'Label');
+                //this.domLabel.removeClass('jx'+this.type+'Label');
+                this.domLabel.setStyle('display','none');
             }
         }
         
@@ -325,13 +330,14 @@ Jx.Button = new Class({
             return;
         }
         this.options.active = active;
-        if (this.options.active) {
-            this.domA.addClass('jx'+this.type+'Active');
-            this.fireEvent('down', this);
-        } else {
-            this.domA.removeClass('jx'+this.type+'Active');
-            this.fireEvent('up', this);
+        if (this.domA) {
+            if (this.options.active) {
+                this.domA.addClass(this.options.activeClass);
+            } else {
+                this.domA.removeClass(this.options.activeClass);
+            }
         }
+        this.fireEvent(active ? 'down':'up', this);
     },
     /**
      * Method: setImage
@@ -361,11 +367,7 @@ Jx.Button = new Class({
         this.options.label = label;
         if (this.domLabel) {
             this.domLabel.set('html', label);
-            if (!label && this.domLabel.hasClass('jxButtonLabel')) {
-                this.domLabel.removeClass('jxButtonLabel');
-            } else if (label && !this.domLabel.hasClass('jxButtonLabel')) {
-                this.domLabel.addClass('jxButtonLabel');
-            }
+            this.domLabel.setStyle('display', label || this.domA.hasClass('jxDiscloser') ? null : 'none');
         }
     },
     /**
@@ -396,13 +398,17 @@ Jx.Button = new Class({
      * capture the keyboard focus on this button
      */
     focus: function() {
-        this.domA.focus();
+        if (this.domA) {
+            this.domA.focus();
+        }
     },
     /**
      * Method: blur
      * remove the keyboard focus from this button
      */
     blur: function() {
-        this.domA.blur();
+        if (this.domA) {
+            this.domA.blur();
+        }
     }
 });

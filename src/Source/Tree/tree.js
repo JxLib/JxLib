@@ -34,13 +34,17 @@ Jx.Tree = new Class({
         select: true,
         template: '<ul class="jxTreeRoot"></ul>'
     },
-    classes: ['jxTreeRoot'],
+    classes: new Hash({domObj: 'jxTreeRoot'}),
     /**
      * APIMethod: render
      * Create a new instance of Jx.Tree
      */
     render: function() {
         this.parent();
+        if ($defined(this.options.container) && 
+            document.id(this.options.container)) {
+            this.domObj = this.options.container;
+        }
         
         if (this.options.selection) {
             this.selection = this.options.selection;
@@ -56,7 +60,7 @@ Jx.Tree = new Class({
             unselect: function(item) {
                 this.fireEvent('unselect', item.retrieve('jxTreeItem'));
             }.bind(this)
-        }
+        };
 
         if (this.selection && this.ownsSelection) {
             this.selection.addEvents({
@@ -65,13 +69,6 @@ Jx.Tree = new Class({
             });
         }
         
-        if ($defined(this.options.container) && 
-            document.id(this.options.container)) {
-            this.domObj = this.options.container;
-        } else {
-            this.elements = this.processTemplate(this.options.template, this.classes);
-            this.domObj = this.elements.get('jxTreeRoot');
-        }
         this.list = new Jx.List(this.domObj, {
                 hover: true,
                 press: true,
@@ -85,11 +82,15 @@ Jx.Tree = new Class({
     },
     
     add: function(item, position) {
+        if ($type(item) == 'array') {
+            item.each(function(what){ this.add(what, position); }.bind(this) );
+            return;
+        }
         item.addEvents({
             add: function(what) { this.fireEvent('add', what).bind(this); },
             remove: function(what) { this.fireEvent('remove', what).bind(this); },
             disclose: function(what) { this.fireEvent('disclose', what).bind(this); }
-        })
+        });
         item.setSelection(this.selection);
         item.owner = this;
         this.list.add(item, position);
@@ -203,7 +204,7 @@ Jx.Tree = new Class({
                 if (path.length > 0) {
                     var folder = item.retrieve('jxTreeFolder');
                     if (folder) {
-                        result = folder.findChild(path)
+                        result = folder.findChild(path);
                     }
                 } else {
                     result = treeItem;
@@ -221,6 +222,9 @@ Jx.Tree = new Class({
         }
         this.selection = selection;
         this.list.setSelection(selection);
+        this.list.each(function(item) {
+            item.retrieve('jxTreeItem').setSelection(selection);
+        })
     }
 });
 

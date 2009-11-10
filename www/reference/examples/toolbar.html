@@ -22,7 +22,7 @@ function hToolbar() {
      * it without a parent if you are going to use it with a panel
      * or dialog.
      */
-    new Jx.Toolbar().add(
+    new Jx.Toolbar({template: "<ul class='jxToolbar myToolbarClass'></ul>"}).add(
         new Jx.Button({
           id: 'basic1',
           label: 'Basic Button',

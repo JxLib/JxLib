@@ -51,10 +51,21 @@ Jx.Button.Tab = new Class({
     content: null,
     
     options: {
-        template: '<div class="jxTabContainer"><a class="jxTab"><span class="jxTabContent"><img class="jxTabIcon"><span class="jxTabLabel"></span></span></a><a class="jxTabClose"><img src="'+Jx.aPixel.src+'"></a></div>'
+        toggleClass: 'jxTabToggle',
+        pressedClass: 'jxTabPressed',
+        activeClass: 'jxTabActive',
+        activeTabClass: 'tabContentActive',
+        template: '<span class="jxTabContainer"><a class="jxTab"><span class="jxTabContent"><img class="jxTabIcon"><span class="jxTabLabel"></span></span></a><a class="jxTabClose"><img src="'+Jx.aPixel.src+'"></a></span>',
+        contentTemplate: '<div class="tabContent"></div>'
     },
-    type: 'Tab',
-    classes: ['jxTabContainer','jxTab','jxTabIcon','jxTabLabel','jxTabClose'],
+    classes: new Hash({
+        domObj: 'jxTabContainer',
+        domA: 'jxTab',
+        domImg: 'jxTabIcon',
+        domLabel: 'jxTabLabel',
+        domClose: 'jxTabClose',
+        content: 'tabContent'
+    }),
     
     /**
      * APIMethod: render
@@ -64,23 +75,26 @@ Jx.Button.Tab = new Class({
     render : function( ) {
         this.options = $merge(this.options, {toggle:true});
         this.parent();
-        this.content = new Element('div', {'class':'tabContent'});
+        this.domObj.store('jxTab', this);
+        this.processElements(this.options.contentTemplate, this.classes);
         new Jx.Layout(this.content, this.options);
         this.loadContent(this.content);
-        var that = this;
-        this.addEvent('down', function(){that.content.addClass('tabContentActive');});
-        this.addEvent('up', function(){that.content.removeClass('tabContentActive');});
+        this.addEvent('down', function(){
+            this.content.addClass(this.options.activeTabClass);
+        }.bind(this));
+        this.addEvent('up', function(){
+            this.content.removeClass(this.options.activeTabClass);
+        }.bind(this));
         
         //remove the close button if necessary
-        var closer = this.elements.get('jx'+this.type+'Close');
-        if (closer) {
+        if (this.domClose) {
             if (this.options.close) {
-                this.domObj.addClass('jx'+this.type+'Close');
-                closer.addEvent('click', (function(){
+                this.domObj.addClass('jxTabClose');
+                this.domClose.addEvent('click', (function(){
                     this.fireEvent('close');
                 }).bind(this));
             } else {
-                closer.dispose();
+                this.domClose.dispose();
             }
         }
     },

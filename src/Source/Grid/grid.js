@@ -127,7 +127,7 @@ Jx.Grid = new Class({
      */
     init : function () {
         this.uniqueId = this.generateId('jxGrid_');
-
+        var opts;
         if ($defined(this.options.model)
                 && this.options.model instanceof Jx.Store) {
             this.model = this.options.model;
@@ -140,7 +140,7 @@ Jx.Grid = new Class({
             if (this.options.columns instanceof Jx.Columns) {
                 this.columns = this.options.columns;
             } else if (Jx.type(this.options.columns) === 'object') {
-                var opts = this.options.columns;
+                opts = this.options.columns;
                 opts.grid = this;
                 this.columns = new Jx.Columns(opts);
             }
@@ -151,7 +151,7 @@ Jx.Grid = new Class({
             if (this.options.row instanceof Jx.Row) {
                 this.row = this.options.row;
             } else if (Jx.type(this.options.row) === "object") {
-                var opts = this.options.row;
+                opts = this.options.row;
                 opts.grid = this;
                 this.row = new Jx.Row(opts);
             }

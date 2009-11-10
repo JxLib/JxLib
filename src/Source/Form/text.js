@@ -30,7 +30,7 @@ Jx.Field.Text = new Class({
          * Option: template
          * The template used to render this field
          */
-        template: '<label class="jxInputLabel"></label><input class="jxInputText" type="text" name="{name}"/><span class="jxInputTag"></span>'
+        template: '<span class="jxInputContainer"><label class="jxInputLabel"></label><input class="jxInputText" type="text" name="{name}"/><span class="jxInputTag"></span></span>'
     },
     /**
      * Property: type

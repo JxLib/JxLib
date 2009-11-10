@@ -15,7 +15,7 @@
 */
 
 
-.jxTreeFolder,
+.jxTree,
 .jxTreeRoot {
   /* relative positioning is required for IE to fix the peek-a-boo bug */
   position:relative;
@@ -52,7 +52,7 @@ li.jxTreeContainer {
   -khtml-user-select: none;
 }
 
-.jxTreeFolder li.jxTreeContainer {
+.jxTree li.jxTreeContainer {
   margin-left: 16px;
 }
 

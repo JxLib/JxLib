@@ -51,7 +51,7 @@ Class.Mutators.Family = function(self,name) {
 };
 function $unlink(object){
     if (object && object.jxFamily){
-        return object
+        return object;
     }    
     var unlinked;
     switch ($type(object)){
@@ -69,7 +69,7 @@ function $unlink(object){
         default: return object;
     }
     return unlinked;
-};
+}
 
 /* Setup global namespace
  * If jxcore is loaded by jx.js, then the namespace and baseURL are
@@ -246,7 +246,7 @@ Jx.createIframeShim = function() {
 Jx.getNumber = function(n, def) {
   var result = n===null||isNaN(parseInt(n,10))?(def||0):parseInt(n,10);
   return result;
-}
+};
 
 /**
  * Method: getPageDimensions
@@ -258,14 +258,15 @@ Jx.getNumber = function(n, def) {
  */
 Jx.getPageDimensions = function() {
     return {width: window.getWidth(), height: window.getHeight()};
-}
+};
 
 Jx.type = function(obj){
     if (typeof obj == 'undefined'){
         return false;
     }
     return obj.jxFamily ? obj.jxFamily : $type(obj);
-}
+};
+
 /**
  * Class: Element
  *

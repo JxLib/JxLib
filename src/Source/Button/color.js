@@ -51,8 +51,16 @@ Jx.Button.Color = new Class({
          *  (opaque) if not specified.
          *
          */
-        alpha: 100
+        alpha: 100,
+        template: '<span class="jxButtonContainer"><a class="jxButton jxButtonFlyout jxDiscloser"><span class="jxButtonContent"><span class="jxButtonSwatch"><span class="jxButtonSwatchColor"></span></span><span class="jxButtonLabel"></span></span></a></span>'
     },
+
+    classes: new Hash({
+        domObj: 'jxButtonContainer',
+        domA: 'jxButton',
+        swatch: 'jxButtonSwatchColor',
+        domLabel: 'jxButtonLabel'
+    }),
 
     /**
      * APIMethod: render
@@ -62,23 +70,19 @@ Jx.Button.Color = new Class({
         if (!Jx.Button.Color.ColorPalette) {
             Jx.Button.Color.ColorPalette = new Jx.ColorPalette(this.options);
         }
-        var d = new Element('span', {'class':'jxButtonSwatch'});
 
-        this.selectedSwatch = new Element('span');
-        d.appendChild(this.selectedSwatch);
-
-        this.colorChangeFn = this.changed.bind(this);
-        this.hideFn = this.hide.bind(this);
         /* we need to have an image to replace, but if a label is 
            requested, there wouldn't normally be an image. */
         this.options.image = Jx.aPixel.src;
 
         /* now we can safely initialize */
         this.parent();
-        
-        // now replace the image with our swatch
-        d.replaces(this.domImg);
         this.updateSwatch();
+        
+        this.bound = {
+            changed: this.changed.bind(this),
+            hide: this.hide.bind(this)
+        };
     },
 
     /**
@@ -90,8 +94,8 @@ Jx.Button.Color = new Class({
             Jx.Button.Color.ColorPalette.currentButton.hide();
         }
         Jx.Button.Color.ColorPalette.currentButton = this;
-        Jx.Button.Color.ColorPalette.addEvent('change', this.colorChangeFn);
-        Jx.Button.Color.ColorPalette.addEvent('click', this.hideFn);
+        Jx.Button.Color.ColorPalette.addEvent('change', this.bound.changed);
+        Jx.Button.Color.ColorPalette.addEvent('click', this.bound.hide);
         this.content.appendChild(Jx.Button.Color.ColorPalette.domObj);
         Jx.Button.Color.ColorPalette.domObj.setStyle('display', 'block');
         Jx.Button.Flyout.prototype.clicked.apply(this, arguments);
@@ -111,8 +115,8 @@ Jx.Button.Color = new Class({
      */
     hide: function() {
         this.setActive(false);
-        Jx.Button.Color.ColorPalette.removeEvent('change', this.colorChangeFn);
-        Jx.Button.Color.ColorPalette.removeEvent('click', this.hideFn);
+        Jx.Button.Color.ColorPalette.removeEvent('change', this.bound.changed);
+        Jx.Button.Color.ColorPalette.removeEvent('click', this.bound.hide);
         Jx.Button.Flyout.prototype.hide.apply(this, arguments);
         Jx.Button.Color.ColorPalette.currentButton = null;
     },
@@ -179,6 +183,6 @@ Jx.Button.Color = new Class({
             styles.opacity = '';
             styles.filter = '';
         }
-        this.selectedSwatch.setStyles(styles);
+        this.swatch.setStyles(styles);
     }
 });

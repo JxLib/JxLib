@@ -252,7 +252,7 @@ Jx.Layout = new Class({
                      l = 0;
                      w = parentSize.width;
                      if (this.options.maxWidth >= 0 && w > this.options.maxWidth) {
-                         l = l + parseInt(w - this.options.maxWidth)/2;
+                         l = l + parseInt(w - this.options.maxWidth,10)/2;
                          w = this.options.maxWidth;
                      }
                 } else {
@@ -260,7 +260,7 @@ Jx.Layout = new Class({
                      * distribute space between left and right
                      */
                     w = this.options.width;
-                    l = parseInt((parentSize.width - w)/2);
+                    l = parseInt((parentSize.width - w)/2,10);
                     if (l < 0) {
                         l = 0;
                     }
@@ -350,7 +350,7 @@ Jx.Layout = new Class({
                          h = this.options.minHeight;
                      }
                      if (this.options.maxHeight >= 0 && h > this.options.maxHeight) {
-                         t = parseInt((parentSize.height - this.options.maxHeight)/2);
+                         t = parseInt((parentSize.height - this.options.maxHeight)/2,10);
                          h = this.options.maxHeight;
                      }
                 } else {
@@ -358,7 +358,7 @@ Jx.Layout = new Class({
                      * distribute space between top and bottom
                      */
                     h = this.options.height;
-                    t = parseInt((parentSize.height - h)/2);
+                    t = parseInt((parentSize.height - h)/2,10);
                     if (t < 0) {
                         t = 0;
                     }

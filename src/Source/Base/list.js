@@ -192,7 +192,7 @@ Jx.List = new Class({
      * an integer position in the list or another item to place this item after
      */
     add: function(item, position) {
-        if ($type(item) == 'array') {
+        if (Jx.type(item) == 'array') {
             item.each(function(what){ this.add(what, position); }.bind(this) );
             return;
         }

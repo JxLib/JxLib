@@ -24,7 +24,7 @@ Jx.Field.Radio = new Class({
          * Option: template
          * The template used to create this field
          */
-        template: '<input class="jxInputRadio" type="radio" name="{name}"/><label class="jxInputLabel"></label><span class="jxInputTag"></span>',
+        template: '<span class="jxInputContainer"><input class="jxInputRadio" type="radio" name="{name}"/><label class="jxInputLabel"></label><span class="jxInputTag"></span></span>',
         /**
          * Option: checked
          * whether this radio button is checked or not

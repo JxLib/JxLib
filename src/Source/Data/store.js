@@ -431,11 +431,12 @@ Jx.Store = new Class({
         } else {
             var t = Jx.type(data);
             switch (t) {
-            case 'object':
-                d = new Hash(data);
-                break;
             case 'hash':
                 d = data;
+                break;
+            case 'object':
+            default:
+                d = new Hash(data);
                 break;
             }
         }

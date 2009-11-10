@@ -34,6 +34,9 @@ Jx.Menu.Item = new Class({
     options: {
         //image: null,
         label: '&nbsp;',
+        toggleClass: 'jxMenuItemToggle',
+        pressedClass: 'jxMenuItemPressed',
+        activeClass: 'jxMenuItemActive',
         /* Option: template
          * the HTML structure of the button.  As a minimum, there must be a
          * containing element with a class of jxMenuItemContainer and an
@@ -43,17 +46,23 @@ Jx.Menu.Item = new Class({
          */
         template: '<li class="jxMenuItemContainer"><a class="jxMenuItem"><span class="jxMenuItemContent"><img class="jxMenuItemIcon" src="'+Jx.aPixel.src+'"><span class="jxMenuItemLabel"></span></span></a></li>'
     },
-    classes: ['jxMenuItemContainer', 'jxMenuItem','jxMenuItemIcon','jxMenuItemLabel'],
-    type: 'MenuItem',
+    classes: new Hash({
+        domObj:'jxMenuItemContainer',
+        domA: 'jxMenuItem',
+        domImg: 'jxMenuItemIcon',
+        domLabel: 'jxMenuItemLabel'
+    }),
     /**
      * APIMethod: render
      * Create a new instance of Jx.Menu.Item
      */
     render: function() {
-        this.options = $merge({image: Jx.aPixel.src}, this.options);
+        if (!this.options.image) {
+            this.options.image = Jx.aPixel.src;
+        }
         this.parent();
-        if (this.options.image) {
-            this.domObj.removeClass('jx'+this.type+'Toggle');
+        if (this.options.image && this.options.image != Jx.aPixel.src) {
+            this.domObj.removeClass(this.options.toggleClass);
         }
         this.domObj.addEvent('mouseover', this.onMouseOver.bind(this));
         this.domObj.store('jxMenuItem', this);
@@ -94,6 +103,7 @@ Jx.Menu.Item = new Class({
             }
             this.fireEvent('click', this);
             if (this.owner && this.owner.deactivate) {
+                debugger;
                 this.owner.deactivate(obj.event);
             }
         }

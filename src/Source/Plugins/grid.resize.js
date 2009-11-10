@@ -118,8 +118,8 @@ Jx.Plugin.Grid.Resize = new Class({
             }, this);
         }
         
-        if (this.options.rows && this.grid.row.useHeaders()) {
-            
-        }
+        // if (this.options.rows && this.grid.row.useHeaders()) {
+        //     
+        // }
     }
 });

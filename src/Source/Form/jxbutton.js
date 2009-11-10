@@ -27,7 +27,7 @@ Jx.Field.Button = new Class({
          * Option: template
          * The template used to render this field
          */
-        template: '<label class="jxInputLabel"></label><div class="jxInputButton"></div><span class="jxInputTag"></span>'
+        template: '<span class="jxInputContainer"><label class="jxInputLabel"></label><div class="jxInputButton"></div><span class="jxInputTag"></span></span>'
     },
     /**
      * Property: type

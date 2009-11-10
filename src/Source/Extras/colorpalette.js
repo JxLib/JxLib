@@ -154,7 +154,7 @@ Jx.ColorPalette = new Class({
                     /* remainder of the columns are built
                      * based on the current row/column
                      */
-                    r = parseInt(i/6)*3 + parseInt(j/6);
+                    r = parseInt(i/6,10)*3 + parseInt(j/6,10);
                     g = j%6;
                     b = i%6;
                 }
@@ -283,7 +283,7 @@ Jx.ColorPalette = new Class({
 
         this.colorInput.value = this.options.color.substring(1);
 
-        this.alphaInput.value = parseInt(this.options.alpha*100);
+        this.alphaInput.value = parseInt(this.options.alpha*100,10);
         if (this.options.alpha < 1) {
             styles.opacity = this.options.alpha;
             styles.filter = 'Alpha(opacity='+(this.options.alpha*100)+')';

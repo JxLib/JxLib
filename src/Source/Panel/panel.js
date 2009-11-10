@@ -37,7 +37,12 @@ Jx.Panel = new Class({
     
      options: {
         position: null,
-        type: 'Panel',
+        collapsedClass: 'jxPanelMin',
+        collapseClass: 'jxPanelCollapse',
+        menuClass: 'jxPanelMenu',
+        maximizeClass: 'jxPanelMaximize',
+        closeClass: 'jxPanelClose',
+        
         /* Option: id
          * String, an id to assign to the panel's container
          */
@@ -106,8 +111,18 @@ Jx.Panel = new Class({
          * array of Jx.Toolbar objects to put in the panel.  The position
          * of each toolbar is used to position the toolbar within the panel.
          */
-        toolbars: []
+        toolbars: [],
+        template: '<div class="jxPanel"><div class="jxPanelTitle"><img class="jxPanelIcon" src="'+Jx.aPixel.src+'" alt="" title=""/><span class="jxPanelLabel"></span><div class="jxPanelControls"></div></div><div class="jxPanelContentContainer"><div class="jxPanelContent"></div></div></div>'
     },
+    classes: new Hash({
+        domObj: 'jxPanel',
+        title: 'jxPanelTitle',
+        domImg: 'jxPanelIcon',
+        domLabel: 'jxPanelLabel',
+        domControls: 'jxPanelControls',
+        contentContainer: 'jxPanelContentContainer',
+        content: 'jxPanelContent'
+    }),
     
     /** 
      * APIMethod: render
@@ -115,39 +130,21 @@ Jx.Panel = new Class({
      */
     render : function(){
         this.parent();
+        
         this.toolbars = this.options ? this.options.toolbars || [] : [];
         
         this.options.position = ($defined(this.options.height) && !$defined(this.options.position)) ? 'relative' : 'absolute';
 
-        /* set up the title object */
-        this.title = new Element('div', {
-            'class': 'jx'+this.options.type+'Title'
-        });
-        
-        var i = new Element('img', {
-            'class': 'jx'+this.options.type+'Icon',
-            src: Jx.aPixel.src,
-            alt: '',
-            title: ''
-        });
-        if (this.options.image) {
-            i.setStyle('backgroundImage', 'url('+this.options.image+')');
+        if (this.options.image && this.domImg) {
+            this.domImg.setStyle('backgroundImage', 'url('+this.options.image+')');
         }
-        this.title.adopt(i);
+        if (this.options.label && this.domLabel) {
+            this.domLabel.set('html',this.options.label);
+        }
         
-        this.labelObj = new Element('span', {
-            'class': 'jx'+this.options.type+'Label',
-            html: this.options.label
-        });
-        this.title.adopt(this.labelObj);
-        
-        var controls = new Element('div', {
-            'class': 'jx'+this.options.type+'Controls'
-        });
         var tbDiv = new Element('div');
-        controls.adopt(tbDiv);
-        this.toolbar = new Jx.Toolbar({parent:tbDiv});
-        this.title.adopt(controls);
+        this.domControls.adopt(tbDiv);
+        this.toolbar = new Jx.Toolbar({parent:tbDiv, scroll: false});
         
         var that = this;
         
@@ -155,23 +152,24 @@ Jx.Panel = new Class({
             this.menu = new Jx.Menu({
                 image: Jx.aPixel.src
             });
-            this.menu.domObj.addClass('jx'+this.options.type+'Menu');
+            this.menu.domObj.addClass(this.options.menuClass);
             this.menu.domObj.addClass('jxButtonContentLeft');
             this.toolbar.add(this.menu);
         }
         
+        var b, item;
         if (this.options.collapse) {
-            var b = new Jx.Button({
+            b = new Jx.Button({
                 image: Jx.aPixel.src,
                 tooltip: this.options.collapseTooltip,
                 onClick: function() {
                     that.toggleCollapse();
                 }
             });
-            b.domObj.addClass('jx'+this.options.type+'Collapse');
+            b.domObj.addClass(this.options.collapseClass);
             this.toolbar.add(b);
             if (this.menu) {
-                var item = new Jx.Menu.Item({
+                item = new Jx.Menu.Item({
                     label: this.options.collapseLabel,
                     onClick: function() { that.toggleCollapse(); }
                 });
@@ -188,17 +186,17 @@ Jx.Panel = new Class({
         }
         
         if (this.options.maximize) {
-            var b = new Jx.Button({
+            b = new Jx.Button({
                 image: Jx.aPixel.src,
                 tooltip: this.options.maximizeTooltip,
                 onClick: function() {
                     that.maximize();
                 }
             });
-            b.domObj.addClass('jx'+this.options.type+'Maximize');
+            b.domObj.addClass(this.options.maximizeClass);
             this.toolbar.add(b);
             if (this.menu) {
-                var item = new Jx.Menu.Item({
+                item = new Jx.Menu.Item({
                     label: this.options.maximizeLabel,
                     onClick: function() { that.maximize(); }
                 });
@@ -207,17 +205,17 @@ Jx.Panel = new Class({
         }
         
         if (this.options.close) {
-            var b = new Jx.Button({
+            b = new Jx.Button({
                 image: Jx.aPixel.src,
                 tooltip: this.options.closeTooltip,
                 onClick: function() {
                     that.close();
                 }
             });
-            b.domObj.addClass('jx'+this.options.type+'Close');
+            b.domObj.addClass(this.options.closeClass);
             this.toolbar.add(b);
             if (this.menu) {
-                var item = new Jx.Menu.Item({
+                item = new Jx.Menu.Item({
                     label: this.options.closeLabel,
                     onClick: function() {
                         that.close();
@@ -232,9 +230,6 @@ Jx.Panel = new Class({
             that.toggleCollapse();
         });
         
-        this.domObj = new Element('div', {
-            'class': 'jx'+this.options.type
-        });
         if (this.options.id) {
             this.domObj.id = this.options.id;
         }
@@ -242,21 +237,16 @@ Jx.Panel = new Class({
         var layoutHandler = this.layoutContent.bind(this);
         jxl.addEvent('sizeChange', layoutHandler);
         
-        if (!this.options.hideTitle) {
-            this.domObj.adopt(this.title);
+        if (this.options.hideTitle) {
+            this.title.dispose();
         }
-        
-        this.contentContainer = new Element('div', {
-            'class': 'jx'+this.options.type+'ContentContainer'
-        });
-        this.domObj.adopt(this.contentContainer);
         
         if (Jx.type(this.options.toolbars) == 'array') {
             this.options.toolbars.each(function(tb){
                 var position = tb.options.position;
                 var tbc = this.toolbarContainers[position];
                 if (!tbc) {
-                    var tbc = new Element('div');
+                    tbc = new Element('div');
                     new Jx.Layout(tbc);
                     this.contentContainer.adopt(tbc);
                     this.toolbarContainers[position] = tbc;
@@ -265,11 +255,6 @@ Jx.Panel = new Class({
             }, this);
         }
         
-        this.content = new Element('div', {
-            'class': 'jx'+this.options.type+'Content'
-        });
-        
-        this.contentContainer.adopt(this.content);
         new Jx.Layout(this.contentContainer);
         new Jx.Layout(this.content);
         
@@ -342,9 +327,6 @@ Jx.Panel = new Class({
                         tbc.style.visibility = '';
                     }
                     switch(position) {
-                        case 'top':
-                            top = size.height;
-                            break;
                         case 'bottom':
                             bottom = size.height;
                             break;
@@ -353,6 +335,10 @@ Jx.Panel = new Class({
                             break;
                         case 'right':
                             right = size.width;
+                            break;
+                        case 'top':
+                        default:
+                            top = size.height;
                             break;
                     }                    
                 },this);
@@ -501,8 +487,8 @@ Jx.Panel = new Class({
             this.options.closed = !this.options.closed;
         }
         if (this.options.closed) {
-            if (!this.domObj.hasClass('jx'+this.options.type+'Min')) {
-                this.domObj.addClass('jx'+this.options.type+'Min');
+            if (!this.domObj.hasClass(this.options.collapsedClass)) {
+                this.domObj.addClass(this.options.collapsedClass);
                 this.contentContainer.setStyle('display','none');
                 var m = this.domObj.measure(function(){
                     return this.getSizes(['margin'],['top','bottom']).margin;
@@ -515,8 +501,8 @@ Jx.Panel = new Class({
                 this.fireEvent('collapse', this);
             }
         } else {
-            if (this.domObj.hasClass('jx'+this.options.type+'Min')) {
-                this.domObj.removeClass('jx'+this.options.type+'Min');
+            if (this.domObj.hasClass(this.options.collapsedClass)) {
+                this.domObj.removeClass(this.options.collapsedClass);
                 this.contentContainer.setStyle('display','block');
                 this.domObj.resize({height: this.options.height});            
                 this.fireEvent('expand', this);

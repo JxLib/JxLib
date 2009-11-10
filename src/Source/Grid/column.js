@@ -156,9 +156,9 @@ Jx.Column = new Class({
     },
     
     setWidth: function(newWidth) {
-        if (this.rule && parseInt(newWidth) >= 0) {
-            this.width = parseInt(newWidth);
-            this.rule.style.width = parseInt(newWidth) + "px";
+        if (this.rule && parseInt(newWidth,10) >= 0) {
+            this.width = parseInt(newWidth,10);
+            this.rule.style.width = parseInt(newWidth,10) + "px";
         }
     },
     /**

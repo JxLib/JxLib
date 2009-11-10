@@ -72,7 +72,6 @@ Jx.TabBox = new Class({
     render : function() {
         this.parent();
         this.tabBar = new Jx.Toolbar({
-            type: 'TabBar', 
             position: this.options.position,
             scroll: this.options.scroll
         });
@@ -94,6 +93,7 @@ Jx.TabBox = new Class({
          this.panel.addEvent('sizeChange', (function() {
              this.tabSet.resizeTabBox();
              this.tabBar.domObj.getParent('.jxBarContainer').retrieve('jxBarContainer').update();
+             this.tabBar.domObj.getParent('.jxBarContainer').addClass('jxTabBar'+this.options.position.capitalize());
          }).bind(this));
         /* when tabs are added or removed, we might need to layout
          * the panel if the toolbar is or becomes empty

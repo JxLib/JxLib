@@ -158,22 +158,24 @@ Jx.Field = new Class({
      * The classes to search for in the template. Not
      * required, but we look for them.
      */
-    classes : [ 'jxInputLabel', 'jxInputTag' ],
+    classes : new Hash({
+        domObj: 'jxInputContainer',
+        label: 'jxInputLabel',
+        tag: 'jxInputTag'
+    }),
     
     /**
      * APIMethod: render
      */
     render : function () {
+        this.classes.set('field', 'jxInput'+this.type);
+        var name = $defined(this.options.name) ? this.options.name : '';
+        this.options.template = this.options.template.substitute({name:name});
         this.parent();
 
         this.id = ($defined(this.options.id)) ? this.options.id : this
                 .generateId();
         this.name = this.options.name;
-
-        // first the container
-        this.domObj = new Element('span', {
-            'class' : 'jxInputContainer'
-        });
         
         if ($defined(this.type)) {
             this.domObj.addClass('jxInputContainer'+this.type);
@@ -191,16 +193,8 @@ Jx.Field = new Class({
             }
         }
 
-        var field = 'jxInput' + this.type;
-        this.classes.push(field);
-        
-        var name = $defined(this.options.name) ? this.options.name : '';
-        var template = this.options.template.substitute({name:name});
-        var els = this.processTemplate(template, this.classes, this.domObj);
-
         // LABEL
-        if (els.has('jxInputLabel')) {
-            this.label = els.get('jxInputLabel');
+        if (this.label) {
             if ($defined(this.options.labelClass)) {
                 this.label.addClass(this.options.labelClass);
             }
@@ -221,8 +215,7 @@ Jx.Field = new Class({
         }
 
         // FIELD
-        if (els.has(field)) {
-            this.field = els.get(field);
+        if (this.field) {
             if ($defined(this.options.fieldClass)) {
                 this.field.addClass(this.options.fieldClass);
             }
@@ -254,8 +247,7 @@ Jx.Field = new Class({
         }
 
         // TAG
-        if (els.has('jxInputTag')) {
-            this.tag = els.get('jxInputTag');
+        if (this.tag) {
             if ($defined(this.options.tagClass)) {
                 this.tag.addClass(this.options.tagClass);
             }
