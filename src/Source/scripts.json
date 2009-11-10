@@ -169,7 +169,7 @@
         },
         
         "listview": {
-            "deps": ["widget", "listitem"],
+            "deps": ["listitem"],
             "desc":""
         },
         
@@ -287,7 +287,7 @@
         },
 
         "menu": {
-            "deps": ["button"],
+            "deps": ["button","list"],
             "desc": "A main menu as opposed to a sub menu that lives inside the menu."
         },
 
@@ -297,7 +297,7 @@
         },
 
         "submenu": {
-            "deps": ["menu.item"],
+            "deps": ["menu.item","menu"],
             "desc": "A sub menu contains menu items within a main menu or another sub menu."
         }
 
@@ -346,18 +346,18 @@
         "desc": "This group contains components that are used to create toolbars.  Toolbars are typically used to contain buttons but they can also contain other HTML elements and Jx components.  If you are using toolbars in your application, you probably want to include this whole group.",
         
         "toolbar": {
-            "deps": ["common"],
+            "deps": ["widget", "list"],
             "desc": "A toolbar is a container object that contains other objects such as buttons."
         },
         
         "container": {
-            "deps": ["common","toolbar"],
+            "deps": ["toolbar"],
             "opt": ["Fx.Tween"],
             "desc": "A toolbar container contains toolbars.  This has an optional dependency on Fx.Tween that, if included, will allow toolbars that contain more elements than can be displayed to be smoothly scrolled left and right.  Without this optional dependency, the toolbar will jump in fixed increments rather than smoothly scrolling."
         },
 
         "toolbar.item": {
-            "deps": ["tab","toolbar"],
+            "deps": ["toolbar"],
             "desc": "A helper class to provide a container for something to go into a Jx.Toolbar."
         },     
 
@@ -373,17 +373,17 @@
         "desc": "This group contains components required to build a tree.  If you want to include a tree in your application, you will need all the components in this group.",
         
         "tree": {
-            "deps": ["treefolder"],
+            "deps": ["widget", "list"],
             "desc": "Jx.Tree displays hierarchical data in a tree structure of folders and nodes."
         },
 
         "treefolder": {
-            "deps": ["treeitem"],
+            "deps": ["treeitem", "tree"],
             "desc": "A Jx.TreeFolder is an item in a tree that can contain other items. It is expandable and collapsible."
         },
 
         "treeitem": {
-            "deps": ["common"],
+            "deps": ["widget"],
             "opt": ["Drag"],
             "desc": "An item in a tree."
         }
