@@ -69,9 +69,6 @@ Jx.Menu = new Class({
         this.contentContainer.addEvent('onContextmenu', function(e){e.stop();});
         
         this.list = new Jx.List(this.subDomObj, {
-            onAdd: function(item) {
-                item.setOwner(this);
-            }.bind(this),
             onRemove: function(item) {
                 item.setOwner(null);
             }.bind(this)
@@ -92,8 +89,10 @@ Jx.Menu = new Class({
         }
         
         /* pre-bind the hide function for efficiency */
-        this.hideWatcher = this.hide.bindWithEvent(this);
-        this.keypressWatcher = this.keypressHandler.bindWithEvent(this);
+        this.bound = {
+            mousedown: this.hide.bindWithEvent(this),
+            keypress: this.keypressHandler.bindWithEvent(this)
+        };
         
         if (this.options.parent) {
             this.addTo(this.options.parent);
@@ -110,11 +109,12 @@ Jx.Menu = new Class({
      * owner - 
      */
     add: function(item, position, owner) {
-        owner = owner || this;
         if (Jx.type(item) == 'array') {
-            item.each(function(i){i.setOwner(owner);});
+            item.each(function(i){
+                i.setOwner(owner||this);
+            }, this);
         } else {
-            item.setOwner(owner);
+            item.setOwner(owner||this);
         }
         this.list.add(item, position);
         return this;
@@ -230,12 +230,13 @@ Jx.Menu = new Class({
             Jx.Menu.Menus[0] = null;
         }
         if (this.button && this.button.domA) {
-            this.button.domA.removeClass('jx'+this.button.options.type+'Active');            
+            this.button.domA.removeClass(this.button.options.activeClass);            
         }
         this.list.each(function(item){item.retrieve('jxMenuItem').hide(e);});
-        document.removeEvent('mousedown', this.hideWatcher);
-        document.removeEvent('keydown', this.keypressWatcher);
+        document.removeEvent('mousedown', this.bound.mousedown);
+        document.removeEvent('keydown', this.bound.keypress);
         this.contentContainer.dispose();
+        this.visibleItem = null;
         this.fireEvent('hide', this); 
     },
     /**
@@ -280,12 +281,12 @@ Jx.Menu = new Class({
         this.contentContainer.setStyle('visibility','visible');
         
         if (this.button && this.button.domA) {
-            this.button.domA.addClass('jx'+this.button.options.type+'Active');            
+            this.button.domA.addClass(this.button.options.activeClass);
         }
 
         /* fix bug in IE that closes the menu as it opens because of bubbling */
-        document.addEvent('mousedown', this.hideWatcher);
-        document.addEvent('keydown', this.keypressWatcher);
+        document.addEvent('mousedown', this.bound.mousedown);
+        document.addEvent('keydown', this.bound.keypress);
         this.fireEvent('show', this); 
     },
     /**
