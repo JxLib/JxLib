@@ -30,6 +30,7 @@ Jx.ListItem = new Class({
      */
     render: function () {
         this.parent();
+        this.domContent.store('jxListItem', this);
         this.domObj.store('jxListTarget', this.domContent);
         this.loadContent(this.domContent);
     },
