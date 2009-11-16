@@ -66,7 +66,7 @@ Jx.Field.Select = new Class({
      */
     render: function () {
         this.parent();
-        
+        this.field.addEvent('change', function() {this.fireEvent('change', this);}.bind(this));
         if ($defined(this.options.optGroups)) {
             this.options.optGroups.each(function(group){
                 var gr = new Element('optGroup');
@@ -85,18 +85,53 @@ Jx.Field.Select = new Class({
             },this);
         } else if ($defined(this.options.comboOpts)) {
             this.options.comboOpts.each(function (item) {
-                var opt = new Element('option', {
-                    'value': item.value,
-                    'html': item.text
-                });
-                if ($defined(item.selected) && item.selected) {
-                    opt.set("selected", "selected");
-                }
-                this.field.grab(opt);
+                this.addOption(item);
             }, this);
         }
     },
     
+    /**
+     * Method: addOption
+     * add an option to the select list
+     * 
+     * Parameters:
+     * item - The option to add.
+     * position (optional) - an integer index or the string 'top'.
+     *                     - default is to add at the bottom.
+     */
+    addOption: function (item, position) {
+        var opt = new Element('option', {
+            'value': item.value,
+            'html': item.text
+        });
+        if ($defined(item.selected) && item.selected) {
+            opt.set("selected", "selected");
+        }
+        var where = 'bottom';
+        var field = this.field;
+        if ($defined(position)) {
+            if (Jx.type(position) == 'integer' &&
+                (position >= 0  && position < field.options.length)) {
+                field = this.field.options[position];
+                where = 'before';
+            } else if (position == 'top') {
+                where = 'top';
+            }
+            
+        }
+        opt.inject(field, where);
+    },
+    
+    /**
+     * Method: removeOption
+     * removes an option from the select list
+     * 
+     * Parameters:
+     *  item - The option to remove.
+     */
+    removeOption: function (item) {
+        //TBD
+    },
     /**
      * Method: setValue
      * Sets the value property of the field
