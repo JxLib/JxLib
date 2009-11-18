@@ -99,7 +99,7 @@ Jx.Menu = new Class({
         }
     },
     /**
-     * Method: add
+     * APIMethod: add
      * Add menu items to the sub menu.
      *
      * Parameters:
@@ -120,7 +120,7 @@ Jx.Menu = new Class({
         return this;
     },
     /**
-     * Method: remove
+     * APIMethod: remove
      * Remove a menu item from the menu
      *
      * Parameters:
@@ -131,7 +131,7 @@ Jx.Menu = new Class({
         return this;
     },
     /**
-     * Method: replace
+     * APIMethod: replace
      * Replace a menu item with another menu item
      *
      * Parameters:
@@ -210,7 +210,7 @@ Jx.Menu = new Class({
     },
     
     /**
-     * Method: hide
+     * APIMethod: hide
      * Hide the menu.
      *
      * Parameters:
@@ -240,7 +240,7 @@ Jx.Menu = new Class({
         this.fireEvent('hide', this); 
     },
     /**
-     * Method: show
+     * APIMethod: show
      * Show the menu
      */
     show : function() {
@@ -290,7 +290,7 @@ Jx.Menu = new Class({
         this.fireEvent('show', this); 
     },
     /**
-     * Method: setVisibleItem
+     * APIMethod: setVisibleItem
      * Set the sub menu that is currently open
      *
      * Parameters:
@@ -312,6 +312,102 @@ Jx.Menu = new Class({
         if (e.key == 'esc') {
             this.hide();
         }
+    },
+    /**
+     * APIMethod: isEnabled
+     * This returns true if the menu is enabled, false otherwise
+     *
+     * Returns:
+     * {Boolean} whether the menu is enabled or not
+     */
+    isEnabled: function() { 
+        return this.button.isEnabled; 
+    },
+    
+    /**
+     * APIMethod: setEnabled
+     * enable or disable the menu.
+     *
+     * Parameters:
+     * enabled - {Boolean} the new enabled state of the menu
+     */
+    setEnabled: function(enabled) {
+        return this.button.setEnabled(enabled);
+    },
+    /**
+     * APIMethod: isActive
+     * returns true if the menu is open.
+     *
+     * Returns:
+     * {Boolean} the active state of the menu
+     */
+    isActive: function() { 
+        return this.button.isActive();
+    },
+    /**
+     * APIMethod: setActive
+     * Set the active state of the menu
+     *
+     * Parameters:
+     * active - {Boolean} the new active state of the menu
+     */
+    setActive: function(active) {
+        this.button.setActive(active);
+    },
+    /**
+     * APIMethod: setImage
+     * set the image of this menu to a new image URL
+     *
+     * Parameters:
+     * path - {String} the new url to use as the image for this menu
+     */
+    setImage: function(path) {
+        this.button.setImage(path);
+    },
+    /**
+     * APIMethod: setLabel
+     * 
+     * sets the text of the menu.
+     *
+     * Parameters: 
+     *
+     * label - {String} the new label for the menu
+     */
+    setLabel: function(label) {
+        this.button.setLabel(label);
+    },
+    /**
+     * APIMethod: getLabel
+     * 
+     * returns the text of the menu.
+     */
+    getLabel: function() {
+        return this.button.getLabel();
+    },
+    /**
+     * APIMethod: setTooltip
+     * sets the tooltip displayed by the menu
+     *
+     * Parameters: 
+     * tooltip - {String} the new tooltip
+     */
+    setTooltip: function(tooltip) {
+        this.button.setTooltip(tooltip);
+    },
+    /**
+     * APIMethod: focus
+     * capture the keyboard focus on this menu
+     */
+    focus: function() {
+        this.button.focus();
+    },
+    /**
+     * APIMethod: blur
+     * remove the keyboard focus from this menu
+     */
+    blur: function() {
+        this.button.blur();
     }
+    
 });
 
