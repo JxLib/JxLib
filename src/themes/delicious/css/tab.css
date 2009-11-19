@@ -135,9 +135,6 @@ a.jxTabClose {
   user-select: none;
   -moz-user-select: none;
   -khtml-user-select: none;
-}
-
-a.jxTabClose img {
   width: 16px;
   height: 16px;
   background-image: url(images/tab_close.png);  

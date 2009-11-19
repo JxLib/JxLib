@@ -1,18 +1,42 @@
-/* jx notification classes */
-.jxNotificationContainer {
-    border: 2px solid #000;
-    background-color: #ccc;
-    padding: 2px;
+/* For Reference
+   Success, notice and error boxes from Blueprint */
+
+/* 
+.error      { background: #FBE3E4; color: #8a1f11; border-color: #FBC2C4; }
+.notice     { background: #FFF6BF; color: #514721; border-color: #FFD324; }
+.success    { background: #E6EFC2; color: #264409; border-color: #C6D880; }
+.error a    { color: #8a1f11; }
+.notice a   { color: #514721; }
+.success a  { color: #264409; }
+*/
+
+
+
+.jxNoticeListContainer {
+}
+
+.jxNoticeListContainer .jxChrome {
+  background-image: url(images/flyout_chrome.png);
+  padding: 5px 5px 7px 6px;
 }
 
 .jxNoticeList {
     position: relative;
+    margin: 6px 6px 8px 7px;
+    border: 1px solid #999;
+    background-color: #eee;
+}
+
+.jxNoticeItemContainer .jxChrome {
+  background-image: url(images/flyout_chrome.png);
+  padding: 5px 5px 7px 6px;
 }
 
 .jxNoticeItem {
     position: relative;
-    border: 2px solid blue;
-    margin: 2px;
+    border: 2px solid #bbb;
+    background-color: #eee;
+    margin: 6px 6px 8px 7px;
     padding: 2px;
 }
 
@@ -20,10 +44,23 @@
     font-family: Arial, Helvetica, sans-serif;
     font-size: 11px;
     line-height: 18px;
+    color: #666;
 }
+
+.jxError {   background-color: #FBE3E4; color: #8a1f11; border-color: #FBC2C4; }
+.jxWarning { background-color: #FFF6BF; color: #514721; border-color: #FFD324; }
+.jxSuccess { background-color: #E6EFC2; color: #264409; border-color: #C6D880; }
+.jxError .jxNotice {   color: #8a1f11; }
+.JxWarning .jxNotice { color: #514721; }
+.jxSuccess .jxNotice { color: #264409; }
 
 .jxNoticeClose {
     position: absolute;
     top: 2px;
     right: 2px;
+    width: 16px;
+    height: 16px;
+    background-image: url(images/tab_close.png);
+    background-position: 0px 0px;
+    background-repeat: no-repeat;
 }
