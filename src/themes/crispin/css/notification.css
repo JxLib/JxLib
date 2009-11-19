@@ -13,13 +13,18 @@
 
 
 .jxNotificationContainer {
-    border: 2px solid #bbb;
-    background-color: #eee;
-    padding: 2px;
+}
+
+.jxNotificationContainer .jxChrome {
+  background-image: url(images/flyout_chrome.png);
+  padding: 5px 5px 7px 6px;
 }
 
 .jxNoticeList {
     position: relative;
+    margin: 6px 6px 8px 7px;
+    border: 1px solid #999;
+    background-color: #eee;
 }
 
 .jxNoticeItem {
@@ -28,7 +33,6 @@
     background-color: #eee;
     margin: 2px;
     padding: 2px;
-    visibility: hidden;
 }
 
 .jxNotice {
