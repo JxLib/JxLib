@@ -44,8 +44,9 @@
     font-family: Arial, Helvetica, sans-serif;
     font-size: 11px;
     line-height: 18px;
-    color: #666;   
-}
+    color: #666;
+    padding-right: 20px;
+}                          
 
 .jxNoticeError .jxNoticeItem {   background-color: #FBE3E4; color: #8a1f11; border-color: #FBC2C4; }
 .jxNoticeWarning .jxNoticeItem { background-color: #FFF6BF; color: #514721; border-color: #FFD324; }
