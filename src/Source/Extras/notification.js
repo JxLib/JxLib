@@ -62,7 +62,7 @@ Jx.Notification = new Class({
          * actual notice. The actual notice is below in the class property 
          * noticeTemplate.
          */
-        template: '<div class="jxNotificationContainer"><span class="jxNotificationMinimize"></span><span class="jxNoticeContainer"></span></div>',
+        template: '<div class="jxNotificationContainer"><ul class="jxNoticeList"></ul></div>',
         /**
          * Option: listOptions
          * An object holding custom options for the internal Jx.List instance.
@@ -82,15 +82,14 @@ Jx.Notification = new Class({
     
     containerFx: null,
     
-    noticeTemplate: '<span class="jxNotice"><span class="jxNoticeClose"></span></span>',
+    noticeTemplate: '<li class="jxNoticeItem"><div class="jxNoticeContainer"><span class="jxNotice"></span><a href="javascript:void(0);" class="jxNoticeClose">(x)</a></div></li>',
     
     classes: new Hash({
         domObj: 'jxNotificationContainer',
-        elements: 'jxNotificationMinimize',
-        elements: 'jxNoticeContainer'
+        noticeList: 'jxNoticeList'
     }),
     
-    noticeClasses: ['jxNotice','jxNoticeClose'],
+    noticeClasses: ['jxNoticeItem','jxNotice','jxNoticeClose'],
     
     bound: {},
     
@@ -101,11 +100,21 @@ Jx.Notification = new Class({
     
     render: function () {
         this.parent();
-        this.list = new Jx.List(this.elements.get('jxNoticeContainer'), this.options.listOptions);
+        this.list = new Jx.List(this.noticeList, this.options.listOptions);
         this.containerFx = $defined(this.options.fx) ? this.options.fx : {};
         
         if (!$defined(this.options.parent)) {
             this.options.parent = document.body;
+        }
+        
+        if (this.options.style === 'anchor') {
+            this.setAnchors();
+            this.bound.reveal = this.revealAnchor.bind(this);
+            this.bound.hide = this.hideAnchor.bind(this);
+        } else {
+            this.setFloat();
+            this.bound.reveal = this.revealFloat.bind(this);
+            this.bound.hide = this.hideFloat.bind(this);
         }
         
         //add any initial notices
@@ -114,40 +123,30 @@ Jx.Notification = new Class({
                 this.add(item);
             },this);
         }
-                
-        if (this.options.style === 'anchor') {
-            this.setAnchors();
-        } else {
-            this.setFloat();
-        }
-        
-        
     },
     
     add: function (item, klass) {
         var els = this.processTemplate(this.noticeTemplate,this.noticeClasses);
-        var notice = els.get('jxNotice');
+        var notice = els.get('jxNoticeItem');
         if (Jx.type(item) === 'string') {
-            var n = new Element('span',{
-                html: item
-            });
-            n.inject(notice);
+            els.get('jxNotice').set('html', item);
         } else {
-            document.id(item).inject(notice);
+            document.id(item).inject(els.get('jxNotice'));
         }
         if ($defined(klass)) {
-            notice.addClass('jxNotice'+klass);
+            notice.addClass(klass);
         }
-        this.list.add(notice);
-        
-        els.get('jxNoticeClose').addEvent('click', this.closeNotice.bind(this, notice));
-        
+
+        els.get('jxNoticeClose').addEvent('click', function() {
+            this.bound.hide(notice);
+        }.bind(this));
+        this.bound.reveal(notice);
         this.fireEvent('add', item);
         return notice;
     },
     
     remove: function (notice) {
-        this.list.remove(notice);
+        this.bound.hide(notice);
         this.fireEvent('remove',notice);
     },
     
@@ -199,7 +198,7 @@ Jx.Notification = new Class({
         };
         this.addEvent('add', this.bound.revealAnchor);
         this.addEvent('remove', this.bound.checkAnchor);
-        this.elements.get('jxNotificationMinimize').addEvent('click', this.bound.minimizeAnchor);
+        // this.elements.get('jxNotificationMinimize').addEvent('click', this.bound.minimizeAnchor);
         
         if (this.list.count() > 0) {
             this.revealAnchor();
@@ -245,7 +244,6 @@ Jx.Notification = new Class({
     },
     
     setFloat: function () {
-        
         this.domObj.setStyles({
             visibility: 'hidden',
             display: 'block',
@@ -261,50 +259,59 @@ Jx.Notification = new Class({
             this.positionOpts.options = this.options.position;
         } else {
             this.positionOpts.options = {
-                horizontal: 'right right',
-                vertical: 'bottom bottom',
+                horizontal: 'center center',
+                vertical: 'top top',
                 offsets: {
                     bottom: 10,
                     right: 10
                 }
             };
         }
-        
-        this.elements.get('jxNotificationMinimize').addEvent('click', this.hideFloat.bind(this));
-        this.bound.revealFloat = this.revealFloat.bind(this);
-        this.bound.checkFloat = this.checkFloat.bind(this);
-        this.addEvent('add',this.bound.revealFloat);
-        this.addEvent('remove', this.bound.checkFloat);
-        
-        if (this.list.count() > 0) {
-            this.revealFloat();
-        }
     },
     
-    revealFloat: function () {
+    revealFloat: function (item) {
         if (!this.showing) {
-            //inject domObj into parent 
             this.domObj.inject(this.options.parent);
+            this.list.add(item);
             if (this.options.floatChrome) {
                 this.showChrome(this.domObj);
             }
             this.position(this.positionOpts.element, this.positionOpts.relative, this.positionOpts.options);
+            this.domObj.get('tween').addEvent('complete', function() {
+                if (this.options.floatChrome) {
+                    this.showChrome(this.domObj);
+                }
+                this.domObj.get('tween').removeEvents('complete');
+            }.bind(this));
             this.domObj.fade('in');
             this.showing = true;
+        } else {
+            item.setStyle('opacity',0);
+            this.list.add(item);
+            item.get('tween').addEvent('complete', function() {
+                item.get('tween').removeEvents('complete');
+            }.bind(this));
+            item.fade('in');
         }
     },
     
-    hideFloat: function () {
+    hideFloat: function (item) {
         if (this.showing) {
-            this.domObj.fade('out');
-            this.showing = false;
-        }
-    },
-    
-    checkFloat: function () {
-        if (this.list.count() === 0) {
-            //list is empty so close the float
-            this.hideFloat();
+            if (this.list.count() > 1) {
+                item.get('tween').addEvent('complete', function() {
+                    this.list.remove(item);
+                    item.get('tween').removeEvents('complete');
+                }.bind(this));
+                item.fade('out');
+            } else {
+                this.domObj.get('tween').addEvent('complete', function() {
+                    this.list.empty();
+                    this.domObj.get('tween').removeEvents('complete');
+                    this.hideChrome();
+                }.bind(this));
+                this.domObj.fade('out');
+                this.showing = false;
+            }
         }
     },
     
