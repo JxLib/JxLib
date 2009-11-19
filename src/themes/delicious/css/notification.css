@@ -47,12 +47,12 @@
     color: #666;
 }
 
-.jxError {   background-color: #FBE3E4; color: #8a1f11; border-color: #FBC2C4; }
-.jxWarning { background-color: #FFF6BF; color: #514721; border-color: #FFD324; }
-.jxSuccess { background-color: #E6EFC2; color: #264409; border-color: #C6D880; }
-.jxError .jxNotice {   color: #8a1f11; }
-.JxWarning .jxNotice { color: #514721; }
-.jxSuccess .jxNotice { color: #264409; }
+.jxNoticeError {   background-color: #FBE3E4; color: #8a1f11; border-color: #FBC2C4; }
+.jxNoticeWarning { background-color: #FFF6BF; color: #514721; border-color: #FFD324; }
+.jxNoticeSuccess { background-color: #E6EFC2; color: #264409; border-color: #C6D880; }
+.jxNoticeError .jxNotice {   color: #8a1f11; }
+.JxNoticeWarning .jxNotice { color: #514721; }
+.jxNoticeSuccess .jxNotice { color: #264409; }
 
 .jxNoticeClose {
     position: absolute;
