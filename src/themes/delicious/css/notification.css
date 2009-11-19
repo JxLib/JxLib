@@ -37,7 +37,6 @@
     border: 2px solid #bbb;
     background-color: #eee;
     margin: 6px 6px 8px 7px;
-    padding: 2px;
 }
 
 .jxNotice {
@@ -45,8 +44,10 @@
     font-size: 11px;
     line-height: 18px;
     color: #666;
-    padding-right: 20px;
-}
+    margin: 0px;
+    border: none;
+    padding: 0px 20px 0px 10px; 
+}                          
 
 .jxNoticeError .jxNoticeItem {   background-color: #FBE3E4; color: #8a1f11; border-color: #FBC2C4; }
 .jxNoticeWarning .jxNoticeItem { background-color: #FFF6BF; color: #514721; border-color: #FFD324; }
