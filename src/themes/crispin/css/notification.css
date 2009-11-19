@@ -1,7 +1,20 @@
-/* jx notification classes */
+/* For Reference
+   Success, notice and error boxes from Blueprint */
+
+/* 
+.error      { background: #FBE3E4; color: #8a1f11; border-color: #FBC2C4; }
+.notice     { background: #FFF6BF; color: #514721; border-color: #FFD324; }
+.success    { background: #E6EFC2; color: #264409; border-color: #C6D880; }
+.error a    { color: #8a1f11; }
+.notice a   { color: #514721; }
+.success a  { color: #264409; }
+*/
+
+
+
 .jxNotificationContainer {
-    border: 2px solid #000;
-    background-color: #ccc;
+    border: 2px solid #bbb;
+    background-color: #eee;
     padding: 2px;
 }
 
@@ -11,7 +24,8 @@
 
 .jxNoticeItem {
     position: relative;
-    border: 2px solid blue;
+    border: 2px solid #bbb;
+    background-color: #eee;
     margin: 2px;
     padding: 2px;
     visibility: hidden;
@@ -21,7 +35,15 @@
     font-family: Arial, Helvetica, sans-serif;
     font-size: 11px;
     line-height: 18px;
+    color: #666;
 }
+
+.jxError {   background-color: #FBE3E4; color: #8a1f11; border-color: #FBC2C4; }
+.jxWarning { background-color: #FFF6BF; color: #514721; border-color: #FFD324; }
+.jxSuccess { background-color: #E6EFC2; color: #264409; border-color: #C6D880; }
+.jxError .jxNotice {   color: #8a1f11; }
+.JxWarning .jxNotice { color: #514721; }
+.jxSuccess .jxNotice { color: #264409; }
 
 .jxNoticeClose {
     position: absolute;
