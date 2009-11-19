@@ -137,7 +137,9 @@ a.jxTabClose {
   -khtml-user-select: none;
   width: 16px;
   height: 16px;
-  background-image: url(images/tab_close.png);  
+  background-image: url(images/tab_close.png);
+  background-position: 0px 0px;
+  background-repeat: no-repeat;
 }
 
 .jxDisabled a.jxTab,

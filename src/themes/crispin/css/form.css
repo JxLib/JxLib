@@ -158,45 +158,45 @@
 
 /* Field Validation */
 
-.jxFieldInvalid .jxInputText,
-.jxFieldInvalid .jxInputPassword,
-.jxFieldInvalid .jxInputTextarea,
-.jxFieldInvalid .jxInputSelect {
+.jxFieldError .jxInputText,
+.jxFieldError .jxInputPassword,
+.jxFieldError .jxInputTextarea,
+.jxFieldError .jxInputSelect {
   background-color: #FBE3E4; 
   color: #8a1f11; 
   border-color: #FBC2C4;
 }
 
-.jxFieldValidated .jxInputText,
-.jxFieldValidated .jxInputPassword,
-.jxFieldValidated .jxInputTextarea,
-.jxFieldValidated .jxInputSelect {
+.jxFieldSuccess .jxInputText,
+.jxFieldSuccess .jxInputPassword,
+.jxFieldSuccess .jxInputTextarea,
+.jxFieldSuccess .jxInputSelect {
   background-color: #E6EFC2; 
   color: #264409; 
   border-color: #C6D880;
 }
 
-.jxFieldInvalid .jxInputText:focus,
-.jxFieldInvalid .jxInputPassword:focus,
-.jxFieldInvalid .jxInputTextarea:focus,
-.jxFieldInvalid .jxInputSelect:focus {
+.jxFieldError .jxInputText:focus,
+.jxFieldError .jxInputPassword:focus,
+.jxFieldError .jxInputTextarea:focus,
+.jxFieldError .jxInputSelect:focus {
   border-color: #8a1f11;
 }
 
-.jxFieldValidated .jxInputText:focus,
-.jxFieldValidated .jxInputPassword:focus,
-.jxFieldValidated .jxInputTextarea:focus,
-.jxFieldValidated .jxInputSelect:focus {
+.jxFieldSuccess .jxInputText:focus,
+.jxFieldSuccess .jxInputPassword:focus,
+.jxFieldSuccess .jxInputTextarea:focus,
+.jxFieldSuccess .jxInputSelect:focus {
   border-color: #264409;
 }
 
-.jxFieldInvalid .jxInputLabel,
-.jxFieldInvalid .jxInputTag {
+.jxFieldError .jxInputLabel,
+.jxFieldError .jxInputTag {
   color: #8a1f11; 
 }
 
-.jxFieldValidated .jxInputLabel,
-.jxFieldValidated .jxInputTag {
+.jxFieldSuccess .jxInputLabel,
+.jxFieldSuccess .jxInputTag {
   color: #264409; 
 }
 

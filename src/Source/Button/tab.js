@@ -55,7 +55,7 @@ Jx.Button.Tab = new Class({
         pressedClass: 'jxTabPressed',
         activeClass: 'jxTabActive',
         activeTabClass: 'tabContentActive',
-        template: '<span class="jxTabContainer"><a class="jxTab"><span class="jxTabContent"><img class="jxTabIcon"><span class="jxTabLabel"></span></span></a><a class="jxTabClose"><img src="'+Jx.aPixel.src+'"></a></span>',
+        template: '<span class="jxTabContainer"><a class="jxTab"><span class="jxTabContent"><img class="jxTabIcon"><span class="jxTabLabel"></span></span></a><a class="jxTabClose"></span>',
         contentTemplate: '<div class="tabContent"></div>'
     },
     classes: new Hash({

@@ -142,10 +142,10 @@ Jx.Plugin.Field.Validator = new Class({
             }          
         }, this);
         if (!this.valid) {
-            this.field.domObj.removeClass('jxFieldValidated').addClass('jxFieldInvalid');
+            this.field.domObj.removeClass('jxFieldSuccess').addClass('jxFieldError');
             this.fireEvent('fieldValidationFailed', [this.field, this]);
         } else {
-            this.field.domObj.removeClass('jxFieldInvalid').addClass('jxFieldValidated');
+            this.field.domObj.removeClass('jxFieldError').addClass('jxFieldSuccess');
             this.fireEvent('fieldValidationPassed', [this.field, this]);  
         }
         return this.valid;
@@ -158,7 +158,7 @@ Jx.Plugin.Field.Validator = new Class({
     reset: function () {
         this.valid = null;
         this.errors = [];
-        this.field.field.removeClass('jxFieldInvalid').removeClass('jxFieldValidated');
+        this.field.field.removeClass('jxFieldError').removeClass('jxFieldSuccess');
     },
     /**
      * APIMethod: getErrors
