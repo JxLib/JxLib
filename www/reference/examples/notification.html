@@ -14,6 +14,9 @@ window.addEvent('load', function() {
 </script>
 <script id="basicNotifierScript" type="text/javascript" charset="utf-8">
 function drawBasicNotifier() {
+  var notifier = new Jx.Notifier.Float({
+    
+  });
   var form = new Jx.Form({
     name: 'testForm',
     formClass: 'jxFormInline'
@@ -37,7 +40,9 @@ function drawBasicNotifier() {
   }).addTo(fieldSet1);
 
   new Jx.Field.Button({
-    buttonOptions:{label: 'Warning'}
+    buttonOptions:{label: 'Warning', onClick: function() {
+      notifier.add(new Jx.Notice.Warning({content: 'You clicked the warning button'}));
+    }}
   }).addTo(fieldSet1);
   
   new Jx.Field.Text({
@@ -49,7 +54,9 @@ function drawBasicNotifier() {
   }).addTo(fieldSet1);
   
   new Jx.Field.Button({
-    buttonOptions:{label: 'Error'}
+    buttonOptions:{label: 'Error', onClick: function() {
+      notifier.add(new Jx.Notice.Error({content: 'You clicked the error button'}));
+    }}
   }).addTo(fieldSet1);
 
   new Jx.Field.Text({
@@ -61,7 +68,9 @@ function drawBasicNotifier() {
   }).addTo(fieldSet1);
 
   new Jx.Field.Button({
-    buttonOptions:{label: 'Success'}
+    buttonOptions:{label: 'Success', onClick: function() {
+      notifier.add(new Jx.Notice.Success({content: 'You clicked the success button'}));
+    }}
   }).addTo(fieldSet1);
   
 
