@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Jx.Notifier Examples</title>
+<meta http-equiv="Content-type" content="text/html; charset=iso-8859-1" />
+<script type="text/javascript" src="../../lib/mootools-core.js"></script>
+<script type="text/javascript" src="../../lib/mootools-more.js"></script>
+<script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
+<script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
+<script  type="text/javascript">
+window.addEvent('load', function() {
+    drawBasicNotifier();
+}); 
+</script>
+<script id="basicNotifierScript" type="text/javascript" charset="utf-8">
+function drawBasicNotifier() {
+  var form = new Jx.Form({
+    name: 'testForm',
+    formClass: 'jxFormInline'
+  }).addTo('formBasic');
+  
+// First Fieldset
+
+  var fieldSet1 = new Jx.Fieldset({
+    legend: 'Inline-Block Form',
+    id: 'FieldSet1',
+    fieldsetClass: 'jxFormInlineblock'
+  }).addTo(form);
+  
+  new Jx.Field.Text({
+    id: 'Text1',
+    name: 'Text1',
+    label: 'Text One',
+    value: 'Initial Value',
+    tag: 'a tag',
+    required: true
+  }).addTo(fieldSet1);
+
+  new Jx.Field.Button({
+    buttonOptions:{label: 'Warning'}
+  }).addTo(fieldSet1);
+  
+  new Jx.Field.Text({
+    id: 'Text2',
+    name: 'Text2',
+    label: 'Text Two',
+    value: 'Initial Value',
+    tag: 'a tag'
+  }).addTo(fieldSet1);
+  
+  new Jx.Field.Button({
+    buttonOptions:{label: 'Error'}
+  }).addTo(fieldSet1);
+
+  new Jx.Field.Text({
+    id: 'Text3',
+    name: 'Text3',
+    label: 'Text Three',
+    value: 'Initial Value',
+    tag: 'a tag'
+  }).addTo(fieldSet1);
+
+  new Jx.Field.Button({
+    buttonOptions:{label: 'Success'}
+  }).addTo(fieldSet1);
+  
+
+
+
+  
+}
+</script>
+</head>
+<body>
+
+<h1>Jx.Notifier Examples</h1>
+<p>API Reference: <a id="form-js" href="javascript:void();" title="link to API Reference">Jx.Notofier</a></p>
+
+<h2 id="basicNotifier">A Form with a Notifications</h2>
+<p>A programmatically created form with several fields and buttons to test validation and notification.</p>
+<div id="formBasic" class="formBox"></div>
+
+</body>
+</html>
