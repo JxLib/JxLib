@@ -18,6 +18,7 @@
   margin: 0px;
   font-size: 0px;
   line-height: 0px;
+  z-index: 500;
 }
 
 .jxNoticeList {

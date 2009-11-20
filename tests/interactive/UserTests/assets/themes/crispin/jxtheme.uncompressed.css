@@ -1889,10 +1889,16 @@ ul.jxMenu span.jxMenuSeparator {
   margin: 0px;
   font-size: 0px;
   line-height: 0px;
+  z-index: 500;
 }
 
 .jxNoticeList {
     position: relative;
+}
+
+.jxNoticeItemContainer {
+    position: relative;
+    overflow: hidden;
 }
 
 .jxNoticeItemContainer .jxChrome {

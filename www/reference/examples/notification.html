@@ -28,7 +28,9 @@ function drawBasicNotifier() {
     fieldsetClass: 'jxFormInlineblock'
   }).addTo(form);
   
-  var notifier = new Jx.Notifier.Float();
+  var notifier = new Jx.Notifier.Float({
+    chrome: true
+  });
 
   new Jx.Field.Text({
     id: 'Text1',
