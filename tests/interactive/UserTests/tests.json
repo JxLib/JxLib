@@ -19,7 +19,7 @@
         "progressbar": ["all"],
         "slider": ["all"],
         "slide": ["all"],
-        "notification": ["all"]
+        "notifier": ["all"]
     },
     "Panel": {
         "message": ["all"],

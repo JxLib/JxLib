@@ -17,9 +17,10 @@ Jx.Notice = new Class({
     Extends: Jx.ListItem,
 
     options: {
+        fx: 'fade',
         chrome: false,
         enabled: true,
-        template: '<li class="jxNoticeItemContainer"><div class="jxNoticeItem"><span class="jxNotice"></span><a class="jxNoticeClose"></a></div></li>',
+        template: '<li class="jxNoticeItemContainer"><div class="jxNoticeItem"><span class="jxNotice"></span><a class="jxNoticeClose" href="javascript:void(0);" title="close this notice"></a></div></li>',
         klass: ''
     },
 
@@ -39,7 +40,6 @@ Jx.Notice = new Class({
         if (this.options.klass) {
             this.domObj.addClass(this.options.klass);
         }
-
         if (this.domClose) {
             this.domClose.addEvent('click', this.close.bind(this));
         }
@@ -47,6 +47,32 @@ Jx.Notice = new Class({
 
     close: function() {
         this.fireEvent('close', this);
+    },
+    
+    show: function(el, onComplete) {
+        if (this.options.chrome) {
+            this.showChrome();
+        }
+        if (this.options.fx) {
+            document.id(el).adopt(this);
+            if (onComplete) onComplete();
+        } else {
+            document.id(el).adopt(this);
+            if (onComplete) onComplete();
+        }
+    },
+    
+    hide: function(onComplete) {
+        if (this.options.chrome) {
+            this.hideChrome();
+        }
+        if (this.options.fx) {
+            document.id(this).dispose();
+            if (onComplete) onComplete();
+        } else {
+            document.id(this).dispose();
+            if (onComplete) onComplete();
+        }
     }
 });
 

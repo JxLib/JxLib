@@ -80,7 +80,9 @@ Group: Jx  {
    Group: Extras  {
 
       File: ColorPalette  (Extras/colorpalette.js)
+      File: Notice  (Extras/notice.js)
       File: notification.js  (Extras/notification.js)
+      File: notifier.js  (Extras/notifier.js)
       File: Progressbar  (Extras/progressbar.js)
       File: Slide  (Extras/slide.js)
       File: Slider  (Extras/slider.js)
@@ -193,10 +195,10 @@ Group: Index  {
    Index: Everything
    Class Index: Classes
    Constructor Index: Constructor
-   Function Index: Functions
    Property Index: Properties
    TODO Index: TODO
    Event Index: Events
    File Index: Files
+   Function Index: Functions
    }  # Group: Index
 

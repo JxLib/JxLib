@@ -505,13 +505,15 @@ Jx.Widget = new Class({
      * element - {HTMLElement} the element to show the chrome on.
      */
     showChrome: function(element) {
-        element = document.id(element);
-        if (!this.chrome) {
-            this.makeChrome(element);
-        }
-        this.resizeChrome(element);
-        if (element && this.chrome.parentNode !== element) {
-            element.adopt(this.chrome);
+        element = document.id(element) || document.id(this);
+        if (element) {
+            if (!this.chrome) {
+                this.makeChrome(element);
+            }
+            this.resizeChrome(element);
+            if (element && this.chrome.parentNode !== element) {
+                element.adopt(this.chrome);
+            }
         }
     },
 

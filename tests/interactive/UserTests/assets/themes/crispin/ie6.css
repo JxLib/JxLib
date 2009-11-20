@@ -1,6 +1,6 @@
 /**
  * @project         Jx
- * @revision        $Id: ie6.css 321 2009-04-06 18:23:39Z fred.warnock $
+ * @revision        $Id: ie6.css 612 2009-11-19 19:07:54Z fred.warnock $
  * @author          Fred Warnock (fwarnock@dmsolutions.ca)
  * @copyright       (c) 2006 DM Solutions Group Inc.
  */
@@ -20,7 +20,7 @@
 .jxChromeDrag {filter: Alpha(opacity=50);}
 .jxDialogModal {filter: Alpha(opacity=20);}
 .jxDisabled {filter:Alpha(opacity=40);}
-.jxDisabled * {filter:Alpha(opacity=40);}
+/*.jxDisabled * {filter:Alpha(opacity=40);}*/
 iframe.jxIframeShim {filter:Alpha(opacity:0);}
 
 /* List items do not render properly under several conditions.  

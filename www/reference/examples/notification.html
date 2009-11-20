@@ -14,14 +14,12 @@ window.addEvent('load', function() {
 </script>
 <script id="basicNotifierScript" type="text/javascript" charset="utf-8">
 function drawBasicNotifier() {
-  var notifier = new Jx.Notifier.Float({
-    
-  });
   var form = new Jx.Form({
     name: 'testForm',
     formClass: 'jxFormInline'
   }).addTo('formBasic');
   
+
 // First Fieldset
 
   var fieldSet1 = new Jx.Fieldset({
@@ -30,6 +28,8 @@ function drawBasicNotifier() {
     fieldsetClass: 'jxFormInlineblock'
   }).addTo(form);
   
+  var notifier = new Jx.Notifier.Float();
+
   new Jx.Field.Text({
     id: 'Text1',
     name: 'Text1',

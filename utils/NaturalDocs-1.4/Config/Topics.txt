@@ -154,7 +154,7 @@ Topic Type: Function
       routine, routines
       subroutine, subroutines
       sub, subs
-      method, methods
+      apimethod, apimethods
       callback, callbacks
       constructor, constructors
       destructor, destructors
@@ -217,7 +217,7 @@ Topic Type: Property
    Can Group With: Functions
 
    Keywords:
-      property, properties
+      apiproperty, apiproperties
       prop, props
 
 

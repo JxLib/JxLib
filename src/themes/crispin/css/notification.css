@@ -24,6 +24,11 @@
     position: relative;
 }
 
+.jxNoticeItemContainer {
+    position: relative;
+    overflow: hidden;
+}
+
 .jxNoticeItemContainer .jxChrome {
   background-image: url(images/flyout_chrome.png);
   padding: 5px 5px 7px 6px;

@@ -984,7 +984,7 @@ div.jxFileFake .jxButtonContainer {
     height: 35px;
 }/**
  * @project         Jx
- * @revision        $Id: form.css 570 2009-10-28 15:32:02Z fred.warnock $
+ * @revision        $Id: form.css 615 2009-11-19 22:01:38Z fred.warnock $
  * @author          Fred Warnock (fwarnock@dmsolutions.ca)
  * @copyright       (c) 2006 DM Solutions Group Inc.
  */
@@ -1142,45 +1142,45 @@ div.jxFileFake .jxButtonContainer {
 
 /* Field Validation */
 
-.jxFieldInvalid .jxInputText,
-.jxFieldInvalid .jxInputPassword,
-.jxFieldInvalid .jxInputTextarea,
-.jxFieldInvalid .jxInputSelect {
+.jxFieldError .jxInputText,
+.jxFieldError .jxInputPassword,
+.jxFieldError .jxInputTextarea,
+.jxFieldError .jxInputSelect {
   background-color: #FBE3E4; 
   color: #8a1f11; 
   border-color: #FBC2C4;
 }
 
-.jxFieldValidated .jxInputText,
-.jxFieldValidated .jxInputPassword,
-.jxFieldValidated .jxInputTextarea,
-.jxFieldValidated .jxInputSelect {
+.jxFieldSuccess .jxInputText,
+.jxFieldSuccess .jxInputPassword,
+.jxFieldSuccess .jxInputTextarea,
+.jxFieldSuccess .jxInputSelect {
   background-color: #E6EFC2; 
   color: #264409; 
   border-color: #C6D880;
 }
 
-.jxFieldInvalid .jxInputText:focus,
-.jxFieldInvalid .jxInputPassword:focus,
-.jxFieldInvalid .jxInputTextarea:focus,
-.jxFieldInvalid .jxInputSelect:focus {
+.jxFieldError .jxInputText:focus,
+.jxFieldError .jxInputPassword:focus,
+.jxFieldError .jxInputTextarea:focus,
+.jxFieldError .jxInputSelect:focus {
   border-color: #8a1f11;
 }
 
-.jxFieldValidated .jxInputText:focus,
-.jxFieldValidated .jxInputPassword:focus,
-.jxFieldValidated .jxInputTextarea:focus,
-.jxFieldValidated .jxInputSelect:focus {
+.jxFieldSuccess .jxInputText:focus,
+.jxFieldSuccess .jxInputPassword:focus,
+.jxFieldSuccess .jxInputTextarea:focus,
+.jxFieldSuccess .jxInputSelect:focus {
   border-color: #264409;
 }
 
-.jxFieldInvalid .jxInputLabel,
-.jxFieldInvalid .jxInputTag {
+.jxFieldError .jxInputLabel,
+.jxFieldError .jxInputTag {
   color: #8a1f11; 
 }
 
-.jxFieldValidated .jxInputLabel,
-.jxFieldValidated .jxInputTag {
+.jxFieldSuccess .jxInputLabel,
+.jxFieldSuccess .jxInputTag {
   color: #264409; 
 }
 
@@ -1869,33 +1869,75 @@ ul.jxMenu span.jxMenuSeparator {
     text-align: center;
     padding: 10px;
     margin-top: 10px;
-}.jxNotificationContainer {
-    border: 1px black solid;
-    padding: 2px;
+}/* For Reference
+   Success, notice and error boxes from Blueprint */
+
+/* 
+.error      { background: #FBE3E4; color: #8a1f11; border-color: #FBC2C4; }
+.notice     { background: #FFF6BF; color: #514721; border-color: #FFD324; }
+.success    { background: #E6EFC2; color: #264409; border-color: #C6D880; }
+.error a    { color: #8a1f11; }
+.notice a   { color: #514721; }
+.success a  { color: #264409; }
+*/
+
+
+
+.jxNoticeListContainer {
+  border: none;
+  padding: 0px;
+  margin: 0px;
+  font-size: 0px;
+  line-height: 0px;
 }
 
-.jxNotificationMinimize {
-    width: 100%;
-    height: 10px;
-    margin: 2px;
-    background-color: blue;
-    cursor: pointer;
-    display: block;
+.jxNoticeList {
+    position: relative;
+}
+
+.jxNoticeItemContainer .jxChrome {
+  background-image: url(images/flyout_chrome.png);
+  padding: 5px 5px 7px 6px;
+}
+
+.jxNoticeItem {
+    position: relative;
+    border: 1px solid #ccc;
+    background-color: #f8f8f8;
+    margin: 6px 6px 8px 7px;
+    background-image: url(images/notice.png);
+    background-repeat: repeat-x;
+    background-position: left bottom;
 }
 
 .jxNotice {
-    margin: 5 auto;
-    border: 1px solid black;
-    position: relative;
     display: block;
-}
+    position: relative;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    line-height: 18px;
+    color: #666;
+    margin: 0px;
+    border: none;
+    padding: 4px 24px 4px 8px; 
+}                          
+
+.jxNoticeError .jxNoticeItem {   background-color: #FBE3E4; color: #8a1f11; border-color: #FBC2C4; background-image: url(images/notice_error.png);}
+.jxNoticeWarning .jxNoticeItem { background-color: #FFF6BF; color: #514721; border-color: #FFD324; background-image: url(images/notice_warning.png);}
+.jxNoticeSuccess .jxNoticeItem { background-color: #E6EFC2; color: #264409; border-color: #C6D880; background-image: url(images/notice_success.png);}
+.jxNoticeError .jxNotice {   color: #8a1f11; }
+.jxNoticeWarning .jxNotice { color: #514721; }
+.jxNoticeSuccess .jxNotice { color: #264409; }
 
 .jxNoticeClose {
-    float: right;
-    width: 15px;
-    height: 15px;
-    background-color: black;
-    cursor: pointer;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 16px;
+    height: 16px;
+    background-image: url(images/tab_close.png);
+    background-position: 0px 0px;
+    background-repeat: no-repeat;
 }/**
  * @project         Jx
  * @revision        $Id: panel.css 302 2009-04-02 18:42:56Z fred.warnock $
@@ -2285,7 +2327,7 @@ ul.jxMenu span.jxMenuSeparator {
   background-color: #aaa;
 }/**
  * @project         Jx
- * @revision        $Id: tab.css 599 2009-11-10 16:06:38Z fred.warnock $
+ * @revision        $Id: tab.css 615 2009-11-19 22:01:38Z fred.warnock $
  * @author          Fred Warnock (fwarnock@dmsolutions.ca)
  * @copyright       (c) 2006 DM Solutions Group Inc.
  */
@@ -2420,12 +2462,11 @@ a.jxTabClose {
   user-select: none;
   -moz-user-select: none;
   -khtml-user-select: none;
-}
-
-a.jxTabClose img {
   width: 16px;
   height: 16px;
-  background-image: url(images/tab_close.png);  
+  background-image: url(images/tab_close.png);
+  background-position: 0px 0px;
+  background-repeat: no-repeat;
 }
 
 .jxDisabled a.jxTab,

@@ -6,32 +6,27 @@ Jx.Notifier.Float = new Class({
     options: {
         chrome: true,
         fx: null,
-        size: {
-            width: null,
-            height: null
-        },
+        width: 250,
         position: {
             horizontal: 'center center',
-            vertical: 'top top',
-            offsets: {}
+            vertical: 'top top'
         }
     },
-    positionOptions: null,
-    showing: false,
 
     render: function () {
         this.parent();
-        
-        this.domObj.setStyles({
-            display: 'block',
-            opacity: 0,
-            width: this.options.size.width,
-            position: 'absolute'
-        });
-        this.positionOpts = {
-            element: this.domObj,
-            relative: this.options.parent,
-            options: this.options.position
-        };
+        this.domObj.setStyle('position','absolute');
+        if ($defined(this.options.width)) {
+            this.domObj.setStyle('width',this.options.width);
+        }
+        this.position(this.domObj, this.options.parent, this.options.position);
+    },
+    
+    add: function(notice) {
+        if (!(notice instanceof Jx.Notice)) {
+            notice = new Jx.Notice({content: notice});
+        }
+        notice.options.chrome = this.options.chrome;
+        this.parent(notice);
     }
 });
