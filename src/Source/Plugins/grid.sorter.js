@@ -1,16 +1,16 @@
 // $Id: $
 /**
  * Class: Jx.Plugin.Sorter
- * 
+ *
  * Extends: <Jx.Plugin>
- * 
+ *
  * Grid plugin to sort the grid by a single column.
- * 
+ *
  * Original selection code from Jx.Grid's original class
- * 
- * License: 
+ *
+ * License:
  * Copyright (c) 2009, Jon Bomgardner.
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.Plugin.Grid.Sorter = new Class({
@@ -50,7 +50,7 @@ Jx.Plugin.Grid.Sorter = new Class({
     },
     /**
      * APIMethod: attach
-     * Sets up the plugin and attaches the plugin to the grid events it 
+     * Sets up the plugin and attaches the plugin to the grid events it
      * will be monitoring
      */
     attach: function (grid) {
@@ -75,7 +75,7 @@ Jx.Plugin.Grid.Sorter = new Class({
     /**
      * Method: sort
      * called when a grid header is clicked.
-     * 
+     *
      * Parameters:
      * cell - The cell clicked
      */
@@ -100,17 +100,17 @@ Jx.Plugin.Grid.Sorter = new Class({
                 var model = this.grid.getModel();
                 model.sort(this.current.name, null, this.direction);
             }
-    
+
         }
     },
     /**
      * Method: addHeaderClass
      * Event listener that adds the proper sorted column class to the
-     * column we sorted by so that the sort arrow shows 
+     * column we sorted by so that the sort arrow shows
      */
     addHeaderClass : function () {
         this.grid.removeEvent('doneCreateGrid', this.bound.addHeaderClass);
-        
+
         //get header TD
         var th = this.grid.colTable.rows[0].cells[this.currentGridIndex];
         th.addClass('jxGridColumnSorted' + this.direction.capitalize());

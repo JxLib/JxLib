@@ -3,8 +3,8 @@
 
 Jx.Notifier = new Class({
     
-    Extends: Jx.ListView,
     Family: 'Jx.Notifier',
+    Extends: Jx.ListView,
     
     options: {
         /**
@@ -32,6 +32,8 @@ Jx.Notifier = new Class({
         domObj: 'jxNoticeListContainer',
         listObj: 'jxNoticeList'
     }),
+    
+    showing: false,
 
     init: function () {
         this.parent();
@@ -62,11 +64,49 @@ Jx.Notifier = new Class({
             this.remove(notice);
         }.bind(this));
 
-        return this.parent(notice);
+        if (!this.showing) {
+            this.domObj.setStyle('opacity',0);
+            this.options.parent.adopt(this);
+            this.showing = true;
+            this.parent(notice);
+            this.domObj.get('tween').addEvent('complete', function(){
+                this.domObj.get('tween').removeEvents('complete');
+                this.fireEvent('add', notice);
+            }.bind(this));
+            this.domObj.fade('in');
+        } else {
+            document.id(notice).setStyle('opacity', 0);
+            this.parent(notice);
+            document.id(notice).get('tween').addEvent('complete', function(){
+                document.id(notice).get('tween').removeEvents('complete');
+                this.fireEvent('add', notice);
+            }.bind(this));
+            document.id(notice).fade('in');
+        }
     },
     
     remove: function (notice) {
         notice.removeEvents('close');
-        this.parent(notice);
+        if (this.showing) {
+            this.showing = false;
+            var parent = this.parent;
+            if (this.list.count() == 1) {
+                this.domObj.get('tween').addEvent('complete', function() {
+                    parent(notice);
+                    this.domObj.get('tween').removeEvents('complete');
+                    this.fireEvent('remove', notice);
+                });
+                this.domObj.fade('out');
+            } else {
+                document.id(notice).get('tween').addEvent('complete', function() {
+                    parent(notice);
+                    document.id(notice).get('tween').removeEvents('complete');
+                    this.fireEvent('remove',notice);
+                }.bind(this));
+                document.id(notice).fade('out');
+            }
+            this.parent(notice);
+        }
     }
+    
 });

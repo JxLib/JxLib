@@ -3,7 +3,7 @@
  * Class: Jx.Layout
  *
  * Extends: <Jx.Object>
- * 
+ *
  * Jx.Layout is used to provide more flexible layout options for applications
  *
  * Jx.Layout wraps an existing DOM element (typically a div) and provides
@@ -21,16 +21,16 @@
  * Events:
  * sizeChange - fired when the size of the container changes
  *
- * License: 
+ * License:
  * Copyright (c) 2008, DM Solutions Group Inc.
- * 
+ *
  * This file is licensed under an MIT style license
  */
- 
+
 Jx.Layout = new Class({
     Family: 'Jx.Layout',
     Extends: Jx.Object,
-    
+
     options: {
         /* Option: propagate
          * boolean, controls propogation of resize to child nodes.
@@ -108,14 +108,14 @@ Jx.Layout = new Class({
          */
         maxHeight: -1
     },
-    
+
     /**
      * Parameters:
      * domObj - {HTMLElement} element or id to apply the layout to
      * options - <Jx.Layout.Options>
      */
     parameters: ['domObj','options'],
-    
+
     /**
      * APIMethod: init
      * Create a new instance of Jx.Layout.
@@ -128,11 +128,11 @@ Jx.Layout = new Class({
 
         if (document.body == this.domObj.parentNode) {
             window.addEvent('resize', this.windowResize.bindWithEvent(this));
-            window.addEvent('load', this.windowResize.bind(this));                
+            window.addEvent('load', this.windowResize.bind(this));
         }
         //this.resize();
     },
-    
+
     /**
      * Method: windowResize
      * when the window is resized, any Jx.Layout controlled elements that are
@@ -146,7 +146,7 @@ Jx.Layout = new Class({
          }
          this.resizeTimer = this.resize.delay(50, this);
     },
-    
+
     /**
      * Method: resize
      * resize the element controlled by this Jx.Layout object.
@@ -178,28 +178,28 @@ Jx.Layout = new Class({
         if (!document.id(this.domObj.parentNode)) {
             return;
         }
-        
+
         var parentSize;
         if (this.domObj.parentNode.tagName == 'BODY') {
             parentSize = Jx.getPageDimensions();
         } else {
             parentSize = document.id(this.domObj.parentNode).getContentBoxSize();
         }
-    
+
         if (this.lastParentSize && !needsResize) {
-            needsResize = (this.lastParentSize.width != parentSize.width || 
+            needsResize = (this.lastParentSize.width != parentSize.width ||
                           this.lastParentSize.height != parentSize.height);
         } else {
             needsResize = true;
         }
-        this.lastParentSize = parentSize;            
-        
+        this.lastParentSize = parentSize;
+
         if (!needsResize) {
             return;
         }
-        
+
         var l, t, w, h;
-        
+
         /* calculate left and width */
         if (this.options.left != null) {
             /* fixed left */
@@ -242,7 +242,7 @@ Jx.Layout = new Class({
                     w = this.options.width;
                 }
             }
-            
+
         } else {
             if (this.options.right == null) {
                 if (this.options.width == null) {
@@ -286,12 +286,12 @@ Jx.Layout = new Class({
                     }
                     if (this.options.maxWidth >= 0 && w > this.options.maxWidth) {
                         l = w - this.options.maxWidth - this.options.right;
-                        w = this.options.maxWidth;                        
+                        w = this.options.maxWidth;
                     }
                 }
             }
         }
-        
+
         /* calculate the top and height */
         if (this.options.top != null) {
             /* fixed top */
@@ -330,7 +330,7 @@ Jx.Layout = new Class({
                     }
                     if (this.options.maxHeight >= 0 && h > this.options.maxHeight) {
                         h = this.options.maxHeight;
-                    }                
+                    }
                 } else {
                     /* fixed bottom, fixed height
                      * respect top and height, allow bottom to stretch
@@ -389,10 +389,10 @@ Jx.Layout = new Class({
                 }
             }
         }
-        
+
         //TODO: check left, top, width, height against current styles
         // and only apply changes if they are not the same.
-        
+
         /* apply the new sizes */
         var sizeOpts = {width: w};
         if (this.options.position == 'absolute') {
@@ -411,13 +411,13 @@ Jx.Layout = new Class({
             }
         }
         this.domObj.setBorderBoxSize(sizeOpts);
-        
+
         if (this.options.propagate) {
             // propogate changes to children
             var o = {forceResize: options ? options.forceResize : false};
             $A(this.domObj.childNodes).each(function(child){
                 if (child.resize && child.getStyle('display') != 'none') {
-                    child.resize.delay(0,child,o);                
+                    child.resize.delay(0,child,o);
                 }
             });
         }

@@ -12,7 +12,7 @@
  * method.  However, a <Jx.Button> suJx.Tooltipbclass is provided (<Jx.Button.Color>)
  * that embeds a colour panel inside a button for easy use in toolbars.
  *
- * Colour changes are propogated via a change event.  To be notified 
+ * Colour changes are propogated via a change event.  To be notified
  * of changes in a Jx.ColorPalette, use the addEvent method.
  *
  * Example:
@@ -23,9 +23,9 @@
  * change - triggered when the color changes.
  * click - the user clicked on a color swatch (emitted after a change event)
  *
- * License: 
+ * License:
  * Copyright (c) 2008, DM Solutions Group Inc.
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.ColorPalette = new Class({
@@ -76,7 +76,7 @@ Jx.ColorPalette = new Class({
         this.previewSwatch = new Element('div', {'class':'jxColorHover'});
         d.adopt(this.selectedSwatch);
         d.adopt(this.previewSwatch);
-        
+
         top.adopt(d);
 
         this.colorInputLabel = new Element('label', {'class':'jxColorLabel', html:'#'});

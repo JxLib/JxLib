@@ -15,12 +15,12 @@
  * (code)
  * var tabBar = new Jx.Toolbar('tabBar');
  * var tabSet = new Jx.TabSet('tabArea');
- * 
+ *
  * var tab1 = new Jx.Button.Tab('tab 1', {contentID: 'content1'});
  * var tab2 = new Jx.Button.Tab('tab 2', {contentID: 'content2'});
  * var tab3 = new Jx.Button.Tab('tab 3', {contentID: 'content3'});
  * var tab4 = new Jx.Button.Tab('tab 4', {contentURL: 'test_content.html'});
- * 
+ *
  * tabSet.add(t1, t2, t3, t4);
  * tabBar.add(t1, t2, t3, t4);
  * (end)
@@ -28,9 +28,9 @@
  * Events:
  * tabChange - the current tab has changed
  *
- * License: 
+ * License:
  * Copyright (c) 2008, DM Solutions Group Inc.
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.TabSet = new Class({
@@ -55,7 +55,7 @@ Jx.TabSet = new Class({
      * as options at this time.
      */
     parameters: ['domObj','options'],
-    
+
     /**
      * APIMethod: init
      * Create a new instance of <Jx.TabSet> within a specific element of
@@ -79,7 +79,7 @@ Jx.TabSet = new Class({
             this.activeTab.content.resize({forceResize: true});
         }
     },
-    
+
     /**
      * Method: add
      * Add one or more <Jx.Button.Tab>s to the TabSet.

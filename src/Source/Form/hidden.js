@@ -1,24 +1,24 @@
 // $Id: $
 /**
  * Class: Jx.Field.Hidden
- * 
+ *
  * Extends: <Jx.Field>
- * 
+ *
  * This class represents a hidden input field.
- *  
+ *
  * Example:
  * (code)
  * (end)
  *
- * License: 
+ * License:
  * Copyright (c) 2009, Jon Bomgardner.
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.Field.Hidden = new Class({
-    
+
     Extends: Jx.Field,
-    
+
     options: {
         /**
          * Option: template
@@ -31,7 +31,7 @@ Jx.Field.Hidden = new Class({
      * The type of this field
      */
     type: 'Hidden'
-    
+
 });
 
 

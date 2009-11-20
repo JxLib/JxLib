@@ -2,14 +2,14 @@
 /**
  * Class: Jx.Slide
  * Hides and shows an element without depending on a fixed width or height
- * 
+ *
  * Copyright 2009 by Jonathan Bomgardner
  * License: MIT-style
  */
 Jx.Slide = new Class({
-    
+    Family: 'Jx.Slide',
     Implements: Jx.Object,
-    
+
     options: {
         /**
          * Option: target
@@ -35,7 +35,7 @@ Jx.Slide = new Class({
          * Option: onSlideOut
          * function called when the target is revealed.
          */
-        onSlideOut: $empty, 
+        onSlideOut: $empty,
         /**
          * Option: onSlideIn
          * function called when a panel is hidden.
@@ -47,16 +47,16 @@ Jx.Slide = new Class({
      * sets up the slide
      */
     init: function () {
-        
+
         this.target = $(this.options.target);
-        
+
         this.target.set('tween', {onComplete: this.setDisplay.bind(this)});
-        
+
         if ($defined(this.options.trigger)) {
             this.trigger = $(this.options.trigger);
             this.trigger.addEvent('click', this.handleClick.bindWithEvent(this));
         }
-        
+
         this.target.store('slider', this);
 
     },
@@ -88,12 +88,12 @@ Jx.Slide = new Class({
                 this.target.setStyle(this.options.type, this.options.setOpenTo);
             }
             this.fireEvent('slideIn', this.target);
-        }   
+        }
     },
     /**
      * APIMethod: slide
      * Actually determines how to slide and initiates the animation.
-     * 
+     *
      * Parameters:
      * dir - the direction to slide (either "in" or "out")
      */
@@ -106,7 +106,7 @@ Jx.Slide = new Class({
                 'display': 'block'
             });
             this.target.setStyle(this.options.type, 0);
-            this.target.tween(this.options.type, h);    
+            this.target.tween(this.options.type, h);
         } else {
             if (this.options.type === 'height') {
                 h = this.target.getMarginBoxSize().height;
@@ -117,6 +117,6 @@ Jx.Slide = new Class({
             this.target.setStyle('overflow', 'hidden');
             this.target.setStyle(this.options.type, h);
             this.target.tween(this.options.type, 0);
-        }       
+        }
     }
 });

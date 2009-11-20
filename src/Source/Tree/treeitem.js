@@ -71,13 +71,13 @@ Jx.TreeItem = new Class ({
         template: '<li class="jxTreeContainer jxTreeLeaf"><img class="jxTreeImage" src="'+Jx.aPixel.src+'" alt="" title=""><a class="jxTreeItem" href="javascript:void(0);"><img class="jxTreeIcon" src="'+Jx.aPixel.src+'" alt="" title=""><span class="jxTreeLabel"></span></a></li>'
     },
     classes: new Hash({
-        domObj: 'jxTreeContainer', 
-        domA: 'jxTreeItem', 
-        domImg: 'jxTreeImage', 
+        domObj: 'jxTreeContainer',
+        domA: 'jxTreeItem',
+        domImg: 'jxTreeImage',
         domIcon: 'jxTreeIcon',
         domLabel: 'jxTreeLabel'
     }),
-    
+
     /**
      * APIMethod: render
      * Create a new instance of Jx.TreeItem with the associated options
@@ -91,11 +91,11 @@ Jx.TreeItem = new Class ({
 
         /* the target for jxPressed, jxSelected, jxHover classes */
         this.domObj.store('jxListTarget', this.domA);
-        
+
         if (!this.options.selectable) {
             this.domObj.addClass('jxUnselectable');
         }
-        
+
         if (this.domObj) {
             if (this.options.id) {
                 this.domObj.id = this.options.id;
@@ -111,7 +111,7 @@ Jx.TreeItem = new Class ({
             if (this.options.imageClass) {
                 this.domIcon.addClass(this.options.imageClass);
             }
-            
+
         }
 
         if (this.options.label && this.domLabel) {
@@ -131,7 +131,7 @@ Jx.TreeItem = new Class ({
                 });
             }
         }
-        
+
         if ($defined(this.options.enabled)) {
             this.enable(this.options.enabled, true);
         }
@@ -188,7 +188,7 @@ Jx.TreeItem = new Class ({
             this.selection.select(document.id(this));
         }
     },
-    
+
     /**
      * Method: getLabel
      * Get the label associated with a TreeItem
@@ -199,7 +199,7 @@ Jx.TreeItem = new Class ({
     getLabel: function() {
         return this.options.label;
     },
-    
+
     /**
      * Method: setLabel
      * set the label of a tree item
@@ -210,7 +210,7 @@ Jx.TreeItem = new Class ({
             this.domLabel.set('html',label);
         }
     },
-    
+
     setImage: function(url, imageClass) {
         if (this.domIcon && $defined(url)) {
             this.options.image = url;
@@ -237,7 +237,7 @@ Jx.TreeItem = new Class ({
             }
         }
     },
-    
+
     /**
      * Method: propertyChanged
      * A property of an object has changed, synchronize the state of the

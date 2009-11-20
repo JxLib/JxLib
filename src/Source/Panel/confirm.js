@@ -7,18 +7,18 @@
  * Jx.Dialog.Confirm is an extension of Jx.Dialog that allows the developer
  * to prompt their user with e yes/no question.
  *
- * License: 
+ * License:
  * Copyright (c) 2009, Jonathan Bomgardner
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.Dialog.Confirm = new Class({
-    
+
     Extends: Jx.Dialog,
-    
+
     options: {
         /**
-         * Option: question 
+         * Option: question
          * The question to ask the user
          */
         question: '',
@@ -32,7 +32,7 @@ Jx.Dialog.Confirm = new Class({
          * The text to use for the negative button. Defaults to 'No'.
          */
         negativeLabel: 'No',
-        
+
         /**
          * Jx.Dialog option defaults
          */
@@ -82,6 +82,6 @@ Jx.Dialog.Confirm = new Class({
         this.hide();
         this.fireEvent('close', [this, value]);
     }
-    
-    
+
+
 });

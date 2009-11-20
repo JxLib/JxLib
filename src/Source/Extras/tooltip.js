@@ -15,13 +15,13 @@
  * (code)
  * (end)
  *
- * License: 
+ * License:
  * Copyright (c) 2009, Jon Bomgardner.
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.Tooltip = new Class({
-
+    Family: 'Jx.Widget',
     Extends : Jx.Widget,
 
     options : {
@@ -47,7 +47,7 @@ Jx.Tooltip = new Class({
          */
         cssClass : null
     },
-    
+
     /**
      * Parameters:
      * target - The DOM element that triggers the toltip when moused over.
@@ -60,8 +60,8 @@ Jx.Tooltip = new Class({
     /**
      * APIMethod: render
      * Creates the tooltip
-     * 
-     
+     *
+
      */
     render : function () {
         this.parent();
@@ -81,31 +81,31 @@ Jx.Tooltip = new Class({
                 'visibility' : 'hidden'
             }
         }).inject(document.body);
-    
+
         if (Jx.type(this.options.tip) === 'string') {
             this.domObj.set('html', this.options.tip);
         } else {
             this.domObj.grab(this.options.tip);
         }
-    
+
         this.domObj.addClass('jxTooltip');
         if ($defined(this.options.cssClass)) {
             this.domObj.addClass(this.options.cssClass);
         }
-    
+
         this.options.target.store('Tip', this);
-    
+
         //add events
         this.options.target.addEvent('mouseenter', this.enter.bindWithEvent(this));
         this.options.target.addEvent('mouseleave', this.leave.bindWithEvent(this));
         this.options.target.addEvent('mousemove', this.move.bindWithEvent(this));
-    
+
     },
-    
+
     /**
      * Method: enter
      * Method run when the cursor passes over an element with a tip
-     * 
+     *
      * Parameters:
      * event - the event object
      * element - the element the cursor passed over
@@ -120,7 +120,7 @@ Jx.Tooltip = new Class({
     /**
      * Method: leave
      * Executed when the mouse moves out of an element with a tip
-     * 
+     *
      * Parameters:
      * event - the event object
      * element - the element the cursor passed over
@@ -134,7 +134,7 @@ Jx.Tooltip = new Class({
     /**
      * Method: move
      * Called when the mouse moves over an element with a tip.
-     * 
+     *
      * Parameters:
      * event - the event object
      */
@@ -144,7 +144,7 @@ Jx.Tooltip = new Class({
     /**
      * Method: position
      * Called to position the tooltip.
-     * 
+     *
      * Parameters:
      * event - the event object
      */
@@ -155,19 +155,19 @@ Jx.Tooltip = new Class({
             x : this.domObj.offsetWidth,
             y : this.domObj.offsetHeight
         };
-        var tipPlacement = { 
-            x: event.page.x + this.options.offsets.x, 
-            y: event.page.y + this.options.offsets.y 
+        var tipPlacement = {
+            x: event.page.x + this.options.offsets.x,
+            y: event.page.y + this.options.offsets.y
         };
-        
+
         if (event.page.y + this.options.offsets.y + tip.y + tipSize.height - scroll.y > size.y) {
             tipPlacement.y = event.page.y - this.options.offsets.y - tipSize.height - scroll.y;
         }
-        
+
         if (event.page.x + this.options.offsets.x + tip.x + tipSize.width - scroll.x > size.x) {
             tipPlacement.x = event.page.x - this.options.offsets.x - tipSize.width - scroll.x;
         }
-        
+
         this.domObj.setStyle('top', tipPlacement.y);
         this.domObj.setStyle('left', tipPlacement.x);
     },

@@ -80,7 +80,7 @@ Jx.Button.Multi = new Class({
         domLabel: 'jxButtonLabel',
         domDisclose: 'jxButtonDisclose'
     }),
-    
+
 
     /**
      * APIMethod: render

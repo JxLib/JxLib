@@ -1,59 +1,59 @@
 // $Id: $
 /**
  * Class: Jx.Form
- * 
+ *
  * Extends: <Jx.Widget>
- * 
- * A class that represents an HTML form. You add fields using either Jx.Form.add() 
- * or by using the field's .addTo() method. You can get all form values or set them 
- * using this class. It also handles validation of fields. 
- *    
+ *
+ * A class that represents an HTML form. You add fields using either Jx.Form.add()
+ * or by using the field's .addTo() method. You can get all form values or set them
+ * using this class. It also handles validation of fields.
+ *
  * Example:
  * (code)
  * (end)
  *
- * License: 
+ * License:
  * Copyright (c) 2009, Jon Bomgardner.
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.Form = new Class({
-	
-	Extends: Jx.Widget,
-	
-	options: {
+    Family: 'Jx.Form',
+    Extends: Jx.Widget,
+
+    options: {
         /**
          * Option: method
          * the method used to submit the form
          */
-		method: 'post',
-		/**
+        method: 'post',
+        /**
          * Option: action
          * where to submit it to
          */
-		action: '',
-		/**
+        action: '',
+        /**
          * Option: fileUpload
-         * whether this form handles file uploads or not. 
+         * whether this form handles file uploads or not.
          */
-		fileUpload: false,
-		/**
+        fileUpload: false,
+        /**
          * Option: id
          * the id of this form
          */
-		id: null,
-		/**
+        id: null,
+        /**
          * Option: formClass
          */
-		formClass: null,
-		/**
+        formClass: null,
+        /**
          * Option: name
          * the name property for the form
          */
-		name: ''
-	},
+        name: ''
+    },
 
-	/**
+    /**
      * Property: fields
      * An array of all of the single fields (not contained in a fieldset) for this form
      */
@@ -77,7 +77,7 @@ Jx.Form = new Class({
             'class' : 'jxForm',
             'name' : this.options.name
         });
-        
+
         if (this.options.fileUpload) {
             this.domObj.set('enctype', 'multipart/form-data');
         }
@@ -92,7 +92,7 @@ Jx.Form = new Class({
     /**
      * APIMethod: addField
      * Adds a <Jx.Field> subclass to this form's fields hash
-     * 
+     *
      * Parameters:
      * field - <Jx.Field> to add
      */
@@ -100,11 +100,11 @@ Jx.Form = new Class({
         this.fields.set(field.id, field);
     },
 
-    
+
     /**
      * Method: isValid
      * Determines if the form passes validation
-     * 
+     *
      * Parameters:
      * evt - the Mootools event object
      */
@@ -114,13 +114,13 @@ Jx.Form = new Class({
 
     /**
      * APIMethod: getValues
-     * Gets the values of all the fields in the form as a Hash object. This 
-     * uses the mootools function Element.toQueryString to get the values and 
-     * will either return the values as a querystring or as an object (using 
+     * Gets the values of all the fields in the form as a Hash object. This
+     * uses the mootools function Element.toQueryString to get the values and
+     * will either return the values as a querystring or as an object (using
      * mootools-more's String.parseQueryString method).
-     * 
+     *
      * Parameters:
-     * asQueryString - {boolean} indicates whether to return the value as a 
+     * asQueryString - {boolean} indicates whether to return the value as a
      *                  query string or an object.
      */
     getValues : function (asQueryString) {
@@ -134,7 +134,7 @@ Jx.Form = new Class({
     /**
      * APIMethod: setValues
      * Used to set values on the form
-     * 
+     *
      * Parameters:
      * values - A Hash of values to set keyed by field name.
      */
@@ -150,7 +150,7 @@ Jx.Form = new Class({
 
     /**
      * APIMethod: add
-     * 
+     *
      * Parameters:
      * Pass as many parameters as you like. However, they should all be
      * <Jx.Field> objects.
@@ -168,10 +168,10 @@ Jx.Form = new Class({
         }
         return this;
     },
-    
+
     /**
      * APIMethod: reset
-     * 
+     *
      */
     reset : function () {
         this.fields.each(function (field, name) {
@@ -179,7 +179,7 @@ Jx.Form = new Class({
         }, this);
         this.fireEvent('reset',this);
     },
-    
+
     getFieldsByName: function (name) {
         var fields = [];
         this.fields.each(function(val, id){

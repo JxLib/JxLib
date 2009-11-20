@@ -1,21 +1,20 @@
 // $Id: $
 /**
  * Class: Jx.Row
- * 
+ *
  * Extends: <Jx.Object>
- * 
+ *
  * A class defining a grid row.
- * 
+ *
  * Inspired by code in the original Jx.Grid class
- * 
- * License: 
+ *
+ * License:
  * Original Copyright (c) 2008, DM Solutions Group Inc.
  * This version Copyright (c) 2009, Jon Bomgardner.
- * 
+ *
  * This file is licensed under an MIT style license
  */
-Jx.Row = new Class(
-{
+Jx.Row = new Class({
 
     Extends : Jx.Object,
 
@@ -58,9 +57,9 @@ Jx.Row = new Class(
         headerField : 'id',
         /**
          * Option: templates
-         * objects used to determine the type of tag and css class to 
-         * assign to a header cell. The css class can 
-         * also be a function that returns a string to assign as the css 
+         * objects used to determine the type of tag and css class to
+         * assign to a header cell. The css class can
+         * also be a function that returns a string to assign as the css
          * class. The function will be passed the text to be formatted.
          */
         templates: {
@@ -69,16 +68,16 @@ Jx.Row = new Class(
                 cssClass: null
             }
         }
-        
+
     },
     /**
      * Property: grid
      * A reference to the grid that this row model belongs to
      */
     grid : null,
-    
+
     parameters: ['options','grid'],
-    
+
     /**
      * APIMethod: init
      * Creates the row model object.
@@ -116,7 +115,7 @@ Jx.Row = new Class(
         var th = new Element('td', {
             'class' : 'jxGridRowHead'
         });
-        
+
         var text = model.get(this.options.headerField);
         var ht = this.options.templates.header;
         var el = new Element(ht.tag, {
@@ -130,9 +129,9 @@ Jx.Row = new Class(
                 el.addClass(ht.cssClass);
             }
         }
-        
+
         return th;
-        
+
     },
     /**
      * APIMethod: getRowHeaderWidth
@@ -144,7 +143,7 @@ Jx.Row = new Class(
         var col = this.grid.columns.getByField(this.options.headerField);
         return col.getWidth(true, true);
     },
-    
+
     /**
      * APIMethod: getHeight
      * determines and returns the height of a row
@@ -165,8 +164,8 @@ Jx.Row = new Class(
     /**
      * APIMethod: getRowHeader
      * creates and returns the header for the current row
-     * 
-     * Parameters: 
+     *
+     * Parameters:
      * list - Jx.List instance to add the header to
      */
     getRowHeader : function (list) {

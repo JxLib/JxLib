@@ -1,18 +1,18 @@
 // $Id: $
 /**
  * Class: Jx.Column
- * 
+ *
  * Extends: <Jx.Object>
- * 
+ *
  * The class used for defining columns for grids.
  *
  * Example:
  * (code)
  * (end)
  *
- * License: 
+ * License:
  * Copyright (c) 2009, Jon Bomgardner.
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.Column = new Class({
@@ -59,12 +59,12 @@ Jx.Column = new Class({
         isHidden: false,
         /**
          * Option: formatter
-         * an instance of <Jx.Formatter> or one of its subclasses which 
-         * will be used to format the data in this column. It can also be 
-         * an object containing the name (This should be the part after 
-         * Jx.Formatter in the class name. For instance, to get a currency 
-         * formatter, specify 'Currency' as the name.) and options for the 
-         * needed formatter (see individual formatters for options). 
+         * an instance of <Jx.Formatter> or one of its subclasses which
+         * will be used to format the data in this column. It can also be
+         * an object containing the name (This should be the part after
+         * Jx.Formatter in the class name. For instance, to get a currency
+         * formatter, specify 'Currency' as the name.) and options for the
+         * needed formatter (see individual formatters for options).
          * (code)
          * {
          *    name: 'formatter name',
@@ -80,15 +80,15 @@ Jx.Column = new Class({
         name: '',
         /**
          * Option: dataType
-         * The type of the data in this column, used for sorting. Can be 
+         * The type of the data in this column, used for sorting. Can be
          * alphanumeric, numeric, currency, boolean, or date
          */
         dataType: 'alphanumeric',
         /**
          * Option: templates
-         * objects used to determine the type of tag and css class to 
-         * assign to a header cell and a regular cell. The css class can 
-         * also be a function that returns a string to assign as the css 
+         * objects used to determine the type of tag and css class to
+         * assign to a header cell and a regular cell. The css class can
+         * also be a function that returns a string to assign as the css
          * class. The function will be passed the text to be formatted.
          */
         templates: {
@@ -101,16 +101,16 @@ Jx.Column = new Class({
                 cssClass: null
             }
         }
-    
+
     },
     /**
      * Property: model
      * holds a reference to the model (an instance of <Jx.Store> or subclass)
      */
     model: null,
-    
+
     parameters: ['options','grid'],
-    
+
     /**
      * Constructor: Jx.Column
      * initializes the column object
@@ -133,7 +133,7 @@ Jx.Column = new Class({
     },
     /**
      * APIMethod: getHeaderHTML
-     * Returns the header text wrapped in the tag specified in 
+     * Returns the header text wrapped in the tag specified in
      * options.templates.hedaer.tag
      */
     getHeaderHTML : function () {
@@ -154,7 +154,7 @@ Jx.Column = new Class({
         this.header = el;
         return el;
     },
-    
+
     setWidth: function(newWidth) {
         if (this.rule && parseInt(newWidth,10) >= 0) {
             this.width = parseInt(newWidth,10);
@@ -163,11 +163,11 @@ Jx.Column = new Class({
     },
     /**
      * APIMethod: getWidth
-     * returns the width of the column. 
-     * 
+     * returns the width of the column.
+     *
      * Parameters:
-     * recalculate - {boolean} determines if the width should be recalculated 
-     *          if the column is set to autocalculate. Has no effect if the width is 
+     * recalculate - {boolean} determines if the width should be recalculated
+     *          if the column is set to autocalculate. Has no effect if the width is
      *          preset
      * rowHeader - flag to tell us if this calculation is for the row header
      */
@@ -188,7 +188,7 @@ Jx.Column = new Class({
                 model.first();
                 while (model.valid()) {
                     //check size by placing text into a TD and measuring it.
-                    //TODO: this should add .jxGridRowHead/.jxGridColHead if 
+                    //TODO: this should add .jxGridRowHead/.jxGridColHead if
                     //      this is a header to get the correct measurement.
                     var text = model.get(this.options.modelField);
                     var klass = 'jxGridCell';
@@ -207,7 +207,7 @@ Jx.Column = new Class({
                         break;
                     }
                 }
-    
+
                 //check the column header as well (unless this is the row header)
                 if (!(this.grid.row.useHeaders() && this.options.modelField === this.grid.row
                         .getRowHeaderField())) {
@@ -241,10 +241,10 @@ Jx.Column = new Class({
     /**
      * Method: measure
      * This method does the dirty work of actually measuring a cell
-     * 
+     *
      * Parameters:
      * text - the text to measure
-     * klass - a string indicating and extra classes to add so that 
+     * klass - a string indicating and extra classes to add so that
      *          css classes can be taken into account.
      */
     measure : function (text, klass, rowHeader) {

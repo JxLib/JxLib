@@ -19,22 +19,22 @@
  * collapse - fired when the panel is collapsed
  * expand - fired when the panel is opened
  *
- * License: 
+ * License:
  * Copyright (c) 2008, DM Solutions Group Inc.
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.Panel = new Class({
     Family: 'Jx.Panel',
     Extends: Jx.Widget,
-    
+
     toolbarContainers: {
         top: null,
         right: null,
         bottom: null,
         left: null
     },
-    
+
      options: {
         position: null,
         collapsedClass: 'jxPanelMin',
@@ -42,7 +42,7 @@ Jx.Panel = new Class({
         menuClass: 'jxPanelMenu',
         maximizeClass: 'jxPanelMaximize',
         closeClass: 'jxPanelClose',
-        
+
         /* Option: id
          * String, an id to assign to the panel's container
          */
@@ -123,16 +123,16 @@ Jx.Panel = new Class({
         contentContainer: 'jxPanelContentContainer',
         content: 'jxPanelContent'
     }),
-    
-    /** 
+
+    /**
      * APIMethod: render
      * Initialize a new Jx.Panel instance
      */
     render : function(){
         this.parent();
-        
+
         this.toolbars = this.options ? this.options.toolbars || [] : [];
-        
+
         this.options.position = ($defined(this.options.height) && !$defined(this.options.position)) ? 'relative' : 'absolute';
 
         if (this.options.image && this.domImg) {
@@ -141,13 +141,13 @@ Jx.Panel = new Class({
         if (this.options.label && this.domLabel) {
             this.domLabel.set('html',this.options.label);
         }
-        
+
         var tbDiv = new Element('div');
         this.domControls.adopt(tbDiv);
         this.toolbar = new Jx.Toolbar({parent:tbDiv, scroll: false});
-        
+
         var that = this;
-        
+
         if (this.options.menu) {
             this.menu = new Jx.Menu({
                 image: Jx.aPixel.src
@@ -156,7 +156,7 @@ Jx.Panel = new Class({
             this.menu.domObj.addClass('jxButtonContentLeft');
             this.toolbar.add(this.menu);
         }
-        
+
         var b, item;
         if (this.options.collapse) {
             b = new Jx.Button({
@@ -184,7 +184,7 @@ Jx.Panel = new Class({
                 this.menu.add(item);
             }
         }
-        
+
         if (this.options.maximize) {
             b = new Jx.Button({
                 image: Jx.aPixel.src,
@@ -203,7 +203,7 @@ Jx.Panel = new Class({
                 this.menu.add(item);
             }
         }
-        
+
         if (this.options.close) {
             b = new Jx.Button({
                 image: Jx.aPixel.src,
@@ -223,24 +223,24 @@ Jx.Panel = new Class({
                 });
                 this.menu.add(item);
             }
-            
+
         }
-        
+
         this.title.addEvent('dblclick', function() {
             that.toggleCollapse();
         });
-        
+
         if (this.options.id) {
             this.domObj.id = this.options.id;
         }
         var jxl = new Jx.Layout(this.domObj, $merge(this.options, {propagate:false}));
         var layoutHandler = this.layoutContent.bind(this);
         jxl.addEvent('sizeChange', layoutHandler);
-        
+
         if (this.options.hideTitle) {
             this.title.dispose();
         }
-        
+
         if (Jx.type(this.options.toolbars) == 'array') {
             this.options.toolbars.each(function(tb){
                 var position = tb.options.position;
@@ -254,14 +254,14 @@ Jx.Panel = new Class({
                 tb.addTo(tbc);
             }, this);
         }
-        
+
         new Jx.Layout(this.contentContainer);
         new Jx.Layout(this.content);
-        
+
         this.loadContent(this.content);
 
         this.toggleCollapse(this.options.closed);
-        
+
         this.addEvent('addTo', function() {
             this.domObj.resize();
         });
@@ -269,7 +269,7 @@ Jx.Panel = new Class({
             this.addTo(this.options.parent);
         }
     },
-    
+
     /**
      * Method: layoutContent
      * the sizeChange event of the <Jx.Layout> that manages the outer container
@@ -294,8 +294,8 @@ Jx.Panel = new Class({
             this.contentContainer.setStyle('display','block');
             this.options.closed = false;
             this.contentContainer.resize({
-                top: titleHeight, 
-                height: null, 
+                top: titleHeight,
+                height: null,
                 bottom: 0
             });
             ['left','right'].each(function(position){
@@ -305,22 +305,22 @@ Jx.Panel = new Class({
             }, this);
             ['top','bottom'].each(function(position){
                 if (this.toolbarContainers[position]) {
-                    this.toolbarContainers[position].style.height = '';                
+                    this.toolbarContainers[position].style.height = '';
                 }
             }, this);
             if (Jx.type(this.options.toolbars) == 'array') {
                 this.options.toolbars.each(function(tb){
                     position = tb.options.position;
                     tbc = this.toolbarContainers[position];
-                    // IE 6 doesn't seem to want to measure the width of 
+                    // IE 6 doesn't seem to want to measure the width of
                     // things correctly
                     if (Browser.Engine.trident4) {
                         var oldParent = document.id(tbc.parentNode);
                         tbc.style.visibility = 'hidden';
-                        document.id(document.body).adopt(tbc);                    
+                        document.id(document.body).adopt(tbc);
                     }
                     var size = tbc.getBorderBoxSize();
-                    // put it back into its real parent now we are done 
+                    // put it back into its real parent now we are done
                     // measuring
                     if (Browser.Engine.trident4) {
                         oldParent.adopt(tbc);
@@ -340,7 +340,7 @@ Jx.Panel = new Class({
                         default:
                             top = size.height;
                             break;
-                    }                    
+                    }
                 },this);
             }
             tbc = this.toolbarContainers['top'];
@@ -366,7 +366,7 @@ Jx.Panel = new Class({
         }
         this.fireEvent('sizeChange', this);
     },
-    
+
     /**
      * Method: setLabel
      * Set the label in the title bar of this panel
@@ -381,7 +381,7 @@ Jx.Panel = new Class({
      * Method: getLabel
      * Get the label of the title bar of this panel
      *
-     * Returns: 
+     * Returns:
      * {String} the label
      */
     getLabel: function() {
@@ -441,7 +441,7 @@ Jx.Panel = new Class({
     },
     /**
      * Method: panelContentLoaded
-     * When the content of the panel is loaded from a remote URL, this 
+     * When the content of the panel is loaded from a remote URL, this
      * method is called when the ajax request returns.
      *
      * Parameters:
@@ -469,15 +469,15 @@ Jx.Panel = new Class({
             this.loadingObj.img.style.visibility = (this.busyCount>0)?'visible':'hidden';
         }
     },
-    
+
     /**
      * Method: toggleCollapse
      * sets or toggles the collapsed state of the panel.  If a
      * new state is passed, it is used, otherwise the current
-     * state is toggled.    
+     * state is toggled.
      *
      * Parameters:
-     * state - optional, if passed then the state is used, 
+     * state - optional, if passed then the state is used,
      * otherwise the state is toggled.
      */
     toggleCollapse: function(state) {
@@ -504,12 +504,12 @@ Jx.Panel = new Class({
             if (this.domObj.hasClass(this.options.collapsedClass)) {
                 this.domObj.removeClass(this.options.collapsedClass);
                 this.contentContainer.setStyle('display','block');
-                this.domObj.resize({height: this.options.height});            
+                this.domObj.resize({height: this.options.height});
                 this.fireEvent('expand', this);
             }
         }
     },
-    
+
     /**
      * Method: close
      * Closes the panel (completely hiding it).
@@ -518,5 +518,5 @@ Jx.Panel = new Class({
         this.domObj.dispose();
         this.fireEvent('close', this);
     }
-    
+
 });

@@ -12,14 +12,14 @@
  * add - fired when one or more toolbars are added to a container
  * remove - fired when one or more toolbars are removed from a container
  *
- * Implements: 
+ * Implements:
  * Options
  * Events
  * {<Jx.Addable>}
  *
- * License: 
+ * License:
  * Copyright (c) 2008, DM Solutions Group Inc.
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.Toolbar.Container = new Class({
@@ -47,7 +47,7 @@ Jx.Toolbar.Container = new Class({
         autoSize: false,
         /* Option: scroll
          * Control whether the user can scroll of the content of the
-         * container if the content exceeds the size of the container.  
+         * container if the content exceeds the size of the container.
          * Default is true.
          */
         scroll: true,
@@ -73,7 +73,7 @@ Jx.Toolbar.Container = new Class({
             this.domObj.addClass('jxBarContainer');
             this.domObj.adopt(this.scroller);
         }
-        
+
         if (this.options.scroll) {
             this.processElements(this.options.scrollerTemplate, this.classes);
             this.domObj.adopt(this.scroller);
@@ -84,10 +84,10 @@ Jx.Toolbar.Container = new Class({
          * to the toolbar container
          */
         this.domObj.store('jxBarContainer', this);
-        
+
         if (['top','right','bottom','left'].contains(this.options.position)) {
             this.domObj.addClass('jxBar' +
-                           this.options.position.capitalize());            
+                           this.options.position.capitalize());
         } else {
             this.domObj.addClass('jxBarTop');
             this.options.position = 'top';
@@ -96,7 +96,7 @@ Jx.Toolbar.Container = new Class({
         if (this.options.scroll && ['top','bottom'].contains(this.options.position)) {
             // make sure we update our size when we get added to the DOM
             this.addEvent('addTo', this.update.bind(this));
-            
+
             //making Fx.Tween optional
             if (typeof Fx != 'undefined' && typeof Fx.Tween != 'undefined'){
                 this.scrollFx = scrollFx = new Fx.Tween(this.scroller, {
@@ -124,7 +124,7 @@ Jx.Toolbar.Container = new Class({
                    }
                }).bind(this)
             });
-            
+
             this.scrollRight = new Jx.Button({
                 image: Jx.aPixel.src
             }).addTo(this.domObj);
@@ -144,8 +144,8 @@ Jx.Toolbar.Container = new Class({
                        this.scroller.setStyle('left',to);
                    }
                }).bind(this)
-            });         
-            
+            });
+
         } else {
             this.options.scroll = false;
         }
@@ -154,7 +154,7 @@ Jx.Toolbar.Container = new Class({
             this.add(this.options.toolbars);
         }
     },
-    
+
     update: function() {
         if (this.options.autoSize) {
             /* delay the size update a very small amount so it happens
@@ -175,10 +175,10 @@ Jx.Toolbar.Container = new Class({
             this.measure();
         }
     },
-    
+
     measure: function() {
         if (!this.options.scroll) { return; }
-        
+
         if ((!this.scrollLeftSize || !this.scrollLeftSize.x) && this.domObj.parentNode) {
             this.scrollLeftSize = this.scrollLeft.domObj.getSize();
             this.scrollRightSize = this.scrollRight.domObj.getSize();
@@ -208,9 +208,9 @@ Jx.Toolbar.Container = new Class({
                     }
                 }
             } else {
-                this.scrollRight.domObj.setStyle('visibility', '');                
+                this.scrollRight.domObj.setStyle('visibility', '');
             }
-            
+
         } else {
             /* don't need any scrollers but we might need to scroll
              * the toolbar into view
@@ -225,9 +225,9 @@ Jx.Toolbar.Container = new Class({
                     this.scroller.setStyle('left',0);
                 }
             }
-        }            
+        }
     },
-    
+
     /**
      * Method: add
      * Add a toolbar to the container.
@@ -243,8 +243,8 @@ Jx.Toolbar.Container = new Class({
                  * when the toolbar contents change
                  */
                 thing.addEvent('add', this.update.bind(this));
-                thing.addEvent('remove', this.update.bind(this));                
-                thing.addEvent('show', this.scrollIntoView.bind(this));                
+                thing.addEvent('remove', this.update.bind(this));
+                thing.addEvent('show', this.scrollIntoView.bind(this));
             }
             if (this.scroller) {
                 this.scroller.adopt(thing.domObj);
@@ -254,7 +254,7 @@ Jx.Toolbar.Container = new Class({
             this.domObj.addClass('jxBar'+this.options.position.capitalize());
         }, this);
         if (this.options.scroll) {
-            this.update();            
+            this.update();
         }
         if (arguments.length > 0) {
             this.fireEvent('add', this);
@@ -274,7 +274,7 @@ Jx.Toolbar.Container = new Class({
      * removed.
      */
     remove: function(item) {
-        
+
     },
     /**
      * Method: scrollIntoView
@@ -287,15 +287,15 @@ Jx.Toolbar.Container = new Class({
     scrollIntoView: function(item) {
         var width = this.domObj.getSize().x;
         var coords = item.domObj.getCoordinates(this.scroller);
-        
-        //left may be set to auto or even a zero length string. 
+
+        //left may be set to auto or even a zero length string.
         //In the previous version, in air, this would evaluate to
-        //NaN which would cause the right hand scroller to show when 
+        //NaN which would cause the right hand scroller to show when
         //the component was first created.
-        
+
         //So, get the left value first
         var l = this.scroller.getStyle('left');
-        //then check to see if it's auto or a zero length string 
+        //then check to see if it's auto or a zero length string
         if (l === 'auto' || l.length <= 0) {
             //If so, set to 0.
             l = 0;
@@ -305,7 +305,7 @@ Jx.Toolbar.Container = new Class({
         }
         var slSize = this.scrollLeftSize ? this.scrollLeftSize.x : 0;
         var srSize = this.scrollRightSize ? this.scrollRightSize.x : 0;
-        
+
         var left = l;
         if (l < -coords.left + slSize) {
             /* the left edge of the item is not visible */
@@ -320,16 +320,16 @@ Jx.Toolbar.Container = new Class({
                 left = this.scrollWidth;
             }
         }
-                
+
         if (left < 0) {
-            this.scrollLeft.domObj.setStyle('visibility','');                
+            this.scrollLeft.domObj.setStyle('visibility','');
         } else {
             this.scrollLeft.domObj.setStyle('visibility','hidden');
         }
         if (left <= this.scrollWidth) {
             this.scrollRight.domObj.setStyle('visibility', 'hidden');
         } else {
-            this.scrollRight.domObj.setStyle('visibility', '');                
+            this.scrollRight.domObj.setStyle('visibility', '');
         }
         if (left != l) {
             if ($defined(this.scrollFx)) {

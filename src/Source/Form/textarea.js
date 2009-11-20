@@ -1,13 +1,13 @@
 // $Id: $
 /**
  * Class: Jx.Field.Textarea
- * 
+ *
  * Extends: <Jx.Field>
- * 
+ *
  * This class represents a textarea field.
- * 
+ *
  * These fields are rendered as below.
- * 
+ *
  * (code)
  * <div id='' class=''>
  *    <label for=''>A label for the field</label>
@@ -16,21 +16,21 @@
  *    </textarea>
  * </div>
  * (end)
- * 
+ *
  * Example:
  * (code)
  * (end)
  *
- * License: 
+ * License:
  * Copyright (c) 2009, Jon Bomgardner.
- * 
+ *
  * This file is licensed under an MIT style license
- * 
+ *
  */
 Jx.Field.Textarea = new Class({
-    
+
     Extends: Jx.Field,
-    
+
     options: {
         /**
          * Option: rows
@@ -58,22 +58,22 @@ Jx.Field.Textarea = new Class({
      * The class applied to error elements
      */
     errorClass: 'jxFormErrorTextarea',
-    
+
     /**
      * APIMethod: render
      * Creates the input.
     */
     render: function () {
         this.parent();
-                
+
         if ($defined(this.options.rows)) {
             this.field.set('rows', this.options.rows);
         }
         if ($defined(this.options.columns)) {
             this.field.set('cols', this.options.columns);
         }
-        
+
         //TODO: Do we need to use OverText here as well??
-        
+
     }
 });

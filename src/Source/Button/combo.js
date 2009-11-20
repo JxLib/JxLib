@@ -25,9 +25,9 @@
  * Events:
  * change - triggered when the user selects a new item from the list
  *
- * License: 
+ * License:
  * Copyright (c) 2008, DM Solutions Group Inc.
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.Button.Combo = new Class({
@@ -36,10 +36,10 @@ Jx.Button.Combo = new Class({
     ul : null,
     /**
      * Property: currentSelection
-     * {Object} current selection in the list 
+     * {Object} current selection in the list
      */
     currentSelection : null,
-    
+
     options: {
         /* Option: label
          * string, default ''.  The label to display next to the combo.
@@ -49,8 +49,8 @@ Jx.Button.Combo = new Class({
          */
          template: '<span class="jxButtonContainer"><a class="jxButton jxButtonCombo jxDiscloser"><span class="jxButtonContent"><img class="jxButtonIcon" src="'+Jx.aPixel.src+'"><span class="jxButtonLabel"></span></span></a></span>'
      },
-        
-    /** 
+
+    /**
      * APIMethod: render
      * create a new instance of Jx.Combo
      */
@@ -63,7 +63,7 @@ Jx.Button.Combo = new Class({
 
         this.buttonSet = new Jx.ButtonSet({
             onChange: (function(set) {
-                var button = set.activeButton;            
+                var button = set.activeButton;
                 var l = button.options.label;
                 if (l == '&nbsp;') {
                     l = '';
@@ -97,7 +97,7 @@ Jx.Button.Combo = new Class({
             }
             this.contentContainer.setStyle('visibility','hidden');
             this.contentContainer.setStyle('display','block');
-            $(document.body).adopt(this.contentContainer);            
+            $(document.body).adopt(this.contentContainer);
             /* we have to size the container for IE to render the chrome correctly
              * but just in the menu/sub menu case - there is some horrible peekaboo
              * bug in IE related to ULs that we just couldn't figure out
@@ -116,10 +116,10 @@ Jx.Button.Combo = new Class({
 
             document.addEvent('mousedown', this.hideWatcher);
             document.addEvent('keyup', this.keypressWatcher);
-            
+
             this.fireEvent('show', this);
         }).bindWithEvent(this.menu));
-        
+
         this.menu.addEvents({
             'show': (function() {
                 this.setActive(true);
@@ -128,9 +128,9 @@ Jx.Button.Combo = new Class({
                 this.setActive(false);
             }).bind(this)
         });
-        
+
     },
-    
+
     /**
      * Method: valueChanged
      * invoked when the current value is changed
@@ -138,7 +138,7 @@ Jx.Button.Combo = new Class({
     valueChanged: function() {
         this.fireEvent('change', this);
     },
-    
+
     /**
      * Method: getValue
      * returns the currently selected value
@@ -146,11 +146,11 @@ Jx.Button.Combo = new Class({
     getValue: function() {
         return this.options.label;
     },
-    
+
     setValue: function() {
-        
+
     },
-    
+
     /**
      * Method: onKeyPress
      * Handle the user pressing a key by looking for an ENTER key to set the
@@ -164,7 +164,7 @@ Jx.Button.Combo = new Class({
             this.valueChanged();
         }
     },
-    
+
     /**
      * Method: add
      * add a new item to the pick list
@@ -183,7 +183,7 @@ Jx.Button.Combo = new Class({
             this.buttonSet.add(button);
         }, this);
     },
-    
+
     /**
      * Method: remove
      * Remove the item at the given index.  Not implemented.

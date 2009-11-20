@@ -27,7 +27,7 @@
  * 
  */
 Jx.Progressbar = new Class({
-    
+    Family: 'Jx.Progressbar',
     Extends: Jx.Widget,
     
     options: {

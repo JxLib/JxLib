@@ -1,21 +1,21 @@
 // $Id: $
 /**
  * Class: Jx.Plugin.Resize
- * 
+ *
  * Extends: <Jx.Plugin>
- * 
+ *
  * Grid plugin to enable dynamic resizing of column width and row height
  *
- * 
- * License: 
+ *
+ * License:
  * Copyright (c) 2009, DM Solutions Group.
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.Plugin.Grid.Resize = new Class({
 
     Extends : Jx.Plugin,
-    
+
     options: {
         /**
          * Option: columns
@@ -39,13 +39,13 @@ Jx.Plugin.Grid.Resize = new Class({
      * the DOM elements by which the rows/columns are resized.
      */
     els: [],
-    
+
     /**
      * Property: drags
      * the Drag instances
      */
     drags: [],
-    
+
     /**
      * Property: bound
      * storage for bound methods useful for working with events
@@ -84,14 +84,14 @@ Jx.Plugin.Grid.Resize = new Class({
         }
         this.grid = null;
     },
-    
+
     removeResizeHandles: function() {
         this.els.each(function(el) { el.dispose(); } );
         this.els = [];
         this.drags.each(function(drag){ drag.detach(); });
         this.drags = [];
     },
-    
+
     createResizeHandles: function() {
         if (this.options.columns && this.grid.columns.useHeaders()) {
             this.grid.columns.columns.each(function(col, idx) {
@@ -117,9 +117,9 @@ Jx.Plugin.Grid.Resize = new Class({
                 }
             }, this);
         }
-        
+
         // if (this.options.rows && this.grid.row.useHeaders()) {
-        //     
+        //
         // }
     }
 });

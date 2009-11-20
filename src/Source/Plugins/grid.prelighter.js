@@ -1,17 +1,17 @@
 // $Id: $
 /**
  * Class: Jx.Plugin.Prelighter
- * 
+ *
  * Extends: <Jx.Plugin>
- * 
+ *
  * Grid plugin to prelight rows, columns, and cells
- * 
+ *
  * Inspired by the original code in Jx.Grid
- * 
- * License: 
+ *
+ * License:
  * Original Copyright (c) 2008, DM Solutions Group Inc.
  * This version Copyright (c) 2009, Jon Bomgardner.
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.Plugin.Grid.Prelighter = new Class({
@@ -92,14 +92,14 @@ Jx.Plugin.Grid.Prelighter = new Class({
      */
     lighton : function (cell, list, grid) {
         this.light(cell, list, grid, true);
-       
+
     },
     /**
      * Method: lightoff
      */
     lightoff : function (cell, list, grid) {
         this.light(cell, list, grid, false);
-       
+
     },
     /**
      * Method: light
@@ -107,7 +107,7 @@ Jx.Plugin.Grid.Prelighter = new Class({
      */
     light: function (cell, list, grid, on) {
         var data = cell.retrieve('jxCellData');
-        
+
         if (this.options.cell) {
             this.prelightCell(cell, on);
         }
@@ -124,12 +124,12 @@ Jx.Plugin.Grid.Prelighter = new Class({
             this.prelightColumnHeader(data.index - 1, on);
         }
     },
-    
-    /** 
+
+    /**
      * Method: prelightRowHeader
      * apply the jxGridRowHeaderPrelight style to the header cell of a row.
      * This removes the style from the previously pre-lit row header.
-     * 
+     *
      * Parameters:
      * row - {Integer} the row to pre-light the header cell of
      */
@@ -143,11 +143,11 @@ Jx.Plugin.Grid.Prelighter = new Class({
             }
         }
     },
-    /** 
+    /**
      * Method: prelightColumnHeader
      * apply the jxGridColumnHeaderPrelight style to the header cell of a column.
      * This removes the style from the previously pre-lit column header.
-     * 
+     *
      * Parameters:
      * col - {Integer} the column to pre-light the header cell of
      * on - flag to tell if we're lighting on or off
@@ -165,13 +165,13 @@ Jx.Plugin.Grid.Prelighter = new Class({
                 this.prelitColumnHeader.addClass('jxGridColumnHeaderPrelight');
             }
         }
-       
+
     },
-    /** 
+    /**
      * Method: prelightRow
      * apply the jxGridRowPrelight style to row.
      * This removes the style from the previously pre-lit row.
-     * 
+     *
      * Parameters:
      * row - {Integer} the row to pre-light
      * on - flag to tell if we're lighting on or off
@@ -187,11 +187,11 @@ Jx.Plugin.Grid.Prelighter = new Class({
         }
         this.prelightRowHeader(row, on);
     },
-    /** 
+    /**
      * Method: prelightColumn
      * apply the jxGridColumnPrelight style to a column.
      * This removes the style from the previously pre-lit column.
-     * 
+     *
      * Parameters:
      * col - {Integer} the column to pre-light
      * on - flag to tell if we're lighting on or off
@@ -211,7 +211,7 @@ Jx.Plugin.Grid.Prelighter = new Class({
             this.prelightColumnHeader(col, on);
         }
     },
-    /** 
+    /**
      * Method: prelightCell
      * apply the jxGridCellPrelight style to a cell.
      * This removes the style from the previously pre-lit cell.

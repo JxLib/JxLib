@@ -5,21 +5,21 @@
  * Extends: <Jx.Panel.DataView>
  *
  * This extension of Jx.Panel.DataView that provides for grouping the items
- * by a particular column. 
+ * by a particular column.
  *
- * License: 
+ * License:
  * Copyright (c) 2009, Jonathan Bomgardner.
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.Panel.DataView.Group = new Class({
-    
+
     Extends: Jx.Panel.DataView,
-    
+
     options: {
         /**
          * Option: groupTemplate
-         * The template used to render the group heading 
+         * The template used to render the group heading
          */
         groupTemplate: null,
         /**
@@ -35,7 +35,7 @@ Jx.Panel.DataView.Group = new Class({
         groupHeaderClass: null,
         /**
          * Option: listOption
-         * Options to pass to the main list 
+         * Options to pass to the main list
          */
         listOptions: {
             select: false,
@@ -52,25 +52,25 @@ Jx.Panel.DataView.Group = new Class({
             selectClass: 'jxItemSelect'
         }
     },
-    
+
     init: function() {
         this.groupCols = this.parseTemplate(this.options.groupTemplate);
         this.itemManager = new Jx.Selection({
-            eventToFire: { 
+            eventToFire: {
                 select: 'itemselect',
                 unselect: 'itemunselect'
             },
             selectClass: 'jxItemSelected'
         });
         this.groupManager = new Jx.Selection({
-            eventToFire: { 
+            eventToFire: {
                 select: 'groupselect',
                 unselect: 'groupunselect'
             },
             selectClass: 'jxGroupSelected'
         });
         this.parent();
-        
+
     },
     /**
      * APIMethod: render
@@ -79,7 +79,7 @@ Jx.Panel.DataView.Group = new Class({
     render: function () {
         this.list = this.createList(this.domA, this.listOptions, this.groupManager);
         this.parent();
-        
+
     },
     /**
      * Method: draw
@@ -88,18 +88,18 @@ Jx.Panel.DataView.Group = new Class({
     draw: function () {
         var d = this.options.data;
         var n = d.count();
-        
+
         if ($defined(n) && n > 0) {
             var currentGroup = '';
             var itemList = null;
-            
+
             for (var i = 0; i < n; i++) {
                 d.moveTo(i);
                 var group = d.get(this.options.sortColumns[0]);
-                
+
                 if (group !== currentGroup) {
                     //we have a new grouping
-                    
+
                     //group container
                     var container =  new Element('div', {
                         'class': this.options.groupContainerClass
@@ -109,7 +109,7 @@ Jx.Panel.DataView.Group = new Class({
                         hover: false
                     });
                     this.list.add(l.container);
-                    
+
                     //group header
                     currentGroup = group;
                     var obj = {};
@@ -123,7 +123,7 @@ Jx.Panel.DataView.Group = new Class({
                         id: 'group-' + group.replace(" ","-","g")
                     });
                     l.add(g);
-                    
+
                     //items container
                     var currentItemContainer = new Element('div', {
                         'class': this.options.containerClass
@@ -131,7 +131,7 @@ Jx.Panel.DataView.Group = new Class({
                     itemList = this.createList(currentItemContainer, this.options.itemOptions, this.itemManager);
                     l.add(itemList.container);
                 }
-                
+
                 var item = this.createItem();
                 itemList.add(item);
             }
@@ -141,11 +141,11 @@ Jx.Panel.DataView.Group = new Class({
         }
         this.fireEvent('renderDone', this);
     },
-    
+
     /**
      * Method: createList
      * Creates the list object
-     * 
+     *
      * Parameters:
      * container - the container to use in the list
      * options - the options for the list
@@ -159,5 +159,5 @@ Jx.Panel.DataView.Group = new Class({
             onRemove: this.removeItem.bind(this)
         }, options), manager);
     }
-    
+
 });

@@ -41,9 +41,9 @@ Jx.Columns = new Class({
      * an array holding the actual instantiated column objects
      */
     columns : [],
-    
+
     parameters: ['options','grid'],
-    
+
     /**
      * APIMethod: init
      * Creates the class.
@@ -139,7 +139,7 @@ Jx.Columns = new Class({
         var parts = hClasses[0].split('-');
         return this.getByName(parts[1]);
     },
-    
+
     /**
      * APIMethod: getHeaders
      * Returns a row with the headers in it.
@@ -224,7 +224,7 @@ Jx.Columns = new Class({
         if (col.isSortable()) {
             td.addClass('jxColSortable');
         }
-        
+
         td.store('jxCellData',{
             col: col,
             index: idx,
@@ -263,7 +263,7 @@ Jx.Columns = new Class({
         headers.each(function (h) {
             i++;
             var hClasses = h.get('class').split(' ').filter(function (cls) {
-                return cls.test('jxColHead-'); 
+                return cls.test('jxColHead-');
             });
             hClasses.each(function (cls) {
                 if (cls.test(name)) {

@@ -46,7 +46,7 @@ Jx.List = new Class({
     selection: null,
     options: {
         /**
-         * APIProperty: items
+         * Option: items
          * an array of items to add to the list right away
          */
         items: null,
@@ -58,7 +58,7 @@ Jx.List = new Class({
          */
         hover: false,
         /**
-         * APIProperty: hoverClass
+         * Option: hoverClass
          * the CSS class name to add to the wrapper element when the mouse is
          * over an item
          */
@@ -72,7 +72,7 @@ Jx.List = new Class({
          */
         press: false,
         /**
-         * APIProperty: pressedClass
+         * Option: pressedClass
          * the CSS class name to add to the wrapper element when the mouse is
          * down on an item
          */
@@ -88,6 +88,10 @@ Jx.List = new Class({
         select: false
     },
     
+    /**
+     * Method: init
+     * internal method to initialize this object
+     */
     init: function() {
         this.container = document.id(this.options.container);
         this.container.store('jxList', this);
@@ -170,6 +174,10 @@ Jx.List = new Class({
         }
     },
     
+    /**
+     * Method: cleanup
+     * destroy the list and release anything it references
+     */
     cleanup: function() {
         this.container.getChildren().each(function(item){
             this.remove(item);
@@ -189,7 +197,8 @@ Jx.List = new Class({
      * be provided.  All items are inserted sequentially at the indicated
      * position.
      * position - {mixed} optional, the position to add the element, either
-     * an integer position in the list or another item to place this item after
+     * an integer position in the list or another item to place this item
+     * after
      */
     add: function(item, position) {
         if (Jx.type(item) == 'array') {
@@ -241,22 +250,23 @@ Jx.List = new Class({
         }
     },
     /**
-     * Method: remove
+     * APIMethod: remove
      * remove an item from the list of items
      *
      * Parameters:
-     * item - {mixed} the item to remove or the index of the item to remove.  An
-     * array of items may also be provided.
+     * item - {mixed} the item to remove or the index of the item to remove. 
+     * An array of items may also be provided.
      *
      * Returns:
      * {mixed} the item that was removed or null if the item is not a member
      * of this list.
      */
     remove: function(item) {
-        if (this.container.hasChild(item)) {
-            this.unselect(item, true);
-            document.id(item).dispose();
-            var target = item.retrieve('jxListTarget') || item;
+        var el = document.id(item);
+        if (el && this.container.hasChild(el)) {
+            this.unselect(el, true);
+            el.dispose();
+            var target = el.retrieve('jxListTarget') || el;
             target.removeEvents(this.bound);
             this.fireEvent('remove', item, this);
             return item;
@@ -264,7 +274,7 @@ Jx.List = new Class({
         return null;
     },
     /**
-     * Method: replace
+     * APIMethod: replace
      * replace one item with another
      *
      * Parameters:
@@ -369,6 +379,14 @@ Jx.List = new Class({
             this.remove(item);
         }, this);
     },
+    /**
+     * APIMethod: setSelection
+     * sets the <Jx.Selection> object that this list will use for selection
+     * events.
+     *
+     * Parameters:
+     * {<Jx.Selection>} the selection object, or null to remove it.
+     */
     setSelection: function(selection) {
         if (this.selection) {
             this.selection.removeEvents(this.bound);

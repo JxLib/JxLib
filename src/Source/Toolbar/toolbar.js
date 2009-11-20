@@ -19,7 +19,7 @@
  * purpose for menus by providing some infrastructure so that menus can behave
  * properly.
  *
- * In general, almost anything can be placed in a Toolbar, and mixed with 
+ * In general, almost anything can be placed in a Toolbar, and mixed with
  * anything else.
  *
  * Example:
@@ -30,7 +30,7 @@
  * //myToolbarContainer is the id of a <div> in the HTML page.
  * function myFunction() {}
  * var myToolbar = new Jx.Toolbar('myToolbarContainer');
- * 
+ *
  * var myButton = new Jx.Button(buttonOptions);
  *
  * var myElement = document.createElement('select');
@@ -42,12 +42,12 @@
  * add - fired when one or more buttons are added to a toolbar
  * remove - fired when on eor more buttons are removed from a toolbar
  *
- * Implements: 
+ * Implements:
  * Options
  *
- * License: 
+ * License:
  * Copyright (c) 2008, DM Solutions Group Inc.
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.Toolbar = new Class({
@@ -107,7 +107,7 @@ Jx.Toolbar = new Class({
         if ($defined(this.options.id)) {
             this.domObj.id = this.options.id;
         }
-        
+
         this.list = new Jx.List(this.domObj, {
             onAdd: function(item) {
                 this.fireEvent('add', this);
@@ -116,7 +116,7 @@ Jx.Toolbar = new Class({
                 this.fireEvent('remove', this);
             }.bind(this)
         });
-        
+
         if (this.options.parent) {
             this.addTo(this.options.parent);
         }
@@ -125,7 +125,7 @@ Jx.Toolbar = new Class({
             this.add(this.options.items);
         }
     },
-    
+
     /**
      * Method: addTo
      * add this toolbar to a DOM element automatically creating a toolbar
@@ -138,8 +138,8 @@ Jx.Toolbar = new Class({
         var tbc = document.id(parent).retrieve('jxBarContainer');
         if (!tbc) {
             tbc = new Jx.Toolbar.Container({
-                parent: parent, 
-                position: this.options.position, 
+                parent: parent,
+                position: this.options.position,
                 autoSize: this.options.autoSize,
                 scroll: this.options.scroll
             });
@@ -147,7 +147,7 @@ Jx.Toolbar = new Class({
         tbc.add(this);
         return this;
     },
-    
+
     /**
      * Method: add
      * Add an item to the toolbar.  If the item being added is a Jx component
@@ -165,14 +165,14 @@ Jx.Toolbar = new Class({
             if (item.domObj) {
                 item = item.domObj;
             }
-            
+
             if (item.tagName == 'LI') {
                 if (!item.hasClass('jxToolItem')) {
                     item.addClass('jxToolItem');
                 }
             } else {
                 item = new Jx.Toolbar.Item(thing);
-            }            
+            }
             this.list.add(item);
         }, this);
         return this;
@@ -216,17 +216,17 @@ Jx.Toolbar = new Class({
      * Returns:
      * {Boolean}
      */
-    isActive: function() { 
-        return this.isActive; 
+    isActive: function() {
+        return this.isActive;
     },
     /**
      * Method: setActive
      * Set the active state of the toolbar (for menus)
      *
-     * Parameters: 
+     * Parameters:
      * b - {Boolean} the new state
      */
-    setActive: function(b) { 
+    setActive: function(b) {
         this.isActive = b;
         if (this.isActive) {
             document.addEvent('click', this.deactivateWatcher);

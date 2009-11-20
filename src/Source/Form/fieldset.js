@@ -1,23 +1,23 @@
 // $Id: $
 /**
  * Class: Jx.Fieldset
- * 
+ *
  * Extends: <Jx.Widget>
- * 
+ *
  * This class represents a fieldset. It can be used to group fields together.
- * 
+ *
  * Example:
  * (code)
  * (end)
  *
- * License: 
+ * License:
  * Copyright (c) 2009, Jon Bomgardner.
- * 
+ *
  * This file is licensed under an MIT style license
- * 
+ *
  */
 Jx.Fieldset = new Class({
-	
+    Family: 'Jx.Fieldset',
     Extends : Jx.Widget,
 
     options : {
@@ -34,13 +34,13 @@ Jx.Fieldset = new Class({
         id : null,
         /**
          * Option: fieldsetClass
-         * A CSS class to assign to the fieldset. Useful for custom styling of 
+         * A CSS class to assign to the fieldset. Useful for custom styling of
          * the element
          */
         fieldsetClass : null,
         /**
          * Option: legendClass
-         * A CSS class to assign to the legend. Useful for custom styling of 
+         * A CSS class to assign to the legend. Useful for custom styling of
          * the element
          */
         legendClass : null,
@@ -55,32 +55,32 @@ Jx.Fieldset = new Class({
          */
         form : null
     },
-    
+
     classes: new Hash({
         domObj: 'jxFieldset',
         legend: 'jxFieldsetLegend'
     }),
-    
+
     /**
      * Property: legend
      * a holder for the legend Element
      */
     legend : null,
-    
+
     /**
      * APIMethod: render
      * Creates a fieldset.
      */
     render : function () {
         this.parent();
-    
+
         this.id = this.options.id;
-    
+
         if ($defined(this.options.form)
                 && this.options.form instanceof Jx.Form) {
             this.form = this.options.form;
         }
-    
+
         //FIELDSET
         if (this.domObj) {
             if ($defined(this.options.id)) {
@@ -90,7 +90,7 @@ Jx.Fieldset = new Class({
                 this.domObj.addClass(this.options.fieldsetClass);
             }
         }
-    
+
         if (this.legend) {
             if ($defined(this.options.legend)) {
                 this.legend.set('html', this.options.legend);
@@ -105,9 +105,9 @@ Jx.Fieldset = new Class({
     /**
      * APIMethod: add
      * Adds fields to this fieldset
-     * 
+     *
      * Parameters:
-     * pass as many fields to this method as you like. They should be 
+     * pass as many fields to this method as you like. They should be
      * <Jx.Field> objects
      */
     add : function () {

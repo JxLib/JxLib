@@ -10,9 +10,9 @@
  * (code)
  * (end)
  *
- * License: 
+ * License:
  * Copyright (c) 2008, DM Solutions Group Inc.
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.Menu.Separator = new Class({

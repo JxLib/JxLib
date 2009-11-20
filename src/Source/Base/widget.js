@@ -1,12 +1,12 @@
 // $Id: $
 /**
  * Class: Jx.Widget
- * Base class for all widgets (visual classes) in the JxLib Framework. This 
- * class extends <Jx.Object> and adds the Chrome, ContentLoader, Addable, and 
+ * Base class for all widgets (visual classes) in the JxLib Framework. This
+ * class extends <Jx.Object> and adds the Chrome, ContentLoader, Addable, and
  * AutoPosition mixins from the original framework.
- * 
+ *
  * ContentLoader:
- * 
+ *
  * ContentLoader functionality provides a consistent
  * mechanism for descendants of Jx.Widget to load content in one of
  * four different ways:
@@ -20,7 +20,7 @@
  * o using a URL to get the content remotely
  *
  * Chrome:
- * 
+ *
  * Chrome is the extraneous visual element that provides the look and feel to some elements
  * i.e. dialogs.  Chrome is added inside the element specified but may
  * bleed outside the element to provide drop shadows etc.  This is done by
@@ -33,85 +33,85 @@
  * the jxChrome class creates four images inside the chrome container that
  * are positioned in the top-left, top-right, bottom-left and bottom-right
  * corners of the chrome container and are sized to fill 50% of the width
- * and height.  The images are positioned and clipped such that the 
+ * and height.  The images are positioned and clipped such that the
  * appropriate corners of the chrome image are displayed in those locations.
  *
  *
  */
 Jx.Widget = new Class({
-	
-	Extends: Jx.Object,
-	
-	options: {
+    Family: "Jx.Widget",
+    Extends: Jx.Object,
+
+    options: {
         /**
          * Option: content
          * content may be an HTML element reference, the id of an HTML element
          *      already in the DOM, or an HTML string that becomes the inner HTML of
          *      the element.
          */
-		content: null,
-		/**
-		 * Option: contentURL
-		 * the URL to load content from
-		 */
-		contentURL: null,
-		template: '<div class="jxWidget"></div>'
-	},
-	
-	classes: new Hash({
-	    domObj: 'jxWidget'
-	}),
-	
-	/**
-	 * Property: domObj
-	 * The HTMLElement that represents this widget.
-	 */
-	domObj: null,
-	
-	/**
+        content: null,
+        /**
+         * Option: contentURL
+         * the URL to load content from
+         */
+        contentURL: null,
+        template: '<div class="jxWidget"></div>'
+    },
+
+    classes: new Hash({
+        domObj: 'jxWidget'
+    }),
+
+    /**
+     * Property: domObj
+     * The HTMLElement that represents this widget.
+     */
+    domObj: null,
+
+    /**
      * Property: contentIsLoaded
      *
      * tracks the load state of the content, specifically useful
      * in the case of remote content.
-     */ 
+     */
     contentIsLoaded: false,
-    
+
     /**
      * Property: chrome
      * the DOM element that contains the chrome
      */
     chrome: null,
-    
-    
+
+
     /**
      * APIMethod: init
-     * sets up the base widget code and runs the render function. 
+     * sets up the base widget code and runs the render function.
      */
     init: function(){
-		if (!this.options.deferRender) {
-		    this.fireEvent('preRender');
-		    this.render();
-		    this.fireEvent('postRender');
-		} else {
-		    this.fireEvent('deferRender');
-		}
-	},
-    
-    
+        if (!this.options.deferRender) {
+            this.fireEvent('preRender');
+            this.render();
+            this.fireEvent('postRender');
+        } else {
+            this.fireEvent('deferRender');
+        }
+    },
+
+
     /**
      * Method: loadContent
      *
      * triggers loading of content based on options set for the current
      * object.
      *
-     * Parameters: 
+     * Parameters:
      * element - {Object} the element to insert the content into
      *
      * Events:
      *
      * ContentLoader adds the following events to an object.  You can
      * register for these events using the addEvent method or by providing
-     * callback functions via the on{EventName} properties in the options 
+     * callback functions via the on{EventName} properties in the options
      * object
      *
      * contentLoaded - called when the content has been loaded.  If the
@@ -119,7 +119,7 @@ Jx.Widget = new Class({
      *     returns.
      * contentLoadFailed - called if the content fails to load, primarily
      *     useful when using the contentURL method of loading content.
-     */     
+     */
     loadContent: function(element) {
         element = document.id(element);
         if (this.options.content) {
@@ -133,9 +133,9 @@ Jx.Widget = new Class({
                 if (this.options.content.addTo) {
                     this.options.content.addTo(element);
                 } else {
-                    element.appendChild(c);                    
+                    element.appendChild(c);
                 }
-                this.contentIsLoaded = true;                
+                this.contentIsLoaded = true;
             } else {
                 element.innerHTML = this.options.content;
                 this.contentIsLoaded = true;
@@ -143,7 +143,7 @@ Jx.Widget = new Class({
         } else if (this.options.contentURL) {
             this.contentIsLoaded = false;
             this.req = new Request({
-                url: this.options.contentURL, 
+                url: this.options.contentURL,
                 method:'get',
                 evalScripts:true,
                 onSuccess:(function(html) {
@@ -153,7 +153,7 @@ Jx.Widget = new Class({
                         $clear(this.reqTimeout);
                     }
                     this.fireEvent('contentLoaded', this);
-                }).bind(this), 
+                }).bind(this),
                 onFailure: (function(){
                     this.contentIsLoaded = true;
                     this.fireEvent('contentLoadFailed', this);
@@ -175,7 +175,7 @@ Jx.Widget = new Class({
             this.fireEvent('contentLoaded', this);
         }
     },
-    
+
     processContent: function(element) {
         $A(element.childNodes).each(function(node){
             if (node.tagName == 'INPUT' || node.tagName == 'SELECT' || node.tagName == 'TEXTAREA') {
@@ -195,7 +195,7 @@ Jx.Widget = new Class({
             }
         }, this);
     },
-    
+
     /**
      * Method: position
      * positions an element relative to another element
@@ -217,10 +217,10 @@ Jx.Widget = new Class({
      * Some common rules are:
      * o 'left left' is interpreted as aligning the left
      * edge of the element to be positioned with the left edge of the
-     * reference element.  
-     * o 'right right' aligns the two right edges.  
+     * reference element.
+     * o 'right right' aligns the two right edges.
      * o 'right left' aligns the left edge of the element to the right of
-     * the reference element.  
+     * the reference element.
      * o 'left right' aligns the right edge of the element to the left
      * edge of the reference element.
      *
@@ -229,23 +229,23 @@ Jx.Widget = new Class({
      * Some common rules are:
      * o 'top top' is interpreted as aligning the top
      * edge of the element to be positioned with the top edge of the
-     * reference element.  
-     * o 'bottom bottom' aligns the two bottom edges.  
+     * reference element.
+     * o 'bottom bottom' aligns the two bottom edges.
      * o 'bottom top' aligns the top edge of the element to the bottom of
-     * the reference element.  
+     * the reference element.
      * o 'top bottom' aligns the bottom edge of the element to the top
      * edge of the reference element.
-     * 
+     *
      * Parameters:
      * element - the element to position
      * relative - the element to position relative to
      * options - the positioning options, see list below.
      *
      * Options:
-     * horizontal - the horizontal positioning rule to use to position the 
+     * horizontal - the horizontal positioning rule to use to position the
      *    element.  Valid values are 'left', 'center', 'right', and a numeric
      *    value.  The default value is 'center center'.
-     * vertical - the vertical positioning rule to use to position the 
+     * vertical - the vertical positioning rule to use to position the
      *    element.  Valid values are 'top', 'center', 'bottom', and a numeric
      *    value.  The default value is 'center center'.
      * offsets - an object containing numeric pixel offset values for the object
@@ -257,7 +257,7 @@ Jx.Widget = new Class({
         var hor = $splat(options.horizontal || ['center center']);
         var ver = $splat(options.vertical || ['center center']);
         var offsets = $merge({top:0,right:0,bottom:0,left:0}, options.offsets || {});
-        
+
         var coords = relative.getCoordinates(); //top, left, width, height
         var page;
         var scroll;
@@ -272,7 +272,7 @@ Jx.Widget = new Class({
             // adjust coords for the scroll offsets to make the object
             // appear in the right part of the page.
             coords.left += scroll.x;
-            coords.top += scroll.y;            
+            coords.top += scroll.y;
         } else if (element.parentNode == relative) {
             // if the element is opening *inside* its relative, we want
             // it to position correctly within it so top/left becomes
@@ -294,7 +294,7 @@ Jx.Widget = new Class({
             if (!isNaN(parseInt(parts[0],10))) {
                 n = parseInt(parts[0],10);
                 if (n>=0) {
-                    left = n;                    
+                    left = n;
                 } else {
                     left = coords.left + coords.width + n;
                 }
@@ -310,7 +310,7 @@ Jx.Widget = new Class({
                     default:
                         left = coords.left;
                         break;
-                }                
+                }
             }
             if (!isNaN(parseInt(parts[1],10))) {
                 n = parseInt(parts[1],10);
@@ -339,7 +339,7 @@ Jx.Widget = new Class({
                         left = left - Math.round(size.width/2);
                         right = left + size.width;
                         break;
-                }                
+                }
             }
             return (left >= scroll.x && right <= scroll.x + page.width);
         })) {
@@ -354,7 +354,7 @@ Jx.Widget = new Class({
             }
         }
         element.setStyle('left', left);
-        
+
         if (!ver.some(function(opt) {
                 var parts = opt.split(' ');
                 if (parts.length != 2) {
@@ -383,7 +383,7 @@ Jx.Widget = new Class({
                         bottom = top + size.height;
                     } else {
                         bottom = top + n;
-                        top = bottom - size.height; 
+                        top = bottom - size.height;
                     }
                 } else {
                     switch(parts[1]) {
@@ -401,7 +401,7 @@ Jx.Widget = new Class({
                             top = top - Math.round(size.height/2);
                             bottom = top + size.height;
                             break;
-                    }                    
+                    }
                 }
                 return (top >= scroll.y && bottom <= scroll.y + page.height);
             })) {
@@ -416,7 +416,7 @@ Jx.Widget = new Class({
                 }
             }
             element.setStyle('top', top);
-            
+
             /* update the jx layout if necessary */
             var jxl = element.retrieve('jxLayout');
             if (jxl) {
@@ -424,7 +424,7 @@ Jx.Widget = new Class({
                 jxl.options.top = top;
             }
     },
-    
+
     /**
      * Method: makeChrome
      * create chrome on an element.
@@ -437,12 +437,12 @@ Jx.Widget = new Class({
             'class':'jxChrome',
             events: {
                 contextmenu: function(e) { e.stop(); }
-            }      
+            }
         });
-        
+
         /* add to element so we can get the background image style */
         element.adopt(c);
-        
+
         /* pick up any offset because of chrome, set
          * through padding on the chrome object.  Other code can then
          * make use of these offset values to fix positioning.
@@ -451,7 +451,7 @@ Jx.Widget = new Class({
             return this.getSizes(['padding']).padding;
         });
         c.setStyle('padding', 0);
-        
+
         /* get the chrome image from the background image of the element */
         /* the app: protocol check is for adobe air support */
         var src = c.getStyle('backgroundImage');
@@ -486,12 +486,12 @@ Jx.Widget = new Class({
         if (!window.opera) {
             c.adopt(Jx.createIframeShim());
         }
-        
+
         /* remove from DOM so the other resizing logic works as expected */
-        c.dispose();    
+        c.dispose();
         this.chrome = c;
     },
-    
+
     /**
      * Method: showChrome
      * show the chrome on an element.  This creates the chrome if necessary.
@@ -514,7 +514,7 @@ Jx.Widget = new Class({
             element.adopt(this.chrome);
         }
     },
-    
+
     /**
      * Method: hideChrome
      * removes the chrome from the DOM.  If you do this, you can't
@@ -525,19 +525,19 @@ Jx.Widget = new Class({
             this.chrome.dispose();
         }
     },
-    
+
     resizeChrome: function(o) {
         if (this.chrome && Browser.Engine.trident4) {
             this.chrome.setContentBoxSize(document.id(o).getBorderBoxSize());
         }
     },
-    
+
     /**
      * Method: addTo
      * adds the object to the DOM relative to another element.  If you use
      * 'top' or 'bottom' then the element is added to the relative
      * element (becomes a child node).  If you use 'before' or 'after'
-     * then the element is inserted adjacent to the reference node. 
+     * then the element is inserted adjacent to the reference node.
      *
      * Parameters:
      * reference - {Object} the DOM element or id of a DOM element
@@ -558,25 +558,25 @@ Jx.Widget = new Class({
         }
         return this;
     },
-    
+
     toElement: function() {
         return this.domObj;
     },
-    
+
     /**
      * APIMethod: processTemplate
      * This function pulls the needed elements from a provided template
-     * 
+     *
      * Parameters:
      * template - the template to use in grabbing elements
      * classes - an array of class names to use in grabbing elements
      * container - the container to add the template into
-     * 
+     *
      * Returns:
      * a hash object containing the requested Elements keyed by the class names
      */
     processTemplate: function(template,classes,container){
-        
+
         var h = new Hash();
         var element;
         if ($defined(container)){
@@ -590,11 +590,11 @@ Jx.Widget = new Class({
                 h.set(klass,el);
             }
         });
-        
+
         return h;
-        
+
     },
-    
+
     /**
      * Method: generateId
      * Used to generate a unique ID for Jx Widgets.
@@ -605,14 +605,14 @@ Jx.Widget = new Class({
         delete this.uid;
         return prefix + uid;
     },
-    
+
     remove: function(){
         var el = document.id(this.addable) || document.id(this.domObj);
         if (el) {
             el.dispose();
         }
     },
-    
+
     cleanup: function(){
         if ($defined(this.domObj)) {
             this.domObj.destroy();
@@ -625,14 +625,14 @@ Jx.Widget = new Class({
         }
         this.parent();
     },
-    
+
     render: function() {
         this.elements = this.processElements(this.options.template,
             this.classes);
     },
-    
+
     elements: null,
-    
+
     processElements: function(template, classes) {
         var keys = classes.getValues();
         elements = this.processTemplate(template, keys);
@@ -647,10 +647,10 @@ Jx.Widget = new Class({
 
 
 /**
- * It seems AIR never returns an XHR that "fails" by not finding the 
+ * It seems AIR never returns an XHR that "fails" by not finding the
  * appropriate file when run in the application sandbox and retrieving a local
- * file. This affects Jx.ContentLoader in that a "failed" event is never fired. 
- * 
+ * file. This affects Jx.ContentLoader in that a "failed" event is never fired.
+ *
  * To fix this, I've added a timeout that waits about 10 seconds or so in the code above
  * for the XHR to return, if it hasn't returned at the end of the timeout, we cancel the
  * XHR and fire the failure event.

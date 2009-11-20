@@ -3,38 +3,33 @@
  * Class: Jx.Object
  * Base class for all other object in the JxLib framework. This class
  * implements both mootools mixins Events and Options so the rest of the
- * classes don't need to. 
- * 
+ * classes don't need to.
+ *
  * Example:
  * (code)
  * (end)
  *
- * License: 
+ * License:
  * Copyright (c) 2009, Jon Bomgardner.
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.Object = new Class({
-	
-    Implements: [Options, Events],
-	
     Family: "Jx.Object",
-    
+    Implements: [Options, Events],
     plugins: new Hash(),
-    
     pluginNamespace: 'Other',
-    
     parameters: ['options'],
-	
-	initialize: function(){
+
+    initialize: function(){
         //normalize arguments
         var numArgs = arguments.length;
         var options = {};
-        
+
         if (numArgs > 0) {
-            if (numArgs === 1 
-                    && (Jx.type(arguments[0])==='object' || Jx.type(arguments[0])==='Hash') 
-                    && this.parameters.length === 1 
+            if (numArgs === 1
+                    && (Jx.type(arguments[0])==='object' || Jx.type(arguments[0])==='Hash')
+                    && this.parameters.length === 1
                     && this.parameters[0] === 'options') {
                 options = arguments[0];
             } else {
@@ -55,7 +50,7 @@ Jx.Object = new Class({
                 }
             }
         }
-        
+
         this.setOptions(options);
         this.fireEvent('preInit');
         this.init();
@@ -65,7 +60,7 @@ Jx.Object = new Class({
         this.fireEvent('postPluginInit');
         this.fireEvent('initializeDone');
     },
-    
+
     initPlugins: function () {
         //pluginNamespace must be defined in order to pass plugins to the object
         if ($defined(this.pluginNamespace)) {
@@ -87,13 +82,13 @@ Jx.Object = new Class({
             }
         }
     },
-    
+
     destroy: function () {
         this.fireEvent('preDestroy');
         this.cleanup();
         this.fireEvent('postDestroy');
     },
-    
+
     cleanup: function () {
         //detach plugins
         if (this.plugins.getLength > 0) {
@@ -103,20 +98,19 @@ Jx.Object = new Class({
             }, this);
         }
     },
-    
+
     init: $empty,
-    
+
     registerPlugin: function (plugin) {
         if (!this.plugins.has(plugin.name)) {
             this.plugins.set(plugin.name,  plugin);
         }
     },
-    
+
     deregisterPlugin: function (plugin) {
         if (this.plugins.has(plugin.name)) {
             this.plugins.erase(plugin.name);
-        } 
+        }
     }
 
 });
- 

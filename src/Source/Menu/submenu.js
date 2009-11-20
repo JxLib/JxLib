@@ -16,9 +16,9 @@
  * (code)
  * (end)
  *
- * License: 
+ * License:
  * Copyright (c) 2008, DM Solutions Group Inc.
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.Menu.SubMenu = new Class({
@@ -52,15 +52,15 @@ Jx.Menu.SubMenu = new Class({
             vertical: ['top top']
         }
     },
-    
+
     /**
      * APIMethod: render
      * Create a new instance of Jx.SubMenu
      */
-    render: function() { 
+    render: function() {
         this.parent();
         this.open = false;
-        
+
         this.menu = new Jx.Menu(null, {
             position: this.options.position
         });
@@ -88,17 +88,17 @@ Jx.Menu.SubMenu = new Class({
         this.open = true;
         this.setActive(true);
     },
-    
+
     eventInMenu: function(e) {
-        if (this.visibleItem && 
-            this.visibleItem.eventInMenu && 
+        if (this.visibleItem &&
+            this.visibleItem.eventInMenu &&
             this.visibleItem.eventInMenu(e)) {
             return true;
         }
         return document.id(e.target).descendantOf(this.domObj) ||
                this.menu.eventInMenu(e);
     },
-    
+
     /**
      * Method: hide
      * Hide the sub menu
@@ -156,7 +156,7 @@ Jx.Menu.SubMenu = new Class({
      */
     deactivate: function(e) {
         if (this.owner) {
-            this.owner.deactivate(e);            
+            this.owner.deactivate(e);
         }
     },
     /**
@@ -167,7 +167,7 @@ Jx.Menu.SubMenu = new Class({
      * {Boolean} true if the <Jx.Menu> that ultimately contains
      * this sub menu is active, false otherwise.
      */
-    isActive: function() { 
+    isActive: function() {
         if (this.owner) {
             return this.owner.isActive();
         } else {
@@ -181,7 +181,7 @@ Jx.Menu.SubMenu = new Class({
      * Parameters:
      * isActive - {Boolean} the new active state
      */
-    setActive: function(isActive) { 
+    setActive: function(isActive) {
         if (this.owner && this.owner.setActive) {
             this.owner.setActive(isActive);
         }
@@ -191,7 +191,7 @@ Jx.Menu.SubMenu = new Class({
      * Set a sub menu of this menu to be visible and hide the previously
      * visible one.
      *
-     * Parameters: 
+     * Parameters:
      * obj - {<Jx.SubMenu>} the sub menu that should be visible
      */
     setVisibleItem: function(obj) {

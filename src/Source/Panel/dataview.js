@@ -4,24 +4,24 @@
  *
  * Extends: <Jx.Panel>
  *
- * This panel extension takes a standard Jx.Store (or subclass) and displays 
+ * This panel extension takes a standard Jx.Store (or subclass) and displays
  * each record as an item using a provided template. It sorts the store as requested
- * before doing so. The class only creates the HTML and has no default CSS display. All 
+ * before doing so. The class only creates the HTML and has no default CSS display. All
  * styling must be done by the developer using the control.
  *
  *
  * Events:
  * renderDone - fires when the panel completes creating all of the items.
  *
- * License: 
+ * License:
  * Copyright (c) 2009, Jonathan Bomgardner.
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.Panel.DataView = new Class({
 
     Extends: Jx.Panel,
-    
+
     options: {
         /**
          * Option: data
@@ -40,7 +40,7 @@ Jx.Panel.DataView = new Class({
         itemTemplate: null,
         /**
          * Option: emptyTemplate
-         * the template that is displayed when there are no records in the 
+         * the template that is displayed when there are no records in the
          * store.
          */
         emptyTemplate: null,
@@ -64,13 +64,13 @@ Jx.Panel.DataView = new Class({
             hover: true
         }
     },
-    
+
     /**
      * Property: bound
      * hold bound functions
      */
     bound: {},
-    
+
     init: function () {
         this.domA = new Element('div');
         this.list = this.createList(this.domA, this.options.listOptions);
@@ -86,29 +86,29 @@ Jx.Panel.DataView = new Class({
             //we can't do anything without data
             return;
         }
-        
+
         this.options.content = this.domA;
-        
+
         //pass to parent
         this.parent();
-        
+
         this.domA.addClass(this.options.containerClass);
-        
+
         //parse templates so we know what values are needed in each
         this.itemCols = this.parseTemplate(this.options.itemTemplate);
-        
+
         this.bound.update = this.update.bind(this);
         //listen for data updates
         this.options.data.addEvent('loadFinished', this.bound.update);
         this.options.data.addEvent('sortFinished', this.bound.update);
         this.options.data.addEvent('loadError', this.bound.update);
-        
+
         if (this.options.data.loaded) {
             this.update();
         }
-        
+
     },
-    
+
     /**
      * Method: draw
      * begins the process of creating the items
@@ -118,7 +118,7 @@ Jx.Panel.DataView = new Class({
         if ($defined(n) && n > 0) {
             for (var i = 0; i < n; i++) {
                 this.options.data.moveTo(i);
-                
+
                 var item = this.createItem();
                 this.list.add(item);
             }
@@ -162,15 +162,15 @@ Jx.Panel.DataView = new Class({
     },
     /**
      * Method: parseTemplate
-     * parses the provided template to determine which store columns are 
+     * parses the provided template to determine which store columns are
      * required to complete it.
-     * 
+     *
      * Parameters:
      * template - the template to parse
      */
     parseTemplate: function (template) {
-        //we parse the template based on the columns in the data store looking 
-        //for the pattern {column-name}. If it's in there we add it to the 
+        //we parse the template based on the columns in the data store looking
+        //for the pattern {column-name}. If it's in there we add it to the
         //array of ones to look for
         var columns = this.options.data.getColumns();
         var arr = [];
@@ -185,8 +185,8 @@ Jx.Panel.DataView = new Class({
     /**
      * Method: enterItem
      * Fires mouseenter event
-     * 
-     * Parameters: 
+     *
+     * Parameters:
      * item - the item that is the target of the event
      * list - the list this item is in.
      */
@@ -196,8 +196,8 @@ Jx.Panel.DataView = new Class({
     /**
      * Method: leaveItem
      * Fires mouseleave event
-     * 
-     * Parameters: 
+     *
+     * Parameters:
      * item - the item that is the target of the event
      * list - the list this item is in.
      */
@@ -207,8 +207,8 @@ Jx.Panel.DataView = new Class({
     /**
      * Method: selectItem
      * Fires select event
-     * 
-     * Parameters: 
+     *
+     * Parameters:
      * item - the item that is the target of the event
      * list - the list this item is in.
      */
@@ -218,8 +218,8 @@ Jx.Panel.DataView = new Class({
     /**
      * Method: unselectItem
      * Fires unselect event
-     * 
-     * Parameters: 
+     *
+     * Parameters:
      * item - the item that is the target of the event
      * list - the list this item is in.
      */
@@ -229,8 +229,8 @@ Jx.Panel.DataView = new Class({
     /**
      * Method: addItem
      * Fires add event
-     * 
-     * Parameters: 
+     *
+     * Parameters:
      * item - the item that is the target of the event
      * list - the list this item is in.
      */
@@ -240,8 +240,8 @@ Jx.Panel.DataView = new Class({
     /**
      * Method: removeItem
      * Fires remove event
-     * 
-     * Parameters: 
+     *
+     * Parameters:
      * item - the item that is the target of the event
      * list - the list this item is in.
      */
@@ -251,7 +251,7 @@ Jx.Panel.DataView = new Class({
     /**
      * Method: createList
      * Creates the list object
-     * 
+     *
      * Parameters:
      * container - the container to use in the list
      * options - the options for the list

@@ -9,7 +9,7 @@
  * Jx.Dialog is designed to provide the same types of features as traditional
  * operating system dialog boxes, including:
  *
- * - dialogs may be modal (user must dismiss the dialog to continue) or 
+ * - dialogs may be modal (user must dismiss the dialog to continue) or
  * non-modal
  *
  * - dialogs are movable (user can drag the title bar to move the dialog
@@ -35,16 +35,16 @@
  * Extends:
  * Jx.Dialog extends <Jx.Panel>, please go there for more details.
  *
- * License: 
+ * License:
  * Copyright (c) 2008, DM Solutions Group Inc.
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.Dialog = new Class({
     Family: 'Jx.Dialog',
     Extends: Jx.Panel,
     //Implements: [Jx.AutoPosition, Jx.Chrome],
-    
+
     /**
      * Property: {HTMLElement} blanket
      * modal dialogs prevent interaction with the rest of the application
@@ -52,7 +52,7 @@ Jx.Dialog = new Class({
      * dialog to prevent the user from clicking anything.
      */
     blanket: null,
-    
+
     options: {
         /* Option: modal
          * (optional) {Boolean} controls whether the dialog will be modal
@@ -67,7 +67,7 @@ Jx.Dialog = new Class({
          */
         width: 250,
         /* Option: height
-         * (optional) {Integer} the initial height in pixels of the 
+         * (optional) {Integer} the initial height in pixels of the
          * dialog. The default value is 250 if not specified.
          */
         height: 250,
@@ -123,7 +123,7 @@ Jx.Dialog = new Class({
         menuClass: 'jxDialogMenu',
         maximizeClass: 'jxDialogMaximize',
         closeClass: 'jxDialogClose',
-        
+
         template: '<div class="jxDialog"><div class="jxDialogTitle"><img class="jxDialogIcon" src="'+Jx.aPixel.src+'" alt="" title=""/><span class="jxDialogLabel"></span><div class="jxDialogControls"></div></div><div class="jxDialogContentContainer"><div class="jxDialogContent"></div></div></div>'
     },
     classes: new Hash({
@@ -142,18 +142,18 @@ Jx.Dialog = new Class({
     render: function() {
         this.isOpening = false;
         this.firstShow = true;
-        
+
         this.options = $merge(
             {parent:document.body}, // these are defaults that can be overridden
             this.options,
             {position: 'absolute'} // these override anything passed to the options
         );
-        
+
         /* initialize the panel overriding the type and position */
         this.parent();
         this.openOnLoaded = this.open.bind(this);
         this.options.parent = document.id(this.options.parent);
-        
+
         if (this.options.modal) {
             this.blanket = new Element('div',{
                 'class':'jxDialogModal',
@@ -171,12 +171,12 @@ Jx.Dialog = new Class({
             }).bind(this.blanket);
             this.options.parent.adopt(this.blanket);
             window.addEvent('resize', this.blanket.resize);
-            
+
         }
 
         this.domObj.setStyle('display','none');
         this.options.parent.adopt(this.domObj);
-        
+
         /* the dialog is moveable by its title bar */
         if (this.options.move && typeof Drag != 'undefined') {
             this.title.addClass('jxDialogMoveable');
@@ -200,12 +200,12 @@ Jx.Dialog = new Class({
                     this.options.left = parseInt(this.domObj.style.left,10);
                     this.options.top = parseInt(this.domObj.style.top,10);
                     if (!this.options.closed) {
-                        this.domObj.resize(this.options);                        
+                        this.domObj.resize(this.options);
                     }
                 }).bind(this)
-            });            
+            });
         }
-        
+
         /* the dialog is resizeable */
         if (this.options.resize && typeof Drag != 'undefined') {
             this.resizeHandle = new Element('div', {
@@ -217,7 +217,7 @@ Jx.Dialog = new Class({
             });
             this.domObj.appendChild(this.resizeHandle);
 
-            this.resizeHandleSize = this.resizeHandle.getSize(); 
+            this.resizeHandleSize = this.resizeHandle.getSize();
             this.resizeHandle.setStyles({
                 bottom: this.resizeHandleSize.height,
                 right: this.resizeHandleSize.width
@@ -241,7 +241,7 @@ Jx.Dialog = new Class({
                     this.contentContainer.setStyle('visibility','');
                     this.fireEvent('resize');
                     this.resizeChrome(this.domObj);
-                    
+
                 }).bind(this)
             });
         }
@@ -250,7 +250,7 @@ Jx.Dialog = new Class({
             Jx.Dialog.orderDialogs(this);
         }).bind(this));
     },
-    
+
     /**
      * Method: resize
      * resize the dialog.  This can be called when the dialog is closed
@@ -272,13 +272,13 @@ Jx.Dialog = new Class({
             this.fireEvent('resize');
             this.resizeChrome(this.domObj);
             if (autoPosition) {
-                this.position(this.domObj, this.options.parent, this.options);                
+                this.position(this.domObj, this.options.parent, this.options);
             }
         } else {
             this.firstShow = false;
         }
     },
-    
+
     /**
      * Method: sizeChanged
      * overload panel's sizeChanged method
@@ -288,15 +288,15 @@ Jx.Dialog = new Class({
             this.layoutContent();
         }
     },
-    
+
     /**
      * Method: toggleCollapse
      * sets or toggles the collapsed state of the panel.  If a
      * new state is passed, it is used, otherwise the current
-     * state is toggled.    
+     * state is toggled.
      *
      * Parameters:
-     * state - optional, if passed then the state is used, 
+     * state - optional, if passed then the state is used,
      * otherwise the state is toggled.
      */
     toggleCollapse: function(state) {
@@ -322,7 +322,7 @@ Jx.Dialog = new Class({
                 this.resizeHandle.setStyle('display','block');
             }
         }
-        
+
         if (this.options.closed) {
             var m = this.domObj.measure(function(){
                 return this.getSizes(['margin'],['top','bottom']).margin;
@@ -336,7 +336,7 @@ Jx.Dialog = new Class({
         }
         this.showChrome(this.domObj);
     },
-    
+
     /**
      * Method: show
      * show the dialog, external code should use the <Jx.Dialog::open> method
@@ -348,13 +348,13 @@ Jx.Dialog = new Class({
             'display': 'block',
             'visibility': 'hidden'
         });
-        
+
         if (this.blanket) {
-            this.blanket.resize();            
+            this.blanket.resize();
         }
 
         Jx.Dialog.orderDialogs(this);
-        
+
         /* do the modal thing */
         if (this.blanket) {
             this.blanket.setStyles({
@@ -362,7 +362,7 @@ Jx.Dialog = new Class({
                 display: 'block'
             });
         }
-        
+
         if (this.options.closed) {
             var m = this.domObj.measure(function(){
                 return this.getSizes(['margin'],['top','bottom']).margin;
@@ -370,7 +370,7 @@ Jx.Dialog = new Class({
             var size = this.title.getMarginBoxSize();
             this.domObj.resize({height: m.top + size.height + m.bottom});
         } else {
-            this.domObj.resize(this.options);            
+            this.domObj.resize(this.options);
         }
         if (this.firstShow) {
             this.contentContainer.resize({forceResize: true});
@@ -404,7 +404,7 @@ Jx.Dialog = new Class({
             this.blanket.setStyle('visibility', 'hidden');
             Jx.Dialog.ZIndex--;
         }
-        
+
     },
     /**
      * Method: openURL
@@ -419,16 +419,16 @@ Jx.Dialog = new Class({
             this.options.contentURL = url;
             this.options.content = null;  //force Url loading
             this.loadContent(this.content);
-            this.addEvent('contentLoaded', this.openOnLoaded); 
+            this.addEvent('contentLoaded', this.openOnLoaded);
         }
         else {
             this.open();
         }
     },
-    
+
     /**
      * Method: open
-     * open the dialog.  This may be delayed depending on the 
+     * open the dialog.  This may be delayed depending on the
      * asynchronous loading of dialog content.  The onOpen
      * callback function is called when the dialog actually
      * opens
@@ -456,7 +456,7 @@ Jx.Dialog = new Class({
         this.hide();
         this.fireEvent('close');
     },
-    
+
     cleanup: function() {
         this.blanket.destroy();
     }
@@ -476,5 +476,5 @@ Jx.Dialog.orderDialogs = function(d) {
         }
         d.domObj.setStyle('zIndex',z);
     });
-    
+
 };

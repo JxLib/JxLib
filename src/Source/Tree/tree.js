@@ -2,8 +2,6 @@
 /**
  * Class: Jx.Tree
  *
- * Extends: Jx.TreeFolder
- *
  * Jx.Tree displays hierarchical data in a tree structure of folders and nodes.
  *
  * Example:
@@ -12,47 +10,78 @@
  *
  * Extends: <Jx.Widget>
  *
- * License: 
+ * License:
  * Copyright (c) 2008, DM Solutions Group Inc.
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.Tree = new Class({
     Family: 'Jx.Tree',
     Extends: Jx.Widget,
     parameters: ['options','container', 'selection'],
+    /**
+     * APIProperty: selection
+     * {<Jx.Selection>} the selection object for this tree.
+     */
     selection: null,
+    /**
+     * Property: ownsSelection
+     * {Boolean} indicates if this object created the <Jx.Selection> object
+     * or not.  If true then the selection object will be destroyed when the
+     * tree is destroyed, otherwise the selection object will not be
+     * destroyed.
+     */
     ownsSelection: false,
-    isOpen: true,
+    /**
+     * Property: list
+     * {<Jx.List>} the list object is used to manage the DOM elements of the
+     * items added to the tree.
+     */
     list: null,
+    /**
+     * APIProperty: domObj
+     * {HTMLElement} the DOM element that contains the visual representation
+     * of the tree.
+     */
     domObj: null,
     options: {
-        /* APIProperty: select
+        /**
+         * Option: select
          * {Boolean} are items in the tree selectable?  See <Jx.Selection>
          * for other options relating to selections that can be set here.
          */
         select: true,
+        /**
+         * Option: template
+         * the default HTML template for a tree can be overridden
+         */
         template: '<ul class="jxTreeRoot"></ul>'
     },
+    /**
+     * APIProperty: classes
+     * {Hash} a hash of property to CSS class names for extracting references
+     * to DOM elements from the supplied templates.  Requires
+     * domObj element, anything else is optional.
+     */
     classes: new Hash({domObj: 'jxTreeRoot'}),
     /**
      * APIMethod: render
-     * Create a new instance of Jx.Tree
+     * Render the Jx.Tree.
      */
     render: function() {
         this.parent();
-        if ($defined(this.options.container) && 
+        if ($defined(this.options.container) &&
             document.id(this.options.container)) {
             this.domObj = this.options.container;
         }
-        
+
         if (this.options.selection) {
             this.selection = this.options.selection;
         } else if (this.options.select) {
             this.selection = new Jx.Selection(this.options);
             this.ownsSelection = true;
         }
-        
+
         this.bound = {
             select: function(item) {
                 this.fireEvent('select', item.retrieve('jxTreeItem'));
@@ -68,7 +97,7 @@ Jx.Tree = new Class({
                 unselect: this.bound.unselect
             });
         }
-        
+
         this.list = new Jx.List(this.domObj, {
                 hover: true,
                 press: true,
@@ -80,7 +109,20 @@ Jx.Tree = new Class({
             this.addTo(this.options.parent);
         }
     },
-    
+
+    /**
+     * APIMethod: add
+     * add one or more items to the tree at a particular position in the tree
+     *
+     * Parameters:
+     * item - {<Jx.TreeItem>} or an array of items to be added
+     * position - {mixed} optional location to add the items.  By default,
+     * this is 'bottom' meaning the items are added at the end of the list.
+     * See <Jx.List::add> for options
+     *
+     * Returns:
+     * {<Jx.Tree>} a reference to this object for chaining calls
+     */
     add: function(item, position) {
         if ($type(item) == 'array') {
             item.each(function(what){ this.add(what, position); }.bind(this) );
@@ -96,6 +138,16 @@ Jx.Tree = new Class({
         this.list.add(item, position);
         return this;
     },
+    /**
+     * APIMethod: remove
+     * remove an item from the tree
+     *
+     * Parameters:
+     * item - {<Jx.TreeItem>} the tree item to remove
+     *
+     * Returns:
+     * {<Jx.Tree>} a reference to this object for chaining calls
+     */
     remove: function(item) {
         item.removeEvents('add');
         item.removeEvents('remove');
@@ -105,6 +157,17 @@ Jx.Tree = new Class({
         item.setSelection(null);
         return this;
     },
+    /**
+     * APIMethod: replace
+     * replaces one item with another
+     *
+     * Parameters:
+     * item - {<Jx.TreeItem>} the tree item to remove
+     * withItem - {<Jx.TreeItem>} the tree item to insert
+     *
+     * Returns:
+     * {<Jx.Tree>} a reference to this object for chaining calls
+     */
     replace: function(item, withItem) {
         item.owner = null;
         withItem.owner = this;
@@ -113,7 +176,7 @@ Jx.Tree = new Class({
         item.setSelection(null);
         return this;
     },
-    
+
     /**
      * Method: cleanup
      * Clean up a Jx.Tree instance
@@ -134,7 +197,7 @@ Jx.Tree = new Class({
      * shouldDescend - {Boolean} propagate changes to child nodes?
      */
     update: function(shouldDescend, isLast) {
-        
+
         if ($defined(isLast)) {
             if (isLast) {
                 this.domObj.removeClass('jxTreeNest');
@@ -153,7 +216,7 @@ Jx.Tree = new Class({
             }
         });
     },
-    
+
     /**
      * APIMethod: items
      * return an array of tree item instances contained in this tree.
@@ -166,7 +229,7 @@ Jx.Tree = new Class({
         });
     },
     /**
-     * APIMethod:
+     * APIMethod: empty
      * recursively empty this tree and any folders in it
      */
     empty: function() {
@@ -177,13 +240,13 @@ Jx.Tree = new Class({
             if (item.retrieve('jxTreeItem')) {
                 this.remove(item.retrieve('jxTreeItem'));
             }
-        });
+        }, this);
     },
-    
+
     /**
-     * Method: findChild
+     * APIMethod: findChild
      * Get a reference to a child node by recursively searching the tree
-     * 
+     *
      * Parameters:
      * path - {Array} an array of labels of nodes to search for
      *
@@ -195,7 +258,7 @@ Jx.Tree = new Class({
         if (path.length == 0) {
             return false;
         }
-        //path has more than one thing in it, find a folder and descend into it    
+        //path has more than one thing in it, find a folder and descend into it
         var name = path.shift();
         var result = false;
         this.list.items().some(function(item) {
@@ -214,6 +277,18 @@ Jx.Tree = new Class({
         });
         return result;
     },
+    /**
+     * APIMethod: setSelection
+     * sets the <Jx.Selection> object to be used by this tree.  Used primarily
+     * by <Jx.TreeFolder> to propogate a single selection object throughout a
+     * tree.
+     *
+     * Parameters:
+     * selection - {<Jx.Selection>} the new selection object to use
+     *
+     * Returns:
+     * {<Jx.Tree>} a reference to this object for chaining
+     */
     setSelection: function(selection) {
         if (this.selection && this.ownsSelection) {
             this.selection.removeEvents(this.bound);
@@ -224,7 +299,8 @@ Jx.Tree = new Class({
         this.list.setSelection(selection);
         this.list.each(function(item) {
             item.retrieve('jxTreeItem').setSelection(selection);
-        })
+        });
+        return this;
     }
 });
 

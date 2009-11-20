@@ -1,10 +1,8 @@
 
 
 Jx.Selection = new Class({
-    
-    Extends: Jx.Object,
     Family: 'Jx.Selection',
-    
+    Extends: Jx.Object,
     options: {
         /**
          * Option: eventToFire

@@ -12,21 +12,21 @@
  * (code)
  * var toolbar = new Jx.Toolbar('bar');
  * var buttonSet = new Jx.ButtonSet();
- * 
+ *
  * var tab1 = new Jx.Button({label: 'b1', toggle:true, contentID: 'content1'});
  * var tab2 = new Jx.Button({label: 'b2', toggle:true, contentID: 'content2'});
  * var tab3 = new Jx.Button({label: 'b3', toggle:true, contentID: 'content3'});
  * var tab4 = new Jx.Button({label: 'b4', toggle:true, contentURL: 'test_content.html'});
- * 
+ *
  * buttonSet.add(b1,b2,b3,b4);
  * (end)
  *
  * Events:
  * change - the current button has changed
  *
- * License: 
+ * License:
  * Copyright (c) 2008, DM Solutions Group Inc.
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.ButtonSet = new Class({
@@ -45,7 +45,7 @@ Jx.ButtonSet = new Class({
         this.buttons = [];
         this.buttonChangedHandler = this.buttonChanged.bind(this);
     },
-    
+
     /**
      * Method: add
      * Add one or more <Jx.Button>s to the ButtonSet.
@@ -58,7 +58,7 @@ Jx.ButtonSet = new Class({
         $A(arguments).each(function(button) {
             if (button.domObj.hasClass(button.options.toggleClass)) {
                 button.domObj.removeClass(button.options.toggleClass);
-                button.domObj.addClass(button.options.toggleClass+'Set');                
+                button.domObj.addClass(button.options.toggleClass+'Set');
             }
             button.addEvent('down',this.buttonChangedHandler);
             button.setActive = function(active) {

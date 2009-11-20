@@ -1,25 +1,25 @@
 // $Id: $
 /**
  * Class: Jx.Formatter.Phone
- * 
+ *
  * Extends: <Jx.Formatter>
- * 
+ *
  * Formats data as phone numbers. Currently only US-style phone numbers
- * are supported. 
+ * are supported.
  *
  * Example:
  * (code)
  * (end)
  *
- * License: 
+ * License:
  * Copyright (c) 2009, Jon Bomgardner.
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.Formatter.Phone = new Class({
-    
+
     Extends: Jx.Formatter,
-    
+
     options: {
         /**
          * Option: useParens
@@ -29,7 +29,7 @@ Jx.Formatter.Phone = new Class({
         useParens: true,
         /**
          * Option: separator
-         * The character to use as a separator in the phone number. 
+         * The character to use as a separator in the phone number.
          * Defaults to a dash '-'.
          */
         separator: "-"
@@ -38,7 +38,7 @@ Jx.Formatter.Phone = new Class({
      * APIMethod: format
      * Format the input as a phone number. This will strip all non-numeric
      * characters and apply the current default formatting
-     * 
+     *
      * Parameters:
      * value - the text to format
      */
@@ -47,7 +47,7 @@ Jx.Formatter.Phone = new Class({
         var sep = this.options.separator;
         var v = '' + value;
         v = v.replace(/[^0-9]/g, '');
-    
+
         //now check the length. For right now, we only do US phone numbers
         var ret = '';
         if (v.length === 11) {

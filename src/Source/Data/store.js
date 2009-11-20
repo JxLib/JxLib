@@ -1,30 +1,30 @@
 // $Id: $
 /**
- * Class: Jx.Store 
- * 
+ * Class: Jx.Store
+ *
  * Extends: <Jx.Object>
- * 
+ *
  * This class is the base store. It keeps track of data. It
  * allows adding, deleting, iterating, sorting etc...
- * 
+ *
  * Events: onLoadFinished(store) - fired when the store finishes loading the
  * data onLoadError(store,data) - fired when there is an error loading the data
- * 
+ *
  * Example:
  * (code)
  * (end)
  *
- * License: 
+ * License:
  * Copyright (c) 2009, Jon Bomgardner.
- * 
+ *
  * This file is licensed under an MIT style license
  */
 
 Jx.Store = new Class({
 
-    Extends : Jx.Object,
-
     Family : "Jx.Store",
+
+    Extends : Jx.Object,
 
     options : {
         /**
@@ -34,13 +34,13 @@ Jx.Store = new Class({
         id : null,
         /**
          * Option: columns
-         * an array listing the columns of the store in order of their 
-         * appearance in the data object formatted as an object 
-         *      {name: 'column name', type: 'column type'} 
-         * where type can be one of alphanumeric, numeric, date, boolean, 
+         * an array listing the columns of the store in order of their
+         * appearance in the data object formatted as an object
+         *      {name: 'column name', type: 'column type'}
+         * where type can be one of alphanumeric, numeric, date, boolean,
          * or currency.
          */
-        columns : [], 
+        columns : [],
         /**
          * Option: defaultSort
          * The default sorting type, currently set to merge but can be any of the
@@ -55,10 +55,10 @@ Jx.Store = new Class({
         separator : '.',
         /**
          * Option: sortCols
-         * An array of columns to sort by arranged in the order you want 
+         * An array of columns to sort by arranged in the order you want
          * them sorted.
          */
-        sortCols : [], 
+        sortCols : [],
         /**
          * Event: onLoadFinished(store)
          * event for a completed, successful data load
@@ -68,7 +68,7 @@ Jx.Store = new Class({
          * Event: onLoadError(store,data)
          * event for an unsuccessful load
          */
-        onLoadError : $empty, 
+        onLoadError : $empty,
         /**
          * Event: onColumnChanged
          * event fired for changes to a column
@@ -84,7 +84,7 @@ Jx.Store = new Class({
          * Sets the size of each page. Only used if paginate is true.
          */
         pageSize: 0
-   
+
     },
 
     /**
@@ -130,27 +130,27 @@ Jx.Store = new Class({
     loaded: false,
 
     /**
-     * APIMethod: load 
+     * APIMethod: load
      * Loads data into the store.
-     * 
-     * Parameters: 
+     *
+     * Parameters:
      * data - the data to load
      */
     load : function (data) {
         if ($defined(data)) {
             this.loaded = false;
             this.processData(data);
-            
+
         } else {
             this.loaded = false;
         }
     },
 
     /**
-     * APIMethod: hasNext 
+     * APIMethod: hasNext
      * Determines if there are more records past the current
      * one.
-     * 
+     *
      * Returns: true | false (Null if there's a problem)
      */
     hasNext : function () {
@@ -166,10 +166,10 @@ Jx.Store = new Class({
     },
 
     /**
-     * APIMethod: hasPrevious 
+     * APIMethod: hasPrevious
      * Determines if there are records before the current
      * one.
-     * 
+     *
      * Returns: true | false
      */
     hasPrevious : function () {
@@ -185,10 +185,10 @@ Jx.Store = new Class({
     },
 
     /**
-     * APIMethod: valid 
+     * APIMethod: valid
      * Tells us if the current index has any data (i.e. that the
      * index is valid).
-     * 
+     *
      * Returns: true | false
      */
     valid : function () {
@@ -196,9 +196,9 @@ Jx.Store = new Class({
     },
 
     /**
-     * APIMethod: next 
+     * APIMethod: next
      * Moves the store to the next record
-     * 
+     *
      * Returns: nothing | null if error
      */
     next : function () {
@@ -214,11 +214,11 @@ Jx.Store = new Class({
     },
 
     /**
-     * APIMethod: previous 
+     * APIMethod: previous
      * moves the store to the previous record
-     * 
+     *
      * Returns: nothing | null if error
-     * 
+     *
      */
     previous : function () {
         if ($defined(this.data)) {
@@ -233,11 +233,11 @@ Jx.Store = new Class({
     },
 
     /**
-     * APIMethod: first 
+     * APIMethod: first
      * Moves the store to the first record
-     * 
+     *
      * Returns: nothing | null if error
-     * 
+     *
      */
     first : function () {
         if ($defined(this.data)) {
@@ -249,9 +249,9 @@ Jx.Store = new Class({
     },
 
     /**
-     * APIMethod: last 
+     * APIMethod: last
      * Moves to the last record in the store
-     * 
+     *
      * Returns: nothing | null if error
      */
     last : function () {
@@ -264,9 +264,9 @@ Jx.Store = new Class({
     },
 
     /**
-     * APIMethod: count 
+     * APIMethod: count
      * Returns the number of records in the store
-     * 
+     *
      * Returns: an integer indicating the number of records in the store or null
      * if there's an error
      */
@@ -279,9 +279,9 @@ Jx.Store = new Class({
     },
 
     /**
-     * APIMethod: getPosition 
+     * APIMethod: getPosition
      * Tells us where we are in the store
-     * 
+     *
      * Returns: an integer indicating the position in the store or null if
      * there's an error
      */
@@ -294,12 +294,12 @@ Jx.Store = new Class({
     },
 
     /**
-     * APIMethod: moveTo 
+     * APIMethod: moveTo
      * Moves the index to a specific record in the store
-     * 
-     * Parameters: 
+     *
+     * Parameters:
      * index - the record to move to
-     * 
+     *
      * Returns: true - if successful false - if not successful null - on error
      */
     moveTo : function (index) {
@@ -315,13 +315,13 @@ Jx.Store = new Class({
     },
 
     /**
-     * APIMethod: get 
+     * APIMethod: get
      * Retrieves the data for a specific column of the current
      * record
-     * 
-     * Parameters: 
+     *
+     * Parameters:
      * col - the column to get (either an integer or a string)
-     * 
+     *
      * Returns: the data in the column or null if the column doesn't exist
      */
     get : function (col) {
@@ -339,14 +339,14 @@ Jx.Store = new Class({
     },
 
     /**
-     * APIMethod: set 
+     * APIMethod: set
      * Puts a value into a specific column of the current record and
      * sets the dirty flag.
-     * 
-     * Parameters: 
+     *
+     * Parameters:
      * column - the column to put the value in value - the data to put
      * into the column
-     * 
+     *
      * returns: nothing | null if an error
      */
     set : function (column, value) {
@@ -365,15 +365,15 @@ Jx.Store = new Class({
             return null;
         }
     },
-    
+
     /**
-     * APIMethod: refresh 
+     * APIMethod: refresh
      * Sets new data into the store
-     * 
-     * Parameters: 
-     * data - the data to set 
+     *
+     * Parameters:
+     * data - the data to set
      * reset - flag as to whether to reset the index to 0
-     * 
+     *
      * Returns: nothing or null if no data is passed
      */
     refresh : function (data, reset) {
@@ -386,11 +386,11 @@ Jx.Store = new Class({
             return null;
         }
     },
-    
+
     /**
-     * APIMethod: isDirty 
+     * APIMethod: isDirty
      * Tells us if the store is dirty and needs to be saved
-     * 
+     *
      * Returns: true | false | null on error
      */
     isDirty : function () {
@@ -407,13 +407,13 @@ Jx.Store = new Class({
             return null;
         }
     },
-    
+
     /**
-     * APIMethod: newRow 
+     * APIMethod: newRow
      * Adds a new row to the store. It can either be empty or made
      * from an array of data
-     * 
-     * Parameters: 
+     *
+     * Parameters:
      * data - data to use in the new row (optional)
      */
     newRow : function (data) {
@@ -423,9 +423,9 @@ Jx.Store = new Class({
             this.data = [];
             this.data[this.pageIndex] = [];
         }
-        
+
         var d;
-        
+
         if (!$defined(data)) {
             d = new Hash();
         } else {
@@ -445,23 +445,23 @@ Jx.Store = new Class({
         this.index = this.data[this.pageIndex].length - 1;
         this.fireEvent('newrow', this);
     },
-    
+
     /**
-     * APIMethod: sort 
+     * APIMethod: sort
      * Runs the sorting and grouping
-     * 
-     * Parameters: 
-     * cols - Optional. An array of columns to sort/group by 
+     *
+     * Parameters:
+     * cols - Optional. An array of columns to sort/group by
      * sort - the sort type (quick,heap,merge,native),defaults to options.defaultSort
      * dir - the direction to sort. Set to "desc" for descending,
-     * anything else implies ascending (even null). 
+     * anything else implies ascending (even null).
      */
     sort : function (cols, sort, dir) {
-        
+
         if (this.count()) {
-        
+
             this.fireEvent('sortStart', this);
-            
+
             var c;
             if ($defined(cols) && Jx.type(cols) === 'array') {
                 c = this.options.sortCols = cols;
@@ -474,50 +474,50 @@ Jx.Store = new Class({
             } else {
                 return null;
             }
-            
+
             this.sortType = sort;
             // first sort on the first array item
             this.data[this.pageIndex] = this.doSort(c[0], sort, this.data[this.pageIndex], true);
-        
+
             if (c.length > 1) {
                 this.data[this.pageIndex] = this.subSort(this.data[this.pageIndex], 0, 1);
             }
-        
+
             if ($defined(dir) && dir === 'desc') {
                 this.data[this.pageIndex].reverse();
             }
-        
+
             this.fireEvent('sortFinished', this);
         }
     },
-    
+
     /**
-     * Method: subSort 
+     * Method: subSort
      * Does the actual group sorting.
-     * 
-     * Parameters: 
-     * data - what to sort 
-     * groupByCol - the column that determines the groups 
+     *
+     * Parameters:
+     * data - what to sort
+     * groupByCol - the column that determines the groups
      * sortCol - the column to sort by
-     * 
+     *
      * returns: the result of the grouping/sorting
      */
     subSort : function (data, groupByCol, sortByCol) {
-        
+
         if (sortByCol >= this.options.sortCols.length) {
             return data;
         }
         /**
          *  loop through the data array and create another array with just the
-         *  items for each group. Sort that sub-array and then concat it 
+         *  items for each group. Sort that sub-array and then concat it
          *  to the result.
          */
         var result = [];
         var sub = [];
-        
+
         var groupCol = this.options.sortCols[groupByCol];
         var sortCol = this.options.sortCols[sortByCol];
-    
+
         var group = data[0].get(groupCol);
         this.sorter.setColumn(sortCol);
         for (var i = 0; i < data.length; i++) {
@@ -525,13 +525,13 @@ Jx.Store = new Class({
                 sub.push(data[i]);
             } else {
                 // sort
-    
+
                 if (sub.length > 1) {
                     result = result.concat(this.subSort(this.doSort(sortCol, this.sortType, sub, true), groupByCol + 1, sortByCol + 1));
                 } else {
                     result = result.concat(sub);
                 }
-            
+
                 // change group
                 group = (data[i]).get(groupCol);
                 // clear sub
@@ -540,49 +540,49 @@ Jx.Store = new Class({
                 sub.push(data[i]);
             }
         }
-        
+
         if (sub.length > 1) {
             this.sorter.setData(sub);
             result = result.concat(this.subSort(this.doSort(sortCol, this.sortType, sub, true), groupByCol + 1, sortByCol + 1));
         } else {
             result = result.concat(sub);
         }
-        
+
         //this.data = result;
-        
+
         return result;
     },
-    
+
     /**
-     * Method: doSort 
+     * Method: doSort
      * Called to change the sorting of the data
-     * 
-     * Parameters: 
-     * col - the column to sort by 
-     * sort - the kind of sort to use (see list above) 
+     *
+     * Parameters:
+     * col - the column to sort by
+     * sort - the kind of sort to use (see list above)
      * data - the data to sort (leave blank or pass null to sort data
-     * existing in the store) 
+     * existing in the store)
      * ret - flag that tells the function whether to pass
-     * back the sorted data or store it in the store 
+     * back the sorted data or store it in the store
      * options - any options needed to pass to the sorter upon creation
-     * 
+     *
      * returns: nothing or the data depending on the value of ret parameter.
      */
     doSort : function (col, sort, data, ret, options) {
         options = {} || options;
-        
+
         sort = (sort) ? this.sorters[sort] : this.sorters[this.options.defaultSort];
         data = data ? data : this.data;
         ret = ret ? true : false;
-        
+
         if (!$defined(this.comparator)) {
             this.comparator = new Jx.Compare({
                 separator : this.options.separator
             });
         }
-        
+
         this.col = col = this.resolveCol(col);
-        
+
         var fn = this.comparator[col.type].bind(this.comparator);
         if (!$defined(this.sorter)) {
             this.sorter = new Jx.Sort[sort](data, fn, col.name, options);
@@ -592,21 +592,21 @@ Jx.Store = new Class({
             this.sorter.setData(data);
         }
         var d = this.sorter.sort();
-        
+
         if (ret) {
             return d;
         } else {
             this.data = d;
         }
     },
-    
+
     /**
-     * Method: isRowDirty 
+     * Method: isRowDirty
      * Helps determine if a row is dirty
-     * 
-     * Parameters: 
+     *
+     * Parameters:
      * row - the row to check
-     * 
+     *
      * Returns: true | false
      */
     isRowDirty : function (row) {
@@ -616,14 +616,14 @@ Jx.Store = new Class({
             return false;
         }
     },
-    
+
     /**
-     * Method: resolveCol 
+     * Method: resolveCol
      * Determines which array index this column refers to
-     * 
-     * Parameters: 
+     *
+     * Parameters:
      * col - a number referencing a column in the store
-     * 
+     *
      * Returns: the name of the column
      */
     resolveCol : function (col) {
@@ -639,23 +639,23 @@ Jx.Store = new Class({
         }
         return col;
     },
-    
+
     /**
-     * Method: processData 
+     * Method: processData
      * Processes the data passed into the function into the store.
-     * 
-     * Parameters: 
+     *
+     * Parameters:
      * data - the data to put into the store
      */
     processData : function (data) {
         this.loaded = false;
         this.fireEvent('preload', [ this, data ]);
-    
+
         if (!$defined(this.data)) {
             this.data = [];
             this.data[this.pageIndex] = [];
         }
-        
+
         if ($defined(data)) {
             this.data[this.pageIndex].empty();
             var type = Jx.type(data);
@@ -678,19 +678,19 @@ Jx.Store = new Class({
                         this.data[this.pageIndex].include(new Hash(item));
                     }, this);
                 }
-                
+
                 this.loaded = true;
                 this.fireEvent('loadFinished', this);
             } else {
                 this.fireEvent('loadError', [this, data]);
             }
-            
+
         } else {
             this.loaded = false;
             this.fireEvent('loadError', [ this, data ]);
         }
     },
-    
+
     /**
      * APIMethod: getColumns
      * Allows retrieving the columns array
@@ -698,13 +698,13 @@ Jx.Store = new Class({
     getColumns: function () {
         return this.options.columns;
     },
-    
+
     /**
      * APIMethod: findByColumn
      * Used to find a specific record by the value in a specific column. This
      * is particularly useful for finding records by a unique id column. The search
      * will stop on the first instance of the value
-     * 
+     *
      * Parameters:
      * column - the name of the column to search by
      * value - the value to look for
@@ -712,20 +712,20 @@ Jx.Store = new Class({
      *          Defaults to true.
      */
     findByColumn: function (column, value, inPage) {
-        
+
         inPage = $defined(inPage) ? inPage : true;
-        
+
         if (!$defined(this.comparator)) {
             this.comparator = new Jx.Compare({
                 separator : this.options.separator
             });
         }
-        
+
         column = this.resolveCol(column);
-        
+
         var fn = this.comparator[column.type].bind(this.comparator);
-        
-        
+
+
         var i = 0;
         var index = null;
         if (inPage) {
@@ -747,11 +747,11 @@ Jx.Store = new Class({
         }
         return index;
     },
-    
+
     /**
      * APIMethod: getRowObject
      * Allows the user to get all of the data for the current row as an object.
-     * 
+     *
      */
     getRowObject: function () {
         return this.data[this.pageIndex][this.index].getClean();

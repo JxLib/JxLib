@@ -3,8 +3,8 @@
 
 Jx.Notification = new Class({
     
-    Extends: Jx.Widget,
     Family: 'Jx.Notification',
+    Extends: Jx.Widget,
     
     options: {
         /**

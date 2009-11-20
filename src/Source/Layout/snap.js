@@ -11,9 +11,9 @@
  * (code)
  * (end)
  *
- * License: 
+ * License:
  * Copyright (c) 2008, DM Solutions Group Inc.
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.Splitter.Snap = new Class({
@@ -49,7 +49,7 @@ Jx.Splitter.Snap = new Class({
      * splitter - {<Jx.Splitter>} the splitter that this all happens inside of.
      */
     parameters: ['snap','element','splitter','events'],
-    
+
     /**
      * APIMethod: init
      * Create a new Jx.Splitter.Snap
@@ -61,7 +61,7 @@ Jx.Splitter.Snap = new Class({
         this.events = this.options.events;
         var jxl = this.element.retrieve('jxLayout');
         jxl.addEvent('sizeChange', this.sizeChange.bind(this));
-        this.layout = this.splitter.options.layout; 
+        this.layout = this.splitter.options.layout;
         var jxo = jxl.options;
         var size = this.element.getContentBoxSize();
         if (this.layout == 'vertical') {
@@ -75,7 +75,7 @@ Jx.Splitter.Snap = new Class({
             this.snap.addEvent(eventName, this.toggleElement.bind(this));
         }, this);
     },
-    
+
     /**
      * Method: toggleElement
      * Snap the element open or closed.
@@ -101,7 +101,7 @@ Jx.Splitter.Snap = new Class({
         this.element.resize(newSize);
         this.splitter.sizeChanged();
     },
-    
+
     /**
      * Method: sizeChanged
      * Handle the size of the element changing to see if the

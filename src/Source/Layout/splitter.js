@@ -7,7 +7,7 @@
  * a Jx.Splitter creates two or more containers within a parent container
  * and provides user control over the size of the containers.  The split
  * can be made horizontally or vertically.
- * 
+ *
  * A horizontal split creates containers that divide the space horizontally
  * with vertical bars between the containers.  A vertical split divides
  * the space vertically and creates horizontal bars between the containers.
@@ -16,12 +16,12 @@
  * (code)
  * (end)
  *
- * License: 
+ * License:
  * Copyright (c) 2008, DM Solutions Group Inc.
- * 
+ *
  * This file is licensed under an MIT style license
  */
- 
+
 Jx.Splitter = new Class({
     Family: 'Jx.Splitter',
     Extends: Jx.Object,
@@ -32,7 +32,7 @@ Jx.Splitter = new Class({
     domObj: null,
     /**
      * Property: elements
-     * {Array} an array of elements that are displayed in each of the split 
+     * {Array} an array of elements that are displayed in each of the split
      * areas
      */
     elements: null,
@@ -95,7 +95,7 @@ Jx.Splitter = new Class({
          */
         snaps: [],
         /* Option: barTooltip
-         * the tooltip to display when the mouse hovers over a split bar, 
+         * the tooltip to display when the mouse hovers over a split bar,
          * used for i18n.
          */
         barTooltip: 'drag this bar to resize',
@@ -108,9 +108,9 @@ Jx.Splitter = new Class({
          */
         onFinish: null
     },
-    
+
     parameters: ['domObj','options'],
-    
+
     /**
      * APIMethod: init
      * Create a new instance of Jx.Splitter
@@ -122,7 +122,7 @@ Jx.Splitter = new Class({
         if (jxLayout) {
             jxLayout.addEvent('sizeChange', this.sizeChanged.bind(this));
         }
-       
+
         this.elements = [];
         this.bars = [];
         var i;
@@ -131,8 +131,8 @@ Jx.Splitter = new Class({
             this.elements = this.domObj.getChildren();
             nSplits = this.elements.length;
         } else {
-            nSplits = this.options.elements ? 
-                            this.options.elements.length : 
+            nSplits = this.options.elements ?
+                            this.options.elements.length :
                             this.options.splitInto;
             for (i=0; i<nSplits; i++) {
                 var el;
@@ -140,7 +140,7 @@ Jx.Splitter = new Class({
                     if (this.options.elements[i].domObj) {
                         el = this.options.elements[i].domObj;
                     } else {
-                        el = document.id(this.options.elements[i]);                        
+                        el = document.id(this.options.elements[i]);
                     }
                     if (!el) {
                         el = this.prepareElement();
@@ -167,13 +167,13 @@ Jx.Splitter = new Class({
                 }
             }
         }
-        
+
         for (i=1; i<nSplits; i++) {
             var bar;
             if (this.options.prepareBar) {
-                bar = this.options.prepareBar(i-1);                
+                bar = this.options.prepareBar(i-1);
             } else {
-                bar = this.prepareBar();                
+                bar = this.prepareBar();
             }
             bar.store('splitterObj', this);
             bar.store('leftSide',this.elements[i-1]);
@@ -183,12 +183,12 @@ Jx.Splitter = new Class({
             this.domObj.adopt(bar);
             this.bars[i-1] = bar;
         }
-        
+
         //making dragging dependent on mootools Drag class
         if ($defined(Drag)) {
-        	this.establishConstraints();
+            this.establishConstraints();
         }
-        
+
         for (i=0; i<this.options.barOptions.length; i++) {
             if (!this.bars[i]) {
                 continue;
@@ -205,24 +205,24 @@ Jx.Splitter = new Class({
                 var snapEvents;
                 if (opt.snapElement) {
                     snap = opt.snapElement;
-                    snapEvents = opt.snapEvents || ['click', 'dblclick'];                    
+                    snapEvents = opt.snapEvents || ['click', 'dblclick'];
                 } else {
                     snap = this.bars[i];
                     snapEvents = opt.snapEvents || ['dblclick'];
                 }
                 if (!snap.parentNode) {
-                    this.bars[i].adopt(snap);             
+                    this.bars[i].adopt(snap);
                 }
                 new Jx.Splitter.Snap(snap, element, this, snapEvents);
             }
         }
-        
+
         for (i=0; i<this.options.snaps.length; i++) {
             if (this.options.snaps[i]) {
                 new Jx.Splitter.Snap(this.options.snaps[i], this.elements[i], this);
             }
         }
-        
+
         this.sizeChanged();
     },
     /**
@@ -236,7 +236,7 @@ Jx.Splitter = new Class({
         var o = new Element('div', {styles:{position:'absolute'}});
         return o;
     },
-    
+
     /**
      * Method: prepareBar
      * Prepare a new, empty bar to go into between split areas.
@@ -251,7 +251,7 @@ Jx.Splitter = new Class({
         });
         return o;
     },
-    
+
     /**
      * Method: establishConstraints
      * Setup the initial set of constraints that set the behaviour of the
@@ -278,7 +278,7 @@ Jx.Splitter = new Class({
                         this.fireEvent('snap',[obj]);
                     }).bind(this),
                     onCancel: (function(obj){
-                        mask.destroy();  
+                        mask.destroy();
                         this.fireEvent('cancel',[obj]);
                     }).bind(this),
                     onDrag: (function(obj, event){
@@ -302,10 +302,10 @@ Jx.Splitter = new Class({
                         this.fireEvent('start',[obj, event]);
                     }).bind(this)
                 });
-            }, this);            
+            }, this);
         }
     },
-    
+
     /**
      * Method: dragHorizontal
      * In a horizontally split container, handle a bar being dragged left or
@@ -320,24 +320,24 @@ Jx.Splitter = new Class({
         var rightSide = obj.retrieve('rightSide');
         var leftJxl = leftSide.retrieve('jxLayout');
         var rightJxl = rightSide.retrieve('jxLayout');
-        
+
         var paddingLeft = this.domObj.measure(function(){
             var m = this.getSizes(['padding'], ['left']);
             return m.padding.left;
         });
-        
+
         /* process right side first */
         var rsLeft, rsWidth, rsRight;
-        
+
         var size = obj.retrieve('size');
         if (!size) {
             size = obj.getBorderBoxSize();
             obj.store('size',size);
         }
         rsLeft = leftEdge + size.width - paddingLeft;
-        
+
         var parentSize = this.domObj.getContentBoxSize();
-        
+
         if (rightJxl.options.width != null) {
             rsWidth = rightJxl.options.width + rightJxl.options.left - rsLeft;
             rsRight = parentSize.width - rsLeft - rsWidth;
@@ -345,27 +345,27 @@ Jx.Splitter = new Class({
             rsWidth = parentSize.width - rightJxl.options.right - rsLeft;
             rsRight = rightJxl.options.right;
         }
-        
+
         /* enforce constraints on right side */
         if (rsWidth < 0) {
             rsWidth = 0;
         }
-        
+
         if (rsWidth < rightJxl.options.minWidth) {
             rsWidth = rightJxl.options.minWidth;
         }
         if (rightJxl.options.maxWidth >= 0 && rsWidth > rightJxl.options.maxWidth) {
             rsWidth = rightJxl.options.maxWidth;
         }
-                
+
         rsLeft = parentSize.width - rsRight - rsWidth;
         leftEdge = rsLeft - size.width;
-        
+
         /* process left side */
         var lsLeft, lsWidth;
         lsLeft = leftJxl.options.left;
         lsWidth = leftEdge - lsLeft;
-        
+
         /* enforce constraints on left */
         if (lsWidth < 0) {
             lsWidth = 0;
@@ -373,11 +373,11 @@ Jx.Splitter = new Class({
         if (lsWidth < leftJxl.options.minWidth) {
             lsWidth = leftJxl.options.minWidth;
         }
-        if (leftJxl.options.maxWidth >= 0 && 
+        if (leftJxl.options.maxWidth >= 0 &&
             lsWidth > leftJxl.options.maxWidth) {
             lsWidth = leftJxl.options.maxWidth;
         }
-        
+
         /* update the leftEdge to accomodate constraints */
         if (lsLeft + lsWidth != leftEdge) {
             /* need to update right side, ignoring constraints because left side
@@ -386,12 +386,12 @@ Jx.Splitter = new Class({
             leftEdge = lsLeft + lsWidth;
             var delta = leftEdge + size.width - rsLeft;
             rsLeft += delta;
-            rsWidth -= delta; 
+            rsWidth -= delta;
         }
-        
+
         /* put bar in its final location based on constraints */
         obj.style.left = paddingLeft + leftEdge + 'px';
-        
+
         /* update leftSide positions */
         if (leftJxl.options.width == null) {
             parentSize = this.domObj.getContentBoxSize();
@@ -399,7 +399,7 @@ Jx.Splitter = new Class({
         } else {
             leftSide.resize({width: lsWidth});
         }
-        
+
         /* update rightSide position */
         if (rightJxl.options.width == null) {
             rightSide.resize({left:rsLeft});
@@ -407,7 +407,7 @@ Jx.Splitter = new Class({
             rightSide.resize({left: rsLeft, width: rsWidth});
         }
     },
-    
+
     /**
      * Method: dragVertical
      * In a vertically split container, handle a bar being dragged up or
@@ -419,19 +419,19 @@ Jx.Splitter = new Class({
     dragVertical: function(obj) {
         /* top edge of the bar */
         var topEdge = parseInt(obj.style.top,10);
-        
+
         /* the containers on either side of the bar */
         var topSide = obj.retrieve('leftSide');
         var bottomSide = obj.retrieve('rightSide');
         var topJxl = topSide.retrieve('jxLayout');
         var bottomJxl = bottomSide.retrieve('jxLayout');
-        
+
         var paddingTop = this.domObj.measure(function(){
             var m = this.getSizes(['padding'], ['top']);
             return m.padding.top;
         });
-        
-        
+
+
         /* measure the bar and parent container for later use */
         var size = obj.retrieve('size');
         if (!size) {
@@ -442,10 +442,10 @@ Jx.Splitter = new Class({
 
         /* process top side first */
         var bsTop, bsHeight, bsBottom;
-        
+
         /* top edge of bottom side is the top edge of bar plus the height of the bar */
         bsTop = topEdge + size.height - paddingTop;
-        
+
         if (bottomJxl.options.height != null) {
             /* bottom side height is fixed */
             bsHeight = bottomJxl.options.height + bottomJxl.options.top - bsTop;
@@ -455,31 +455,31 @@ Jx.Splitter = new Class({
             bsHeight = parentSize.height - bottomJxl.options.bottom - bsTop;
             bsBottom = bottomJxl.options.bottom;
         }
-        
+
         /* enforce constraints on bottom side */
         if (bsHeight < 0) {
             bsHeight = 0;
         }
-        
+
         if (bsHeight < bottomJxl.options.minHeight) {
             bsHeight = bottomJxl.options.minHeight;
         }
-        
+
         if (bottomJxl.options.maxHeight >= 0 && bsHeight > bottomJxl.options.maxHeight) {
             bsHeight = bottomJxl.options.maxHeight;
         }
-        
+
         /* recalculate the top of the bottom side in case it changed
            due to a constraint.  The bar may have moved also.
          */
         bsTop = parentSize.height - bsBottom - bsHeight;
         topEdge = bsTop - size.height;
-                
+
         /* process left side */
         var tsTop, tsHeight;
         tsTop = topJxl.options.top;
         tsHeight = topEdge - tsTop;
-                        
+
         /* enforce constraints on left */
         if (tsHeight < 0) {
             tsHeight = 0;
@@ -487,11 +487,11 @@ Jx.Splitter = new Class({
         if (tsHeight < topJxl.options.minHeight) {
             tsHeight = topJxl.options.minHeight;
         }
-        if (topJxl.options.maxHeight >= 0 && 
+        if (topJxl.options.maxHeight >= 0 &&
             tsHeight > topJxl.options.maxHeight) {
             tsHeight = topJxl.options.maxHeight;
         }
-        
+
         /* update the topEdge to accomodate constraints */
         if (tsTop + tsHeight != topEdge) {
             /* need to update right side, ignoring constraints because left side
@@ -500,19 +500,19 @@ Jx.Splitter = new Class({
             topEdge = tsTop + tsHeight;
             var delta = topEdge + size.height - bsTop;
             bsTop += delta;
-            bsHeight -= delta; 
+            bsHeight -= delta;
         }
-        
+
         /* put bar in its final location based on constraints */
         obj.style.top = paddingTop + topEdge + 'px';
-        
+
         /* update topSide positions */
         if (topJxl.options.height == null) {
             topSide.resize({bottom: parentSize.height - tsTop-tsHeight});
         } else {
             topSide.resize({height: tsHeight});
         }
-        
+
         /* update bottomSide position */
         if (bottomJxl.options.height == null) {
             bottomSide.resize({top:bsTop});
@@ -520,7 +520,7 @@ Jx.Splitter = new Class({
             bottomSide.resize({top: bsTop, height: bsHeight});
         }
     },
-    
+
     /**
      * Method: sizeChanged
      * handle the size of the container being changed.
@@ -532,7 +532,7 @@ Jx.Splitter = new Class({
             this.verticalResize();
         }
     },
-    
+
     /**
      * Method: horizontalResize
      * Resize a horizontally layed-out container
@@ -559,11 +559,11 @@ Jx.Splitter = new Class({
                 availableSpace -= parseInt(jxo.width,10);
             } else {
                 w = 0;
-                if (jxo.right != 0 || 
+                if (jxo.right != 0 ||
                     jxo.left != 0) {
                     w = e.getBorderBoxSize().width;
                 }
-                
+
                 availableSpace -= w;
                 nVariable++;
             }
@@ -579,7 +579,7 @@ Jx.Splitter = new Class({
         var amount = parseInt(availableSpace / nVariable,10);
         /* account for rounding errors */
         var remainder = availableSpace % nVariable;
-        
+
         var leftPadding = this.domObj.measure(function(){
             var m = this.getSizes(['padding'], ['left']);
             return m.padding.left;
@@ -600,13 +600,13 @@ Jx.Splitter = new Class({
                      a += remainder;
                  }
                  nVariable--;
-                 
+
                  if (jxo.right != 0 || jxo.left != 0) {
                      w = e.getBorderBoxSize().width + a;
                  } else {
                      w = a;
                  }
-                 
+
                  if (w < 0) {
                      if (nVariable > 0) {
                          amount = amount + w/nVariable;
@@ -625,7 +625,7 @@ Jx.Splitter = new Class({
                      }
                      w = e.options.maxWidth;
                  }
-                 
+
                  var r = overallWidth - currentPosition - w;
                  jxl.resize({left: currentPosition, right: r});
                  currentPosition += w;
@@ -637,12 +637,12 @@ Jx.Splitter = new Class({
              }
          }
     },
-    
+
     /**
      * Method: verticalResize
      * Resize a vertically layed out container.
      */
-    verticalResize: function() { 
+    verticalResize: function() {
         var availableSpace = this.domObj.getContentBoxSize().height;
         var overallHeight = availableSpace;
         var i,e,jxo;
@@ -666,7 +666,7 @@ Jx.Splitter = new Class({
                 if (jxo.bottom != 0 || jxo.top != 0) {
                     h = e.getBorderBoxSize().height;
                 }
-                
+
                 availableSpace -= h;
                 nVariable++;
             }
@@ -687,7 +687,7 @@ Jx.Splitter = new Class({
             var m = this.getSizes(['padding'], ['top']);
             return m.padding.top;
         });
-        
+
         var currentPosition = 0;
 
         for (i=0; i<this.elements.length; i++) {
@@ -703,14 +703,14 @@ Jx.Splitter = new Class({
                      a += remainder;
                  }
                  nVariable--;
-                 
+
                  h = 0;
                  if (jxo.bottom != 0 || jxo.top != 0) {
                      h = e.getBorderBoxSize().height + a;
                  } else {
                      h = a;
                  }
-                 
+
                  if (h < 0) {
                      if (nVariable > 0) {
                          amount = amount + h/nVariable;
@@ -729,7 +729,7 @@ Jx.Splitter = new Class({
                      }
                      h = jxo.maxHeight;
                  }
-                 
+
                  var r = overallHeight - currentPosition - h;
                  jxl.resize({top: currentPosition, bottom: r});
                  currentPosition += h;

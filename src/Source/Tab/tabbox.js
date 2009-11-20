@@ -1,7 +1,7 @@
 // $Id$
 /**
  * Class: Jx.TabBox
- * 
+ *
  * Extends: <Jx.Widget>
  *
  * A convenience class to handle the common case of a single toolbar
@@ -13,16 +13,16 @@
  * Example:
  * (code)
  * var tabBox = new Jx.TabBox('subTabArea', 'top');
- * 
+ *
  * var tab1 = new Jx.Button.Tab('Tab 1', {contentID: 'content4'});
  * var tab2 = new Jx.Button.Tab('Tab 2', {contentID: 'content5'});
- * 
+ *
  * tabBox.add(tab1, tab2);
  * (end)
  *
- * License: 
+ * License:
  * Copyright (c) 2008, DM Solutions Group Inc.
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.TabBox = new Class({
@@ -54,7 +54,7 @@ Jx.TabBox = new Class({
          */
         scroll:true
     },
-    
+
     /**
      * Property: tabBar
      * {<Jx.Toolbar>} the toolbar for this tab box.
@@ -87,7 +87,7 @@ Jx.TabBox = new Class({
             this.showItem(tab);
         }.bind(this.tabBar));
         this.domObj = this.panel.domObj;
-        /* when the panel changes size, the tab set needs to update 
+        /* when the panel changes size, the tab set needs to update
          * the content areas.
          */
          this.panel.addEvent('sizeChange', (function() {
@@ -121,11 +121,11 @@ Jx.TabBox = new Class({
      * Parameters:
      * tab - {<Jx.Tab>} an instance of <Jx.Tab> to add to the tab box.  More
      * than one tab can be added by passing extra parameters to this method.
-     * Unlike <Jx.TabSet>, tabs do not have to be added to a separate 
+     * Unlike <Jx.TabSet>, tabs do not have to be added to a separate
      * <Jx.Toolbar>.
      */
-    add : function() { 
-        this.tabBar.add.apply(this.tabBar, arguments); 
+    add : function() {
+        this.tabBar.add.apply(this.tabBar, arguments);
         this.tabSet.add.apply(this.tabSet, arguments);
         $A(arguments).flatten().each(function(tab){
             tab.addEvents({

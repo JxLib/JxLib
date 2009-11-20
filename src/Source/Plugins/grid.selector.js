@@ -1,17 +1,17 @@
 // $Id: $
 /**
  * Class: Jx.Plugin.Selector
- * 
+ *
  * Extends: <Jx.Plugin>
- * 
+ *
  * Grid plugin to select rows, columns, and/or cells.
- * 
+ *
  * Original selection code from Jx.Grid's original class
- * 
- * License: 
+ *
+ * License:
  * Original Copyright (c) 2008, DM Solutions Group Inc.
  * This version Copyright (c) 2009, Jon Bomgardner.
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.Plugin.Grid.Selector = new Class({
@@ -51,9 +51,9 @@ Jx.Plugin.Grid.Selector = new Class({
     },
     /**
      * APIMethod: attach
-     * Sets up the plugin and attaches the plugin to the grid events it 
+     * Sets up the plugin and attaches the plugin to the grid events it
      * will be monitoring
-     * 
+     *
      * Parameters:
      * grid - The instance of Jx.Grid to attach to
      */
@@ -85,21 +85,21 @@ Jx.Plugin.Grid.Selector = new Class({
      * dispatches the grid click to the various selection methods
      */
     select : function (cell) {
-        
+
         console.log('select method');
         var data = cell.retrieve('jxCellData');
         console.log(data);
-        
+
         if (this.options.row) {
             this.selectRow(data.row);
         }
-        
+
         if (this.options.column) {
             this.selectColumn(data.index - 1);
         }
-        
+
     },
-    /** 
+    /**
      * Method: selectRow
      * Select a row and apply the jxGridRowSelected style to it.
      *
@@ -108,13 +108,13 @@ Jx.Plugin.Grid.Selector = new Class({
      */
     selectRow: function (row) {
         if (!this.options.row) { return; }
-        
+
         var tr = (row >= 0 && row < this.grid.gridTableBody.rows.length) ? this.grid.gridTableBody.rows[row] : null;
-        
+
         if (tr.hasClass('jxGridRowSelected')) {
             this.selectedRow.removeClass('jxGridRowSelected');
             this.selectedRow = null;
-        } else { 
+        } else {
             if (this.selectedRow) {
                 this.selectedRow.removeClass('jxGridRowSelected');
             }
@@ -122,9 +122,9 @@ Jx.Plugin.Grid.Selector = new Class({
             this.selectedRow.addClass('jxGridRowSelected');
         }
         this.selectRowHeader(row);
-        
+
     },
-    /** 
+    /**
      * Method: selectRowHeader
      * Apply the jxGridRowHea}derSelected style to the row header cell of a
      * selected row.
@@ -137,7 +137,7 @@ Jx.Plugin.Grid.Selector = new Class({
             return;
         }
         var cell = (row >= 0 && row < this.grid.rowTableHead.rows.length) ? this.grid.rowTableHead.rows[row].cells[0] : null;
-        
+
         if (!cell) {
             return;
         }
@@ -151,7 +151,7 @@ Jx.Plugin.Grid.Selector = new Class({
             this.selectedRowHead = null;
         }
     },
-    /** 
+    /**
      * Method: selectColumn
      * Select a column.
      * This deselects a previously selected column.
@@ -177,7 +177,7 @@ Jx.Plugin.Grid.Selector = new Class({
             this.selectColumnHeader(col);
         }
     },
-    /** 
+    /**
      * method: selectColumnHeader
      * Apply the jxGridColumnHeaderSelected style to the column header cell of a
      * selected column.
@@ -191,7 +191,7 @@ Jx.Plugin.Grid.Selector = new Class({
             return;
         }
 
-        
+
         var cell = (col >= 0 && col < this.grid.colTableBody.rows[0].cells.length) ? this.grid.colTableBody.rows[0].cells[col]
                                                                                                                           : null;
         if (cell === null) {
@@ -201,12 +201,12 @@ Jx.Plugin.Grid.Selector = new Class({
         if (this.selectedColHead) {
             this.selectedColHead.removeClass('jxGridColumnHeaderSelected');
         }
-        if (this.selectedColHead !== cell) {   
+        if (this.selectedColHead !== cell) {
             this.selectedColHead = $(cell);
             cell.addClass('jxGridColumnHeaderSelected');
         } else {
             this.selectedColHead = null;
         }
-    
+
     }
 });

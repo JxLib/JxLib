@@ -1,23 +1,23 @@
 /**
  * Class: Jx.Field.Button
- * 
+ *
  * Extends: <Jx.Field>
- * 
+ *
  * This class represents a button.
- * 
+ *
  * Example:
  * (code)
  * (end)
  *
- * License: 
+ * License:
  * Copyright (c) 2009, DM Solutions Group
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.Field.Button = new Class({
-    
+
     Extends: Jx.Field,
-    
+
     options: {
         /**
          * Option: buttonOptions
@@ -34,7 +34,7 @@ Jx.Field.Button = new Class({
      * The type of this field
      */
     type: 'Button',
-    
+
     processTemplate: function(template, classes, container) {
         var h = this.parent(template, classes, container);
         var b = new Jx.Button(this.options.buttonOptions);
@@ -44,5 +44,5 @@ Jx.Field.Button = new Class({
         }
         return h;
     }
-    
+
 });

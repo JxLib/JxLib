@@ -12,7 +12,7 @@
  * some flexibility in layout options.
  *
  * A tab is a <Jx.ContentLoader> and you can specify the initial content of
- * the tab using any of the methods supported by 
+ * the tab using any of the methods supported by
  * <Jx.ContentLoader::loadContent>.  You can acccess the actual DOM element
  * that contains the content (if you want to dynamically insert content
  * for instance) via the <Jx.Tab::content> property.
@@ -23,7 +23,7 @@
  * Example:
  * (code)
  * var tab1 = new Jx.Button.Tab({
- *     label: 'tab 1', 
+ *     label: 'tab 1',
  *     content: 'content1',
  *     onDown: function(tab) {
  *         console.log('tab became active');
@@ -34,11 +34,11 @@
  * });
  * (end)
  *
- * 
  *
- * License: 
+ *
+ * License:
  * Copyright (c) 2008, DM Solutions Group Inc.
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.Button.Tab = new Class({
@@ -49,7 +49,7 @@ Jx.Button.Tab = new Class({
      * {HTMLElement} The content area that is displayed when the tab is active.
      */
     content: null,
-    
+
     options: {
         toggleClass: 'jxTabToggle',
         pressedClass: 'jxTabPressed',
@@ -66,7 +66,7 @@ Jx.Button.Tab = new Class({
         domClose: 'jxTabClose',
         content: 'tabContent'
     }),
-    
+
     /**
      * APIMethod: render
      * Create a new instance of Jx.Button.Tab.  Any layout options passed are used
@@ -85,7 +85,7 @@ Jx.Button.Tab = new Class({
         this.addEvent('up', function(){
             this.content.removeClass(this.options.activeTabClass);
         }.bind(this));
-        
+
         //remove the close button if necessary
         if (this.domClose) {
             if (this.options.close) {
@@ -105,7 +105,7 @@ Jx.Button.Tab = new Class({
      */
     clicked : function(evt) {
         if (this.options.enabled) {
-            this.setActive(true);            
+            this.setActive(true);
         }
     }
 });

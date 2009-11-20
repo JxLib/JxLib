@@ -1,29 +1,29 @@
 /**
  * Class: Jx.Field.File
- * 
+ *
  * Extends: <Jx.Field>
- * 
+ *
  * This class is designed to work with an iFrame and APC upload progress.
  * APC is a php specific technology but any server side implementation that
- * works in the same manner should work. You can then wire this class to the 
+ * works in the same manner should work. You can then wire this class to the
  * progress bar class to show progress.
- * 
- * The other option is to not use progress tracking and just use the base 
+ *
+ * The other option is to not use progress tracking and just use the base
  * upload which works through a hidden iFrame. In order to use this with Jx.Form
- * you'll need to add it normally but keep a reference to it. When you call 
- * Jx.Form.getValues() it will not return any file information. You can then 
+ * you'll need to add it normally but keep a reference to it. When you call
+ * Jx.Form.getValues() it will not return any file information. You can then
  * call the Jx.Field.File.upload() method for each file input directly and
  * then submit the rest of the form via ajax.
- * 
- * License: 
+ *
+ * License:
  * Copyright (c) 2009, Jon Bomgardner.
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.Field.File = new Class({
-    
+
     Extends: Jx.Field,
-    
+
     options: {
         /**
          * Option: template
@@ -49,14 +49,14 @@ Jx.Field.File = new Class({
         /**
          * Option: progressName
          * The name to give the field that holds the generated progress ID retrieved
-         * from the server. Defaults to 'APC_UPLOAD_PROGRESS' which is the default 
+         * from the server. Defaults to 'APC_UPLOAD_PROGRESS' which is the default
          * for APC.
          */
         progressName: 'APC_UPLOAD_PROGRESS',
         /**
          * Option: progressId
-         * The id to give the form element that holds the generated progress ID 
-         * retrieved from the server. Defaults to 'progress_key'. 
+         * The id to give the form element that holds the generated progress ID
+         * retrieved from the server. Defaults to 'progress_key'.
          */
         progressId: 'progress_key',
         /**
@@ -84,7 +84,7 @@ Jx.Field.File = new Class({
         onUploadProgress: $empty,
         onUploadError: $empty,
         onFileSelected: $empty
-        
+
     },
     /**
      * Property: type
@@ -97,14 +97,14 @@ Jx.Field.File = new Class({
      */
     render: function () {
         this.parent();
-        
+
         //add a unique ID if no id is defined
         if (!$defined(this.options.id)) {
             this.field.set('id', this.generateId());
         }
-        
+
         //now, create the fake inputs
-        
+
         this.fake = new Element('div', {
             'class' : 'jxFileFake'
         });
@@ -114,18 +114,18 @@ Jx.Field.File = new Class({
         this.browseButton = new Jx.Button({
             label : 'Browse...'
         });
-        
-        
+
+
         this.fake.adopt(this.text, this.browseButton);
         this.field.grab(this.fake, 'after');
-        
+
         this.field.addEvents({
             change : this.copyValue.bind(this),
             mouseout : this.copyValue.bind(this),
             mouseenter : this.mouseEnter.bind(this),
             mouseleave : this.mouseLeave.bind(this)
         });
-        
+
     },
     /**
      * Method: copyValue
@@ -140,7 +140,7 @@ Jx.Field.File = new Class({
     },
     /**
      * Method: mouseEnter
-     * Called when the mouse enters the actual file input to make the 
+     * Called when the mouse enters the actual file input to make the
      * fake button highlight.
      */
     mouseEnter: function () {
@@ -165,25 +165,25 @@ Jx.Field.File = new Class({
             styles: {
                 display: 'none'
             },
-            
-            name : this.generateId() 
+
+            name : this.generateId()
         });
         this.iframe.inject(document.body);
-            
+
         //load in the form
         this.form = new Jx.Form({
             action : this.options.handlerUrl,
             name : 'jxUploadForm',
             fileUpload: true
         });
-        
+
         //iframeBody.grab(this.form);
         $(this.form).set('target', this.iframe.get('name')).setStyles({
             visibility: 'hidden',
             display: 'none'
         }).inject(document.body);
-        
-        
+
+
         //move the form input into it (cloneNode)
         $(this.form).grab(this.field.cloneNode(true));
         //if polling the server we need an APC_UPLOAD_PROGRESS id.
@@ -203,9 +203,9 @@ Jx.Field.File = new Class({
      * Method: submitUpload
      * Called either after upload() or as a result of a successful call
      * to get a progress ID.
-     * 
+     *
      * Parameters:
-     * data - Optional. The data returned from the call for a progress ID. 
+     * data - Optional. The data returned from the call for a progress ID.
      */
     submitUpload: function (data) {
         //check for ID in data
@@ -220,8 +220,8 @@ Jx.Field.File = new Class({
             id.addTo(this.form, 'top');
         }
         this.iframe.addEvent('load', this.processIFrameUpload.bind(this));
-        
-        
+
+
         //submit the form
         $(this.form).submit();
         //begin polling if needed
@@ -244,11 +244,11 @@ Jx.Field.File = new Class({
         });
         r.send();
     },
-    
+
     /**
      * Method: processProgress
      * process the data returned from the request
-     * 
+     *
      * Parameters:
      * data - The data from the request as an object.
      */
@@ -283,7 +283,7 @@ Jx.Field.File = new Class({
         //the body text should be a JSON structure
         //get the body
         var iframeBody = this.iframe.contentDocument.defaultView.document.body.innerHTML;
-        
+
         var data = JSON.decode(iframeBody);
         if ($defined(data.success) && data.success) {
             this.done = true;
@@ -298,7 +298,7 @@ Jx.Field.File = new Class({
     },
     /**
      * Method: uploadCleanUp
-     * Cleans up the hidden form and IFrame after a completed upload. Set 
+     * Cleans up the hidden form and IFrame after a completed upload. Set
      * this.options.debug to true to keep this from happening
      */
     uploadCleanUp: function () {

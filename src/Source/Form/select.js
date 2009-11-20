@@ -1,13 +1,13 @@
 // $Id: $
 /**
  * Class: Jx.Field.Select
- * 
+ *
  * Extends: <Jx.Field>
- * 
+ *
  * This class represents a form select field.
- * 
+ *
  * These fields are rendered as below.
- * 
+ *
  * (code)
  * <div id='' class=''>
  *    <label for=''>A label for the field</label>
@@ -16,26 +16,26 @@
  *    </select>
  * </div>
  * (end)
- * 
+ *
  * Example:
  * (code)
  * (end)
  *
- * License: 
+ * License:
  * Copyright (c) 2009, Jon Bomgardner.
- * 
+ *
  * This file is licensed under an MIT style license
- * 
+ *
  */
 
 Jx.Field.Select = new Class({
-    
+
     Extends: Jx.Field,
-    
+
     options: {
         /**
          * Option: comboOpts
-         * Optional, defaults to null. if not null, this should be an array of objects 
+         * Optional, defaults to null. if not null, this should be an array of objects
          * formated like [{value:'', selected: true|false, text:''},...]
          */
         comboOpts: null,
@@ -44,7 +44,7 @@ Jx.Field.Select = new Class({
          * Optional, defaults to null. if not null this should be an array of objects
          * defining option groups for this select. The comboOpts and optGroups options
          * are mutually exclusive. optGroups will always be shown if defined.
-         * 
+         *
          * define them like [{name: '', options: [{value:'', selected: '', text: ''}...]},...]
          */
         optGroups: null,
@@ -59,7 +59,7 @@ Jx.Field.Select = new Class({
      * Indictes this type of field.
      */
     type: 'Select',
-    
+
     /**
      * APIMethod: render
      * Creates a select field.
@@ -89,11 +89,11 @@ Jx.Field.Select = new Class({
             }, this);
         }
     },
-    
+
     /**
      * Method: addOption
      * add an option to the select list
-     * 
+     *
      * Parameters:
      * item - The option to add.
      * position (optional) - an integer index or the string 'top'.
@@ -117,15 +117,15 @@ Jx.Field.Select = new Class({
             } else if (position == 'top') {
                 where = 'top';
             }
-            
+
         }
         opt.inject(field, where);
     },
-    
+
     /**
      * Method: removeOption
      * removes an option from the select list
-     * 
+     *
      * Parameters:
      *  item - The option to remove.
      */
@@ -135,7 +135,7 @@ Jx.Field.Select = new Class({
     /**
      * Method: setValue
      * Sets the value property of the field
-     * 
+     *
      * Parameters:
      * v - The value to set the field to.
      */
@@ -147,7 +147,7 @@ Jx.Field.Select = new Class({
             }
         }, this);
     },
-    
+
     /**
      * Method: getValue
      * Returns the current value of the field.

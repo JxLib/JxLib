@@ -1,31 +1,31 @@
 // $Id: $
 /**
  * Class: Jx.Plugin.Field.Validator
- * 
+ *
  * Extends: <Jx.Plugin>
- * 
+ *
  * Field plugin for enforcing validation when a field is not used in a form.
  *
- * 
- * License: 
+ *
+ * License:
  * Copyright (c) 2009, Jonathan Bomgardner.
  * Parts inspired by mootools-more's Form.Validator class
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.Plugin.Field.Validator = new Class({
 
     Extends : Jx.Plugin,
     name: 'Field.Validator',
-    
+
     options: {
         /**
          * Option: validators
          * An array that contains either a string that names the predefined
          * validator to use with its needed options or an object that defines
-         * the options of an InputValidator (also with needed options) defined 
+         * the options of an InputValidator (also with needed options) defined
          * like so:
-         * 
+         *
          * (code)
          * {
          *     validatorClass: 'name:with options',    //gets applied to the field
@@ -42,14 +42,14 @@ Jx.Plugin.Field.Validator = new Class({
         validators: [],
         /**
          * Option: validateOnBlur
-         * Determines whether the plugin will validate the field on blur. 
-         * Defaults to true. 
+         * Determines whether the plugin will validate the field on blur.
+         * Defaults to true.
          */
         validateOnBlur: true,
         /**
          * Option: validateOnChange
-         * Determines whether the plugin will validate the field on change. 
-         * Defaults to true. 
+         * Determines whether the plugin will validate the field on change.
+         * Defaults to true.
          */
         validateOnChange: true
     },
@@ -89,7 +89,7 @@ Jx.Plugin.Field.Validator = new Class({
         this.field = field;
         if (this.field.options.required && !this.options.validators.contains('required')) {
             //would have used unshift() but reading tells me it may not work in IE.
-            this.options.validators.reverse().push('required');     
+            this.options.validators.reverse().push('required');
             this.options.validators.reverse();
         }
         //add validation classes
@@ -122,12 +122,12 @@ Jx.Plugin.Field.Validator = new Class({
         this.field = null;
         this.validators = null;
     },
-    
+
     validate: function () {
         $clear(this.timer);
         this.timer = this.validateField.delay(50, this);
     },
-    
+
     validateField: function () {
         //loop through the validators
         this.valid = true;
@@ -139,22 +139,22 @@ Jx.Plugin.Field.Validator = new Class({
                     this.valid = false;
                     this.errors.push(val.getError(this.field.field));
                 }
-            }          
+            }
         }, this);
         if (!this.valid) {
             this.field.domObj.removeClass('jxFieldSuccess').addClass('jxFieldError');
             this.fireEvent('fieldValidationFailed', [this.field, this]);
         } else {
             this.field.domObj.removeClass('jxFieldError').addClass('jxFieldSuccess');
-            this.fireEvent('fieldValidationPassed', [this.field, this]);  
+            this.fireEvent('fieldValidationPassed', [this.field, this]);
         }
         return this.valid;
     },
-    
+
     isValid: function () {
         return this.validateField();
     },
-    
+
     reset: function () {
         this.valid = null;
         this.errors = [];
@@ -167,6 +167,6 @@ Jx.Plugin.Field.Validator = new Class({
     getErrors: function () {
         return this.errors;
     }
-    
-   
+
+
 });

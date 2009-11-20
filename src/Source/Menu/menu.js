@@ -14,9 +14,9 @@
  * (code)
  * (end)
  *
- * License: 
+ * License:
  * Copyright (c) 2008, DM Solutions Group Inc.
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.Menu = new Class({
@@ -39,9 +39,9 @@ Jx.Menu = new Class({
      * {<Jx.List>} the list of items in the menu
      */
     list: null,
-    
+
     parameters: ['buttonOptions', 'options'],
-    
+
     options: {
         template: "<div class='jxMenuContainer'><ul class='jxMenu'></ul></div>",
         buttonTemplate: '<span class="jxButtonContainer"><a class="jxButton jxButtonMenu jxDiscloser"><span class="jxButtonContent"><img class="jxButtonIcon" src="'+Jx.aPixel.src+'"><span class="jxButtonLabel"></span></span></a></span>',
@@ -50,12 +50,12 @@ Jx.Menu = new Class({
             vertical: ['bottom top', 'top bottom']
         }
     },
-    
+
     classes: new Hash({
         contentContainer: 'jxMenuContainer',
         subDomObj: 'jxMenu'
     }),
-    
+
     /**
      * APIMethod: render
      * Create a new instance of Jx.Menu.
@@ -67,7 +67,7 @@ Jx.Menu = new Class({
         }
 
         this.contentContainer.addEvent('onContextmenu', function(e){e.stop();});
-        
+
         this.list = new Jx.List(this.subDomObj, {
             onRemove: function(item) {
                 item.setOwner(null);
@@ -83,17 +83,17 @@ Jx.Menu = new Class({
             }));
 
             this.button.domA.addEvent('mouseover', this.onMouseOver.bindWithEvent(this));
-            
+
             this.domObj = this.button.domObj;
             this.domObj.store('jxMenu', this);
         }
-        
+
         /* pre-bind the hide function for efficiency */
         this.bound = {
             mousedown: this.hide.bindWithEvent(this),
             keypress: this.keypressHandler.bindWithEvent(this)
         };
-        
+
         if (this.options.parent) {
             this.addTo(this.options.parent);
         }
@@ -106,7 +106,7 @@ Jx.Menu = new Class({
      * item - {<Jx.MenuItem>} the menu item to add.  Multiple menu items
      * can be added by passing multiple arguments to this function.
      * position -
-     * owner - 
+     * owner -
      */
     add: function(item, position, owner) {
         if (Jx.type(item) == 'array') {
@@ -160,7 +160,7 @@ Jx.Menu = new Class({
             this.show({event:e});
         }
     },
-    
+
     /**
      * Method: eventInMenu
      * determine if an event happened inside this menu or a sub menu
@@ -197,18 +197,18 @@ Jx.Menu = new Class({
             }
             return false;
         }
-        
+
         /*
         this.list.items().some(
             function(item) {
                 var menuItem = item.retrieve('jxMenuItem');
-                return menuItem instanceof Jx.Menu.SubMenu && 
+                return menuItem instanceof Jx.Menu.SubMenu &&
                        menuItem.eventInMenu(e);
             }
         );
         */
     },
-    
+
     /**
      * APIMethod: hide
      * Hide the menu.
@@ -230,14 +230,14 @@ Jx.Menu = new Class({
             Jx.Menu.Menus[0] = null;
         }
         if (this.button && this.button.domA) {
-            this.button.domA.removeClass(this.button.options.activeClass);            
+            this.button.domA.removeClass(this.button.options.activeClass);
         }
         this.list.each(function(item){item.retrieve('jxMenuItem').hide(e);});
         document.removeEvent('mousedown', this.bound.mousedown);
         document.removeEvent('keydown', this.bound.keypress);
         this.contentContainer.dispose();
         this.visibleItem = null;
-        this.fireEvent('hide', this); 
+        this.fireEvent('hide', this);
     },
     /**
      * APIMethod: show
@@ -252,34 +252,34 @@ Jx.Menu = new Class({
                 } else {
                     this.hide();
                     return;
-                }  
-            } 
+                }
+            }
             Jx.Menu.Menus[0] = this;
             this.button.focus();
             if (this.list.count() == 0) {
                 return;
-            } 
+            }
         }
         this.contentContainer.setStyle('display','none');
-        document.id(document.body).adopt(this.contentContainer);            
+        document.id(document.body).adopt(this.contentContainer);
         this.contentContainer.setStyles({
             visibility: 'hidden',
             display: 'block'
         });
-        
+
         /* we have to size the container for IE to render the chrome correctly
          * but just in the menu/sub menu case - there is some horrible peekaboo
          * bug in IE related to ULs that we just couldn't figure out
          */
         this.contentContainer.setContentBoxSize(this.subDomObj.getMarginBoxSize());
         this.showChrome(this.contentContainer);
-        
+
         this.position(this.contentContainer, this.domObj, $merge({
             offsets: this.chromeOffsets
         }, this.options.position));
 
         this.contentContainer.setStyle('visibility','visible');
-        
+
         if (this.button && this.button.domA) {
             this.button.domA.addClass(this.button.options.activeClass);
         }
@@ -287,7 +287,7 @@ Jx.Menu = new Class({
         /* fix bug in IE that closes the menu as it opens because of bubbling */
         document.addEvent('mousedown', this.bound.mousedown);
         document.addEvent('keydown', this.bound.keypress);
-        this.fireEvent('show', this); 
+        this.fireEvent('show', this);
     },
     /**
      * APIMethod: setVisibleItem
@@ -320,10 +320,10 @@ Jx.Menu = new Class({
      * Returns:
      * {Boolean} whether the menu is enabled or not
      */
-    isEnabled: function() { 
-        return this.button.isEnabled; 
+    isEnabled: function() {
+        return this.button.isEnabled;
     },
-    
+
     /**
      * APIMethod: setEnabled
      * enable or disable the menu.
@@ -341,7 +341,7 @@ Jx.Menu = new Class({
      * Returns:
      * {Boolean} the active state of the menu
      */
-    isActive: function() { 
+    isActive: function() {
         return this.button.isActive();
     },
     /**
@@ -366,10 +366,10 @@ Jx.Menu = new Class({
     },
     /**
      * APIMethod: setLabel
-     * 
+     *
      * sets the text of the menu.
      *
-     * Parameters: 
+     * Parameters:
      *
      * label - {String} the new label for the menu
      */
@@ -378,7 +378,7 @@ Jx.Menu = new Class({
     },
     /**
      * APIMethod: getLabel
-     * 
+     *
      * returns the text of the menu.
      */
     getLabel: function() {
@@ -388,7 +388,7 @@ Jx.Menu = new Class({
      * APIMethod: setTooltip
      * sets the tooltip displayed by the menu
      *
-     * Parameters: 
+     * Parameters:
      * tooltip - {String} the new tooltip
      */
     setTooltip: function(tooltip) {
@@ -408,6 +408,6 @@ Jx.Menu = new Class({
     blur: function() {
         this.button.blur();
     }
-    
+
 });
 

@@ -1,22 +1,22 @@
 // $Id: $
 /**
  * Class: Jx.Plugin.Form.Validator
- * 
+ *
  * Extends: <Jx.Plugin>
- * 
+ *
  * Form plugin for enforcing validation on the fields in a form.
  *
- * License: 
+ * License:
  * Copyright (c) 2009, Jonathan Bomgardner.
  * Parts inspired by mootools-more's Form.Validator class
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.Plugin.Form.Validator = new Class({
 
     Extends : Jx.Plugin,
     name: 'Form.Validator',
-    
+
     options: {
         /**
          * Option: fields
@@ -30,14 +30,14 @@ Jx.Plugin.Form.Validator = new Class({
          * }
          */
         fields: null,
-        
+
         fieldDefaults: {
             validateOnBlur: true,
             validateOnChange: true
         },
-        
+
         validateOnSubmit: true,
-        
+
         suspendSubmit: false
     },
     /**
@@ -75,7 +75,7 @@ Jx.Plugin.Form.Validator = new Class({
         this.form.isValid = function () {
             return plugin.isValid();
         };
-        
+
         if (this.options.validateOnSubmit && !this.options.suspendSubmit) {
             document.id(this.form).addEvent('submit', this.bound.validate);
         } else if (this.options.suspendSubmit) {
@@ -83,9 +83,9 @@ Jx.Plugin.Form.Validator = new Class({
                 ev.stop();
             });
         }
-        
+
         this.plugins = $H();
-        
+
         //setup the fields
         $H(this.options.fields).each(function (val, key) {
             var opts = $merge(this.options.fieldDefaults, val);
@@ -95,9 +95,9 @@ Jx.Plugin.Form.Validator = new Class({
             plugin.attach(field);
             plugin.addEvent('fieldValidationFailed', this.bound.failed);
             plugin.addEvent('fieldValidationPassed', this.bound.passed);
-            
+
         }, this);
-       
+
     },
     /**
      * APIMethod: detach
@@ -142,14 +142,14 @@ Jx.Plugin.Form.Validator = new Class({
     },
     /**
      * Method: fieldFailed
-     * Refires the fieldValidationFailed event from the field validators it contains 
+     * Refires the fieldValidationFailed event from the field validators it contains
      */
     fieldFailed: function (field, validator) {
         this.fireEvent('fieldValidationFailed', [field, validator]);
     },
     /**
      * Method: fielPassed
-     * Refires the fieldValidationPassed event from the field validators it contains 
+     * Refires the fieldValidationPassed event from the field validators it contains
      */
     fieldPassed: function (field, validator) {
         this.fireEvent('fieldValidationPassed', [field, validator]);
@@ -160,10 +160,10 @@ Jx.Plugin.Form.Validator = new Class({
      */
     getErrors: function () {
         if (!$defined(this.errors)) {
-           this.validate(); 
+           this.validate();
         }
         return this.errors;
     }
-    
-   
+
+
 });

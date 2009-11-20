@@ -7,15 +7,15 @@
  * Jx.Dialog.Confirm is an extension of Jx.Dialog that allows the developer
  * to display a message to the user. It only presents an OK button.
  *
- * License: 
+ * License:
  * Copyright (c) 2009, Jonathan Bomgardner
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.Dialog.Message = new Class({
-    
+
     Extends: Jx.Dialog,
-    
+
     options: {
         /**
          * Option: message
@@ -64,6 +64,6 @@ Jx.Dialog.Message = new Class({
     onClick: function (value) {
         this.close();
     }
-    
-    
+
+
 });

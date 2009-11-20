@@ -41,8 +41,8 @@
  * automatically get inserted into the web page.  Typically a button
  * is used as part of building another capability such as a Jx.Toolbar.
  * However, if you want to manually insert the button into your application,
- * you may use the addTo method to append or insert the button into the 
- * page.  
+ * you may use the addTo method to append or insert the button into the
+ * page.
  *
  * There are two modes for a button, normal and toggle.  A toggle button
  * has an active state analogous to a checkbox.  A toggle button generates
@@ -53,7 +53,7 @@
  * 'click' event.  You can pass a function in the 'onClick' option when
  * constructing a button or you can call the addEvent('click', myFunction)
  * method.  The addEvent method can be called several times, allowing more
- * than one function to be called when a button is clicked.  You can use the 
+ * than one function to be called when a button is clicked.  You can use the
  * removeEvent('click', myFunction) method to stop receiving click events.
  *
  * Example:
@@ -86,22 +86,22 @@
  * down - the button is down (only if type is 'toggle')
  * up - the button is up (only if the type is 'toggle').
  *
- * License: 
+ * License:
  * Copyright (c) 2008, DM Solutions Group Inc.
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.Button = new Class({
     Family: 'Jx.Button',
     Extends: Jx.Widget,
-    
+
     /**
      * the HTML element that is inserted into the DOM for this button.  You
      * may reference this object to append it to the DOM or remove it from
      * the DOM if necessary.
      */
     domObj: null,
-    
+
     options: {
         /* Option: id
          * optional.  A string value to use as the ID of the button
@@ -130,11 +130,11 @@ Jx.Button = new Class({
          * default true, whether the button is a toggle button or not.
          */
         toggle: false,
-        
+
         toggleClass: 'jxButtonToggle',
         pressedClass: 'jxButtonPressed',
         activeClass: 'jxButtonActive',
-        
+
         /* Option: active
          * optional, default false.  Controls the initial state of toggle
          * buttons.
@@ -152,33 +152,33 @@ Jx.Button = new Class({
          */
         template: '<span class="jxButtonContainer"><a class="jxButton"><span class="jxButtonContent"><img class="jxButtonIcon" src="'+Jx.aPixel.src+'"><span class="jxButtonLabel"></span></span></a></span>'
     },
-    
+
     classes: new Hash({
         domObj: 'jxButtonContainer',
         domA: 'jxButton',
         domImg: 'jxButtonIcon',
         domLabel: 'jxButtonLabel'
     }),
-    
+
     /**
      * APIMethod: render
      * create a new button.
      */
     render: function() {
         this.parent();
-        
+
         /* is the button toggle-able? */
         if (this.options.toggle) {
             this.domObj.addClass(this.options.toggleClass);
         }
-        
+
         // the clickable part of the button
         if (this.domA) {
             var hasFocus;
             var mouseDown;
             this.domA.set({
-                href: 'javascript:void(0)', 
-                title: this.options.tooltip, 
+                href: 'javascript:void(0)',
+                title: this.options.tooltip,
                 alt: this.options.tooltip
             });
             this.domA.addEvents({
@@ -225,7 +225,7 @@ Jx.Button = new Class({
         if (this.domImg) {
             if (this.options.image || !this.options.label) {
                 this.domImg.set({
-                    title: this.options.tooltip, 
+                    title: this.options.tooltip,
                     alt: this.options.tooltip
                 });
                 if (this.options.image && this.options.image.indexOf('a_pixel.png') == -1) {
@@ -239,7 +239,7 @@ Jx.Button = new Class({
                 this.domImg.setStyle('display','none');
             }
         }
-        
+
         if (this.domLabel) {
             if (this.options.label || this.domA.hasClass('jxDiscloser')) {
                 this.domLabel.set('html',this.options.label);
@@ -248,20 +248,20 @@ Jx.Button = new Class({
                 this.domLabel.setStyle('display','none');
             }
         }
-        
+
         if (this.options.id) {
             this.domObj.set('id', this.options.id);
         }
-        
+
         //update the enabled state
         this.setEnabled(this.options.enabled);
-        
+
         //update the active state if necessary
         if (this.options.active) {
             this.options.active = false;
             this.setActive(true);
         }
-        
+
     },
     /**
      * Method: clicked
@@ -288,10 +288,10 @@ Jx.Button = new Class({
      * Returns:
      * {Boolean} whether the button is enabled or not
      */
-    isEnabled: function() { 
-        return this.options.enabled; 
+    isEnabled: function() {
+        return this.options.enabled;
     },
-    
+
     /**
      * Method: setEnabled
      * enable or disable the button.
@@ -315,8 +315,8 @@ Jx.Button = new Class({
      * Returns:
      * {Boolean} the active state of a toggle button
      */
-    isActive: function() { 
-        return this.options.active; 
+    isActive: function() {
+        return this.options.active;
     },
     /**
      * Method: setActive
@@ -356,10 +356,10 @@ Jx.Button = new Class({
     },
     /**
      * Method: setLabel
-     * 
+     *
      * sets the text of the button.
      *
-     * Parameters: 
+     * Parameters:
      *
      * label - {String} the new label for the button
      */
@@ -372,7 +372,7 @@ Jx.Button = new Class({
     },
     /**
      * Method: getLabel
-     * 
+     *
      * returns the text of the button.
      */
     getLabel: function() {
@@ -382,7 +382,7 @@ Jx.Button = new Class({
      * Method: setTooltip
      * sets the tooltip displayed by the button
      *
-     * Parameters: 
+     * Parameters:
      * tooltip - {String} the new tooltip
      */
     setTooltip: function(tooltip) {

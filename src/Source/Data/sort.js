@@ -1,20 +1,20 @@
 // $Id: $
 /**
  * Class: Jx.Sort Base class for all of the sorting algorithm classes.
- * 
+ *
  * Extends: <Jx.Object>
- * 
- * Events: 
- * onStart() - called when the sort starts 
+ *
+ * Events:
+ * onStart() - called when the sort starts
  * onEnd() - called when the sort stops
- * 
+ *
  * Example:
  * (code)
  * (end)
  *
- * License: 
+ * License:
  * Copyright (c) 2009, Jon Bomgardner.
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.Sort = new Class({
@@ -38,7 +38,7 @@ Jx.Sort = new Class({
          */
         onEnd : $empty
     },
-    
+
     /**
      * Property: timer
      * holds the timer instance
@@ -59,7 +59,7 @@ Jx.Sort = new Class({
      * The column to sort by
      */
     col : null,
-    
+
     parameters: ['data','fn','col','options'],
 
     /**
@@ -77,13 +77,13 @@ Jx.Sort = new Class({
     },
 
     /**
-     * APIMethod: sort 
+     * APIMethod: sort
      * Actually does the sorting. Must be overridden by subclasses.
      */
     sort : $empty,
 
     /**
-     * Method: startTimer 
+     * Method: startTimer
      * Saves the starting time of the sort
      */
     startTimer : function () {
@@ -91,7 +91,7 @@ Jx.Sort = new Class({
     },
 
     /**
-     * Method: stopTimer 
+     * Method: stopTimer
      * Determines the time the sort took.
      */
     stopTimer : function () {
@@ -100,10 +100,10 @@ Jx.Sort = new Class({
     },
 
     /**
-     * APIMethod: setData 
+     * APIMethod: setData
      * sets the data to sort
-     * 
-     * Parameters: 
+     *
+     * Parameters:
      * data - the data to sort
      */
     setData : function (data) {
@@ -113,10 +113,10 @@ Jx.Sort = new Class({
     },
 
     /**
-     * APIMethod: setColumn 
+     * APIMethod: setColumn
      * Sets the column to sort by
-     * 
-     * Parameters: 
+     *
+     * Parameters:
      * col - the column to sort by
      */
     setColumn : function (col) {
@@ -128,8 +128,8 @@ Jx.Sort = new Class({
     /**
      * APIMethod: setComparator
      * Sets the comparator to use in sorting
-     * 
-     * Parameters: 
+     *
+     * Parameters:
      * fn - the function to use as the comparator
      */
     setComparator : function (fn) {

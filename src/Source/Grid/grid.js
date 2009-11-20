@@ -1,7 +1,7 @@
 // $Id$
 /**
  * Class: Jx.Grid
- * 
+ *
  * Extends: <Jx.Widget>
  *
  * A tabular control that has fixed, optional, scrolling headers on the rows and
@@ -16,26 +16,26 @@
  * When creating a new Jx.Grid, you can specify a number of options for the grid
  * that control its appearance and functionality. You can also specify plugins
  * to load for additional functionality. Currently Jx provides the following
- * plugins 
- * 
- * Prelighter - prelights rows, columns, and cells 
+ * plugins
+ *
+ * Prelighter - prelights rows, columns, and cells
  * Selector - selects rows, columns, and cells
  * Sorter - sorts rows by specific column
  *
- * Jx.Grid renders data that comes from an external source.  This external 
- * source, called the model, must be a Jx.Store or extended from it (such as 
+ * Jx.Grid renders data that comes from an external source.  This external
+ * source, called the model, must be a Jx.Store or extended from it (such as
  * Jx.Store.Remote).
- * 
- * Events: 
+ *
+ * Events:
  * gridCellEnter(cell, list) - called when the mouse enters a cell
  * gridCellLeave(cell, list) - called when the mouse leaves a cell
  * gridCellSelect(cell) - called when a cell is clicked
  *
  *
- * License: 
+ * License:
  * Copyright (c) 2008, DM Solutions Group Inc.
  * This version Copyright (c) 2009, Jon Bomgardner.
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.Grid = new Class({
@@ -54,7 +54,7 @@ Jx.Grid = new Class({
         /**
          * Options: columns
          * an object consisting of a columns array that defines the individuals
-         * columns as well as containing any options for Jx.Grid.Columns or 
+         * columns as well as containing any options for Jx.Grid.Columns or
          * a Jx.Grid.Columns object itself.
          */
         columns : {
@@ -70,7 +70,7 @@ Jx.Grid = new Class({
 
         /**
          * Option: plugins
-         * an array containing Jx.Grid.Plugin subclasses or an object 
+         * an array containing Jx.Grid.Plugin subclasses or an object
          * that indicates the name of a predefined plugin and its options.
          */
         plugins : [],
@@ -80,7 +80,7 @@ Jx.Grid = new Class({
          * An instance of Jx.Store or one of its descendants
          */
         model : null,
-        
+
         deferRender: true
 
     },
@@ -158,8 +158,8 @@ Jx.Grid = new Class({
         } else {
             this.row = new Jx.Row({grid: this});
         }
-        
-        
+
+
 
         //initialize the grid
         this.domObj = new Element('div', {'class':this.uniqueId});
@@ -211,7 +211,7 @@ Jx.Grid = new Class({
         this.gridTableBody = new Element('tbody');
         this.gridTable.appendChild(this.gridTableBody);
         this.gridObj.appendChild(this.gridTable);
-        
+
         var target = this;
 
         this.domObj.appendChild(this.rowColObj);
@@ -220,7 +220,7 @@ Jx.Grid = new Class({
         this.domObj.appendChild(this.gridObj);
 
         this.gridObj.addEvent('scroll', this.onScroll.bind(this));
-        
+
         //bind events
         this.bound = {
             select: this.onSelect.bind(this),
@@ -228,7 +228,7 @@ Jx.Grid = new Class({
             mouseenter: this.onMouseEnter.bind(this),
             mouseleave: this.onMouseLeave.bind(this)
         };
-        
+
         //setup the selection
         this.selection = new Jx.Selection();
         this.selection.addEvents({
@@ -236,7 +236,7 @@ Jx.Grid = new Class({
             unselect: this.bound.unselect
         });
         this.parent();
-        
+
         this.domObj.store('grid', this);
     },
 
@@ -249,7 +249,7 @@ Jx.Grid = new Class({
         this.rowObj.scrollTop = this.gridObj.scrollTop;
     },
 
-    
+
     /**
      * APIMethod: resize
      * resize the grid to fit inside its container.  This involves knowing something
@@ -309,9 +309,9 @@ Jx.Grid = new Class({
     /**
      * APIMethod: setModel
      * set the model for the grid to display.  If a model is attached to the grid
-     * it is removed and the new model is displayed. However, It needs to have 
+     * it is removed and the new model is displayed. However, It needs to have
      * the same columns
-     * 
+     *
      * Parameters:
      * model - {Object} the model to use for this grid
      */
@@ -367,7 +367,7 @@ Jx.Grid = new Class({
             var nColumns = this.columns.getColumnCount();
             var nRows = model.count();
             var th;
-            
+
             /* create header if necessary */
             if (this.columns.useHeaders()) {
                 this.colTableBody.setStyle('visibility', 'visible');
@@ -378,7 +378,7 @@ Jx.Grid = new Class({
                     }
                 });
                 this.colTableBody.appendChild(trBody);
-                
+
                 var headerList = this.makeList(trBody);
 
                 this.columns.getHeaders(headerList);
@@ -399,14 +399,14 @@ Jx.Grid = new Class({
                 //hide the headers
                 this.colTableBody.setStyle('visibility', 'hidden');
             }
-            
+
             if (this.row.useHeaders()) {
                 this.rowTableHead.setStyle('visibility', 'visible');
-                
+
                 var rowHeight = this.row.getHeight();
-                
-                
-                
+
+
+
                 //loop through all rows and add header
                 this.model.first();
                 while (this.model.valid()) {
@@ -437,39 +437,39 @@ Jx.Grid = new Class({
                 //hide row headers
                 this.rowTableHead.setStyle('visibility', 'hidden');
             }
-            
+
             colHeight = this.columns.getHeaderHeight();
-            
-            
+
+
             //This section actually adds the rows
             this.model.first();
             while (this.model.valid()) {
                 tr = this.row.getGridRowElement();
                 tr.store('jxRowData', {row: this.model.getPosition()});
-                
-                
+
+
                 var rl = this.makeList(tr);
                 this.gridTableBody.appendChild(tr);
                 //this.rowList.add(rl.container);
-                
-                //Actually add the columns 
+
+                //Actually add the columns
                 this.columns.getColumnCells(rl);
-        
+
                 if (this.model.hasNext()) {
                     this.model.next();
                 } else {
                     break;
                 }
-        
+
             }
-            
+
             Jx.Styles.enableStyleSheet(this.styleSheet);
             this.columns.createRules(this.styleSheet, "."+this.uniqueId);
         }
         this.domObj.resize();
         this.fireEvent('doneCreateGrid', this);
     },
-    
+
     /**
      * Method: modelChanged
      * Event listener that is fired when the model changes in some way
@@ -488,12 +488,12 @@ Jx.Grid = new Class({
         list.replace(td, newTD);
         //newTD.replaces(td);
 
-        this.model.moveTo(currentRow);    
+        this.model.moveTo(currentRow);
     },
     /**
      * Method: makeList
      * utility method used to make row lists
-     * 
+     *
      * Parameters:
      * container - the row to use as the Jx.List container
      */
@@ -510,19 +510,19 @@ Jx.Grid = new Class({
         this.lists.push(l);
         return l;
     },
-    
+
     onSelect: function (cell, select) {
         this.fireEvent('gridCellSelect', [cell,select,this]);
     },
-    
+
     onUnselect: function (cell, select) {
         this.fireEvent('gridCellUnselect', [cell,select,this]);
     },
-    
+
     onMouseEnter: function (cell, list) {
         this.fireEvent('gridCellEnter', [cell,list,this]);
     },
-    
+
     onMouseLeave: function (cell, list) {
         this.fireEvent('gridCellLeave', [cell,list,this]);
     }

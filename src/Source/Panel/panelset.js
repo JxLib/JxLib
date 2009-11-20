@@ -25,15 +25,15 @@
  * var panelSet = new Jx.PanelSet('panels', [p1,p2,p3]);
  * (end)
  *
- * License: 
+ * License:
  * Copyright (c) 2008, DM Solutions Group Inc.
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.PanelSet = new Class({
     Family: 'Jx.PanelSet',
     Extends: Jx.Widget,
-    
+
     options: {
         /* Option: parent
          * the object to add the panel set to
@@ -48,7 +48,7 @@ Jx.PanelSet = new Class({
          */
         barTooltip: 'drag this bar to resize'
     },
-    
+
     /**
      * Property: panels
      * {Array} the panels being managed by the set
@@ -75,7 +75,7 @@ Jx.PanelSet = new Class({
         }
         this.domObj = new Element('div');
         new Jx.Layout(this.domObj);
-        
+
         //make a fake panel so we get the right number of splitters
         var d = new Element('div', {styles:{position:'absolute'}});
         new Jx.Layout(d, {minHeight:0,maxHeight:0,height:0});
@@ -88,7 +88,7 @@ Jx.PanelSet = new Class({
             panel.domObj.store('Jx.Panel', panel);
             panel.manager = this;
         }, this);
-        
+
         this.splitter = new Jx.Splitter(this.domObj, {
             splitInto: this.panels.length+1,
             layout: 'vertical',
@@ -98,17 +98,17 @@ Jx.PanelSet = new Class({
                     'class': 'jxPanelBar',
                     'title': this.options.barTooltip
                 });
-                
+
                 var panel = this.panels[i];
                 panel.title.setStyle('visibility', 'hidden');
                 document.id(document.body).adopt(panel.title);
                 var size = panel.title.getBorderBoxSize();
                 bar.adopt(panel.title);
                 panel.title.setStyle('visibility','');
-                
+
                 bar.setStyle('height', size.height);
                 bar.store('size', size);
-                
+
                 return bar;
             }).bind(this)
         });
@@ -120,7 +120,7 @@ Jx.PanelSet = new Class({
             this.addTo(this.options.parent);
         }
     },
-    
+
     /**
      * Method: maximizePanel
      * Maximize a panel, taking up all available space (taking into
@@ -189,7 +189,7 @@ Jx.PanelSet = new Class({
                 break;
             }
         }
-        
+
         /* now work from the bottom up */
         var bottom = domHeight;
         for (i=this.splitter.elements.length - 1; i > 0; i--) {
@@ -215,11 +215,11 @@ Jx.PanelSet = new Class({
                     }
                 } else {
                     bottom -= o.minHeight;
-                    p.resize({top: bottom, height: o.minHeight, bottom: null});                    
+                    p.resize({top: bottom, height: o.minHeight, bottom: null});
                 }
                 bottom -= p.retrieve('leftBar').getBorderBoxSize().height;
                 p.retrieve('leftBar').style.top = bottom + 'px';
-                
+
             } else {
                 break;
             }

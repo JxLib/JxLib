@@ -1,11 +1,11 @@
 // $Id: $
 /**
  * Class: Jx.Formatter.Number
- * 
+ *
  * Extends: <Jx.Formatter>
- * 
+ *
  * This class formats numbers. You can have it do the following
- * 
+ *
  * o replace the decimal separator
  * o use/add a thousands separator
  * o change the precision (number of decimal places)
@@ -15,15 +15,15 @@
  * (code)
  * (end)
  *
- * License: 
+ * License:
  * Copyright (c) 2009, Jon Bomgardner.
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.Formatter.Number = new Class({
-    
+
     Extends: Jx.Formatter,
-    
+
     options: {
         /**
          * Option: decimalSeparator
@@ -54,7 +54,7 @@ Jx.Formatter.Number = new Class({
     /**
      * APIMethod: format
      * Formats the provided number
-     * 
+     *
      * Parameters:
      * value - the raw number to format
      */
@@ -67,7 +67,7 @@ Jx.Formatter.Number = new Class({
             value = value.toFloat();
         }
         value = value.toFixed(this.options.precision);
-        
+
         //split on the decimalSeparator
         var parts = value.split('.');
         var dec = true;
@@ -84,7 +84,7 @@ Jx.Formatter.Number = new Class({
         } else {
             main = parts[0];
         }
-    
+
         if (this.options.useThousands) {
             var l = main.length;
             var left = l % 3;
@@ -100,12 +100,12 @@ Jx.Formatter.Number = new Class({
                         j = 0;
                     }
                 }
-    
+
             }
         } else {
             ret = parts[0];
         }
-    
+
         if (dec) {
             ret = ret + this.options.decimalSeparator + parts[1];
         }
@@ -114,7 +114,7 @@ Jx.Formatter.Number = new Class({
         } else if (neg && !this.options.useParens) {
             ret = "-" + ret;
         }
-    
+
         return ret;
     }
 });

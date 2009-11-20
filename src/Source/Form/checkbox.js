@@ -1,23 +1,23 @@
 // $Id: $
 /**
  * Class: Jx.Field.Check
- * 
+ *
  * Extends: <Jx.Field>
- * 
+ *
  * This class represents a radio input field.
- * 
+ *
  * Example:
  * (code)
  * (end)
  *
- * License: 
+ * License:
  * Copyright (c) 2009, Jon Bomgardner.
- * 
+ *
  * This file is licensed under an MIT style license
- * 
+ *
  */
 Jx.Field.Checkbox = new Class({
-    
+
     Extends : Jx.Field,
 
     options : {
@@ -31,7 +31,7 @@ Jx.Field.Checkbox = new Class({
          * Whether this field is checked or not
          */
         checked : false,
-        
+
         labelSeparator: ''
     },
     /**
@@ -39,14 +39,14 @@ Jx.Field.Checkbox = new Class({
      * The type of this field
      */
     type : 'Check',
-    
+
     /**
-     * APIMethod: render 
+     * APIMethod: render
      * Creates a checkbox input field.
     */
     render : function () {
         this.parent();
-    
+
         if ($defined(this.options.checked) && this.options.checked) {
             if (Browser.Engine.trident) {
                 var parent = this.field.getParent();
@@ -71,12 +71,12 @@ Jx.Field.Checkbox = new Class({
             }
         }
     },
-    
+
     /**
-     * APIMethod: setValue 
+     * APIMethod: setValue
      * Sets the value property of the field
-     * 
-     * Parameters: 
+     *
+     * Parameters:
      * v - The value to set the field to, "checked" if it should be checked.
      */
     setValue : function (v) {
@@ -86,9 +86,9 @@ Jx.Field.Checkbox = new Class({
             this.field.erase('checked');
         }
     },
-    
+
     /**
-     * APIMethod: getValue 
+     * APIMethod: getValue
      * Returns the current value of the field. The field must be
      * "checked" in order to return a value. Otherwise it returns null.
      */
@@ -99,7 +99,7 @@ Jx.Field.Checkbox = new Class({
             return null;
         }
     },
-    
+
     /**
      * APIMethod: reset
      * Sets the field back to the value passed in the original
@@ -113,5 +113,5 @@ Jx.Field.Checkbox = new Class({
             this.field.erase('checked');
         }
     }
-    
+
 });

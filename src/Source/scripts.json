@@ -169,7 +169,7 @@
         },
         
         "listview": {
-            "deps": ["listitem"],
+            "deps": ["list","listitem"],
             "desc":""
         },
         
@@ -419,9 +419,22 @@
             "desc": "A class that shows and hides elements using a slide effect. Does not use a wrapper element or require a fixed width or height."
         },
         
-        "notification": {
-            "deps": ["widget","Fx.Tween","layout","list"],
-            "desc": "A notification widget that can be anchored to a side of a container or floated in a container."
+        "notifier": {
+            "deps": ["listview","Fx.Tween", "notice"],
+            "desc": "Base class for notification areas that can hold temporary notices."
+        },
+        "notifier.float": {
+            "deps": ["notifier"],
+            "desc": "A notification area that floats in a container above other content."
+            
+        },
+        "notifier.anchor": {
+            "deps": ["notifier"],
+            "desc": "A notification area that is anchored inline in a container."
+        },
+        
+        "notice": {
+            "deps":["listitem"]
         }
         
     },

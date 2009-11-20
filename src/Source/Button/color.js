@@ -1,4 +1,4 @@
-// $Id$ 
+// $Id$
 /**
  * Class: Jx.Button.Color
  *
@@ -27,17 +27,17 @@
  * Events:
  * change - fired when the color is changed.
  *
- * License: 
+ * License:
  * Copyright (c) 2008, DM Solutions Group Inc.
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.Button.Color = new Class({
     Family: 'Jx.Button.Color',
     Extends: Jx.Button.Flyout,
-    
+
     swatch: null,
-     
+
     options: {
         /**
          * Option: color
@@ -71,14 +71,14 @@ Jx.Button.Color = new Class({
             Jx.Button.Color.ColorPalette = new Jx.ColorPalette(this.options);
         }
 
-        /* we need to have an image to replace, but if a label is 
+        /* we need to have an image to replace, but if a label is
            requested, there wouldn't normally be an image. */
         this.options.image = Jx.aPixel.src;
 
         /* now we can safely initialize */
         this.parent();
         this.updateSwatch();
-        
+
         this.bound = {
             changed: this.changed.bind(this),
             hide: this.hide.bind(this)
@@ -103,7 +103,7 @@ Jx.Button.Color = new Class({
          * a second color button when another one is open - the color
          * wasn't updating properly
          */
-         
+
         Jx.Button.Color.ColorPalette.options.color = this.options.color;
         Jx.Button.Color.ColorPalette.options.alpha = this.options.alpha/100;
         Jx.Button.Color.ColorPalette.updateSelected();
@@ -178,7 +178,7 @@ Jx.Button.Color = new Class({
         if (this.options.alpha < 100) {
             styles.filter = 'Alpha(opacity='+(this.options.alpha)+')';
             styles.opacity = this.options.alpha / 100;
-            
+
         } else {
             styles.opacity = '';
             styles.filter = '';
