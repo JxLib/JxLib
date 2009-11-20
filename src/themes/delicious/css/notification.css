@@ -31,12 +31,16 @@
 
 .jxNoticeItem {
     position: relative;
-    border: 2px solid #bbb;
-    background-color: #eee;
+    border: 1px solid #ccc;
+    background-color: #f8f8f8;
     margin: 6px 6px 8px 7px;
+    background-image: url(images/notice.png);
+    background-repeat: repeat-x;
+    background-position: left bottom;
 }
 
 .jxNotice {
+    display: block;
     position: relative;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 11px;
@@ -44,20 +48,20 @@
     color: #666;
     margin: 0px;
     border: none;
-    padding: 0px 20px 0px 10px; 
+    padding: 4px 24px 4px 8px; 
 }                          
 
-.jxNoticeError .jxNoticeItem {   background-color: #FBE3E4; color: #8a1f11; border-color: #FBC2C4; }
-.jxNoticeWarning .jxNoticeItem { background-color: #FFF6BF; color: #514721; border-color: #FFD324; }
-.jxNoticeSuccess .jxNoticeItem { background-color: #E6EFC2; color: #264409; border-color: #C6D880; }
+.jxNoticeError .jxNoticeItem {   background-color: #FBE3E4; color: #8a1f11; border-color: #FBC2C4; background-image: url(images/notice_error.png);}
+.jxNoticeWarning .jxNoticeItem { background-color: #FFF6BF; color: #514721; border-color: #FFD324; background-image: url(images/notice_warning.png);}
+.jxNoticeSuccess .jxNoticeItem { background-color: #E6EFC2; color: #264409; border-color: #C6D880; background-image: url(images/notice_success.png);}
 .jxNoticeError .jxNotice {   color: #8a1f11; }
-.JxNoticeWarning .jxNotice { color: #514721; }
+.jxNoticeWarning .jxNotice { color: #514721; }
 .jxNoticeSuccess .jxNotice { color: #264409; }
 
 .jxNoticeClose {
     position: absolute;
-    top: 2px;
-    right: 2px;
+    top: 4px;
+    right: 4px;
     width: 16px;
     height: 16px;
     background-image: url(images/tab_close.png);
