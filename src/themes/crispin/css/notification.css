@@ -37,7 +37,7 @@
 
 .jxNoticeItem {
     position: relative;
-    border: 1px solid #ccc;
+    border: 2px solid #ccc;
     background-color: #f8f8f8;
     margin: 6px 6px 8px 7px;
     background-image: url(images/notice.png);
@@ -54,7 +54,7 @@
     color: #666;
     margin: 0px;
     border: none;
-    padding: 4px 24px 4px 8px; 
+    padding: 6px 26px 6px 10px; 
 }                          
 
 .jxNoticeError .jxNoticeItem {   background-color: #FBE3E4; color: #8a1f11; border-color: #FBC2C4; background-image: url(images/notice_error.png);}
@@ -66,8 +66,8 @@
 
 .jxNoticeClose {
     position: absolute;
-    top: 4px;
-    right: 4px;
+    top: 6px;
+    right: 6px;
     width: 16px;
     height: 16px;
     background-image: url(images/tab_close.png);
