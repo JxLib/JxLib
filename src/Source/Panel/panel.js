@@ -375,7 +375,7 @@ Jx.Panel = new Class({
      * s - {String} the new label
      */
     setLabel: function(s) {
-        this.labelObj.innerHTML = s;
+        this.domLabel.set('html',s);
     },
     /**
      * Method: getLabel
@@ -385,7 +385,7 @@ Jx.Panel = new Class({
      * {String} the label
      */
     getLabel: function() {
-        return this.labelObj.innerHTML;
+        return this.domLabel.get('html');
     },
     /**
      * Method: finalize
