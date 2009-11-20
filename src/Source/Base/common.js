@@ -29,17 +29,17 @@ function() {
 
 // add mutator that sets jxFamily when creating a class so we can check
 // its type
-// Class.Mutators.Family = function(self, name) {
-//     if ($defined(name)) {
-//         self.jxFamily = name;
-//         return self;
-//     }
-//     else {
-//         this.implement({
-//             'jxFamily': self
-//         });
-//     }
-// };
+Class.Mutators.Family = function(self, name) {
+    if ($defined(name)) {
+        self.jxFamily = name;
+        return self;
+    }
+    else if(!$defined(this.prototype.jxFamily)) {
+        this.implement({
+            'jxFamily': self
+        });
+    }
+};
 
 function $unlink(object) {
     if (object && object.jxFamily) {
@@ -278,7 +278,7 @@ Jx.type = function(obj) {
     if (typeof obj == 'undefined') {
         return false;
     }
-    return obj.Family || $type(obj);
+    return obj.jxFamily || $type(obj);
 };
 
 /**
