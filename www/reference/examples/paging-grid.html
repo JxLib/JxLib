@@ -1,0 +1,262 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Jx.Grid Test Page</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<script type="text/javascript" src="../../lib/mootools-core.js"></script>
+<script type="text/javascript" src="../../lib/mootools-more.js"></script>
+<script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
+<script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+var grid;
+var panel;
+var aboutDialog;
+var prelighter;
+var selector;
+var sorter;
+
+window.addEvent('load', function() {
+  
+    drawToolbar();
+    drawGrid();
+    
+    window.addEvent('stylesheetChanged', function() {
+        if (aboutDialog && aboutDialog.chrome) {
+            aboutDialog.close();
+            aboutDialog.chrome.dispose();
+            aboutDialog.chrome = null;                
+        }
+    });
+    
+});
+</script>
+<script id="toolbarScript" type="text/javascript">
+function drawToolbar() {
+    //here we'll make a paging toolbar.
+    var pagingToolbar = new Class({
+
+        Extends: Jx.Toolbar,
+
+        options: {
+            store: null,
+            paginationOptions: {
+                ignoreExpiration: true
+            },
+            parent: 'toolbarArea'
+        },
+
+        init: function () {
+            this.parent();
+            
+            if ($defined(this.options.store)) {
+                this.store = this.options.store;
+            } else {
+                //can't do anything without a store!
+                return;
+            }
+
+            this.strategy = this.store.getStrategy('paginate');
+
+            if (!$defined(this.strategy)) {
+                //it didn't have the strategy so let's add it
+                var full = this.store.getStrategy('full');
+                if (full) { full.deactivate(); }
+                this.strategy = new Jx.Store.Strategy.Paginate(this.options.paginationOptions);
+                this.store.addStrategy(this.strategy);
+            }
+            
+            
+        },
+
+        render: function () {
+            //create the toolbar
+            this.parent();
+            this.add( 
+                new Jx.Button({
+                  id: 'start',
+                  label: '<<',
+                  //image: 'images/asterisk_orange.png',
+                  tooltip: 'jump to first page',
+                  onClick: function() { this.strategy.setPage('first'); }
+                }),
+                new Jx.Button({
+                  id: 'previous',
+                  label: '<',
+                  //image: 'images/asterisk_orange.png',
+                  tooltip: 'previous page',
+                  onClick: function() { this.strategy.setPage('previous'); }
+                }),
+                new Jx.Button({
+                  id: 'next',
+                  label: '>',
+                  //image: 'images/asterisk_orange.png',
+                  tooltip: 'next page',
+                  onClick: function() { this.strategy.setPage('next'); }
+                }),
+                new Jx.Button({
+                  id: 'last',
+                  label: '>>',
+                  //image: 'images/asterisk_orange.png',
+                  tooltip: 'jump to last page',
+                  onClick: function() { this.strategy.setPage('last'); }
+                })
+            );
+        }
+    });
+    var tlb = new pagingToolbar();
+}
+</script>
+<script id="gridScript" type="text/javascript">
+function drawGrid() {
+    //need a much larger data set. also want to set it up to pull via ajax
+    
+    var parser = new Jx.Store.Parser.JSON();
+    var full = new Jx.Store.Strategy.Paginate({
+        ignoreExpiration: true
+    });
+    var protocol = new Jx.Store.Protocol.Ajax({
+
+    });
+    var store = new Jx.Store({
+        columns: [
+            {name: 'header',type: 'alphanumeric'},
+            {name: '2002', type: 'currency'},
+            {name: '2003', type: 'currency'},
+            {name: '2004', type: 'currency'},
+            {name: '2005', type: 'currency'},
+            {name: '2006', type: 'currency'},
+            {name: '2007', type: 'currency'}
+        ],
+        protocol: protocol,
+        strategies: [full],
+        record: Jx.Record
+    });
+    
+  //setup options
+  var options = {
+      parent: 'gridArea',
+      row: {
+          useHeaders: true,
+          alternateRowColors: true,
+          headerField: 'header',
+          rowHeight: 20
+      },
+      columns: {
+          headerRowHeight: 20,
+          useHeaders: true,
+          columns: [{
+              header: null,
+              modelField: 'header',
+              width: 'auto',
+              isEditable: false,
+              isSortable: false,
+              isResizable: true,
+              isHidden: false,
+              cssClass: '',
+              formatter: null,
+              name: 'header',
+              dataType: 'alphanumeric'
+          },{
+              header: '2002',
+              modelField: '2002',
+              width: 'auto',
+              isEditable: true,
+              isSortable: true,
+              isResizable: true,
+              isHidden: false,
+              cssClass: '',
+              formatter: null,
+              name: '2002',
+              dataType: 'currency'
+          },{
+              header: '2003',
+              modelField: '2003',
+              width: 'auto',
+              isEditable: false,
+              isSortable: false,
+              isResizable: true,
+              isHidden: false,
+              cssClass: '',
+              formatter: null,
+              name: '2003',
+              dataType: 'currency'
+          },{
+              header: '2004',
+              modelField: '2004',
+              width: 'auto',
+              isEditable: false,
+              isSortable: false,
+              isResizable: true,
+              isHidden: false,
+              cssClass: '',
+              formatter: null,
+              name: '2004',
+              dataType: 'currency'
+          },{
+              header: '2005',
+              modelField: '2005',
+              width: 'auto',
+              isEditable: false,
+              isSortable: false,
+              isResizable: true,
+              isHidden: false,
+              cssClass: '',
+              formatter: null,
+              name: '2005',
+              dataType: 'currency'
+          },{
+              header: '2006',
+              modelField: '2006',
+              width: 'auto',
+              isEditable: false,
+              isSortable: false,
+              isResizable: true,
+              isHidden: false,
+              cssClass: '',
+              formatter: null,
+              name: '2006',
+              dataType: 'currency'
+          },{
+              header: '2007',
+              modelField: '2007',
+              width: 'auto',
+              isEditable: false,
+              isSortable: false,
+              isResizable: true,
+              isHidden: false,
+              cssClass: '',
+              formatter: null,
+              name: '2007',
+              dataType: 'currency'
+          }
+         ]
+      },
+      model: store
+  };
+  //create grid
+  var grid = new Jx.Grid(options);
+  store.addEvent('storeDataLoaded', function () {
+      grid.render();
+  });
+  store.load();
+  
+  
+  
+}
+</script>
+</head>
+<body>
+
+  <h1>Jx.Grid Examples</h1>
+  <p>API Reference: <a id="grid-js" href="javascript:void();" title="link to API Reference">Jx.Grid</a></p>
+  <p>This example demonstrates some basic and advanced ways of using Jx.Grid.  The actual data comes live from the USGS earthquake site and may take a little while to load - please be patient, its worth the wait!</p>
+  <h2 id="toolbar">Grid Options</h2>
+  <p>There are a number of options for configuring a grid, try them out by using the menus to turn various options on and off.</p>
+  <h2 id="grid">The Grid</h2>
+  <p>The grid itself has a lot of options when you first construct it, for this example most of the options are turned off so we can use the menus to demonstrate the effect of turning them on and off.</p>
+  <p>The grid component uses an architecture that requires a separate object to provide the data to the grid through a specific api.  This object is called the model for the grid.  The grid allows the model to be changed at any time and the grid will redraw itself with the new model's data.</p>
+  <div id="toolbarArea" class="toolbarBox"></div>
+  <div id="gridArea" class="gridBox"></div>
+
+</body>
+</html>

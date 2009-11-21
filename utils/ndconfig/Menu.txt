@@ -164,7 +164,6 @@ Group: Data  {
    File: Store.Protocol  (Data/protocol.js)
    File: Store.Protocol.Ajax  (Data/protocol.ajax.js)
    File: Store.Protocol.Local  (Data/protocol.local.js)
-   File: Store.Remote  (Data/remote.js)
    File: Store.Response  (Data/response.js)
    File: Store.Strategy  (Data/strategy.js)
    File: Store.Strategy.Full  (Data/strategy.full.js)

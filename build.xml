@@ -80,7 +80,7 @@ $Id$
   <property name="dist.home" value="${jxlib.home}/dist"/>
   <property name="deploy.home" value="${jxlib.home}/www"/>
   <property name="docs.home" value="${jxlib.home}/www/reference"/>
-  <property name="vendor.home" value="${jxlib.home}/../vendor"/>
+  <property name="vendor.home" value="${jxlib.home}/vendor"/>
 
 <!-- ==================== External Dependencies =========================== -->
 
