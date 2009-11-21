@@ -1,5 +1,6 @@
-describe('Store without Data',{
+describe('Store without Data, default record and strategy',{
 	before: function(){
+        protocol = new Jx.Store.Protocol.Local();
 		object = new Jx.Store({
 			columns: [{
 			    name: 'col1',
@@ -7,7 +8,8 @@ describe('Store without Data',{
 			},{
 			    name: 'col2',
 			    type: 'alphanumeric'
-			}]
+			}],
+			protocol: protocol
 		});
 	},
 	'count should be null': function(){
@@ -41,27 +43,24 @@ describe('Store without Data',{
 	'previous should return null': function(){
 		value_of(object.previous()).should_be_null();
 	},
-	'isDirty should return null': function(){
-		value_of(object.isDirty()).should_be_null();
-	},
-	'new row with data should be added': function(){
-		object.newRow({col1:'1val1', col2:'1val2' });
+	'new record with data should be added': function(){
+		object.addRecord({col1:'1val1', col2:'1val2' });
 		value_of(object.count()).should_be(1);
 		value_of(object.get('col1')).should_be('1val1');
 	},
-	'new row with no data should be added': function(){
-		object.newRow();
+	'new record with no data should be added': function(){
+		object.addRecord();
 		value_of(object.count()).should_be(1);
 	},
-	'getting column with index': function(){
-		object.newRow({col1:'1val1', col2:'1val2' });
+	'getting column with index after adding new record': function(){
+		object.addRecord({col1:'1val1', col2:'1val2' });
 		value_of(object.get(1)).should_be('1val2');
 	}
 });
 
 
             
-describe('Store with local data',{
+describe('Store with local data, JSON Parser, Local Protocol',{
 	before: function(){
 		var data = [
 	            	{col1:'0col1', col2:'0col2', col3:'0col3', col4:'0col4', col5:'0col5'},
@@ -70,13 +69,59 @@ describe('Store with local data',{
 	            	{col1:'3col1', col2:'3col2', col3:'3col3', col4:'3col4', col5:'3col5'},
 	            	{col1:'4col1', col2:'4col2', col3:'4col3', col4:'4col4', col5:'4col5'}
 	            ];
-		object = new Jx.Store({
-			cols: ['col1','col2','col3','col4','col5']
+		parser = new Jx.Store.Parser.JSON();
+		protocol = new Jx.Store.Protocol.Local(data, {
+		    parser: parser
 		});
-		object.load(data);
+		object = new Jx.Store({
+			cols: [{
+                name: 'col1',
+                type: 'alphanumeric'
+            },{
+                name: 'col2',
+                type: 'alphanumeric'
+            },{
+                name: 'col3',
+                type: 'alphanumeric'
+            },{
+                name: 'col4',
+                type: 'alphanumeric'
+            },{
+                name: 'col5',
+                type: 'alphanumeric'
+            }],
+            protocol: protocol,
+            record: Jx.Record,
+            strategies: [new Jx.Store.Strategy.Full()]
+		});
+		object.load();
 	},
 	'item count should be 5': function(){
 		value_of(object.count()).should_be(5);
-	}
+	},
+	'getPosition should return 0': function(){
+        value_of(object.getPosition()).should_be(0);
+    },
+    'moveTo should return true': function(){
+        value_of(object.moveTo(3)).should_be_true();
+    },
+    'last should return true': function(){
+        value_of(object.last()).should_be_true();
+    },
+    'first should return true': function(){
+        value_of(object.first()).should_be_true();
+    },
+    'next should return true': function(){
+        value_of(object.next()).should_be_true();
+    },
+    'hasNext should return true': function(){
+        value_of(object.hasNext()).should_be_true();
+    },
+    'hasPrevious should return false': function(){
+        value_of(object.hasPrevious()).should_be_false();
+    },
+    'previous should return true': function(){
+        value_of(object.previous()).should_be_true();
+    }
 
 });

@@ -41,13 +41,8 @@
     	"desc": "This group contains components needed to utilize the data store and it's subclasses.",
     	
     	"store": {
-    		"deps" : ["object","sort"],
+    		"deps" : ["object","record"],
     		"desc" : "An implementation of a basic data store."
-    	},
-    	
-    	"remote": {
-    		"deps": ["store","Request.JSON"],
-    		"desc": "A store with the ability to retrieve and save data to a remote server."
     	},
     	
     	"compare": {
@@ -78,7 +73,68 @@
     	"nativesort": {
     	   "deps": ["sort"],
     	   "desc": "An implementation of the Javascript native sorting with the Jx.Sort interface"
-    	}
+    	},
+    	
+    	"response": {
+           "deps": ["store"],
+           "desc": ""
+        },
+        
+    	"protocol": {
+           "deps": ["response","store"],
+           "desc": ""
+        },
+        
+        "protocol.local": {
+           "deps": ["protocol"],
+           "desc": ""
+        },
+        
+        "protocol.ajax": {
+           "deps": ["protocol"],
+           "desc": ""
+        },
+        
+        "strategy": {
+           "deps": ["store"],
+           "desc": ""
+        },
+        
+        "strategy.full": {
+           "deps": ["strategy"],
+           "desc": ""
+        },
+        
+        "strategy.paginate": {
+           "deps": ["strategy"],
+           "desc": ""
+        },
+        
+         "strategy.save": {
+           "deps": ["strategy"],
+           "desc": ""
+        },
+        
+        "strategy.sort": {
+           "deps": ["strategy","sort","compare"],
+           "desc": ""
+        },
+        
+        "parser": {
+           "deps": ["store"],
+           "desc": ""
+        },
+        
+        "parser.json": {
+           "deps": ["parser", "JSON"],
+           "desc": ""
+        },
+        
+        "record": {
+           "deps": ["object"],
+           "desc": ""
+        }
+        
     },
 
     "Button": {

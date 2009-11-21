@@ -1,32 +1,33 @@
 // $Id: $
 /**
- * Class: Jx.Store
- *
+ * Class: Jx.Store 
+ * 
  * Extends: <Jx.Object>
- *
- * This class is the base store. It keeps track of data. It
+ * 
+ * This class is the  store. It keeps track of data. It
  * allows adding, deleting, iterating, sorting etc...
- *
- * Events: onLoadFinished(store) - fired when the store finishes loading the
- * data onLoadError(store,data) - fired when there is an error loading the data
- *
+ * 
+ * For the most part the store is pretty "dumb" meaning it 
+ * starts with very limited functionality. Actually, it can't
+ * even load data by itself. Instead, it needs to have protocols,
+ * strategies, and a record class passed to it that it knows how to use
+ * and can use it.  
+ * 
  * Example:
  * (code)
  * (end)
  *
- * License:
+ * License: 
  * Copyright (c) 2009, Jon Bomgardner.
- *
+ * 
  * This file is licensed under an MIT style license
  */
-
 Jx.Store = new Class({
-
-    Family : "Jx.Store",
-
-    Extends : Jx.Object,
-
-    options : {
+    
+    Family: 'Jx.Store',
+    Extends: Jx.Object,
+    
+    options: {
         /**
          * Option: id
          * the identifier for this store
@@ -34,69 +35,46 @@ Jx.Store = new Class({
         id : null,
         /**
          * Option: columns
-         * an array listing the columns of the store in order of their
-         * appearance in the data object formatted as an object
-         *      {name: 'column name', type: 'column type'}
-         * where type can be one of alphanumeric, numeric, date, boolean,
+         * an array listing the columns of the store in order of their 
+         * appearance in the data object formatted as an object 
+         *      {name: 'column name', type: 'column type'} 
+         * where type can be one of alphanumeric, numeric, date, boolean, 
          * or currency.
          */
-        columns : [],
+        columns : [], 
         /**
-         * Option: defaultSort
-         * The default sorting type, currently set to merge but can be any of the
-         * sorters available
+         * Option: protocol
+         * The protocol to use for communication in this store. The store 
+         * itself doesn't actually use it but it is accessed by the strategies
+         * to do their work. This option is required and the store won't work without it.
          */
-        defaultSort : 'merge',
+        protocol: null,
         /**
-         * Option: separator
-         * The separator to pass to the comparator
-         * constructor (<Jx.Compare>) - defaults to '.'
+         * Option: strategies
+         * This is an array of instantiated strategy objects that will work
+         * on this store. They provide many services such as loading data,
+         * paging data, saving, and sorting (and anything else you may need 
+         * can be written). If none are passed in it will use the default 
+         * Jx.Store.Strategy.Full
          */
-        separator : '.',
+        strategies: null,
         /**
-         * Option: sortCols
-         * An array of columns to sort by arranged in the order you want
-         * them sorted.
+         * Option: record
+         * This is a Jx.Store.Record instance or one of its subclasses. This is the 
+         * class that will be used to hold each individual record in the store.
+         * Don't pass in a instance of the class but rather the class name 
+         * itself. If none is passed in it will default to Jx.Store.Record
          */
-        sortCols : [],
+        record: null,
         /**
-         * Event: onLoadFinished(store)
-         * event for a completed, successful data load
+         * Option: recordOptions
+         * Options to pass to each record as it's created.
          */
-        onLoadFinished : $empty,
-        /**
-         * Event: onLoadError(store,data)
-         * event for an unsuccessful load
-         */
-        onLoadError : $empty,
-        /**
-         * Event: onColumnChanged
-         * event fired for changes to a column
-         */
-        onColumnChanged : $empty,
-        /**
-         * Option: paginate
-         * Set to true to enable pagination
-         */
-        paginate: false,
-        /**
-         * Option: pageSize
-         * Sets the size of each page. Only used if paginate is true.
-         */
-        pageSize: 0
-
+        recordOptions: {
+            primaryKey: null
+        }
     },
-
-    /**
-     * Property: sorters
-     * an object listing the different sorters available
-     */
-    sorters : {
-        quick : "Quicksort",
-        merge : "Mergesort",
-        heap : "Heapsort",
-        'native' : "Nativesort"
-    },
+    
     /**
      * Property: data
      * Holds the data for this store
@@ -109,16 +87,6 @@ Jx.Store = new Class({
      */
     index : 0,
     /**
-     * Property: pageIndex
-     * Holds the current page index
-     */
-    pageIndex: 0,
-    /**
-     * Property: dirty
-     * Tells us if the store is dirty
-     */
-    dirty : false,
-    /**
      * Property: id
      * The id of this store.
      */
@@ -128,34 +96,113 @@ Jx.Store = new Class({
      * Tells whether the store has been loaded or not
      */
     loaded: false,
-
+    /**
+     * Property: ready
+     * Used to determine if the store is completely initialized.
+     */
+    ready: false,
+    
+    init: function () {
+        this.parent();
+        
+        if ($defined(this.options.id)) {
+            this.id = this.options.id;
+        } 
+        
+        if (!$defined(this.options.protocol)) {
+            this.ready = false;
+            return;
+        } else {
+            this.protocol = this.options.protocol;
+        }
+        
+        this.strategies = new Hash();
+        
+        if ($defined(this.options.strategies)) {
+            this.options.strategies.each(function(strategy){
+                this.addStrategy(strategy);
+            },this);
+        } else {
+            var strategy = new Jx.Store.Strategy.Full();
+            this.addStrategy(strategy);
+        }
+        
+        if ($defined(this.options.record)) {
+            this.record = this.options.record;
+        } else {
+            this.record = Jx.Record;
+        }
+        
+        
+    },
+    
+    cleanup: function () {
+        this.strategies.each(function(strategy){
+            strategy.destroy();
+        },this);
+        this.strategies = null;
+        this.protocol.destroy();
+        this.protocol = null;
+        this.record = null;
+    },
+    /**
+     * APIMethod: getStrategy
+     * returns the named strategy if it is present, null otherwise.
+     * 
+     * Parameters:
+     * name - the name of the strategy we're looking for
+     */
+    getStrategy: function (name) {
+        if (this.strategies.has(name)) {
+            return this.strategies.get(name);
+        }
+        return null;
+    },
+    /**
+     * APIMethod: addStrategy
+     * Allows the addition of strategies after store initialization. Handy to 
+     * have if some other class needs a strategy that is not present.
+     * 
+     * Parameters:
+     * strategy - the strategy to add to the store
+     */
+    addStrategy: function (strategy) {
+        this.strategies.set(strategy.name, strategy);
+        strategy.setStore(this);
+        strategy.activate();
+    },
     /**
      * APIMethod: load
-     * Loads data into the store.
-     *
+     * used to load the store. It simply fires an event that the strategies are
+     * listening for.
+     * 
      * Parameters:
-     * data - the data to load
+     * params - a hash of parameters passed to the strategy for determining what records
+     *          to load.
      */
-    load : function (data) {
-        if ($defined(data)) {
-            this.loaded = false;
-            this.processData(data);
-
-        } else {
-            this.loaded = false;
+    load: function (params) {
+        this.fireEvent('storeLoad', params);
+    },
+    /**
+     * APIMethod: empty
+     * Clears the store of data
+     */
+    empty: function () {
+        if ($defined(this.data)) {
+            this.data.empty();
         }
     },
-
+    
     /**
-     * APIMethod: hasNext
+     * APIMethod: hasNext 
      * Determines if there are more records past the current
      * one.
-     *
+     * 
      * Returns: true | false (Null if there's a problem)
      */
     hasNext : function () {
         if ($defined(this.data)) {
-            if (this.index < this.data[this.pageIndex].length - 1) {
+            if (this.index < this.data.length - 1) {
                 return true;
             } else {
                 return false;
@@ -166,10 +213,10 @@ Jx.Store = new Class({
     },
 
     /**
-     * APIMethod: hasPrevious
+     * APIMethod: hasPrevious 
      * Determines if there are records before the current
      * one.
-     *
+     * 
      * Returns: true | false
      */
     hasPrevious : function () {
@@ -185,40 +232,41 @@ Jx.Store = new Class({
     },
 
     /**
-     * APIMethod: valid
+     * APIMethod: valid 
      * Tells us if the current index has any data (i.e. that the
      * index is valid).
-     *
+     * 
      * Returns: true | false
      */
     valid : function () {
-        return ($defined(this.data[this.pageIndex][this.index]));
+        return ($defined(this.data[this.index]));
     },
 
     /**
-     * APIMethod: next
+     * APIMethod: next 
      * Moves the store to the next record
-     *
+     * 
      * Returns: nothing | null if error
      */
     next : function () {
         if ($defined(this.data)) {
             this.index++;
-            if (this.index === this.data[this.pageIndex].length) {
-                this.index = this.data[this.pageIndex].length - 1;
+            if (this.index === this.data.length) {
+                this.index = this.data.length - 1;
             }
             this.fireEvent('storeMove', this);
+            return true;
         } else {
             return null;
         }
     },
 
     /**
-     * APIMethod: previous
+     * APIMethod: previous 
      * moves the store to the previous record
-     *
+     * 
      * Returns: nothing | null if error
-     *
+     * 
      */
     previous : function () {
         if ($defined(this.data)) {
@@ -227,66 +275,69 @@ Jx.Store = new Class({
                 this.index = 0;
             }
             this.fireEvent('storeMove', this);
+            return true;
         } else {
             return null;
         }
     },
 
     /**
-     * APIMethod: first
+     * APIMethod: first 
      * Moves the store to the first record
-     *
+     * 
      * Returns: nothing | null if error
-     *
+     * 
      */
     first : function () {
         if ($defined(this.data)) {
             this.index = 0;
             this.fireEvent('storeMove', this);
+            return true;
         } else {
             return null;
         }
     },
 
     /**
-     * APIMethod: last
+     * APIMethod: last 
      * Moves to the last record in the store
-     *
+     * 
      * Returns: nothing | null if error
      */
     last : function () {
         if ($defined(this.data)) {
-            this.index = this.data[this.pageIndex].length - 1;
+            this.index = this.data.length - 1;
             this.fireEvent('storeMove', this);
+            return true;
         } else {
             return null;
         }
     },
 
     /**
-     * APIMethod: count
+     * APIMethod: count 
      * Returns the number of records in the store
-     *
+     * 
      * Returns: an integer indicating the number of records in the store or null
      * if there's an error
      */
     count : function () {
         if ($defined(this.data)) {
-            return this.data[this.pageIndex].length;
+            return this.data.length;
         } else {
             return null;
         }
     },
 
     /**
-     * APIMethod: getPosition
+     * APIMethod: getPosition 
      * Tells us where we are in the store
-     *
+     * 
      * Returns: an integer indicating the position in the store or null if
      * there's an error
      */
     getPosition : function () {
-        if ($defined(this.data[this.pageIndex])) {
+        if ($defined(this.data)) {
             return this.index;
         } else {
             return null;
@@ -294,16 +345,16 @@ Jx.Store = new Class({
     },
 
     /**
-     * APIMethod: moveTo
+     * APIMethod: moveTo 
      * Moves the index to a specific record in the store
-     *
-     * Parameters:
+     * 
+     * Parameters: 
      * index - the record to move to
-     *
+     * 
      * Returns: true - if successful false - if not successful null - on error
      */
     moveTo : function (index) {
-        if ($defined(this.data) && index >= 0 && index < this.data[this.pageIndex].length) {
+        if ($defined(this.data) && index >= 0 && index < this.data.length) {
             this.index = index;
             this.fireEvent('storeMove', this);
             return true;
@@ -313,384 +364,204 @@ Jx.Store = new Class({
             return false;
         }
     },
-
+    /**
+     * APIMethod: each
+     * allows iteration through the store's records.
+     * 
+     * Parameters:
+     * fn - the function to execute for each record
+     * bind - the scope of the function
+     * ignoreDeleted - flag that tells the function whether to ignore records
+     *                  marked as deleted.
+     */
+    each: function (fn, bind, ignoreDeleted) {
+        var data;
+        if (ignoreDeleted) {
+            data = this.data.filter(function (record) {
+                return record.state !== Jx.Record.DELETE;
+            }, this);
+        } else {
+            data = this.data;
+        }
+        for (var i = 0, l = data.length; i < l; i++) {
+            fn.call(bind, data[i], i, data);
+        }
+    },
     /**
      * APIMethod: get
-     * Retrieves the data for a specific column of the current
-     * record
-     *
+     * gets the data for the specified column
+     * 
      * Parameters:
-     * col - the column to get (either an integer or a string)
-     *
-     * Returns: the data in the column or null if the column doesn't exist
+     * column - indicator of the column to set. Either a string (the name of 
+     *          the column) or an integer (the index of the column in the 
+     *          record).
+     * index - the index of the record in the internal array. Optional.
+     *          defaults to the current index.
      */
-    get : function (col) {
-        if ($defined(this.data)) {
-            col = this.resolveCol(col);
-            var h = this.data[this.pageIndex][this.index];
-            if (h.has(col.name)) {
-                return h.get(col.name);
-            } else {
-                return null;
-            }
-        } else {
-            return null;
+    get: function (column, index) {
+        if (!$defined(index)) {
+            index = this.index;
         }
+        return this.data[index].get(column);
     },
-
     /**
      * APIMethod: set
-     * Puts a value into a specific column of the current record and
-     * sets the dirty flag.
-     *
+     * Sets the passed data for a particular column on the indicated record.
+     * 
      * Parameters:
-     * column - the column to put the value in value - the data to put
-     * into the column
-     *
-     * returns: nothing | null if an error
+     * column - indicator of the column to set. Either a string (the name of 
+     *          the column) or an integer (the index of the column in the 
+     *          record).
+     * data - the data to set in the column of the record
+     * index - the index of the record in the internal array. Optional.
+     *          defaults to the current index.
      */
-    set : function (column, value) {
-        if ($defined(this.data)) {
-            // set the column to the value and set the dirty flag
-
-            if (Jx.type(column) === 'number' || Jx.type(column) === 'string') {
-                column = this.resolveCol(column);
-            }
-
-            var oldValue = this.data[this.pageIndex][this.index].get(column.name);
-            this.data[this.pageIndex][this.index].set(column.name, value);
-            this.data[this.pageIndex][this.index].set('dirty', true);
-            this.fireEvent('columnChanged', [ this.index, column, oldValue, value ]);
-        } else {
-            return null;
+    set: function (column, data, index) {
+        if (!$defined(index)) {
+            index = this.index;
         }
+        return this.data[index].set(column, data);
     },
-
     /**
      * APIMethod: refresh
-     * Sets new data into the store
-     *
-     * Parameters:
-     * data - the data to set
-     * reset - flag as to whether to reset the index to 0
-     *
-     * Returns: nothing or null if no data is passed
+     * Simply fires the storeRefresh event for strategies to listen for.
      */
-    refresh : function (data, reset) {
-        if ($defined(data)) {
-            this.processData(data);
-            if (reset) {
-                this.index = 0;
-            }
-        } else {
-            return null;
-        }
+    refresh: function () {
+        this.fireEvent('storeRefresh', this);
     },
-
     /**
-     * APIMethod: isDirty
-     * Tells us if the store is dirty and needs to be saved
-     *
-     * Returns: true | false | null on error
-     */
-    isDirty : function () {
-        if ($defined(this.data)) {
-            var dirty = false;
-            this.data.each(function (row) {
-                if (this.isRowDirty(row)) {
-                    dirty = true;
-                    return;
-                }
-            }, this);
-            return dirty;
-        } else {
-            return null;
-        }
-    },
-
-    /**
-     * APIMethod: newRow
-     * Adds a new row to the store. It can either be empty or made
-     * from an array of data
-     *
+     * APIMethod: addRecord
+     * Adds given data to the end of the current store.
+     * 
      * Parameters:
-     * data - data to use in the new row (optional)
+     * data - The data to use in creating a record. This should be in whatever
+     *        form Jx.Store.Record, or the current subclass, needs it in.
+     * insert - flag whether this is an "insert"
      */
-    newRow : function (data) {
-        // check if array is not defined
-        if (!$defined(this.data)) {
-            // if not, then create a new array
-            this.data = [];
-            this.data[this.pageIndex] = [];
-        }
-
-        var d;
-
-        if (!$defined(data)) {
-            d = new Hash();
-        } else {
-            var t = Jx.type(data);
-            switch (t) {
-            case 'hash':
-                d = data;
-                break;
-            case 'object':
-            default:
-                d = new Hash(data);
-                break;
-            }
-        }
-        d.set('dirty', true);
-        this.data[this.pageIndex][this.data[this.pageIndex].length] = d;
-        this.index = this.data[this.pageIndex].length - 1;
-        this.fireEvent('newrow', this);
-    },
-
-    /**
-     * APIMethod: sort
-     * Runs the sorting and grouping
-     *
-     * Parameters:
-     * cols - Optional. An array of columns to sort/group by
-     * sort - the sort type (quick,heap,merge,native),defaults to options.defaultSort
-     * dir - the direction to sort. Set to "desc" for descending,
-     * anything else implies ascending (even null).
-     */
-    sort : function (cols, sort, dir) {
-
-        if (this.count()) {
-
-            this.fireEvent('sortStart', this);
-
-            var c;
-            if ($defined(cols) && Jx.type(cols) === 'array') {
-                c = this.options.sortCols = cols;
-            } else if ($defined(cols) && Jx.type(cols) === 'string') {
-                this.options.sortCols = [];
-                this.options.sortCols.push(cols);
-                c = this.options.sortCols;
-            } else if ($defined(this.options.sortCols)) {
-                c = this.options.sortCols;
-            } else {
-                return null;
-            }
-
-            this.sortType = sort;
-            // first sort on the first array item
-            this.data[this.pageIndex] = this.doSort(c[0], sort, this.data[this.pageIndex], true);
-
-            if (c.length > 1) {
-                this.data[this.pageIndex] = this.subSort(this.data[this.pageIndex], 0, 1);
-            }
-
-            if ($defined(dir) && dir === 'desc') {
-                this.data[this.pageIndex].reverse();
-            }
-
-            this.fireEvent('sortFinished', this);
-        }
-    },
-
-    /**
-     * Method: subSort
-     * Does the actual group sorting.
-     *
-     * Parameters:
-     * data - what to sort
-     * groupByCol - the column that determines the groups
-     * sortCol - the column to sort by
-     *
-     * returns: the result of the grouping/sorting
-     */
-    subSort : function (data, groupByCol, sortByCol) {
-
-        if (sortByCol >= this.options.sortCols.length) {
-            return data;
-        }
-        /**
-         *  loop through the data array and create another array with just the
-         *  items for each group. Sort that sub-array and then concat it
-         *  to the result.
-         */
-        var result = [];
-        var sub = [];
-
-        var groupCol = this.options.sortCols[groupByCol];
-        var sortCol = this.options.sortCols[sortByCol];
-
-        var group = data[0].get(groupCol);
-        this.sorter.setColumn(sortCol);
-        for (var i = 0; i < data.length; i++) {
-            if (group === (data[i]).get(groupCol)) {
-                sub.push(data[i]);
-            } else {
-                // sort
-
-                if (sub.length > 1) {
-                    result = result.concat(this.subSort(this.doSort(sortCol, this.sortType, sub, true), groupByCol + 1, sortByCol + 1));
-                } else {
-                    result = result.concat(sub);
-                }
-
-                // change group
-                group = (data[i]).get(groupCol);
-                // clear sub
-                sub.empty();
-                // add to sub
-                sub.push(data[i]);
-            }
-        }
-
-        if (sub.length > 1) {
-            this.sorter.setData(sub);
-            result = result.concat(this.subSort(this.doSort(sortCol, this.sortType, sub, true), groupByCol + 1, sortByCol + 1));
-        } else {
-            result = result.concat(sub);
-        }
-
-        //this.data = result;
-
-        return result;
-    },
-
-    /**
-     * Method: doSort
-     * Called to change the sorting of the data
-     *
-     * Parameters:
-     * col - the column to sort by
-     * sort - the kind of sort to use (see list above)
-     * data - the data to sort (leave blank or pass null to sort data
-     * existing in the store)
-     * ret - flag that tells the function whether to pass
-     * back the sorted data or store it in the store
-     * options - any options needed to pass to the sorter upon creation
-     *
-     * returns: nothing or the data depending on the value of ret parameter.
-     */
-    doSort : function (col, sort, data, ret, options) {
-        options = {} || options;
-
-        sort = (sort) ? this.sorters[sort] : this.sorters[this.options.defaultSort];
-        data = data ? data : this.data;
-        ret = ret ? true : false;
-
-        if (!$defined(this.comparator)) {
-            this.comparator = new Jx.Compare({
-                separator : this.options.separator
-            });
-        }
-
-        this.col = col = this.resolveCol(col);
-
-        var fn = this.comparator[col.type].bind(this.comparator);
-        if (!$defined(this.sorter)) {
-            this.sorter = new Jx.Sort[sort](data, fn, col.name, options);
-        } else {
-            this.sorter.setComparator(fn);
-            this.sorter.setColumn(col.name);
-            this.sorter.setData(data);
-        }
-        var d = this.sorter.sort();
-
-        if (ret) {
-            return d;
-        } else {
-            this.data = d;
-        }
-    },
-
-    /**
-     * Method: isRowDirty
-     * Helps determine if a row is dirty
-     *
-     * Parameters:
-     * row - the row to check
-     *
-     * Returns: true | false
-     */
-    isRowDirty : function (row) {
-        if (row.has('dirty')) {
-            return row.get('dirty');
-        } else {
-            return false;
-        }
-    },
-
-    /**
-     * Method: resolveCol
-     * Determines which array index this column refers to
-     *
-     * Parameters:
-     * col - a number referencing a column in the store
-     *
-     * Returns: the name of the column
-     */
-    resolveCol : function (col) {
-        var t = Jx.type(col);
-        if (t === 'number') {
-            col = this.options.columns[col];
-        } else if (t === 'string') {
-            this.options.columns.each(function (column) {
-                if (column.name === col) {
-                    col = column;
-                }
-            }, this);
-        }
-        return col;
-    },
-
-    /**
-     * Method: processData
-     * Processes the data passed into the function into the store.
-     *
-     * Parameters:
-     * data - the data to put into the store
-     */
-    processData : function (data) {
-        this.loaded = false;
-        this.fireEvent('preload', [ this, data ]);
-
+    addRecord: function (data, insert) {
         if (!$defined(this.data)) {
             this.data = [];
-            this.data[this.pageIndex] = [];
         }
-
-        if ($defined(data)) {
-            this.data[this.pageIndex].empty();
-            var type = Jx.type(data);
-            // is this an array?
-            if (type === 'array') {
-                if (this.options.paginate) {
-                    var i = 1;
-                    var p = 0;
-                    data.each(function (item) {
-                        this.data[p].include(new Hash(item));
-                        i++;
-                        if (i === this.options.pageSize) {
-                            i = 1;
-                            p++;
-                            this.data[p] = [];
-                        }
-                    }, this);
-                } else {
-                    data.each(function (item, index) {
-                        this.data[this.pageIndex].include(new Hash(item));
-                    }, this);
-                }
-
-                this.loaded = true;
-                this.fireEvent('loadFinished', this);
-            } else {
-                this.fireEvent('loadError', [this, data]);
-            }
-
+        var record;
+        if (data instanceof Jx.Record) {
+            record = data;
         } else {
-            this.loaded = false;
-            this.fireEvent('loadError', [ this, data ]);
+            record = new (this.record)(this, this.options.columns, data, this.options.recordOptions);
         }
+        if (insert) {
+            record.state = Jx.Record.INSERT;
+        }
+        this.data.push(record);
+        this.fireEvent('storeRecordAdded', [record, this]);
     },
-
+    /**
+     * APIMethod: addRecords
+     * Used to add multiple records to the store at one time.
+     * 
+     * Parameters:
+     * data - an array of data to add.
+     */
+    addRecords: function (data) {
+        var def = $defined(data);
+        var type = Jx.type(data);
+        if (def && type === 'array') {
+            this.fireEvent('storeBeginAddRecords', this);
+            data.each(function(d){
+                this.addRecord(d);
+            },this);
+            this.fireEvent('storeEndAddRecords', this);
+            return true;
+        }
+        return false;
+    },
+    
+    /**
+     * APIMethod: getRecord
+     * Returns the record at the given index or the current store index
+     * 
+     * Parameters:
+     * index - the index from which to return the record. Optional. Defaults to
+     *          the current store index
+     */
+    getRecord: function (index) {
+        if (!$defined(index)) {
+            index = this.index;
+        }
+        
+        if (Jx.type(index) === 'number') {        
+            if ($defined(this.data) && $defined(this.data[index])) {
+                return this.data[index];
+            }
+        } else {
+            var r;
+            this.data.each(function(record){
+                if (record === index) {
+                    r = record;
+                }
+            },this);
+            return r;
+        }
+        return null;
+    },
+    /**
+     * APIMethod: replaceRecord
+     * Replaces the record at an existing index with a new record containing
+     * the passed in data.
+     * 
+     * Parameters:
+     * data - the data to use in creating the new record
+     * index - the index at which to place the new record. Optional. 
+     *          defaults to the current store index.
+     */
+    replace: function(data, index) {
+        if ($defined(data)) {
+            if (!$defined(index)) {
+                index = this.index;
+            }
+            var record = new this.record(this.options.columns,data);
+            var oldRecord = this.data[index];
+            this.data[index] = record;
+            this.fireEvent('storeRecordReplaced', [oldRecord, record]);
+            return true;
+        } 
+        return false;
+    },
+    /**
+     * APIMethod: deleteRecord
+     * Marks a record for deletion and removes it from the regular array of
+     * records. It adds it to a special holding array so it can be disposed 
+     * of later.
+     * 
+     * Parameters:
+     * index - the index at which to place the new record. Optional. 
+     *          defaults to the current store index.
+     */
+    deleteRecord: function(index) {
+        if (!$defined(index)) {
+            index = this.index;
+        }
+        var record = this.data[index];
+        record.state = Jx.Record.DELETE;
+        // Set to Null or slice it out and compact the array???
+        this.data[index] = null;
+        if (!$defined(this.deleted)) {
+            this.deleted = [];
+        }
+        this.deleted.push(record);
+        this.fireEvent('storeRecordDeleted', [record, this]);
+    },
+    /**
+     * APIMethod: insertRecord
+     * Shortcut to addRecord which facilitates marking a record as inserted.
+     * 
+     * Paremeters:
+     * data - the data to use in creating this inserted record. Should be in
+     *          whatever form the current implementation of Jx.Record needs
+     */
+    insertRecord: function (data) {
+        this.addRecord(data, true);
+    },
+    
     /**
      * APIMethod: getColumns
      * Allows retrieving the columns array
@@ -698,62 +569,36 @@ Jx.Store = new Class({
     getColumns: function () {
         return this.options.columns;
     },
-
+    
     /**
      * APIMethod: findByColumn
      * Used to find a specific record by the value in a specific column. This
      * is particularly useful for finding records by a unique id column. The search
      * will stop on the first instance of the value
-     *
+     * 
      * Parameters:
-     * column - the name of the column to search by
+     * column - the name (or index) of the column to search by
      * value - the value to look for
-     * inPage - flag telling method whether to search only in the current page.
-     *          Defaults to true.
      */
-    findByColumn: function (column, value, inPage) {
-
-        inPage = $defined(inPage) ? inPage : true;
-
-        if (!$defined(this.comparator)) {
-            this.comparator = new Jx.Compare({
-                separator : this.options.separator
-            });
+    findByColumn: function (column, value) {
+        if (typeof StopIteration === "undefined") {
+            StopIteration = new Error("StopIteration");
         }
 
-        column = this.resolveCol(column);
-
-        var fn = this.comparator[column.type].bind(this.comparator);
-
-
-        var i = 0;
-        var index = null;
-        if (inPage) {
-            this.data[this.pageIndex].each(function (record) {
-                if (fn(record.get(column.name), value) === 0) {
-                    index = i;
+        var index;
+        try {
+            this.data.each(function(record, idx){
+                if (record.equals(column, value)) {
+                    index = idx;
+                    throw StopIteration;
                 }
-                i++;
-            }, this);
-        } else {
-            this.data.each(function (page) {
-                page.each(function (record) {
-                    if (fn(record.get(column.name), value) === 0) {
-                        index = i;
-                    }
-                    i++;
-                }, this);
-            }, this);
+            },this);
+        } catch (error) {
+            if (error !== StopIteration) {
+                throw error;
+            }
+            return index;
         }
-        return index;
-    },
-
-    /**
-     * APIMethod: getRowObject
-     * Allows the user to get all of the data for the current row as an object.
-     *
-     */
-    getRowObject: function () {
-        return this.data[this.pageIndex][this.index].getClean();
+        return null;
     }
 });

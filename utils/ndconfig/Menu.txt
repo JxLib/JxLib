@@ -152,13 +152,25 @@ Group: Formatter  {
 Group: Data  {
 
    File: Compare  (Data/compare.js)
+   File: record  (Data/record.js)
    File: Sort Base class for all of the sorting algorithm classes.  (Data/sort.js)
    File: Sort.Heapsort  (Data/heapsort.js)
    File: Sort.Mergesort  (Data/mergesort.js)
    File: Sort.Nativesort  (Data/nativesort.js)
    File: Sort.Quicksort  (Data/quicksort.js)
    File: Store  (Data/store.js)
+   File: Store.Parser  (Data/parser.js)
+   File: Store.Parser.JSON  (Data/parser.json.js)
+   File: Store.Protocol  (Data/protocol.js)
+   File: Store.Protocol.Ajax  (Data/protocol.ajax.js)
+   File: Store.Protocol.Local  (Data/protocol.local.js)
    File: Store.Remote  (Data/remote.js)
+   File: Store.Response  (Data/response.js)
+   File: Store.Strategy  (Data/strategy.js)
+   File: Store.Strategy.Full  (Data/strategy.full.js)
+   File: Store.Strategy.Paginat  (Data/strategy.paginate.js)
+   File: Store.Strategy.Save  (Data/strategy.save.js)
+   File: Store.Strategy.Sort  (Data/strategy.sort.js)
    }  # Group: Data
 
 Group: Form  {

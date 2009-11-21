@@ -30,6 +30,7 @@
  * gridCellEnter(cell, list) - called when the mouse enters a cell
  * gridCellLeave(cell, list) - called when the mouse leaves a cell
  * gridCellSelect(cell) - called when a cell is clicked
+ * gridMouseLeave() - called when the mouse leaves the grid at any point.
  *
  *
  * License:
@@ -131,9 +132,9 @@ Jx.Grid = new Class({
         if ($defined(this.options.model)
                 && this.options.model instanceof Jx.Store) {
             this.model = this.options.model;
-            this.model.addEvent('columnChanged', this.modelChanged
+            this.model.addEvent('storeColumnChanged', this.modelChanged
                     .bind(this));
-            this.model.addEvent('sortFinished', this.render.bind(this));
+            this.model.addEvent('storeSortFinished', this.render.bind(this));
         }
 
         if ($defined(this.options.columns)) {
@@ -166,6 +167,11 @@ Jx.Grid = new Class({
         var l = new Jx.Layout(this.domObj, {
             onSizeChange : this.resize.bind(this)
         });
+        
+        //we need to know if the mouse leaves the grid so we can turn off prelighters and the such
+        this.domObj.addEvent('mouseleave',function(){
+            this.fireEvent('gridMouseLeave');
+        }.bind(this));
 
         if (this.options.parent) {
             this.addTo(this.options.parent);
@@ -362,7 +368,7 @@ Jx.Grid = new Class({
 
         this.fireEvent('beginCreateGrid', this);
 
-        if (this.model) {
+        if (this.model && this.model.loaded) {
             var model = this.model;
             var nColumns = this.columns.getColumnCount();
             var nRows = model.count();
@@ -465,9 +471,12 @@ Jx.Grid = new Class({
 
             Jx.Styles.enableStyleSheet(this.styleSheet);
             this.columns.createRules(this.styleSheet, "."+this.uniqueId);
+            this.domObj.resize();
+            this.fireEvent('doneCreateGrid', this);
+        } else {
+            this.model.load();
         }
-        this.domObj.resize();
-        this.fireEvent('doneCreateGrid', this);
+        
     },
 
     /**

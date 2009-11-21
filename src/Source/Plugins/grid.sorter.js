@@ -97,8 +97,8 @@ Jx.Plugin.Grid.Sorter = new Class({
                 //we will listen for the grid's doneCreateGrid event to add the header
                 this.grid.addEvent('doneCreateGrid', this.bound.addHeaderClass);
                 //sort the store
-                var model = this.grid.getModel();
-                model.sort(this.current.name, null, this.direction);
+                var strategy = this.grid.getModel().getStrategy('sort');
+                strategy.sort(this.current.name, null, this.direction);
             }
 
         }

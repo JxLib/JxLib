@@ -81,6 +81,51 @@ Jx.Plugin.Grid.Selector = new Class({
         this.grid = null;
     },
     /**
+     * APIMethod: activate
+     * Allows programatic access to turning selections on.
+     * 
+     * Parameters:
+     * opt - the option to turn on. One of 'cell', 'column', or 'row'
+     */
+    activate: function (opt) {
+        this.options[opt] = true;
+        if (opt === 'cell') {
+            this.oldSelectionClass = this.grid.selection.options.selectedClass;
+            this.grid.selection.options.selectClass = "jxGridCellSelected";
+        }
+    },
+    /**
+     * APIMethod: deactivate
+     * Allows programatic access to turning selections off.
+     * 
+     * Parameters:
+     * opt - the option to turn off. One of 'cell', 'column', or 'row'
+     */
+    deactivate: function (opt) {
+        this.options[opt] = false;
+        if (opt === 'cell') {
+            this.grid.selection.selected().each(function(cell){
+                this.grid.selection.unselect(cell);
+            },this);
+            this.grid.selection.options.selectClass = this.oldSelectionClass;
+            
+        } else if (opt === 'row') {
+            this.selectedRow.removeClass('jxGridRowSelected');
+            this.selectedRow = null;
+            this.selectedRowHead.removeClass('jxGridRowHeaderSelected');
+            this.selectedRowHead = null;
+        } else {
+            if ($defined(this.selectedCol)) {
+                for (var i = 0; i < this.grid.gridTable.rows.length; i++) {
+                    this.grid.gridTable.rows[i].cells[this.selectedCol].removeClass('jxGridColumnSelected');
+                }
+            }
+            this.selectedColHead.removeClass('jxGridColumnHeaderSelected');
+            this.selectedColHead = null;
+            this.selectedCol = null;
+        }
+    },
+    /**
      * Method: select
      * dispatches the grid click to the various selection methods
      */

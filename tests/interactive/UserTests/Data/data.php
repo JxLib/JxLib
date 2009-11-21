@@ -2,19 +2,19 @@
 
 header('Content-type:application/json');
 $obj = new stdClass();
-$obj->success = true;
 //$obj->requestId = $_REQUEST['requestId'];
-$obj->data = new stdClass();
-$obj->data->columns = array();
+$obj->meta = new stdClass();
+$obj->meta->columns = array();
+$obj->meta->success = true;
 
 for ($x = 1; $x <= 10; $x++){
     $col = new stdClass();
     $col->name = 'col'.$x;
     $col->type = 'alphanumeric';
-    $obj->data->columns[] = $col;
+    $obj->meta->columns[] = $col;
 }
 
-$obj->data->data = array();
+$obj->data = array();
 
 for ($x = 1; $x <= 10; $x++){
 	$obj2 = new stdClass();
@@ -22,7 +22,7 @@ for ($x = 1; $x <= 10; $x++){
 		$col = 'col'.$i;
 		$obj2->$col = "$x.value.$i";
 	}
-	$obj->data->data[] = $obj2;
+	$obj->data[] = $obj2;
 }
 
 echo json_encode($obj);

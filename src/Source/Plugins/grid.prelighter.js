@@ -64,6 +64,7 @@ Jx.Plugin.Grid.Prelighter = new Class({
         this.parent();
         this.bound.lighton = this.lighton.bind(this);
         this.bound.lightoff = this.lightoff.bind(this);
+        this.bound.mouseleave = this.mouseleave.bind(this);
     },
     /**
      * APIMethod: attach
@@ -76,6 +77,7 @@ Jx.Plugin.Grid.Prelighter = new Class({
         this.grid = grid;
         this.grid.addEvent('gridCellEnter', this.bound.lighton);
         this.grid.addEvent('gridCellLeave', this.bound.lightoff);
+        this.grid.addEvent('gridMouseLeave', this.bound.mouseleave);
     },
     /**
      * APIMethod: detach
@@ -84,8 +86,29 @@ Jx.Plugin.Grid.Prelighter = new Class({
         if (this.grid) {
             this.grid.removeEvent('gridCellEnter', this.bound.lighton);
             this.grid.removeEvent('gridCellLeave', this.bound.lightoff);
+            this.grid.removeEvent('gridMouseLeave', this.bound.mouseleave);
         }
         this.grid = null;
+    },
+    /**
+     * APIMethod: activate
+     * Allows programatic access to turning prelighting on.
+     * 
+     * Parameters:
+     * opt - the option to turn on. One of 'cell', 'row', 'rowHeader', 'column', or 'columnHeader'
+     */
+    activate: function (opt) {
+        this.options[opt] = true;
+    },
+    /**
+     * APIMethod: deactivate
+     * Allows programatic access to turning prelighting off.
+     * 
+     * Parameters:
+     * opt - the option to turn off. One of 'cell', 'row', 'rowHeader', 'column', or 'columnHeader'
+     */
+    deactivate: function (opt) {
+        this.options[opt] = false;
     },
     /**
      * Method: lighton
@@ -228,6 +251,27 @@ Jx.Plugin.Grid.Prelighter = new Class({
             if (this.prelitCell) {
                 this.prelitCell.addClass('jxGridCellPrelight');
             }
+        }
+    },
+    
+    mouseleave: function() {
+        //turn off all prelights when the mouse leaves the grid
+        if ($defined(this.prelitCell)) {
+            this.prelitCell.removeClass('jxGridCellPrelight');
+        }
+        if ($defined(this.prelitColumn)) {
+            for (var i = 0; i < this.grid.gridTable.rows.length; i++) {
+                this.grid.gridTable.rows[i].cells[this.prelitColumn].removeClass('jxGridColumnPrelight');
+            }
+        }
+        if ($defined(this.prelitRow)) {
+            this.prelitRow.removeClass('jxGridRowPrelight');
+        }
+        if ($defined(this.prelitColumnHeader)) {
+            this.prelitColumnHeader.removeClass('jxGridColumnHeaderPrelight');
+        }
+        if ($defined(this.prelitRowHeader)) {
+            this.prelitRowHeader.removeClass('jxGridRowHeaderPrelight');
         }
     }
 });

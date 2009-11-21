@@ -7,7 +7,7 @@
     	"button": ["all"]
     },
     "Data": {
-        "remote": ["all"]
+        "protocol.ajax": ["all"]
     },
     "Grid": {
         "grid": ["basic","headers","formatters","prelighter","selector","sorter"]
