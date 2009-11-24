@@ -28,9 +28,11 @@ function drawBasicNotifier() {
     fieldsetClass: 'jxFormInlineblock'
   }).addTo(form);
   
-  var notifier = new Jx.Notifier.Float({
-    //parent: fieldSet1
+  var notifier = new Jx.Notifier({
+    parent: fieldSet1
   });
+
+  var flotifier = new Jx.Notifier.Float({});
 
   // var notifier = new Jx.Notifier.Float();
 
@@ -44,8 +46,8 @@ function drawBasicNotifier() {
   }).addTo(fieldSet1);
 
   new Jx.Field.Button({
-    buttonOptions:{label: 'Warning', onClick: function() {
-      notifier.add(new Jx.Notice.Warning({content: 'You clicked the warning button'}));
+    buttonOptions:{label: 'Float Warning', onClick: function() {
+      flotifier.add(new Jx.Notice.Warning({content: 'You clicked the warning button'}));
     }}
   }).addTo(fieldSet1);
   
