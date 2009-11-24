@@ -100,6 +100,10 @@ Jx.Panel.FileUpload = new Class({
         this.queueDiv = new Element('div', {
             'class': 'jxUploadQueue'
         });
+        //make the queueDiv a list
+        this.list = new Jx.List(this.queueDiv, {
+            hover: true
+        });
         this.queueDiv.inject(this.domObjA);
         this.uploadBtn = new Jx.Button({
             label : this.options.buttonText,
@@ -141,7 +145,8 @@ Jx.Panel.FileUpload = new Class({
 
         del.addEvent('click', this.removeFromQueue.bind(this, cf));
         cf.queuedDiv.adopt(s, del);
-        cf.queuedDiv.inject(this.queueDiv);
+        this.list.add(cf.queuedDiv);
+        //cf.queuedDiv.inject(this.queueDiv);
         if (!this.uploadBtn.isEnabled()) {
             this.uploadBtn.setEnabled(true);
         }
@@ -213,7 +218,7 @@ Jx.Panel.FileUpload = new Class({
             file.queuedDiv.replaces(file.pb);
             icon.removeClass('jxUploadFileDelete').addClass('jxUploadFileError');
         }
-        if ($defined(data.error.message)) {
+        if ($defined(data.error) && $defined(data.error.message)) {
             var tt = new Jx.Tooltip(icon, data.error.message, {
                 cssClass : 'jxUploadFileErrorTip'
             });
@@ -232,7 +237,8 @@ Jx.Panel.FileUpload = new Class({
             if ($defined(file.pb)) {
                 file.pb.destroy();
             }
-            file.queuedDiv.dispose();
+            this.list.remove(file.queuedDiv);
+            //file.queuedDiv.dispose();
             var name = file.getFileName();
             this.fileQueue.erase(name);
         } else {
@@ -275,7 +281,8 @@ Jx.Panel.FileUpload = new Class({
     removeFromQueue: function (file) {
         var name = file.getFileName();
         //TODO: Should prompt the user to be sure - use Jx.Dialog.Confirm?
-        $(name).destroy();
+        this.list.remove(file.queuedDiv);
+        //$(name).destroy();
         this.fileQueue = this.fileQueue.erase(file);
         if (this.fileQueue.length === 0) {
             this.uploadBtn.setEnabled(false);
