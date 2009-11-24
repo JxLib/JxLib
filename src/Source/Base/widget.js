@@ -509,6 +509,7 @@ Jx.Widget = new Class({
         if (element) {
             if (!this.chrome) {
                 this.makeChrome(element);
+                element.addClass('jxHasChrome');
             }
             this.resizeChrome(element);
             if (element && this.chrome.parentNode !== element) {
@@ -524,6 +525,7 @@ Jx.Widget = new Class({
      */
     hideChrome: function() {
         if (this.chrome) {
+            this.chrome.parentNode.removeClass('jxHasChrome');
             this.chrome.dispose();
         }
     },

@@ -36,7 +36,7 @@ Jx.Notice = new Class({
      */
     render: function () {
         this.parent();
-
+        
         if (this.options.klass) {
             this.domObj.addClass(this.options.klass);
         }
