@@ -88,7 +88,7 @@ Jx.Button.Combo = new Class({
             this.add(this.options.items);
         }
         var button = this;
-        this.addEvent('click', (function(e) {
+        this.addEvent('click', function(e) {
             if (this.list.count() === 0) {
                 return;
             }
@@ -114,11 +114,11 @@ Jx.Button.Combo = new Class({
 
             this.contentContainer.setStyle('visibility','');
 
-            document.addEvent('mousedown', this.hideWatcher);
-            document.addEvent('keyup', this.keypressWatcher);
+            document.addEvent('mousedown', this.bound.mousedown);
+            document.addEvent('keyup', this.bound.keypress);
 
             this.fireEvent('show', this);
-        }).bindWithEvent(this.menu));
+        }.bindWithEvent(this.menu));
 
         this.menu.addEvents({
             'show': (function() {
