@@ -35,7 +35,7 @@ Jx.List = new Class({
     /* does this object own the selection object (and should clean it up) */
     ownsSelection: false,
     /**
-     * APIProperty: itemContainer
+     * APIProperty: container
      * the element that will contain items as they are added
      */
     container: null,
