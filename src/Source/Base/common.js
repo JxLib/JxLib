@@ -41,6 +41,8 @@ Class.Mutators.Family = function(self, name) {
     }
 };
 
+// this replaces the mootools $unlink method with our own version that
+// avoids infinite recursion on Jx objects.
 function $unlink(object) {
     if (object && object.jxFamily) {
         return object;
