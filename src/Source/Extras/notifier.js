@@ -62,7 +62,9 @@ Jx.Notifier = new Class({
     },
     
     remove: function (notice) {
-        notice.removeEvents('close');
-        notice.hide();
+        if (this.domObj.hasChild(notice)) {
+            notice.removeEvents('close');
+            notice.hide();
+        }
     }
 });

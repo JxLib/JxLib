@@ -1,4 +1,4 @@
-// $Id: $
+// $Id$
 /**
  * Class: Jx.Widget
  * Base class for all widgets (visual classes) in the JxLib Framework. This

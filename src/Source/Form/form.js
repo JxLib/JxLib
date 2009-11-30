@@ -1,4 +1,4 @@
-// $Id: $
+// $Id$
 /**
  * Class: Jx.Form
  *
@@ -52,6 +52,15 @@ Jx.Form = new Class({
          */
         name: ''
     },
+    
+    /**
+     * Property: defaultAction
+     * the default field to activate if the user hits the enter key in this
+     * form.  Set by specifying default: true as an option to a field.  Will
+     * only work if the default is a Jx button field or an input of a type
+     * that is a button
+     */
+    defaultAction: null,
 
     /**
      * Property: fields
@@ -75,7 +84,18 @@ Jx.Form = new Class({
             'method' : this.options.method,
             'action' : this.options.action,
             'class' : 'jxForm',
-            'name' : this.options.name
+            'name' : this.options.name,
+            events: {
+                keypress: function(e) {
+                    if (e.key == 'enter' && 
+                        e.target.tagName != "TEXTAREA" && 
+                        this.defaultAction &&
+                        this.defaultAction.click) {
+                        document.id(this.defaultAction).focus();
+                        this.defaultAction.click();
+                    }
+                }.bind(this)
+            }
         });
 
         if (this.options.fileUpload) {
@@ -98,8 +118,10 @@ Jx.Form = new Class({
      */
     addField : function (field) {
         this.fields.set(field.id, field);
+        if (field.options.defaultAction) {
+            this.defaultAction = field;
+        }
     },
-
 
     /**
      * Method: isValid

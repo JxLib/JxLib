@@ -89,7 +89,13 @@ function drawBasicForm() {
   }).addTo(radioSet);
   
   new Jx.Field.Button({
-    buttonOptions:{label: 'Go'}
+    buttonOptions:{
+      label: 'Go',
+      onClick: function() {
+        console.log('Go!');
+      }
+    },
+    defaultAction: true
   }).addTo(fieldSet1);
   
 // Second Fieldset

@@ -1,4 +1,4 @@
-// $Id: $
+// $Id$
 /**
  * Class: Jx.Field
  *
@@ -110,8 +110,15 @@ Jx.Field = new Class({
          * Option: disabled
          * {True|False} defaults to false. Whether this field is disabled.
          */
-        disabled : false
-
+        disabled : false,
+        /**
+         * Option: defaultAction
+         * {Boolean} defaults to false, if true and this field is a button
+         * of some kind (Jx.Button, a button or an input of type submit) then
+         * if the user hits the enter key on any field in the form except a
+         * textarea, this field will be activated as if clicked
+         */
+        defaultAction: false
     },
 
     /**
@@ -305,6 +312,19 @@ Jx.Field = new Class({
     enable : function () {
         this.field.erase("disabled");
         this.field.removeClass('jxFieldDisabled');
+    },
+    
+    /**
+     * APIMethod: addTo
+     *
+     */
+    addTo: function(what) {
+        if (what instanceof Jx.Fieldset || what instanceof Jx.Form) {
+            what.add(this);
+        } else {
+            this.parent(what);
+        }
+        return this;
     }
 
 });

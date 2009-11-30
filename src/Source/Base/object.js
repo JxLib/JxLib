@@ -1,4 +1,4 @@
-// $Id: $
+// $Id$
 /**
  * Class: Jx.Object
  * Base class for all other object in the JxLib framework. This class

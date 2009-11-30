@@ -29,6 +29,9 @@ Jx.Field.Button = new Class({
          */
         template: '<span class="jxInputContainer"><label class="jxInputLabel"></label><div class="jxInputButton"></div><span class="jxInputTag"></span></span>'
     },
+    
+    button: null,
+    
     /**
      * Property: type
      * The type of this field
@@ -37,12 +40,15 @@ Jx.Field.Button = new Class({
 
     processTemplate: function(template, classes, container) {
         var h = this.parent(template, classes, container);
-        var b = new Jx.Button(this.options.buttonOptions);
+        this.button = new Jx.Button(this.options.buttonOptions);
         var c = h.get('jxInputButton');
         if (c) {
-            b.domObj.replaces(c);
+            this.button.domObj.replaces(c);
         }
         return h;
+    },
+    
+    click: function() {
+        this.button.clicked();
     }
-
 });

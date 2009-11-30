@@ -1,4 +1,4 @@
-// $Id: $
+// $Id$
 /**
  * Class: Jx.Fieldset
  *
@@ -122,5 +122,19 @@ Jx.Fieldset = new Class({
             this.domObj.grab(field);
         }
         return this;
+    },
+    
+    /**
+     * APIMethod: addTo
+     *
+     */
+    addTo: function(what) {
+        if (what instanceof Jx.Form) {
+            this.form = what;
+        } else if (what instanceof Jx.Fieldset) {
+            this.form = what.form;
+        }
+        return this.parent(what);
     }
+    
 });
