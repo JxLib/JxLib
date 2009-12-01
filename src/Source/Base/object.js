@@ -8,7 +8,7 @@
  * The Initialization Pipeline:
  * Jx.Object provides a default initialize method to construct new instances
  * of objects that inherit from it.  No sub-class should override initialize
- * unless you know exactly what you doing.  Instead, the initialization
+ * unless you know exactly what you're doing.  Instead, the initialization
  * pipeline provides an init() method that is intended to be overridden in
  * sub-classes to provide class-specific initialization as part of the
  * initialization pipeline.
@@ -35,7 +35,26 @@
  * calls the init() method, then fires the 'postInit' event.  It is expected
  * that most sub-class specific initialization will happen in the init()
  * method.  A sub-class may hook preInit and postInit events to perform tasks
- * by overriding the initialize method as follows:
+ * in one of two ways. 
+ * 
+ * First, simply send onPreInit and onPostInit functions via the options object
+ * as follows (they could be standalone functions or functions of another object
+ * setup using .bind())
+ * 
+ * (code)
+ * var preInit = function () {}
+ * var postInit = function () {}
+ * 
+ * var options = {
+ *   onPreInit: preInit,
+ *   onPostInit: postInit,
+ *   ...other options...
+ * };
+ * 
+ * var dialog = new Jx.Dialog(options);
+ * (end)
+ * 
+ * The second method you can use is to override the initialize method
  *
  * (code)
  * var MyClass = new Class({
@@ -57,15 +76,77 @@
  *   }
  * });
  * (end)
+ * 
+ * When the object finishes initializing itself (including the plugin initialization)
+ * it will fire off the initializeDone event. You can hook into this event in the same 
+ * way as the events mentioned above.
  *
  * Plugins:
- *
+ * Plugins provide pieces of additional, optional, functionality. They are not 
+ * necessary for the proper function of an object. All plugins should be located 
+ * in the Jx.Plugin namespace and they should be further segregated by applicable 
+ * object. While all objects can support plugins not all of them have the automatic
+ * instantiation of applicaple plugins turned on. In order to turn this feature on 
+ * for an object you need to set the pluginNamespace property of the object. The 
+ * following is an example of setting the property:
+ * 
+ * (code)
+ * var MyClass = new Class({
+ *   Extends: Jx.Object,
+ *   pluginNamespace: 'MyClass'
+ * };
+ * (end)
+ * 
+ * The absence of this property does not mean you cannot attach a plugin to an 
+ * object. It simply means that you an't have the Jx.Object descendant create the
+ * plugin for you.
+ * 
+ * There are three ways to attach a plugin to an object. First, simply instantiate 
+ * the plugin yourself and call its attach() method (other class options left out 
+ * for teh sake of simplicity):
+ * 
+ * (code)
+ * var MyGrid = new Jx.Grid();
+ * var APlugin = new Jx.Plugin.Grid.Selector();
+ * APlugin.attach(MyGrid);
+ * (end)
+ * 
+ * Second, you can instantiate the plugin first and pass it to the object through the
+ * plugins array in the options object.
+ * 
+ * (code)
+ * var APlugin = new Jx.Plugin.Grid.Selector();
+ * var MyGrid = new Jx.Grid({plugins: [APlugin]});
+ * (end)
+ * 
+ * The third way is to pass the information needed to instantiate the plugin in 
+ * the plugins array of the options object:
+ * 
+ * (code)
+ * var MyGrid = new Jx.Grid({
+ *   plugins: [{
+ *      name: 'Selector',
+ *      options: {}    //options needed to create this plugin
+ *   },{
+ *      name: 'Sorter',
+ *      options: {}
+ *   }]
+ * });
+ * (end)
+ * 
+ * Part of the process of initializing plugins is to call prePluginInit() and
+ * postPluginInit(). These events provide you access to the object just before 
+ * and after the plugins are initialized and/or attached to the object using
+ * methods 2 and 3 above. You can hook into these in the same way that you hook into
+ * the preInit() and postInit() events.  
+ * 
  * Destroying Jx.Object Instances:
  * Jx.Object provides a destroy method that cleans up potential memory leaks
  * when you no longer need an object.  Sub-classes are expected to implement
  * a cleanup() method that provides specific cleanup code for each
  * sub-class.  Remember to call this.parent() when providing a cleanup()
- * method.
+ * method. Destroy will also fire off 2 events: preDestroy and postDestroy. You 
+ * can hook into these methods in the same way as the init or plugin events. 
  *
  * The Family Attribute:
  * the Family attribute of a class is used internally by JxLib to identify Jx
@@ -76,6 +157,8 @@
  * coding purposes as it does not allow for inheritance.
  *
  * Parameters:
+ * 
+ * 
  * 
  * Example:
  * (code)
@@ -148,7 +231,7 @@ Jx.Object = new Class({
                         //now until we come up with a better idea
                         var p = new Jx.Plugin[this.pluginNamespace][plugin.name](plugin.options);
                         p.attach(this);
-                        this.plugins.set(p.name, p);
+                        //this.plugins.set(p.name, p);
                     }
                 }, this);
             }
@@ -172,16 +255,44 @@ Jx.Object = new Class({
     },
 
     init: $empty,
-
+    /**
+     * APIMethod: registerPlugin
+     * This method is called by a plugin that has its attach method
+     * called.
+     * 
+     * Parameters:
+     * plugin - the plugin to register with this object
+     */
     registerPlugin: function (plugin) {
         if (!this.plugins.has(plugin.name)) {
             this.plugins.set(plugin.name,  plugin);
         }
     },
-
+    /**
+     * APIMethod: deregisterPlugin
+     * his method is called by a plugin that has its detach method
+     * called.
+     * 
+     * Parameters:
+     * plugin - the plugin to deregister.
+     */
     deregisterPlugin: function (plugin) {
         if (this.plugins.has(plugin.name)) {
             this.plugins.erase(plugin.name);
+        }
+    },
+    
+    /**
+     * APIMethod: getPlugin
+     * Allows a developer to get a reference to a plugin with only the
+     * name of the plugin.
+     * 
+     * Parameters:
+     * name - the name of the plugin as defined in the plugin's name property
+     */
+    gePlugin: function (name) {
+        if (this.plugins.has(name)) {
+            return this.plugins.get(name);
         }
     }
 
