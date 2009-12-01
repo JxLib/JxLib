@@ -336,6 +336,56 @@ Jx.Dialog = new Class({
         }
         this.showChrome(this.domObj);
     },
+    
+    /**
+     * Method: maximize
+     * Called when the maximize button of a dialog is clicked. It will maximize
+     * the dialog to match the size of its parent.
+     */
+    maximize: function () {
+        
+        if (!this.maximized) {
+            //get size of parent
+            var p = this.options.parent;
+            var size;
+            
+            if (p === document.body) {
+                size = Jx.getPageDimensions();
+            } else {
+                size = p.getBorderBoxSize();
+            }
+            this.previousSettings = {
+                width: this.options.width,
+                height: this.options.height,
+                horizontal: this.options.horizontal,
+                vertical: this.options.vertical,
+                left: this.options.left,
+                right: this.options.right,
+                top: this.options.top,
+                bottom: this.options.bottom
+            };
+            this.options.width = size.width;
+            this.options.height = size.height;
+            this.options.vertical = '0 top';
+            this.options.horizontal = '0 left';
+            this.options.right = 0;
+            this.options.left = 0;
+            this.options.top = 0;
+            this.options.bottom = 0;
+            this.domObj.resize(this.options);
+            this.fireEvent('resize');
+            this.resizeChrome(this.domObj);
+            this.maximized = true;
+            this.fireEvent('maximize');
+        } else {
+            this.options = $merge(this.options, this.previousSettings);
+            this.domObj.resize(this.options);
+            this.fireEvent('resize');
+            this.resizeChrome(this.domObj);
+            this.maximized = false;
+            this.fireEvent('restore');
+        }
+    },
 
     /**
      * Method: show

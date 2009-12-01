@@ -82,6 +82,14 @@ Jx.Panel = new Class({
          * the label to use for the maximize menu item
          */
         maximizeLabel: 'Maximize',
+        /* Option: maximizeTooltip
+         * the tooltip to display over the maximize button
+         */
+        restoreTooltip: 'Restore Panel',
+        /* Option: maximizeLabel
+         * the label to use for the maximize menu item
+         */
+        restoreLabel: 'Restore',
         /* Option: close
          * boolean, determine if the panel can be closed (hidden) by the user.
          * The application needs to provide a way to re-open the panel after
@@ -167,6 +175,14 @@ Jx.Panel = new Class({
                 }
             });
             b.domObj.addClass(this.options.collapseClass);
+            this.addEvents({
+                collapse: function() {
+                    b.setTooltip(this.options.expandTooltip);
+                },
+                expand: function() {
+                    b.setTooltip(this.options.collapseTooltip);
+                }
+            });
             this.toolbar.add(b);
             if (this.menu) {
                 item = new Jx.Menu.Item({
@@ -194,11 +210,27 @@ Jx.Panel = new Class({
                 }
             });
             b.domObj.addClass(this.options.maximizeClass);
+            this.addEvents({
+                maximize: function() {
+                    b.setTooltip(this.options.restoreTooltip);
+                },
+                restore: function() {
+                    b.setTooltip(this.options.maximizeTooltip);
+                }
+            });
             this.toolbar.add(b);
             if (this.menu) {
                 item = new Jx.Menu.Item({
                     label: this.options.maximizeLabel,
                     onClick: function() { that.maximize(); }
+                });
+                this.addEvents({
+                    maximize: function() {
+                        item.setLabel(this.options.restoreLabel);
+                    },
+                    restore: function() {
+                        item.setLabel(this.options.maximizeLabel);
+                    }
                 });
                 this.menu.add(item);
             }

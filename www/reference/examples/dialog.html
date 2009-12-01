@@ -71,7 +71,8 @@ function drawPositionedDialog() {
         horizontal: '200 left', 
         vertical: '50 top', 
         content: 'inlineContent', 
-        resize: true
+        resize: true,
+        maximize: true
     });
     
     new Jx.Button({
@@ -173,7 +174,7 @@ function drawAjaxFailedDialog() {
 <div id="basicDialogButton" class="buttonBox"></div>
 
 <h2 id="positionedDialog">Positioning Dialog</h2>
-<p>This dialog is modal and has an initial position other than the default centering logic.  It is also resizable and movable.</p>
+<p>This dialog is modal and has an initial position other than the default centering logic.  It is also resizable, movable, and can be maximized.</p>
 <div id="positionedDialogButton" class="buttonBox"></div>
 
 <h2 id="toolbarDialog">Toolbars in Dialogs</h2>
