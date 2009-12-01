@@ -36,49 +36,140 @@ function drawBasicNotifier() {
 
   // var notifier = new Jx.Notifier.Float();
 
-  new Jx.Field.Text({
+  var field1 = new Jx.Field.Text({
     id: 'Text1',
     name: 'Text1',
     label: 'Text One',
-    value: 'Initial Value',
-    tag: 'a tag',
-    required: true
-  }).addTo(fieldSet1);
+    value: '',
+    tag: 'a tag'
+  })
 
+  field1.addTo(fieldSet1);
+
+  var plugin = new Jx.Plugin.Field.Validator({
+      validators: ['minLength:4','maxLength:10'],
+      validateOnBlur: true,
+      validateOnChange: false
+  });
+  plugin.attach(field1);
+
+  plugin.addEvent('fieldValidationFailed', function(field, validator){
+      var p = new Element('p',{
+          html: field.id + ' failed validation. Errors:'
+      });
+      var ul = new Element('ul');
+      var errs = validator.getErrors();
+      errs.each(function(err){
+          var li = new Element('li',{
+              html: err
+          });
+          li.inject(ul);
+      });
+      var msg = new Element('div');
+      msg.adopt(p,ul);
+      flotifier.add(new Jx.Notice.Error({content: msg}));
+  });
+  
+  plugin.addEvent('fieldValidationPassed', function(field, validator){
+      flotifier.add(new Jx.Notice.Success({content: field.id + ' passed validation.'}));
+  });
+  
+  /**
   new Jx.Field.Button({
     buttonOptions:{label: 'Float Warning', onClick: function() {
       flotifier.add(new Jx.Notice.Warning({content: 'You clicked the warning button'}));
     }}
   }).addTo(fieldSet1);
+  **/
   
-  new Jx.Field.Text({
+  var field2 = new Jx.Field.Text({
     id: 'Text2',
     name: 'Text2',
     label: 'Text Two',
-    value: 'Initial Value',
-    tag: 'a tag'
-  }).addTo(fieldSet1);
+    value: '',
+    tag: 'a tag',
+    required: true
+  });
+  field2.addTo(fieldSet1);
+
+
+  var plugin2 = new Jx.Plugin.Field.Validator({
+      validateOnBlur: true,
+      validateOnChange: false
+  });
+  plugin2.attach(field2);
+
+  plugin2.addEvent('fieldValidationFailed', function(field, validator){
+      var p = new Element('p',{
+          html: field.id + ' failed validation. Errors:'
+      });
+      var ul = new Element('ul');
+      var errs = validator.getErrors();
+      errs.each(function(err){
+          var li = new Element('li',{
+              html: err
+          });
+          li.inject(ul);
+      });
+      var msg = new Element('div');
+      msg.adopt(p,ul);
+      flotifier.add(new Jx.Notice.Error({content: msg}));
+  });
   
+  plugin2.addEvent('fieldValidationPassed', function(field, validator){
+      flotifier.add(new Jx.Notice.Success({content: field.id + ' passed validation.'}));
+  });
+
+  /**
   new Jx.Field.Button({
     buttonOptions:{label: 'Error', onClick: function() {
       notifier.add(new Jx.Notice.Error({content: 'You clicked the error button'}));
     }}
   }).addTo(fieldSet1);
-
-  new Jx.Field.Text({
+  **/
+  var field3 = new Jx.Field.Text({
     id: 'Text3',
     name: 'Text3',
     label: 'Text Three',
     value: 'Initial Value',
     tag: 'a tag'
-  }).addTo(fieldSet1);
+  });
+  field3.addTo(fieldSet1);
 
+  var plugin3 = new Jx.Plugin.Field.Validator({
+      validators: ['validate-email'],
+      validateOnBlur: true,
+      validateOnChange: false
+  });
+  plugin3.attach(field3);
+
+  plugin3.addEvent('fieldValidationFailed', function(field, validator){
+      var p = new Element('p',{
+          html: field.id + ' failed validation. Errors:'
+      });
+      var ul = new Element('ul');
+      var errs = validator.getErrors();
+      errs.each(function(err){
+          var li = new Element('li',{
+              html: err
+          });
+          li.inject(ul);
+      });
+      var msg = new Element('div');
+      msg.adopt(p,ul);
+      notifier.add(new Jx.Notice.Error({content: msg}));
+  });
+  
+  plugin3.addEvent('fieldValidationPassed', function(field, validator){
+      notifier.add(new Jx.Notice.Success({content: field.id + ' passed validation.'}));
+  });
+  /**
   new Jx.Field.Button({
     buttonOptions:{label: 'Success', onClick: function() {
       notifier.add(new Jx.Notice.Success({content: 'You clicked the success button'}));
     }}
   }).addTo(fieldSet1);
-  
+  **/
 
 
 
@@ -93,6 +184,12 @@ function drawBasicNotifier() {
 
 <h2 id="basicNotifier">A Form with a Notifications</h2>
 <p>A programmatically created form with several fields and buttons to test validation and notification.</p>
+<p>The form below requires the following validation:</p>
+<ul>
+    <li>The first field below requires an entry between 4 and 10 characters in length.</li>
+    <li>The second field is simply required to be filled out.</li>
+    <li>The third box will require an email address.</li>
+</ul>
 <div id="formBasic" class="formBox"></div>
 
 </body>
