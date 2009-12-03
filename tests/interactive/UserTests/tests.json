@@ -27,5 +27,8 @@
         "dataview": ["all"],
         "group": ["all"],
         "upload": ["all"]
+    },
+    "Toolbar": {
+        "container": ["all"]
     }
 }

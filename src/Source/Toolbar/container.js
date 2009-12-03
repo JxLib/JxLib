@@ -22,7 +22,9 @@
  *
  * This file is licensed under an MIT style license
  */
+
 Jx.Toolbar.Container = new Class({
+    
     Family: 'Jx.Toolbar.Container',
     Extends: Jx.Widget,
     /**
@@ -52,12 +54,17 @@ Jx.Toolbar.Container = new Class({
          */
         scroll: true,
         template: "<div class='jxBarContainer'></div>",
-        scrollerTemplate: "<div class='jxBarScroller'></div>"
+        scrollerTemplate: "<div class='jxToolbarContainer'><div class='jxScroller'><div class='jxToolbarWrapper'></div></div></div>"
     },
     classes: new Hash({
         domObj: 'jxBarContainer',
-        scroller: 'jxBarScroller'
+        tbContainer: 'jxToolbarContainer', //used to hold the buttons and the scroller/wrapper
+        scroller: 'jxScroller', //used to hide the overflow of the wrapper
+        wrapper: 'jxToolbarWrapper' //used to allow multiple toolbars to float next to each other
     }),
+    
+    updating: false,
+    
     /**
      * APIMethod: render
      * Create a new instance of Jx.Toolbar.Container
@@ -71,12 +78,11 @@ Jx.Toolbar.Container = new Class({
             this.domObj = document.id(this.options.parent);
             this.elements = new Hash({'jxBarContainer':this.domObj});
             this.domObj.addClass('jxBarContainer');
-            this.domObj.adopt(this.scroller);
         }
 
         if (this.options.scroll) {
             this.processElements(this.options.scrollerTemplate, this.classes);
-            this.domObj.adopt(this.scroller);
+            this.domObj.adopt(this.tbContainer);
         }
 
         /* this allows toolbars to add themselves to this bar container
@@ -93,59 +99,33 @@ Jx.Toolbar.Container = new Class({
             this.options.position = 'top';
         }
 
+        
         if (this.options.scroll && ['top','bottom'].contains(this.options.position)) {
             // make sure we update our size when we get added to the DOM
             this.addEvent('addTo', this.update.bind(this));
-
-            //making Fx.Tween optional
-            if (typeof Fx != 'undefined' && typeof Fx.Tween != 'undefined'){
-                this.scrollFx = scrollFx = new Fx.Tween(this.scroller, {
-                    link: 'chain'
-                });
-            }
-
+            
             this.scrollLeft = new Jx.Button({
                 image: Jx.aPixel.src
-            }).addTo(this.domObj);
+            }).addTo(this.tbContainer, 'top');
             this.scrollLeft.domObj.addClass('jxBarScrollLeft');
             this.scrollLeft.addEvents({
-               click: (function(){
-                   var from = this.scroller.getStyle('left').toInt();
-                   if (isNaN(from)) { from = 0; }
-                   var to = Math.min(from+100, 0);
-                   if (to >= 0) {
-                       this.scrollLeft.domObj.setStyle('visibility', 'hidden');
-                   }
-                   this.scrollRight.domObj.setStyle('visibility', '');
-                   if ($defined(this.scrollFx)){
-                       this.scrollFx.start('left', from, to);
-                   } else {
-                       this.scroller.setStyle('left',to);
-                   }
-               }).bind(this)
+               click: this.scroll.bind(this,'left')
             });
-
+            
             this.scrollRight = new Jx.Button({
                 image: Jx.aPixel.src
-            }).addTo(this.domObj);
+            }).addTo(this.tbContainer, 'bottom');
             this.scrollRight.domObj.addClass('jxBarScrollRight');
             this.scrollRight.addEvents({
-               click: (function(){
-                   var from = this.scroller.getStyle('left').toInt();
-                   if (isNaN(from)) { from = 0; }
-                   var to = Math.max(from - 100, this.scrollWidth);
-                   if (to == this.scrollWidth) {
-                       this.scrollRight.domObj.setStyle('visibility', 'hidden');
-                   }
-                   this.scrollLeft.domObj.setStyle('visibility', '');
-                   if ($defined(this.scrollFx)){
-                       this.scrollFx.start('left', from, to);
-                   } else {
-                       this.scroller.setStyle('left',to);
-                   }
-               }).bind(this)
+               click: this.scroll.bind(this, 'right')
             });
+            
+            
 
+        } else if (this.options.scroll && ['left','right'].contains(this.options.position)) {
+            //do we do scrolling up and down?
+            //for now disable scroll in this case
+            this.options.scroll = false;
         } else {
             this.options.scroll = false;
         }
@@ -156,78 +136,95 @@ Jx.Toolbar.Container = new Class({
     },
 
     update: function() {
-        if (this.options.autoSize) {
-            /* delay the size update a very small amount so it happens
-             * after the current thread of execution finishes.  If the
-             * current thread is part of a window load event handler,
-             * rendering hasn't quite finished yet and the sizes are
-             * all wrong
-             */
-            (function(){
-                var x = 0;
-                this.scroller.getChildren().each(function(child){
-                    x+= child.getSize().x;
-                });
-                this.domObj.setStyles({width:x});
-                this.measure();
-            }).delay(1,this);
-        } else {
-            this.measure();
-        }
-    },
-
-    measure: function() {
-        if (!this.options.scroll) { return; }
-
-        if ((!this.scrollLeftSize || !this.scrollLeftSize.x) && this.domObj.parentNode) {
-            this.scrollLeftSize = this.scrollLeft.domObj.getSize();
-            this.scrollRightSize = this.scrollRight.domObj.getSize();
-        }
-        /* decide if we need to show the scroller buttons and
-         * do some calculations that will make it faster
-         */
-        this.scrollWidth = this.domObj.getSize().x;
-        this.scroller.getChildren().each(function(child){
-            this.scrollWidth -= child.getSize().x;
-        }, this);
-        if (this.scrollWidth < 0) {
-            /* we need to show scrollers on at least one side */
-            var l = this.scroller.getStyle('left').toInt();
-            if (l < 0) {
-                this.scrollLeft.domObj.setStyle('visibility','');
-            } else {
-                this.scrollLeft.domObj.setStyle('visibility','hidden');
-            }
-            if (l <= this.scrollWidth) {
-                this.scrollRight.domObj.setStyle('visibility', 'hidden');
-                if (l < this.scrollWidth) {
-                    if ($defined(this.scrollFx)){
-                        this.scrollFx.start('left', l, this.scrollWidth);
-                    } else {
-                        this.scroller.setStyle('left',this.scrollWidth);
-                    }
-                }
-            } else {
-                this.scrollRight.domObj.setStyle('visibility', '');
-            }
-
-        } else {
-            /* don't need any scrollers but we might need to scroll
-             * the toolbar into view
-             */
-            this.scrollLeft.domObj.setStyle('visibility','hidden');
-            this.scrollRight.domObj.setStyle('visibility','hidden');
-            var from = this.scroller.getStyle('left').toInt();
-            if (!isNaN(from) && from !== 0) {
-                if ($defined(this.scrollFx)) {
-                    this.scrollFx.start('left', 0);
+        
+        if (['top','bottom'].contains(this.options.position)) {
+            var tbcSize = this.tbContainer.getContentBoxSize().width;
+            
+            var s = 0;
+            //next check to see if we need the scrollers or not.
+            var children = this.wrapper.getChildren();
+            if (children.length > 0) {
+                children.each(function(tb){
+                    s += tb.getMarginBoxSize().width;
+                },this);
+                
+                var scrollerSize = tbcSize;
+                
+                var leftMargin = this.wrapper.getStyle('margin-left').toInt();
+                
+                if (leftMargin < 0) {
+                    //has been scrolled left so activate the right scroller
+                    this.scrollLeft.domObj.setStyles({
+                        visibility: 'visible',
+                        display: 'inline-block'
+                    });
+                    scrollerSize -= this.scrollLeft.domObj.getMarginBoxSize().width;
                 } else {
-                    this.scroller.setStyle('left',0);
+                    //we don't need it
+                    this.scrollLeft.domObj.setStyles({
+                        visibility: 'hidden',
+                        display: 'none'
+                    });
                 }
+                
+                if (s + leftMargin > scrollerSize) {
+                    //we need the right one
+                    this.scrollRight.domObj.setStyles({
+                        visibility: 'visible',
+                        display: 'inline-block'
+                    });
+                    scrollerSize -= this.scrollRight.domObj.getMarginBoxSize().width;
+                } else {
+                    //we don't need it
+                    this.scrollRight.domObj.setStyles({
+                        visibility: 'hidden',
+                        display: 'none'
+                    });
+                }
+                
+            } else {
+                this.scrollRight.domObj.setStyles({
+                    visibility: 'hidden',
+                    display: 'none'
+                });
+                this.scrollLeft.domObj.setStyles({
+                    visibility: 'hidden',
+                    display: 'none'
+                });
+                
             }
+            this.scroller.setStyle('width', scrollerSize );
+            
+            this.findFirstVisible();
+            this.updating = false;
         }
     },
-
+    /**
+     * Method: findFirstVisible
+     * Finds the first visible button on the toolbar and saves a reference in 
+     * the scroller object
+     */
+    findFirstVisible: function () {
+        if ($defined(this.scroller.retrieve('buttonPointer'))) { return; };
+        
+        var children = this.wrapper.getChildren();
+        
+        if (children.length > 0) {
+            children.each(function(toolbar){
+                var buttons = toolbar.getChildren();
+                if (buttons.length > 1) {
+                   buttons.each(function(button){
+                       var pos = button.getCoordinates(this.scroller);
+                       if (pos.left >= 0 && !$defined(this.scroller.retrieve('buttonPointer'))) {
+                           //this is the first visible button
+                           this.scroller.store('buttonPointer',button);
+                       }
+                   },this);
+                }
+            },this);
+        }
+    },
+    
     /**
      * Method: add
      * Add a toolbar to the container.
@@ -242,25 +239,109 @@ Jx.Toolbar.Container = new Class({
                 /* we potentially need to show or hide scroller buttons
                  * when the toolbar contents change
                  */
-                thing.addEvent('add', this.update.bind(this));
-                thing.addEvent('remove', this.update.bind(this));
-                thing.addEvent('show', this.scrollIntoView.bind(this));
+                thing.addEvent('update', this.update.bind(this));
+                //thing.addEvent('remove', this.update.bind(this));
+                //thing.addEvent('show', this.scrollIntoView.bind(this));
             }
-            if (this.scroller) {
-                this.scroller.adopt(thing.domObj);
+            if (this.tbContainer) {
+                this.wrapper.adopt(thing.domObj);
             } else {
                 this.domObj.adopt(thing.domObj);
             }
             this.domObj.addClass('jxBar'+this.options.position.capitalize());
         }, this);
-        if (this.options.scroll) {
-            this.update();
-        }
         if (arguments.length > 0) {
             this.fireEvent('add', this);
         }
         return this;
     },
+    
+    scroll: function (direction) {
+        if (this.updating) { return };
+        this.updating = true;
+        
+        var currentButton = this.scroller.retrieve('buttonPointer');
+        if (direction === 'left') {
+            //need to tween the amount of the previous button
+            var previousButton = this.scroller.retrieve('previousPointer');
+            var w = previousButton.getMarginBoxSize().width;
+            var ml = this.wrapper.getStyle('margin-left').toInt();
+            ml += w;
+            if (typeof Fx != 'undefined' && typeof Fx.Tween != 'undefined'){
+                //scroll it
+                this.wrapper.get('tween',{property: 'margin-left', onComplete: this.afterTweenLeft.bind(this,previousButton)}).start(ml);
+            } else {
+                //set it
+                this.wrapper.setStyle('margin-left', ml);
+                this.afterTweenLeft(previousButton);
+            }
+        } else {
+            //must be right
+            var w = currentButton.getMarginBoxSize().width;
+            
+            var ml = this.wrapper.getStyle('margin-left').toInt();
+            ml -= w;
+            
+            //now, if Fx is defined tween the margin to the left to 
+            //hide the current button
+            if (typeof Fx != 'undefined' && typeof Fx.Tween != 'undefined'){
+                //scroll it
+                this.wrapper.get('tween',{property: 'margin-left', onComplete: this.afterTweenRight.bind(this,currentButton)}).start(ml);
+            } else {
+                //set it
+                this.wrapper.setStyle('margin-left', ml);
+                this.afterTweenRight(currentButton);
+            }
+            
+        }
+    },
+    
+    afterTweenRight: function (currentButton) {
+        var np = currentButton.getNext();
+        if (!$defined(np)) {
+            //check for a new toolbar
+            np = currentButton.getParent().getNext()
+            if (np){
+                np = np.getFirst();
+                if (!$defined(np)) {
+                    np = currentButton;
+                }
+            } else {
+                np = currentButton;
+            }
+        } 
+        this.scroller.store('buttonPointer', np);
+        if (np !== currentButton) {
+            this.scroller.store('previousPointer', currentButton);
+        }
+        this.update();
+    },
+    
+    afterTweenLeft: function (previousButton) {
+        this.scroller.store('buttonPointer', previousButton);
+        pp = previousButton.getPrevious();
+        if (!$defined(pp)) {
+            //check for a new toolbar
+            pp = previousButton.getParent().getPrevious()
+            if (pp) {
+                pp = pp.getLast();
+            }
+        } 
+        if ($defined(pp)) {
+            this.scroller.store('previousPointer', pp);
+        } else {
+            this.scroller.eliminate('previousPointer');
+        }
+        this.update();
+    },
+    
+    /**
+     * NOTE: not sure these next two methods are needed. remove() wasn't even
+     * implemented in the original container. 
+     * 
+     * Does remove remove an entire toolbar or a single item from a contained toolbar?
+     * 
+     */
     /**
      * Method: remove
      * remove an item from a toolbar.  If the item is not in this toolbar
@@ -273,8 +354,8 @@ Jx.Toolbar.Container = new Class({
      * {Object} the item that was removed, or null if the item was not
      * removed.
      */
-    remove: function(item) {
-
+    remove: function (item) {
+        
     },
     /**
      * Method: scrollIntoView
@@ -284,59 +365,8 @@ Jx.Toolbar.Container = new Class({
      * Parameters:
      * item - the item to scroll.
      */
-    scrollIntoView: function(item) {
-        var width = this.domObj.getSize().x;
-        var coords = item.domObj.getCoordinates(this.scroller);
-
-        //left may be set to auto or even a zero length string.
-        //In the previous version, in air, this would evaluate to
-        //NaN which would cause the right hand scroller to show when
-        //the component was first created.
-
-        //So, get the left value first
-        var l = this.scroller.getStyle('left');
-        //then check to see if it's auto or a zero length string
-        if (l === 'auto' || l.length <= 0) {
-            //If so, set to 0.
-            l = 0;
-        } else {
-            //otherwise, convert to int
-            l = l.toInt();
-        }
-        var slSize = this.scrollLeftSize ? this.scrollLeftSize.x : 0;
-        var srSize = this.scrollRightSize ? this.scrollRightSize.x : 0;
-
-        var left = l;
-        if (l < -coords.left + slSize) {
-            /* the left edge of the item is not visible */
-            left = -coords.left + slSize;
-            if (left >= 0) {
-                left = 0;
-            }
-        } else if (width - coords.right - srSize< l) {
-            /* the right edge of the item is not visible */
-            left =  width - coords.right - srSize;
-            if (left < this.scrollWidth) {
-                left = this.scrollWidth;
-            }
-        }
-
-        if (left < 0) {
-            this.scrollLeft.domObj.setStyle('visibility','');
-        } else {
-            this.scrollLeft.domObj.setStyle('visibility','hidden');
-        }
-        if (left <= this.scrollWidth) {
-            this.scrollRight.domObj.setStyle('visibility', 'hidden');
-        } else {
-            this.scrollRight.domObj.setStyle('visibility', '');
-        }
-        if (left != l) {
-            if ($defined(this.scrollFx)) {
-                this.scrollFx.start('left', left);
-            } else {
-                this.scroller.setStyle('left',left);
-            }
-        }
+    scrollIntoView: function (item) {
+        
     }
+        
 });

@@ -175,6 +175,10 @@ Jx.Toolbar = new Class({
             }
             this.list.add(item);
         }, this);
+        
+        //Update the size of the toolbar container.
+        this.update();
+        
         return this;
     },
     /**
@@ -195,6 +199,7 @@ Jx.Toolbar = new Class({
         }
         var li = item.findElement('LI');
         this.list.remove(li);
+        this.update();
         return this;
     },
     /**
@@ -250,7 +255,28 @@ Jx.Toolbar = new Class({
             this.visibleItem.show();
         }
     },
+    
     showItem: function(item) {
         this.fireEvent('show', item);
+    },
+    /**
+     * Method: update
+     * Updates the size of the UL so that the size is always consistently the 
+     * exact size of the size of the sum of the buttons. This will keep all of 
+     * the buttons on one line.
+     */
+    update: function () {
+        if (['top','bottom'].contains(this.options.position)) {
+            (function(){
+                var s = 0;
+                var children = this.domObj.getChildren();
+                children.each(function(button){
+                    var size = button.getMarginBoxSize();
+                    s += size.width;
+                },this);
+                this.domObj.setStyle('width', s);
+                this.fireEvent('update');
+            }).delay(1,this);
+        }
     }
 });

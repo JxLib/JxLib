@@ -73,26 +73,31 @@
   background-position: left 0px;
 }
 
-.jxBarTop .jxBarScroller,
-.jxBarBottom .jxBarScroller {
-  position: absolute;
-  /* much bigger than its container */
-  width: 10000%;
+
+.jxBarTop .jxScroller,
+.jxBarBottom .jxScroller {
+  float: left;
+  height: 28px;
   overflow: hidden;
 }
 
+.jxBarTop .jxScroller .jxToolbarWrapper,
+.jxBarBottom .jxScroller .jxToolbarWrapper {
+  float: left;
+  height: 28px;
+  overflow: hidden;
+  width: 10000%;
+}
+
+
 .jxBarTop .jxBarScrollLeft,
 .jxBarBottom .jxBarScrollLeft {
-  position: absolute;
-  top: 0px;
-  left: 0px;
+  float: left;
 }
 
 .jxBarTop .jxBarScrollRight,
 .jxBarBottom .jxBarScrollRight {
-  position: absolute;
-  top: 0px;
-  right: 0px;
+  float: right;
 }
 
 .jxBarTop .jxBarScrollLeft img.jxButtonIcon,
