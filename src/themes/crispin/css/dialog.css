@@ -161,6 +161,14 @@
   background-position: 0px -16px;
 }
 
+.jxDialogMaximize img {
+  background-position: 0px -80px;
+}
+
+.jxDialogMaximized .jxDialogMaximize img {
+  background-position: 0px -96px;
+}
+
 .jxDialogLoading img {
   border: 0px;
   /* the margin needs to make up the difference between it's width/height

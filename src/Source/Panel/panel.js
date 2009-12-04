@@ -342,6 +342,7 @@ Jx.Panel = new Class({
             }, this);
             if (Jx.type(this.options.toolbars) == 'array') {
                 this.options.toolbars.each(function(tb){
+                    tb.update();
                     position = tb.options.position;
                     tbc = this.toolbarContainers[position];
                     // IE 6 doesn't seem to want to measure the width of

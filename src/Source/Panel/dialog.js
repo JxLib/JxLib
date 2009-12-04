@@ -376,6 +376,7 @@ Jx.Dialog = new Class({
             this.fireEvent('resize');
             this.resizeChrome(this.domObj);
             this.maximized = true;
+            this.domObj.addClass('jxDialogMaximized');
             this.fireEvent('maximize');
         } else {
             this.options = $merge(this.options, this.previousSettings);
@@ -383,6 +384,9 @@ Jx.Dialog = new Class({
             this.fireEvent('resize');
             this.resizeChrome(this.domObj);
             this.maximized = false;
+            if (this.domObj.hasClass('jxDialogMaximized')) {
+                this.domObj.removeClass('jxDialogMaximized');
+            }
             this.fireEvent('restore');
         }
     },
@@ -402,7 +406,9 @@ Jx.Dialog = new Class({
         if (this.blanket) {
             this.blanket.resize();
         }
-
+        
+        this.toolbar.update();
+        
         Jx.Dialog.orderDialogs(this);
 
         /* do the modal thing */
