@@ -610,7 +610,7 @@ Jx.Widget = new Class({
         return prefix + uid;
     },
 
-    remove: function(){
+    dispose: function(){
         var el = document.id(this.addable) || document.id(this.domObj);
         if (el) {
             el.dispose();

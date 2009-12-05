@@ -240,8 +240,7 @@ Jx.Toolbar.Container = new Class({
                  * when the toolbar contents change
                  */
                 thing.addEvent('update', this.update.bind(this));
-                //thing.addEvent('remove', this.update.bind(this));
-                //thing.addEvent('show', this.scrollIntoView.bind(this));
+                thing.addEvent('show', this.scrollIntoView.bind(this));
             }
             if (this.tbContainer) {
                 this.wrapper.adopt(thing.domObj);
@@ -264,16 +263,23 @@ Jx.Toolbar.Container = new Class({
         if (direction === 'left') {
             //need to tween the amount of the previous button
             var previousButton = this.scroller.retrieve('previousPointer');
-            var w = previousButton.getMarginBoxSize().width;
-            var ml = this.wrapper.getStyle('margin-left').toInt();
-            ml += w;
-            if (typeof Fx != 'undefined' && typeof Fx.Tween != 'undefined'){
-                //scroll it
-                this.wrapper.get('tween',{property: 'margin-left', onComplete: this.afterTweenLeft.bind(this,previousButton)}).start(ml);
+            if (!previousButton) {
+                previousButton = this.getPreviousButton(currentButton);
+            } 
+            if (previousButton) {
+                var w = previousButton.getMarginBoxSize().width;
+                var ml = this.wrapper.getStyle('margin-left').toInt();
+                ml += w;
+                if (typeof Fx != 'undefined' && typeof Fx.Tween != 'undefined'){
+                    //scroll it
+                    this.wrapper.get('tween',{property: 'margin-left', onComplete: this.afterTweenLeft.bind(this,previousButton)}).start(ml);
+                } else {
+                    //set it
+                    this.wrapper.setStyle('margin-left', ml);
+                    this.afterTweenLeft(previousButton);
+                }
             } else {
-                //set it
-                this.wrapper.setStyle('margin-left', ml);
-                this.afterTweenLeft(previousButton);
+                this.update();
             }
         } else {
             //must be right
@@ -297,19 +303,10 @@ Jx.Toolbar.Container = new Class({
     },
     
     afterTweenRight: function (currentButton) {
-        var np = currentButton.getNext();
-        if (!$defined(np)) {
-            //check for a new toolbar
-            np = currentButton.getParent().getNext()
-            if (np){
-                np = np.getFirst();
-                if (!$defined(np)) {
-                    np = currentButton;
-                }
-            } else {
-                np = currentButton;
-            }
-        } 
+        var np = this.getNextButton(currentButton);
+        if (!np) {
+            np = currentButton;
+        }
         this.scroller.store('buttonPointer', np);
         if (np !== currentButton) {
             this.scroller.store('previousPointer', currentButton);
@@ -319,14 +316,7 @@ Jx.Toolbar.Container = new Class({
     
     afterTweenLeft: function (previousButton) {
         this.scroller.store('buttonPointer', previousButton);
-        pp = previousButton.getPrevious();
-        if (!$defined(pp)) {
-            //check for a new toolbar
-            pp = previousButton.getParent().getPrevious()
-            if (pp) {
-                pp = pp.getLast();
-            }
-        } 
+        var pp = this.getPreviousButton(previousButton);
         if ($defined(pp)) {
             this.scroller.store('previousPointer', pp);
         } else {
@@ -335,13 +325,7 @@ Jx.Toolbar.Container = new Class({
         this.update();
     },
     
-    /**
-     * NOTE: not sure these next two methods are needed. remove() wasn't even
-     * implemented in the original container. 
-     * 
-     * Does remove remove an entire toolbar or a single item from a contained toolbar?
-     * 
-     */
+    
     /**
      * Method: remove
      * remove an item from a toolbar.  If the item is not in this toolbar
@@ -355,7 +339,12 @@ Jx.Toolbar.Container = new Class({
      * removed.
      */
     remove: function (item) {
-        
+        if (item instanceof Jx.Widget) {
+            item.dispose();
+        } else {
+            document.id(item).dispose();
+        }
+        this.update();
     },
     /**
      * Method: scrollIntoView
@@ -366,7 +355,95 @@ Jx.Toolbar.Container = new Class({
      * item - the item to scroll.
      */
     scrollIntoView: function (item) {
+        if (item instanceof Jx.Widget) {
+            item = item.domObj;
+            while (!item.hasClass('jxToolItem')){
+                item = item.getParent();
+            }
+        }
+        var pos = item.getCoordinates(this.scroller);
+        var currentButton = this.scroller.retrieve('buttonPointer');
+        var scrollerSize = this.scroller.getStyle('width').toInt();
         
+        if (pos.right > 0 && pos.right <= scrollerSize ) { return; };
+        
+        if (pos.right > scrollerSize) {
+            //it's right of the scroller
+            var diff = pos.right - scrollerSize;
+            
+            //loop through toolbar items until we have enough width to
+            //make the item visible
+            
+            var ml = this.wrapper.getStyle('margin-left').toInt();
+            if (ml === 0) {
+                diff += this.scrollLeft.domObj.measure(function(){
+                    return this.getMarginBoxSize().width;
+                });
+            }
+            var w = currentButton.getMarginBoxSize().width;
+            var np;
+            while (w < diff && $defined(currentButton)) {
+                np = this.getNextButton(currentButton);
+                if (np) {
+                    w += np.getMarginBoxSize().width;
+                } else {
+                    break;
+                }
+                currentButton = np;
+            }
+            
+            
+            
+            
+            
+            ml -= w;
+            
+            if (typeof Fx != 'undefined' && typeof Fx.Tween != 'undefined'){
+                //scroll it
+                this.wrapper.get('tween',{property: 'margin-left', onComplete: this.afterTweenRight.bind(this,currentButton)}).start(ml);
+            } else {
+                //set it
+                this.wrapper.setStyle('margin-left', ml);
+                this.afterTweenRight(currentButton);
+            }
+        } else {
+            //it's left of the scroller
+            var ml = this.wrapper.getStyle('margin-left').toInt();
+            ml -= pos.left;
+            
+            if (typeof Fx != 'undefined' && typeof Fx.Tween != 'undefined'){
+                //scroll it
+                this.wrapper.get('tween',{property: 'margin-left', onComplete: this.afterTweenLeft.bind(this,item)}).start(ml);
+            } else {
+                //set it
+                this.wrapper.setStyle('margin-left', ml);
+                this.afterTweenLeft(item);
+            }
+        }
+        
+    },
+    
+    getPreviousButton: function (currentButton) {
+        pp = currentButton.getPrevious();
+        if (!$defined(pp)) {
+            //check for a new toolbar
+            pp = currentButton.getParent().getPrevious()
+            if (pp) {
+                pp = pp.getLast();
+            }
+        } 
+        return pp;
+    },
+    
+    getNextButton: function (currentButton) {
+        np = currentButton.getNext();
+        if (!np) {
+            np = currentButton.getParent().getNext();
+            if (np) {
+                np = np.getFirst();
+            }
+        }
+        return np;
     }
         
 });
