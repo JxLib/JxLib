@@ -420,7 +420,12 @@ Jx.Store = new Class({
         if (!$defined(index)) {
             index = this.index;
         }
-        return this.data[index].set(column, data);
+        var ret = this.data[index].set(column, data);
+        ret.reverse();
+        ret.push(index);
+        ret.reverse();
+        //fire event with array [index, column, oldvalue, newValue]
+        this.fireEvent('storeColumnChanged', ret);
     },
     /**
      * APIMethod: refresh

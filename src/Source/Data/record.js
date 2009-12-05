@@ -126,7 +126,8 @@ Jx.Record = new Class({
         var oldValue = this.get(column);
         this.data.set(column.name, data);
         this.state = Jx.Record.UPDATE;
-        this.store.fireEvent('storeColumnChanged', [this, column.name, oldValue, data]);
+        return [column.name, oldValue, data];
+        //this.store.fireEvent('storeColumnChanged', [this, column.name, oldValue, data]);
             
     },
     /**

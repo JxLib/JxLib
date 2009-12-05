@@ -242,6 +242,11 @@ Jx.Columns = new Class({
         }, this);
     },
 
+    updateRule: function(column) {
+        var col = this.getByName(column);
+        col.rule.style.width = col.getWidth(true) + "px";
+    },
+    
     /**
      * APIMethod: getColumnCount
      * returns the number of columns in this model (including hidden).
