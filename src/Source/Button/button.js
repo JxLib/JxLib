@@ -228,7 +228,7 @@ Jx.Button = new Class({
                     title: this.options.tooltip,
                     alt: this.options.tooltip
                 });
-                if (this.options.image && this.options.image.indexOf('a_pixel.png') == -1) {
+                if (this.options.image && this.options.image.indexOf(Jx.aPixel.src) == -1) {
                     this.domImg.setStyle('backgroundImage',"url("+this.options.image+")");
                 }
                 if (this.options.imageClass) {

@@ -130,73 +130,88 @@ Jx.Toolbar.Container = new Class({
             this.options.scroll = false;
         }
 
+        this.addEvent('add',this.update.bind(this));
         if (this.options.toolbars) {
             this.add(this.options.toolbars);
         }
     },
 
     update: function() {
-        
-        if (['top','bottom'].contains(this.options.position)) {
-            var tbcSize = this.tbContainer.getContentBoxSize().width;
-            
-            var s = 0;
-            //next check to see if we need the scrollers or not.
-            var children = this.wrapper.getChildren();
-            if (children.length > 0) {
-                children.each(function(tb){
-                    s += tb.getMarginBoxSize().width;
-                },this);
+        if (this.options.scroll ) {
+            if (['top','bottom'].contains(this.options.position)) {
+                var tbcSize = this.tbContainer.getContentBoxSize().width;
                 
-                var scrollerSize = tbcSize;
-                
-                var leftMargin = this.wrapper.getStyle('margin-left').toInt();
-                
-                if (leftMargin < 0) {
-                    //has been scrolled left so activate the right scroller
-                    this.scrollLeft.domObj.setStyles({
-                        visibility: 'visible',
-                        display: 'inline-block'
-                    });
-                    scrollerSize -= this.scrollLeft.domObj.getMarginBoxSize().width;
+                var s = 0;
+                //next check to see if we need the scrollers or not.
+                var children = this.wrapper.getChildren();
+                if (children.length > 0) {
+                    children.each(function(tb){
+                        s += tb.getMarginBoxSize().width;
+                    },this);
+                    
+                    var scrollerSize = tbcSize;
+                    
+                    if (s === 0) {
+                        this.scrollLeft.domObj.setStyles({
+                            visibility: 'hidden',
+                            display: 'none'
+                        });
+                        this.scrollRight.domObj.setStyles({
+                            visibility: 'hidden',
+                            display: 'none'
+                        });
+                    } else {
+                        
+                        
+                        var leftMargin = this.wrapper.getStyle('margin-left').toInt();
+                        
+                        if (leftMargin < 0) {
+                            //has been scrolled left so activate the right scroller
+                            this.scrollLeft.domObj.setStyles({
+                                visibility: 'visible',
+                                display: 'inline-block'
+                            });
+                            scrollerSize -= this.scrollLeft.domObj.getMarginBoxSize().width;
+                        } else {
+                            //we don't need it
+                            this.scrollLeft.domObj.setStyles({
+                                visibility: 'hidden',
+                                display: 'none'
+                            });
+                        }
+                        
+                        if (s + leftMargin > scrollerSize) {
+                            //we need the right one
+                            this.scrollRight.domObj.setStyles({
+                                visibility: 'visible',
+                                display: 'inline-block'
+                            });
+                            scrollerSize -= this.scrollRight.domObj.getMarginBoxSize().width;
+                        } else {
+                            //we don't need it
+                            this.scrollRight.domObj.setStyles({
+                                visibility: 'hidden',
+                                display: 'none'
+                            });
+                        }
+                    }
+                    
                 } else {
-                    //we don't need it
+                    this.scrollRight.domObj.setStyles({
+                        visibility: 'hidden',
+                        display: 'none'
+                    });
                     this.scrollLeft.domObj.setStyles({
                         visibility: 'hidden',
                         display: 'none'
                     });
+                    
                 }
+                this.scroller.setStyle('width', scrollerSize );
                 
-                if (s + leftMargin > scrollerSize) {
-                    //we need the right one
-                    this.scrollRight.domObj.setStyles({
-                        visibility: 'visible',
-                        display: 'inline-block'
-                    });
-                    scrollerSize -= this.scrollRight.domObj.getMarginBoxSize().width;
-                } else {
-                    //we don't need it
-                    this.scrollRight.domObj.setStyles({
-                        visibility: 'hidden',
-                        display: 'none'
-                    });
-                }
-                
-            } else {
-                this.scrollRight.domObj.setStyles({
-                    visibility: 'hidden',
-                    display: 'none'
-                });
-                this.scrollLeft.domObj.setStyles({
-                    visibility: 'hidden',
-                    display: 'none'
-                });
-                
+                this.findFirstVisible();
+                this.updating = false;
             }
-            this.scroller.setStyle('width', scrollerSize );
-            
-            this.findFirstVisible();
-            this.updating = false;
         }
     },
     /**
