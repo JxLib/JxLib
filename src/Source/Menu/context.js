@@ -66,8 +66,8 @@ Jx.Menu.Context = new Class({
         this.contentContainer.setStyle('visibility','');
         this.showChrome(this.contentContainer);
 
-        document.addEvent('mousedown', this.hideWatcher);
-        document.addEvent('keyup', this.keypressWatcher);
+        document.addEvent('mousedown', this.bound.mousedown);
+        document.addEvent('keyup', this.bound.keypress);
 
         e.stop();
     }
