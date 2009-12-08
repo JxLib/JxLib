@@ -138,7 +138,11 @@ Jx.Plugin.Grid.Prelighter = new Class({
             this.prelightRow(data.row, on);
         }
         if (this.options.column) {
-            this.prelightColumn(data.index - 1, on);
+            if (this.grid.row.useHeaders()) {
+                this.prelightColumn(data.index - 1, on);
+            } else {
+                this.prelightColumn(data.index, on);
+            }
         }
         if (this.options.rowHeader) {
             this.prelightRowHeader(data.row, on);

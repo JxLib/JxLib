@@ -428,6 +428,7 @@ Jx.Dialog = new Class({
         } else {
             this.domObj.resize(this.options);
         }
+        
         if (this.firstShow) {
             this.contentContainer.resize({forceResize: true});
             this.layoutContent();

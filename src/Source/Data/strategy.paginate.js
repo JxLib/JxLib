@@ -1,6 +1,6 @@
 // $Id$
 /**
- * Class: Jx.Store.Strategy.Paginat
+ * Class: Jx.Store.Strategy.Paginate
  * 
  * Extends: <Jx.Store.Strategy>
  * 

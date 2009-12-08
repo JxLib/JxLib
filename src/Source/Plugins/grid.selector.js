@@ -140,7 +140,11 @@ Jx.Plugin.Grid.Selector = new Class({
         }
 
         if (this.options.column) {
-            this.selectColumn(data.index - 1);
+            if (this.grid.row.useHeaders()) {
+                this.selectColumn(data.index - 1);
+            } else {
+                this.selectColumn(data.index);
+            }
         }
 
     },
