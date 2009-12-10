@@ -80,7 +80,7 @@ Jx.List = new Class({
         
         /**
          * Option: select
-         * {Boolean} default true.  If set to true, the wrapper element will
+         * {Boolean} default false.  If set to true, the wrapper element will
          * obtain the defined selectClass if set and select/unselect events
          * will be emitted when items are selected and unselected.  For other
          * selection objects, see <Jx.Selection>
