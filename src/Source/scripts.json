@@ -484,13 +484,9 @@
             "desc": "A notification area that floats in a container above other content."
             
         },
-        "notifier.anchor": {
-            "deps": ["notifier"],
-            "desc": "A notification area that is anchored inline in a container."
-        },
-        
         "notice": {
-            "deps":["listitem"]
+            "deps":["listitem"],
+            "desc": ""
         }
         
     },
