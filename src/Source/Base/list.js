@@ -230,9 +230,9 @@ Jx.List = new Class({
                 });
             }
             if ($defined(position)) {
-                if ($type(position) == 'integer') {
+                if ($type(position) == 'number') {
                     if (position < this.container.childNodes.length) {
-                        el.inject(this.container.childNodes[position],' before');
+                        el.inject(this.container.childNodes[position],'before');
                     } else {
                         el.inject(this.container, 'bottom');
                     }
