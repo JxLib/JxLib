@@ -55,6 +55,7 @@ Jx.Selection = new Class({
     },
     
     select: function (item) {
+        item = document.id(item);
         if (this.options.selectMode === 'multiple') {
             if (this.selection.contains(item)) {
                 this.unselect(item);
