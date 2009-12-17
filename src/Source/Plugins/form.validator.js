@@ -90,11 +90,11 @@ Jx.Plugin.Form.Validator = new Class({
         $H(this.options.fields).each(function (val, key) {
             var opts = $merge(this.options.fieldDefaults, val);
             var field = document.id(key).retrieve('field');
-            var plugin = new Jx.Plugin.Field.Validator(opts);
-            this.plugins.set(key, plugin);
-            plugin.attach(field);
-            plugin.addEvent('fieldValidationFailed', this.bound.failed);
-            plugin.addEvent('fieldValidationPassed', this.bound.passed);
+            var p = new Jx.Plugin.Field.Validator(opts);
+            this.plugins.set(key, p);
+            p.attach(field);
+            p.addEvent('fieldValidationFailed', this.bound.failed);
+            p.addEvent('fieldValidationPassed', this.bound.passed);
 
         }, this);
 
@@ -148,7 +148,7 @@ Jx.Plugin.Form.Validator = new Class({
         this.fireEvent('fieldValidationFailed', [field, validator]);
     },
     /**
-     * Method: fielPassed
+     * Method: fieldPassed
      * Refires the fieldValidationPassed event from the field validators it contains
      */
     fieldPassed: function (field, validator) {
