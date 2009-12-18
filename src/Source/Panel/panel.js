@@ -120,6 +120,7 @@ Jx.Panel = new Class({
          * of each toolbar is used to position the toolbar within the panel.
          */
         toolbars: [],
+        type: 'panel',
         template: '<div class="jxPanel"><div class="jxPanelTitle"><img class="jxPanelIcon" src="'+Jx.aPixel.src+'" alt="" title=""/><span class="jxPanelLabel"></span><div class="jxPanelControls"></div></div><div class="jxPanelContentContainer"><div class="jxPanelContent"></div></div></div>'
     },
     classes: new Hash({
@@ -155,7 +156,7 @@ Jx.Panel = new Class({
         this.toolbar = new Jx.Toolbar({parent:tbDiv, scroll: false});
 
         var that = this;
-
+        25 "dataview.groupfolder", 
         if (this.options.menu) {
             this.menu = new Jx.Menu({
                 image: Jx.aPixel.src

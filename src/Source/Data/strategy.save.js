@@ -114,20 +114,22 @@ Jx.Store.Strategy.Save = new Class({
      */
     save: function () {
         //go through all of the data and figure out what needs to be acted on
-        var records = [];
-        records[Jx.Record.UPDATE] = [];
-        records[Jx.Record.INSERT] = [];
-        
-        this.store.data.each(function (record) {
-            if ($defined(record) && $defined(record.state)) {
-                records[record.state].push(record);
-            }
-        }, this);
-        records[Jx.Record.DELETE] = this.store.deleted;
-        
-        records.flatten().each(function (record) {
-            this.saveRecord(record);
-        }, this);
+        if (this.store.loaded) {
+            var records = [];
+            records[Jx.Record.UPDATE] = [];
+            records[Jx.Record.INSERT] = [];
+            
+            this.store.data.each(function (record) {
+                if ($defined(record) && $defined(record.state)) {
+                    records[record.state].push(record);
+                }
+            }, this);
+            records[Jx.Record.DELETE] = this.store.deleted;
+            
+            records.flatten().each(function (record) {
+                this.saveRecord(record);
+            }, this);
+        }
         
     },
     /**

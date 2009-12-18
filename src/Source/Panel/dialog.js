@@ -123,7 +123,7 @@ Jx.Dialog = new Class({
         menuClass: 'jxDialogMenu',
         maximizeClass: 'jxDialogMaximize',
         closeClass: 'jxDialogClose',
-
+        type: 'dialog',
         template: '<div class="jxDialog"><div class="jxDialogTitle"><img class="jxDialogIcon" src="'+Jx.aPixel.src+'" alt="" title=""/><span class="jxDialogLabel"></span><div class="jxDialogControls"></div></div><div class="jxDialogContentContainer"><div class="jxDialogContent"></div></div></div>'
     },
     classes: new Hash({

@@ -364,7 +364,7 @@
         "desc": "This group contains components that manage the layout of other components or HTML elements.",
         
         "layout": {
-            "deps": ["common"],
+            "deps": ["common","object"],
             "desc":"Jx.Layout is used to provide more flexible layout options for applications"
         },
 
