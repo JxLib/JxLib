@@ -107,13 +107,14 @@ Jx.Store.Strategy.Paginate = new Class({
     load: function (params) {
         this.store.fireEvent('storeBeginDataLoad', this.store);
         this.store.protocol.addEvent('dataLoaded', this.bound.loadStore);
+        this.params = params;
         var opts = {
             data: $merge(params, this.options.getPaginationParams.apply(this))
         };
         this.store.protocol.read(opts);
     },
     /**
-     * MethodL loadStore
+     * Method: loadStore
      * Used to assist in the loading of data into the store. This is 
      * called as a response to the protocol finishing.
      * 

@@ -128,13 +128,24 @@ Jx.Grid = new Class({
      */
     init : function () {
         this.uniqueId = this.generateId('jxGrid_');
+        
+        this.bound = {
+                columnChanged: this.modelChanged.bind(this),
+                render: this.render.bind(this),
+                addRow: this.addRow.bind(this),
+                removeRow: this.removeRow.bind(this),
+                multipleRemove: this.removeRows.bind(this)
+        };
+        
         var opts;
         if ($defined(this.options.model)
                 && this.options.model instanceof Jx.Store) {
             this.model = this.options.model;
-            this.model.addEvent('storeColumnChanged', this.modelChanged
-                    .bind(this));
-            this.model.addEvent('storeSortFinished', this.render.bind(this));
+            this.model.addEvent('storeColumnChanged', this.bound.columnChanged);
+            this.model.addEvent('storeSortFinished', this.bound.render);
+            this.model.addEvent('storeRecordAdded', this.bound.addRow);
+            this.model.addEvent('storeRecordRemoved', this.bound.removeRow);
+            this.model.addEvent('storeMultipleRecordsRemoved', this.bound.multipleRemove);
         }
 
         if ($defined(this.options.columns)) {
@@ -500,6 +511,75 @@ Jx.Grid = new Class({
 
         this.model.moveTo(currentRow);
     },
+    
+    /**
+     * APIMethod: addRow
+     * Adds a row to the table. Can add to either the beginning or the end 
+     * based on passed flag
+     */
+    addRow: function (store, record, position) {
+        if (this.model.loaded) {
+            if (position === 'bottom') {
+                this.model.last();
+            } else {
+                this.model.first();
+                this.renumberGrid(0, 1);
+            }
+            
+            //row header
+            if (this.row.useHeaders()) {
+                var rowHeight = this.row.getHeight();
+                var tr = new Element('tr', {
+                    styles : {
+                        height : rowHeight
+                    }
+                });
+                var rowHeaderList = this.makeList(tr);
+                this.row.getRowHeader(rowHeaderList);
+                if (position === 'top') {
+                    tr.inject(this.rowTableHead, position);
+                } else {
+                    var lastTr = this.rowTableHead.children[this.rowTableHead.children.length - 1];
+                    tr.inject(lastTr, 'before');
+                }
+                //this.rowTableHead.appendChild(tr);
+            }
+            tr = this.row.getGridRowElement();
+            tr.store('jxRowData', {row: this.model.getPosition()});
+            var rl = this.makeList(tr);
+            this.columns.getColumnCells(rl);
+            tr.inject(this.gridTableBody, position);
+            //this.gridTableBody.appendChild(tr);
+        }
+    },
+    
+    renumberGrid: function (offset, increment) {
+        var l = this.gridTable.rows.length;
+        for (var i = offset; i < l; i++) {
+            var r = document.id(this.gridTable.rows[i]);
+            var d = r.retrieve('jxRowData');
+            d.row += increment;
+            r.store('jxRowData', d);
+            $A(r.children).each(function(cell){
+                var d = cell.retrieve('jxCellData');
+                d.row += increment;
+                cell.store('jxCellData', d);
+            },this);
+        }
+    },
+    
+    removeRow: function (store, index) {
+        this.gridTable.deleteRow(index);
+        this.rowTable.deleteRow(index);
+        this.renumberGrid(index, -1);
+    },
+    
+    removeRows: function (store, first, last) {
+      for (var i = first; i <= last; i++) {
+          this.removeRow(first);
+      }
+    },
+    
     /**
      * Method: makeList
      * utility method used to make row lists

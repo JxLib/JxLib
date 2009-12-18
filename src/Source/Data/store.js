@@ -366,7 +366,8 @@ Jx.Store = new Class({
     },
     /**
      * APIMethod: each
-     * allows iteration through the store's records.
+     * allows iteration through the store's records. 
+     * NOTE: this function is untested
      * 
      * Parameters:
      * fn - the function to execute for each record
@@ -441,12 +442,17 @@ Jx.Store = new Class({
      * Parameters:
      * data - The data to use in creating a record. This should be in whatever
      *        form Jx.Store.Record, or the current subclass, needs it in.
+     * position - whether the record is added to the 'top' or 'bottom' of the 
+     *      store.
      * insert - flag whether this is an "insert"
      */
-    addRecord: function (data, insert) {
+    addRecord: function (data, position, insert) {
         if (!$defined(this.data)) {
             this.data = [];
         }
+        
+        position = $defined(position)? position : 'bottom';
+        
         var record;
         if (data instanceof Jx.Record) {
             record = data;
@@ -456,8 +462,16 @@ Jx.Store = new Class({
         if (insert) {
             record.state = Jx.Record.INSERT;
         }
-        this.data.push(record);
-        this.fireEvent('storeRecordAdded', [record, this]);
+        if (position === 'top') {
+            //some literature claims that .shift() and .unshift() don't work reliably in IE
+            //so we do it this way.
+            this.data.reverse();
+            this.data.push(record);
+            this.data.reverse();
+        } else {
+            this.data.push(record);
+        }
+        this.fireEvent('storeRecordAdded', [this, record, position]);
     },
     /**
      * APIMethod: addRecords
@@ -465,14 +479,20 @@ Jx.Store = new Class({
      * 
      * Parameters:
      * data - an array of data to add.
+     * position - 'top' or 'bottom'. Indicates whether to add at the top or the
+     *          bottom of the store
      */
-    addRecords: function (data) {
+    addRecords: function (data, position) {
         var def = $defined(data);
         var type = Jx.type(data);
         if (def && type === 'array') {
             this.fireEvent('storeBeginAddRecords', this);
+            //if position is top, reverse the array or we'll add them in the wrong order.
+            if (position === 'top') {
+                data.reverse();
+            }
             data.each(function(d){
-                this.addRecord(d);
+                this.addRecord(d, position);
             },this);
             this.fireEvent('storeEndAddRecords', this);
             return true;
@@ -562,9 +582,10 @@ Jx.Store = new Class({
      * Paremeters:
      * data - the data to use in creating this inserted record. Should be in
      *          whatever form the current implementation of Jx.Record needs
+     * position - where to place the record. Should be either 'top' or 'bottom'.
      */
-    insertRecord: function (data) {
-        this.addRecord(data, true);
+    insertRecord: function (data, position) {
+        this.addRecord(data, position, true);
     },
     
     /**
@@ -605,5 +626,34 @@ Jx.Store = new Class({
             return index;
         }
         return null;
+    },
+    /**
+     * APIMethod: removeRecord
+     * removes (but does not mark for deletion) a record at the given index
+     * or the current store index if none is passed in.
+     * 
+     * Parameters: 
+     * index - Optional. The store index of the record to remove.
+     */
+    removeRecord: function (index) {
+        if (!$defined(index)) {
+            index = this.index;
+        }
+        this.data.splice(index,1);
+        this.fireEvent('storeRecordRemoved', [this, index])
+    },
+    /**
+     * APIMethod: removeRecords
+     * Used to remove multiple contiguous records from a store. 
+     * 
+     * Parameters:
+     * first - where to start removing records (zero-based)
+     * last - where to stop removing records (zero-based, inclusive)
+     */
+    removeRecords: function (first, last) {
+        for (var i = first; i <= last; i++) {
+            this.removeRecord(first);
+        }
+        this.fireEvent('storeMultipleRecordsRemoved', [this, first, last]);
     }
 });

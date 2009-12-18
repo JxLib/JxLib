@@ -1,7 +1,7 @@
 
 /**
  * Class: Jx.Slider
- * This class wraps the mootools-more slider class to make it more Jx.Slider
+ * This class wraps the mootools-more slider class to make it more Jx friendly
  *
  * Copyright 2009 by Jonathan Bomgardner
  * License: MIT-style

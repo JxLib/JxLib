@@ -515,7 +515,14 @@ Jx.Dialog = new Class({
     },
 
     cleanup: function() {
-        this.blanket.destroy();
+        if (this.blanket) {
+            this.blanket.destroy();
+        }
+    },
+    
+    isOpen: function () {
+        //check to see if we're visible
+        return !((this.domObj.getStyle('display') === 'none') || (this.domObj.getStyle('visibility') === 'hidden'));
     }
 });
 
