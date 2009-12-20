@@ -156,7 +156,6 @@ Jx.Panel = new Class({
         this.toolbar = new Jx.Toolbar({parent:tbDiv, scroll: false});
 
         var that = this;
-        25 "dataview.groupfolder", 
         if (this.options.menu) {
             this.menu = new Jx.Menu({
                 image: Jx.aPixel.src
