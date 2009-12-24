@@ -1,0 +1,86 @@
+
+.jxHasVerticalScrollbar,
+.jxHasHorizontalScrollbar {
+    position: relative;
+    overflow: hidden;
+}
+
+.jxScrollbarChildWrapper {
+    overflow: hidden;
+}
+
+.jxHasVerticalScrollbar {
+    padding-right: 25px;
+}
+
+.jxHasVerticalScrollbar .jxScrollbarContainer {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 20px;
+    height: 100%;
+    border: none;
+    border-left: 1px solid black;
+}
+
+.jxHasVerticalScrollbar .jxScrollLeft,
+.jxHasVerticalScrollbar .jxScrollRight {
+    width: 20px;
+    height: 20px;
+    display: block;
+    background-color: blue;
+}
+
+.jxHasVerticalScrollbar .jxSliderContainer {
+    height: 100%;
+    width: 20px;
+    border: none;
+}
+
+.jxHasHorizontalScrollbar {
+    padding-bottom: 25px;
+}
+
+.jxHasHorizontalScrollbar .jxScrollbarContainer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 20px;
+    width: 100%;
+    border: none;
+    border-top: 1px solid black;
+}
+
+.jxHasHorizontalScrollbar .jxScrollLeft,
+.jxHasHorizontalScrollbar .jxScrollRight {
+    width: 20px;
+    height: 20px;
+    display: block;
+    background-color: blue;
+}
+ 
+.jxHasHorizontalScrollbar .jxScrollLeft {
+    float: left;
+}
+
+.jxHasHorizontalScrollbar .jxScrollRight {
+    float: right;
+}
+
+.jxHasHorizontalScrollbar .jxSlider {
+    float: left;
+}
+
+.jxHasHorizontalScrollbar .jxSliderContainer {
+    height: 20px;
+    width: 100%;
+    border: none;
+}
+
+.jxHasVerticalScrollbar .jxSliderKnob,
+.jxHasHorizontalScrollbar .jxSliderKnob {
+    width: 20px;
+    height: 20px;
+    background-color: black;
+    cursor: pointer;
+}

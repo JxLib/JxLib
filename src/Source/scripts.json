@@ -487,6 +487,11 @@
         "notice": {
             "deps":["listitem"],
             "desc": ""
+        },
+        
+        "scrollbar": {
+            "deps": ["slider"],
+            "desc": "An implementation of a custom CSS-styled scrollbar."
         }
         
     },
@@ -585,7 +590,7 @@
         
         "file": {
             "deps": ["field", "text", "button", "Request.JSON", "hidden","form"],
-            "desc": "Represents a file input w/upload and prgress tracking capabilities (requires APC for progress)"
+            "desc": "Represents a file input w/upload and progress tracking capabilities (requires APC for progress)"
         }
     }
 

@@ -1,4 +1,4 @@
-
+// $Id$
 /**
  * Class: Jx.Slider
  * This class wraps the mootools-more slider class to make it more Jx friendly
@@ -75,10 +75,15 @@ Jx.Slider = new Class({
      */
     render: function () {
         this.parent();
-
+        
+        /** 
+         * Not sure why this is here...
+         */
+        /**
         if (this.domObj) {
             return;
         }
+        **/
 
         this.sliderOpts = {
             range: [this.options.min, this.options.max],
@@ -101,7 +106,7 @@ Jx.Slider = new Class({
     },
     /**
      * Method: complete
-     * Called when the slider stops movingand the mouse button is released.
+     * Called when the slider stops moving and the mouse button is released.
      */
     complete: function (step) {
         this.fireEvent('complete', [step, this]);
