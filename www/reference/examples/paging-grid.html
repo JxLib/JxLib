@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-<title>Jx.Grid Test Page</title>
+<title>Jx.Grid Paging Test Page</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <script type="text/javascript" src="../../lib/mootools-core.js"></script>
 <script type="text/javascript" src="../../lib/mootools-more.js"></script>
@@ -11,9 +11,7 @@
 var grid;
 var panel;
 var aboutDialog;
-var prelighter;
-var selector;
-var sorter;
+var pagingToolbar;
 
 window.addEvent('load', function() {
   
@@ -33,7 +31,7 @@ window.addEvent('load', function() {
 <script id="toolbarScript" type="text/javascript">
 function drawToolbar() {
     //here we'll make a paging toolbar.
-    var pagingToolbar = new Class({
+    pagingToolbar = new Class({
 
         Extends: Jx.Toolbar,
 
@@ -64,6 +62,8 @@ function drawToolbar() {
                 this.strategy = new Jx.Store.Strategy.Paginate(this.options.paginationOptions);
                 this.store.addStrategy(this.strategy);
             }
+
+            this.store.addEvent('storeDataLoaded', this.updateToolbar.bind(this));
             
             
         },
@@ -71,74 +71,85 @@ function drawToolbar() {
         render: function () {
             //create the toolbar
             this.parent();
+
+            this.counter = new Element('div', {
+                html: 'Page: 1 of X',
+                id: 'counter'
+            });
             this.add( 
                 new Jx.Button({
                   id: 'start',
                   label: '<<',
                   //image: 'images/asterisk_orange.png',
                   tooltip: 'jump to first page',
-                  onClick: function() { this.strategy.setPage('first'); }
+                  onClick: function() { 
+                    this.strategy.setPage('first'); 
+                  }.bind(this)
                 }),
                 new Jx.Button({
                   id: 'previous',
                   label: '<',
                   //image: 'images/asterisk_orange.png',
                   tooltip: 'previous page',
-                  onClick: function() { this.strategy.setPage('previous'); }
+                  onClick: function() { 
+                    this.strategy.setPage('previous'); 
+                  }.bind(this)
                 }),
+                new Jx.Toolbar.Item(this.counter),
                 new Jx.Button({
                   id: 'next',
                   label: '>',
                   //image: 'images/asterisk_orange.png',
                   tooltip: 'next page',
-                  onClick: function() { this.strategy.setPage('next'); }
+                  onClick: function() { 
+                      this.strategy.setPage('next');
+                  }.bind(this)
                 }),
                 new Jx.Button({
                   id: 'last',
                   label: '>>',
                   //image: 'images/asterisk_orange.png',
                   tooltip: 'jump to last page',
-                  onClick: function() { this.strategy.setPage('last'); }
+                  onClick: function() { 
+                      this.strategy.setPage('last');
+                  }.bind(this)
                 })
             );
+        },
+
+        updateToolbar: function () {
+            this.counter.set('html','Page ' + this.strategy.getPage() + ' of ' + this.strategy.getNumberOfPages());
+            this.update();
         }
     });
-    var tlb = new pagingToolbar();
+    
 }
 </script>
 <script id="gridScript" type="text/javascript">
 function drawGrid() {
-    //need a much larger data set. also want to set it up to pull via ajax
-    
     var parser = new Jx.Store.Parser.JSON();
-    var full = new Jx.Store.Strategy.Paginate({
+    var paginate = new Jx.Store.Strategy.Paginate({
         ignoreExpiration: true
     });
     var protocol = new Jx.Store.Protocol.Ajax({
-
+        parser: parser,
+        urls: {
+            read: 'paging.php'
+        }
     });
     var store = new Jx.Store({
-        columns: [
-            {name: 'header',type: 'alphanumeric'},
-            {name: '2002', type: 'currency'},
-            {name: '2003', type: 'currency'},
-            {name: '2004', type: 'currency'},
-            {name: '2005', type: 'currency'},
-            {name: '2006', type: 'currency'},
-            {name: '2007', type: 'currency'}
-        ],
         protocol: protocol,
-        strategies: [full],
+        strategies: [paginate],
         record: Jx.Record
     });
     
-  //setup options
+  //setup Grid options
   var options = {
       parent: 'gridArea',
       row: {
           useHeaders: true,
           alternateRowColors: true,
-          headerField: 'header',
+          headerField: 'id',
           rowHeight: 20
       },
       columns: {
@@ -146,7 +157,7 @@ function drawGrid() {
           useHeaders: true,
           columns: [{
               header: null,
-              modelField: 'header',
+              modelField: 'id',
               width: 'auto',
               isEditable: false,
               isSortable: false,
@@ -155,10 +166,10 @@ function drawGrid() {
               cssClass: '',
               formatter: null,
               name: 'header',
-              dataType: 'alphanumeric'
+              dataType: 'numeric'
           },{
-              header: '2002',
-              modelField: '2002',
+              header: 'Area',
+              modelField: 'AREA',
               width: 'auto',
               isEditable: true,
               isSortable: true,
@@ -166,11 +177,11 @@ function drawGrid() {
               isHidden: false,
               cssClass: '',
               formatter: null,
-              name: '2002',
-              dataType: 'currency'
+              name: 'area',
+              dataType: 'numeric'
           },{
-              header: '2003',
-              modelField: '2003',
+              header: 'Perimeter',
+              modelField: 'PERIMETER',
               width: 'auto',
               isEditable: false,
               isSortable: false,
@@ -178,11 +189,11 @@ function drawGrid() {
               isHidden: false,
               cssClass: '',
               formatter: null,
-              name: '2003',
-              dataType: 'currency'
+              name: 'perimeter',
+              dataType: 'numeric'
           },{
-              header: '2004',
-              modelField: '2004',
+              header: 'Popplace_',
+              modelField: 'POPPLACE_',
               width: 'auto',
               isEditable: false,
               isSortable: false,
@@ -190,11 +201,11 @@ function drawGrid() {
               isHidden: false,
               cssClass: '',
               formatter: null,
-              name: '2004',
-              dataType: 'currency'
+              name: 'popplace',
+              dataType: 'numeric'
           },{
-              header: '2005',
-              modelField: '2005',
+              header: 'Popplace_I',
+              modelField: 'POPPLACE_I',
               width: 'auto',
               isEditable: false,
               isSortable: false,
@@ -202,11 +213,11 @@ function drawGrid() {
               isHidden: false,
               cssClass: '',
               formatter: null,
-              name: '2005',
-              dataType: 'currency'
+              name: 'popplace-i',
+              dataType: 'numeric'
           },{
-              header: '2006',
-              modelField: '2006',
+              header: 'Unique Key',
+              modelField: 'UNIQUE_KEY',
               width: 'auto',
               isEditable: false,
               isSortable: false,
@@ -214,11 +225,11 @@ function drawGrid() {
               isHidden: false,
               cssClass: '',
               formatter: null,
-              name: '2006',
-              dataType: 'currency'
+              name: 'uniqueKey',
+              dataType: 'alphanumeric'
           },{
-              header: '2007',
-              modelField: '2007',
+              header: 'Name',
+              modelField: 'NAME',
               width: 'auto',
               isEditable: false,
               isSortable: false,
@@ -226,8 +237,116 @@ function drawGrid() {
               isHidden: false,
               cssClass: '',
               formatter: null,
-              name: '2007',
-              dataType: 'currency'
+              name: 'name',
+              dataType: 'alphanumeric'
+          },{
+              header: 'Name_E',
+              modelField: 'NAME_E',
+              width: 'auto',
+              isEditable: false,
+              isSortable: false,
+              isResizable: true,
+              isHidden: false,
+              cssClass: '',
+              formatter: null,
+              name: 'nameE',
+              dataType: 'alphanumeric'
+          },{
+              header: 'Name_F',
+              modelField: 'NAME_F',
+              width: 'auto',
+              isEditable: false,
+              isSortable: false,
+              isResizable: true,
+              isHidden: false,
+              cssClass: '',
+              formatter: null,
+              name: 'nameF',
+              dataType: 'alphanumeric'
+          },{
+              header: 'Reg_Code',
+              modelField: 'REG_CODE',
+              width: 'auto',
+              isEditable: false,
+              isSortable: false,
+              isResizable: true,
+              isHidden: false,
+              cssClass: '',
+              formatter: null,
+              name: 'regCode',
+              dataType: 'numeric'
+          },{
+              header: 'NTS50',
+              modelField: 'NTS50',
+              width: 'auto',
+              isEditable: false,
+              isSortable: false,
+              isResizable: true,
+              isHidden: false,
+              cssClass: '',
+              formatter: null,
+              name: 'nts50',
+              dataType: 'alphanumeric'
+          },{
+              header: 'Latitude',
+              modelField: 'LAT',
+              width: 'auto',
+              isEditable: false,
+              isSortable: false,
+              isResizable: true,
+              isHidden: false,
+              cssClass: '',
+              formatter: null,
+              name: 'latitude',
+              dataType: 'numeric'
+          },{
+              header: 'Longitude',
+              modelField: 'LONG',
+              width: 'auto',
+              isEditable: false,
+              isSortable: false,
+              isResizable: true,
+              isHidden: false,
+              cssClass: '',
+              formatter: null,
+              name: 'longitude',
+              dataType: 'numeric'
+          },{
+              header: 'Sgd_Code',
+              modelField: 'SGC_CODE',
+              width: 'auto',
+              isEditable: false,
+              isSortable: false,
+              isResizable: true,
+              isHidden: false,
+              cssClass: '',
+              formatter: null,
+              name: 'sgdCode',
+              dataType: 'numeric'
+          },{
+              header: 'Capital',
+              modelField: 'CAPITAL',
+              width: 'auto',
+              isEditable: false,
+              isSortable: false,
+              isResizable: true,
+              isHidden: false,
+              cssClass: '',
+              formatter: null,
+              name: 'capital',
+              dataType: 'numeric'
+          },{
+              header: 'Pop_Range',
+              modelField: 'POP_RANGE',
+              width: 'auto',
+              isEditable: false,
+              isSortable: false,
+              isResizable: true,
+              isHidden: false,
+              cssClass: '',
+              formatter: null,
+              name: 'popRange',
+              dataType: 'numeric'
           }
          ]
       },
@@ -235,8 +354,8 @@ function drawGrid() {
   };
   //create grid
   var grid = new Jx.Grid(options);
-  store.addEvent('storeDataLoaded', function () {
-      grid.render();
+  var tlb = new pagingToolbar({
+      store: store
   });
   store.load();
   
@@ -244,18 +363,26 @@ function drawGrid() {
   
 }
 </script>
+<style>
+    #counter {
+        height: 16px;
+        line-height: 16px;
+        color: black;
+        margin-top: 6px;
+        margin-right: 2px;
+        font-size: 11px;
+        font-family: Arial,Verdana,sans-serif;
+    }
+</style>
 </head>
 <body>
 
-  <h1>Jx.Grid Examples</h1>
+  <h1>Jx.Grid Paging Toolbar Examples</h1>
   <p>API Reference: <a id="grid-js" href="javascript:void();" title="link to API Reference">Jx.Grid</a></p>
-  <p>This example demonstrates some basic and advanced ways of using Jx.Grid.  The actual data comes live from the USGS earthquake site and may take a little while to load - please be patient, its worth the wait!</p>
-  <h2 id="toolbar">Grid Options</h2>
-  <p>There are a number of options for configuring a grid, try them out by using the menus to turn various options on and off.</p>
-  <h2 id="grid">The Grid</h2>
-  <p>The grid itself has a lot of options when you first construct it, for this example most of the options are turned off so we can use the menus to demonstrate the effect of turning them on and off.</p>
-  <p>The grid component uses an architecture that requires a separate object to provide the data to the grid through a specific api.  This object is called the model for the grid.  The grid allows the model to be changed at any time and the grid will redraw itself with the new model's data.</p>
-  <div id="toolbarArea" class="toolbarBox"></div>
+  <p>This example demonstrates using the grid with the paginate strategy to create a custom paging toolbar. 
+  Please take note that this is a VERY rudimentary implementation. Developers would be responsible for expanding
+  and implementing a toolbar to meet their needs. This is just a proof-of-concept.</p>
+  <div id="toolbarArea" class="toolbarBox" style="width: 500px;"></div>
   <div id="gridArea" class="gridBox"></div>
 
 </body>

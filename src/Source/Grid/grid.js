@@ -146,6 +146,7 @@ Jx.Grid = new Class({
             this.model.addEvent('storeRecordAdded', this.bound.addRow);
             this.model.addEvent('storeRecordRemoved', this.bound.removeRow);
             this.model.addEvent('storeMultipleRecordsRemoved', this.bound.multipleRemove);
+            this.model.addEvent('storeDataLoaded', this.bound.render);
         }
 
         if ($defined(this.options.columns)) {

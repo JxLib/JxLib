@@ -10,7 +10,7 @@
         "protocol.ajax": ["all"]
     },
     "Grid": {
-        "grid": ["basic","headers","formatters","prelighter","selector","sorter"]
+        "grid": ["basic","changeData", "headers","formatters","prelighter","selector","sorter"]
     },
     "Form": {
         "form": ["fields","fieldset","form","file", "validation"]
