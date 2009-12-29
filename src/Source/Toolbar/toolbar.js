@@ -274,7 +274,11 @@ Jx.Toolbar = new Class({
                     var size = button.getMarginBoxSize();
                     s += size.width;
                 },this);
-                this.domObj.setStyle('width', s);
+                if (s !== 0) {
+                    this.domObj.setStyle('width', s);
+                } else {
+                    this.domObj.setStyle('width','auto');
+                }
                 this.fireEvent('update');
             }).delay(1,this);
         }
