@@ -392,6 +392,18 @@ Jx.Button = new Class({
                 'alt':tooltip
             });
         }
+        //need to account for the tooltip on the image as well
+        if (this.domImg) {
+            //check if title and alt are set...
+            var t = this.domImg.get('title');
+            if ($defined(t)) {
+                //change it...
+                this.domImg.set({
+                    'title':tooltip,
+                    'alt':tooltip
+                });
+            }
+        }
     },
     /**
      * Method: focus

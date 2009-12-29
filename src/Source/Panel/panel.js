@@ -167,23 +167,23 @@ Jx.Panel = new Class({
 
         var b, item;
         if (this.options.collapse) {
-            b = new Jx.Button({
+            var colB = new Jx.Button({
                 image: Jx.aPixel.src,
                 tooltip: this.options.collapseTooltip,
                 onClick: function() {
                     that.toggleCollapse();
                 }
             });
-            b.domObj.addClass(this.options.collapseClass);
+            colB.domObj.addClass(this.options.collapseClass);
             this.addEvents({
                 collapse: function() {
-                    b.setTooltip(this.options.expandTooltip);
+                    colB.setTooltip(this.options.expandTooltip);
                 },
                 expand: function() {
-                    b.setTooltip(this.options.collapseTooltip);
+                    colB.setTooltip(this.options.collapseTooltip);
                 }
             });
-            this.toolbar.add(b);
+            this.toolbar.add(colB);
             if (this.menu) {
                 item = new Jx.Menu.Item({
                     label: this.options.collapseLabel,
@@ -202,23 +202,23 @@ Jx.Panel = new Class({
         }
 
         if (this.options.maximize) {
-            b = new Jx.Button({
+            var maxB = new Jx.Button({
                 image: Jx.aPixel.src,
                 tooltip: this.options.maximizeTooltip,
                 onClick: function() {
                     that.maximize();
                 }
             });
-            b.domObj.addClass(this.options.maximizeClass);
+            maxB.domObj.addClass(this.options.maximizeClass);
             this.addEvents({
                 maximize: function() {
-                    b.setTooltip(this.options.restoreTooltip);
+                    maxB.setTooltip(this.options.restoreTooltip);
                 },
                 restore: function() {
-                    b.setTooltip(this.options.maximizeTooltip);
+                    maxB.setTooltip(this.options.maximizeTooltip);
                 }
             });
-            this.toolbar.add(b);
+            this.toolbar.add(maxB);
             if (this.menu) {
                 item = new Jx.Menu.Item({
                     label: this.options.maximizeLabel,
@@ -237,15 +237,15 @@ Jx.Panel = new Class({
         }
 
         if (this.options.close) {
-            b = new Jx.Button({
+            var closeB = new Jx.Button({
                 image: Jx.aPixel.src,
                 tooltip: this.options.closeTooltip,
                 onClick: function() {
                     that.close();
                 }
             });
-            b.domObj.addClass(this.options.closeClass);
-            this.toolbar.add(b);
+            closeB.domObj.addClass(this.options.closeClass);
+            this.toolbar.add(closeB);
             if (this.menu) {
                 item = new Jx.Menu.Item({
                     label: this.options.closeLabel,
