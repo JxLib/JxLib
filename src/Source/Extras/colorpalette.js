@@ -287,12 +287,15 @@ Jx.ColorPalette = new Class({
         if (this.options.alpha < 1) {
             styles.opacity = this.options.alpha;
             styles.filter = 'Alpha(opacity='+(this.options.alpha*100)+')';
+            
         } else {
-            styles.opacity = '';
-            styles.filter = '';
+            styles.opacity = 1;
+            //not sure what the proper way to remove the filter would be since I don't have IE to test against.
+            styles.filter = '';  
         }
         this.selectedSwatch.setStyles(styles);
         this.previewSwatch.setStyles(styles);
+        
         this.fireEvent('change', this);
     }
 });

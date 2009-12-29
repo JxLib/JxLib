@@ -180,7 +180,7 @@ Jx.Button.Color = new Class({
             styles.opacity = this.options.alpha / 100;
 
         } else {
-            styles.opacity = '';
+            styles.opacity = 1;
             styles.filter = '';
         }
         this.swatch.setStyles(styles);
