@@ -455,33 +455,35 @@ Jx.Widget = new Class({
         /* get the chrome image from the background image of the element */
         /* the app: protocol check is for adobe air support */
         var src = c.getStyle('backgroundImage');
-        if (!(src.contains('http://') || src.contains('https://') || src.contains('file://') || src.contains('app:/'))) {
-            src = null;
-        } else {
-            src = src.slice(4,-1);
-            /* this only seems to be IE and Opera, but they add quotes
-             * around the url - yuck
-             */
-            if (src.charAt(0) == '"') {
-                src = src.slice(1,-1);
-            }
+        if (src != null) {
+          if (!(src.contains('http://') || src.contains('https://') || src.contains('file://') || src.contains('app:/'))) {
+              src = null;
+          } else {
+              src = src.slice(4,-1);
+              /* this only seems to be IE and Opera, but they add quotes
+               * around the url - yuck
+               */
+              if (src.charAt(0) == '"') {
+                  src = src.slice(1,-1);
+              }
 
-            /* and remove the background image */
-            c.setStyle('backgroundImage', 'none');
+              /* and remove the background image */
+              c.setStyle('backgroundImage', 'none');
 
-            /* make chrome */
-            ['TR','TL','BL','BR'].each(function(s){
-                c.adopt(
-                    new Element('div',{
-                        'class':'jxChrome'+s
-                    }).adopt(
-                    new Element('img',{
-                        'class':'png24',
-                        src:src,
-                        alt: '',
-                        title: ''
-                    })));
-            }, this);
+              /* make chrome */
+              ['TR','TL','BL','BR'].each(function(s){
+                  c.adopt(
+                      new Element('div',{
+                          'class':'jxChrome'+s
+                      }).adopt(
+                      new Element('img',{
+                          'class':'png24',
+                          src:src,
+                          alt: '',
+                          title: ''
+                      })));
+              }, this);
+          }
         }
         if (!window.opera) {
             c.adopt(Jx.createIframeShim());
