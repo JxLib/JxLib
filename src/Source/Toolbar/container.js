@@ -104,7 +104,11 @@ Jx.Toolbar.Container = new Class({
             this.scrollLeft.domObj.addClass('jxBarScrollLeft');
             this.scrollLeft.addEvents({
                click: (function(){
-                   var from = this.scroller.getStyle('left').toInt();
+                   var from = 0;
+                   var leftStyle = this.scroller.getStyle('left');
+                   if (leftStyle) {
+                     from = leftStyle.toInt();
+                   }
                    if (isNaN(from)) { from = 0; }
                    var to = Math.min(from+100, 0);
                    if (to >= 0) {
@@ -125,7 +129,11 @@ Jx.Toolbar.Container = new Class({
             this.scrollRight.domObj.addClass('jxBarScrollRight');
             this.scrollRight.addEvents({
                click: (function(){
-                   var from = this.scroller.getStyle('left').toInt();
+                   var from = 0;
+                   var leftStyle = this.scroller.getStyle('left');
+                   if (leftStyle) {
+                     from = leftStyle.toInt();
+                   }
                    if (isNaN(from)) { from = 0; }
                    var to = Math.max(from - 100, this.scrollWidth);
                    if (to == this.scrollWidth) {
