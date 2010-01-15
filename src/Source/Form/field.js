@@ -245,11 +245,6 @@ Jx.Field = new Class({
                 this.field.addClass('jxFieldDisabled');
             }
 
-            // add validator classes
-            if ($defined(this.options.validatorClasses)) {
-                this.field.addClass(this.options.validatorClasses);
-            }
-
             this.field.store('field', this);
         }
 
@@ -271,13 +266,16 @@ Jx.Field = new Class({
 
     },
     /**
-     * APIMethod: setValue Sets the value property of the field
+     * APIMethod: setValue 
+     * Sets the value property of the field
      *
      * Parameters:
      * v - The value to set the field to.
      */
     setValue : function (v) {
-        this.field.set('value', v);
+        if (!this.options.readonly) {
+            this.field.set('value', v);
+        }
     },
 
     /**

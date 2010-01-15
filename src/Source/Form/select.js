@@ -140,12 +140,14 @@ Jx.Field.Select = new Class({
      * v - The value to set the field to.
      */
     setValue: function (v) {
-        //loop through the options and set the one that matches v
-        $$(this.field.options).each(function (opt) {
-            if (opt.get('value') === v) {
-                document.id(opt).set("selected", true);
-            }
-        }, this);
+        if (!this.options.readonly) {
+            //loop through the options and set the one that matches v
+            $$(this.field.options).each(function (opt) {
+                if (opt.get('value') === v) {
+                    document.id(opt).set("selected", true);
+                }
+            }, this);
+        }
     },
 
     /**
@@ -155,10 +157,24 @@ Jx.Field.Select = new Class({
     getValue: function () {
         var index = this.field.selectedIndex;
         //check for a set "value" attribute. If not there return the text
-        var ret = this.field.options[index].get("value");
-        if (!$defined(ret)) {
-           ret = this.field.options[index].get("text");
+        if (index > -1) {
+            var ret = this.field.options[index].get("value");
+            if (!$defined(ret)) {
+                ret = this.field.options[index].get("text");
+            }
+            return ret;
         }
-        return ret;
+    },
+    
+    /**
+     * APIMethod: empty
+     * Empties all options from this select
+     */
+    empty: function () {
+        if ($defined(this.field.options)) {
+            $A(this.field.options).each(function (option) {
+                this.field.remove(option);
+            }, this);
+        }
     }
 });

@@ -168,6 +168,8 @@ Jx.List = new Class({
             this.selection = new Jx.Selection(this.options);
             this.ownsSelection = true;
         }
+        
+        this.setSelection(this.selection);
             
         if ($defined(this.options.items)) {
             this.add(this.options.items);

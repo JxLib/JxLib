@@ -225,5 +225,6 @@ Jx.PanelSet = new Class({
             }
         }
         panel.domObj.resize({top: top, height:panelSize, bottom: null});
+        this.fireEvent('panelMaximize',panel);
     }
 });

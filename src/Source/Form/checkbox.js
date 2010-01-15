@@ -77,13 +77,15 @@ Jx.Field.Checkbox = new Class({
      * Sets the value property of the field
      *
      * Parameters:
-     * v - The value to set the field to, "checked" if it should be checked.
+     * v - Whether the box shouldbe checked or not. "checked" or "true" if it should be checked.
      */
     setValue : function (v) {
-        if (v === 'checked') {
-            this.field.set('checked', "checked");
-        } else {
-            this.field.erase('checked');
+        if (!this.options.readonly) {
+            if (v === 'checked' || v === 'true' || v === true) {
+                this.field.set('checked', "checked");
+            } else {
+                this.field.erase('checked');
+            }
         }
     },
 

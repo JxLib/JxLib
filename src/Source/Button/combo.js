@@ -147,8 +147,12 @@ Jx.Button.Combo = new Class({
         return this.options.label;
     },
 
-    setValue: function() {
-
+    setValue: function(value) {
+        this.buttonSet.buttons.each(function(button){
+            if (button.options.label === value) {
+                this.buttonSet.buttonChanged(button);
+            }
+        },this);
     },
 
     /**

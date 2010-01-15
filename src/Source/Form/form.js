@@ -147,7 +147,7 @@ Jx.Form = new Class({
      */
     getValues : function (asQueryString) {
         var queryString = this.domObj.toQueryString();
-        if ($defined(asQueryString)) {
+        if ($defined(asQueryString) && asQueryString) {
             return queryString;
         } else {
             return queryString.parseQueryString();

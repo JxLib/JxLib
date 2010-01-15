@@ -79,10 +79,12 @@ Jx.Field.Radio = new Class({
      * v - The value to set the field to, "checked" it should be checked.
      */
     setValue: function (v) {
-        if (v === 'checked') {
-            this.field.set('checked', "checked");
-        } else {
-            this.field.erase('checked');
+        if (!this.options.readonly) {
+            if (v === 'checked' || v === 'true' || v === true) {
+                this.field.set('checked', "checked");
+            } else {
+                this.field.erase('checked');
+            }
         }
     },
 

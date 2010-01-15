@@ -98,12 +98,12 @@
  * (end)
  * 
  * The absence of this property does not mean you cannot attach a plugin to an 
- * object. It simply means that you an't have the Jx.Object descendant create the
+ * object. It simply means that you can't have Jx.Object create the
  * plugin for you.
  * 
- * There are three ways to attach a plugin to an object. First, simply instantiate 
+ * There are four ways to attach a plugin to an object. First, simply instantiate 
  * the plugin yourself and call its attach() method (other class options left out 
- * for teh sake of simplicity):
+ * for the sake of simplicity):
  * 
  * (code)
  * var MyGrid = new Jx.Grid();
@@ -131,6 +131,15 @@
  *      name: 'Sorter',
  *      options: {}
  *   }]
+ * });
+ * (end)
+ * 
+ * The final way, if the plugin has no options, is to pass the name of the plugin
+ * as a simple string in the plugins array.
+ * 
+ * (code)
+ * var MyGrid = new Jx.Grid({
+ *   plugins: ['Selector','Sorter']
  * });
  * (end)
  * 
@@ -229,10 +238,14 @@ Jx.Object = new Class({
                         //All plugin-enabled objects should define a pluginNamespace member variable
                         //that is used for locating the plugins. The default namespace is 'Other' for
                         //now until we come up with a better idea
-                        var p = new Jx.Plugin[this.pluginNamespace][plugin.name](plugin.options);
+                        var p = new Jx.Plugin[this.pluginNamespace][plugin.name.capitalize()](plugin.options);
                         p.attach(this);
-                        //this.plugins.set(p.name, p);
+                    } else if (Jx.type(plugin) === 'string') {
+                        //this is a name for a plugin.
+                        var p = new Jx.Plugin[this.pluginNamespace][plugin.capitalize()]();
+                        p.attach(this);
                     }
+                        
                 }, this);
             }
         }
