@@ -209,6 +209,11 @@
             "desc": "A subclass of Jx.dialog for asking a yes/no type question of the user. "
         },
         
+        "prompt": {
+            "deps": ["dialog","button","toolbar.item","text"],
+            "desc": "A subclass of Jx.dialog for prompting the user for text input. "
+        },
+        
         "dataview": {
             "deps": ["panel","store","list"],
             "desc": ""

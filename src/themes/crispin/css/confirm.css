@@ -1,7 +1,7 @@
 /**
- * Confirm dialog classes
+ * Confirm and Prompt dialog classes
  */
-.jxConfirmQuestion {
+.jxConfirmQuestion, .jxPrompt {
     text-align: center;
     padding: 10px;
     margin-top: 10px;
