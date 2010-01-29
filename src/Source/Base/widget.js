@@ -558,7 +558,7 @@ Jx.Widget = new Class({
     addTo: function(reference, where) {
         var el = document.id(this.addable) || document.id(this.domObj);
         if (el) {
-            if (reference instanceof Jx.Toolbar) {
+            if (reference instanceof Jx.Widget && $defined(reference.add)) {
                 reference.add(el);
             } else {
                 ref = document.id(reference);
