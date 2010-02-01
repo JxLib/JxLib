@@ -142,7 +142,11 @@ Jx.Record = new Class({
      * True | False depending on the outcome of the comparison.
      */
     equals: function (column, value) {
-        var column = this.resolveCol(column);
+        if (column === 'primaryKey') {
+            column = this.resolveCol(this.options.primaryKey);
+        } else {
+            column = this.resolveCol(column);
+        }
         if (!this.data.has(column.name)) {
             return null;
         } else {

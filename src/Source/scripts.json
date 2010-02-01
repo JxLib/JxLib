@@ -110,6 +110,11 @@
            "desc": ""
         },
         
+        "strategy.progressive": {
+           "deps": ["strategy"],
+           "desc": ""
+        },
+        
          "strategy.save": {
            "deps": ["strategy"],
            "desc": ""
@@ -412,7 +417,7 @@
         },
         
         "container": {
-            "deps": ["toolbar"],
+            "deps": ["toolbar","button"],
             "opt": ["Fx.Tween"],
             "desc": "A toolbar container contains toolbars.  This has an optional dependency on Fx.Tween that, if included, will allow toolbars that contain more elements than can be displayed to be smoothly scrolled left and right.  Without this optional dependency, the toolbar will jump in fixed increments rather than smoothly scrolling."
         },

@@ -134,7 +134,7 @@ Jx.Panel.DataView = new Class({
      * and creating a single item based on the provided template
      */
     createItem: function () {
-      //create the item
+        //create the item
         var itemObj = {};
         this.itemCols.each(function (col) {
             itemObj[col] = this.options.data.get(col);

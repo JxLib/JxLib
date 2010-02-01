@@ -50,7 +50,12 @@ Jx.Form = new Class({
          * Option: name
          * the name property for the form
          */
-        name: ''
+        name: '',
+        /**
+         * Option: fileUpload
+         * Determines if this form needs to be setup for file uploads.
+         */
+        fileUpload: false
     },
     
     /**
@@ -185,7 +190,10 @@ Jx.Form = new Class({
             if (field instanceof Jx.Field && !$defined(field.form)) {
                 field.form = this;
                 this.addField(field);
+            } else if (field instanceof Jx.Fieldset && !$defined(field.form)) {
+                field.form = this;
             }
+            
             this.domObj.grab(field);
         }
         return this;
@@ -210,5 +218,12 @@ Jx.Form = new Class({
             }
         },this);
         return fields;
+    },
+    
+    getField: function (id) {
+        if (this.fields.has(id)) {
+            return this.fields.get(id);
+        } 
+        return null;
     }
 });

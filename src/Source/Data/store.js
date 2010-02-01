@@ -518,6 +518,9 @@ Jx.Store = new Class({
                 return this.data[index];
             }
         } else {
+            //Not sure what the point of this part is. It compares the 
+            //record to the index directly as if we passed in the record which 
+            //means we already have the record... huh???
             var r;
             this.data.each(function(record){
                 if (record === index) {

@@ -24,6 +24,7 @@
     "Panel": {
         "message": ["all"],
         "confirm": ["all"],
+        "prompt": ["all"],
         "dataview": ["all"],
         "group": ["all"],
         "upload": ["all"]

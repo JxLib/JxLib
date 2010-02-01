@@ -1,0 +1,118 @@
+
+Jx.Store.Strategy.Progressive = new Class({
+    
+    Extends: Jx.Store.Strategy.Paginate,
+    
+    name: 'progressive',
+    
+    options: {
+        /**
+         * Option: maxRecords
+         * The maximum number of records we want in the store at any one time.
+         */
+        maxRecords: 1000,
+        /**
+         * Option: dropRecords
+         * Whether the strategy should drop records when the maxRecords limit 
+         * is reached. if this is false then maxRecords is ignored and data is
+         * always added to the bottom of the store. 
+         */
+        dropRecords: true
+    },
+    
+    startingPage: 0,
+    maxPages: null,
+    loadedPages: 0,
+    loadAt: 'bottom',
+    
+    init: function () {
+        this.parent();
+        if (this.options.dropPages) {
+            this.maxPages = Math.ceil(this.options.maxRecords/this.itemsPerPage);
+        }
+    },
+    
+    /**
+     * Method: loadStore
+     * Used to assist in the loading of data into the store. This is 
+     * called as a response to the protocol finishing.
+     * 
+     *  Parameters:
+     *  resp - the response object
+     */
+    loadStore: function (resp) {
+        this.store.protocol.removeEvent('dataLoaded', this.bound.loadStore);
+        if (resp.success()) {
+            if ($defined(resp.meta)) {
+                this.parseMetaData(resp.meta);
+            }
+            this.loadData(resp.data);
+        } else {
+            this.store.fireEvent('storeDataLoadFailed', this.store);
+        }
+    },
+    
+    /**
+     * Method: loadData
+     * This method does the actual work of loading data to the store. It is called
+     * when either the protocol finishes or setPage() has the data and it's not
+     * expired.
+     * 
+     * Parameters:
+     * data - the data to load into the store.
+     */
+    loadData: function (data) {
+        this.store.loaded = false;
+        this.store.addRecords(data, this.loadAt);
+        this.store.loaded = true;
+        this.loadedPages++;
+        this.store.fireEvent('storeDataLoaded',this.store);
+    },
+    
+    /**
+     * APIMethod: nextPage
+     * Allows a caller (i.e. a paging toolbar) to load more data to the end of 
+     * the store
+     * 
+     * Parameters:
+     * end - which end to load to. Either 'top' or 'bottom'.
+     */
+    nextPage: function (params) {
+        if (!$defined(params)) {
+            params = {};
+        }
+        if (this.options.dropPages && this.totalPages > this.startingPage + this.loadedPages) {
+            this.loadAt = 'bottom';
+            if (this.loadedPages >= this.maxPages) {
+                //drop records before getting more
+                this.startingPage++;
+                this.store.removeRecords(0,this.itemsPerPage - 1);
+                this.loadedPages--;
+            }
+        }
+        this.page = this.startingPage + this.loadedPages + 1;
+        this.load($merge(this.params, params));
+    },
+    
+    previousPage: function (params) {
+        //if we're not dropping pages there's nothing todo
+        if (!this.options.dropPages) {
+            return;
+        }
+        
+        if (!$defined(params)) {
+            params = {};
+        }
+        if (this.startingPage > 0) {
+            this.loadAt = 'top';
+            if (this.loadedPages >= this.maxPages) {
+                //drop off end before loading previous pages
+                this.startingPage--;
+                this.store.removeRecords(this.options.maxRecords - this.itemsPerPage, this.options.maxRecords);
+                this.loadedPages--;
+            }
+            this.page = this.startingPage;
+            this.load($merge(this.params, params));
+        }
+    }
+});
