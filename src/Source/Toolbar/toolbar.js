@@ -272,10 +272,10 @@ Jx.Toolbar = new Class({
                 var children = this.domObj.getChildren();
                 children.each(function(button){
                     var size = button.getMarginBoxSize();
-                    s += size.width;
+                    s += size.width +0.5;
                 },this);
                 if (s !== 0) {
-                    this.domObj.setStyle('width', s);
+                    this.domObj.setStyle('width', Math.round(s));
                 } else {
                     this.domObj.setStyle('width','auto');
                 }
