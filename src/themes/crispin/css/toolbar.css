@@ -154,7 +154,7 @@ li.jxToolItem {
   float: left;
   font-size: 0px;
   line-height: 0px;
-
+  white-space: nowrap;
   padding: 0px;
   margin: 0px;  /* margins don't seem to work properly in IE */
   border: none;
