@@ -324,6 +324,7 @@ form .jxFormInlineblock .jxInputContainer,
 form .jxFieldset span.jxFormInlineblock,
 form.jxForm span.jxFormInlineblock {
   display: block;
+  white-space: nowrap;
 }
 
 /* Inline-Block Label */
