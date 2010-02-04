@@ -238,3 +238,33 @@ td.jxGridCellPrelight {
     width: 100%;
     cursor: row-resize;
 }
+
+/* Editor Styles */
+.jxGridEditorPopup {
+  min-width: 130px;
+  margin: 3px;
+  font-size: 10px;
+  box-shadow: 2px 2px 5px #888; /* i really like the boxshadow */
+  -moz-box-shadow : 2px 2px 5px #888;  
+  -webkit-box-shadow : 2px 2px 5px #888;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  background-color: #dddddd;
+  border: 1px solid #999999;
+  position: absolute;
+}
+
+.jxGridEditorPopupInnerWrapper {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.jxGridEditorPopup .jxInputText,
+.jxGridEditorPopup .jxInputText,
+.jxGridEditorPopup .jxInputTextarea {
+  border-radius: 2px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+}

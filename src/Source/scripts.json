@@ -305,6 +305,11 @@
             "deps": ["plugin.grid"],
             "desc" : "Enables column resizing in grids"
         },
+
+        "grid.editor": {
+            "deps": ["plugin.grid","Keyboard"],
+            "desc" : "Enables inline editing in grids"
+        },
         
         "plugin.dataview": {
             "deps": ["plugin"],
@@ -526,6 +531,10 @@
         "date": {
             "deps": ["Date.Extras","formatter"],
             "desc": "Formats dates using the mootools-more Date extensions"
+        },
+        "uri": {
+            "deps": ["String.Extras", "formatter"],
+            "desc": "Formats uris using the mootools-more URI extensions"
         },
         "boolean": {
             "deps": ["formatter"],

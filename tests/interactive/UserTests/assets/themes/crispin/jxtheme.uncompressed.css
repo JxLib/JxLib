@@ -682,9 +682,9 @@ a.jxColorClose img {
 .jxDisabled{opacity:0.4;-ms-filter: "Alpha(opacity=40)";}
 .jxDisabled * {-ms-filter: "Alpha(opacity=40)";}
 iframe.jxIframeShim{position:absolute;top:0px;left:0px;width:100%;height:100%;opacity:0;-ms-filter: "Alpha(opacity=0)";z-index:-1;}/**
- * Confirm dialog classes
+ * Confirm and Prompt dialog classes
  */
-.jxConfirmQuestion {
+.jxConfirmQuestion, .jxPrompt {
     text-align: center;
     padding: 10px;
     margin-top: 10px;
@@ -849,6 +849,14 @@ iframe.jxIframeShim{position:absolute;top:0px;left:0px;width:100%;height:100%;op
 
 .jxDialogMax .jxDialogCollapse img {
   background-position: 0px -16px;
+}
+
+.jxDialogMaximize img {
+  background-position: 0px -80px;
+}
+
+.jxDialogMaximized .jxDialogMaximize img {
+  background-position: 0px -96px;
 }
 
 .jxDialogLoading img {
@@ -1308,6 +1316,7 @@ form .jxFormInlineblock .jxInputContainer,
 form .jxFieldset span.jxFormInlineblock,
 form.jxForm span.jxFormInlineblock {
   display: block;
+  white-space: nowrap;
 }
 
 /* Inline-Block Label */
@@ -1578,6 +1587,36 @@ td.jxGridCellPrelight {
     height: 4px;
     width: 100%;
     cursor: row-resize;
+}
+
+/* Editor Styles */
+.jxGridEditorPopup {
+  min-width: 130px;
+  margin: 3px;
+  font-size: 10px;
+  box-shadow: 2px 2px 5px #888; /* i really like the boxshadow */
+  -moz-box-shadow : 2px 2px 5px #888;  
+  -webkit-box-shadow : 2px 2px 5px #888;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  background-color: #dddddd;
+  border: 1px solid #999999;
+  position: absolute;
+}
+
+.jxGridEditorPopupInnerWrapper {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.jxGridEditorPopup .jxInputText,
+.jxGridEditorPopup .jxInputText,
+.jxGridEditorPopup .jxInputTextarea {
+  border-radius: 2px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
 }.jxListView {
 }
 
@@ -2247,6 +2286,91 @@ ul.jxMenu span.jxMenuSeparator {
     width: auto;
     z-index: 30;
     border: none;
+}
+.jxHasVerticalScrollbar,
+.jxHasHorizontalScrollbar {
+    position: relative;
+    overflow: hidden;
+}
+
+.jxScrollbarChildWrapper {
+    overflow: hidden;
+}
+
+.jxHasVerticalScrollbar {
+    padding-right: 25px;
+}
+
+.jxHasVerticalScrollbar .jxScrollbarContainer {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 20px;
+    height: 100%;
+    border: none;
+    border-left: 1px solid black;
+}
+
+.jxHasVerticalScrollbar .jxScrollLeft,
+.jxHasVerticalScrollbar .jxScrollRight {
+    width: 20px;
+    height: 20px;
+    display: block;
+    background-color: blue;
+}
+
+.jxHasVerticalScrollbar .jxSliderContainer {
+    height: 100%;
+    width: 20px;
+    border: none;
+}
+
+.jxHasHorizontalScrollbar {
+    padding-bottom: 25px;
+}
+
+.jxHasHorizontalScrollbar .jxScrollbarContainer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 20px;
+    width: 100%;
+    border: none;
+    border-top: 1px solid black;
+}
+
+.jxHasHorizontalScrollbar .jxScrollLeft,
+.jxHasHorizontalScrollbar .jxScrollRight {
+    width: 20px;
+    height: 20px;
+    display: block;
+    background-color: blue;
+}
+ 
+.jxHasHorizontalScrollbar .jxScrollLeft {
+    float: left;
+}
+
+.jxHasHorizontalScrollbar .jxScrollRight {
+    float: right;
+}
+
+.jxHasHorizontalScrollbar .jxSlider {
+    float: left;
+}
+
+.jxHasHorizontalScrollbar .jxSliderContainer {
+    height: 20px;
+    width: 100%;
+    border: none;
+}
+
+.jxHasVerticalScrollbar .jxSliderKnob,
+.jxHasHorizontalScrollbar .jxSliderKnob {
+    width: 20px;
+    height: 20px;
+    background-color: black;
+    cursor: pointer;
 }/**
  * Slider classes
  */
@@ -2909,26 +3033,31 @@ a.jxTabClose {
   background-position: left 0px;
 }
 
-.jxBarTop .jxBarScroller,
-.jxBarBottom .jxBarScroller {
-  position: absolute;
-  /* much bigger than its container */
-  width: 10000%;
+
+.jxBarTop .jxScroller,
+.jxBarBottom .jxScroller {
+  float: left;
+  height: 28px;
   overflow: hidden;
 }
 
+.jxBarTop .jxScroller .jxToolbarWrapper,
+.jxBarBottom .jxScroller .jxToolbarWrapper {
+  float: left;
+  height: 28px;
+  overflow: hidden;
+  width: 10000%;
+}
+
+
 .jxBarTop .jxBarScrollLeft,
 .jxBarBottom .jxBarScrollLeft {
-  position: absolute;
-  top: 0px;
-  left: 0px;
+  float: left;
 }
 
 .jxBarTop .jxBarScrollRight,
 .jxBarBottom .jxBarScrollRight {
-  position: absolute;
-  top: 0px;
-  right: 0px;
+  float: right;
 }
 
 .jxBarTop .jxBarScrollLeft img.jxButtonIcon,
@@ -2985,7 +3114,7 @@ li.jxToolItem {
   float: left;
   font-size: 0px;
   line-height: 0px;
-
+  white-space: nowrap;
   padding: 0px;
   margin: 0px;  /* margins don't seem to work properly in IE */
   border: none;
