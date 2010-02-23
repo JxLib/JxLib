@@ -64,7 +64,7 @@ Group: Jx  {
       File: Common  (no auto-title, Base/common.js)
       File: List  (Base/list.js)
       File: Object  (Base/object.js)
-      File: selection.js  (Base/selection.js)
+      File: Selection  (Base/selection.js)
       File: Styles  (Base/styles.js)
       File: Widget  (Base/widget.js)
       }  # Group: Base
@@ -83,6 +83,7 @@ Group: Jx  {
       File: Notice  (Extras/notice.js)
       File: notifier.js  (Extras/notifier.js)
       File: Progressbar  (Extras/progressbar.js)
+      File: Scrollbar  (Extras/scrollbar.js)
       File: Slide  (Extras/slide.js)
       File: Slider  (Extras/slider.js)
       File: Tooltip  (Extras/tooltip.js)
@@ -112,6 +113,7 @@ Group: Jx  {
       File: Dialog  (Panel/dialog.js)
       File: Dialog.Confirm  (Panel/confirm.js)
       File: Dialog.Message  (Panel/message.js)
+      File: Dialog.Prompt  (Panel/prompt.js)
       File: ListItem  (Panel/listitem.js)
       File: ListView  (Panel/listview.js)
       File: Panel  (Panel/panel.js)
@@ -146,6 +148,7 @@ Group: Formatter  {
    File: Formatter.Date  (Formatter/date.js)
    File: Formatter.Number  (Formatter/number.js)
    File: Formatter.Phone  (Formatter/phone.js)
+   File: Formatter.URI  (Formatter/uri.js)
    }  # Group: Formatter
 
 Group: Data  {
@@ -166,9 +169,10 @@ Group: Data  {
    File: Store.Response  (Data/response.js)
    File: Store.Strategy  (Data/strategy.js)
    File: Store.Strategy.Full  (Data/strategy.full.js)
-   File: Store.Strategy.Paginat  (Data/strategy.paginate.js)
+   File: Store.Strategy.Paginate  (Data/strategy.paginate.js)
    File: Store.Strategy.Save  (Data/strategy.save.js)
    File: Store.Strategy.Sort  (Data/strategy.sort.js)
+   File: strategy.progressive.js  (Data/strategy.progressive.js)
    }  # Group: Data
 
 Group: Form  {
@@ -190,6 +194,7 @@ Group: Form  {
 File: Grid.Plugin  (Plugins/plugin.js)
 File: Plugin.DataView  (Plugins/plugin.dataview.js)
 File: Plugin.DataView.GroupFolder  (Plugins/dataview.groupfolder.js)
+File: Plugin.Editor  (Plugins/grid.editor.js)
 File: Plugin.Field  (Plugins/plugin.field.js)
 File: Plugin.Field.Validator  (Plugins/field.validator.js)
 File: Plugin.Form  (Plugins/plugin.form.js)

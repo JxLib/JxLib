@@ -1983,19 +1983,20 @@ ul.jxMenu span.jxMenuSeparator {
     padding: 6px 26px 6px 10px; 
 }                          
 
-.jxNoticeError .jxNoticeItem {   background-color: #FBE3E4; color: #8a1f11; border-color: #FBC2C4; background-image: url(images/notice_error.png);}
+.jxNoticeError .jxNoticeItem { background-color: #FBE3E4; color: #8a1f11; border-color: #FBC2C4; background-image: url(images/notice_error.png);}
 .jxNoticeWarning .jxNoticeItem { background-color: #FFF6BF; color: #514721; border-color: #FFD324; background-image: url(images/notice_warning.png);}
 .jxNoticeSuccess .jxNoticeItem { background-color: #E6EFC2; color: #264409; border-color: #C6D880; background-image: url(images/notice_success.png);}
+.jxNoticeInformation .jxNoticeItem { background-color: #F8F8F8; color: #666666; border-color: #CCCCCC; background-image: url(images/notice.png);}
 
-.jxNoticeError .jxNotice {   color: #8a1f11; padding-left: 28px; }
+.jxNoticeError .jxNotice { color: #8a1f11; padding-left: 28px; }
 .jxNoticeWarning .jxNotice { color: #514721; padding-left: 28px; }
 .jxNoticeSuccess .jxNotice { color: #264409; padding-left: 28px; }
-.jxNoticeInfo .jxNotice { padding-left: 28px; }
+.jxNoticeInformation .jxNotice { color: #666666; padding-left: 28px; }
 
-.jxNoticeError .jxNoticeIcon {   background-position: 0px -32px; }
+.jxNoticeError .jxNoticeIcon { background-position: 0px -32px; }
 .jxNoticeWarning .jxNoticeIcon { background-position: 0px -16px; }
 .jxNoticeSuccess .jxNoticeIcon { background-position: 0px -48px; }            
-.jxNoticeInfo .jxNoticeIcon {    background-position: 0px -64px; }
+.jxNoticeInformation .jxNoticeIcon { background-position: 0px -64px; }
 
 .jxNoticeClose {
     position: absolute;
@@ -2499,8 +2500,7 @@ ul.jxMenu span.jxMenuSeparator {
      the position need to be explicitly set, as well as the width and height. */
   /* Base setup */
   position: relative;
-  display: -moz-inline-box;
-  display: inline-block;
+  display: block;
   overflow: hidden;
 
   width: 200px;
@@ -2510,7 +2510,7 @@ ul.jxMenu span.jxMenuSeparator {
   background-color: #fff;
 }
 
-.jxTabSetContainer  .jxToolbarContainer {
+.jxTabSetContainer  .jxBarContainer {
   /* Base setup */
   z-index: auto;
 }
@@ -3034,15 +3034,16 @@ a.jxTabClose {
 }
 
 
-.jxBarTop .jxScroller,
-.jxBarBottom .jxScroller {
+.jxBarTop .jxBarScroller,
+.jxBarBottom .jxBarScroller {
   float: left;
   height: 28px;
   overflow: hidden;
+  z-index: 0;
 }
 
-.jxBarTop .jxScroller .jxToolbarWrapper,
-.jxBarBottom .jxScroller .jxToolbarWrapper {
+.jxBarTop .jxBarScroller .jxBarWrapper,
+.jxBarBottom .jxBarScroller .jxBarWrapper {
   float: left;
   height: 28px;
   overflow: hidden;
@@ -3053,11 +3054,13 @@ a.jxTabClose {
 .jxBarTop .jxBarScrollLeft,
 .jxBarBottom .jxBarScrollLeft {
   float: left;
+  z-index: 1;
 }
 
 .jxBarTop .jxBarScrollRight,
 .jxBarBottom .jxBarScrollRight {
   float: right;
+  z-index: 1;
 }
 
 .jxBarTop .jxBarScrollLeft img.jxButtonIcon,

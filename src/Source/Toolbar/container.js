@@ -54,13 +54,12 @@ Jx.Toolbar.Container = new Class({
          */
         scroll: true,
         template: "<div class='jxBarContainer'></div>",
-        scrollerTemplate: "<div class='jxToolbarContainer'><div class='jxScroller'><div class='jxToolbarWrapper'></div></div></div>"
+        scrollerTemplate: "<div class='jxBarScroller'><div class='jxBarWrapper'></div></div>"
     },
     classes: new Hash({
         domObj: 'jxBarContainer',
-        tbContainer: 'jxToolbarContainer', //used to hold the buttons and the scroller/wrapper
-        scroller: 'jxScroller', //used to hide the overflow of the wrapper
-        wrapper: 'jxToolbarWrapper' //used to allow multiple toolbars to float next to each other
+        scroller: 'jxBarScroller', //used to hide the overflow of the wrapper
+        wrapper: 'jxBarWrapper' //used to allow multiple toolbars to float next to each other
     }),
     
     updating: false,
@@ -82,7 +81,7 @@ Jx.Toolbar.Container = new Class({
 
         if (this.options.scroll) {
             this.processElements(this.options.scrollerTemplate, this.classes);
-            this.domObj.adopt(this.tbContainer);
+            this.domObj.adopt(this.scroller);
         }
 
         /* this allows toolbars to add themselves to this bar container
@@ -106,7 +105,7 @@ Jx.Toolbar.Container = new Class({
             
             this.scrollLeft = new Jx.Button({
                 image: Jx.aPixel.src
-            }).addTo(this.tbContainer, 'top');
+            }).addTo(this.domObj, 'top');
             this.scrollLeft.domObj.addClass('jxBarScrollLeft');
             this.scrollLeft.addEvents({
                click: this.scroll.bind(this,'left')
@@ -114,7 +113,7 @@ Jx.Toolbar.Container = new Class({
             
             this.scrollRight = new Jx.Button({
                 image: Jx.aPixel.src
-            }).addTo(this.tbContainer, 'bottom');
+            }).addTo(this.domObj, 'bottom');
             this.scrollRight.domObj.addClass('jxBarScrollRight');
             this.scrollRight.addEvents({
                click: this.scroll.bind(this, 'right')
@@ -139,7 +138,7 @@ Jx.Toolbar.Container = new Class({
     update: function() {
         if (this.options.scroll ) {
             if (['top','bottom'].contains(this.options.position)) {
-                var tbcSize = this.tbContainer.getContentBoxSize().width;
+                var tbcSize = this.domObj.getContentBoxSize().width;
                 
                 var s = 0;
                 //next check to see if we need the scrollers or not.
@@ -257,7 +256,7 @@ Jx.Toolbar.Container = new Class({
                 thing.addEvent('update', this.update.bind(this));
                 thing.addEvent('show', this.scrollIntoView.bind(this));
             }
-            if (this.tbContainer) {
+            if (this.wrapper) {
                 this.wrapper.adopt(thing.domObj);
             } else {
                 this.domObj.adopt(thing.domObj);
@@ -370,6 +369,8 @@ Jx.Toolbar.Container = new Class({
      * item - the item to scroll.
      */
     scrollIntoView: function (item) {
+        var currentButton = this.scroller.retrieve('buttonPointer');
+        // if (!$defined(currentButton)) return;
         if (item instanceof Jx.Widget) {
             item = item.domObj;
             while (!item.hasClass('jxToolItem')){
@@ -377,7 +378,6 @@ Jx.Toolbar.Container = new Class({
             }
         }
         var pos = item.getCoordinates(this.scroller);
-        var currentButton = this.scroller.retrieve('buttonPointer');
         var scrollerSize = this.scroller.getStyle('width').toInt();
         
         if (pos.right > 0 && pos.right <= scrollerSize ) { return; };

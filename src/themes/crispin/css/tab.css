@@ -18,8 +18,7 @@
      the position need to be explicitly set, as well as the width and height. */
   /* Base setup */
   position: relative;
-  display: -moz-inline-box;
-  display: inline-block;
+  display: block;
   overflow: hidden;
 
   width: 200px;
@@ -29,7 +28,7 @@
   background-color: #fff;
 }
 
-.jxTabSetContainer  .jxToolbarContainer {
+.jxTabSetContainer  .jxBarContainer {
   /* Base setup */
   z-index: auto;
 }

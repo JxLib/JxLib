@@ -74,15 +74,16 @@
 }
 
 
-.jxBarTop .jxScroller,
-.jxBarBottom .jxScroller {
+.jxBarTop .jxBarScroller,
+.jxBarBottom .jxBarScroller {
   float: left;
   height: 28px;
   overflow: hidden;
+  z-index: 0;
 }
 
-.jxBarTop .jxScroller .jxToolbarWrapper,
-.jxBarBottom .jxScroller .jxToolbarWrapper {
+.jxBarTop .jxBarScroller .jxBarWrapper,
+.jxBarBottom .jxBarScroller .jxBarWrapper {
   float: left;
   height: 28px;
   overflow: hidden;
@@ -93,11 +94,13 @@
 .jxBarTop .jxBarScrollLeft,
 .jxBarBottom .jxBarScrollLeft {
   float: left;
+  z-index: 1;
 }
 
 .jxBarTop .jxBarScrollRight,
 .jxBarBottom .jxBarScrollRight {
   float: right;
+  z-index: 1;
 }
 
 .jxBarTop .jxBarScrollLeft img.jxButtonIcon,
