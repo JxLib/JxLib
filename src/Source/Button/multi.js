@@ -128,8 +128,8 @@ Jx.Button.Multi = new Class({
 
                     this.contentContainer.setStyle('visibility','');
 
-                    document.addEvent('mousedown', this.hideWatcher);
-                    document.addEvent('keyup', this.keypressWatcher);
+                    document.addEvent('mousedown', this.bound.mousedown);
+                    document.addEvent('keyup', this.bound.keypress);
 
                     this.fireEvent('show', this);
                 }).bindWithEvent(this.menu),
