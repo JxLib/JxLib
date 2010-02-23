@@ -18,6 +18,9 @@
   display: block;
   z-index: 1000;
   overflow: hidden;
+  
+  /* initial state is hidden */
+  visibility: hidden;
 }
 
 .jxDialogContentContainer {
