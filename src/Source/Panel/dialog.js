@@ -446,7 +446,7 @@ Jx.Dialog = new Class({
         this.showChrome(this.domObj);
         /* put it in the right place using auto-positioning */
         this.position(this.domObj, this.options.parent, this.options);
-        this.domObj.setStyle('visibility', '');
+        this.domObj.setStyle('visibility', 'visible');
     },
     /**
      * Method: hide
