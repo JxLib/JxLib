@@ -16,7 +16,7 @@
 /* firebug console supressor for IE/Safari/Opera */
 window.addEvent('load',
 function() {
-    if (! ("console" in window) || !("firebug" in window.console)) {
+    if (! ("console" in window)) {
         var names = ["log", "debug", "info", "warn", "error", "assert", "dir", "dirxml",
         "group", "groupEnd", "time", "timeEnd", "count", "trace", "profile", "profileEnd"];
 
