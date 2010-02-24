@@ -66,65 +66,106 @@ function $unlink(object) {
     return unlinked;
 }
 
-/* Setup global namespace
- * If jxcore is loaded by jx.js, then the namespace and baseURL are
- * already established
+/* Setup global namespace.  It is possible to set the global namespace
+ * prior to including jxlib.  This would typically be required only if
+ * the auto-detection of the jxlib base URL would fail.  For instance,
+ * if you combine jxlib with other javascript libraries into a single file
+ * build and call it something without jxlib in the file name, then the
+ * detection of baseURL would fail.  If this happens to you, try adding
+ * Jx = { baseURL: '/path/to/jxlib/'; }
+ * where the path to jxlib contains a file called a_pixel.png (it doesn't
+ * have to include jxlib, just the a_pixel.png file).
  */
 if (typeof Jx === 'undefined') {
-    var Jx = {};
-    (function() {
-        var aScripts = document.getElementsByTagName('SCRIPT');
-        for (var i = 0; i < aScripts.length; i++) {
-            var s = aScripts[i].src;
-            var matches = /(.*[jx|js|lib])\/jxlib(.*)/.exec(s);
-            if (matches && matches[0]) {
-                /**
-                 * APIProperty: {String} baseURL
-                 * This is the URL that Jx was loaded from, it is 
-                 * automatically calculated from the script tag
-                 * src property that included Jx.
-                 *
-                 * Note that this assumes that you are loading Jx
-                 * from a js/ or lib/ folder in parallel to the
-                 * images/ folder that contains the various images
-                 * needed by Jx components.  If you have a different
-                 * folder structure, you can define Jx's base
-                 * by including the following before including
-                 * the jxlib javascript file:
-                 *
-                 * (code)
-                 * Jx = {
-                 *    baseURL: 'some/path'
-                 * }
-                 * (end)
-                 */
-                Jx.aPixel = document.createElement('img', {
-                    alt: '',
-                    title: ''
-                });
-                Jx.aPixel.src = matches[1] + '/a_pixel.png';
-                Jx.baseURL = Jx.aPixel.src.substring(0,
-                Jx.aPixel.src.indexOf('a_pixel.png'));
-
-            }
-        }
-
-    })();
+  var Jx = {};
 }
 
- (function() {
-    /**
-     * Determine if we're running in Adobe AIR. Run this regardless of whether
-     * the above runs or not.
-     */
+/**
+ * APIProperty: {String} baseURL
+ * This is the URL that Jx was loaded from, it is 
+ * automatically calculated from the script tag
+ * src property that included Jx.
+ *
+ * Note that this assumes that you are loading Jx
+ * from a js/ or lib/ folder in parallel to the
+ * images/ folder that contains the various images
+ * needed by Jx components.  If you have a different
+ * folder structure, you can define Jx's base
+ * by including the following before including
+ * the jxlib javascript file:
+ *
+ * (code)
+ * Jx = {
+ *    baseURL: 'some/path'
+ * }
+ * (end)
+ */
+if (!$defined(Jx.baseURL)) {
+  (function() {
     var aScripts = document.getElementsByTagName('SCRIPT');
-    var src = aScripts[0].src;
-    if (src.contains('app:')) {
-        Jx.isAir = true;
-    } else {
-        Jx.isAir = false;
+    for (var i = 0; i < aScripts.length; i++) {
+      var s = aScripts[i].src;
+      var n = s.lastIndexOf('/');
+      var file = s.slice(n+1,s.length-1);
+      if (file.contains('jxlib')) {
+        Jx.baseURL = s.slice(0,n-1);
+        break;
+      }
     }
+  })();
+}
+/** 
+ * APIProperty: {Image} aPixel
+ * aPixel is a single transparent pixel and is the only image we actually
+ * use directly in JxLib code.  If you want to use your own transparent pixel
+ * image or use it from a different location than the install of jxlib
+ * javascript files, you can manually declare it before including jxlib code
+ * (code)
+ * Jx = {
+ *   aPixel: new Element('img', {
+ *     alt: '',
+ *     title: '',
+ *     width: 1,
+ *     height: 1,
+ *     src: 'path/to/a/transparent.png'
+ *   });
+ * }
+ * (end)
+ */
+if (!$defined(Jx.aPixel)) {
+  Jx.aPixel = new Element('img', {
+    alt:'',
+    title:'',
+    src: Jx.baseURL +'/a_pixel.png'
+  });
+}
+
+/** 
+ * APIProperty: {Boolean} isAir
+ * indicates if JxLib is running in an Adobe Air environment.  This is
+ * normally auto-detected but you can manually set it by declaring the Jx
+ * namespace before including jxlib:
+ * (code)
+ * Jx = {
+ *   isAir: true
+ * }
+ * (end)
+ */
+if (!$defined(Jx.isAir)) {
+(function() {
+  /**
+   * Determine if we're running in Adobe AIR. Run this regardless of whether
+   * the above runs or not.
+   */
+  var aScripts = document.getElementsByTagName('SCRIPT');
+  var src = aScripts[0].src;
+  if (src.contains('app:')) {
+    Jx.isAir = true;
+  } else {
+    Jx.isAir = false;
+  }
 })();
+}
 
 /**
  * APIMethod: applyPNGFilter
