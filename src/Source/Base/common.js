@@ -108,7 +108,7 @@ if (!$defined(Jx.baseURL)) {
       var n = s.lastIndexOf('/');
       var file = s.slice(n+1,s.length-1);
       if (file.contains('jxlib')) {
-        Jx.baseURL = s.slice(0,n-1);
+        Jx.baseURL = s.slice(0,n);
         break;
       }
     }
