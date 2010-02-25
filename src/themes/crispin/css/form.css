@@ -89,6 +89,8 @@
 }
 
 .jxInputWrapper {
+  display: inline-block;
+  white-space: normal;
   position: relative;
 }
 
@@ -111,20 +113,38 @@
 
 .jxInputIcon {
   position: absolute;
-  left: 0px;
-  top: 0px;
   width: 16px;
   height: 16px;
+  left: 0px;
+  top: 0px;
+  margin: 4px 4px 4px 8px;
 }
 
 .jxInputRevealer {
   position: absolute;
-  right: 0px;
-  top: 0px;
   width: 16px;
   height: 16px;
+  right: 0px;
+  top: 0px;
+  margin: 4px 8px 4px 4px;
+  font-size: 0px;
+  line-height: 0px;
 }
 
+img.jxInputRevealerIcon {
+  background-image: url(images/emblems.png);
+  background-position: right -16px;
+  background-repeat: no-repeat;
+}
+
+.jxInputRevealer .jxButtonContainer,
+.jxInputRevealer .jxButton {
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+  background-color: transparent;
+  background-image: none;
+}
 
 .jxInputSelect {
   margin: 0px 4px;

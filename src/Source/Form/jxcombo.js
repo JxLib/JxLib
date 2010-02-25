@@ -42,7 +42,8 @@ Jx.Field.Combo = new Class({
         this.parent();
         
         var button = new Jx.Button({
-          template: this.options.buttonTemplate
+          template: this.options.buttonTemplate,
+          imageClass: 'jxInputRevealerIcon'
         }).addTo(this.revealer);
 
         this.menu = new Jx.Menu();
