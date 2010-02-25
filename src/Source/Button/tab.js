@@ -100,7 +100,7 @@ Jx.Button.Tab = new Class({
                       shouldClose = this.options.shouldClose;
                     }
                   }
-                  if (this.shouldClose) {
+                  if (shouldClose) {
                     this.fireEvent('close');
                   }
                 }).bind(this));
