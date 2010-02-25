@@ -1,3 +1,20 @@
+// $Id$
+/**
+ * Class: Jx.Selection
+ * 
+ * Manage selection of objects.  
+ *
+ * Example:
+ * (code)
+ * (end)
+ *
+ * Events:
+ *
+ * License: 
+ * Copyright (c) 2008, DM Solutions Group Inc.
+ * 
+ * This file is licensed under an MIT style license
+ */
 
 
 Jx.Selection = new Class({

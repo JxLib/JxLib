@@ -602,6 +602,11 @@
             "desc": "Represents a button input"
         },
         
+        "jxcombo": {
+            "deps": ["field", "button"],
+            "desc": "Represents an editable combo"
+        },
+        
         "password": {
             "deps": ["field"],
             "desc": "Represents a password input"

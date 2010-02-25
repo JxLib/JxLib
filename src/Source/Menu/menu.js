@@ -271,7 +271,7 @@ Jx.Menu = new Class({
          * but just in the menu/sub menu case - there is some horrible peekaboo
          * bug in IE related to ULs that we just couldn't figure out
          */
-        this.contentContainer.setContentBoxSize(this.subDomObj.getMarginBoxSize());
+        this.contentContainer.setContentBoxSize(this.contentContainer.getMarginBoxSize());
         this.showChrome(this.contentContainer);
 
         this.position(this.contentContainer, this.domObj, $merge({

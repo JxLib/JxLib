@@ -180,6 +180,7 @@ Group: Form  {
    File: Field  (Form/field.js)
    File: Field.Button  (Form/jxbutton.js)
    File: Field.Check  (Form/checkbox.js)
+   File: Field.Combo  (Form/jxcombo.js)
    File: Field.File  (Form/file.js)
    File: Field.Hidden  (Form/hidden.js)
    File: Field.Password  (Form/password.js)

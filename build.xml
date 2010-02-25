@@ -72,7 +72,7 @@ $Id$
   <property environment="env"/>
   <property name="app.name" value="jxlib"/>
   <property name="app.path" value="/${app.name}"/>
-  <property name="app.version" value="2.0.1"/>
+  <property name="app.version" value="3.0alpha"/>
   <!-- when branching jxlib, modify build.xml in the branch to set the
        correct jxlib.home value (add an extra ../) -->
   <property name="jxlib.home" value="${basedir}"/>

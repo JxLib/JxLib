@@ -36,6 +36,22 @@ function drawBasicForm() {
     required: true
   }).addTo(fieldSet1);
 
+  new Jx.Field.Combo({
+    id: 'Select11',
+    name: 'Select11',
+    label: 'Combo Test',
+    readonly: true,
+    tag: 'another tag',
+    items: [
+        {image: 'images/swatches.png', imageClass: 'comboRed', label: 'red'},
+        {image: 'images/swatches.png', imageClass: 'comboMagenta', label: 'magenta'},
+        {image: 'images/swatches.png', imageClass: 'comboBlue'},
+        {label: 'cyan'},
+        {image: 'images/swatches.png', imageClass: 'comboGreen'},
+        {image: 'images/swatches.png', imageClass: 'comboYellow'}
+      ]
+  }).addTo(fieldSet1);
+  
   new Jx.Field.Select({
     id: 'Select11',
     name: 'Select11',

@@ -121,6 +121,14 @@
   height: 16px;
 }
 
+.jxInputRevealer img {
+  width: 16px;
+  height: 16px;
+  background-image: url(images/emblems.png);
+  background-position: right -16px;
+  background-repeat: no-repeat;
+}
+
 
 .jxInputSelect {
   margin: 0px 4px;

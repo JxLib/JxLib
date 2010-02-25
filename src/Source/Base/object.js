@@ -37,9 +37,9 @@
  * method.  A sub-class may hook preInit and postInit events to perform tasks
  * in one of two ways. 
  * 
- * First, simply send onPreInit and onPostInit functions via the options object
- * as follows (they could be standalone functions or functions of another object
- * setup using .bind())
+ * First, simply send onPreInit and onPostInit functions via the options
+ * object as follows (they could be standalone functions or functions of
+ * another object setup using .bind())
  * 
  * (code)
  * var preInit = function () {}
@@ -77,18 +77,19 @@
  * });
  * (end)
  * 
- * When the object finishes initializing itself (including the plugin initialization)
- * it will fire off the initializeDone event. You can hook into this event in the same 
- * way as the events mentioned above.
+ * When the object finishes initializing itself (including the plugin
+ * initialization) it will fire off the initializeDone event. You can hook
+ * into this event in the same way as the events mentioned above.
  *
  * Plugins:
  * Plugins provide pieces of additional, optional, functionality. They are not 
- * necessary for the proper function of an object. All plugins should be located 
- * in the Jx.Plugin namespace and they should be further segregated by applicable 
- * object. While all objects can support plugins not all of them have the automatic
- * instantiation of applicaple plugins turned on. In order to turn this feature on 
- * for an object you need to set the pluginNamespace property of the object. The 
- * following is an example of setting the property:
+ * necessary for the proper function of an object. All plugins should be
+ * located in the Jx.Plugin namespace and they should be further segregated by
+ * applicable object. While all objects can support plugins, not all of them
+ * have the automatic instantiation of applicable plugins turned on. In order
+ * to turn this feature on for an object you need to set the pluginNamespace
+ * property of the object. The following is an example of setting the
+ * property:
  * 
  * (code)
  * var MyClass = new Class({
@@ -111,16 +112,16 @@
  * APlugin.attach(MyGrid);
  * (end)
  * 
- * Second, you can instantiate the plugin first and pass it to the object through the
- * plugins array in the options object.
+ * Second, you can instantiate the plugin first and pass it to the object
+ * through the plugins array in the options object.
  * 
  * (code)
  * var APlugin = new Jx.Plugin.Grid.Selector();
  * var MyGrid = new Jx.Grid({plugins: [APlugin]});
  * (end)
  * 
- * The third way is to pass the information needed to instantiate the plugin in 
- * the plugins array of the options object:
+ * The third way is to pass the information needed to instantiate the plugin
+ * in the plugins array of the options object:
  * 
  * (code)
  * var MyGrid = new Jx.Grid({
@@ -146,16 +147,17 @@
  * Part of the process of initializing plugins is to call prePluginInit() and
  * postPluginInit(). These events provide you access to the object just before 
  * and after the plugins are initialized and/or attached to the object using
- * methods 2 and 3 above. You can hook into these in the same way that you hook into
- * the preInit() and postInit() events.  
+ * methods 2 and 3 above. You can hook into these in the same way that you
+ * hook into the preInit() and postInit() events.  
  * 
  * Destroying Jx.Object Instances:
  * Jx.Object provides a destroy method that cleans up potential memory leaks
  * when you no longer need an object.  Sub-classes are expected to implement
  * a cleanup() method that provides specific cleanup code for each
  * sub-class.  Remember to call this.parent() when providing a cleanup()
- * method. Destroy will also fire off 2 events: preDestroy and postDestroy. You 
- * can hook into these methods in the same way as the init or plugin events. 
+ * method. Destroy will also fire off 2 events: preDestroy and postDestroy.
+ * You can hook into these methods in the same way as the init or plugin
+ * events. 
  *
  * The Family Attribute:
  * the Family attribute of a class is used internally by JxLib to identify Jx
@@ -164,14 +166,6 @@
  * up to Jx.Object.  Family is useful when debugging as you will be able to
  * identify the family in the firebug inspector, but is not as useful for
  * coding purposes as it does not allow for inheritance.
- *
- * Parameters:
- * 
- * 
- * 
- * Example:
- * (code)
- * (end)
  *
  * License:
  * Copyright (c) 2009, Jon Bomgardner.

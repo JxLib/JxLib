@@ -709,6 +709,9 @@ iframe.jxIframeShim{position:absolute;top:0px;left:0px;width:100%;height:100%;op
   display: block;
   z-index: 1000;
   overflow: hidden;
+  
+  /* initial state is hidden */
+  visibility: hidden;
 }
 
 .jxDialogContentContainer {
@@ -1078,9 +1081,14 @@ div.jxFileFake .jxButtonContainer {
   vertical-align: bottom;
 }
 
+.jxInputWrapper {
+  position: relative;
+}
+
 .jxInputText,
 .jxInputPassword,
-.jxInputTextarea {
+.jxInputTextarea,
+.jxInputCombo {
   margin: 0px 4px;
   padding: 4px;
   border: 1px solid #bbb;
@@ -1089,6 +1097,35 @@ div.jxFileFake .jxButtonContainer {
   line-height: 16px;
   color: #000;
 }
+
+.jxInputCombo {
+  padding: 4px 20px 4px 20px;
+}
+
+.jxInputIcon {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 16px;
+  height: 16px;
+}
+
+.jxInputRevealer {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  width: 16px;
+  height: 16px;
+}
+
+.jxInputRevealer img {
+  width: 16px;
+  height: 16px;
+  background-image: url(images/emblems.png);
+  background-position: right -16px;
+  background-repeat: no-repeat;
+}
+
 
 .jxInputSelect {
   margin: 0px 4px;
@@ -1100,13 +1137,6 @@ div.jxFileFake .jxButtonContainer {
   color: #000;
 }
 
-.jxInputText:focus,
-.jxInputPassword:focus,
-.jxInputTextarea:focus,
-.jxInputSelect:focus {
-  border: 1px solid #000;
-}
-
 .jxInputRadio,
 .jxInputCheck {
   margin: 5px;
@@ -1114,6 +1144,14 @@ div.jxFileFake .jxButtonContainer {
   font-size: 12px;
   line-height: 16px;
   color: #000;
+}
+
+.jxInputText:focus,
+.jxInputPassword:focus,
+.jxInputTextarea:focus,
+.jxInputSelect:focus,
+.jxInputCombo:focus {
+  border: 1px solid #000;
 }
 
 .jxInputContainer .jxButtonContainer {

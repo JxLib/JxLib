@@ -18,15 +18,15 @@ Jx.Plugin.Grid.Resize = new Class({
 
     options: {
         /**
-         * Option: columns
+         * Option: column
          * set to true to make column widths resizeable
          */
-        columns: false,
+        column: false,
         /**
-         * Option: rows
+         * Option: row
          * set to true to make row heights resizeable
          */
-        rows: false,
+        row: false,
         /**
          * Option: tooltip
          * the tooltip to display for the draggable portion of the
@@ -38,13 +38,19 @@ Jx.Plugin.Grid.Resize = new Class({
      * Property: els
      * the DOM elements by which the rows/columns are resized.
      */
-    els: [],
+    els: {
+      column: [],
+      row: []
+    },
 
     /**
      * Property: drags
      * the Drag instances
      */
-    drags: [],
+    drags: {
+      column: [],
+      row: []
+    },
 
     /**
      * Property: bound
@@ -85,15 +91,32 @@ Jx.Plugin.Grid.Resize = new Class({
         this.grid = null;
     },
 
+    activate: function(option) {
+        if ($defined(this.options[option])) {
+          this.options[option] = true;
+        }
+        this.createResizeHandles();
+    },
+    
+    deactivate: function(option) {
+        if ($defined(this.options[option])) {
+          this.options[option] = false;
+        }
+        this.createResizeHandles();
+    },
+    
     removeResizeHandles: function() {
-        this.els.each(function(el) { el.dispose(); } );
-        this.els = [];
-        this.drags.each(function(drag){ drag.detach(); });
-        this.drags = [];
+        ['column','row'].each(function(option) {
+          this.els[option].each(function(el) { el.dispose(); } );
+          this.els[option] = [];
+          this.drags[option].each(function(drag){ drag.detach(); });
+          this.drags[option] = [];
+        }, this);
     },
 
     createResizeHandles: function() {
-        if (this.options.columns && this.grid.columns.useHeaders()) {
+        this.removeResizeHandles();
+        if (this.options.column && this.grid.columns.useHeaders()) {
             this.grid.columns.columns.each(function(col, idx) {
                 if (col.header) {
                     var el = new Element('div', {
@@ -106,8 +129,8 @@ Jx.Plugin.Grid.Resize = new Class({
                             }
                         }
                     }).inject(col.header);
-                    this.els.push(el);
-                    this.drags.push(new Drag(el, {
+                    this.els.column.push(el);
+                    this.drags.column.push(new Drag(el, {
                         limit: {y:[0,0]},
                         onDrag: function(el) {
                             var w = el.getPosition(el.parentNode).x.toInt();
@@ -118,8 +141,6 @@ Jx.Plugin.Grid.Resize = new Class({
             }, this);
         }
 
-        // if (this.options.rows && this.grid.row.useHeaders()) {
-        //
-        // }
+        //if (this.options.row && this.grid.row.useHeaders()) {}
     }
 });
