@@ -56,7 +56,8 @@ Jx.Button.Tab = new Class({
         activeClass: 'jxTabActive',
         activeTabClass: 'tabContentActive',
         template: '<span class="jxTabContainer"><a class="jxTab"><span class="jxTabContent"><img class="jxTabIcon"><span class="jxTabLabel"></span></span></a><a class="jxTabClose"></span>',
-        contentTemplate: '<div class="tabContent"></div>'
+        contentTemplate: '<div class="tabContent"></div>',
+        shouldClose: true
     },
     classes: new Hash({
         domObj: 'jxTabContainer',
@@ -91,7 +92,17 @@ Jx.Button.Tab = new Class({
             if (this.options.close) {
                 this.domObj.addClass('jxTabClose');
                 this.domClose.addEvent('click', (function(){
+                  var shouldClose = true;
+                  if ($defined(this.options.shouldClose)) {
+                    if (typeof this.options.shouldClose == 'function') {
+                      shouldClose = this.options.shouldClose();
+                    } else {
+                      shouldClose = this.options.shouldClose;
+                    }
+                  }
+                  if (this.shouldClose) {
                     this.fireEvent('close');
+                  }
                 }).bind(this));
             } else {
                 this.domClose.dispose();
