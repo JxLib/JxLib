@@ -143,6 +143,18 @@ Jx.Menu = new Class({
         return this;
     },
     /**
+     * APIMethod: empty
+     * Empty the menu of items
+     */
+    empty: function() {
+      this.list.each(function(item){
+        if (item.empty) {
+          item.empty();
+        }
+      }, this);
+      this.list.empty();
+    },
+    /**
      * Method: deactivate
      * Deactivate the menu by hiding it.
      */

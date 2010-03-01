@@ -203,6 +203,13 @@ Jx.Toolbar = new Class({
         return this;
     },
     /**
+     * APIMethod: empty
+     * remove all items from the toolbar
+     */
+    empty: function() {
+      this.list.each(function(item){this.remove(item);},this);
+    },
+    /**
      * Method: deactivate
      * Deactivate the Toolbar (when it is acting as a menu bar).
      */

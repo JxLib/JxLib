@@ -94,6 +94,14 @@ Jx.ButtonSet = new Class({
         }
     },
     /**
+     * APIMethod: empty
+     * empty the button set and clear the active button
+     */
+    empty: function() {
+      this.buttons = [];
+      this.activeButton = null;
+    },
+    /**
      * Method: setActiveButton
      * Set the active button to the one passed to this method
      *

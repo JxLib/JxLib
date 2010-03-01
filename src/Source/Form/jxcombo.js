@@ -203,5 +203,15 @@ Jx.Field.Combo = new Class({
      */
     remove: function(idx) {
         //TODO: implement remove?
+    },
+    /**
+     * APIMethod: empty
+     * remove all values from the combo
+     */
+    empty: function() {
+      this.menu.empty();
+      this.buttonSet.empty();
+      this.setLabel('');
+      this.setImage(Jx.aPixel.src);
     }
 });

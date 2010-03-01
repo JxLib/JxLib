@@ -147,6 +147,13 @@ Jx.Menu.SubMenu = new Class({
         return this;
     },
     /**
+     * APIMethod: empty
+     * remove all items from the sub menu
+     */
+    empty: function() {
+      this.menu.empty();
+    },
+    /**
      * Method: deactivate
      * Deactivate the sub menu
      *

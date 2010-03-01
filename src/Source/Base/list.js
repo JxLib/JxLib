@@ -328,9 +328,11 @@ Jx.List = new Class({
      * Parameters:
      * func - {function} the function to apply, it will receive the item and
      * index of the item as parameters
+     * context - {object} the context to execute the function in, null by
+     * default.
      */
-    each: function(f) {
-        $A(this.container.childNodes).each(f);
+    each: function(f, context) {
+        $A(this.container.childNodes).each(f, context);
     },
     /**
      * APIMethod: select

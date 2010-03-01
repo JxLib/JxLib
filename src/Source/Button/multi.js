@@ -261,6 +261,13 @@ Jx.Button.Multi = new Class({
         }
     },
     /**
+     * APIMethod: empty
+     * remove all buttons from the multi button
+     */
+    empty: function() {
+      this.buttons.each(function(b){this.remove(b);}, this);
+    },
+    /**
      * Method: setActiveButton
      * update the menu item to be the requested button.
      *
