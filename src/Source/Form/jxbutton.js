@@ -20,6 +20,18 @@ Jx.Field.Button = new Class({
 
     options: {
         /**
+         * Option: buttonClass
+         * choose the actual Jx.Button subclass to create for this form
+         * field.  The default is to create a basic Jx.Button.  To create
+         * a different kind of button, pass the class to this option, for
+         * instance:
+         * (code)
+         * buttonClass: Jx.Button.Color
+         * (end)
+         */
+        buttonClass: Jx.Button,
+        
+        /**
          * Option: buttonOptions
          */
         buttonOptions: {},
@@ -40,7 +52,7 @@ Jx.Field.Button = new Class({
 
     processTemplate: function(template, classes, container) {
         var h = this.parent(template, classes, container);
-        this.button = new Jx.Button(this.options.buttonOptions);
+        this.button = new this.options.buttonClass(this.options.buttonOptions);
         var c = h.get('jxInputButton');
         if (c) {
             this.button.domObj.replaces(c);
