@@ -36,6 +36,7 @@ Jx.Field.Combo = new Class({
      */
     render: function() {
         this.classes.combine({
+          wrapper: 'jxInputWrapper',
           revealer: 'jxInputRevealer',
           icon: 'jxInputIcon'
         });
@@ -131,6 +132,11 @@ Jx.Field.Combo = new Class({
     setImage: function(url) {
       if ($defined(this.icon)) {
         this.icon.setStyle('background-image', 'url('+url+')');
+      }
+      if (!url) {
+        this.wrapper.addClass('jxInputIconHidden');
+      } else {
+        this.wrapper.removeClass('jxInputIconHidden');
       }
     },
 
