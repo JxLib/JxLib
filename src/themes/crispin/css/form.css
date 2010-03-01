@@ -111,6 +111,10 @@
   padding: 4px 20px 4px 20px;
 }
 
+.jxInputIconHidden .jxInputCombo {
+  padding-left: 4px;
+}
+
 .jxInputIcon {
   position: absolute;
   width: 16px;
@@ -118,6 +122,10 @@
   left: 0px;
   top: 0px;
   margin: 4px 4px 4px 8px;
+}
+
+.jxInputIconHidden .jxInputIcon {
+  display: none;
 }
 
 .jxInputRevealer {
