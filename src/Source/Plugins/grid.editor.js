@@ -25,15 +25,11 @@ Jx.Plugin.Grid.Editor = new Class({
        */
       enabled : true,
       /**
-       * Option: hideOnBlur
-       * Determines whether the field or popup hides when the focus blurs the
-       * input field
-       */
-      hideOnBlur : true,
-      /**
        * Option: blurDelay
        * Set the time in miliseconds when the inputfield/popup shall hide. When
        * the user refocuses the input/popup within this time, the timeout will be cleared
+       *
+       * set to 'false' if no hiding on blur is wanted
        */
       blurDelay : 500,
       /**
@@ -159,7 +155,7 @@ Jx.Plugin.Grid.Editor = new Class({
      *
      * References to all contents within a popup (only 1 popup for 1 grid initialization)
      *
-     * COMMENT: I don't know how deep you want to go into that.. innerWrapper and closeLink probably don't need
+     * COMMENT: I don't know how deep we need to go into that.. innerWrapper and closeLink probably don't need
      * own references.. I just made them here in case they are needed at some time..
      *
      * Containing Objects:
@@ -289,9 +285,14 @@ Jx.Plugin.Grid.Editor = new Class({
         return;
 
       var data  = cell.retrieve('jxCellData');
+      // @todo Rename Header too??
+      // return if a table header was clicked
+      if(($defined(data.colHeader) && data.colHeader) || ($defined(data.rowHeader) && data.rowHeader))
+        return;
+
       var row   = data.row,
           index = data.index;
-          console.log(row, index);
+
       if(this.cellIsInGrid(row, index)) {
         var model      = this.grid.getModel(),
             //cell       = this.grid.gridTableBody.rows[row].cells[col] ? this.grid.gridTableBody.rows[row].cells[col] : null,
@@ -327,6 +328,22 @@ Jx.Plugin.Grid.Editor = new Class({
             this.activeCell.field = new Jx.Field[this.activeCell.fieldOptions.type](jxFieldOptions);
             break;
           case 'Select':
+            /*
+             *  find out which visible value fits to the value inside <option>{value}</option>
+             *  and set it to selected
+             */
+            if(jxFieldOptions.comboOpts) {
+              for(var i = 0, j = jxFieldOptions.comboOpts.length; i < j; i++) {
+                if(jxFieldOptions.comboOpts[i].value == this.activeCell.oldValue.toString()) {
+                  jxFieldOptions.comboOpts[i].selected = true;
+                  console.log("selected: %o, %o", i, jxFieldOptions.comboOpts[i]);
+                }else{
+                  jxFieldOptions.comboOpts[i].selected = false;
+                }
+              }
+            }else if(jxFieldOptions.groupOpts) {
+              
+            }
             this.activeCell.field = new Jx.Field[this.activeCell.fieldOptions.type](jxFieldOptions);
             //COMMENT: a method to select the <option> by the visible text would be useful
             //this.activeCell.field.setSelectedByText(this.activeCell.oldValue);
@@ -346,7 +363,12 @@ Jx.Plugin.Grid.Editor = new Class({
           this.keyboard.activate();
         }
 
-        if(this.options.hideOnBlur) {
+        // convert a string to an integer if somebody entered a numeric value in quotes, if it failes: make false
+        if(typeof(this.options.blurDelay) == 'string') {
+          this.options.blurDelay = this.options.blurDelay.toInt() ? this.options.blurDelay.toInt() : false;
+        }
+        
+        if(this.options.blurDelay !== false && typeof(this.options.blurDelay) == 'number') {
           var self = this;
           this.activeCell.field.field.addEvents({
             'blur' : function() {
@@ -364,7 +386,7 @@ Jx.Plugin.Grid.Editor = new Class({
         }
         this.activeCell.field.field.focus();
       }else{
-        console.log('out of grid %o',cell);
+        console.warn('out of grid %o',cell);
       }
     }, 
     /**
@@ -394,7 +416,46 @@ Jx.Plugin.Grid.Editor = new Class({
             case 'Select':
               // COMMENT: maybe add a getText() method for Jx.Field.Select to get the text inside an <option> ?
               var index = this.activeCell.field.field.selectedIndex;
-              this.grid.model.set(this.activeCell.coords.index, document.id(this.activeCell.field.field.options[index]).get("text"));
+              //this.grid.model.set(this.activeCell.coords.index, document.id(this.activeCell.field.field.options[index]).get("text"));
+              console.log("Datatype: %o\nText/typeof: %o %o\nValue/typeof: %o %o\nModel/Typeof: %o %o",
+                this.grid.columns.columns[this.activeCell.coords.index].options.dataType,
+                this.activeCell.field.field.options[index].get("text"),
+                typeof(this.activeCell.field.field.options[index].get("text")),
+                this.activeCell.field.field.options[index].get("value"),
+                typeof(this.activeCell.field.field.options[index].get("value")),
+                this.grid.model.get(this.activeCell.coords.index),
+                typeof(this.grid.model.get(this.activeCell.coords.index))
+              );
+              var newValue,
+                  jxField = this.activeCell.field.field.options[index];
+
+              newValue = document.id(jxField).get("value");
+              console.log(this.grid.model.get(this.activeCell.coords.index), this.activeCell.oldValue);
+              this.grid.model.set(this.activeCell.coords.index, newValue);
+
+              /*
+              switch(typeof(this.grid.model.get(this.activeCell.coords.index))) {
+                case 'boolean':
+                  if(document.id(jxField).get("value") == 'true' || document.id(jxField).get("value") == 'false') {
+                    newValue = Boolean(document.id(jxField).get("value"));
+                  }else{
+                    newValue = document.id(jxField).get("value");
+                  }
+                  break;
+                case 'number':
+                  if(typeof(Number(document.id(jxField).get("value"))) == 'number') {
+                    newValue = Number(document.id(jxField).get("value"));
+                  }else{
+                   newValue = document.id(jxField).get("value");
+                  }
+                  break;
+                case 'string':
+                default:
+                  newValue = document.id(jxField).get("value");
+                  break;
+              }
+              */
+              //this.grid.model.set(this.activeCell.coords.index, document.id(this.activeCell.field.field.options[index]).get("text"));
               break;
             case 'Textarea':
               this.grid.model.set(this.activeCell.coords.index, this.activeCell.field.getValue().replace(/\n/gi, '<br />'));
@@ -406,7 +467,11 @@ Jx.Plugin.Grid.Editor = new Class({
               break;
           }
           updated = true;
+          // manually render the grid again?
+          this.grid.render();
+
           this.activeCell.cell = this.grid.gridTableBody.rows[this.activeCell.coords.row].cells[this.activeCell.coords.index-1];
+          //console.log(this.activeCell.cell);
           //this.activeCell.cell = this.grid.columns.getColumnCell(this.grid.columns.getByName(this.activeCell.colOptions.name));
         }else{
           this.activeCell.span.show();
@@ -500,7 +565,6 @@ Jx.Plugin.Grid.Editor = new Class({
         this.popup.domObj.setStyles({
           'width'  : cell.getContentBoxSize().width
         });
-        
         Jx.Widget.prototype.position(this.popup.domObj, cell, {
             horizontal: ['left left'],
             vertical: ['top top']
@@ -671,7 +735,6 @@ Jx.Plugin.Grid.Editor = new Class({
         i++;
       }while(!data.col.options.isEditable);
       
-      //fire the select event by having the grid select the cell like so:
       this.grid.selection.select(nextCell);
     },
     /**
@@ -702,7 +765,6 @@ Jx.Plugin.Grid.Editor = new Class({
         i++;
       }while(!data.col.options.isEditable);
 
-      //fire the select event by having the grid select the cell like so:
       this.grid.selection.select(prevCell);
     },
     /**
@@ -767,11 +829,16 @@ Jx.Plugin.Grid.Editor = new Class({
      * @return {Boolean}
      */
     cellIsInGrid: function(row, index) {
-      if( row >= 0 && index >= 0 &&
-          row <= this.grid.gridTableBody.rows.length &&
-          index <= this.grid.gridTableBody.rows[row].cells.length
-      ) {
-        return true;
+      if($defined(row) && $defined(index)) {
+        console.log("Row %i - max Rows: %i, Col %i - max Cols %i", row, this.grid.gridTableBody.rows.length, index, this.grid.gridTableBody.rows[row].cells.length);
+        if( row >= 0 && index >= 0 &&
+            row <= this.grid.gridTableBody.rows.length &&
+            index <= this.grid.gridTableBody.rows[row].cells.length
+        ) {
+          return true;
+        }else{
+          return false;
+        }
       }else{
         return false;
       }
