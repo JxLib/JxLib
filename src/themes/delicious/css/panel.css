@@ -162,15 +162,6 @@
 /* ========================= */
 
 .jxPanelControls .jxButtonContainer,
-.jxPanelControls span.jxButtonContent,
-.jxPanelControls .jxButton:hover span.jxButtonContent,
-.jxPanelControls .jxButton:active span.jxButtonContent,
-.jxPanelControls .jxButtonActive span.jxButtonContent,
-.jxPanelControls .jxButtonActive:hover span.jxButtonContent,
-.jxPanelControls .jxButtonActive:active span.jxButtonContent,
-.jxPanelControls .jxDisabled .jxButton span.jxButtonContent,
-.jxPanelControls .jxDisabled .jxButton:hover span.jxButtonContent,
-.jxPanelControls .jxDisabled .jxButton:active span.jxButtonContent,
 .jxPanelControls .jxButton,
 .jxPanelControls .jxButton:hover,
 .jxPanelControls .jxButton:active ,
@@ -187,15 +178,6 @@
   background-image: none;
 }
 
-.jxPanelControls .jxButtonMenu span.jxButtonContent,
-.jxPanelControls .jxButtonFlyout span.jxButtonContent {
-  background-image: none;
-}
-
-.jxPanelControls .jxButtonMenu span.jxButtonContent span,
-.jxPanelControls .jxButtonFlyout span.jxButtonContent span {
-  padding-right: 0px;
-}
 
 /* ========================== */
 /* JX TOOLBAR STYLES OVERIDES */
