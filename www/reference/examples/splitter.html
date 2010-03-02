@@ -21,7 +21,7 @@ function drawBasicSplit() {
      * new elements for each side of the splitter
      */
     new Jx.Splitter('splitBasic',{
-      containerOptions: [{autoResize: true,width: 100},{autoResize: true}]
+      containerOptions: [{resizeWithWindow: true,width: 100},{resizeWithWindow: true}]
     });
 }
 </script>
@@ -34,7 +34,7 @@ function drawVerticalSplit() {
     new Jx.Splitter('splitVertical', {
         layout: 'vertical',
         useChildren: true,
-        containerOptions: [{autoResize: true,height: 50},{autoResize: true}]
+        containerOptions: [{resizeWithWindow: true,height: 50},{resizeWithWindow: true}]
     });
 }
 </script>
@@ -57,9 +57,9 @@ function drawSnapSplit() {
          * open and closed on double click, the second
          * uses another element for the snap.
          */
-        containerOptions:[{autoResize: true},
-                          {autoResize: true},
-                          {autoResize: true}],
+        containerOptions:[{resizeWithWindow: true},
+                          {resizeWithWindow: true},
+                          {resizeWithWindow: true}],
         barOptions: [
             {snap:'before'},
             {snap:'after',snapElement: snapImg, snapEvents:['click']}
