@@ -101,6 +101,8 @@
   margin: 0px 4px;
   padding: 4px;
   border: 1px solid #bbb;
+  /* overall width is 250px, margins+padding+border is 18px */
+  width: 232px;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 12px;
   line-height: 16px;
@@ -109,10 +111,14 @@
 
 .jxInputCombo {
   padding: 4px 20px 4px 20px;
+  /* overall width is 250px, margins+padding+border is 50px */
+  width: 200px;
 }
 
 .jxInputIconHidden .jxInputCombo {
+  /* overall width is 250px, margins+padding+border is 34px */
   padding-left: 4px;
+  width: 216px;
 }
 
 .jxInputIcon {
