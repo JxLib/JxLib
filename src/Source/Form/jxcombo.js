@@ -205,10 +205,25 @@ Jx.Field.Combo = new Class({
      * Remove the item at the given index.  Not implemented.
      *
      * Parameters:
-     * idx - {Integer} the item to remove.
+     * idx - {Mixed} the item to remove by reference or by index.
      */
     remove: function(idx) {
-        //TODO: implement remove?
+      var item;
+      if ($type(idx) == 'number' && idx < this.buttonSet.buttons.length) {
+        item = this.buttonSet.buttons[idx];
+      } else if ($type(idx) == 'string'){
+        this.buttonSet.buttons.some(function(button){
+            if (button.options.label === idx) {
+                item = button;
+                return true;
+            }
+            return false;
+        },this);
+      }
+      if (item) {
+        this.buttonSet.remove(item);
+        this.menu.remove(item);
+      }
     },
     /**
      * APIMethod: empty
