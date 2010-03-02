@@ -121,7 +121,8 @@ Jx.Panel = new Class({
          */
         toolbars: [],
         type: 'panel',
-        template: '<div class="jxPanel"><div class="jxPanelTitle"><img class="jxPanelIcon" src="'+Jx.aPixel.src+'" alt="" title=""/><span class="jxPanelLabel"></span><div class="jxPanelControls"></div></div><div class="jxPanelContentContainer"><div class="jxPanelContent"></div></div></div>'
+        template: '<div class="jxPanel"><div class="jxPanelTitle"><img class="jxPanelIcon" src="'+Jx.aPixel.src+'" alt="" title=""/><span class="jxPanelLabel"></span><div class="jxPanelControls"></div></div><div class="jxPanelContentContainer"><div class="jxPanelContent"></div></div></div>',
+        controlButtonTemplate: '<a class="jxButtonContainer jxButton"><img class="jxButtonIcon" src="'+Jx.aPixel.src+'"></a>'
     },
     classes: new Hash({
         domObj: 'jxPanel',
@@ -159,6 +160,8 @@ Jx.Panel = new Class({
         if (this.options.menu) {
             this.menu = new Jx.Menu({
                 image: Jx.aPixel.src
+            }, {
+              buttonTemplate: this.options.controlButtonTemplate
             });
             this.menu.domObj.addClass(this.options.menuClass);
             this.menu.domObj.addClass('jxButtonContentLeft');
@@ -168,6 +171,7 @@ Jx.Panel = new Class({
         var b, item;
         if (this.options.collapse) {
             var colB = new Jx.Button({
+                template: this.options.controlButtonTemplate,
                 image: Jx.aPixel.src,
                 tooltip: this.options.collapseTooltip,
                 onClick: function() {
@@ -203,6 +207,7 @@ Jx.Panel = new Class({
 
         if (this.options.maximize) {
             var maxB = new Jx.Button({
+                template: this.options.controlButtonTemplate,
                 image: Jx.aPixel.src,
                 tooltip: this.options.maximizeTooltip,
                 onClick: function() {
@@ -238,6 +243,7 @@ Jx.Panel = new Class({
 
         if (this.options.close) {
             var closeB = new Jx.Button({
+                template: this.options.controlButtonTemplate,
                 image: Jx.aPixel.src,
                 tooltip: this.options.closeTooltip,
                 onClick: function() {
