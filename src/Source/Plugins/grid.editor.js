@@ -336,7 +336,7 @@ Jx.Plugin.Grid.Editor = new Class({
               for(var i = 0, j = jxFieldOptions.comboOpts.length; i < j; i++) {
                 if(jxFieldOptions.comboOpts[i].value == this.activeCell.oldValue.toString()) {
                   jxFieldOptions.comboOpts[i].selected = true;
-                  console.log("selected: %o, %o", i, jxFieldOptions.comboOpts[i]);
+                  //console.log("selected: %o, %o", i, jxFieldOptions.comboOpts[i]);
                 }else{
                   jxFieldOptions.comboOpts[i].selected = false;
                 }
@@ -406,7 +406,7 @@ Jx.Plugin.Grid.Editor = new Class({
         clearTimeout(this.activeCell.timeoutId);
 
         // update the value in the model
-        if(update && this.activeCell.field.getValue() != this.activeCell.oldValue) {
+        if(update && this.activeCell.field.getValue().toString() != this.activeCell.oldValue.toString()) {
           this.grid.model.moveTo(this.activeCell.coords.row);
           /*
            * @todo webkit shrinks the rows when the value is updated... but refreshing the grid
@@ -414,48 +414,8 @@ Jx.Plugin.Grid.Editor = new Class({
            */
           switch(this.activeCell.fieldOptions.type) {
             case 'Select':
-              // COMMENT: maybe add a getText() method for Jx.Field.Select to get the text inside an <option> ?
               var index = this.activeCell.field.field.selectedIndex;
-              //this.grid.model.set(this.activeCell.coords.index, document.id(this.activeCell.field.field.options[index]).get("text"));
-              console.log("Datatype: %o\nText/typeof: %o %o\nValue/typeof: %o %o\nModel/Typeof: %o %o",
-                this.grid.columns.columns[this.activeCell.coords.index].options.dataType,
-                this.activeCell.field.field.options[index].get("text"),
-                typeof(this.activeCell.field.field.options[index].get("text")),
-                this.activeCell.field.field.options[index].get("value"),
-                typeof(this.activeCell.field.field.options[index].get("value")),
-                this.grid.model.get(this.activeCell.coords.index),
-                typeof(this.grid.model.get(this.activeCell.coords.index))
-              );
-              var newValue,
-                  jxField = this.activeCell.field.field.options[index];
-
-              newValue = document.id(jxField).get("value");
-              console.log(this.grid.model.get(this.activeCell.coords.index), this.activeCell.oldValue);
-              this.grid.model.set(this.activeCell.coords.index, newValue);
-
-              /*
-              switch(typeof(this.grid.model.get(this.activeCell.coords.index))) {
-                case 'boolean':
-                  if(document.id(jxField).get("value") == 'true' || document.id(jxField).get("value") == 'false') {
-                    newValue = Boolean(document.id(jxField).get("value"));
-                  }else{
-                    newValue = document.id(jxField).get("value");
-                  }
-                  break;
-                case 'number':
-                  if(typeof(Number(document.id(jxField).get("value"))) == 'number') {
-                    newValue = Number(document.id(jxField).get("value"));
-                  }else{
-                   newValue = document.id(jxField).get("value");
-                  }
-                  break;
-                case 'string':
-                default:
-                  newValue = document.id(jxField).get("value");
-                  break;
-              }
-              */
-              //this.grid.model.set(this.activeCell.coords.index, document.id(this.activeCell.field.field.options[index]).get("text"));
+              this.grid.model.set(this.activeCell.coords.index, document.id(this.activeCell.field.field.options[index]).get("value"));
               break;
             case 'Textarea':
               this.grid.model.set(this.activeCell.coords.index, this.activeCell.field.getValue().replace(/\n/gi, '<br />'));
