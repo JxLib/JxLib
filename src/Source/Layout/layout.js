@@ -32,6 +32,12 @@ Jx.Layout = new Class({
     Extends: Jx.Object,
 
     options: {
+        /* Option: autoResize
+         * boolean, automatically resize this layout when the window size
+         * changes, even if the element is not a direct descendant of the
+         * BODY.  False by default.
+         */
+        autoResize: false,
         /* Option: propagate
          * boolean, controls propogation of resize to child nodes.
          * True by default. If set to false, changes in size will not be
@@ -126,7 +132,7 @@ Jx.Layout = new Class({
         this.domObj.setStyle('position', this.options.position);
         this.domObj.store('jxLayout', this);
 
-        if (document.body == this.domObj.parentNode) {
+        if (this.options.autoResize || document.body == this.domObj.parentNode) {
             window.addEvent('resize', this.windowResize.bindWithEvent(this));
             window.addEvent('load', this.windowResize.bind(this));
         }
