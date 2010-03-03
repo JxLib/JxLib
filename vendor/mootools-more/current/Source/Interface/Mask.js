@@ -27,7 +27,7 @@ var Mask = new Class({
 
 	Implements: [Options, Events],
 
-	Binds: ['resize'],
+	Binds: ['position'],
 
 	options: {
 		// onShow: $empty,
@@ -44,12 +44,13 @@ var Mask = new Class({
 		style: {},
 		'class': 'mask',
 		maskMargins: false,
-		useIframeShim: true
+		useIframeShim: true,
+		iframeShimOptions: {}
 	},
 
 	initialize: function(target, options){
-		this.target = document.id(target) || document.body;
-		this.target.store('mask', this);
+		this.target = document.id(target) || document.id(document.body);
+		this.target.store('Mask', this);
 		this.setOptions(options);
 		this.render();
 		this.inject();
@@ -81,7 +82,7 @@ var Mask = new Class({
 		target = target || this.options.inject ? this.options.inject.target : '' || this.target;
 		this.element.inject(target, where);
 		if (this.options.useIframeShim) {
-			this.shim = new IframeShim(this.element);
+			this.shim = new IframeShim(this.element, this.options.iframeShimOptions);
 			this.addEvents({
 				show: this.shim.show.bind(this.shim),
 				hide: this.shim.hide.bind(this.shim),
@@ -121,8 +122,7 @@ var Mask = new Class({
 
 	show: function(){
 		if (!this.hidden) return this;
-		this.target.addEvent('resize', this.resize);
-		if (this.target != document.body) document.id(document.body).addEvent('resize', this.resize);
+		window.addEvent('resize', this.position);
 		this.position();
 		this.showMask.apply(this, arguments);
 		return this;
@@ -136,7 +136,7 @@ var Mask = new Class({
 
 	hide: function(){
 		if (this.hidden) return this;
-		this.target.removeEvent('resize', this.resize);
+		window.removeEvent('resize', this.position);
 		this.hideMask.apply(this, arguments);
 		if (this.options.destroyOnHide) return this.destroy();
 		return this;

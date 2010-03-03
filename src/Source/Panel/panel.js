@@ -494,20 +494,6 @@ Jx.Panel = new Class({
             window.setTimeout(this.onContentReady.bind(this),1);
         }
     },
-    /**
-     * Method: setBusy
-     * Set the panel as busy or not busy, which displays a loading image
-     * in the title bar.
-     *
-     * Parameters:
-     * isBusy - {Boolean} the busy state
-     */
-    setBusy : function(isBusy) {
-        this.busyCount += isBusy?1:-1;
-        if (this.loadingObj){
-            this.loadingObj.img.style.visibility = (this.busyCount>0)?'visible':'hidden';
-        }
-    },
 
     /**
      * Method: toggleCollapse

@@ -21,6 +21,7 @@
         
         "widget": {
         	"deps": ["object","Selectors"],
+        	"opt": ["spinner"],
         	"desc": "Base class for all widgets (visual classes) in the JxLib Framework."
         },
         
@@ -603,7 +604,7 @@
         },
         
         "jxcombo": {
-            "deps": ["field", "button"],
+            "deps": ["field", "button", "menu", "menu.item", "set"],
             "desc": "Represents an editable combo"
         },
         

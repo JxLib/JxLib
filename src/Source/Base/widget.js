@@ -55,12 +55,35 @@ Jx.Widget = new Class({
          * the URL to load content from
          */
         contentURL: null,
-        template: '<div class="jxWidget"></div>'
+        template: '<div class="jxWidget"></div>',
+        /**
+         * Option: busyClass
+         */
+        busyClass: 'jxBusy',
+        /**
+         * Option: busyMask
+         */
+        busyMask: {
+          'message': 'Working ...',
+          'class': 'jxSpinner',
+          img: {'class':'jxSpinnerImage'},
+          content: {'class':'jxSpinnerContent'},
+          messageContainer: {'class':'jxSpinnerMessage'},
+          useIframeShim: true,
+          iframeShimOptions: {
+            className: 'jxIframeShim'
+          }
+        }
     },
 
     classes: new Hash({
         domObj: 'jxWidget'
     }),
+    
+    /**
+     * Property: isBusy
+     */
+    busy: false,
 
     /**
      * Property: domObj
@@ -652,6 +675,36 @@ Jx.Widget = new Class({
             }
         }, this);
         return elements;
+    },
+    
+    isBusy: function() {
+      return this.busy;
+    },
+    
+    setBusy: function(state) {
+      if (this.busy == state) {
+        return;
+      }
+      this.busy = state;
+      this.fireEvent('busy', this.busy);
+      if (this.busy) {
+        if (this.options.busyClass) {
+          this.domObj.addClass(this.options.busyClass);
+        }
+        if (this.options.busyMask && this.domObj.spin) {
+          var z = Jx.getNumber(this.domObj.getStyle('z-index'));
+          var style = $merge(this.options.busyMask.style || {}, 
+                             {'z-index':z+1});
+          this.domObj.spin($merge(this.options.busyMask, {style:style}));
+        }
+      } else {
+        if (this.options.busyClass) {
+          this.domObj.removeClass(this.options.busyClass);
+        }
+        if (this.options.busyMask && this.domObj.unspin) {
+          this.domObj.unspin();
+        }
+      }
     }
 });
 
