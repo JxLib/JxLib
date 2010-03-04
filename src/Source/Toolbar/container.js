@@ -103,13 +103,7 @@ Jx.Toolbar.Container = new Class({
             // make sure we update our size when we get added to the DOM
             this.addEvent('addTo', this.update.bind(this));
             
-            this.scrollLeft = new Jx.Button({
-                image: Jx.aPixel.src
-            }).addTo(this.domObj, 'top');
-            this.scrollLeft.domObj.addClass('jxBarScrollLeft');
-            this.scrollLeft.addEvents({
-               click: this.scroll.bind(this,'left')
-            });
+            
             
             this.scrollRight = new Jx.Button({
                 image: Jx.aPixel.src
@@ -117,6 +111,14 @@ Jx.Toolbar.Container = new Class({
             this.scrollRight.domObj.addClass('jxBarScrollRight');
             this.scrollRight.addEvents({
                click: this.scroll.bind(this, 'right')
+            });
+            
+            this.scrollLeft = new Jx.Button({
+                image: Jx.aPixel.src
+            }).addTo(this.domObj, 'bottom');
+            this.scrollLeft.domObj.addClass('jxBarScrollLeft');
+            this.scrollLeft.addEvents({
+               click: this.scroll.bind(this,'left')
             });
             
             
@@ -151,60 +153,35 @@ Jx.Toolbar.Container = new Class({
                     var scrollerSize = tbcSize;
                     
                     if (s === 0) {
-                        this.scrollLeft.domObj.setStyles({
-                            visibility: 'hidden',
-                            display: 'none'
-                        });
-                        this.scrollRight.domObj.setStyles({
-                            visibility: 'hidden',
-                            display: 'none'
-                        });
+                    	this.scrollLeft.setEnabled(false);
+                    	this.scrollRight.setEnabled(false);
                     } else {
                         
                         
                         var leftMargin = this.wrapper.getStyle('margin-left').toInt();
+                        scrollerSize -= this.scrollRight.domObj.getMarginBoxSize().width;
+                        scrollerSize -= this.scrollLeft.domObj.getMarginBoxSize().width;
                         
                         if (leftMargin < 0) {
                             //has been scrolled left so activate the right scroller
-                            this.scrollLeft.domObj.setStyles({
-                                visibility: 'visible',
-                                display: 'inline-block'
-                            });
-                            scrollerSize -= this.scrollLeft.domObj.getMarginBoxSize().width;
+                        	this.scrollLeft.setEnabled(true);
                         } else {
                             //we don't need it
-                            this.scrollLeft.domObj.setStyles({
-                                visibility: 'hidden',
-                                display: 'none'
-                            });
+                        	this.scrollLeft.setEnabled(false);
                         }
                         
                         if (s + leftMargin > scrollerSize) {
                             //we need the right one
-                            this.scrollRight.domObj.setStyles({
-                                visibility: 'visible',
-                                display: 'inline-block'
-                            });
-                            scrollerSize -= this.scrollRight.domObj.getMarginBoxSize().width;
+                        	this.scrollRight.setEnabled(true);
                         } else {
                             //we don't need it
-                            this.scrollRight.domObj.setStyles({
-                                visibility: 'hidden',
-                                display: 'none'
-                            });
+                        	this.scrollRight.setEnabled(false);
                         }
                     }
                     
                 } else {
-                    this.scrollRight.domObj.setStyles({
-                        visibility: 'hidden',
-                        display: 'none'
-                    });
-                    this.scrollLeft.domObj.setStyles({
-                        visibility: 'hidden',
-                        display: 'none'
-                    });
-                    
+                	this.scrollRight.setEnabled(false);
+                	this.scrollLeft.setEnabled(false);
                 }
                 this.scroller.setStyle('width', scrollerSize );
                 

@@ -93,7 +93,7 @@
 
 .jxBarTop .jxBarScrollLeft,
 .jxBarBottom .jxBarScrollLeft {
-  float: left;
+  float: right;
   z-index: 1;
 }
 
