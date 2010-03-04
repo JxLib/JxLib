@@ -15,6 +15,7 @@
  */
 Jx.Columns = new Class({
 
+	Family: 'Jx.Columns',
     Extends : Jx.Object,
 
     options : {
@@ -227,7 +228,7 @@ Jx.Columns = new Class({
 
         td.store('jxCellData',{
             col: col,
-            index: idx,
+            index: idx,	//This is the position of the column
             row: this.grid.model.getPosition()
         });
 

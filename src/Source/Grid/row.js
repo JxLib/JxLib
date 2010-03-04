@@ -16,6 +16,7 @@
  */
 Jx.Row = new Class({
 
+	Family: 'Jx.Row',
     Extends : Jx.Object,
 
     options : {

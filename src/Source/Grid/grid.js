@@ -23,8 +23,7 @@
  * Sorter - sorts rows by specific column
  *
  * Jx.Grid renders data that comes from an external source.  This external
- * source, called the model, must be a Jx.Store or extended from it (such as
- * Jx.Store.Remote).
+ * source, called the model, must be a Jx.Store or extended from it.
  *
  * Events:
  * gridCellEnter(cell, list) - called when the mouse enters a cell
@@ -44,6 +43,9 @@ Jx.Grid = new Class({
     Family : 'Jx.Grid',
     Extends : Jx.Widget,
 
+    Binds: ['modelChanged','render','addRow','removeRow','removeRows',
+            'onSelect', 'onUnselect','onMouseEnter','onMouseLeave'],
+    
     options : {
         /**
          * Option: parent
@@ -78,7 +80,7 @@ Jx.Grid = new Class({
 
         /**
          * Option: model
-         * An instance of Jx.Store or one of its descendants
+         * An instance of Jx.Store
          */
         model : null,
 
@@ -129,24 +131,16 @@ Jx.Grid = new Class({
     init : function () {
         this.uniqueId = this.generateId('jxGrid_');
         
-        this.bound = {
-                columnChanged: this.modelChanged.bind(this),
-                render: this.render.bind(this),
-                addRow: this.addRow.bind(this),
-                removeRow: this.removeRow.bind(this),
-                multipleRemove: this.removeRows.bind(this)
-        };
-        
         var opts;
         if ($defined(this.options.model)
                 && this.options.model instanceof Jx.Store) {
             this.model = this.options.model;
-            this.model.addEvent('storeColumnChanged', this.bound.columnChanged);
-            this.model.addEvent('storeSortFinished', this.bound.render);
-            this.model.addEvent('storeRecordAdded', this.bound.addRow);
-            this.model.addEvent('storeRecordRemoved', this.bound.removeRow);
-            this.model.addEvent('storeMultipleRecordsRemoved', this.bound.multipleRemove);
-            this.model.addEvent('storeDataLoaded', this.bound.render);
+            this.model.addEvent('storeColumnChanged', this.modelChanged);
+            this.model.addEvent('storeSortFinished', this.render);
+            this.model.addEvent('storeRecordAdded', this.addRow);
+            this.model.addEvent('storeRecordRemoved', this.removeRow);
+            this.model.addEvent('storeMultipleRecordsRemoved', this.removeRows);
+            this.model.addEvent('storeDataLoaded', this.render);
         }
 
         if ($defined(this.options.columns)) {
@@ -239,19 +233,11 @@ Jx.Grid = new Class({
 
         this.gridObj.addEvent('scroll', this.onScroll.bind(this));
 
-        //bind events
-        this.bound = {
-            select: this.onSelect.bind(this),
-            unselect: this.onUnselect.bind(this),
-            mouseenter: this.onMouseEnter.bind(this),
-            mouseleave: this.onMouseLeave.bind(this)
-        };
-
         //setup the selection
         this.selection = new Jx.Selection();
         this.selection.addEvents({
-            select: this.bound.select,
-            unselect: this.bound.unselect
+            select: this.onSelect,
+            unselect: this.onUnselect
         });
         this.parent();
 
@@ -503,13 +489,11 @@ Jx.Grid = new Class({
         var currentRow = this.model.getPosition();
         this.model.moveTo(row);
 
-        var newTD = this.columns.getColumnCell(this.columns.getByName(col));
+        var newTD = this.columns.getColumnCell(this.columns.getByName(col),column - 1);
         //get parent list
         var list = td.getParent().retrieve('jxList');
         list.replace(td, newTD);
         this.columns.updateRule(col);
-        //newTD.replaces(td);
-
         this.model.moveTo(currentRow);
     },
     
@@ -543,14 +527,12 @@ Jx.Grid = new Class({
                     var lastTr = this.rowTableHead.children[this.rowTableHead.children.length - 1];
                     tr.inject(lastTr, 'before');
                 }
-                //this.rowTableHead.appendChild(tr);
             }
             tr = this.row.getGridRowElement();
             tr.store('jxRowData', {row: this.model.getPosition()});
             var rl = this.makeList(tr);
             this.columns.getColumnCells(rl);
             tr.inject(this.gridTableBody, position);
-            //this.gridTableBody.appendChild(tr);
         }
     },
     
@@ -595,8 +577,8 @@ Jx.Grid = new Class({
         }, this.selection);
         var target = this;
         l.addEvents({
-            mouseenter: this.bound.mouseenter,
-            mouseleave: this.bound.mouseleave
+            mouseenter: this.onMouseEnter,
+            mouseleave: this.onMouseLeave
         });
         this.lists.push(l);
         return l;

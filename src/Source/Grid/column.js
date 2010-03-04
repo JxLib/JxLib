@@ -17,6 +17,7 @@
  */
 Jx.Column = new Class({
 
+	Family: 'Jx.Column',
     Extends: Jx.Object,
 
     options: {
@@ -188,8 +189,6 @@ Jx.Column = new Class({
                 model.first();
                 while (model.valid()) {
                     //check size by placing text into a TD and measuring it.
-                    //TODO: this should add .jxGridRowHead/.jxGridColHead if
-                    //      this is a header to get the correct measurement.
                     var text = model.get(this.options.modelField);
                     var klass = 'jxGridCell';
                     if (this.grid.row.useHeaders()
