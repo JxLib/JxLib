@@ -5,7 +5,7 @@
         "desc": "The Base Group holds anything common to all other Jx classes and widgets.  All JxLib components require this group, so selecting anything else will select this group too.",
         
         "common": {
-            "deps": ["Class","Element","Browser","Element.Style","Request","Core","Class.Extras","Array","Element.Event","Element.Dimensions", "Element.Measure"],
+            "deps": ["Class","Element","Browser","Element.Style","Request","Core","Class.Extras","Class.Binds","Array","Element.Event","Element.Dimensions", "Element.Measure"],
             "desc":"Jx namespace with methods and classes common to most Jx widgets"
         },
         
