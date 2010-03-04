@@ -25,8 +25,8 @@ provides: [HtmlTable.Select]
 HtmlTable = Class.refactor(HtmlTable, {
 
 	options: {
-		/*onRowSelect: $empty,
-		onRowUnselect: $empty,*/
+		/*onRowFocus: $empty,
+		onRowUnfocus: $empty,*/
 		useKeyboard: true,
 		classRowSelected: 'table-tr-selected',
 		classRowHovered: 'table-tr-hovered',
@@ -144,6 +144,7 @@ HtmlTable = Class.refactor(HtmlTable, {
 
 	focusRow: function(){
 		var row = arguments[1] || arguments[0]; //delegation passes the event first
+		if (!this.body.getChildren().contains(row)) return;
 		var unfocus = function(row){
 			this.selectedRows.erase(row);
 			row.removeClass(this.options.classRowSelected);

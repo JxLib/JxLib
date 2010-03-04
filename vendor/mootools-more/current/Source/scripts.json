@@ -7,11 +7,6 @@
 			"desc": "Defines MooTools.More.version."
 		},
 
-		"Depender": {
-			"deps": ["More", "Class.Extras", "Element.Event", "Request.JSON", "Log"],
-			"desc": "A stand alone dependency loader for the MooTools library."
-		},
-
 		"Lang": {
 			"deps": ["More", "Class.Extras"],
 			"desc": "Enables classes to contain text that can be localized to specific languages."
@@ -20,6 +15,11 @@
 		"Log": {
 			"deps": ["More", "Class"],
 			"desc": "A default logger for MooTools. Logs to Firebug or a similar console unless it is not present."
+		},
+
+		"Depender": {
+			"deps": ["More", "Class.Extras", "Element.Event", "Request.JSON", "Log"],
+			"desc": "A stand alone dependency loader for the MooTools library."
 		}
 
 	},
@@ -100,12 +100,12 @@
 		},
 
 		"Elements.From": {
-			"deps": ["Element"],
+			"deps": ["More", "Element"],
 			"desc": "Adds a static method to Element to parse html."
 		},
 
 		"Element.Delegation": {
-			"deps":["Element.Event", "Selectors"],
+			"deps":["More", "Element.Event", "Selectors"],
 			"desc":"Delegates events for child elements to their parents for greater efficiency."
 		},
 
@@ -134,12 +134,12 @@
 	"Forms": {
 
 		"Form.Request":{
-			"deps":["Element.Event",  "Request.HTML", "Class.Binds", "Class.Occlude", "Spinner", "String.QueryString"],
+			"deps":["More", "Element.Event",  "Request.HTML", "Class.Binds", "Class.Occlude", "Spinner", "String.QueryString"],
 			"desc":"Handles the basic functionality of submitting a form via ajax and updating a DOM element with the result."
 		},
 
 		"Form.Request.Append":{
-			"deps": ["Form.Request", "Fx.Reveal", "Elements.From"],
+			"deps": ["More", "Form.Request", "Fx.Reveal", "Elements.From"],
 			"desc":"Uses Form.Request to fetch and update a DOM element, but appends the result into the target instead of overwriting its contents."
 		},
 
@@ -227,7 +227,7 @@
 		},
 
 		"Sortables": {
-			"deps": ["More", "Drag.Move"],
+			"deps": ["More", "Drag.Move", "Selectors"],
 			"desc": "Class for creating a drag and drop sorting interface for lists of items."
 		}
 
@@ -284,28 +284,33 @@
 	"Interface": {
 
 		"HtmlTable":{
-			"deps":["Class.Extras", "Class.Occlude"],
+			"deps":["More", "Class.Extras", "Class.Occlude"],
 			"desc":"Builds table elements with methods to add rows quickly."
 		},
 
 		"HtmlTable.Zebra": {
-			"deps":["HtmlTable", "Class.Refactor"],
+			"deps":["More", "HtmlTable", "Class.Refactor"],
 			"desc":"Adds stripes to an HTML table's rows."
 		},
 
 		"HtmlTable.Sort": {
-			"deps":["HtmlTable", "Element.Delegation", "Hash", "Date", "Class.Refactor"],
+			"deps":["More", "HtmlTable", "Element.Delegation", "Hash", "Date", "Class.Refactor", "String.Extras"],
 			"desc":"Adds the ability to sort the columns of a HtmlTable.Zebra instance."
 		},
 
 		"HtmlTable.Select": {
-			"deps":["HtmlTable", "Keyboard", "Class.Refactor", "Element.Delegation"],
+			"deps":["More", "HtmlTable", "Keyboard", "Class.Refactor", "Element.Delegation"],
 			"desc":"Adds the ability to highlight and select rows on a HtmlTable.Sort instance."
 		},
 
 		"Keyboard": {
 			"deps": ["More", "Class.Extras", "Element.Event", "Log"],
 			"desc": "Provides enhanced group key event management."
+		},
+
+		"Keyboard.Extras": {
+			"deps": ["More", "Keyboard"],
+			"desc": "Adds description functionality to the Keyboard"
 		},
 
 		"Mask": {
@@ -349,6 +354,11 @@
 			"desc": "Date messages in Catalan."
 		},
 
+		"Date.Czech": {
+			"deps": ["Lang"],
+			"desc": "Date messages in Czech."
+		},
+
 		"Date.Danish": {
 			"deps": ["Lang"],
 			"desc": "Date messages in Danish."
@@ -367,6 +377,16 @@
 		"Date.Estonian": {
 			"deps": ["Lang"],
 			"desc": "Date messages in Estonian."
+		},
+
+		"Date.German": {
+			"deps": ["Lang"],
+			"desc": "Date messages for German."
+		},
+
+		"Date.German.CH": {
+			"deps": ["Lang", "Date.German"],
+			"desc": "Date messages for Swiss German."
 		},
 
 		"Date.French": {
@@ -394,6 +414,11 @@
 			"desc": "Date messages in Portuguese for Brazil."
 		},
 
+		"Date.Russian": {
+			"deps": ["Lang"],
+			"desc": "Date messages in Russian."
+		},
+
 		"Date.Spanish": {
 			"deps": ["Lang"],
 			"desc": "Date messages in Spanish."
@@ -404,6 +429,11 @@
 			"desc": "Date messages in Swedish."
 		},
 
+		"Date.Ukrainian": {
+			"deps": ["Lang"],
+			"desc": "Date messages in Ukrainian."
+		},
+
 		"Form.Validator.Arabic": {
 			"deps": ["Lang"],
 			"desc": "Form.Validator messages in Arabic."
@@ -412,6 +442,11 @@
 		"Form.Validator.Catalan": {
 			"deps": ["Lang"],
 			"desc": "Form.Validator messages in Catalan."
+		},
+
+		"Form.Validator.Czech": {
+			"deps": ["Lang"],
+			"desc": "Form.Validator messages in Czech."
 		},
 
 		"Form.Validator.Chinese": {
@@ -427,6 +462,16 @@
 		"Form.Validator.Estonian": {
 			"deps": ["Lang"],
 			"desc": "Form.Validator messages in Estonian."
+		},
+
+		"Form.Validator.German": {
+			"deps": ["Lang"],
+			"desc": "Form.Validator messages in German."
+		},
+
+		"Form.Validator.German.CH": {
+			"deps": ["Lang", "Form.Validator.German"],
+			"desc": "Form.Validator messages in Swiss German."
 		},
 
 		"Form.Validator.French": {
@@ -472,6 +517,11 @@
 		"Form.Validator.Swedish": {
 			"deps": ["Lang"],
 			"desc": "Form.Validator messages in Swedish."
+		},
+
+		"Form.Validator.Ukrainian": {
+			"deps": ["Lang"],
+			"desc": "Form.Validator messages in Ukrainian."
 		}
 
 	}

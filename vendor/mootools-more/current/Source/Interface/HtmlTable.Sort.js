@@ -57,6 +57,7 @@ HtmlTable = Class.refactor(HtmlTable, {
 	},
 
 	attachSorts: function(attach){
+		this.element.removeEvents('click:relay(th)');
 		this.element[$pick(attach, true) ? 'addEvent' : 'removeEvent']('click:relay(th)', this.bound.headClick);
 	},
 
@@ -72,8 +73,14 @@ HtmlTable = Class.refactor(HtmlTable, {
 
 		// auto-detect
 		this.parsers = $$(this.head.cells).map(function(cell, index) {
-			if (!force && (cell.hasClass(this.options.classNoSort) || cell.retrieve('htmltable-sort'))) return cell.retrieve('htmltable-sort');
-			var sortSpan = new Element('span', {'html': '&#160;', 'class': this.options.classSortSpan}).inject(cell, 'top');
+			if (!force && (cell.hasClass(this.options.classNoSort) || cell.retrieve('htmltable-parser'))) return cell.retrieve('htmltable-parser');
+			var thDiv = new Element('div');
+			$each(cell.childNodes, function(node) {
+				thDiv.adopt(node);
+			});
+			thDiv.inject(cell);
+			var sortSpan = new Element('span', {'html': '&#160;', 'class': this.options.classSortSpan}).inject(thDiv, 'top');
+			
 			this.sortSpans.push(sortSpan);
 
 			var parser = parsers[index], 
@@ -86,9 +93,8 @@ HtmlTable = Class.refactor(HtmlTable, {
 				HtmlTable.Parsers.some(function(current) {
 					var match = current.match;
 					if (!match) return false;
-					if (Browser.Engine.trident) return false;
 					for (var i = 0, j = rows.length; i < j; i++) {
-						var text = rows[i].cells[index].get('html').clean();
+						var text = $(rows[i].cells[index]).get('html').clean();
 						if (text && match.test(text)) {
 							parser = current;
 							return true;
@@ -104,7 +110,8 @@ HtmlTable = Class.refactor(HtmlTable, {
 	},
 
 	headClick: function(event, el) {
-		if (!this.head) return;
+		console.log(el);
+		if (!this.head || el.hasClass(this.options.classNoSort)) return;
 		var index = Array.indexOf(this.head.cells, el);
 		this.sort(index);
 		return false;
@@ -158,22 +165,20 @@ HtmlTable = Class.refactor(HtmlTable, {
 		var data = Array.map(this.body.rows, function(row, i) {
 			var value = parser.convert.call(document.id(row.cells[index]));
 
-			if (parser.number || $type(value) == 'number') {
-				value = String(value).replace(/[^\d]/, '');
-				value = '00000000000000000000000000000000'.substr(0, 32 - value.length).concat(value);
-			}
-
 			return {
 				position: i,
 				value: value,
 				toString:  function() {
-					return value;
+					return value.toString();
 				}
 			};
 		}, this);
-
 		data.reverse(true);
-		data.sort();
+
+		data.sort(function(a, b){
+			if (a.value === b.value) return 0;
+			return a.value > b.value ? 1 : -1;
+		});
 
 		if (!this.sorted.reverse) data.reverse(true);
 
@@ -223,7 +228,7 @@ HtmlTable = Class.refactor(HtmlTable, {
 	},
 
 	disableSort: function(){
-		this.element.remove(this.options.classSortable);
+		this.element.removeClass(this.options.classSortable);
 		this.attachSorts(false);
 		this.sortSpans.each(function(span) { span.destroy(); });
 		this.sortSpans.empty();
@@ -236,9 +241,9 @@ HtmlTable = Class.refactor(HtmlTable, {
 HtmlTable.Parsers = new Hash({
 
 	'date': {
-		match: /^\d{4}[^\d]|[^\d]\d{4}$/,
+		match: /^\d{2}[-\/ ]\d{2}[-\/ ]\d{2,4}$/,
 		convert: function() {
-			return Date.parse(this.get('text'));
+			return Date.parse(this.get('text')).format('db');
 		},
 		type: 'date'
 	},
@@ -264,21 +269,21 @@ HtmlTable.Parsers = new Hash({
 	'numberLax': {
 		match: /^[^\d]+\d+$/,
 		convert: function() {
-			return this.get('text').replace(/[^0-9]/, '').toInt();
+			return this.get('text').replace(/[^-?^0-9]/, '').toInt();
 		},
 		number: true
 	},
 	'float': {
 		match: /^[\d]+\.[\d]+/,
 		convert: function() {
-			return this.get('text').replace(/[^\d.]/, '').toFloat();
+			return this.get('text').replace(/[^-?^\d.]/, '').toFloat();
 		},
 		number: true
 	},
 	'floatLax': {
 		match: /^[^\d]+[\d]+\.[\d]+$/,
 		convert: function() {
-			return this.get('text').replace(/[^\d.]/, '');
+			return this.get('text').replace(/[^-?^\d.]/, '');
 		},
 		number: true
 	},
@@ -296,3 +301,4 @@ HtmlTable.Parsers = new Hash({
 	}
 
 });
+
