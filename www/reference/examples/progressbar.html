@@ -35,6 +35,10 @@ function drawBasicProgressbar() {
   
   var b1 = new Jx.Button({
       label: 'Run Progress Bar',
+      busyMask: {
+        message: 'Busy!',
+        'class': 'jxSpinner jxSpinnerLarge'
+      },
       onClick: function(){
           total = 20;
           progress = 0;

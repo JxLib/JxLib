@@ -36,7 +36,7 @@ function drawBasicForm() {
     required: true
   }).addTo(fieldSet1);
 
-  new Jx.Field.Combo({
+  var c1 = new Jx.Field.Combo({
     id: 'Select11',
     name: 'Select11',
     label: 'Combo Test',
@@ -51,7 +51,7 @@ function drawBasicForm() {
         {image: 'images/swatches.png', imageClass: 'comboYellow'}
       ]
   }).addTo(fieldSet1);
-  
+    
   new Jx.Field.Select({
     id: 'Select11',
     name: 'Select11',
@@ -103,6 +103,13 @@ function drawBasicForm() {
     checked: true,
     labelSeparator: ''
   }).addTo(radioSet);
+  
+  new Jx.Field.Button({
+    buttonClass: Jx.Button.Color,
+    buttonOptions:{label: 'Foreground', color: '#f0f', alpha: 50},
+    label: 'Choose a color'
+  }).addTo(fieldSet1);
+  
   
   new Jx.Field.Button({
     buttonOptions:{
@@ -180,7 +187,7 @@ function drawBasicForm() {
     checked: false,
     labelSeparator: ''
   }).addTo(checkSet);
-
+  
   new Jx.Field.Button({
     buttonOptions:{label: 'Apply'}
   }).addTo(fieldSet2);

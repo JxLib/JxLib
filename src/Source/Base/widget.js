@@ -65,7 +65,7 @@ Jx.Widget = new Class({
          */
         busyMask: {
           'message': 'Working ...',
-          'class': 'jxSpinner',
+          'class': 'jxSpinner jxSpinnerLarge',
           img: {'class':'jxSpinnerImage'},
           content: {'class':'jxSpinnerContent'},
           messageContainer: {'class':'jxSpinnerMessage'},
@@ -692,10 +692,28 @@ Jx.Widget = new Class({
           this.domObj.addClass(this.options.busyClass);
         }
         if (this.options.busyMask && this.domObj.spin) {
+          /* put the spinner above the element in the z-index */
           var z = Jx.getNumber(this.domObj.getStyle('z-index'));
-          var style = $merge(this.options.busyMask.style || {}, 
-                             {'z-index':z+1});
-          this.domObj.spin($merge(this.options.busyMask, {style:style}));
+          var opts = {
+            style: {
+              'z-index': z+1
+            }
+          };
+          /* switch to the small size if the element is less than
+           * 60 pixels high
+           */
+          var size = this.domObj.getBorderBoxSize();
+          if (size.height < 60) {
+            opts['class'] = 'jxSpinner jxSpinnerSmall';
+            opts.img = null;
+            opts.message = new Element('p',{
+              'class':'jxSpinnerMessage',
+              html: '<span class="jxSpinnerImage"></span>'+this.options.busyMask.message
+            });
+          }
+          opts = $merge(this.options.busyMask, opts);
+          
+          this.domObj.spin(opts);
         }
       } else {
         if (this.options.busyClass) {

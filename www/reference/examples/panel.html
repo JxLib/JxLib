@@ -19,10 +19,21 @@ function drawBasicPanel() {
      * fixed height means they become relatively positioned so
      * collapsing the first one will move the other one.
      */
-    new Jx.Panel({
+    var p1 = new Jx.Panel({
         label: 'Basic Panel 1',
         content: 'basicPanelContent',
         height: 200
+    }).addTo('panelBasic');
+    // p1.domObj.setStyle('z-index',1);
+    new Jx.Button({
+      label: 'Toggle Panel Mask',
+      toggle: true,
+      onDown: function() {
+        p1.setBusy(true);
+      },
+      onUp: function() {
+        p1.setBusy(false);
+      }
     }).addTo('panelBasic');
     new Jx.Panel({
         image: 'images/page_white_world.png',
@@ -75,6 +86,7 @@ function drawToolbarPanel() {
 
 <div id="basicPanelContent">
     <h3>Basic Panel</h3>
+    <select><option>This should be masked</option></select>
     <p>This panel is built with mostly default options, which means it has a title bar and it can be collapsed and expanded.  It has a fixed height specified in the options (100 pixels).  The title is specified by the <code>label</code>.  This panel loads content from a &lt;div&gt; element that already exists in the page by referring to it by id.</p>
 </div>
 
