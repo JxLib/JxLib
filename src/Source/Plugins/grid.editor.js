@@ -69,6 +69,7 @@ Jx.Plugin.Grid.Editor = new Class({
        *   field   - Default * for all types or the name of the column in the model (Jx.Store)
        *   type    - Input type to show (Text, Password, Textarea, Select, Checkbox)
        *   options - All Jx.Field options for this column. More options depend on what type you are using.
+       *             See Jx.Form.[yourField] for details
        *   popup   - options for every column to use a popup or not. All values set to 'default' by default
        *             to use what is set in this.options.popup. This allowes every field to
        *             have different settings for every column if needed.
@@ -81,14 +82,29 @@ Jx.Plugin.Grid.Editor = new Class({
         }
       ],
       /**
+       * Option: {Boolean} fieldFormatted
+       * Displays the cell value also inside the input field as formatted
+       */
+      fieldFormatted : true,
+      /**
+       * Option {Object} mandatory
+       *    force       - set force to true to have all editable input fields as mandatory field
+       *                  if they don't have 'mandatory:true' in their colOptions
+       */
+      mandatory : {
+        force : false
+      },
+      /**
        * Option cellChangeFx
        * set use to false if no highlighting effect is wanted.
        *
        * this is just an idea how successfully changing could be highlighed for the user
        */
       cellChangeFx : {
-        use  : true,
-        save : '#090'
+        use     : true,
+        success : '#090',
+        warning : '#FC0',     // not yet implemented
+        error   : '#F00'
       },
       /**
        * Option cellOutline
@@ -300,7 +316,10 @@ Jx.Plugin.Grid.Editor = new Class({
         if (!cell || !colOptions.isEditable) {
           return;
         }
-        this.deactivate();
+        // if disabling a currently active one fails (mandatory for example) do not continue
+        if(this.deactivate() == false) {
+          return;
+        }
 
         // set active record index to selected row
         model.moveTo(row);
@@ -313,40 +332,38 @@ Jx.Plugin.Grid.Editor = new Class({
             cell          : cell,
             span          : cell.getElement('span.jxGridCellContent')
           }
-          
+
+        // check if mandatory flag exists - otherwise use mandatoryDefault options
+        if(!$defined(this.activeCell.colOptions.mandatory) || typeof(this.activeCell.colOptions.mandatory) != 'boolean') {
+          this.activeCell.colOptions.mandatory = this.options.mandatory.force;
+        }
+
         var jxFieldOptions = $defined(this.activeCell.fieldOptions.options) ? this.activeCell.fieldOptions.options : {}
 
+        // check for different input field types
         switch(this.activeCell.fieldOptions.type) {
           case 'Text':
           case 'Password':
           case 'File':
             jxFieldOptions.value = this.activeCell.oldValue;
-            this.activeCell.field = new Jx.Field[this.activeCell.fieldOptions.type](jxFieldOptions);
             break;
           case 'Textarea':
             jxFieldOptions.value = this.activeCell.oldValue.replace(/<br \/>/gi, '\n');
-            this.activeCell.field = new Jx.Field[this.activeCell.fieldOptions.type](jxFieldOptions);
             break;
           case 'Select':
-            /*
-             *  find out which visible value fits to the value inside <option>{value}</option>
-             *  and set it to selected
-             */
+            // find out which visible value fits to the value inside <option>{value}</option>
+            // and set it to selected
             if(jxFieldOptions.comboOpts) {
               for(var i = 0, j = jxFieldOptions.comboOpts.length; i < j; i++) {
                 if(jxFieldOptions.comboOpts[i].value == this.activeCell.oldValue.toString()) {
                   jxFieldOptions.comboOpts[i].selected = true;
-                  //console.log("selected: %o, %o", i, jxFieldOptions.comboOpts[i]);
                 }else{
                   jxFieldOptions.comboOpts[i].selected = false;
                 }
               }
             }else if(jxFieldOptions.groupOpts) {
-              
+              // @todo groupOpts field options auto-select
             }
-            this.activeCell.field = new Jx.Field[this.activeCell.fieldOptions.type](jxFieldOptions);
-            //COMMENT: a method to select the <option> by the visible text would be useful
-            //this.activeCell.field.setSelectedByText(this.activeCell.oldValue);
             break;
           case 'Radio':
           case 'Checkbox':
@@ -356,6 +373,13 @@ Jx.Plugin.Grid.Editor = new Class({
             break;
         }
 
+        if(this.options.fieldFormatted && this.activeCell.colOptions.formatter != null) {
+          jxFieldOptions.value = this.activeCell.colOptions.formatter.format(jxFieldOptions.value);
+          // update the 'oldValue' to the formatted style, to compare the new value with the formatted one instead with the non-formatted-one
+          this.activeCell.oldValue = jxFieldOptions.value;
+        }
+
+        this.activeCell.field = new Jx.Field[this.activeCell.fieldOptions.type](jxFieldOptions);
         this.activeCell.field.render();
         this.setStyles(cell);
 
@@ -386,7 +410,7 @@ Jx.Plugin.Grid.Editor = new Class({
         }
         this.activeCell.field.field.focus();
       }else{
-        console.warn('out of grid %o',cell);
+        if($defined(console)) {console.warn('out of grid %o',cell)}
       }
     }, 
     /**
@@ -396,13 +420,13 @@ Jx.Plugin.Grid.Editor = new Class({
      *
      * Parameters:
      * @var {Boolean} update (Optional, default: true)
-     * @return void
+     * @return true if no data error occured, false if error (popup/input stays visible)
      */
     deactivate: function(update) {
       if(this.activeCell.field != null) {
         update = $defined(update) ? update : true;
 
-        var updated = false;
+        var valueNew = { data : null, error : false };
         clearTimeout(this.activeCell.timeoutId);
 
         // update the value in the model
@@ -415,23 +439,32 @@ Jx.Plugin.Grid.Editor = new Class({
           switch(this.activeCell.fieldOptions.type) {
             case 'Select':
               var index = this.activeCell.field.field.selectedIndex;
-              this.grid.model.set(this.activeCell.coords.index, document.id(this.activeCell.field.field.options[index]).get("value"));
+              valueNew.data = document.id(this.activeCell.field.field.options[index]).get('value');
+              //this.grid.model.set(this.activeCell.coords.index, document.id(this.activeCell.field.field.options[index]).get("value"));
               break;
             case 'Textarea':
-              this.grid.model.set(this.activeCell.coords.index, this.activeCell.field.getValue().replace(/\n/gi, '<br />'));
+              valueNew.data = this.activeCell.field.getValue().replace(/\n/gi, '<br />');
+              //this.grid.model.set(this.activeCell.coords.index, this.activeCell.field.getValue().replace(/\n/gi, '<br />'));
               break;
             default:
-              //console.log(this.activeCell);
-              //console.log(this.grid.model.get(this.activeCell.coords.index, this.activeCell.coords.row));
-              this.grid.model.set(this.activeCell.coords.index, this.activeCell.field.getValue());
+              valueNew.data = this.activeCell.field.getValue();
+              //this.grid.model.set(this.activeCell.coords.index, this.activeCell.field.getValue());
               break;
           }
-          updated = true;
-          // manually render the grid again?
-          this.grid.render();
 
+          valueNew = this.checkValue(valueNew);
+
+          // save the value
+          if(valueNew.data != null && valueNew.error == false) {
+            this.grid.model.set(this.activeCell.coords.index, valueNew.data);
+          // else show error message
+          }else if(valueNew.error == true) {
+            this.activeCell.span.show();
+          }
+
+          // update reference to activeCell
           this.activeCell.cell = this.grid.gridTableBody.rows[this.activeCell.coords.row].cells[this.activeCell.coords.index-1];
-          //console.log(this.activeCell.cell);
+
           //this.activeCell.cell = this.grid.columns.getColumnCell(this.grid.columns.getByName(this.activeCell.colOptions.name));
         }else{
           this.activeCell.span.show();
@@ -439,21 +472,95 @@ Jx.Plugin.Grid.Editor = new Class({
         if(this.options.useKeyboard) {
           this.activeCell.field.removeEvent('keypress', this.bound.setKeyboard);
         }
-        //console.log(this.activeCell.cell);
+
         /**
          * COMMENT: this is just an idea how changing a value could be visualized
          * we could also pass an Fx.Tween element?
          * the row could probably be highlighted as well?
          */
         if(this.options.cellChangeFx.use) {
-          if(updated) {
-            this.activeCell.cell.highlight(this.options.cellChangeFx.save);
+          if(valueNew.data != null && valueNew.error == false) {
+            this.activeCell.cell.highlight(this.options.cellChangeFx.success);
+          }else if(valueNew.error){
+            this.activeCell.cell.highlight(this.options.cellChangeFx.error);
           }
         }
 
-        this.keyboard.deactivate();
-        this.unsetActiveField();
+        // check for error and keep input field alive
+        if(valueNew.error) {
+          if(this.options.cellChangeFx.use) {
+            this.activeCell.field.field.highlight(this.options.cellChangeFx.error);
+          }
+          this.activeCell.field.field.setStyle('border','1px solid '+this.options.cellChangeFx.error);
+          this.activeCell.field.field.focus();
+          return false;
+        // otherwise hide it
+        }else{
+          this.keyboard.deactivate();
+          this.unsetActiveField();
+          return true;
+        }
       }
+    },
+    /**
+     * Method: checkValue
+     * 
+     * Performs a simple datatype check for dates, integers, strings and booleans
+     *
+     * @todo use MooTools FormValidator with more complex validation? Or custom callback function for validating values?
+     *
+     * @var {Object} newValue
+     * @return {Object} newValue
+     */
+    checkValue : function(newValue) {
+      if(this.activeCell.colOptions.mandatory) {
+        var valueTmp;
+        switch(this.activeCell.colOptions.dataType) {
+          case 'date':
+            valueTmp = new Date.parse(newValue.data);
+            if(valueTmp.toString() == 'Invalid Date' || newValue.data.length == 0) {
+              newValue = {
+                data  : this.activeCell.oldValue,
+                error : true
+              }
+            }
+          break;
+          case 'numeric':
+            valueTmp = newValue.data.toInt();
+            if(valueTmp == 'NaN') {
+              newValue = {
+                data : this.activeCell.oldValue,
+                error: true
+              }
+            }
+          break;
+          case 'alphanumeric':
+            valueTmp = newValue.data.toString();
+            if(!valueTmp) {
+              newValue = {
+                data : this.activeCell.oldValue,
+                error: true
+              }
+            }
+          break;
+          case 'boolean':
+            switch(newValue.data) {
+              case 'true':  case 'false':
+              case true  :  case false  :
+              case 1     :  case 0      :
+              case '1'   :  case '0'    :
+                break;
+              default:
+                newValue = {
+                  data : this.activeCell.oldValue,
+                  error: true
+                }
+              break;
+            }
+          break;
+        }
+      }
+      return newValue;
     },
     /**
      * Method: setStyles
@@ -642,7 +749,7 @@ Jx.Plugin.Grid.Editor = new Class({
     },
     /**
      * Method: unsetActiveField
-     * resets the activeField
+     * resets the activeField and hides the popup
      *
      * @return void
      */
@@ -768,15 +875,35 @@ Jx.Plugin.Grid.Editor = new Class({
      * @return void
      */
     cellValueIncrement : function(bool) {
-      var dataType = this.activeCell.colOptions.dataType;
-      if(dataType == 'numeric' || dataType == 'currency') {
-        var valueTmp = this.activeCell.field.getValue().toInt();
-        if(bool) {
-          valueTmp++;
-        }else{
-          valueTmp--;
-        }
-        this.activeCell.field.setValue(valueTmp);
+      var dataType = this.activeCell.colOptions.dataType,
+          valueNew = null;
+      switch(dataType) {
+        case 'numeric':
+        case 'currency':
+          valueNew = this.activeCell.field.getValue().toInt();
+          if(typeof(valueNew) == 'number') {
+            if(bool) {
+              valueNew++;
+            }else{
+              valueNew--;
+            }
+          }
+          break;
+        case 'date':
+          valueNew = Date.parse(this.activeCell.field.getValue());
+          if(valueNew instanceof Date) {
+            if(bool) {
+              valueNew.increment();
+            }else{
+              valueNew.decrement();
+            }
+            var formatter = new Jx.Formatter.Date();
+            valueNew = formatter.format(valueNew);
+          }
+          break;
+      }
+      if(valueNew != null) {
+        this.activeCell.field.setValue(valueNew);
       }
     },
     /**

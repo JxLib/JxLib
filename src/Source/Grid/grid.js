@@ -488,8 +488,7 @@ Jx.Grid = new Class({
 
         var currentRow = this.model.getPosition();
         this.model.moveTo(row);
-
-        var newTD = this.columns.getColumnCell(this.columns.getByName(col),column - 1);
+        var newTD = this.columns.getColumnCell(this.columns.getByName(col),column + 1);
         //get parent list
         var list = td.getParent().retrieve('jxList');
         list.replace(td, newTD);
