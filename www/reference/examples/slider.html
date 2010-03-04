@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Jx.Slider Examples</title>
+<meta http-equiv="Content-type" content="text/html; charset=iso-8859-1" />
+<script type="text/javascript" src="../../lib/mootools-core.js"></script>
+<script type="text/javascript" src="../../lib/mootools-more.js"></script>
+<script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
+<script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
+<script  type="text/javascript">
+window.addEvent('load', function() {
+    drawBasicSlider();
+}); 
+</script>
+<script id="basicSliderScript" type="text/javascript" charset="utf-8">
+function drawBasicSlider() {
+  var value = new Jx.Field.Text({
+    label: 'Slider Value'
+  }).addTo('sliderBasic');
+  value.field.addEvent('change', function(){
+    slider.set(this.value);
+  });
+  
+  var slider = new Jx.Slider({
+      max: 255,
+      min: 0,
+      step: 1,
+      mode: 'horizontal',
+      wheel: true,
+      snap: false,
+      startAt: 150,
+      offset: 0,
+      onChange: function(step){
+        value.setValue(step);
+      }
+  });
+  
+  slider.addTo('sliderBasic');
+  
+  slider.start();
+}
+</script>
+</head>
+<body>
+
+<h1>Jx.Slider Examples</h1>
+<p>API Reference: <a id="slider-js" href="javascript:void();" title="link to API Reference">Jx.Slider</a></p>
+
+<h2 id="basicSlider">A Slider Bar</h2>
+<p>A slider.</p>
+<div id="sliderBasic" class=""></div>
+
+</body>
+</html>

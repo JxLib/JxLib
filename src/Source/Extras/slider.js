@@ -121,5 +121,12 @@ Jx.Slider = new Class({
             this.slider = new Slider(this.domObj, this.knob, this.sliderOpts);
         }
         this.slider.set(this.options.startAt);
+    },
+    /**
+     * APIMethod: set
+     * set the value of the slider
+     */
+    set: function(value) {
+      this.slider.set(value);
     }
 });
