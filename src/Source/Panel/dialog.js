@@ -45,20 +45,19 @@ Jx.Dialog = new Class({
     Extends: Jx.Panel,
     //Implements: [Jx.AutoPosition, Jx.Chrome],
 
-    /**
-     * Property: {HTMLElement} blanket
-     * modal dialogs prevent interaction with the rest of the application
-     * while they are open, this element is displayed just under the
-     * dialog to prevent the user from clicking anything.
-     */
-    blanket: null,
-
     options: {
         /* Option: modal
          * (optional) {Boolean} controls whether the dialog will be modal
          * or not.  The default is to create modal dialogs.
          */
         modal: true,
+        /** 
+         * Option: maskOptions
+         */
+        maskOptions: {
+          'class':'jxModalMask',
+          maskMargins: true
+        },
         /* just overrides default position of panel, don't document this */
         position: 'absolute',
         /* Option: width
@@ -153,26 +152,6 @@ Jx.Dialog = new Class({
         this.parent();
         this.openOnLoaded = this.open.bind(this);
         this.options.parent = document.id(this.options.parent);
-
-        if (this.options.modal) {
-            this.blanket = new Element('div',{
-                'class':'jxDialogModal',
-                styles:{
-                    display:'none',
-                    zIndex: -1
-                }
-            });
-            this.blanket.resize = (function() {
-                var ss = document.id(document.body).getScrollSize();
-                this.setStyles({
-                    width: ss.x,
-                    height: ss.y
-                });
-            }).bind(this.blanket);
-            this.options.parent.adopt(this.blanket);
-            window.addEvent('resize', this.blanket.resize);
-
-        }
 
         this.domObj.setStyle('display','none');
         this.options.parent.adopt(this.domObj);
@@ -403,20 +382,22 @@ Jx.Dialog = new Class({
             'visibility': 'hidden'
         });
 
-        if (this.blanket) {
-            this.blanket.resize();
-        }
+        // if (this.blanket) {
+        //     this.blanket.resize();
+        // }
         
         this.toolbar.update();
         
         Jx.Dialog.orderDialogs(this);
 
         /* do the modal thing */
-        if (this.blanket) {
-            this.blanket.setStyles({
-                visibility: 'visible',
-                display: 'block'
-            });
+        if (this.options.modal && this.options.parent.mask) {
+          var opts = $merge(this.options.maskOptions || {}, {
+            style: {
+              'z-index': Jx.getNumber(this.domObj.getStyle('z-index')) - 1
+            }
+          });
+          this.options.parent.mask(opts);
         }
 
         if (this.options.closed) {
@@ -457,9 +438,8 @@ Jx.Dialog = new Class({
         Jx.Dialog.Stack.erase(this);
         Jx.Dialog.ZIndex--;
         this.domObj.setStyle('display','none');
-        if (this.blanket) {
-            this.blanket.setStyle('visibility', 'hidden');
-            Jx.Dialog.ZIndex--;
+        if (this.options.modal && this.options.parent.unmask) {
+          this.options.parent.unmask();
         }
 
     },
@@ -515,8 +495,11 @@ Jx.Dialog = new Class({
     },
 
     cleanup: function() {
-        if (this.blanket) {
-            this.blanket.destroy();
+        // if (this.blanket) {
+        //     this.blanket.destroy();
+        // }
+        if (this.mask) {
+          this.mask.destroy();
         }
     },
     
@@ -534,10 +517,7 @@ Jx.Dialog.orderDialogs = function(d) {
         Jx.Dialog.BaseZIndex = Math.max(Jx.Dialog.Stack[0].domObj.getStyle('zIndex').toInt(), 1);
     }
     Jx.Dialog.Stack.each(function(d, i) {
-        var z = Jx.Dialog.BaseZIndex+i;
-        if (d.blanket) {
-            d.blanket.setStyle('zIndex',z);
-        }
+        var z = Jx.Dialog.BaseZIndex*(1+i);
         d.domObj.setStyle('zIndex',z);
     });
 
