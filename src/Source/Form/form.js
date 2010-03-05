@@ -50,12 +50,7 @@ Jx.Form = new Class({
          * Option: name
          * the name property for the form
          */
-        name: '',
-        /**
-         * Option: fileUpload
-         * Determines if this form needs to be setup for file uploads.
-         */
-        fileUpload: false
+        name: ''
     },
     
     /**
