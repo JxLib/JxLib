@@ -47,6 +47,11 @@
   -ms-filter: "Alpha(opacity=20)";
 }
 
+.jxEventMask {
+  background-image: url(images/a_pixel.png);
+}
+
+
 .jxSpinner {
   position: absolute;
   opacity: 0.5;

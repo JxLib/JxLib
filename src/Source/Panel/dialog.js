@@ -62,6 +62,11 @@ Jx.Dialog = new Class({
             className: 'jxIframeShim'
           }
         },
+        eventMaskOptions: {
+          'class':'jxEventMask',
+          maskMargins: false,
+          useIframeShim: false
+        },
         /* just overrides default position of panel, don't document this */
         position: 'absolute',
         /* Option: width
@@ -167,12 +172,18 @@ Jx.Dialog = new Class({
                 handle: this.title,
                 onBeforeStart: (function(){
                     Jx.Dialog.orderDialogs(this);
+                    if (!this.options.modal && this.options.parent.mask) {
+                      this.options.parent.mask(this.options.eventMaskOptions);
+                    }
                 }).bind(this),
                 onStart: (function() {
                     this.contentContainer.setStyle('visibility','hidden');
                     this.chrome.addClass('jxChromeDrag');
                 }).bind(this),
                 onComplete: (function() {
+                    if (!this.options.modal && this.options.parent.unmask) {
+                      this.options.parent.unmask();
+                    }
                     this.chrome.removeClass('jxChromeDrag');
                     this.contentContainer.setStyle('visibility','');
                     var left = Math.max(this.chromeOffsets.left, parseInt(this.domObj.style.left,10));
@@ -208,6 +219,9 @@ Jx.Dialog = new Class({
             this.domObj.makeResizable({
                 handle:this.resizeHandle,
                 onStart: (function() {
+                    if (!this.options.modal && this.options.parent.mask) {
+                      this.options.parent.mask(this.options.eventMaskOptions);
+                    }
                     this.contentContainer.setStyle('visibility','hidden');
                     this.chrome.addClass('jxChromeDrag');
                 }).bind(this),
@@ -215,6 +229,9 @@ Jx.Dialog = new Class({
                     this.resizeChrome(this.domObj);
                 }).bind(this),
                 onComplete: (function() {
+                    if (!this.options.modal && this.options.parent.unmask) {
+                      this.options.parent.unmask();
+                    }
                     this.chrome.removeClass('jxChromeDrag');
                     var size = this.domObj.getMarginBoxSize();
                     this.options.width = size.width;
