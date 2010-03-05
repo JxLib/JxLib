@@ -259,26 +259,6 @@ Jx.loadNextImg = function() {
 };
 
 /**
- * APIMethod: createIframeShim
- * Creates a new iframe element that is intended to fill a container
- * to mask out other operating system controls (scrollbars, inputs, 
- * buttons, etc) when HTML elements are supposed to be above them.
- *
- * Returns:
- * an HTML iframe element that can be inserted into the DOM.
- */
-/**
- * NOTE: This could be replaced by Mootools-more's IFrameShim class.
- */
-Jx.createIframeShim = function() {
-    return new Element('iframe', {
-        'class': 'jxIframeShim',
-        'scrolling': 'no',
-        'frameborder': 0,
-        'src': Jx.baseURL + '/empty.html'
-    });
-};
-/**
  * APIMethod: getNumber
  * safely parse a number and return its integer value.  A NaN value 
  * returns 0.  CSS size values are also parsed correctly.

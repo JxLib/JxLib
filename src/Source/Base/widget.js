@@ -508,8 +508,8 @@ Jx.Widget = new Class({
               }, this);
           }
         }
-        if (!window.opera) {
-            c.adopt(Jx.createIframeShim());
+        if ($defined(window.IframeShim)) {
+          this.shim = new IframeShim(c, {className: 'jxIframeShim'});
         }
 
         /* remove from DOM so the other resizing logic works as expected */
@@ -537,8 +537,12 @@ Jx.Widget = new Class({
                 element.addClass('jxHasChrome');
             }
             this.resizeChrome(element);
+            if (this.shim) {
+              this.shim.show();
+            }
             if (element && this.chrome.parentNode !== element) {
                 element.adopt(this.chrome);
+                this.chrome.setStyle('z-index',-1);
             }
         }
     },
@@ -550,6 +554,9 @@ Jx.Widget = new Class({
      */
     hideChrome: function() {
         if (this.chrome) {
+            if (this.shim) { 
+              this.shim.hide(); 
+            }
             this.chrome.parentNode.removeClass('jxHasChrome');
             this.chrome.dispose();
         }
@@ -558,6 +565,9 @@ Jx.Widget = new Class({
     resizeChrome: function(o) {
         if (this.chrome && Browser.Engine.trident4) {
             this.chrome.setContentBoxSize(document.id(o).getBorderBoxSize());
+            if (this.shim) {
+              this.shim.position();
+            }
         }
     },
 

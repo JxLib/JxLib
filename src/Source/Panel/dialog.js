@@ -56,7 +56,11 @@ Jx.Dialog = new Class({
          */
         maskOptions: {
           'class':'jxModalMask',
-          maskMargins: true
+          maskMargins: true,
+          useIframeShim: true,
+          iframeShimOptions: {
+            className: 'jxIframeShim'
+          }
         },
         /* just overrides default position of panel, don't document this */
         position: 'absolute',
@@ -381,10 +385,6 @@ Jx.Dialog = new Class({
             'display': 'block',
             'visibility': 'hidden'
         });
-
-        // if (this.blanket) {
-        //     this.blanket.resize();
-        // }
         
         this.toolbar.update();
         
@@ -494,14 +494,7 @@ Jx.Dialog = new Class({
         this.fireEvent('close');
     },
 
-    cleanup: function() {
-        // if (this.blanket) {
-        //     this.blanket.destroy();
-        // }
-        if (this.mask) {
-          this.mask.destroy();
-        }
-    },
+    cleanup: function() { },
     
     isOpen: function () {
         //check to see if we're visible
@@ -510,7 +503,7 @@ Jx.Dialog = new Class({
 });
 
 Jx.Dialog.Stack = [];
-Jx.Dialog.BaseZIndex = null;
+Jx.Dialog.BaseZIndex = 1000;
 Jx.Dialog.orderDialogs = function(d) {
     Jx.Dialog.Stack.erase(d).push(d);
     if (Jx.Dialog.BaseZIndex === null) {
