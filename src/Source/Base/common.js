@@ -290,7 +290,7 @@ Jx.getPageDimensions = function() {
 };
 
 /**
- * APIMethod: Jx.type
+ * APIMethod: type
  * safely return the type of an object using the mootools type system
  *
  * Returns:
@@ -304,27 +304,26 @@ Jx.type = function(obj) {
     return obj.jxFamily || $type(obj);
 };
 
-/**
- * Class: Element
- *
- * Element is a global object provided by the mootools library.  The
- * functions documented here are extensions to the Element object provided
- * by Jx to make cross-browser compatibility easier to achieve.  Most of the
- * methods are measurement related.
- *
- * While the code in these methods has been converted to use MooTools methods,
- * there may be better MooTools methods to use to accomplish these things.
- * Ultimately, it would be nice to eliminate most or all of these and find the
- * MooTools equivalent or convince MooTools to add them.
- * 
- * NOTE: Many of these methods can be replaced with mootools-more's 
- * Element.Measure
- */
-
-
 (function($) {
     // Wrapper for document.id
 
+    /**
+     * Class: Element
+     *
+     * Element is a global object provided by the mootools library.  The
+     * functions documented here are extensions to the Element object provided
+     * by Jx to make cross-browser compatibility easier to achieve.  Most of
+     * the methods are measurement related.
+     *
+     * While the code in these methods has been converted to use MooTools
+     * methods, there may be better MooTools methods to use to accomplish
+     * these things.
+     * Ultimately, it would be nice to eliminate most or all of these and find
+     * the MooTools equivalent or convince MooTools to add them.
+     * 
+     * NOTE: Many of these methods can be replaced with mootools-more's 
+     * Element.Measure
+     */
     Element.implement({
         /**
          * APIMethod: getBoxSizing
@@ -580,9 +579,11 @@ Jx.type = function(obj) {
             return o.tagName == type ? o: false;
         }
     });
-
+    /**
+     * Class: Array
+     * Extensions to the javascript array object
+     */
     Array.implement({
-
         /**
          * APIMethod: swap
          * swaps 2 elements of an array
@@ -592,13 +593,10 @@ Jx.type = function(obj) {
          * b - the second position to swap
          */
         'swap': function(a, b) {
-            var temp;
-            temp = this[a];
+            var temp = this[a];
             this[a] = this[b];
             this[b] = temp;
         }
-
     });
-
 })(document.id || $);
 // End Wrapper for document.id
