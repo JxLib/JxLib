@@ -167,6 +167,16 @@
  * identify the family in the firebug inspector, but is not as useful for
  * coding purposes as it does not allow for inheritance.
  *
+ * Events:
+ *
+ * preInit
+ * postInit
+ * prePluginInit
+ * postPluginInit
+ * initializeDone
+ * preDestroy
+ * postDestroy
+ *
  * License:
  * Copyright (c) 2009, Jon Bomgardner.
  *
@@ -177,7 +187,22 @@ Jx.Object = new Class({
     Implements: [Options, Events],
     plugins: new Hash(),
     pluginNamespace: 'Other',
+    /**
+     * Constructor: Jx.Object
+     * create a new instance of Jx.Object
+     *
+     * Parameters:
+     * options - {Object} optional parameters for creating an object.
+     */
     parameters: ['options'],
+    
+    options: {
+      /**
+       * Option: plugins
+       * {Array} an array of plugins to add to the object.
+       */
+      plugins: null
+    },
 
     initialize: function(){
         //normalize arguments
@@ -219,8 +244,13 @@ Jx.Object = new Class({
         this.fireEvent('initializeDone');
     },
 
+    /**
+     * Method: initPlugins
+     * internal function to initialize plugins on object creation
+     */
     initPlugins: function () {
-        //pluginNamespace must be defined in order to pass plugins to the object
+        // pluginNamespace must be defined in order to pass plugins to the
+        // object
         if ($defined(this.pluginNamespace)) {
             if ($defined(this.options.plugins)
                     && Jx.type(this.options.plugins) === 'array') {
@@ -229,9 +259,11 @@ Jx.Object = new Class({
                         plugin.attach(this);
                         this.plugins.set(plugin.name, plugin);
                     } else if (Jx.type(plugin) === 'object') {
-                        //All plugin-enabled objects should define a pluginNamespace member variable
-                        //that is used for locating the plugins. The default namespace is 'Other' for
-                        //now until we come up with a better idea
+                        // All plugin-enabled objects should define a
+                        // pluginNamespace member variable
+                        // that is used for locating the plugins. The default
+                        // namespace is 'Other' for
+                        // now until we come up with a better idea
                         var p = new Jx.Plugin[this.pluginNamespace][plugin.name.capitalize()](plugin.options);
                         p.attach(this);
                     } else if (Jx.type(plugin) === 'string') {
@@ -239,18 +271,30 @@ Jx.Object = new Class({
                         var p = new Jx.Plugin[this.pluginNamespace][plugin.capitalize()]();
                         p.attach(this);
                     }
-                        
                 }, this);
             }
         }
     },
 
+    /**
+     * APIMethod: destroy
+     * destroy a Jx.Object, safely cleaning up any potential memory
+     * leaks along the way.  Uses the cleanup method of an object to
+     * actually do the cleanup.
+     * Emits the preDestroy event before cleanup and the postDestroy event
+     * after cleanup.
+     */
     destroy: function () {
         this.fireEvent('preDestroy');
         this.cleanup();
         this.fireEvent('postDestroy');
     },
 
+    /**
+     * Method: cleanup
+     * to be implemented by subclasses to do the actual work of destroying
+     * an object. 
+     */
     cleanup: function () {
         //detach plugins
         if (this.plugins.getLength > 0) {
@@ -261,7 +305,12 @@ Jx.Object = new Class({
         }
     },
 
+    /**
+     * Method: init
+     * virtual initialization method to be implemented by sub-classes
+     */
     init: $empty,
+    
     /**
      * APIMethod: registerPlugin
      * This method is called by a plugin that has its attach method
