@@ -17,7 +17,7 @@ Jx.Scrollbar = new Class({
     
     options: {
         /**
-         * Option: bars
+         * Option: direction
          * Determines which bars are visible. Valid options are 'horizontal'
          * or 'vertical'
          */

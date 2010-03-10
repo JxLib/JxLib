@@ -48,7 +48,7 @@ Jx.Panel.FileUpload = new Class({
          * Option: buttonText
          * The text to place on the upload button
          */
-        buttonText: 'Upload Files',
+        buttonText: MooTools.lang.get('Jx','upload').buttonText,
         /**
          * Option: removeOnComplete
          * Determines whether a file is removed from the queue after uploading
@@ -287,5 +287,13 @@ Jx.Panel.FileUpload = new Class({
         if (this.fileQueue.length === 0) {
             this.uploadBtn.setEnabled(false);
         }
+    },
+    
+    createText: function (lang) {
+    	this.parent();
+    	this.options.buttonText = MooTools.lang.get('Jx','upload').buttonText;
+    	if ($defined(this.uploadBtn)) {
+    		this.uploadBtn.setLabel(this.options.buttonText);
+    	}
     }
 });

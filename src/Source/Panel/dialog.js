@@ -95,7 +95,7 @@ Jx.Dialog = new Class({
          * (optional) {String} the title of the dialog box.  "New Dialog"
          * is the default value.
          */
-        label: 'New Dialog',
+        label: MooTools.lang.get('Jx','dialog').label,
         /* Option: id
          * (optional) {String} an HTML ID to assign to the dialog, primarily
          * used for applying CSS styles to specific dialogs
@@ -516,6 +516,17 @@ Jx.Dialog = new Class({
     isOpen: function () {
         //check to see if we're visible
         return !((this.domObj.getStyle('display') === 'none') || (this.domObj.getStyle('visibility') === 'hidden'));
+    },
+    
+    createText: function (lang) {
+    	this.parent();
+    	if ($defined(this.maxM)) {
+			if (this.maximize) {
+				this.maxM.setLabel(this.options.restoreLabel);
+	    	} else {
+	    		this.maxM.setLabel(this.options.maximizeLabel);
+	    	}
+    	}
     }
 });
 

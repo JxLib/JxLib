@@ -100,7 +100,7 @@ Jx.Field = new Class({
          * Text to be displayed if a field is required. It is added as an
          * <em> element inside the <label>.
          */
-        requiredText : '*',
+        requiredText : MooTools.lang.get('Jx','field').requiredText,
         /**
          * Option: readonly
          * {True|False} defaults to false. Whether this field is readonly.
@@ -213,11 +213,11 @@ Jx.Field = new Class({
             this.label.set('for', this.id);
 
             if (this.options.required) {
-                var em = new Element('em', {
+                this.requiredText = new Element('em', {
                     'html' : this.options.requiredText,
                     'class' : 'required'
                 });
-                em.inject(this.label);
+                this.requiredText.inject(this.label);
             }
         }
 
@@ -323,6 +323,23 @@ Jx.Field = new Class({
             this.parent(what);
         }
         return this;
+    },
+    
+    /**
+     * APIMethod: changeText
+     * This method should be overridden by subclasses. It should be used
+     * to change any language specific default text that is used by the widget.
+     * 
+     * Parameters:
+     * lang - the language being changed to or that had it's data set of 
+     * 		translations changed.
+     */
+    changeText: function (lang) {
+    	this.parent();
+    	this.options.requiredText = MooTools.lang.get('Jx','field').requiredText;
+    	if ($defined(this.requiredText)) {
+    		this.requiredText.set('html', this.options.requiredText);
+    	}
     }
 
 });

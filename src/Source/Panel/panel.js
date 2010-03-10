@@ -65,31 +65,31 @@ Jx.Panel = new Class({
         /* Option: collapseTooltip
          * the tooltip to display over the collapse button
          */
-        collapseTooltip: 'Collapse/Expand Panel',
+        collapseTooltip: MooTools.lang.get('Jx','panel').collapseTooltip,
         /* Option: collapseLabel
          * the label to use for the collapse menu item
          */
-        collapseLabel: 'Collapse',
+        collapseLabel: MooTools.lang.get('Jx','panel').collapseLabel,
         /* Option: expandLabel
          * the label to use for the expand menu item
          */
-        expandLabel: 'Expand',
+        expandLabel: MooTools.lang.get('Jx','panel').expandLabel,
         /* Option: maximizeTooltip
          * the tooltip to display over the maximize button
          */
-        maximizeTooltip: 'Maximize Panel',
+        maximizeTooltip: MooTools.lang.get('Jx','panel').maximizeTooltip,
         /* Option: maximizeLabel
          * the label to use for the maximize menu item
          */
-        maximizeLabel: 'Maximize',
+        maximizeLabel: MooTools.lang.get('Jx','panel').maximizeLabel,
         /* Option: maximizeTooltip
          * the tooltip to display over the maximize button
          */
-        restoreTooltip: 'Restore Panel',
+        restoreTooltip: MooTools.lang.get('Jx','panel').restoreTooltip,
         /* Option: maximizeLabel
          * the label to use for the maximize menu item
          */
-        restoreLabel: 'Restore',
+        restoreLabel: MooTools.lang.get('Jx','panel').restoreLabel,
         /* Option: close
          * boolean, determine if the panel can be closed (hidden) by the user.
          * The application needs to provide a way to re-open the panel after
@@ -101,11 +101,11 @@ Jx.Panel = new Class({
         /* Option: closeTooltip
          * the tooltip to display over the close button
          */
-        closeTooltip: 'Close Panel',
+        closeTooltip: MooTools.lang.get('Jx','panel').closeTooltip,
         /* Option: closeLabel
          * the label to use for the close menu item
          */
-        closeLabel: 'Close',
+        closeLabel: MooTools.lang.get('Jx','panel').closeLabel,
         /* Option: closed
          * boolean, initial state of the panel (true to start the panel
          *  closed), default is false
@@ -168,9 +168,9 @@ Jx.Panel = new Class({
             this.toolbar.add(this.menu);
         }
 
-        var b, item;
+        //var b, item;
         if (this.options.collapse) {
-            var colB = new Jx.Button({
+            this.colB = new Jx.Button({
                 template: this.options.controlButtonTemplate,
                 image: Jx.aPixel.src,
                 tooltip: this.options.collapseTooltip,
@@ -178,35 +178,36 @@ Jx.Panel = new Class({
                     that.toggleCollapse();
                 }
             });
-            colB.domObj.addClass(this.options.collapseClass);
+            this.colB.domObj.addClass(this.options.collapseClass);
             this.addEvents({
                 collapse: function() {
-                    colB.setTooltip(this.options.expandTooltip);
-                },
+                    this.colB.setTooltip(this.options.expandTooltip);
+                }.bind(this),
                 expand: function() {
-                    colB.setTooltip(this.options.collapseTooltip);
-                }
+                    this.colB.setTooltip(this.options.collapseTooltip);
+                }.bind(this)
             });
-            this.toolbar.add(colB);
+            this.toolbar.add(this.colB);
             if (this.menu) {
-                item = new Jx.Menu.Item({
+                this.colM = new Jx.Menu.Item({
                     label: this.options.collapseLabel,
                     onClick: function() { that.toggleCollapse(); }
                 });
+                var item = this.colM
                 this.addEvents({
                     collapse: function() {
-                        item.setLabel(this.options.expandLabel);
-                    },
+                        this.colM.setLabel(this.options.expandLabel);
+                    }.bind(this),
                     expand: function() {
-                        item.setLabel(this.options.collapseLabel);
-                    }
+                        this.colM.setLabel(this.options.collapseLabel);
+                    }.bind(this)
                 });
                 this.menu.add(item);
             }
         }
 
         if (this.options.maximize) {
-            var maxB = new Jx.Button({
+            this.maxB = new Jx.Button({
                 template: this.options.controlButtonTemplate,
                 image: Jx.aPixel.src,
                 tooltip: this.options.maximizeTooltip,
@@ -214,35 +215,36 @@ Jx.Panel = new Class({
                     that.maximize();
                 }
             });
-            maxB.domObj.addClass(this.options.maximizeClass);
+            this.maxB.domObj.addClass(this.options.maximizeClass);
             this.addEvents({
                 maximize: function() {
-                    maxB.setTooltip(this.options.restoreTooltip);
-                },
+                    this.maxB.setTooltip(this.options.restoreTooltip);
+                }.bind(this),
                 restore: function() {
-                    maxB.setTooltip(this.options.maximizeTooltip);
-                }
+                    this.maxB.setTooltip(this.options.maximizeTooltip);
+                }.bind(this)
             });
-            this.toolbar.add(maxB);
+            this.toolbar.add(this.maxB);
             if (this.menu) {
-                item = new Jx.Menu.Item({
+                this.maxM = new Jx.Menu.Item({
                     label: this.options.maximizeLabel,
                     onClick: function() { that.maximize(); }
                 });
+                
                 this.addEvents({
                     maximize: function() {
-                        item.setLabel(this.options.restoreLabel);
-                    },
+                        this.maxM.setLabel(this.options.restoreLabel);
+                    }.bind(this),
                     restore: function() {
-                        item.setLabel(this.options.maximizeLabel);
-                    }
+                        this.maxM.setLabel(this.options.maximizeLabel);
+                    }.bind(this)
                 });
-                this.menu.add(item);
+                this.menu.add(this.maxM);
             }
         }
 
         if (this.options.close) {
-            var closeB = new Jx.Button({
+            this.closeB = new Jx.Button({
                 template: this.options.controlButtonTemplate,
                 image: Jx.aPixel.src,
                 tooltip: this.options.closeTooltip,
@@ -250,10 +252,10 @@ Jx.Panel = new Class({
                     that.close();
                 }
             });
-            closeB.domObj.addClass(this.options.closeClass);
-            this.toolbar.add(closeB);
+            this.closeB.domObj.addClass(this.options.closeClass);
+            this.toolbar.add(this.closeB);
             if (this.menu) {
-                item = new Jx.Menu.Item({
+                this.closeM = new Jx.Menu.Item({
                     label: this.options.closeLabel,
                     onClick: function() {
                         that.close();
@@ -542,6 +544,40 @@ Jx.Panel = new Class({
     close: function() {
         this.domObj.dispose();
         this.fireEvent('close', this);
+    },
+    
+    changeText: function (lang) {
+    	this.parent();
+    	this.options.collapseTooltip = MooTools.lang.get('Jx','panel').collapseTooltip;
+    	this.options.collapseLabel = MooTools.lang.get('Jx','panel').collapseLabel;
+    	this.options.expandLabel = MooTools.lang.get('Jx','panel').expandLabel;
+    	this.options.maximizeTooltip = MooTools.lang.get('Jx','panel').maximizeTooltip;
+    	this.options.maximizeLabel = MooTools.lang.get('Jx','panel').maximizeLabel;
+    	this.options.restoreTooltip = MooTools.lang.get('Jx','panel').restoreTooltip;
+    	this.options.restoreLabel = MooTools.lang.get('Jx','panel').restoreLabel;
+    	this.options.closeTooltip = MooTools.lang.get('Jx','panel').closeTooltip;
+    	this.options.closeLabel = MooTools.lang.get('Jx','panel').closeLabel;
+    	
+    	//TODO: change this class so that we can access these properties without too much voodoo...
+    	if($defined(this.closeB)) {
+    		this.closeB.setTooltip(this.options.closeTooltip);
+    	}
+    	if ($defined(this.closeM)) {
+    		this.closeM.setLabel(this.options.closeLabel);
+    	}
+    	if ($defined(this.maxB)) {
+    		this.maxB.setTooltip(this.options.maximizeTooltip);
+    	}
+    	if ($defined(this.colB)) {
+    		this.colB.setTooltip(this.options.collapseTooltip);
+    	}
+    	if ($defined(this.colM)) {
+	    	if (this.options.closed == true) {
+	    		this.colM.setLabel(this.options.expandLabel);
+	    	} else {
+	    		this.colM.setLabel(this.options.collapseLabel);
+	    	}
+    	}
     }
 
 });

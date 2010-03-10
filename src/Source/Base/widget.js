@@ -41,7 +41,7 @@
 Jx.Widget = new Class({
     Family: "Jx.Widget",
     Extends: Jx.Object,
-
+    
     options: {
         /**
          * Option: content
@@ -64,7 +64,7 @@ Jx.Widget = new Class({
          * Option: busyMask
          */
         busyMask: {
-          'message': 'Working ...',
+          'message': MooTools.lang.get('Jx','widget').busyMessage,
           'class': 'jxSpinner jxSpinnerLarge',
           img: {'class':'jxSpinnerImage'},
           content: {'class':'jxSpinnerContent'},
@@ -111,6 +111,7 @@ Jx.Widget = new Class({
      * sets up the base widget code and runs the render function.
      */
     init: function(){
+    	
         if (!this.options.deferRender) {
             this.fireEvent('preRender');
             this.render();
@@ -733,6 +734,24 @@ Jx.Widget = new Class({
           this.domObj.unspin();
         }
       }
+    },
+    
+    /**
+     * APIMethod: changeText
+     * This method should be overridden by subclasses. It should be used
+     * to change any language specific default text that is used by the widget.
+     * 
+     * Parameters:
+     * lang - the language being changed to or that had it's data set of 
+     * 		translations changed.
+     */
+    changeText: function (lang) {
+    	this.options.busyMask['message'] = MooTools.lang.get('Jx','widget').busyMessage;
+    	//if the mask is being used then recreate it with the new text
+    	if (this.busy) {
+    		this.setBusy(false);
+    		this.setBusy(true);
+    	}
     }
 });
 

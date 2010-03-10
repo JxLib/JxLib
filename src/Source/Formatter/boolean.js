@@ -25,12 +25,12 @@ Jx.Formatter.Boolean = new Class({
          * Option: true
          * The text to display for true values
          */
-        'true': 'Yes',
+        'true': MooTools.lang.get('Jx','formatter.boolean')['true'],
         /**
          * Option: false
          * The text to display for false values
          */
-        'false': 'No'
+        'false': MooTools.lang.get('Jx','formatter.boolean')['false']
     },
     /**
      * APIMethod: format
@@ -61,6 +61,21 @@ Jx.Formatter.Boolean = new Class({
             b = true;
         }
         return b ? this.options['true'] : this.options['false'];
+    },
+    
+    /**
+     * APIMethod: changeText
+     * This method should be overridden by subclasses. It should be used
+     * to change any language specific default text that is used by the widget.
+     * 
+     * Parameters:
+     * lang - the language being changed to or that had it's data set of 
+     * 		translations changed.
+     */
+    changeText: function (lang) {
+    	this.parent();
+    	this.options['true'] = MooTools.lang.get('Jx','formatter.boolean')['true'];
+        this.options['false'] = MooTools.lang.get('Jx','formatter.boolean')['false'];
     }
 
 });

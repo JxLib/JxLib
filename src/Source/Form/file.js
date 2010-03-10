@@ -112,7 +112,7 @@ Jx.Field.File = new Class({
             template : '<span class="jxInputContainer"><input class="jxInputText" type="text" /></span>'
         });
         this.browseButton = new Jx.Button({
-            label : 'Browse...'
+            label: MooTools.lang.get('Jx','file').browseLabel
         });
 
 
@@ -322,5 +322,21 @@ Jx.Field.File = new Class({
     getExt: function () {
         var fn = this.getFileName();
         return fn.slice(fn.length - 3);
+    },
+    
+    /**
+     * APIMethod: changeText
+     * This method should be overridden by subclasses. It should be used
+     * to change any language specific default text that is used by the widget.
+     * 
+     * Parameters:
+     * lang - the language being changed to or that had it's data set of 
+     * 		translations changed.
+     */
+    changeText: function (lang) {
+    	this.parent();
+    	if ($defined(this.browseButton)) {
+    		this.browseButton.setLabel( MooTools.lang.get('Jx','file').browseLabel);
+    	}
     }
 });

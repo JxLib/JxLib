@@ -20,7 +20,7 @@ Jx.Notice = new Class({
         fx: 'fade',
         chrome: false,
         enabled: true,
-        template: '<li class="jxNoticeItemContainer"><div class="jxNoticeItem"><span class="jxNotice"></span><a class="jxNoticeClose" href="javascript:void(0);" title="close this notice"></a></div></li>',
+        template: '<li class="jxNoticeItemContainer"><div class="jxNoticeItem"><span class="jxNotice"></span><a class="jxNoticeClose" href="javascript:void(0);" title="' + MooTools.lang.get('Jx','notice').closeTip + '"></a></div></li>',
         klass: ''
     },
 
@@ -79,28 +79,28 @@ Jx.Notice = new Class({
 Jx.Notice.Information = new Class({
     Extends: Jx.Notice,
     options: {
-        template: '<li class="jxNoticeItemContainer"><div class="jxNoticeItem"><img class="jxNoticeIcon" src="'+Jx.aPixel.src+'" title="Success"><span class="jxNotice"></span><a class="jxNoticeClose" href="javascript:void(0);" title="close this notice"></a></div></li>',
+        template: '<li class="jxNoticeItemContainer"><div class="jxNoticeItem"><img class="jxNoticeIcon" src="'+Jx.aPixel.src+'" title="Success"><span class="jxNotice"></span><a class="jxNoticeClose" href="javascript:void(0);" title="' + MooTools.lang.get('Jx','notice').closeTip + '"></a></div></li>',
         klass: 'jxNoticeInformation'
     }
 });
 Jx.Notice.Success = new Class({
     Extends: Jx.Notice,
     options: {
-        template: '<li class="jxNoticeItemContainer"><div class="jxNoticeItem"><img class="jxNoticeIcon" src="'+Jx.aPixel.src+'" title="Success"><span class="jxNotice"></span><a class="jxNoticeClose" href="javascript:void(0);" title="close this notice"></a></div></li>',
+        template: '<li class="jxNoticeItemContainer"><div class="jxNoticeItem"><img class="jxNoticeIcon" src="'+Jx.aPixel.src+'" title="Success"><span class="jxNotice"></span><a class="jxNoticeClose" href="javascript:void(0);" title="' + MooTools.lang.get('Jx','notice').closeTip + '"></a></div></li>',
         klass: 'jxNoticeSuccess'
     }
 });
 Jx.Notice.Warning = new Class({
     Extends: Jx.Notice,
     options: {
-        template: '<li class="jxNoticeItemContainer"><div class="jxNoticeItem"><img class="jxNoticeIcon" src="'+Jx.aPixel.src+'" title="Warning"><span class="jxNotice"></span><a class="jxNoticeClose" href="javascript:void(0);" title="close this notice"></a></div></li>',
+        template: '<li class="jxNoticeItemContainer"><div class="jxNoticeItem"><img class="jxNoticeIcon" src="'+Jx.aPixel.src+'" title="Warning"><span class="jxNotice"></span><a class="jxNoticeClose" href="javascript:void(0);" title="' + MooTools.lang.get('Jx','notice').closeTip + '"></a></div></li>',
         klass: 'jxNoticeWarning'
     }
 });
 Jx.Notice.Error = new Class({
     Extends: Jx.Notice,
     options: {
-        template: '<li class="jxNoticeItemContainer"><div class="jxNoticeItem"><img class="jxNoticeIcon" src="'+Jx.aPixel.src+'" title="Error"><span class="jxNotice"></span><a class="jxNoticeClose" href="javascript:void(0);" title="close this notice"></a></div></li>',
+        template: '<li class="jxNoticeItemContainer"><div class="jxNoticeItem"><img class="jxNoticeIcon" src="'+Jx.aPixel.src+'" title="Error"><span class="jxNotice"></span><a class="jxNoticeClose" href="javascript:void(0);" title="' + MooTools.lang.get('Jx','notice').closeTip + '"></a></div></li>',
         klass: 'jxNoticeError'
     }
 });

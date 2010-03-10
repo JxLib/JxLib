@@ -185,6 +185,17 @@
 Jx.Object = new Class({
     Family: "Jx.Object",
     Implements: [Options, Events],
+    Bind: ['changeText'],
+    options: {
+	    /**
+	     * Option: useLang
+	     * Turns on this widget's ability to react to changes in
+	     * the default language. Handy for changing text out on the fly.
+	     * 
+	     * TODO: Should this be enabled or disabled by default? 
+	     */
+	    useLang: true
+	},
     plugins: new Hash(),
     pluginNamespace: 'Other',
     /**
@@ -235,6 +246,9 @@ Jx.Object = new Class({
         }
 
         this.setOptions(options);
+        if (this.options.useLang) {
+    		MooTools.lang.addEvent('langChange', this.changeText)
+    	}
         this.fireEvent('preInit');
         this.init();
         this.fireEvent('postInit');
@@ -346,10 +360,21 @@ Jx.Object = new Class({
      * Parameters:
      * name - the name of the plugin as defined in the plugin's name property
      */
-    gePlugin: function (name) {
+    getPlugin: function (name) {
         if (this.plugins.has(name)) {
             return this.plugins.get(name);
         }
-    }
+    },
+    
+    /**
+     * APIMethod: changeText
+     * This method should be overridden by subclasses. It should be used
+     * to change any language specific default text that is used by the widget.
+     * 
+     * Parameters:
+     * lang - the language being changed to or that had it's data set of 
+     * 		translations changed.
+     */
+    changeText: $empty
 
 });

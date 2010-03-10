@@ -8,17 +8,7 @@
 
               document.id('test-grid').empty();
 
-              var store = new Jx.Store({
-                  columns: [
-                      {name: 'id',type: 'numeric'},
-                      {name: 'name', type: 'alphanumeric'},
-                      {name: 'dob', type: 'date'},
-                      {name: 'active', type: 'boolean'},
-                      {name: 'duesLeft', type: 'currency'},
-                      {name: 'phone', type: 'alphanumeric'}
-                  ]
-              });
-              store.load([
+              var data = [
                   {'id':1,'name':'John Doe','dob':'12/4/1974','active':true,'duesLeft':30,'phone':'16753780987'},
                   {'id':2,'name':'Bob Smith','dob':'8/4/1987','active':true,'duesLeft':0,'phone':'867-465-3686'},
                   {'id':3,'name':'Joe Black','dob':'5/25/1963','active':true,'duesLeft':10,'phone':'1(857) 467-9847'},
@@ -32,8 +22,24 @@
                   {'id':11,'name':'Granny Smith','dob':'10/28/1985','active':true,'duesLeft':0,'phone':'6748485948'},
                   {'id':12,'name':'Reba Butterworth','dob':'11/11/1989','active':false,'duesLeft':0,'phone':'7584985767'},
                   {'id':13,'name':'Frank Gillis','dob':'2/3/1976','active':true,'duesLeft':5,'phone':'4758693094'}
-              ]);
+              ];
 
+              //create store
+              var parser = new Jx.Store.Parser.JSON();
+              var full = new Jx.Store.Strategy.Full();
+              var store = new Jx.Store({
+                  columns: [
+                      {name: 'id',type: 'numeric'},
+                      {name: 'name', type: 'alphanumeric'},
+                      {name: 'dob', type: 'date'},
+                      {name: 'active', type: 'boolean'},
+                      {name: 'duesLeft', type: 'currency'},
+                      {name: 'phone', type: 'alphanumeric'}
+                  ],
+                  protocol: new Jx.Store.Protocol.Local(data,{parser: parser}),
+                  strategies: [full],
+                  record: Jx.Record
+              });
               var currencyFormatter = new Jx.Formatter.Currency();
               var dateFormatter = new Jx.Formatter.Date();
               var booleanFormatter = new Jx.Formatter.Boolean();
@@ -138,5 +144,5 @@
             }
         }
     ],
-    otherScripts: ["currency","date","boolean","phone"]
+    otherScripts: ["currency","date","boolean","phone","grid.editor","parser.json","strategy.full","protocol.local","select"]
 }

@@ -57,7 +57,7 @@ Jx.ColorPalette = new Class({
         /* Option: alphaLabel
          * the text to display next to the alpha input for i18n.
          */
-        alphaLabel: 'alpha (%)'
+        alphaLabel: MooTools.lang.get('Jx','colorpalette').alphaLabel
     },
     /**
      * APIMethod: render
@@ -297,6 +297,24 @@ Jx.ColorPalette = new Class({
         this.previewSwatch.setStyles(styles);
         
         this.fireEvent('change', this);
+    },
+    
+    /**
+     * APIMethod: changeText
+     * This method should be overridden by subclasses. It should be used
+     * to change any language specific default text that is used by the widget.
+     * 
+     * Parameters:
+     * lang - the language being changed to or that had it's data set of 
+     * 		translations changed.
+     */
+    changeText: function (lang) {
+    	this.parent();
+    	
+    	this.options.alphaLabel = MooTools.lang.get('Jx','colorpalette').alphaLabel;
+    	if ($defined(this.alphaLabel)) {
+    		this.alphaLabel.set('html', this.options.alphaLabel);
+    	}
     }
 });
 

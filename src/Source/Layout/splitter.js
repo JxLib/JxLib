@@ -98,7 +98,7 @@ Jx.Splitter = new Class({
          * the tooltip to display when the mouse hovers over a split bar,
          * used for i18n.
          */
-        barTooltip: 'drag this bar to resize',
+        barTooltip: MooTools.lang.get('Jx','splitter').barToolTip,
         /* Option: onStart
          * an optional function to call when a bar starts dragging
          */
@@ -740,5 +740,11 @@ Jx.Splitter = new Class({
                  currentPosition += rightBar.retrieve('size').height;
              }
          }
+    },
+    
+    createText: function (lang) {
+    	this.parent();
+    	this.options.barToolTip = MooTools.lang.get('Jx','splitter').barToolTip;
+    	
     }
 });

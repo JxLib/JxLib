@@ -29,12 +29,12 @@ Jx.Formatter.Number = new Class({
          * Option: decimalSeparator
          * Character to use as the decimal separator
          */
-        decimalSeparator: '.',
+        decimalSeparator: MooTools.lang.get('Jx','formatter.number').decimalSeparator,
         /**
          * Option: thousandSeparator
          * Character to use as the thousands separator
          */
-        thousandsSeparator: ',',
+        thousandsSeparator: MooTools.lang.get('Jx','formatter.number').thousandsSeparator,
         /**
          * Option: precision
          * The number of decimal places to round to
@@ -116,5 +116,21 @@ Jx.Formatter.Number = new Class({
         }
 
         return ret;
+    },
+    
+    /**
+     * APIMethod: changeText
+     * This method should be overridden by subclasses. It should be used
+     * to change any language specific default text that is used by the widget.
+     * 
+     * Parameters:
+     * lang - the language being changed to or that had it's data set of 
+     * 		translations changed.
+     */
+    changeText: function (lang) {
+    	this.parent();
+    	
+    	this.options.decimalSeparator = MooTools.lang.get('Jx','formatter.number').decimalSeparator;
+        this.options.thousandsSeparator = MooTools.lang.get('Jx','formatter.number').thousandsSeparator;
     }
 });

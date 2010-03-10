@@ -26,12 +26,12 @@ Jx.Dialog.Confirm = new Class({
          * Option: affirmitiveLabel
          * The text to use for the affirmitive button. Defaults to 'Yes'.
          */
-        affirmitiveLabel: 'Yes',
+        affirmitiveLabel: MooTools.lang.get('Jx','confirm').affirmitiveLabel,
         /**
          * Option: negativeLabel
          * The text to use for the negative button. Defaults to 'No'.
          */
-        negativeLabel: 'No',
+        negativeLabel: MooTools.lang.get('Jx','confirm').negativeLabel,
 
         /**
          * Jx.Dialog option defaults
@@ -49,16 +49,16 @@ Jx.Dialog.Confirm = new Class({
     render: function () {
         //create content to be added
         this.buttons = new Jx.Toolbar({position: 'bottom'});
-        this.buttons.add(
-            new Jx.Button({
-                label: this.options.affirmitiveLabel,
-                onClick: this.onClick.bind(this, this.options.affirmitiveLabel)
-            }),
-            new Jx.Button({
-                label: this.options.negativeLabel,
-                onClick: this.onClick.bind(this, this.options.negativeLabel)
-            })
-        );
+        
+        this.ok = new Jx.Button({
+            label: this.options.affirmitiveLabel,
+            onClick: this.onClick.bind(this, this.options.affirmitiveLabel)
+        }),
+        this.cancel = new Jx.Button({
+            label: this.options.negativeLabel,
+            onClick: this.onClick.bind(this, this.options.negativeLabel)
+        })
+        this.buttons.add(this.ok, this.cancel);
         this.options.toolbars = [this.buttons];
         if (Jx.type(this.options.question) === 'string') {
             this.question = new Element('div', {
@@ -81,6 +81,19 @@ Jx.Dialog.Confirm = new Class({
         this.isOpening = false;
         this.hide();
         this.fireEvent('close', [this, value]);
+    },
+    
+    createText: function (lang) {
+    	this.parent();
+    	this.options.affirmitiveLabel = MooTools.lang.get('Jx','confirm').affirmitiveLabel;
+    	this.options.negativeLabel = MooTools.lang.get('Jx','confirm').negativeLabel;
+    	if ($defined(this.ok)) {
+    		this.ok.setLabel(this.options.affirmitiveLabel);
+    	}
+    	if ($defined(this.cancel)) {
+    		this.cancel.setLabel(this.options.negativeLabel);
+    	}
+    	
     }
 
 

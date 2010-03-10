@@ -27,7 +27,7 @@ Jx.Formatter.Currency = new Class({
          * The sign to use for this currency. Defaults to
          * the US '$'.
          */
-        sign: "$"
+        sign: MooTools.lang.get('Jx','formatter.currency').sign
     },
     /**
      * APIMethod: format
@@ -56,5 +56,19 @@ Jx.Formatter.Currency = new Class({
         }
 
         return ret;
+    },
+    
+    /**
+     * APIMethod: changeText
+     * This method should be overridden by subclasses. It should be used
+     * to change any language specific default text that is used by the widget.
+     * 
+     * Parameters:
+     * lang - the language being changed to or that had it's data set of 
+     * 		translations changed.
+     */
+    changeText: function (lang) {
+    	this.parent();
+    	this.options.sign = MooTools.lang.get('Jx','formatter.currency').sign;
     }
 });

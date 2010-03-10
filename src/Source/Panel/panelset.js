@@ -46,7 +46,7 @@ Jx.PanelSet = new Class({
         /* Option: barTooltip
          * the tooltip to place on the title bars of each panel
          */
-        barTooltip: 'drag this bar to resize'
+        barTooltip: MooTools.lang.get('Jx','panelset').barTooltip
     },
 
     /**
@@ -226,5 +226,10 @@ Jx.PanelSet = new Class({
         }
         panel.domObj.resize({top: top, height:panelSize, bottom: null});
         this.fireEvent('panelMaximize',panel);
+    },
+    
+    createText: function (lang) {
+    	this.parent();
+    	this.options.barTooltip = MooTools.lang.get('Jx','panelset').barTooltip;
     }
 });

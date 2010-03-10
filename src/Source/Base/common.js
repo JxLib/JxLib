@@ -152,20 +152,45 @@ if (!$defined(Jx.aPixel)) {
  * (end)
  */
 if (!$defined(Jx.isAir)) {
-(function() {
-  /**
-   * Determine if we're running in Adobe AIR. Run this regardless of whether
-   * the above runs or not.
-   */
-  var aScripts = document.getElementsByTagName('SCRIPT');
-  var src = aScripts[0].src;
-  if (src.contains('app:')) {
-    Jx.isAir = true;
-  } else {
-    Jx.isAir = false;
-  }
-})();
+	(function() {
+		/**
+		 * Determine if we're running in Adobe AIR. Run this regardless of whether
+		 * the above runs or not.
+		 */
+		var aScripts = document.getElementsByTagName('SCRIPT');
+		var src = aScripts[0].src;
+		if (src.contains('app:')) {
+			Jx.isAir = true;
+		} else {
+			Jx.isAir = false;
+		}
+	})();
 }
+
+/**
+ * APIProperty: {String} lang
+ * Checks to see if Jx.lang is already set. If not, it sets it to the default
+ * 'en-US'. We will then set the Motools.lang language to this setting 
+ * automatically.
+ * 
+ * The language can be changed on the fly at anytime by calling Jx.setLanguage().
+ * By default all Jx.Widget subclasses will listen for the langChange event of the
+ * Mootools.lang class. It will then call a method, changeText(), if it exists on
+ * the particular widget. You will be able to disable listening for these changes by 
+ * setting the Jx.Widget option useLang to false.
+ */
+Jx.setLanguage = function(lang) {
+	Jx.lang = lang;
+	MooTools.lang.setLanguage(Jx.lang);
+};
+
+if (!$defined(Jx.lang)) {
+	Jx.lang = 'en-US';
+}
+
+Jx.setLanguage(Jx.lang);
+
+
 
 /**
  * APIMethod: applyPNGFilter

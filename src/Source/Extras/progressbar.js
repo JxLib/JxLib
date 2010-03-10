@@ -37,13 +37,13 @@ Jx.Progressbar = new Class({
          * Option: messageText
          * The text of a message displayed above the bar. Set to NULL to prevent any text from appearing
          */
-        messageText: 'Loading...',
+        messageText: MooTools.lang.get('Jx','progressbar').messageText,
         /**
          * Option: progressText
          * The text displayed inside the bar. This defaults to "{progress} of {total}" 
          * where {progress} and {total} are substituted for passed in values.
          */
-        progressText: '{progress} of {total}',
+        progressText: MooTools.lang.get('Jx','progressbar').progressText,
         /**
          * Option: bar
          * an object that gives options for the bar itself. Specifically, 
@@ -172,7 +172,6 @@ Jx.Progressbar = new Class({
         var newWidth = (progress * this.options.bar.width) / total;
         
         //update bar width
-        //TODO: animate this
         this.text.get('tween', {property:'width', onComplete: function() {
             var obj = {};
             if (this.options.progressText.contains('{progress}')) {
@@ -195,6 +194,22 @@ Jx.Progressbar = new Class({
             }
         }).bind(this)}).start(newWidth);
         
+    },
+    
+    /**
+     * APIMethod: changeText
+     * This method should be overridden by subclasses. It should be used
+     * to change any language specific default text that is used by the widget.
+     * 
+     * Parameters:
+     * lang - the language being changed to or that had it's data set of 
+     * 		translations changed.
+     */
+    changeText: function (lang) {
+    	this.parent();
+    	this.options.messageText = MooTools.lang.get('Jx','progressbar').messageText;
+        this.options.progressText = MooTools.lang.get('Jx','progressbar').progressText;
+        //The text will change the next time update is called.
     }
     
 });

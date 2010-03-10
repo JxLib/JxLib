@@ -128,7 +128,7 @@ Jx.Form = new Class({
      * Determines if the form passes validation
      *
      * Parameters:
-     * evt - the Mootools event object
+     * evt - the MooTools event object
      */
     isValid : function (evt) {
         return true;
