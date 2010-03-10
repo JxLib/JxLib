@@ -45,7 +45,7 @@ Jx.Plugin.Grid.Editor = new Class({
        */
       popup : {
         use           : false,
-        useLabel      : true,
+        useLabels     : false,
         useCloseIcon  : false,      // do we need this? 
         useButtons    : true,
         button        : {
@@ -288,11 +288,37 @@ Jx.Plugin.Grid.Editor = new Class({
      * @return void
      */
     detach: function() {
-        if (this.grid) {
-            this.grid.removeEvent('gridClick', this.bound.activate);
-        }
-        this.grid = null;
-        this.keyboard = null;
+      if (this.grid) {
+        this.grid.removeEvent('gridClick', this.bound.activate);
+      }
+      this.grid = null;
+      this.keyboard = null;
+    },
+    /**
+     * APIMethod: enable
+     * enables the grid 'externally'
+     *
+     * @return void
+     */
+    enable : function () {
+      this.options.enabled = true;
+    },
+    setOption : function(option) {
+
+    },
+    /**
+     * APIMethod: disable
+     * disables the grid 'externally'
+     *
+     * @var Boolean close - default true: also closes the currently open input/popup
+     * @return void
+     */
+    disable : function(close) {
+      close = $defined(close) ? close : true;
+      if(close && this.activeCell.cell != null) {
+        this.deactivate(false);
+      }
+      this.options.enabled = false;
     },
     /**
      * Method: activate
@@ -540,7 +566,7 @@ Jx.Plugin.Grid.Editor = new Class({
      * @return {Object} newValue
      */
     checkValue : function(newValue) {
-      if(this.activeCell.colOptions.validate) {
+      if(this.options.validate) {
         var valueTmp;
         switch(this.activeCell.colOptions.dataType) {
           case 'date':
@@ -665,6 +691,7 @@ Jx.Plugin.Grid.Editor = new Class({
         });
         this.activeCell.field.domObj.inject(this.popup.innerWrapper, 'top');
         this.popup.domObj.show();
+        this.setPopUpButtons();
         this.setPopUpStylesAfterRendering();
       }else{
         this.createPopUp(cell);
@@ -728,28 +755,11 @@ Jx.Plugin.Grid.Editor = new Class({
         }).inject(innerWrapper);
       }
 
-      if(this.options.popup.useButtons) {
-        submit = new Jx.Button({
-          label : this.options.popup.button.submit.label,
-          image : this.options.popup.button.submit.image,
-          onClick: function() { 
-            self.deactivate(true);
-          }
-        }).addTo(innerWrapper);
-        cancel = new Jx.Button({
-          label : this.options.popup.button.cancel.label,
-          image : this.options.popup.button.cancel.image,
-          onClick: function() { 
-            self.deactivate(false);
-          }
-        }).addTo(innerWrapper);
-      }
 
       this.popup.domObj         = popup;
       this.popup.innerWrapper   = innerWrapper;
       this.popup.closeIcon      = closeIcon;
-      this.popup.buttons.submit = submit;
-      this.popup.buttons.cancel = cancel;
+      this.setPopUpButtons();
 
       this.activeCell.field.domObj.inject(this.popup.innerWrapper, 'top');
       this.popup.domObj.inject(document.body);
@@ -766,13 +776,59 @@ Jx.Plugin.Grid.Editor = new Class({
      * @return void
      */
     setPopUpStylesAfterRendering: function() {
-      if(this.options.popup.useButtons) {
+      if(this.options.popup.useButtons && this.popup.buttons.submit != null && this.popup.buttons.cancel != null) {
         this.popup.domObj.setStyle('min-width', this.popup.buttons.submit.domObj.getSize().x + this.popup.buttons.cancel.domObj.getSize().x + "px");
+      }else{
+        if(this.popup.buttons.submit != null)
+          this.popup.buttons.submit.domObj.hide();
+        if(this.popup.buttons.cancel != null)
+          this.popup.buttons.cancel.domObj.hide();
       }
       this.activeCell.field.field.setStyle('width',
         this.activeCell.field.type == 'Select' ?
           this.popup.domObj.getSize().x - 7 + "px" :
           this.popup.domObj.getSize().x - 17 + "px");
+    },
+    /**
+     * Method: setPopUpButtons
+     * creates the PopUp Buttons if enabled in options or deletes them if set to false
+     *
+     * @return void
+     */
+    setPopUpButtons : function(innerWrapper) {
+      var self = this,
+          buttons = {
+          submit : null,
+          cancel : null
+        };
+      // check if buttons are needed, innerWrapper exists and no buttons already exist
+      if(this.options.popup.useButtons && this.popup.innerWrapper != null && this.popup.buttons.submit == null) {
+        buttons.submit = new Jx.Button({
+          label : this.options.popup.button.submit.label,
+          image : this.options.popup.button.submit.image,
+          onClick: function() {
+            self.deactivate(true);
+          }
+        }).addTo(this.popup.innerWrapper);
+        buttons.cancel = new Jx.Button({
+          label : this.options.popup.button.cancel.label,
+          image : this.options.popup.button.cancel.image,
+          onClick: function() {
+            self.deactivate(false);
+          }
+        }).addTo(this.popup.innerWrapper);
+      }else if(this.options.popup.useButtons && this.popup.buttons.submit != null) {
+        buttons = {
+          submit : this.popup.buttons.submit,
+          cancel : this.popup.buttons.cancel
+        };
+      // check if buttons are not needed and buttons already exist to remove them
+      }else if(this.options.popup.useButtons == false && this.popup.buttons.submit != null) {
+        this.popup.buttons.submit.cleanup();
+        this.popup.buttons.cancel.cleanup();
+      }
+
+      this.popup.buttons = buttons;
     },
     /**
      * Method: unsetActiveField
@@ -798,7 +854,21 @@ Jx.Plugin.Grid.Editor = new Class({
         //popup         : null,   // do not destroy the popup, it might be used again
         colOptions    : {},
         coords        : {},
-        fieldOptions  : {}
+        fieldOptions  : {},
+        validator     : null
+      }
+    },
+    /**
+     * Method: unsetPopUp
+     * resets the popup manually to be able to use it with different settings
+     */
+    unsetPopUp : function() {
+      if(this.popup.domObj != null) {
+        this.popup.domObj.destroy();
+        this.popup.innerWrapper   = null;
+        this.popup.closeIcon      = null;
+        this.popup.buttons.submit = null;
+        this.popup.buttons.cancel = null;
       }
     },
     /**
@@ -954,7 +1024,7 @@ Jx.Plugin.Grid.Editor = new Class({
      */
     cellIsInGrid: function(row, index) {
       if($defined(row) && $defined(index)) {
-        console.log("Row %i - max Rows: %i, Col %i - max Cols %i", row, this.grid.gridTableBody.rows.length, index, this.grid.gridTableBody.rows[row].cells.length);
+        //console.log("Row %i - max Rows: %i, Col %i - max Cols %i", row, this.grid.gridTableBody.rows.length, index, this.grid.gridTableBody.rows[row].cells.length);
         if( row >= 0 && index >= 0 &&
             row <= this.grid.gridTableBody.rows.length &&
             index <= this.grid.gridTableBody.rows[row].cells.length

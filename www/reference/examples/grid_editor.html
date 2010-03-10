@@ -1,0 +1,402 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://purl.org/NET/erdf/profile">
+ <title>Jx.Grid Editor Test Page</title>
+
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+  <link rel="stylesheet" type="text/css" href="lib/themes/crispin/jxtheme.css" />
+
+<script type="text/javascript" src="../../lib/mootools-core.js"></script>
+<script type="text/javascript" src="../../lib/mootools-more.js"></script>
+<script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
+<script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+var grid;
+var panel;
+var aboutDialog;
+var prelighter;
+var selector;
+var sorter;
+var resizer;
+var editor;
+var editorOptions;
+
+window.addEvent('load', function() {
+
+    prelighter = new Jx.Plugin.Grid.Prelighter({});
+    selector = new Jx.Plugin.Grid.Selector({});
+    sorter = new Jx.Plugin.Grid.Sorter({});
+    resizer = new Jx.Plugin.Grid.Resize({});
+
+    editorOptions = {
+      validate   : true,
+      blurDelay : false,
+      popup : {
+        use        : true,
+        useButtons : true,
+        useLabels  : false,
+        button : {
+          submit : {
+            label : 'Submit'
+          },
+          cancel : {
+            label : 'Abort'
+          }
+        }
+      },
+      fieldOptions : [
+        {
+          field   : 'name',
+          type    : 'Text',
+          validatorOptions: {
+            validators : ['minLength:4'],
+            validateOnBlur: true,
+            validateOnChange : true
+          }
+        },
+        {
+          field   : 'active',
+          type    : 'Select',
+          options : {
+            comboOpts: [
+              { value: 'true',  text: 'true'  },
+              { value: 'false', text: 'false' },
+              { value: '1', text: '11' },
+              { value: '2', text: '22' },
+              { value: 3, text: '33' },
+              { value: 4, text: '44' },
+              { value: 5, text: '55' }
+            ]
+          }
+        }
+      ],
+      fieldFormatted : true,
+      cellChangeFx : {
+
+      },
+      useKeyboard : true
+    }
+
+    editor = new Jx.Plugin.Grid.Editor(editorOptions);
+
+    drawToolbar();
+    drawGrid();
+
+    window.addEvent('stylesheetChanged', function() {
+        if (aboutDialog && aboutDialog.chrome) {
+            aboutDialog.close();
+            aboutDialog.chrome.dispose();
+            aboutDialog.chrome = null;
+        }
+    });
+
+});
+</script>
+<script id="toolbarScript" type="text/javascript">
+function drawToolbar() {
+    /* this sets up some options for controlling the grid via
+     * a menu and then creates a panel to host the grid in
+     * The actual grid code is in another sample
+     */
+    new Jx.Menu({label: 'Row Options'}).addTo('buttons').add([
+        new Jx.Menu.Item({
+            label: 'Row Prelight',
+            toggle: true,
+            onDown: function() { prelighter.activate('row'); },
+            onUp: function() { prelighter.deactivate('row'); }
+        }),
+        new Jx.Menu.Item({
+            label: 'Row Header Prelight',
+            toggle: true,
+            onDown: function() { prelighter.activate('rowHeader'); },
+            onUp: function() { prelighter.deactivate('rowHeader'); }
+        }),
+        new Jx.Menu.Item({
+            label: 'Row Selection',
+            toggle: true,
+            onDown: function() { selector.activate('row'); },
+            onUp: function() { selector.deactivate('row'); }
+        })]
+    );
+    new Jx.Menu({label: 'Column Options'}).addTo('buttons').add([
+        new Jx.Menu.Item({
+            label: 'Column Resize',
+            toggle: true,
+            onDown: function() { resizer.activate('column'); },
+            onUp: function() { resizer.deactivate('column'); }
+        }),
+        new Jx.Menu.Item({
+            label: 'Column Prelight',
+            toggle: true,
+            onDown: function() { prelighter.activate('column'); },
+            onUp: function() { prelighter.deactivate('column'); }
+        }),
+        new Jx.Menu.Item({
+            label: 'Column Header Prelight',
+            toggle: true,
+            onDown: function() { prelighter.activate('columnHeader'); },
+            onUp: function() { prelighter.deactivate('columnHeader'); }
+        }),
+        new Jx.Menu.Item({
+            label: 'Column Selection',
+            toggle: true,
+            onDown: function() { selector.activate('column'); },
+            onUp: function() { selector.deactivate('column'); }
+        })]
+    );
+    new Jx.Menu({label: 'Cell Options'}).addTo('buttons').add([
+        new Jx.Menu.Item({
+            label: 'Cell Prelight',
+            toggle: true,
+            active: true,
+            onDown: function() { prelighter.activate('cell'); },
+            onUp: function() { prelighter.deactivate('cell'); }
+        }),
+        new Jx.Menu.Item({
+            label: 'Cell Selection',
+            toggle: true,
+            onDown: function() { selector.activate('cell'); },
+            onUp: function() { selector.deactivate('cell'); }
+        })]
+    );
+    new Jx.Menu({label: 'Inline Editor Options'}).addTo('buttons').add([
+        new Jx.Menu.Item({
+            label: 'Enable Inline Editing',
+            toggle: true,
+            active: true,
+            onDown: function() { editor.enable(); },
+            onUp: function() { editor.disable(); }
+        }),
+        new Jx.Menu.Item({
+            label: 'Close On Blur',
+            toggle: true,
+            active: true,
+            onDown: function() { editor.options.blurDelay = 500; },
+            onUp: function() { editor.options.blurDelay = false; }
+        }),
+        new Jx.Menu.SubMenu({
+            label: 'PopUp Options'
+        }).add([
+          new Jx.Menu.Item({
+              label: 'Input Field only',
+              toggle: true,
+              active: !editorOptions.popup.use,
+              onDown: function() { editor.options.popup.use = false; },
+              onUp: function() { editor.options.popup.use = true; }
+          }),
+          new Jx.Menu.Item({
+              label: 'PopUp Label',
+              toggle: true,
+              active: editorOptions.popup.useLabels,
+              onDown: function() { editor.options.popup.useLabels = true; },
+              onUp: function() { editor.options.popup.useLabels = false; }
+          }),
+          new Jx.Menu.Item({
+              label: 'PopUp Use Buttons',
+              toggle: true,
+              active: editorOptions.popup.useButtons,
+              onDown: function() { editor.options.popup.useButtons = true; },
+              onUp: function() { editor.options.popup.useButtons = false; }
+          })
+        ]),
+        new Jx.Menu.Item({
+            label: 'Field Validation',
+            toggle: true,
+            active: editorOptions.validate,
+            onDown: function() { editor.options.validate = true; },
+            onUp: function() { editor.options.validate = false; }
+        }),
+        new Jx.Menu.Item({
+            label: 'Field Formatted',
+            toggle: true,
+            active: editorOptions.fieldFormatted,
+            onDown: function() { editor.options.fieldFormatted = true; },
+            onUp: function() { editor.options.fieldFormatted = false; }
+        }),
+        new Jx.Menu.Item({
+            label: 'Keyboard Support',
+            toggle: true,
+            active: editorOptions.useKeyboard,
+            onDown: function() { editor.options.useKeyboard = true; },
+            onUp: function() { editor.options.useKeyboard = false; }
+        }),
+        new Jx.Menu.Item({
+            label: '',
+            toggle: true,
+            active: editorOptions.useKeyboard,
+            onDown: function() { editor.options.useKeyboard = true; },
+            onUp: function() { editor.options.useKeyboard = false; }
+        })
+      ]
+    );
+    aboutDialog = null;
+    new Jx.Button({
+        label: 'About',
+        onClick: function() {
+            if (!aboutDialog) {
+                aboutDialog = new Jx.Dialog({
+                    label: 'About',
+                    contentURL: 'grid_about.html',
+                    width: 400,
+                    height: 400,
+                    modal: true
+                });
+            }
+            aboutDialog.show();
+        }
+    }).addTo('buttons');
+
+}
+</script>
+<script id="gridScript" type="text/javascript">
+  function drawGrid() {
+    var model = [
+        {'id':1,'name':'<img src="http://famfamfam.com/lab/icons/silk/icons/sport_soccer.png" />','dob':'12/4/1974','active':'true','duesLeft':30,'phone':'16753780987'},
+        {'id':2,'name':'Bob Smith','dob':'8/4/1987','active':'false','duesLeft':0,'phone':'867-465-3686'},
+        {'id':3,'name':'Joe Black','dob':'5/25/1963','active':true,'duesLeft':10,'phone':'1(857) 467-9847'},
+        {'id':4,'name':'Betty White','dob':'6/3/1979','active':true,'duesLeft':45,'phone':'2748467384'},
+        {'id':5,'name':'Greg Little','dob':'5/3/1993','active':false,'duesLeft':19.89,'phone':'9676574583'},
+        {'id':6,'name':'Andrew long','dob':'7/19/1982','active':true,'duesLeft':15,'phone':'5679857865'},
+        {'id':7,'name':'Jason Lee','dob':'4/13/1977','active':false,'duesLeft':14,'phone':'9786456753'},
+        {'id':8,'name':'Elizabeth Freeman','dob':'7/3/1994','active':true,'duesLeft':5,'phone':'9567563426'},
+        {'id':9,'name':'Bob Red','dob':'8/5/1972','active':true,'duesLeft':74,'phone':'2637485769'},
+        {'id':10,'name':'Russel Stover','dob':'9/10/1969','active':'1','duesLeft':65,'phone':'8474657839'},
+        {'id':11,'name':'Granny Smith','dob':'10/28/1985','active':'2','duesLeft':0,'phone':'6748485948'},
+        {'id':12,'name':'Reba Butterworth','dob':'11/11/1989','active':4,'duesLeft':0,'phone':'7584985767'},
+        {'id':13,'name':'Frank Gillis','dob':'2/3/1976','active':3,'duesLeft':5,'phone':'4758693094'}
+    ];
+
+    var parser = new Jx.Store.Parser.JSON();
+    var full = new Jx.Store.Strategy.Full();
+    var sort = new Jx.Store.Strategy.Sort({sortOnStoreEvents: null});
+
+    var store = new Jx.Store({
+      columns: [
+        {name: 'id',       type: 'numeric'},
+        {name: 'name',     type: 'alphanumeric'},
+        {name: 'dob',      type: 'date'},
+        {name: 'active',   type: 'boolean'},
+        {name: 'duesLeft', type: 'currency'},
+        {name: 'phone',    type: 'alphanumeric'}
+      ],
+      protocol: new Jx.Store.Protocol.Local(model,{parser: parser}),
+      strategies: [full,sort],
+      record: Jx.Record
+    });
+    /*
+      var currencyFormatter = new Jx.Formatter.Currency();
+      var dateFormatter = new Jx.Formatter.Date();
+      var booleanFormatter = new Jx.Formatter.Boolean();
+  */
+    //setup options
+    var options = {
+        parent: 'gridArea',
+        row: {
+          useHeaders: true,
+          alternateRowColors: true,
+          headerField: 'id',
+          rowHeight: 20
+        },
+        columns: {
+          headerRowHeight: 20,
+          useHeaders: true,
+          columns: [{
+            header: 'Id',
+            modelField: 'id',
+            name: 'id',
+            isEditable: true,
+            isSortable: true,
+            isResizable: true,
+            dataType: 'numeric'
+          },{
+            header: 'Name',
+            modelField: 'name',
+            formatter: null,
+            name: 'name',
+            isEditable: true,
+            isSortable: true,
+            isResizable: true,
+            validate: true,
+            dataType: 'alphanumeric'
+          },{
+            header: 'Date of Birth',
+            modelField: 'dob',
+            formatter: {
+              name : 'Date',
+              options: {}
+            },
+            name: 'dob',
+            isEditable: true,
+            isSortable: true,
+            isResizable: true,
+            validate: true,
+            dataType: 'date'
+          },{
+            header: 'Active?',
+            modelField: 'active',
+            formatter: null,
+            name: 'active',
+            isEditable: true,
+            isSortable: true,
+            isResizable: true,
+            validate: true,
+            dataType: 'boolean'
+          },{
+            header: 'Dues Left',
+            modelField: 'duesLeft',
+            formatter: null,
+            name: 'duesLeft',
+            isEditable: true,
+            isSortable: true,
+            isResizable: true,
+            dataType: 'numeric'
+          },{
+            header: 'Home Phone',
+            modelField: 'phone',
+            formatter: {
+              name:'Phone',
+              options: {}
+            },
+            name: 'phone',
+            isEditable: true,
+            isSortable: true,
+            isResizable: true,
+            dataType: 'alphanumeric'
+          }
+         ]
+        },
+        model: store
+    };
+    //create grid
+    var grid = new Jx.Grid(options);
+//    grid.render();
+
+    store.addEvent('storeDataLoaded', function () {
+      grid.render();
+      prelighter.attach(grid);
+      selector.attach(grid);
+      sorter.attach(grid);
+      resizer.attach(grid);
+      editor.attach(grid);
+    });
+    store.load();
+
+  }
+</script>
+
+<style type="text/css">
+	div.gridBox { top: 50px; position: absolute; }
+</style>
+
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+	<div id="gridArea" class="gridBox"></div>
+	<div id="buttons" class="buttonBox"></div>
+
+</body>
+</html>
