@@ -51,34 +51,44 @@ Jx.Plugin.Grid.Editor = new Class({
         button        : {
           submit : {
             label : 'Save',
-            image : 'images/accept.png'
+            image : 'http://famfamfam.com/lab/icons/silk/icons/accept.png'
           },
           cancel : {
             label : 'Cancel',
-            image : 'images/cancel.png'
+            image : 'http://famfamfam.com/lab/icons/silk/icons/cancel.png'
           }
         },
         template: '<div class="jxGridEditorPopup"><div class="jxGridEditorPopupInnerWrapper"></div></div>'
       },
+      /**
+       * Option {boolean} validate
+       * - set to true to have all editable input fields as mandatory field
+       *   if they don't have 'mandatory:true' in their colOptions
+       */
+      validate : true,
       /**
        * Option: {Array} fieldOptions with objects
        * Contains objects with options for the Jx.Field instances to show up.
        * Default options will be added automatically if custom options are entered.
        *
        * Preferences:
-       *   field   - Default * for all types or the name of the column in the model (Jx.Store)
-       *   type    - Input type to show (Text, Password, Textarea, Select, Checkbox)
-       *   options - All Jx.Field options for this column. More options depend on what type you are using.
-       *             See Jx.Form.[yourField] for details
-       *   popup   - options for every column to use a popup or not. All values set to 'default' by default
-       *             to use what is set in this.options.popup. This allowes every field to
-       *             have different settings for every column if needed.
+       *   field             - Default * for all types or the name of the column in the model (Jx.Store)
+       *   type              - Input type to show (Text, Password, Textarea, Select, Checkbox)
+       *   options           - All Jx.Field options for this column. More options depend on what type you are using.
+       *                       See Jx.Form.[yourField] for details
+       *   validatorOptions: - See Jx.Plugin.Field.Validator Options for details
+       *                       will only be used if this.options.validate is set to true
        */
       fieldOptions : [
         {
           field   : '*',
           type    : 'Text',
-          options : {}
+          options : {},
+          validatorOptions: {
+            validators : [],
+            validateOnBlur: true,
+            validateOnChange : false
+          }
         }
       ],
       /**
@@ -86,14 +96,6 @@ Jx.Plugin.Grid.Editor = new Class({
        * Displays the cell value also inside the input field as formatted
        */
       fieldFormatted : true,
-      /**
-       * Option {Object} mandatory
-       *    force       - set force to true to have all editable input fields as mandatory field
-       *                  if they don't have 'mandatory:true' in their colOptions
-       */
-      mandatory : {
-        force : false
-      },
       /**
        * Option cellChangeFx
        * set use to false if no highlighting effect is wanted.
@@ -236,7 +238,12 @@ Jx.Plugin.Grid.Editor = new Class({
         this.options.fieldOptions.unshift({
           field   : '*',
           type    : 'Text',
-          options : {}
+          options : {},
+          validatorOptions: {
+            validators : [],
+            validateOnBlur: true,
+            validateOnChange : false
+          }
         });
       }
 
@@ -258,6 +265,7 @@ Jx.Plugin.Grid.Editor = new Class({
         saveNGoUp      : function(ev) {ev.preventDefault();self.getPrevCellInCol()},
         saveNGoRight   : function(ev) {ev.preventDefault();self.getNextCellInRow()},
         saveNGoLeft    : function(ev) {ev.preventDefault();self.getPrevCellInRow()},
+        cancelNGoRight : function(ev) {ev.preventDefault();self.getNextCellInRow(false)},
         cancelNClose   : function(ev) {ev.preventDefault();self.deactivate(false)},
         valueIncrement : function(ev) {ev.preventDefault();self.cellValueIncrement(true)},
         valueDecrement : function(ev) {ev.preventDefault();self.cellValueIncrement(false)}
@@ -323,19 +331,21 @@ Jx.Plugin.Grid.Editor = new Class({
 
         // set active record index to selected row
         model.moveTo(row);
-          // store properties of the active cell
-          this.activeCell = {
-            oldValue      : model.get(data.index),
-            fieldOptions  : this.getFieldOptionsByColName(colOptions.name),
-            colOptions    : colOptions,
-            coords        : { row : row, index : index },
-            cell          : cell,
-            span          : cell.getElement('span.jxGridCellContent')
-          }
+        
+        // store properties of the active cell
+        this.activeCell = {
+          oldValue      : model.get(data.index),
+          fieldOptions  : this.getFieldOptionsByColName(colOptions.name),
+          colOptions    : colOptions,
+          coords        : { row : row, index : index },
+          cell          : cell,
+          span          : cell.getElement('span.jxGridCellContent'),
+          validator     : null
+        }
 
-        // check if mandatory flag exists - otherwise use mandatoryDefault options
-        if(!$defined(this.activeCell.colOptions.mandatory) || typeof(this.activeCell.colOptions.mandatory) != 'boolean') {
-          this.activeCell.colOptions.mandatory = this.options.mandatory.force;
+        // check if this column has special validation settings - otherwise use default from this.options.validate
+        if(!$defined(this.activeCell.colOptions.validate) || typeof(this.activeCell.colOptions.validate) != 'boolean') {
+          this.activeCell.colOptions.validate = this.options.validate;
         }
 
         var jxFieldOptions = $defined(this.activeCell.fieldOptions.options) ? this.activeCell.fieldOptions.options : {}
@@ -368,20 +378,35 @@ Jx.Plugin.Grid.Editor = new Class({
           case 'Radio':
           case 'Checkbox':
           default:
-            alert("Fieldtype \""+this.activeCell.fieldOptions.type+"\" is not supported yet :(");
+            alert("Fieldtype \""+this.activeCell.fieldOptions.type+"\" is not supported yet :(\nIf you have set a validator for a column, you maybe have forgotton to enter a field type.");
             return;
             break;
         }
 
+        // update the 'oldValue' to the formatted style, to compare the new value with the formatted one instead with the non-formatted-one
         if(this.options.fieldFormatted && this.activeCell.colOptions.formatter != null) {
           jxFieldOptions.value = this.activeCell.colOptions.formatter.format(jxFieldOptions.value);
-          // update the 'oldValue' to the formatted style, to compare the new value with the formatted one instead with the non-formatted-one
           this.activeCell.oldValue = jxFieldOptions.value;
         }
 
+        // create jx.field
         this.activeCell.field = new Jx.Field[this.activeCell.fieldOptions.type](jxFieldOptions);
+        // create validator
+        if(this.options.validate && this.activeCell.colOptions.validate) {
+          var validator = new Jx.Plugin.Field.Validator(this.activeCell.fieldOptions.validatorOptions);
+          validator.addEvent('fieldValidationFailed', function(field, validator) {
+            console.log(field, validator);
+          });
+          validator.addEvent('fieldValidationPassed', function(field, validator) {
+            console.log(field, validator);
+          });
+          this.activeCell.validator = validator;
+          this.activeCell.validator.attach(this.activeCell.field);
+          console.log(this.activeCell,this.activeCell.fieldOptions.validatorOptions);
+        }
         this.activeCell.field.render();
         this.setStyles(cell);
+
 
         if(this.options.useKeyboard) {
           this.keyboard.activate();
@@ -391,13 +416,16 @@ Jx.Plugin.Grid.Editor = new Class({
         if(typeof(this.options.blurDelay) == 'string') {
           this.options.blurDelay = this.options.blurDelay.toInt() ? this.options.blurDelay.toInt() : false;
         }
-        
+
+        // add a onblur() and onfocus() event to the input field if enabled.
         if(this.options.blurDelay !== false && typeof(this.options.blurDelay) == 'number') {
           var self = this;
           this.activeCell.field.field.addEvents({
+            // activate the timeout to close the input/poup
             'blur' : function() {
               self.activeCell.timeoutId = self.bound.deactivate.delay(self.options.blurDelay);
             },
+            // clear the timeout when the user focusses again
             'focus' : function() {
               clearTimeout(self.activeCell.timeoutId);
             }
@@ -419,18 +447,18 @@ Jx.Plugin.Grid.Editor = new Class({
      * value has changed
      *
      * Parameters:
-     * @var {Boolean} update (Optional, default: true)
+     * @var {Boolean} save (Optional, default: true) - force aborting
      * @return true if no data error occured, false if error (popup/input stays visible)
      */
-    deactivate: function(update) {
+    deactivate: function(save) {
       if(this.activeCell.field != null) {
-        update = $defined(update) ? update : true;
+        save = $defined(save) ? save : true;
 
         var valueNew = { data : null, error : false };
         clearTimeout(this.activeCell.timeoutId);
 
         // update the value in the model
-        if(update && this.activeCell.field.getValue().toString() != this.activeCell.oldValue.toString()) {
+        if(save && this.activeCell.field.getValue().toString() != this.activeCell.oldValue.toString()) {
           this.grid.model.moveTo(this.activeCell.coords.row);
           /*
            * @todo webkit shrinks the rows when the value is updated... but refreshing the grid
@@ -465,7 +493,6 @@ Jx.Plugin.Grid.Editor = new Class({
           // update reference to activeCell
           this.activeCell.cell = this.grid.gridTableBody.rows[this.activeCell.coords.row].cells[this.activeCell.coords.index-1];
 
-          //this.activeCell.cell = this.grid.columns.getColumnCell(this.grid.columns.getByName(this.activeCell.colOptions.name));
         }else{
           this.activeCell.span.show();
         }
@@ -513,7 +540,7 @@ Jx.Plugin.Grid.Editor = new Class({
      * @return {Object} newValue
      */
     checkValue : function(newValue) {
-      if(this.activeCell.colOptions.mandatory) {
+      if(this.activeCell.colOptions.validate) {
         var valueTmp;
         switch(this.activeCell.colOptions.dataType) {
           case 'date':
@@ -780,9 +807,11 @@ Jx.Plugin.Grid.Editor = new Class({
      * otherwise the focus jumps to the next editable cell in the next row
      * or starts at the beginning
      *
+     * @var  {Boolean} save (Optional, default: true)
      * @return void
      */
-    getNextCellInRow: function() {
+    getNextCellInRow: function(save) {
+      save = $defined(save) ? save : true;
       var nextCell = true, nextRow = true;
       var i = 0;
       do {
@@ -801,7 +830,10 @@ Jx.Plugin.Grid.Editor = new Class({
             index = data.index;
         i++;
       }while(!data.col.options.isEditable);
-      
+
+      if(save === false) {
+        this.deactivate(false);
+      }
       this.grid.selection.select(nextCell);
     },
     /**
@@ -810,9 +842,11 @@ Jx.Plugin.Grid.Editor = new Class({
      * otherwise the focus jumps to the previous editable cell in the previous row
      * or starts at the last cell in the last row at the end
      *
+     * @var  {Boolean} save (Optional, default: true)
      * @return void
      */
-    getPrevCellInRow: function() {
+    getPrevCellInRow: function(save) {
+      save = $defined(save) ? save : true;
       var prevCell, prevRow, i = 0;
       do {
         prevCell = i > 0 ? prevCell.getPrevious() : this.activeCell.cell.getPrevious();
@@ -832,6 +866,9 @@ Jx.Plugin.Grid.Editor = new Class({
         i++;
       }while(!data.col.options.isEditable);
 
+      if(save === false) {
+        this.deactivate(false);
+      }
       this.grid.selection.select(prevCell);
     },
     /**
