@@ -271,7 +271,7 @@ Jx.Button.Multi = new Class({
     setActiveButton: function(button) {
         if (this.activeButton) {
             this.activeButton.domA.dispose();
-            this.activeButton.domA.removeEvent(this.clickHandler);
+            this.activeButton.domA.removeEvent('click', this.clickHandler);
         }
         if (button && button.domA) {
             this.domObj.grab(button.domA, 'top');
