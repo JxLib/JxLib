@@ -77,12 +77,13 @@ window.addEvent('load', function() {
 
       },
       useKeyboard : true
-    }
+    };
 
     editor = new Jx.Plugin.Grid.Editor(editorOptions);
 
+
+    grid = drawGrid();
     drawToolbar();
-    drawGrid();
 
     window.addEvent('stylesheetChanged', function() {
         if (aboutDialog && aboutDialog.chrome) {
@@ -144,7 +145,47 @@ function drawToolbar() {
             toggle: true,
             onDown: function() { selector.activate('column'); },
             onUp: function() { selector.deactivate('column'); }
-        })]
+        }),
+        new Jx.Menu.SubMenu({
+            label: 'Columns Editable'
+        }).add([
+          new Jx.Menu.Item({
+              label: 'Name',
+              toggle: true,
+              active: true,
+              onDown: function() { grid.columns.getByName('name').options.isEditable = true },
+              onUp: function() { grid.columns.getByName('name').options.isEditable = false }
+          }),
+          new Jx.Menu.Item({
+              label: 'Date of Birth',
+              toggle: true,
+              active: true,
+              onDown: function() { grid.columns.getByName('dob').options.isEditable = true },
+              onUp: function() { grid.columns.getByName('dob').options.isEditable = false }
+          }),
+          new Jx.Menu.Item({
+              label: 'Active?',
+              toggle: true,
+              active: true,
+              onDown: function() { grid.columns.getByName('active').options.isEditable = true },
+              onUp: function() { grid.columns.getByName('active').options.isEditable = false }
+          }),
+          new Jx.Menu.Item({
+              label: 'Dues Left',
+              toggle: true,
+              active: true,
+              onDown: function() { grid.columns.getByName('duesLeft').options.isEditable = true },
+              onUp: function() { grid.columns.getByName('duesLeft').options.isEditable = false }
+          }),
+          new Jx.Menu.Item({
+              label: 'Home Phone',
+              toggle: true,
+              active: true,
+              onDown: function() { grid.columns.getByName('phone').options.isEditable = true },
+              onUp: function() { grid.columns.getByName('phone').options.isEditable = false }
+          }),
+        ])
+      ]
     );
     new Jx.Menu({label: 'Cell Options'}).addTo('buttons').add([
         new Jx.Menu.Item({
@@ -176,31 +217,6 @@ function drawToolbar() {
             onDown: function() { editor.options.blurDelay = 500; },
             onUp: function() { editor.options.blurDelay = false; }
         }),
-        new Jx.Menu.SubMenu({
-            label: 'PopUp Options'
-        }).add([
-          new Jx.Menu.Item({
-              label: 'Input Field only',
-              toggle: true,
-              active: !editorOptions.popup.use,
-              onDown: function() { editor.options.popup.use = false; },
-              onUp: function() { editor.options.popup.use = true; }
-          }),
-          new Jx.Menu.Item({
-              label: 'PopUp Label',
-              toggle: true,
-              active: editorOptions.popup.useLabels,
-              onDown: function() { editor.options.popup.useLabels = true; },
-              onUp: function() { editor.options.popup.useLabels = false; }
-          }),
-          new Jx.Menu.Item({
-              label: 'PopUp Use Buttons',
-              toggle: true,
-              active: editorOptions.popup.useButtons,
-              onDown: function() { editor.options.popup.useButtons = true; },
-              onUp: function() { editor.options.popup.useButtons = false; }
-          })
-        ]),
         new Jx.Menu.Item({
             label: 'Field Validation',
             toggle: true,
@@ -228,7 +244,32 @@ function drawToolbar() {
             active: editorOptions.useKeyboard,
             onDown: function() { editor.options.useKeyboard = true; },
             onUp: function() { editor.options.useKeyboard = false; }
-        })
+        }),
+        new Jx.Menu.SubMenu({
+            label: 'PopUp Options'
+        }).add([
+          new Jx.Menu.Item({
+              label: 'Input Field only',
+              toggle: true,
+              active: !editorOptions.popup.use,
+              onDown: function() { editor.options.popup.use = false; },
+              onUp: function() { editor.options.popup.use = true; }
+          }),
+          new Jx.Menu.Item({
+              label: 'PopUp Label',
+              toggle: true,
+              active: editorOptions.popup.useLabels,
+              onDown: function() { editor.options.popup.useLabels = true; },
+              onUp: function() { editor.options.popup.useLabels = false; }
+          }),
+          new Jx.Menu.Item({
+              label: 'PopUp Use Buttons',
+              toggle: true,
+              active: editorOptions.popup.useButtons,
+              onDown: function() { editor.options.popup.useButtons = true; },
+              onUp: function() { editor.options.popup.useButtons = false; }
+          })
+        ])
       ]
     );
     aboutDialog = null;
@@ -383,11 +424,13 @@ function drawToolbar() {
     });
     store.load();
 
+    return grid;
+
   }
 </script>
 
 <style type="text/css">
-	div.gridBox { top: 50px; position: absolute; }
+	div.gridBox { }
 </style>
 
 <script type="text/javascript">
@@ -395,8 +438,30 @@ function drawToolbar() {
 </script>
 </head>
 <body>
-	<div id="gridArea" class="gridBox"></div>
+    <h1>Jx.Grid Example with Inline Editor Plugin</h1>
+
+    <p>API Reference: <a id="grid-js" href="javascript:void();" title="link to API Reference">Jx.Grid</a></p>
+    <p>This example demonstrates some basic and advanced ways of using Jx.Grid including the Inline Editor Plugin.</p>
+    <h2 id="toolbar">Grid Options</h2>
+    <p>There are a number of options for configuring a grid, try them out by using the menus to turn various options on and off.</p>
+    <h2 id="grid">The Grid</h2>
+    <p>The grid itself has a lot of options when you first construct it, for this example most of the options are turned off so we can use the menus to demonstrate the effect of turning them on and off.</p>
+    <p>The grid component uses an architecture that requires a separate object to provide the data to the grid through a specific api.  This object is called the model for the grid.  The grid allows the model to be changed at any time and the grid will redraw itself with the new model's data.</p>
+
+    <p>The editor plugin allows the user to control it only using the keyboard with common shortcuts:</p>
+    <ul>
+      <li>[Arrow-Up] - Increase the value inside a cell (numeric and date fields only)</li>
+      <li>[Arrow-Down] - Decrease the value inside a cell (numeric and date fields only)</li>
+      <li>[Tab] - Save and go to the next cell</li>
+      <li>[Shift+Tab] - Save and go to the previous cell</li>
+      <li>[Enter] - Save and close the editor</li>
+      <li>[Esc] - Abort and close the editor</li>
+      <li>[Ctrl+Enter] - Save and go to the next cell below the current one</li>
+      <li>[Ctrl+Shift+Enter] - Save and go to the next cell above the current one</li>
+    </ul>
+
 	<div id="buttons" class="buttonBox"></div>
+	<div id="gridArea" class="gridBox"></div>
 
 </body>
 </html>

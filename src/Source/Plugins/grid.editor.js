@@ -137,7 +137,8 @@ Jx.Plugin.Grid.Editor = new Class({
         'esc'              : 'cancelNClose',
         'up'               : 'valueIncrement',
         'down'             : 'valueDecrement'
-      }
+      },
+      saveUrl : null
     },
     /**
      * Property: bound
@@ -339,11 +340,12 @@ Jx.Plugin.Grid.Editor = new Class({
       // return if a table header was clicked
       if(($defined(data.colHeader) && data.colHeader) || ($defined(data.rowHeader) && data.rowHeader))
         return;
-
-      var row   = data.row,
+      var row   = data.row
+,
           index = data.index;
 
       if(this.cellIsInGrid(row, index)) {
+
         var model      = this.grid.getModel(),
             //cell       = this.grid.gridTableBody.rows[row].cells[col] ? this.grid.gridTableBody.rows[row].cells[col] : null,
             colOptions = this.grid.columns.getByGridIndex(index-1).options;
@@ -511,6 +513,7 @@ Jx.Plugin.Grid.Editor = new Class({
           // save the value
           if(valueNew.data != null && valueNew.error == false) {
             this.grid.model.set(this.activeCell.coords.index, valueNew.data);
+
           // else show error message
           }else if(valueNew.error == true) {
             this.activeCell.span.show();
