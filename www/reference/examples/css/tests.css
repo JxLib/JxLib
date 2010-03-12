@@ -93,6 +93,22 @@ p {
   position: relative;
 }
 
+ul, ol {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: normal;
+  color: #333;
+  margin: 10px 10px 10px 30px;
+  clear: both;
+  position: relative;
+  list-style-type: disc;
+}
+
+ol {
+  list-style-type: decimal;
+}
+
 dl {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
@@ -110,6 +126,10 @@ dt {
 dd {
   display: block;
   margin-left: 40px;
+}
+
+ul {
+
 }
 
 .sourceButton {

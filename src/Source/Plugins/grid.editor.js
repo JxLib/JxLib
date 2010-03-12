@@ -17,6 +17,7 @@
 Jx.Plugin.Grid.Editor = new Class({
 
     Extends : Jx.Plugin,
+    Binds: ['activate','deactivate'],
 
     options : {
       /**
@@ -44,7 +45,7 @@ Jx.Plugin.Grid.Editor = new Class({
        * - buttonLabel.cancel - Text for Cancel Button
        */
       popup : {
-        use           : false,
+        use           : true,
         useLabels     : false,
         useCloseIcon  : false,      // do we need this? 
         useButtons    : true,
@@ -129,22 +130,27 @@ Jx.Plugin.Grid.Editor = new Class({
        * http://mootools.net/docs/more/Interface/Keyboard
        */
       keys : {
-        'enter'            : 'saveNClose',
-        'ctrl+enter'       : 'saveNGoDown',
         'ctrl+shift+enter' : 'saveNGoUp',
         'tab'              : 'saveNGoRight',
+        'ctrl+enter'       : 'saveNGoDown',
         'shift+tab'        : 'saveNGoLeft',
+        'enter'            : 'saveNClose',
+        'ctrl+up'          : 'cancelNGoUp',
+        'ctrl+right'       : 'cancelNGoRight',
+        'ctrl+down'        : 'cancelNGoDown',
+        'ctrl+left'        : 'cancelNGoLeft',
         'esc'              : 'cancelNClose',
         'up'               : 'valueIncrement',
         'down'             : 'valueDecrement'
       },
-      saveUrl : null
+      /**
+       * Option: linkClickListener
+       * disables all click events on links that are formatted with Jx.Formatter.Uri
+       * - otherwise the link will open directly instead of open the input editor)
+       * - hold [ctrl] to open the link in a new tab
+       */
+      linkClickListener : true
     },
-    /**
-     * Property: bound
-     * storage for bound methods useful for working with events
-     */
-    bound: {},
     classes: ['jxGridEditorPopup', 'jxGridEditorPopupInnerWrapper'],
     /**
      * Property: activeCell
@@ -212,8 +218,8 @@ Jx.Plugin.Grid.Editor = new Class({
      */
     init: function() {
       this.parent();
-      this.bound.activate   = this.activate.bind(this);
-      this.bound.deactivate = this.deactivate.bind(this);
+      //this.bound.activate   = this.activate.bind(this);
+      //this.bound.deactivate = this.deactivate.bind(this);
     },
     /**
      * APIMethod: attach
@@ -228,8 +234,8 @@ Jx.Plugin.Grid.Editor = new Class({
       }
       this.grid = grid;
 
-      this.grid.addEvent('gridCellSelect', this.bound.activate);
-      this.grid.addEvent('gridCellUnSelect', this.bound.deactivate);
+      this.grid.addEvent('gridCellSelect', this.activate);
+      this.grid.addEvent('gridCellUnSelect', this.deactivate);
 
       /*
        * add default field options to the options in case some new options were entered
@@ -262,12 +268,15 @@ Jx.Plugin.Grid.Editor = new Class({
             self.deactivate()
           }
         },
-        saveNGoDown    : function(ev) {ev.preventDefault();self.getNextCellInCol()},
         saveNGoUp      : function(ev) {ev.preventDefault();self.getPrevCellInCol()},
         saveNGoRight   : function(ev) {ev.preventDefault();self.getNextCellInRow()},
+        saveNGoDown    : function(ev) {ev.preventDefault();self.getNextCellInCol()},
         saveNGoLeft    : function(ev) {ev.preventDefault();self.getPrevCellInRow()},
-        cancelNGoRight : function(ev) {ev.preventDefault();self.getNextCellInRow(false)},
         cancelNClose   : function(ev) {ev.preventDefault();self.deactivate(false)},
+        cancelNGoUp    : function(ev) {ev.preventDefault();self.getPrevCellInCol(false)},
+        cancelNGoRight : function(ev) {ev.preventDefault();self.getNextCellInRow(false)},
+        cancelNGoDown  : function(ev) {ev.preventDefault();self.getNextCellInCol(false)},
+        cancelNGoLeft  : function(ev) {ev.preventDefault();self.getPrevCellInRow(false)},
         valueIncrement : function(ev) {ev.preventDefault();self.cellValueIncrement(true)},
         valueDecrement : function(ev) {ev.preventDefault();self.cellValueIncrement(false)}
       };
@@ -281,6 +290,8 @@ Jx.Plugin.Grid.Editor = new Class({
       this.keyboard = new Keyboard({
         events: keyboardEvents
       });
+
+      this.addFormatterUriClickListener();
     },
     /**
      * APIMethod: detach
@@ -290,7 +301,7 @@ Jx.Plugin.Grid.Editor = new Class({
      */
     detach: function() {
       if (this.grid) {
-        this.grid.removeEvent('gridClick', this.bound.activate);
+        this.grid.removeEvent('gridClick', this.activate);
       }
       this.grid = null;
       this.keyboard = null;
@@ -303,9 +314,6 @@ Jx.Plugin.Grid.Editor = new Class({
      */
     enable : function () {
       this.options.enabled = true;
-    },
-    setOption : function(option) {
-
     },
     /**
      * APIMethod: disable
@@ -340,9 +348,12 @@ Jx.Plugin.Grid.Editor = new Class({
       // return if a table header was clicked
       if(($defined(data.colHeader) && data.colHeader) || ($defined(data.rowHeader) && data.rowHeader))
         return;
-      var row   = data.row
-,
+      var row   = data.row,
           index = data.index;
+
+      if(Browser.Engine.webkit) {
+        clearTimeout(this.activeCell.timeoutId);
+      }
 
       if(this.cellIsInGrid(row, index)) {
 
@@ -365,7 +376,7 @@ Jx.Plugin.Grid.Editor = new Class({
           oldValue      : model.get(data.index),
           fieldOptions  : this.getFieldOptionsByColName(colOptions.name),
           colOptions    : colOptions,
-          coords        : { row : row, index : index },
+          coords        : {row : row, index : index},
           cell          : cell,
           span          : cell.getElement('span.jxGridCellContent'),
           validator     : null
@@ -413,8 +424,10 @@ Jx.Plugin.Grid.Editor = new Class({
 
         // update the 'oldValue' to the formatted style, to compare the new value with the formatted one instead with the non-formatted-one
         if(this.options.fieldFormatted && this.activeCell.colOptions.formatter != null) {
-          jxFieldOptions.value = this.activeCell.colOptions.formatter.format(jxFieldOptions.value);
-          this.activeCell.oldValue = jxFieldOptions.value;
+          if(!$defined(this.activeCell.colOptions.fieldFormatted) || this.activeCell.colOptions.fieldFormatted == true ) {
+            jxFieldOptions.value = this.activeCell.colOptions.formatter.format(jxFieldOptions.value);
+            this.activeCell.oldValue = jxFieldOptions.value;
+          }
         }
 
         // create jx.field
@@ -451,10 +464,15 @@ Jx.Plugin.Grid.Editor = new Class({
           this.activeCell.field.field.addEvents({
             // activate the timeout to close the input/poup
             'blur' : function() {
-              self.activeCell.timeoutId = self.bound.deactivate.delay(self.options.blurDelay);
+              clearTimeout(self.activeCell.timeoutId);
+              self.activeCell.timeoutId = self.deactivate.delay(self.options.blurDelay);
             },
             // clear the timeout when the user focusses again
             'focus' : function() {
+              clearTimeout(self.activeCell.timeoutId);
+            },
+            // clear the timeout when the user puts the mouse over the input
+            'mouseover' : function() {
               clearTimeout(self.activeCell.timeoutId);
             }
           });
@@ -482,7 +500,7 @@ Jx.Plugin.Grid.Editor = new Class({
       if(this.activeCell.field != null) {
         save = $defined(save) ? save : true;
 
-        var valueNew = { data : null, error : false };
+        var valueNew = {data : null, error : false};
         clearTimeout(this.activeCell.timeoutId);
 
         // update the value in the model
@@ -513,7 +531,7 @@ Jx.Plugin.Grid.Editor = new Class({
           // save the value
           if(valueNew.data != null && valueNew.error == false) {
             this.grid.model.set(this.activeCell.coords.index, valueNew.data);
-
+            this.addFormatterUriClickListener();
           // else show error message
           }else if(valueNew.error == true) {
             this.activeCell.span.show();
@@ -526,7 +544,7 @@ Jx.Plugin.Grid.Editor = new Class({
           this.activeCell.span.show();
         }
         if(this.options.useKeyboard) {
-          this.activeCell.field.removeEvent('keypress', this.bound.setKeyboard);
+          this.activeCell.field.removeEvent('keypress', this.setKeyboard);
         }
 
         /**
@@ -905,7 +923,7 @@ Jx.Plugin.Grid.Editor = new Class({
       }while(!data.col.options.isEditable);
 
       if(save === false) {
-        this.deactivate(false);
+        this.deactivate(save);
       }
       this.grid.selection.select(nextCell);
     },
@@ -940,7 +958,7 @@ Jx.Plugin.Grid.Editor = new Class({
       }while(!data.col.options.isEditable);
 
       if(save === false) {
-        this.deactivate(false);
+        this.deactivate(save);
       }
       this.grid.selection.select(prevCell);
     },
@@ -949,15 +967,20 @@ Jx.Plugin.Grid.Editor = new Class({
      * activates the next cell in a column under the currently active one
      * if the active cell is in the last row, the first one will be used
      *
+     * @var  {Boolean} save (Optional, default: true)
      * @return void
      */
-    getNextCellInCol : function() {
+    getNextCellInCol : function(save) {
+      save = $defined(save) ? save : true;
       var nextRow, nextCell;
       nextRow = this.activeCell.cell.getParent().getNext();
       if(nextRow == null) {
         nextRow = this.activeCell.cell.getParent('tbody').getFirst();
       }
       nextCell = nextRow.getElement('td.jxGridCol'+this.activeCell.coords.index);
+      if(save === false) {
+        this.deactivate(save);
+      }
       this.grid.selection.select(nextCell);
     },
     /**
@@ -965,15 +988,20 @@ Jx.Plugin.Grid.Editor = new Class({
      * activates the previous cell in a column above the currently active one
      * if the active cell is in the first row, the last one will be used
      *
+     * @var  {Boolean} save (Optional, default: true)
      * @return void
      */
-    getPrevCellInCol : function() {
+    getPrevCellInCol : function(save) {
+      save = $defined(save) ? save : true;
       var prevRow, prevCell;
       prevRow = this.activeCell.cell.getParent().getPrevious();
       if(prevRow == null) {
         prevRow = this.activeCell.cell.getParent('tbody').getLast();
       }
       prevCell = prevRow.getElement('td.jxGridCol'+this.activeCell.coords.index);
+      if(save === false) {
+        this.deactivate(save);
+      }
       this.grid.selection.select(prevCell);
     },
     /**
@@ -1059,5 +1087,40 @@ Jx.Plugin.Grid.Editor = new Class({
         }
       }
       return r;
+    },
+    /**
+     * Method: addFormatterUriClickListener
+     *
+     * looks up for Jx.Formatter.Uri columns to disable the link and open the
+     * inline editor instead. set option linkClickListener to false to disable this
+     *
+     */
+    addFormatterUriClickListener : function() {
+      if(this.options.linkClickListener) {
+        // prevent a link from beeing opened if the editor should appear and the uri formatter is activated
+        var uriCols = [], tableCols, anchor;
+        // find out which columns are using a Jx.Formatter.Uri
+        this.grid.columns.columns.each(function(col,i) {
+          if(col.options.formatter != null && col.options.formatter instanceof Jx.Formatter.Uri) {
+            uriCols.push(i);
+          }
+        });
+        // add an event to all anchors inside these columns
+        this.grid.gridTable.getElements('tr').each(function(tr,i) {
+          tableCols = tr.getElements('td.jxGridCell');
+          for(var j = 0, k = uriCols.length; j < k; j++) {
+            anchor = tableCols[uriCols[j]-1].getElement('a');
+            if(anchor) {
+              anchor.removeEvent('click');
+              anchor.addEvent('click', function(ev) {
+                // open link if ctrl was clicked
+                if(!ev.control) {
+                  ev.preventDefault();
+                }
+              });
+            }
+          }
+        });
+      }
     }
 }); 

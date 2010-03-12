@@ -30,5 +30,22 @@
                 <li>Cell Selection - makes a cell selectable by the user when clicking on the cell</li>
             </ul>
         </li>
+        <li>Editor Options:
+          <ul>
+            <li>Enable - turn the editor on or off</li>
+            <li>Close on Blur - set to false to disable it or an integer to set the time in miliseconds</li>
+            <li>Field Validation - Enable a custom validator for every column if needed.
+              Uses Jx.Plugin.Field.Validator which implements the Mootools Field Validator</li>
+            <li>Field Formatted - turn on to show the value inside the editor the same way it is displayed in the grid.
+              Turn off to show the value the way it came with the model. Can be enabled separately for every column by adding a boolean 'fieldFormatted' option to the option of the column. Example shows this for column 'website'</li>
+            <li>Keyboard Support - allows the user to control through the grid with some commands: 
+              [Arrow-Up/Down],[Tab],[Shift+Tab],[Enter],[Esc],[Ctrl+Enter],[Ctrl+Shift+Enter],[Ctrl+Up/Down/Left/Right]</li>
+            <li>PopUp Options - use - switch between a regular input field and a little popup with optional customizable buttons and label</li>
+            <li>PopUp Options - useButtons - enable/disable buttons in a popup</li>
+            <li>PopUp Options - buttons.submit/cancel - Jx.Button options for the submit/cancel button</li>
+            <li>PopUp Options - useLabel - shows the title of the column above the input field inside the popup</li>
+            <li>linkClickListener - enables a 'click protection' for links that are formatted with Jx.Formatter.Uri to be able to click anywhere inside a cell
+              to show the *only* editor instead of showing the editor and open the link</li>
+          </ul>
     </ul>
 </div>
