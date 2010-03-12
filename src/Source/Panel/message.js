@@ -4,7 +4,7 @@
  *
  * Extends: <Jx.Dialog>
  *
- * Jx.Dialog.Confirm is an extension of Jx.Dialog that allows the developer
+ * Jx.Dialog.Message is an extension of Jx.Dialog that allows the developer
  * to display a message to the user. It only presents an OK button.
  *
  * License:
@@ -13,7 +13,7 @@
  * This file is licensed under an MIT style license
  */
 Jx.Dialog.Message = new Class({
-
+    Family: 'Jx.Dialog.Message',
     Extends: Jx.Dialog,
 
     options: {
@@ -23,16 +23,33 @@ Jx.Dialog.Message = new Class({
          */
         message: '',
         /**
-         * Jx.Dialog option defaults
+         * Option: width
+         * default width of message dialogs is 300px
          */
         width: 300,
+        /**
+         * Option: height
+         * default height of message dialogs is 150px
+         */
         height: 150,
+        /**
+         * Option: close
+         * by default, message dialogs are closable
+         */
         close: true,
+        /**
+         * Option: resize
+         * by default, message dialogs are resizable
+         */
         resize: true,
+        /**
+         * Option: collapse
+         * by default, message dialogs are not collapsible
+         */
         collapse: false
     },
     /**
-     * APIMethod: render
+     * Method: render
      * constructs the dialog.
      */
     render: function () {
@@ -64,11 +81,15 @@ Jx.Dialog.Message = new Class({
         this.close();
     },
     
+    /**
+     * Method: createText
+     * handle change in language
+     */
     createText: function (lang) {
-    	this.parent();
-    	if ($defined(this.ok)) {
-    		this.ok.setLabel(MooTools.lang.get('Jx','message').okButton);
-    	}
+      this.parent();
+      if ($defined(this.ok)) {
+        this.ok.setLabel(MooTools.lang.get('Jx','message').okButton);
+      }
     }
 
 
