@@ -1,4 +1,4 @@
-
+// $Id$
 /**
  * Class: Jx.Panel.FileUpload
  *
@@ -29,7 +29,7 @@ Jx.Panel.FileUpload = new Class({
             progressUrl: ''
         },
         /**
-         * Option: onFileUploadComplete
+         * Option: onFileComplete
          * An event handler that is called when a file has been uploaded
          */
         onFileComplete: $empty,
@@ -67,7 +67,7 @@ Jx.Panel.FileUpload = new Class({
      */
     fileQueue: [],
     /**
-     * APIMethod: render
+     * Method: render
      * Sets up the upload panel.
      */
     render: function () {
@@ -118,8 +118,8 @@ Jx.Panel.FileUpload = new Class({
     },
     /**
      * Method: moveToQueue
-     * Called by Jx.Field.File's fileSelected event. Moves the selected file into the
-     * upload queue.
+     * Called by Jx.Field.File's fileSelected event. Moves the selected file
+     * into the upload queue.
      */
     moveToQueue: function (file) {
         var cf = this.currentFile;
@@ -165,6 +165,8 @@ Jx.Panel.FileUpload = new Class({
             file.addEvent('uploadProgress', this.fileUploadProgress.bind(this));
             //progressbar
             //setup options
+            // TODO: should (at least some of) these options be available to
+            // the developer?
             var options = {
                 containerClass: 'progress-container',
                 messageText: null,
@@ -289,11 +291,15 @@ Jx.Panel.FileUpload = new Class({
         }
     },
     
+    /**
+     * Method: createText
+     * handle change in language
+     */
     createText: function (lang) {
-    	this.parent();
-    	this.options.buttonText = MooTools.lang.get('Jx','upload').buttonText;
-    	if ($defined(this.uploadBtn)) {
-    		this.uploadBtn.setLabel(this.options.buttonText);
-    	}
+      this.parent();
+      this.options.buttonText = MooTools.lang.get('Jx','upload').buttonText;
+      if ($defined(this.uploadBtn)) {
+        this.uploadBtn.setLabel(this.options.buttonText);
+      }
     }
 });
