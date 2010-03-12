@@ -21,10 +21,10 @@
  *
  * Chrome:
  *
- * Chrome is the extraneous visual element that provides the look and feel to some elements
- * i.e. dialogs.  Chrome is added inside the element specified but may
- * bleed outside the element to provide drop shadows etc.  This is done by
- * absolutely positioning the chrome objects in the container based on
+ * Chrome is the extraneous visual element that provides the look and feel to
+ * some elements i.e. dialogs.  Chrome is added inside the element specified
+ * but may bleed outside the element to provide drop shadows etc.  This is
+ * done by absolutely positioning the chrome objects in the container based on
  * calculations using the margins, borders, and padding of the jxChrome
  * class and the element it is added to.
  *
@@ -36,7 +36,23 @@
  * and height.  The images are positioned and clipped such that the
  * appropriate corners of the chrome image are displayed in those locations.
  *
+ * Busy States:
+ * 
+ * Any widget can be set as temporarily busy by calling the setBusy(true)
+ * method and then as idle by calling setBusy(false).  By default, busy 
+ * widgets display an event mask that prevents them from being clicked and
+ * a spinner image with a message.  By default, there are two configurations
+ * for the spinner image and message, one for 'small' widgets like buttons
+ * and inputs, and one for larger widgets like panels and dialogs.  The
+ * framework automatically chooses the most appropriate configuration so you
+ * don't need to worry about it unless you want to customize it.
  *
+ * You can disable this behaviour entirely by setting busyMask: false in the
+ * widget options when creating the widget.
+ *
+ * The mask and spinner functionality is provided by the MooTools Spinner
+ * class.  You can use any options documented for Spinner or Mask by setting
+ * the maskOptions option when creating a widget.
  */
 Jx.Widget = new Class({
     Family: "Jx.Widget",
@@ -46,8 +62,8 @@ Jx.Widget = new Class({
         /**
          * Option: content
          * content may be an HTML element reference, the id of an HTML element
-         *      already in the DOM, or an HTML string that becomes the inner HTML of
-         *      the element.
+         * already in the DOM, or an HTML string that becomes the inner HTML
+         * of the element.
          */
         content: null,
         /**
@@ -55,13 +71,23 @@ Jx.Widget = new Class({
          * the URL to load content from
          */
         contentURL: null,
+        /**
+         * Option: template
+         * the default HTML structure of this widget.  The default template
+         * is just a div with a class of jxWidget in the base class
+         */
         template: '<div class="jxWidget"></div>',
         /**
          * Option: busyClass
+         * {String} a CSS class name to apply to busy mask when a widget is
+         * set as busy.  The default is 'jxBusy'.
          */
         busyClass: 'jxBusy',
         /**
          * Option: busyMask
+         * {Object} an object of options to pass to the MooTools Spinner
+         * when masking a busy object.  Set to false if you do not want
+         * to use the busy mask.
          */
         busyMask: {
           'message': MooTools.lang.get('Jx','widget').busyMessage,
@@ -76,12 +102,22 @@ Jx.Widget = new Class({
         }
     },
 
+    /**
+     * Property: classes
+     * {<Hash>} a hash of object properties to CSS class names used to
+     * automatically extract references to important DOM elements when
+     * processing a widget template.  This allows developers to provide custom
+     * HTML structures without affecting the functionality of widgets.
+     */
     classes: new Hash({
         domObj: 'jxWidget'
     }),
     
     /**
-     * Property: isBusy
+     * Property: busy
+     * {Boolean} is the widget currently busy?  This should be considered
+     * an internal property, use the API methods <Jx.Widget::setBusy> and
+     * <Jx.Widget::isBusy> to manage the busy state of a widget.
      */
     busy: false,
 
@@ -93,8 +129,7 @@ Jx.Widget = new Class({
 
     /**
      * Property: contentIsLoaded
-     *
-     * tracks the load state of the content, specifically useful
+     * {Boolean} tracks the load state of the content, specifically useful
      * in the case of remote content.
      */
     contentIsLoaded: false,
@@ -105,13 +140,13 @@ Jx.Widget = new Class({
      */
     chrome: null,
 
-
     /**
-     * APIMethod: init
-     * sets up the base widget code and runs the render function.
+     * Method: init
+     * sets up the base widget code and runs the render function.  Called
+     * by the Jx.Object framework for object initialization, should not be
+     * called directly.
      */
     init: function(){
-    	
         if (!this.options.deferRender) {
             this.fireEvent('preRender');
             this.render();
@@ -121,9 +156,8 @@ Jx.Widget = new Class({
         }
     },
 
-
     /**
-     * Method: loadContent
+     * APIMethod: loadContent
      *
      * triggers loading of content based on options set for the current
      * object.
@@ -200,28 +234,8 @@ Jx.Widget = new Class({
         }
     },
 
-    processContent: function(element) {
-        $A(element.childNodes).each(function(node){
-            if (node.tagName == 'INPUT' || node.tagName == 'SELECT' || node.tagName == 'TEXTAREA') {
-                if (node.type == 'button') {
-                    node.addEvent('click', function(){
-                        this.fireEvent('click', this, node);
-                    });
-                } else {
-                    node.addEvent('change', function(){
-                        this.fireEvent('change',node);
-                    });
-                }
-            } else {
-                if (node.childNodes) {
-                    this.processContent(node);
-                }
-            }
-        }, this);
-    },
-
     /**
-     * Method: position
+     * APIMethod: position
      * positions an element relative to another element
      * based on the provided options.  Positioning rules are
      * a string with two space-separated values.  The first value
@@ -272,8 +286,8 @@ Jx.Widget = new Class({
      * vertical - the vertical positioning rule to use to position the
      *    element.  Valid values are 'top', 'center', 'bottom', and a numeric
      *    value.  The default value is 'center center'.
-     * offsets - an object containing numeric pixel offset values for the object
-     *    being positioned as top, right, bottom and left properties.
+     * offsets - an object containing numeric pixel offset values for the
+     *    object being positioned as top, right, bottom and left properties.
      */
     position: function(element, relative, options) {
         element = document.id(element);
@@ -283,8 +297,7 @@ Jx.Widget = new Class({
         var offsets = $merge({top:0,right:0,bottom:0,left:0}, options.offsets || {});
 
         var coords = relative.getCoordinates(); //top, left, width, height
-        var page;
-        var scroll;
+        var page, scroll;
         if (!document.id(element.parentNode) || element.parentNode ==  document.body) {
             page = Jx.getPageDimensions();
             scroll = document.id(document.body).getScroll();
@@ -305,11 +318,7 @@ Jx.Widget = new Class({
             coords.top = 0;
         }
         var size = element.getMarginBoxSize(); //width, height
-        var left;
-        var right;
-        var top;
-        var bottom;
-        var n;
+        var left, right, top, bottom, n;
         if (!hor.some(function(opt) {
             var parts = opt.split(' ');
             if (parts.length != 2) {
@@ -380,73 +389,73 @@ Jx.Widget = new Class({
         element.setStyle('left', left);
 
         if (!ver.some(function(opt) {
-                var parts = opt.split(' ');
-                if (parts.length != 2) {
-                    return false;
-                }
-                if (!isNaN(parseInt(parts[0],10))) {
-                    top = parseInt(parts[0],10);
-                } else {
-                    switch(parts[0]) {
-                        case 'bottom':
-                            top = coords.top + coords.height;
-                            break;
-                        case 'center':
-                            top = coords.top + Math.round(coords.height/2);
-                            break;
-                        case 'top':
-                        default:
-                            top = coords.top;
-                            break;
-                    }
-                }
-                if (!isNaN(parseInt(parts[1],10))) {
-                    var n = parseInt(parts[1],10);
-                    if (n>=0) {
-                        top += n;
-                        bottom = top + size.height;
-                    } else {
-                        bottom = top + n;
-                        top = bottom - size.height;
-                    }
-                } else {
-                    switch(parts[1]) {
-                        case 'top':
-                            top -= offsets.top;
-                            bottom = top + size.height;
-                            break;
-                        case 'bottom':
-                            top += offsets.bottom;
-                            bottom = top;
-                            top = top - size.height;
-                            break;
-                        case 'center':
-                        default:
-                            top = top - Math.round(size.height/2);
-                            bottom = top + size.height;
-                            break;
-                    }
-                }
-                return (top >= scroll.y && bottom <= scroll.y + page.height);
-            })) {
-                // all failed, snap the last position onto the page as best
-                // we can - can't do anything if the element is higher than the
-                // space available.
-                if (bottom > page.height) {
-                    top = scroll.y + page.height - size.height;
-                }
-                if (top < 0) {
-                    top = 0;
-                }
+          var parts = opt.split(' ');
+          if (parts.length != 2) {
+            return false;
+          }
+          if (!isNaN(parseInt(parts[0],10))) {
+            top = parseInt(parts[0],10);
+          } else {
+            switch(parts[0]) {
+              case 'bottom':
+                top = coords.top + coords.height;
+                break;
+              case 'center':
+                top = coords.top + Math.round(coords.height/2);
+                break;
+              case 'top':
+              default:
+                top = coords.top;
+                break;
             }
-            element.setStyle('top', top);
+          }
+          if (!isNaN(parseInt(parts[1],10))) {
+              var n = parseInt(parts[1],10);
+              if (n>=0) {
+                  top += n;
+                  bottom = top + size.height;
+              } else {
+                  bottom = top + n;
+                  top = bottom - size.height;
+              }
+          } else {
+              switch(parts[1]) {
+                  case 'top':
+                      top -= offsets.top;
+                      bottom = top + size.height;
+                      break;
+                  case 'bottom':
+                      top += offsets.bottom;
+                      bottom = top;
+                      top = top - size.height;
+                      break;
+                  case 'center':
+                  default:
+                      top = top - Math.round(size.height/2);
+                      bottom = top + size.height;
+                      break;
+              }
+          }
+          return (top >= scroll.y && bottom <= scroll.y + page.height);
+      })) {
+          // all failed, snap the last position onto the page as best
+          // we can - can't do anything if the element is higher than the
+          // space available.
+          if (bottom > page.height) {
+              top = scroll.y + page.height - size.height;
+          }
+          if (top < 0) {
+              top = 0;
+          }
+      }
+      element.setStyle('top', top);
 
-            /* update the jx layout if necessary */
-            var jxl = element.retrieve('jxLayout');
-            if (jxl) {
-                jxl.options.left = left;
-                jxl.options.top = top;
-            }
+      /* update the jx layout if necessary */
+      var jxl = element.retrieve('jxLayout');
+      if (jxl) {
+          jxl.options.left = left;
+          jxl.options.top = top;
+      }
     },
 
     /**
@@ -509,6 +518,7 @@ Jx.Widget = new Class({
               }, this);
           }
         }
+        /* create a shim so selects don't show through the chrome */
         if ($defined(window.IframeShim)) {
           this.shim = new IframeShim(c, {className: 'jxIframeShim'});
         }
@@ -519,7 +529,7 @@ Jx.Widget = new Class({
     },
 
     /**
-     * Method: showChrome
+     * APIMethod: showChrome
      * show the chrome on an element.  This creates the chrome if necessary.
      * If the chrome has been previously created and not removed, you can
      * call this without an element and it will just resize the chrome within
@@ -549,7 +559,7 @@ Jx.Widget = new Class({
     },
 
     /**
-     * Method: hideChrome
+     * APIMethod: hideChrome
      * removes the chrome from the DOM.  If you do this, you can't
      * call showChrome with no arguments.
      */
@@ -563,6 +573,13 @@ Jx.Widget = new Class({
         }
     },
 
+    /**
+     * APIMethod: resizeChrome
+     * manually resize the chrome on an element.
+     *
+     * Parameters:
+     * element: {DOMElement} the element to resize the chrome for
+     */
     resizeChrome: function(o) {
         if (this.chrome && Browser.Engine.trident4) {
             this.chrome.setContentBoxSize(document.id(o).getBorderBoxSize());
@@ -573,7 +590,7 @@ Jx.Widget = new Class({
     },
 
     /**
-     * Method: addTo
+     * APIMethod: addTo
      * adds the object to the DOM relative to another element.  If you use
      * 'top' or 'bottom' then the element is added to the relative
      * element (becomes a child node).  If you use 'before' or 'after'
@@ -603,6 +620,18 @@ Jx.Widget = new Class({
         return this;
     },
 
+    /**
+     * APIMethod: toElement
+     * return a DOM element reference for this widget, by default this
+     * returns the local domObj reference.  This is used by the mootools
+     * framework with the document.id() or $() methods allowing you to
+     * manipulate a Jx.Widget sub class as if it were a DOM element.
+     *
+     * (code)
+     * var button = new Jx.Button({label: 'test'});
+     * $(button).inject('someElement');
+     * (end)
+     */
     toElement: function() {
         return this.domObj;
     },
@@ -617,10 +646,10 @@ Jx.Widget = new Class({
      * container - the container to add the template into
      *
      * Returns:
-     * a hash object containing the requested Elements keyed by the class names
+     * a hash object containing the requested Elements keyed by the class
+     * names
      */
     processTemplate: function(template,classes,container){
-
         var h = new Hash();
         var element;
         if ($defined(container)){
@@ -634,9 +663,7 @@ Jx.Widget = new Class({
                 h.set(klass,el);
             }
         });
-
         return h;
-
     },
 
     /**
@@ -650,6 +677,10 @@ Jx.Widget = new Class({
         return prefix + uid;
     },
 
+    /**
+     * APIMethod: dispose
+     * remove the widget from the DOM
+     */
     dispose: function(){
         var el = document.id(this.addable) || document.id(this.domObj);
         if (el) {
@@ -657,6 +688,10 @@ Jx.Widget = new Class({
         }
     },
 
+    /**
+     * Method: cleanup
+     * destroy the widget and clean up any potential memory leaks
+     */
     cleanup: function(){
         if ($defined(this.domObj)) {
             this.domObj.destroy();
@@ -670,13 +705,27 @@ Jx.Widget = new Class({
         this.parent();
     },
 
+    /**
+     * Method: render
+     * render the widget, internal function called by the framework.
+     */
     render: function() {
         this.elements = this.processElements(this.options.template,
             this.classes);
     },
 
+    /**
+     * Property: elements
+     * a hash of elements extracted by processing the widget template
+     */
     elements: null,
 
+    /**
+     * Method: processElements
+     * process the template of the widget and populate the elements hash
+     * with any objects.  Also set any object references based on the classes
+     * hash.
+     */
     processElements: function(template, classes) {
         var keys = classes.getValues();
         elements = this.processTemplate(template, keys);
@@ -688,10 +737,25 @@ Jx.Widget = new Class({
         return elements;
     },
     
+    /**
+     * APIMethod: isBusy
+     * indicate if the widget is currently busy or not
+     *
+     * Returns:
+     * {Boolean} true if busy, false otherwise.
+     */
     isBusy: function() {
       return this.busy;
     },
     
+    /**
+     * APIMethod: setBusy
+     * set the busy state of the widget
+     *
+     * Parameters:
+     * busy - {Boolean} true to set the widget as busy, false to set it as
+     *    idle.
+     */
     setBusy: function(state) {
       if (this.busy == state) {
         return;
@@ -743,15 +807,15 @@ Jx.Widget = new Class({
      * 
      * Parameters:
      * lang - the language being changed to or that had it's data set of 
-     * 		translations changed.
+     *    translations changed.
      */
     changeText: function (lang) {
-    	this.options.busyMask['message'] = MooTools.lang.get('Jx','widget').busyMessage;
-    	//if the mask is being used then recreate it with the new text
-    	if (this.busy) {
-    		this.setBusy(false);
-    		this.setBusy(true);
-    	}
+      this.options.busyMask['message'] = MooTools.lang.get('Jx','widget').busyMessage;
+      //if the mask is being used then recreate it with the new text
+      if (this.busy) {
+        this.setBusy(false);
+        this.setBusy(true);
+      }
     }
 });
 
