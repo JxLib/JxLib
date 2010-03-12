@@ -205,7 +205,7 @@ Jx.Object = new Class({
        * 
        * TODO: Should this be enabled or disabled by default? 
        */
-      useLang: true
+      useLang: true,
       /**
        * Option: plugins
        * {Array} an array of plugins to add to the object.
