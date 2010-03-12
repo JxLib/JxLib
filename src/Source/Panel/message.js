@@ -15,7 +15,7 @@
 Jx.Dialog.Message = new Class({
     Family: 'Jx.Dialog.Message',
     Extends: Jx.Dialog,
-
+    Binds: ['onOk'],
     options: {
         /**
          * Option: message
@@ -57,7 +57,7 @@ Jx.Dialog.Message = new Class({
         this.buttons = new Jx.Toolbar({position: 'bottom'});
         this.ok = new Jx.Button({
             label: MooTools.lang.get('Jx','message').okButton,
-            onClick: this.onClick.bind(this, 'Ok')
+            onClick: this.onOk
         });
         this.buttons.add(this.ok);
         this.options.toolbars = [this.buttons];
@@ -74,11 +74,26 @@ Jx.Dialog.Message = new Class({
         this.parent();
     },
     /**
-     * Method: onClick
+     * Method: onOk
      * Called when the OK button is clicked. Closes the dialog.
      */
-    onClick: function (value) {
+    onOk: function () {
         this.close();
+    },
+    
+    /**
+     * APIMethod: setMessage
+     * set the message of the dialog, useful for responding to language
+     * changes on the fly.
+     *
+     * Parameters
+     * message - {String} the new message
+     */
+    setMessage: function(message) {
+      this.options.message = message;
+      if ($defined(this.question)) {
+        this.question.set('html',message);
+      }
     },
     
     /**
@@ -91,6 +106,4 @@ Jx.Dialog.Message = new Class({
         this.ok.setLabel(MooTools.lang.get('Jx','message').okButton);
       }
     }
-
-
 });
