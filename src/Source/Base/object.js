@@ -102,9 +102,9 @@
  * object. It simply means that you can't have Jx.Object create the
  * plugin for you.
  * 
- * There are four ways to attach a plugin to an object. First, simply instantiate 
- * the plugin yourself and call its attach() method (other class options left out 
- * for the sake of simplicity):
+ * There are four ways to attach a plugin to an object. First, simply
+ * instantiate the plugin yourself and call its attach() method (other class
+ * options left out for the sake of simplicity):
  * 
  * (code)
  * var MyGrid = new Jx.Grid();
@@ -135,8 +135,8 @@
  * });
  * (end)
  * 
- * The final way, if the plugin has no options, is to pass the name of the plugin
- * as a simple string in the plugins array.
+ * The final way, if the plugin has no options, is to pass the name of the
+ * plugin as a simple string in the plugins array.
  * 
  * (code)
  * var MyGrid = new Jx.Grid({
@@ -186,16 +186,6 @@ Jx.Object = new Class({
     Family: "Jx.Object",
     Implements: [Options, Events],
     Bind: ['changeText'],
-    options: {
-	    /**
-	     * Option: useLang
-	     * Turns on this widget's ability to react to changes in
-	     * the default language. Handy for changing text out on the fly.
-	     * 
-	     * TODO: Should this be enabled or disabled by default? 
-	     */
-	    useLang: true
-	},
     plugins: new Hash(),
     pluginNamespace: 'Other',
     /**
@@ -208,6 +198,14 @@ Jx.Object = new Class({
     parameters: ['options'],
     
     options: {
+      /**
+       * Option: useLang
+       * Turns on this widget's ability to react to changes in
+       * the default language. Handy for changing text out on the fly.
+       * 
+       * TODO: Should this be enabled or disabled by default? 
+       */
+      useLang: true
       /**
        * Option: plugins
        * {Array} an array of plugins to add to the object.
@@ -247,8 +245,8 @@ Jx.Object = new Class({
 
         this.setOptions(options);
         if (this.options.useLang) {
-    		MooTools.lang.addEvent('langChange', this.changeText)
-    	}
+        MooTools.lang.addEvent('langChange', this.changeText)
+      }
         this.fireEvent('preInit');
         this.init();
         this.fireEvent('postInit');
@@ -373,7 +371,7 @@ Jx.Object = new Class({
      * 
      * Parameters:
      * lang - the language being changed to or that had it's data set of 
-     * 		translations changed.
+     *    translations changed.
      */
     changeText: $empty
 
