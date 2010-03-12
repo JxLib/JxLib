@@ -4,13 +4,14 @@
  *
  * Extends: <Jx.Widget>
  *
- * A panel set manages a set of panels within a DOM element.  The PanelSet fills
- * its container by resizing the panels in the set to fill the width and then
- * distributing the height of the container across all the panels.  Panels
- * can be resized by dragging their respective title bars to make them taller
- * or shorter.  The maximize button on the panel title will cause all other
- * panels to be closed and the target panel to be expanded to fill the remaining
- * space.  In this respect, PanelSet works like a traditional Accordion control.
+ * A panel set manages a set of panels within a DOM element.  The PanelSet
+ * fills its container by resizing the panels in the set to fill the width and
+ * then distributing the height of the container across all the panels. 
+ * Panels can be resized by dragging their respective title bars to make them
+ * taller or shorter.  The maximize button on the panel title will cause all
+ * other panels to be closed and the target panel to be expanded to fill the
+ * remaining space.  In this respect, PanelSet works like a traditional
+ * Accordion control.
  *
  * When creating panels for use within a panel set, it is important to use the
  * proper options.  You must override the collapse option and set it to false
@@ -19,9 +20,9 @@
  *
  * Example:
  * (code)
- * var p1 = new Jx.Panel({collapse: false, maximize: true, content: 'content1'});
- * var p2 = new Jx.Panel({collapse: false, maximize: true, content: 'content2'});
- * var p3 = new Jx.Panel({collapse: false, maximize: true, content: 'content3'});
+ * var p1 = new Jx.Panel({collapse: false, maximize: true, content: 'c1'});
+ * var p2 = new Jx.Panel({collapse: false, maximize: true, content: 'c2'});
+ * var p3 = new Jx.Panel({collapse: false, maximize: true, content: 'c3'});
  * var panelSet = new Jx.PanelSet('panels', [p1,p2,p3]);
  * (end)
  *
@@ -229,7 +230,7 @@ Jx.PanelSet = new Class({
     },
     
     createText: function (lang) {
-    	this.parent();
-    	this.options.barTooltip = MooTools.lang.get('Jx','panelset').barTooltip;
+      this.parent();
+      this.options.barTooltip = MooTools.lang.get('Jx','panelset').barTooltip;
     }
 });
