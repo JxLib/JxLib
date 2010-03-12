@@ -168,29 +168,37 @@ if (!$defined(Jx.isAir)) {
 }
 
 /**
- * APIProperty: {String} lang
- * Checks to see if Jx.lang is already set. If not, it sets it to the default
- * 'en-US'. We will then set the Motools.lang language to this setting 
- * automatically.
- * 
- * The language can be changed on the fly at anytime by calling Jx.setLanguage().
- * By default all Jx.Widget subclasses will listen for the langChange event of the
- * Mootools.lang class. It will then call a method, changeText(), if it exists on
- * the particular widget. You will be able to disable listening for these changes by 
- * setting the Jx.Widget option useLang to false.
+ * APIMethod: setLanguage
+ * set the current language to be used by Jx widgets.  This uses the MooTools
+ * lang module.  If an invalid or missing language is requested, the default
+ * rules of MooTools.lang will be used (revert to en-US at time of writing).
+ *
+ * Parameters:
+ * {String} language identifier, the language to set.
  */
 Jx.setLanguage = function(lang) {
 	Jx.lang = lang;
 	MooTools.lang.setLanguage(Jx.lang);
 };
 
+/**
+ * APIProperty: {String} lang
+ * Checks to see if Jx.lang is already set. If not, it sets it to the default
+ * 'en-US'. We will then set the Motools.lang language to this setting 
+ * automatically.
+ * 
+ * The language can be changed on the fly at anytime by calling
+ * Jx.setLanguage().
+ * By default all Jx.Widget subclasses will listen for the langChange event of
+ * the Mootools.lang class. It will then call a method, changeText(), if it
+ * exists on the particular widget. You will be able to disable listening for
+ * these changes by setting the Jx.Widget option useLang to false.
+ */
 if (!$defined(Jx.lang)) {
 	Jx.lang = 'en-US';
 }
 
 Jx.setLanguage(Jx.lang);
-
-
 
 /**
  * APIMethod: applyPNGFilter
