@@ -68,6 +68,7 @@ Jx.Plugin.Field.Validator = new Class({
      * storage for bound methods useful for working with events
      */
     bound: {},
+    validators : new Hash(),
     /**
      * APIMethod: init
      * construct a new instance of the plugin.  The plugin must be attached
@@ -98,7 +99,7 @@ Jx.Plugin.Field.Validator = new Class({
             if (t === 'string') {
                 this.field.field.addClass(v);
             } else if (t === 'object') {
-                this.validators.add(v.validator.name, new InputValidator(v.validator.name, v.validator.options));
+                this.validators.set(v.validator.name, new InputValidator(v.validator.name, v.validator.options));
                 this.field.field.addClass(v.validatorClass);
             }
         }, this);

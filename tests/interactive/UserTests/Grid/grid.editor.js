@@ -145,7 +145,7 @@
 
             }
         },
-      {
+        {
             title: "Grid Editor - Basic PopUp Test",
             description: "This ist is to verify the basic popup features. Clicking outside the table should hide the input after 500ms.",
             verify: "Does opening input text fields in a popup with buttons and the label of the column work properly?",
@@ -284,7 +284,7 @@
         }
     ],
     otherScripts: [
-      "currency","date","boolean",
+      "currency","date","boolean","uri",
       "phone","grid.editor","parser.json",
       "strategy.full","protocol.local","select",
       "text","plugin.field","field.validator",
