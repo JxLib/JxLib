@@ -200,3 +200,7 @@ span.jxTreeLabel,
     vertical-align: middle;
 }
 
+img.jxTreeImage.jxBusy {
+    background-image: url(images/spinner_16.gif);
+    background-position: left top;
+}

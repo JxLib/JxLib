@@ -19,6 +19,7 @@ Jx.Tree = new Class({
     Family: 'Jx.Tree',
     Extends: Jx.Widget,
     parameters: ['options','container', 'selection'],
+    pluginNamespace: 'Tree',
     /**
      * APIProperty: selection
      * {<Jx.Selection>} the selection object for this tree.

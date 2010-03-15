@@ -1,0 +1,295 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Tree Adaptor Examples</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<script type="text/javascript" src="../../lib/mootools-core.js"></script>
+<script type="text/javascript" src="../../lib/mootools-more.js"></script>
+<script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
+<script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+window.addEvent('load', function() {
+    setupTreeAdaptorParent()
+	setupTreeAdaptorMptt()
+    setupTreeAdaptorParentAjax();
+});
+</script>
+
+<script id="setupTreeAdaptorParentScript" type="text/javascript">
+ function setupTreeAdaptorParent(){
+ 	var parentData = [{
+ 		label: 'folder1',
+ 		folder: true,
+ 		parent: -1,
+ 		id: 0
+ 	}, {
+ 		label: 'item1',
+ 		folder: false,
+ 		parent: 0,
+ 		id: 1
+ 	}, {
+ 		label: 'item2',
+ 		folder: false,
+ 		parent: 0,
+ 		id: 2
+ 	}, {
+ 		label: 'folder2',
+ 		folder: true,
+ 		parent: -1,
+ 		id: 3
+ 	}, {
+ 		label: 'item3',
+ 		folder: false,
+ 		parent: 3,
+ 		id: 4
+ 	}, {
+ 		label: 'folder3',
+ 		folder: true,
+ 		parent: 3,
+ 		id: 5
+ 	}, {
+ 		label: 'item4',
+ 		folder: false,
+ 		parent: -1,
+ 		id: 6
+ 	}, {
+ 		label: 'item5',
+ 		folder: false,
+ 		parent: 5,
+ 		id: 7
+ 	}];
+ 	
+ 	var parser = new Jx.Store.Parser.JSON();
+ 	var full = new Jx.Store.Strategy.Full();
+ 	//create each adapter
+	
+	
+	var store1 = new Jx.Store({
+		columns: [{
+			name: 'label',
+			type: 'alphanumeric'
+		}, {
+			name: 'folder',
+			type: 'boolean'
+		}, {
+			name: 'parent',
+			type: 'numeric'
+		}, {
+			name: 'id',
+			type: 'numeric'
+		}],
+		protocol: new Jx.Store.Protocol.Local(parentData, {
+			parser: parser
+		}),
+		strategies: [full],
+		record: Jx.Record,
+		recordOptions: {
+			primaryKey: 'id'
+		}
+	});
+	var adaptor = new Jx.Adaptor.Tree.Parent({
+        useTemplate: true,
+        template: '{label}',
+        parentColumn: 'parent',
+        folderColumn: 'folder',
+		store: store1
+    });
+	
+	var tree1 = new Jx.Tree({
+        parent: 'tree-noajax-parent',
+		plugins: [adaptor]
+    });
+	
+	adaptor.firstLoad();
+}
+</script>
+<script id="setupTreeAdaptorMpttScript" type="text/javascript">
+function setupTreeAdaptorMptt(){
+	var mpttData = [{
+		label: 'folder1',
+		left: 1,
+		right: 6,
+		id: 0
+	}, {
+		label: 'item1',
+		left: 2,
+		right: 3,
+		id: 1
+	}, {
+		label: 'item2',
+		left: 4,
+		right: 5,
+		id: 2
+	}, {
+		label: 'folder2',
+		left: 7,
+		right: 14,
+		id: 3
+	}, {
+		label: 'item3',
+		left: 8,
+		right: 9,
+		id: 4
+	}, {
+		label: 'folder3',
+		left: 10,
+		right: 13,
+		id: 5
+	}, {
+		label: 'item4',
+		left: 15,
+		right: 16,
+		id: 6
+	}, {
+		label: 'item5',
+		left: 11,
+		right: 12,
+		id: 7
+	}];
+	
+		
+	var parser2 = new Jx.Store.Parser.JSON();
+	var full2 = new Jx.Store.Strategy.Full();
+	var sorter = new Jx.Store.Strategy.Sort({
+		sortCols: ['left']
+	});
+	var store2 = new Jx.Store({
+		columns: [{
+			name: 'label',
+			type: 'alphanumeric'
+		}, {
+			name: 'left',
+			type: 'numeric'
+		}, {
+			name: 'right',
+			type: 'numeric'
+		}, {
+			name: 'id',
+			type: 'numeric'
+		}],
+		protocol: new Jx.Store.Protocol.Local(mpttData, {
+			parser: parser2
+		}),
+		strategies: [full2, sorter],
+		record: Jx.Record,
+		recordOptions: {
+			primaryKey: 'id'
+		}
+	});
+	
+	 var adaptor = new Jx.Adaptor.Tree.Mptt({
+        useTemplate: true,
+        template: '{label}',
+        left: 'left',
+        right: 'right',
+		store: store2
+    });
+	
+	var tree2 = new Jx.Tree({
+        parent: 'tree-noajax-mptt'
+    });
+	
+	adaptor.attach(tree2);
+	adaptor.firstLoad();
+}
+</script>
+<script id="setupTreeAdaptorParentAjaxScript" type="text/javascript">
+function setupTreeAdaptorParentAjax(){
+	var parser = new Jx.Store.Parser.JSON();
+    var progressive = new Jx.Store.Strategy.Progressive({
+		dropRecords: false
+	});
+    
+	var store = new Jx.Store({
+        columns: [{
+            name: 'name',
+            type: 'alphanumeric'
+        }, {
+            name: 'folder',
+            type: 'boolean'
+        }, {
+            name: 'parent',
+            type: 'numeric'
+        }, {
+            name: 'id',
+            type: 'numeric'
+        },{
+            name: 'realPath',
+            type: 'alphanumeric'
+        }],
+        protocol: new Jx.Store.Protocol.Ajax({
+            parser: parser,
+			urls: {
+				read: 'treeadaptor.php'
+			}
+        }),
+        strategies: [progressive],
+        record: Jx.Record,
+        recordOptions: {
+            primaryKey: 'id'
+        }
+    });
+    var adaptor = new Jx.Adaptor.Tree.Parent({
+        useTemplate: true,
+        template: '{name}',
+        parentColumn: 'parent',
+        folderColumn: 'folder',
+        store: store,
+		monitorFolders: true
+    });
+	
+	var tree3 = new Jx.Tree({
+		parent: 'tree-ajax-parent',
+		plugins: [adaptor]
+	});
+	
+	adaptor.firstLoad();
+}
+</script>
+<script id="setupTreeAdaptorMpttAjaxScript" type="text/javascript">
+function setupTreeAdaptorMpttAjax(){
+	var tree4 = new Jx.Tree({
+		parent: 'tree-ajax-mptt'
+	});
+}
+</script>
+    <style>
+        .treeContainer {
+            width: 50%;
+            height: 300px;
+            border: 1px solid black;
+			overflow: auto;
+        }
+    </style>
+</head>
+<body>
+	<h1>Tree Adaptor Examples</h1>
+  	<p>API Reference: <a id="" href="javascript:void();" title="link to API Reference"></a></p>
+        
+  	<h2 id="setupTreeAdaptorParent">Jx.Adaptor.Tree.Parent</h2>
+	<p>
+		This example does not use ajax to fill the tree and it does not monitor
+		the folders to load. It uses the Parent/folder version of the adaptor.
+	</p>
+    <div id="tree-noajax-parent" class="treeContainer"></div>
+    
+    <h2 id="setupTreeAdaptorMptt">Jx.Adaptor.Tree.Mptt</h2>
+	<p>
+        This example does not use ajax to fill the tree and it does not monitor
+        the folders to load. It uses the MPTT (Modified Preorder Tree Traversal)
+		version of the adaptor.
+    </p>
+    <div id="tree-noajax-mptt" class="treeContainer"></div>
+    
+    <h2 id="setupTreeAdaptorParentAjax">Jx.Adaptor.Tree.Parent - Advanced example</h2>
+	<p>
+		This example simulates a file tree. It uses ajax to load the data from 
+		the server (via the Progresssive strategy) and monitors the folders for
+		the disclosed event and loads the folder contents from the server if it
+		doesn't already exist. You should notice the ajax loading icon replaces 
+		the folder icon while it's loading. Check out the code sample to see 
+		exactly how this is done.
+	</p>
+    <div id="tree-ajax-parent" class="treeContainer"></div>
+</body>
+</html>

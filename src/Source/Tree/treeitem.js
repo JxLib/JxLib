@@ -68,7 +68,10 @@ Jx.TreeItem = new Class ({
          */
         imageClass: '',
         lastLeafClass: 'jxTreeLeafLast',
-        template: '<li class="jxTreeContainer jxTreeLeaf"><img class="jxTreeImage" src="'+Jx.aPixel.src+'" alt="" title=""><a class="jxTreeItem" href="javascript:void(0);"><img class="jxTreeIcon" src="'+Jx.aPixel.src+'" alt="" title=""><span class="jxTreeLabel"></span></a></li>'
+        template: '<li class="jxTreeContainer jxTreeLeaf"><img class="jxTreeImage" src="'+Jx.aPixel.src+'" alt="" title=""><a class="jxTreeItem" href="javascript:void(0);"><img class="jxTreeIcon" src="'+Jx.aPixel.src+'" alt="" title=""><span class="jxTreeLabel"></span></a></li>',
+        busyMask: {
+			message: null
+		}
     },
     classes: new Hash({
         domObj: 'jxTreeContainer',
@@ -256,5 +259,28 @@ Jx.TreeItem = new Class ({
     },
     setSelection: function(selection){
         this.selection = selection;
+    },
+    
+    /**
+     * APIMethod: setBusy
+     * set the busy state of the widget
+     *
+     * Parameters:
+     * busy - {Boolean} true to set the widget as busy, false to set it as
+     *    idle.
+     */
+    setBusy: function(state) {
+      if (this.busy == state) {
+        return;
+      }
+      this.busy = state;
+      this.fireEvent('busy', this.busy);
+      if (this.busy) {
+        this.domImg.addClass(this.options.busyClass)
+      } else {
+        if (this.options.busyClass) {
+          this.domImg.removeClass(this.options.busyClass);
+        }
+      }
     }
 });

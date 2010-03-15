@@ -350,6 +350,28 @@
         }
         
     },
+	
+	"Adaptors": {
+		"adaptor": {
+		    "deps": ["plugin"],
+			"desc": ""
+		},
+		
+		"adaptor.tree": {
+		    "deps": ["adaptor"],
+		    "desc": ""
+		},
+		
+		"tree.mptt": {
+		    "deps": ["adaptor.tree"],
+		    "desc": ""
+		},
+		
+		"tree.parent": {
+		    "deps": ["adaptor.tree"],
+		    "desc": ""
+		}
+	},
 
     "Menu": {
 

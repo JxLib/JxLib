@@ -276,11 +276,21 @@ Jx.Object = new Class({
                         // that is used for locating the plugins. The default
                         // namespace is 'Other' for
                         // now until we come up with a better idea
-                        var p = new Jx.Plugin[this.pluginNamespace][plugin.name.capitalize()](plugin.options);
+                    	var p;
+                    	if ($defined(Jx.Plugin[this.pluginNamespace][plugin.name.capitalize()])) {
+                    		p = new Jx.Plugin[this.pluginNamespace][plugin.name.capitalize()](plugin.options);
+                    	} else {
+                    		p = new Jx.Adaptor[this.pluginNamespace][plugin.name.capitalize()](plugin.options);
+                    	}
                         p.attach(this);
                     } else if (Jx.type(plugin) === 'string') {
                         //this is a name for a plugin.
-                        var p = new Jx.Plugin[this.pluginNamespace][plugin.capitalize()]();
+                    	var p;
+                    	if ($defined(Jx.Plugin[this.pluginNamespace][plugin.capitalize()])) {
+                    		p = new Jx.Plugin[this.pluginNamespace][plugin.capitalize()]();
+                    	} else {
+                    		p = new Jx.Adaptor[this.pluginNamespace][plugin.capitalize()]();
+                    	}
                         p.attach(this);
                     }
                 }, this);
