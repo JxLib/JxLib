@@ -436,16 +436,19 @@ Jx.Plugin.Grid.Editor = new Class({
         if(this.options.validate && this.activeCell.colOptions.validate) {
           var validator = new Jx.Plugin.Field.Validator(this.activeCell.fieldOptions.validatorOptions);
           validator.addEvent('fieldValidationFailed', function(field, validator) {
+        	console.log('Logged from grid.editor validator event');
             console.log(field, validator);
           });
           validator.addEvent('fieldValidationPassed', function(field, validator) {
+        	console.log('Logged from grid.editor validator event');
             console.log(field, validator);
           });
           this.activeCell.validator = validator;
           this.activeCell.validator.attach(this.activeCell.field);
           console.log(this.activeCell,this.activeCell.fieldOptions.validatorOptions);
         }
-        this.activeCell.field.render();
+        //This is the problem. No need to call render, it happens automatically.
+        //this.activeCell.field.render();
         this.setStyles(cell);
 
 
