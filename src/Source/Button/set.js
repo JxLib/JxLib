@@ -4,19 +4,19 @@
  *
  * Extends: <Jx.Object>
  *
- * A ButtonSet manages a set of <Jx.Button> instances by ensuring that only one
- * of the buttons is active.  All the buttons need to have been created with
- * the toggle option set to true for this to work.
+ * A ButtonSet manages a set of <Jx.Button> instances by ensuring that only
+ * one of the buttons is active.  All the buttons need to have been created
+ * with the toggle option set to true for this to work.
  *
  * Example:
  * (code)
  * var toolbar = new Jx.Toolbar('bar');
  * var buttonSet = new Jx.ButtonSet();
  *
- * var tab1 = new Jx.Button({label: 'b1', toggle:true, contentID: 'content1'});
- * var tab2 = new Jx.Button({label: 'b2', toggle:true, contentID: 'content2'});
- * var tab3 = new Jx.Button({label: 'b3', toggle:true, contentID: 'content3'});
- * var tab4 = new Jx.Button({label: 'b4', toggle:true, contentURL: 'test_content.html'});
+ * var b1 = new Jx.Button({label: 'b1', toggle:true, contentID: 'content1'});
+ * var b2 = new Jx.Button({label: 'b2', toggle:true, contentID: 'content2'});
+ * var b3 = new Jx.Button({label: 'b3', toggle:true, contentID: 'content3'});
+ * var b4 = new Jx.Button({label: 'b4', toggle:true, contentID: 'content4'});
  *
  * buttonSet.add(b1,b2,b3,b4);
  * (end)
@@ -32,27 +32,21 @@
 Jx.ButtonSet = new Class({
     Family: 'Jx.ButtonSet',
     Extends: Jx.Object,
+    Binds: ['buttonChanged'],
     /**
      * Property: buttons
      * {Array} array of buttons that are managed by this button set
      */
-    buttons: null,
-    /**
-     * APIMethod: init
-     * initializes the button set.
-     */
-    init : function() {
-        this.buttons = [];
-        this.buttonChangedHandler = this.buttonChanged.bind(this);
-    },
+    buttons: [],
 
     /**
-     * Method: add
+     * APIMethod: add
      * Add one or more <Jx.Button>s to the ButtonSet.
      *
      * Parameters:
-     * button - {<Jx.Button>} an instance of <Jx.Button> to add to the button set.  More
-     * than one button can be added by passing extra parameters to this method.
+     * button - {<Jx.Button>} an instance of <Jx.Button> to add to the button
+     * set.  More than one button can be added by passing extra parameters to
+     * this method.
      */
     add : function() {
         $A(arguments).each(function(button) {
@@ -60,7 +54,7 @@ Jx.ButtonSet = new Class({
                 button.domObj.removeClass(button.options.toggleClass);
                 button.domObj.addClass(button.options.toggleClass+'Set');
             }
-            button.addEvent('down',this.buttonChangedHandler);
+            button.addEvent('down',this.buttonChanged);
             button.setActive = function(active) {
                 if (button.options.active && this.activeButton == button) {
                     return;
@@ -77,7 +71,7 @@ Jx.ButtonSet = new Class({
         return this;
     },
     /**
-     * Method: remove
+     * APIMethod: remove
      * Remove a button from this Button.
      *
      * Parameters:
@@ -89,7 +83,7 @@ Jx.ButtonSet = new Class({
             if (this.buttons.length) {
                 this.buttons[0].setActive(true);
             }
-            button.removeEvent('down',this.buttonChangedHandler);
+            button.removeEvent('down',this.buttonChanged);
             button.setActive = Jx.Button.prototype.setActive;
         }
     },
@@ -102,7 +96,7 @@ Jx.ButtonSet = new Class({
       this.activeButton = null;
     },
     /**
-     * Method: setActiveButton
+     * APIMethod: setActiveButton
      * Set the active button to the one passed to this method
      *
      * Parameters:
@@ -116,7 +110,7 @@ Jx.ButtonSet = new Class({
         }
     },
     /**
-     * Method: selectionChanged
+     * Method: buttonChanged
      * Handle selection changing on the buttons themselves and activate the
      * appropriate button in response.
      *

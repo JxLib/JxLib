@@ -46,19 +46,69 @@ Jx.Button.Tab = new Class({
     Extends: Jx.Button,
     /**
      * Property: content
-     * {HTMLElement} The content area that is displayed when the tab is active.
+     * {HTMLElement} The content area that is displayed when the tab is
+     * active.
      */
     content: null,
 
     options: {
+        /* Option: toggleClass
+         * the CSS class to use for the button, 'jxTabToggle' by default
+         */
         toggleClass: 'jxTabToggle',
+        /* Option: pressedClass
+         * the CSS class to use when the tab is pressed, 'jxTabPressed' by
+         * default
+         */
         pressedClass: 'jxTabPressed',
+        /* Option: activeClass
+         * the CSS class to use when the tab is active, 'jxTabActive' by 
+         * default.
+         */
         activeClass: 'jxTabActive',
+        /* Option: activeTabClass
+         * the CSS class to use on the content area of the active tab,
+         * 'tabContentActive' by default.
+         */
         activeTabClass: 'tabContentActive',
+        /* Option: template
+         * the HTML template for a tab
+         */
         template: '<span class="jxTabContainer"><a class="jxTab"><span class="jxTabContent"><img class="jxTabIcon"><span class="jxTabLabel"></span></span></a><a class="jxTabClose"></span>',
+        /* Option: contentTemplate
+         * the HTML template for a tab's content area
+         */
         contentTemplate: '<div class="tabContent"></div>',
+        /* Option: close
+         * {Boolean} can the tab be closed by the user?  False by default.
+         */
+        close: false,
+        /* Option: shouldClose
+         * {Mixed} when a tab is closeable, the shouldClose option is checked
+         * first to see if the tab should close.  You can provide a function
+         * for this option that can be used to return a boolean value.  This
+         * is useful if your tab contains something the user can edit and you
+         * want to see if they want to discard the changes before closing.
+         * The default value is true, meaning the tab will close immediately.
+         * (code)
+         * new Jx.Tab({
+         *   label: 'test close',
+         *   close: true,
+         *   shouldClose: function() {
+         *     return window.confirm('Are you sure?');
+         *   }
+         * });
+         * (end)
+         */
         shouldClose: true
     },
+    /**
+     * Property: classes
+     * {<Hash>} a hash of object properties to CSS class names used to
+     * automatically extract references to important DOM elements when
+     * processing a widget template.  This allows developers to provide custom
+     * HTML structures without affecting the functionality of widgets.
+     */
     classes: new Hash({
         domObj: 'jxTabContainer',
         domA: 'jxTab',
@@ -69,7 +119,7 @@ Jx.Button.Tab = new Class({
     }),
 
     /**
-     * APIMethod: render
+     * Method: render
      * Create a new instance of Jx.Button.Tab.  Any layout options passed are used
      * to create a <Jx.Layout> for the tab content area.
      */
@@ -110,7 +160,7 @@ Jx.Button.Tab = new Class({
         }
     },
     /**
-     * Method: clicked
+     * APIMethod: clicked
      * triggered when the user clicks the button, processes the
      * actionPerformed event
      */

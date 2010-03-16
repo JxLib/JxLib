@@ -32,7 +32,7 @@ Jx.Styles = new(new Class({
      */
     dynamicStyleMap: new Hash(),
     /**
-     * Method: getCssRule
+     * APIMethod: getCssRule
      * retrieve a reference to a CSS rule in a specific style sheet based on its
      * selector.  If the rule does not exist, create it.
      *
@@ -61,7 +61,7 @@ Jx.Styles = new(new Class({
         return rule;
     },
     /**
-     * Method: insertCssRule
+     * APIMethod: insertCssRule
      * insert a new dynamic rule into the given stylesheet.  If no name is
      * given for the stylesheet then the default stylesheet is used.
      *
@@ -93,7 +93,7 @@ Jx.Styles = new(new Class({
         return rule;
     },
     /**
-     * Method: removeCssRule
+     * APIMethod: removeCssRule
      * removes a CSS rule from the named stylesheet.
      *
      * Parameters:
@@ -118,7 +118,7 @@ Jx.Styles = new(new Class({
         return false;
     },
     /**
-     * Method: getDynamicStyleSheet
+     * APIMethod: getDynamicStyleSheet
      * return a reference to a styleSheet based on its title.  If the sheet
      * does not already exist, it is created.
      *
@@ -137,7 +137,7 @@ Jx.Styles = new(new Class({
         }
         return this.dynamicStyleMap.get(name);
     },
-    /* Method: enableStyleSheet
+    /* APIMethod: enableStyleSheet
      * enable a style sheet
      *
      * Parameters:
@@ -146,7 +146,7 @@ Jx.Styles = new(new Class({
     enableStyleSheet: function (name) {
         this.getDynamicStyleSheet(name).disabled = false;
     },
-    /* Method: disableStyleSheet
+    /* APIMethod: disableStyleSheet
      * enable a style sheet
      *
      * Parameters:

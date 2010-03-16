@@ -36,6 +36,11 @@ Jx.Button.Color = new Class({
     Family: 'Jx.Button.Color',
     Extends: Jx.Button.Flyout,
 
+    /**
+     * Property: swatch
+     * the color swatch element used to portray the currently selected
+     * color
+     */
     swatch: null,
 
     options: {
@@ -52,9 +57,20 @@ Jx.Button.Color = new Class({
          *
          */
         alpha: 100,
+        /*
+         * Option: template
+         * the HTML template for the color button
+         */
         template: '<span class="jxButtonContainer"><a class="jxButton jxButtonFlyout jxDiscloser"><span class="jxButtonContent"><span class="jxButtonSwatch"><span class="jxButtonSwatchColor"></span></span><span class="jxButtonLabel"></span></span></a></span>'
     },
 
+    /**
+     * Property: classes
+     * {<Hash>} a hash of object properties to CSS class names used to
+     * automatically extract references to important DOM elements when
+     * processing a widget template.  This allows developers to provide custom
+     * HTML structures without affecting the functionality of widgets.
+     */
     classes: new Hash({
         domObj: 'jxButtonContainer',
         domA: 'jxButton',
@@ -63,7 +79,7 @@ Jx.Button.Color = new Class({
     }),
 
     /**
-     * APIMethod: render
+     * Method: render
      * creates a new color button.
      */
     render: function() {
@@ -86,7 +102,7 @@ Jx.Button.Color = new Class({
     },
 
     /**
-     * Method: clicked
+     * APIMethod: clicked
      * override <Jx.Button.Flyout> to use a singleton color palette.
      */
     clicked: function() {
@@ -110,7 +126,7 @@ Jx.Button.Color = new Class({
 },
 
     /**
-     * Method: hide
+     * APIMethod: hide
      * hide the color panel
      */
     hide: function() {
@@ -122,7 +138,7 @@ Jx.Button.Color = new Class({
     },
 
     /**
-     * Method: setColor
+     * APIMethod: setColor
      * set the color represented by this color panel
      *
      * Parameters:
@@ -134,7 +150,7 @@ Jx.Button.Color = new Class({
     },
 
     /**
-     * Method: setAlpha
+     * APIMethod: setAlpha
      * set the alpha represented by this color panel
      *
      * Parameters:

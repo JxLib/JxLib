@@ -13,6 +13,17 @@
  *
  * Example:
  * (code)
+ * var list = new Jx.List('container',{
+ *   hover: true,
+ *   select: true,
+ *   onSelect: function(el) {
+ *     alert(el.get('html'));
+ *   }
+ * });
+ * list.add(new Element('li', {html:'1'}));
+ * list.add(new Element('li', {html:'2'}));
+ * list.add(new Element('li', {html:'3'}));
+ *
  * (end)
  *
  * Events:
@@ -31,6 +42,19 @@
 Jx.List = new Class({
     Family: 'Jx.List',
     Extends: Jx.Object,
+    /**
+     * Constructor: Jx.List
+     * create a new instance of Jx.List
+     *
+     * Parameters:
+     * container - {Mixed} an element reference or id of an element that will
+     * contain the items in the list
+     * options - {Object} an object containing optional parameters
+     * selection - {<Jx.Selection>} null or a Jx.Selection object. If the
+     * select option is set to true, then list will use this selection object
+     * to track selections or create its own if no selection object is 
+     * supplied.
+     */
     parameters: ['container', 'options', 'selection'],
     /* does this object own the selection object (and should clean it up) */
     ownsSelection: false,
@@ -52,7 +76,7 @@ Jx.List = new Class({
         items: null,
         /**
          * Option: hover
-         * {Boolean} default true.  If set to true, the wrapper element will
+         * {Boolean} default false.  If set to true, the wrapper element will
          * obtain the defined hoverClass if set and mouseenter/mouseleave
          * events will be emitted when the user hovers over and out of elements
          */
@@ -66,7 +90,7 @@ Jx.List = new Class({
 
         /**
          * Option: press
-         * {Boolean} default true.  If set to true, the wrapper element will
+         * {Boolean} default false.  If set to true, the wrapper element will
          * obtain the defined pressClass if set and mousedown/mouseup
          * events will be emitted when the user clicks on elements
          */

@@ -1,8 +1,8 @@
 /**
  * Class: Jx.Adaptor.Tree
  * This base class is used to change a store (a flat list of records) into the
- * data structure needed for a Jx.Tree. It will have 2 subclasses: <Jx.Adapter.Tree.MPTT>
- * and <Jx.Adapter.Tree.Parent>
+ * data structure needed for a Jx.Tree. It will have 2 subclasses:
+ * <Jx.Adapter.Tree.Mptt> and <Jx.Adapter.Tree.Parent>
  * 
  *  
  */

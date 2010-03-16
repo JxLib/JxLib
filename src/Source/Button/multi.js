@@ -57,13 +57,14 @@
  */
 Jx.Button.Multi = new Class({
     Family: 'Jx.Button.Multi',
-
     Extends: Jx.Button,
+
     /**
      * Property: {<Jx.Button>} activeButton
      * the currently selected button
      */
     activeButton: null,
+
     /**
      * Property: buttons
      * {Array} the buttons added to this multi button
@@ -71,8 +72,19 @@ Jx.Button.Multi = new Class({
     buttons: null,
 
     options: {
+        /* Option: template
+         * the button template for a multi button
+         */
         template: '<span class="jxButtonContainer"><a class="jxButton jxButtonMulti jxDiscloser"><span class="jxButtonContent"><img src="'+Jx.aPixel.src+'" class="jxButtonIcon"><span class="jxButtonLabel"></span></span></a><a class="jxButtonDisclose" href="javascript:void(0)"><img src="'+Jx.aPixel.src+'"></a></span>'
     },
+
+    /**
+     * Property: classes
+     * {<Hash>} a hash of object properties to CSS class names used to
+     * automatically extract references to important DOM elements when
+     * processing a widget template.  This allows developers to provide custom
+     * HTML structures without affecting the functionality of widgets.
+     */
     classes: new Hash({
         domObj: 'jxButtonContainer',
         domA: 'jxButton',
@@ -81,9 +93,8 @@ Jx.Button.Multi = new Class({
         domDisclose: 'jxButtonDisclose'
     }),
 
-
     /**
-     * APIMethod: render
+     * Method: render
      * construct a new instance of Jx.Button.Multi.
      */
     render: function() {
@@ -186,7 +197,7 @@ Jx.Button.Multi = new Class({
         }
     },
     /**
-     * Method: add
+     * APIMethod: add
      * adds one or more buttons to the Multi button.  The first button
      * added becomes the active button initialize.  This function
      * takes a variable number of arguments, each of which is expected
@@ -228,7 +239,7 @@ Jx.Button.Multi = new Class({
         }, this);
     },
     /**
-     * Method: remove
+     * APIMethod: remove
      * remove a button from a multi button
      *
      * Parameters:
@@ -268,7 +279,7 @@ Jx.Button.Multi = new Class({
       this.buttons.each(function(b){this.remove(b);}, this);
     },
     /**
-     * Method: setActiveButton
+     * APIMethod: setActiveButton
      * update the menu item to be the requested button.
      *
      * Parameters:

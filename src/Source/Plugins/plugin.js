@@ -1,6 +1,6 @@
 // $Id$
 /**
- * Class: Jx.Grid.Plugin
+ * Class: Jx.Plugin
  *
  * Extend: <Jx.Object>
  *

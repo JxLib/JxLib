@@ -7,41 +7,11 @@
  * Jx.Button creates a clickable element that can be added to a web page.
  * When the button is clicked, it fires a 'click' event.
  *
- * The CSS styling for a button is controlled by several classes related
- * to the various objects in the button's HTML structure:
- *
- * (code)
- * <div class="jxButtonContainer">
- *  <a class="jxButton">
- *   <span class="jxButtonContent">
- *    <img class="jxButtonIcon" src="image_url">
- *    <span class="jxButtonLabel">button label</span>
- *   </span>
- *  </a>
- * </div>
- * (end)
- *
- * The CSS classes will change depending on the type option passed to the
- * constructor of the button.  The default type is Button.  Passing another
- * value such as Tab will cause all the CSS classes to change from jxButton
- * to jxTab.  For example:
- *
- * (code)
- * <div class="jxTabContainer">
- *  <a class="jxTab">
- *   <span class="jxTabContent">
- *    <img class="jxTabIcon" src="image_url">
- *    <span class="jxTabLabel">tab label</span>
- *   </span>
- *  </a>
- * </div>
- * (end)
- *
  * When you construct a new instance of Jx.Button, the button does not
  * automatically get inserted into the web page.  Typically a button
  * is used as part of building another capability such as a Jx.Toolbar.
  * However, if you want to manually insert the button into your application,
- * you may use the addTo method to append or insert the button into the
+ * you may use the <Jx.Button::addTo> method to append or insert the button into the
  * page.
  *
  * There are two modes for a button, normal and toggle.  A toggle button
@@ -95,13 +65,6 @@ Jx.Button = new Class({
     Family: 'Jx.Button',
     Extends: Jx.Widget,
 
-    /**
-     * the HTML element that is inserted into the DOM for this button.  You
-     * may reference this object to append it to the DOM or remove it from
-     * the DOM if necessary.
-     */
-    domObj: null,
-
     options: {
         /* Option: id
          * optional.  A string value to use as the ID of the button
@@ -130,9 +93,20 @@ Jx.Button = new Class({
          * default true, whether the button is a toggle button or not.
          */
         toggle: false,
-
+        /* Option: toggleClass
+         * A class to apply to the button if it is a toggle button,
+         * 'jxButtonToggle' by default.
+         */
         toggleClass: 'jxButtonToggle',
+        /* Option: pressedClass
+         * A class to apply to the button when it is pressed,
+         * 'jxButtonPressed' by default.
+         */
         pressedClass: 'jxButtonPressed',
+        /* Option: activeClass
+         * A class to apply to the buttonwhen it is active,
+         * 'jxButtonActive' by default.
+         */
         activeClass: 'jxButtonActive',
 
         /* Option: active
@@ -151,13 +125,19 @@ Jx.Button = new Class({
         href: 'javascript:void(0);',
         /* Option: template
          * the HTML structure of the button.  As a minimum, there must be a
-         * containing element with a class of jxButtonContainer and an internal
-         * element with a class of jxButton.  jxButtonIcon and jxButtonLabel are
-         * used if present to put the image and label into the button.
+         * containing element with a class of jxButtonContainer and an
+         * internal element with a class of jxButton.  jxButtonIcon and
+         * jxButtonLabel are used if present to put the image and label into
+         * the button.
          */
         template: '<span class="jxButtonContainer"><a class="jxButton"><span class="jxButtonContent"><img class="jxButtonIcon" src="'+Jx.aPixel.src+'"><span class="jxButtonLabel"></span></span></a></span>'
     },
 
+    /**
+     * Property: classes
+     * used to auto-populate this object with element references when
+     * processing templates
+     */
     classes: new Hash({
         domObj: 'jxButtonContainer',
         domA: 'jxButton',
@@ -166,7 +146,7 @@ Jx.Button = new Class({
     }),
 
     /**
-     * APIMethod: render
+     * Method: render
      * create a new button.
      */
     render: function() {
@@ -269,7 +249,7 @@ Jx.Button = new Class({
 
     },
     /**
-     * Method: clicked
+     * APIMethod: clicked
      * triggered when the user clicks the button, processes the
      * actionPerformed event
      *
@@ -287,7 +267,7 @@ Jx.Button = new Class({
         //return false;
     },
     /**
-     * Method: isEnabled
+     * APIMethod: isEnabled
      * This returns true if the button is enabled, false otherwise
      *
      * Returns:
@@ -298,7 +278,7 @@ Jx.Button = new Class({
     },
 
     /**
-     * Method: setEnabled
+     * APIMethod: setEnabled
      * enable or disable the button.
      *
      * Parameters:
@@ -313,7 +293,7 @@ Jx.Button = new Class({
         }
     },
     /**
-     * Method: isActive
+     * APIMethod: isActive
      * For toggle buttons, this returns true if the toggle button is
      * currently active and false otherwise.
      *
@@ -324,7 +304,7 @@ Jx.Button = new Class({
         return this.options.active;
     },
     /**
-     * Method: setActive
+     * APIMethod: setActive
      * Set the active state of the button
      *
      * Parameters:
@@ -345,7 +325,7 @@ Jx.Button = new Class({
         this.fireEvent(active ? 'down':'up', this);
     },
     /**
-     * Method: setImage
+     * APIMethod: setImage
      * set the image of this button to a new image URL
      *
      * Parameters:
@@ -360,12 +340,10 @@ Jx.Button = new Class({
         }
     },
     /**
-     * Method: setLabel
-     *
+     * APIMethod: setLabel
      * sets the text of the button.
      *
      * Parameters:
-     *
      * label - {String} the new label for the button
      */
     setLabel: function(label) {
@@ -376,15 +354,14 @@ Jx.Button = new Class({
         }
     },
     /**
-     * Method: getLabel
-     *
+     * APIMethod: getLabel
      * returns the text of the button.
      */
     getLabel: function() {
         return this.options.label;
     },
     /**
-     * Method: setTooltip
+     * APIMethod: setTooltip
      * sets the tooltip displayed by the button
      *
      * Parameters:
@@ -411,7 +388,7 @@ Jx.Button = new Class({
         }
     },
     /**
-     * Method: focus
+     * APIMethod: focus
      * capture the keyboard focus on this button
      */
     focus: function() {
@@ -420,7 +397,7 @@ Jx.Button = new Class({
         }
     },
     /**
-     * Method: blur
+     * APIMethod: blur
      * remove the keyboard focus from this button
      */
     blur: function() {
