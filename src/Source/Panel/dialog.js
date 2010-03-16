@@ -171,7 +171,7 @@ Jx.Dialog = new Class({
             new Drag(this.domObj, {
                 handle: this.title,
                 onBeforeStart: (function(){
-                    Jx.Dialog.orderDialogs(this);
+                    this.stack();
                     if (!this.options.modal && this.options.parent.mask) {
                       this.options.parent.mask(this.options.eventMaskOptions);
                     }
@@ -247,7 +247,7 @@ Jx.Dialog = new Class({
         }
         /* this adjusts the zIndex of the dialogs when activated */
         this.domObj.addEvent('mousedown', (function(){
-            Jx.Dialog.orderDialogs(this);
+            this.stack();
         }).bind(this));
     },
 

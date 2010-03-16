@@ -59,7 +59,7 @@ Jx.Stack = new(new Class({
       var idx = this.els.indexOf(el);
       this.els.erase(el);
       for (var i=idx; i<this.els.length; i++) {
-        this.setZindex(this.els[i], i);
+        this.setZIndex(this.els[i], i);
       }
     }
   },
