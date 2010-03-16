@@ -816,6 +816,35 @@ Jx.Widget = new Class({
         this.setBusy(false);
         this.setBusy(true);
       }
+    },
+    
+    /**
+     * APIMethod: stack
+     * stack this widget in the z-index of the DOM relative to other stacked
+     * objects.
+     *
+     * Parameters:
+     * el - {DOMElement} optional, the element to stack.  By default, the
+     * element to stack is the one returned by the toElement method which
+     * is typically this.domObj unless the method has been overloaded.
+     */
+    stack: function(el) {
+      el = el || document.id(this);
+      Jx.Stack.stack(el);
+    },
+    
+    /**
+     * APIMethod: unstack
+     * remove this widget from the stack.
+     *
+     * Parameters:
+     * el - {DOMElement} optional, the element to unstack.  By default, the
+     * element to unstack is the one returned by the toElement method which
+     * is typically this.domObj unless the method has been overloaded.
+     */
+    unstack: function(el) {
+      el = el || document.id(this);
+      Jx.Stack.unstack(el);
     }
 });
 

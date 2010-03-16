@@ -402,11 +402,10 @@ Jx.Dialog = new Class({
             'display': 'block',
             'visibility': 'hidden'
         });
-        
+        /* stack the dialog */
+        this.stack();
         this.toolbar.update();
         
-        Jx.Dialog.orderDialogs(this);
-
         /* do the modal thing */
         if (this.options.modal && this.options.parent.mask) {
           var opts = $merge(this.options.maskOptions || {}, {
@@ -452,9 +451,8 @@ Jx.Dialog = new Class({
      * method to hide the dialog.
      */
     hide : function() {
-        Jx.Dialog.Stack.erase(this);
-        Jx.Dialog.ZIndex--;
         this.domObj.setStyle('display','none');
+        this.unstack();
         if (this.options.modal && this.options.parent.unmask) {
           this.options.parent.unmask();
         }
@@ -474,8 +472,7 @@ Jx.Dialog = new Class({
             this.options.content = null;  //force Url loading
             this.loadContent(this.content);
             this.addEvent('contentLoaded', this.openOnLoaded);
-        }
-        else {
+        } else {
             this.open();
         }
     },
@@ -513,6 +510,10 @@ Jx.Dialog = new Class({
 
     cleanup: function() { },
     
+    /**
+     * APIMethod: isOpen
+     * returns true if the dialog is currently open, false otherwise
+     */
     isOpen: function () {
         //check to see if we're visible
         return !((this.domObj.getStyle('display') === 'none') || (this.domObj.getStyle('visibility') === 'hidden'));
@@ -530,16 +531,3 @@ Jx.Dialog = new Class({
     }
 });
 
-Jx.Dialog.Stack = [];
-Jx.Dialog.BaseZIndex = 1000;
-Jx.Dialog.orderDialogs = function(d) {
-    Jx.Dialog.Stack.erase(d).push(d);
-    if (Jx.Dialog.BaseZIndex === null) {
-        Jx.Dialog.BaseZIndex = Math.max(Jx.Dialog.Stack[0].domObj.getStyle('zIndex').toInt(), 1);
-    }
-    Jx.Dialog.Stack.each(function(d, i) {
-        var z = Jx.Dialog.BaseZIndex*(1+i);
-        d.domObj.setStyle('zIndex',z);
-    });
-
-};

@@ -48,9 +48,18 @@ Format: 1.4
 
 Group: Jx  {
 
+   File: Common  (no auto-title, Base/common.js)
+   File: List  (Base/list.js)
+   File: Object  (Base/object.js)
+   File: Selection  (Base/selection.js)
+   File: Stack  (Base/stack.js)
+   File: Styles  (Base/styles.js)
+   File: Widget  (Base/widget.js)
+   File: Plugin  (Plugins/plugin.js)
+   File: Adaptor  (Adaptors/adaptor.js)
+
    Group: Button  {
 
-      File: Button.Tab  (Button/tab.js)
       File: Button.Flyout  (Button/flyout.js)
       File: Button.Color  (Button/color.js)
       File: Button.Multi  (Button/multi.js)
@@ -59,22 +68,23 @@ Group: Jx  {
       File: Button  (Button/button.js)
       }  # Group: Button
 
-   Group: Base  {
-
-      File: Common  (no auto-title, Base/common.js)
-      File: List  (Base/list.js)
-      File: Object  (Base/object.js)
-      File: Selection  (Base/selection.js)
-      File: Styles  (Base/styles.js)
-      File: Widget  (Base/widget.js)
-      }  # Group: Base
-
    Group: Grid  {
 
       File: Column  (Grid/column.js)
       File: Columns  (Grid/columns.js)
       File: Grid  (Grid/grid.js)
       File: Row  (Grid/row.js)
+
+      Group: Plugins  {
+
+         File: Editor  (Plugins/grid.editor.js)
+         File: Grid  (Plugins/plugin.grid.js)
+         File: Prelighter  (Plugins/grid.prelighter.js)
+         File: Resize  (Plugins/grid.resize.js)
+         File: Selector  (Plugins/grid.selector.js)
+         File: Sorter  (Plugins/grid.sorter.js)
+         }  # Group: Plugins
+
       }  # Group: Grid
 
    Group: Extras  {
@@ -89,8 +99,12 @@ Group: Jx  {
       File: Tooltip  (Extras/tooltip.js)
       }  # Group: Extras
 
-   File: TabBox  (Tab/tabbox.js)
-   File: TabSet  (Tab/tabset.js)
+   Group: Tabs  {
+
+      File: Button.Tab  (Button/tab.js)
+      File: TabBox  (Tab/tabbox.js)
+      File: TabSet  (Tab/tabset.js)
+      }  # Group: Tabs
 
    Group: Layout  {
 
@@ -121,6 +135,13 @@ Group: Jx  {
       File: Panel.DataView.Group  (Panel/group.js)
       File: Panel.FileUpload  (Panel/upload.js)
       File: PanelSet  (Panel/panelset.js)
+
+      Group: Plugins  {
+
+         File: DataView  (Plugins/plugin.dataview.js)
+         File: DataView.GroupFolder  (Plugins/dataview.groupfolder.js)
+         }  # Group: Plugins
+
       }  # Group: Panel
 
    Group: Toolbar  {
@@ -136,75 +157,78 @@ Group: Jx  {
       File: Tree  (Tree/tree.js)
       File: TreeFolder  (Tree/treefolder.js)
       File: TreeItem  (Tree/treeitem.js)
+
+      Group: Adaptors  {
+
+         File: Adapter.Tree.Parent  (Adaptors/tree.parent.js)
+         File: Adaptor.Tree  (Adaptors/adaptor.tree.js)
+         File: Adaptor.Tree.Mptt  (Adaptors/tree.mptt.js)
+         }  # Group: Adaptors
+
       }  # Group: Tree
 
+   Group: Formatter  {
+
+      File: Formatter  (Formatter/formatter.js)
+      File: Formatter.Boolean  (Formatter/boolean.js)
+      File: Formatter.Currency  (Formatter/currency.js)
+      File: Formatter.Date  (Formatter/date.js)
+      File: Formatter.Number  (Formatter/number.js)
+      File: Formatter.Phone  (Formatter/phone.js)
+      File: Formatter.URI  (Formatter/uri.js)
+      }  # Group: Formatter
+
+   Group: Data  {
+
+      File: Compare  (Data/compare.js)
+      File: record  (Data/record.js)
+      File: Sort Base class for all of the sorting algorithm classes.  (Data/sort.js)
+      File: Sort.Heapsort  (Data/heapsort.js)
+      File: Sort.Mergesort  (Data/mergesort.js)
+      File: Sort.Nativesort  (Data/nativesort.js)
+      File: Sort.Quicksort  (Data/quicksort.js)
+      File: Store  (Data/store.js)
+      File: Store.Parser  (Data/parser.js)
+      File: Store.Parser.JSON  (Data/parser.json.js)
+      File: Store.Protocol  (Data/protocol.js)
+      File: Store.Protocol.Ajax  (Data/protocol.ajax.js)
+      File: Store.Protocol.Local  (Data/protocol.local.js)
+      File: Store.Response  (Data/response.js)
+      File: Store.Strategy  (Data/strategy.js)
+      File: Store.Strategy.Full  (Data/strategy.full.js)
+      File: Store.Strategy.Paginate  (Data/strategy.paginate.js)
+      File: Store.Strategy.Save  (Data/strategy.save.js)
+      File: Store.Strategy.Sort  (Data/strategy.sort.js)
+      File: strategy.progressive.js  (Data/strategy.progressive.js)
+      }  # Group: Data
+
+   Group: Form  {
+
+      File: Field  (Form/field.js)
+      File: Field.Button  (Form/jxbutton.js)
+      File: Field.Check  (Form/checkbox.js)
+      File: Field.Combo  (Form/jxcombo.js)
+      File: Field.File  (Form/file.js)
+      File: Field.Hidden  (Form/hidden.js)
+      File: Field.Password  (Form/password.js)
+      File: Field.Radio  (Form/radio.js)
+      File: Field.Select  (Form/select.js)
+      File: Field.Text  (Form/text.js)
+      File: Field.Textarea  (Form/textarea.js)
+      File: Fieldset  (Form/fieldset.js)
+      File: Form  (Form/form.js)
+
+      Group: Plugins  {
+
+         File: Field  (Plugins/plugin.field.js)
+         File: Field.Validator  (Plugins/field.validator.js)
+         File: Form  (Plugins/plugin.form.js)
+         File: Form.Validator  (Plugins/form.validator.js)
+         }  # Group: Plugins
+
+      }  # Group: Form
+
    }  # Group: Jx
-
-Group: Formatter  {
-
-   File: Formatter  (Formatter/formatter.js)
-   File: Formatter.Boolean  (Formatter/boolean.js)
-   File: Formatter.Currency  (Formatter/currency.js)
-   File: Formatter.Date  (Formatter/date.js)
-   File: Formatter.Number  (Formatter/number.js)
-   File: Formatter.Phone  (Formatter/phone.js)
-   File: Formatter.URI  (Formatter/uri.js)
-   }  # Group: Formatter
-
-Group: Data  {
-
-   File: Compare  (Data/compare.js)
-   File: record  (Data/record.js)
-   File: Sort Base class for all of the sorting algorithm classes.  (Data/sort.js)
-   File: Sort.Heapsort  (Data/heapsort.js)
-   File: Sort.Mergesort  (Data/mergesort.js)
-   File: Sort.Nativesort  (Data/nativesort.js)
-   File: Sort.Quicksort  (Data/quicksort.js)
-   File: Store  (Data/store.js)
-   File: Store.Parser  (Data/parser.js)
-   File: Store.Parser.JSON  (Data/parser.json.js)
-   File: Store.Protocol  (Data/protocol.js)
-   File: Store.Protocol.Ajax  (Data/protocol.ajax.js)
-   File: Store.Protocol.Local  (Data/protocol.local.js)
-   File: Store.Response  (Data/response.js)
-   File: Store.Strategy  (Data/strategy.js)
-   File: Store.Strategy.Full  (Data/strategy.full.js)
-   File: Store.Strategy.Paginate  (Data/strategy.paginate.js)
-   File: Store.Strategy.Save  (Data/strategy.save.js)
-   File: Store.Strategy.Sort  (Data/strategy.sort.js)
-   File: strategy.progressive.js  (Data/strategy.progressive.js)
-   }  # Group: Data
-
-Group: Form  {
-
-   File: Field  (Form/field.js)
-   File: Field.Button  (Form/jxbutton.js)
-   File: Field.Check  (Form/checkbox.js)
-   File: Field.Combo  (Form/jxcombo.js)
-   File: Field.File  (Form/file.js)
-   File: Field.Hidden  (Form/hidden.js)
-   File: Field.Password  (Form/password.js)
-   File: Field.Radio  (Form/radio.js)
-   File: Field.Select  (Form/select.js)
-   File: Field.Text  (Form/text.js)
-   File: Field.Textarea  (Form/textarea.js)
-   File: Fieldset  (Form/fieldset.js)
-   File: Form  (Form/form.js)
-   }  # Group: Form
-
-File: Grid.Plugin  (Plugins/plugin.js)
-File: Plugin.DataView  (Plugins/plugin.dataview.js)
-File: Plugin.DataView.GroupFolder  (Plugins/dataview.groupfolder.js)
-File: Plugin.Editor  (Plugins/grid.editor.js)
-File: Plugin.Field  (Plugins/plugin.field.js)
-File: Plugin.Field.Validator  (Plugins/field.validator.js)
-File: Plugin.Form  (Plugins/plugin.form.js)
-File: Plugin.Form.Validator  (Plugins/form.validator.js)
-File: Plugin.Grid  (Plugins/plugin.grid.js)
-File: Plugin.Prelighter  (Plugins/grid.prelighter.js)
-File: Plugin.Resize  (Plugins/grid.resize.js)
-File: Plugin.Selector  (Plugins/grid.selector.js)
-File: Plugin.Sorter  (Plugins/grid.sorter.js)
 
 Group: Index  {
 

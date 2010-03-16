@@ -247,6 +247,7 @@ Jx.Menu = new Class({
         this.list.each(function(item){item.retrieve('jxMenuItem').hide(e);});
         document.removeEvent('mousedown', this.bound.mousedown);
         document.removeEvent('keydown', this.bound.keypress);
+        this.unstack(this.contentContainer);
         this.contentContainer.dispose();
         this.visibleItem = null;
         this.fireEvent('hide', this);
@@ -289,7 +290,7 @@ Jx.Menu = new Class({
         this.position(this.contentContainer, this.domObj, $merge({
             offsets: this.chromeOffsets
         }, this.options.position));
-
+        this.stack(this.contentContainer);
         this.contentContainer.setStyle('visibility','visible');
 
         if (this.button && this.button.domA) {

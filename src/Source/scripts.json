@@ -33,6 +33,11 @@
         "selection": {
             "deps": ["object"],
             "desc": "A class to manage selection across multiple list objects"
+        },
+        
+        "stack": {
+          "deps" : ["common"],
+          "desc": "A singleton object for managing a global z-index stack for widgets that need to order themselves in the z-index of the page relative to other such widgets."
         }
 
     },

@@ -4,8 +4,6 @@
  *
  * Extends: <Jx.Button>
  *
- * Implements: <Jx.ContentLoader>, <Jx.AutoPosition>, <Jx.Chrome>
- *
  * Flyout buttons expose a panel when the user clicks the button.  The
  * panel can have arbitrary content.  You must provide any necessary 
  * code to hook up elements in the panel to your application.
@@ -32,9 +30,6 @@
  * flyout buttons inside the content area of another flyout button.  In this
  * case, opening the inner flyout will not close the outer flyout but it will
  * close any other flyouts that are siblings.
- * 
- * The options argument takes a combination of options that apply to <Jx.Button>,
- * <Jx.ContentLoader>, and <Jx.AutoPosition>.
  *
  * Example:
  * (code)
@@ -62,12 +57,22 @@
 Jx.Button.Flyout = new Class({
     Family: 'Jx.Button.Flyout',
     Extends: Jx.Button,
-    
+    Binds: ['keypressHandler', 'clickHandler'],
     options: {
+        /* Option: template
+         * the HTML structure of the flyout button
+         */
         template: '<span class="jxButtonContainer"><a class="jxButton jxButtonFlyout jxDiscloser"><span class="jxButtonContent"><img class="jxButtonIcon" src="'+Jx.aPixel.src+'"><span class="jxButtonLabel "></span></a></span>',
+        /* Option: contentTemplate
+         * the HTML structure of the flyout content area
+         */
         contentTemplate: '<div class="jxFlyout"><div class="jxFlyoutContent"></div></div>'
     },
     
+    /**
+     * Property: contentClasses
+     * the classes array for processing the contentTemplate
+     */
     contentClasses: new Hash({
         contentContainer: 'jxFlyout',
         content: 'jxFlyoutContent'
@@ -79,7 +84,7 @@ Jx.Button.Flyout = new Class({
      */
     content: null,
     /**
-     * APIMethod: render
+     * Method: render
      * construct a new instance of a flyout button.  
      */
     render: function() {
@@ -95,11 +100,9 @@ Jx.Button.Flyout = new Class({
         
         this.content.store('jxFlyout', this);
         this.loadContent(this.content);
-        this.keypressWatcher = this.keypressHandler.bindWithEvent(this);
-        this.hideWatcher = this.clickHandler.bindWithEvent(this);
     },
     /**
-     * Method: clicked
+     * APIMethod: clicked
      * Override <Jx.Button::clicked> to hide/show the content area of the
      * flyout.
      *
@@ -173,14 +176,15 @@ Jx.Button.Flyout = new Class({
          */
         this.contentContainer.setContentBoxSize(document.id(this.content).getMarginBoxSize());
         
+        this.stack(this.contentContainer);
         this.contentContainer.setStyle('visibility','');
 
-        document.addEvent('keydown', this.keypressWatcher);
-        document.addEvent('click', this.hideWatcher);
+        document.addEvent('keydown', this.keypressHandler);
+        document.addEvent('click', this.clickHandler);
         this.fireEvent('open', this);
     },
     /**
-     * Method: hide
+     * APIMethod: hide
      * Closes the flyout if open
      */
     hide: function() {
@@ -190,11 +194,15 @@ Jx.Button.Flyout = new Class({
         Jx.Button.Flyout.Stack.pop();
         this.setActive(false);
         this.contentContainer.dispose();
-        document.removeEvent('keydown', this.keypressWatcher);    
-        document.removeEvent('click', this.hideWatcher);
+        this.unstack(this.contentContainer);
+        document.removeEvent('keydown', this.keypressHandler);    
+        document.removeEvent('click', this.clickHandler);
         this.fireEvent('close', this);
     },
-    /* hide flyout if the user clicks outside of the flyout */
+    /**
+     * Method: clickHandler
+     * hide flyout if the user clicks outside of the flyout 
+     */
     clickHandler: function(e) {
         e = new Event(e);
         var elm = document.id(e.target);
@@ -204,7 +212,10 @@ Jx.Button.Flyout = new Class({
             flyout.hide();
         }
     },
-    /* hide flyout if the user presses the ESC key */
+    /**
+     * Method: keypressHandler
+     * hide flyout if the user presses the ESC key 
+     */
     keypressHandler: function(e) {
         e = new Event(e);
         if (e.key == 'esc') {

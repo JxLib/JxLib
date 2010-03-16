@@ -66,7 +66,7 @@ function dialogFlyout() {
     d2 = new Jx.Dialog({
         label: 'Positioned Dialog',
         image: 'images/page_white_code.png',
-        modal: true, 
+        modal: false, 
         horizontal: '200 left', 
         vertical: '50 top', 
         content: 'FlyoutDialogContent', 
@@ -83,7 +83,13 @@ function dialogFlyout() {
     new Jx.Button.Flyout({
         label: 'Flyout in a Dialog',
         image: 'images/page_white_code.png',
-        content: 'This is a dialog <br> with a flyout in it.'
+        content: new Jx.Panel({
+            contentURL: 'panel_content.html',
+            label: 'Panel in Flyout',
+            width: 300,
+            height: 300,
+            collapse: false
+        })
     }).addTo('FlyoutDialogContent');
 }
 </script>
