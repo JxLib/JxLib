@@ -11,6 +11,7 @@
 window.addEvent('load', function() {
     panelFlyout();
     tabFlyout();
+    dialogFlyout();
 });
 </script>
 
@@ -57,6 +58,36 @@ function tabFlyout() {
 }
 </script>
 
+<script id="dialogFlyoutScript" type="text/javascript">
+function dialogFlyout() {
+    /* this is a dialog that contains a flyout to test the z-order of menus and 
+     * dialogs
+     */
+    d2 = new Jx.Dialog({
+        label: 'Positioned Dialog',
+        image: 'images/page_white_code.png',
+        modal: true, 
+        horizontal: '200 left', 
+        vertical: '50 top', 
+        content: 'FlyoutDialogContent', 
+        resize: true,
+        maximize: true
+    });
+    
+    new Jx.Button({
+        image: 'images/page_white_code.png', 
+        label: 'Open Dialog', 
+        onClick: d2.open.bind(d2)
+    }).addTo('flyoutDialog');
+
+    new Jx.Button.Flyout({
+        label: 'Flyout in a Dialog',
+        image: 'images/page_white_code.png',
+        content: 'This is a dialog <br> with a flyout in it.'
+    }).addTo('FlyoutDialogContent');
+}
+</script>
+
 </head>
 <body>
 <h1>Jx.Button.Flyout Integrated Examples</h1>
@@ -69,8 +100,13 @@ function tabFlyout() {
 <div id="flyoutPanel" class="buttonBox"></div>
 
 <h2 id="tabFlyout">TabBox in Flyout</h2>
-<p>This flyout contains a TabBox.  For fun, there's a color palette in one of the tabs too!</p>
+<p>This flyout contains a TabBox.  For fun, there's a color palette in one of the tabs too!.</p>
 <div id="flyoutTab" class="buttonBox"></div>
+
+<h2 id="dialogFlyout">Flyout in a Dialog</h2>
+<p>This dialog contains a Flyout.  The z-order of dialogs and menus allows this to happen properly.</p>
+<div id="FlyoutDialogContent"></div>
+<div id="flyoutDialog" class="buttonBox"></div>
 
 </body>
 </html>
