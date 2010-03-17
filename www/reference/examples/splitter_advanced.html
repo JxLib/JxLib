@@ -62,7 +62,7 @@ function drawAdvancedSplit() {
     /* bottom right */
       var data = ([
           {'header': 'Exports','2002': '414,038.50','2003': '399,122.10','2004': '429,005.80','2005': '450,149.90','2006': '453,732.40','2007': '463,051.40'},
-          {'header': 'United States','2002': '347,051.80','2003': '328,983.30','2004': '350,576.30','2005': '368,414.70','2006': '361,440.40','2007': '356,094.20'},
+          {'header': 'United States','2002': '347,051.80','2003': '328,983.30','2004': '350,576.30','2005': '368,414.70','2006': '361,440.40','2007': '356,094.20', 'description': 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'},
           {'header': 'Japan','2002': '10,115.00','2003': '9,799.50','2004': '9,846.40','2005': '10,168.20','2006': '10,279.20','2007': '9,989.20'},
           {'header': 'United Kingdom','2002': '6,161.50','2003': '7,695.30','2004': '9,364.00','2005': '9,355.40','2006': '11,281.20','2007':'14,154.80'},
           {'header': 'Other EC Countries','2002':'16,294.30','2003':'16,423.40','2004':'17,533.80','2005':'18,630.60','2006':'20,900.20','2007':'24,187.00'},
@@ -94,7 +94,8 @@ function drawAdvancedSplit() {
               {name: '2004', type: 'currency'},
               {name: '2005', type: 'currency'},
               {name: '2006', type: 'currency'},
-              {name: '2007', type: 'currency'}
+              {name: '2007', type: 'currency'},
+              {name: 'description', type: 'alphanumeric'}
           ],
           protocol: new Jx.Store.Protocol.Local(data,{parser: parser}),
           strategies: [full],
@@ -105,10 +106,10 @@ function drawAdvancedSplit() {
     var options = {
         parent: splitV2.elements[1],
         row: {
-            useHeaders: true,
+            //useHeaders: true,
             alternateRowColors: true,
             headerField: 'header',
-            rowHeight: 20
+            rowHeight: 'auto'
         },
         columns: {
             headerRowHeight: 20,
@@ -197,6 +198,23 @@ function drawAdvancedSplit() {
                 formatter: null,
                 name: '2007',
                 dataType: 'currency'
+            },{
+                header: 'Description',
+                modelField: 'description',
+                width: '200',
+                isEditable: false,
+                isSortable: false,
+                isResizable: true,
+                isHidden: false,
+                cssClass: 'textWrap',
+                formatter: null,
+                name: 'description',
+                dataType: 'alphanumeric',
+                templates: {
+                    cell: {
+                        cssClass: 'textWrap'
+                    }
+                }
             }
            ]
         },
@@ -204,6 +222,12 @@ function drawAdvancedSplit() {
     };
     //create grid
     var grid = new Jx.Grid(options);
+    
+    prelighter = new Jx.Plugin.Grid.Prelighter({});
+    selector = new Jx.Plugin.Grid.Selector({});
+    sorter = new Jx.Plugin.Grid.Sorter({});
+    resizer = new Jx.Plugin.Grid.Resize({});
+    
     store.addEvent('storeDataLoaded', function () {
         grid.render();
         prelighter.attach(grid);
@@ -211,9 +235,16 @@ function drawAdvancedSplit() {
         sorter.attach(grid);
         resizer.attach(grid);
     });
-    store.load();    
+    store.load();
+    
+    resizer.activate('column');
 }
 </script>
+<style>
+.textWrap {
+  white-space: normal !important;
+}
+</style>
 </head>
 <body>
     <h1>Jx.Splitter Integrated Examples</h1>
