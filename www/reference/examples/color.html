@@ -60,7 +60,8 @@ function colorDisabled() {
 <script id="colorButtonInputScript">
   function colorInput() {
   // an example Class for a Jx.Field.Text and Jx.Button.Color combination
-  Jx.Field.Text.Color = new Class({
+  /*
+  Jx.Field.Color = new Class({
     Extends: Jx.Field.Text,
 
     options: {
@@ -116,8 +117,8 @@ function colorDisabled() {
       });
     }
   });
-
-  var test = new Jx.Field.Text.Color({
+*/
+  var test = new Jx.Field.Color({
     label : 'Choose Color',
     buttonOptions: {
       color: '#f00'

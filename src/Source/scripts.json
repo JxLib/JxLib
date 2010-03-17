@@ -650,6 +650,11 @@
         "file": {
             "deps": ["field", "text", "button", "Request.JSON", "hidden","form"],
             "desc": "Represents a file input w/upload and progress tracking capabilities (requires APC for progress)"
+        },
+
+        "jxcolor": {
+            "deps": ["field", "text", "button", "button.color", "validator","form"],
+            "desc": "Represents an input field with a jx.button.color"
         }
     }
 
