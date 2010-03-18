@@ -12,6 +12,9 @@
  * Example:
  * (code)
  * (end)
+ * 
+ * MooTools.lang Keys:
+ * - field.requiredText
  *
  * License:
  * Copyright (c) 2009, Jon Bomgardner.
@@ -95,12 +98,6 @@ Jx.Field = new Class({
          * will not submit until it is filled in and validates.
          */
         required : false,
-        /**
-         * Option: requiredText
-         * Text to be displayed if a field is required. It is added as an
-         * <em> element inside the <label>.
-         */
-        requiredText : MooTools.lang.get('Jx','field').requiredText,
         /**
          * Option: readonly
          * {True|False} defaults to false. Whether this field is readonly.
@@ -214,7 +211,7 @@ Jx.Field = new Class({
 
             if (this.options.required) {
                 this.requiredText = new Element('em', {
-                    'html' : this.options.requiredText,
+                    'html' : MooTools.lang.get('Jx','field').requiredText,
                     'class' : 'required'
                 });
                 this.requiredText.inject(this.label);
@@ -336,9 +333,8 @@ Jx.Field = new Class({
      */
     changeText: function (lang) {
     	this.parent();
-    	this.options.requiredText = MooTools.lang.get('Jx','field').requiredText;
     	if ($defined(this.requiredText)) {
-    		this.requiredText.set('html', this.options.requiredText);
+    		this.requiredText.set('html',MooTools.lang.get('Jx','field').requiredText);
     	}
     }
 

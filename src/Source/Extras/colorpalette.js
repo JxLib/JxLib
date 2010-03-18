@@ -23,6 +23,10 @@
  * change - triggered when the color changes.
  * click - the user clicked on a color swatch (emitted after a change event)
  *
+ * MooTools.lang keys:
+ * - colorpalette.alphaLabel
+ * 
+ * 
  * License:
  * Copyright (c) 2008, DM Solutions Group Inc.
  *
@@ -53,11 +57,7 @@ Jx.ColorPalette = new Class({
          * an array of hex colors for creating the palette, defaults to a
          * set of web safe colors.
          */
-        hexColors: ['00', '33', '66', '99', 'CC', 'FF'],
-        /* Option: alphaLabel
-         * the text to display next to the alpha input for i18n.
-         */
-        alphaLabel: MooTools.lang.get('Jx','colorpalette').alphaLabel
+        hexColors: ['00', '33', '66', '99', 'CC', 'FF']
     },
     /**
      * APIMethod: render
@@ -96,7 +96,7 @@ Jx.ColorPalette = new Class({
 
         top.adopt(this.colorInput);
 
-        this.alphaLabel = new Element('label', {'class':'jxAlphaLabel', 'html':this.options.alphaLabel});
+        this.alphaLabel = new Element('label', {'class':'jxAlphaLabel', 'html':MooTools.lang.get('Jx','colorpalette').alphaLabel});
         top.adopt(this.alphaLabel);
 
         this.alphaInput = new Element('input', {
@@ -311,9 +311,8 @@ Jx.ColorPalette = new Class({
     changeText: function (lang) {
     	this.parent();
     	
-    	this.options.alphaLabel = MooTools.lang.get('Jx','colorpalette').alphaLabel;
     	if ($defined(this.alphaLabel)) {
-    		this.alphaLabel.set('html', this.options.alphaLabel);
+    		this.alphaLabel.set('html', MooTools.lang.get('Jx','colorpalette').alphaLabel);
     	}
     }
 });

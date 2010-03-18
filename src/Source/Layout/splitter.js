@@ -15,6 +15,9 @@
  * Example:
  * (code)
  * (end)
+ * 
+ * MooTools.lang Keys:
+ * - splitter.barToolTip
  *
  * License:
  * Copyright (c) 2008, DM Solutions Group Inc.
@@ -94,11 +97,6 @@ Jx.Splitter = new Class({
          * elements open or closed.
          */
         snaps: [],
-        /* Option: barTooltip
-         * the tooltip to display when the mouse hovers over a split bar,
-         * used for i18n.
-         */
-        barTooltip: MooTools.lang.get('Jx','splitter').barToolTip,
         /* Option: onStart
          * an optional function to call when a bar starts dragging
          */
@@ -247,7 +245,7 @@ Jx.Splitter = new Class({
     prepareBar: function() {
         var o = new Element('div', {
             'class': 'jxSplitBar'+this.options.layout.capitalize(),
-            'title': this.options.barTitle
+            'title': MooTools.lang.get('Jx','panel').barTooltip
         });
         return o;
     },
@@ -744,7 +742,9 @@ Jx.Splitter = new Class({
     
     createText: function (lang) {
     	this.parent();
-    	this.options.barToolTip = MooTools.lang.get('Jx','splitter').barToolTip;
+    	this.bars.each(function(bar){
+    		$(bar).set('title', MooTools.lang.get('Jx','splitter').title);
+    	},this);
     	
     }
 });

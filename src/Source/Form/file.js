@@ -15,6 +15,9 @@
  * call the Jx.Field.File.upload() method for each file input directly and
  * then submit the rest of the form via ajax.
  *
+ * MooTools.lang Keys:
+ * - file.browseLabel
+ * 
  * License:
  * Copyright (c) 2009, Jon Bomgardner.
  *

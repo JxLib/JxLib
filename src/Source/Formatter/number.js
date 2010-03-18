@@ -14,6 +14,10 @@
  * Example:
  * (code)
  * (end)
+ * 
+ * MooTools.lang Keys:
+ * - 'formatter.number'.decimalSeparator
+ * - 'formatter.number'.thousandsSeparator
  *
  * License:
  * Copyright (c) 2009, Jon Bomgardner.
@@ -25,16 +29,6 @@ Jx.Formatter.Number = new Class({
     Extends: Jx.Formatter,
 
     options: {
-        /**
-         * Option: decimalSeparator
-         * Character to use as the decimal separator
-         */
-        decimalSeparator: MooTools.lang.get('Jx','formatter.number').decimalSeparator,
-        /**
-         * Option: thousandSeparator
-         * Character to use as the thousands separator
-         */
-        thousandsSeparator: MooTools.lang.get('Jx','formatter.number').thousandsSeparator,
         /**
          * Option: precision
          * The number of decimal places to round to
@@ -92,11 +86,11 @@ Jx.Formatter.Number = new Class({
             for (var i = 0; i < l; i++) {
                 ret = ret + main.charAt(i);
                 if (i === left - 1 && i !== l - 1) {
-                    ret = ret + this.options.thousandsSeparator;
+                    ret = ret + MooTools.lang.get('Jx','formatter.number').thousandsSeparator;
                 } else if (i >= left) {
                     j++;
                     if (j === 3 && i !== l - 1) {
-                        ret = ret + this.options.thousandsSeparator;
+                        ret = ret + MooTools.lang.get('Jx','formatter.number').thousandsSeparator;
                         j = 0;
                     }
                 }
@@ -107,7 +101,7 @@ Jx.Formatter.Number = new Class({
         }
 
         if (dec) {
-            ret = ret + this.options.decimalSeparator + parts[1];
+            ret = ret + MooTools.lang.get('Jx','formatter.number').decimalSeparator + parts[1];
         }
         if (neg && this.options.useParens) {
             ret = "(" + ret + ")";
@@ -129,8 +123,5 @@ Jx.Formatter.Number = new Class({
      */
     changeText: function (lang) {
     	this.parent();
-    	
-    	this.options.decimalSeparator = MooTools.lang.get('Jx','formatter.number').decimalSeparator;
-        this.options.thousandsSeparator = MooTools.lang.get('Jx','formatter.number').thousandsSeparator;
     }
 });

@@ -34,6 +34,9 @@
  *
  * Extends:
  * Jx.Dialog extends <Jx.Panel>, please go there for more details.
+ * 
+ * MooTools.lang Keys:
+ * - dialog.resizeToolTip
  *
  * License:
  * Copyright (c) 2008, DM Solutions Group Inc.
@@ -43,7 +46,6 @@
 Jx.Dialog = new Class({
     Family: 'Jx.Dialog',
     Extends: Jx.Panel,
-    //Implements: [Jx.AutoPosition, Jx.Chrome],
 
     options: {
         /* Option: modal
@@ -92,10 +94,9 @@ Jx.Dialog = new Class({
          */
         vertical: 'center center',
         /* Option: label
-         * (optional) {String} the title of the dialog box.  "New Dialog"
-         * is the default value.
+         * (optional) {String} the title of the dialog box.
          */
-        label: MooTools.lang.get('Jx','dialog').label,
+        label: '',
         /* Option: id
          * (optional) {String} an HTML ID to assign to the dialog, primarily
          * used for applying CSS styles to specific dialogs
@@ -112,10 +113,7 @@ Jx.Dialog = new Class({
          * resizeable by the user or not.  Default is false.
          */
         resize: false,
-        /* Option: resizeTooltip
-         * the tooltip to display for the resize handle, empty by default.
-         */
-        resizeTooltip: '',
+
         /* Option: move
          * (optional) {Boolean} determines whether the dialog is
          * moveable by the user or not.  Default is true.
@@ -204,7 +202,7 @@ Jx.Dialog = new Class({
         if (this.options.resize && typeof Drag != 'undefined') {
             this.resizeHandle = new Element('div', {
                 'class':'jxDialogResize',
-                title: this.options.resizeTooltip,
+                title: MooTools.lang.get('Jx','panel').resizeTooltip,
                 styles: {
                     'display':this.options.closed?'none':'block'
                 }
@@ -523,10 +521,13 @@ Jx.Dialog = new Class({
     	this.parent();
     	if ($defined(this.maxM)) {
 			if (this.maximize) {
-				this.maxM.setLabel(this.options.restoreLabel);
+				this.maxM.setLabel(MooTools.lang.get('Jx','panel').restoreLabel);
 	    	} else {
-	    		this.maxM.setLabel(this.options.maximizeLabel);
+	    		this.maxM.setLabel(MooTools.lang.get('Jx','panel').maximizeLabel);
 	    	}
+    	}
+    	if ($defined(this.resizeHandle)) {
+    		this.resizeHandle.set('title', MooTools.lang.get('Jx','dialog').resizeTooltip);
     	}
     }
 });

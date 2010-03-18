@@ -6,7 +6,11 @@
  *
  * Jx.Dialog.Confirm is an extension of Jx.Dialog that allows the developer
  * to prompt their user with e yes/no question.
- *
+ * 
+ * MooTools.lang Keys:
+ * - confirm.affirmitiveLabel
+ * - confirm.negativeLabel
+ * 
  * License:
  * Copyright (c) 2009, Jonathan Bomgardner
  *
@@ -22,17 +26,6 @@ Jx.Dialog.Confirm = new Class({
          * The question to ask the user
          */
         question: '',
-        /**
-         * Option: affirmitiveLabel
-         * The text to use for the affirmitive button. Defaults to 'Yes'.
-         */
-        affirmitiveLabel: MooTools.lang.get('Jx','confirm').affirmitiveLabel,
-        /**
-         * Option: negativeLabel
-         * The text to use for the negative button. Defaults to 'No'.
-         */
-        negativeLabel: MooTools.lang.get('Jx','confirm').negativeLabel,
-
         /**
          * Jx.Dialog option defaults
          */
@@ -51,12 +44,12 @@ Jx.Dialog.Confirm = new Class({
         this.buttons = new Jx.Toolbar({position: 'bottom'});
         
         this.ok = new Jx.Button({
-            label: this.options.affirmitiveLabel,
-            onClick: this.onClick.bind(this, this.options.affirmitiveLabel)
+            label: MooTools.lang.get('Jx','confirm').affirmitiveLabel,
+            onClick: this.onClick.bind(this, MooTools.lang.get('Jx','confirm').affirmitiveLabel)
         }),
         this.cancel = new Jx.Button({
-            label: this.options.negativeLabel,
-            onClick: this.onClick.bind(this, this.options.negativeLabel)
+            label: MooTools.lang.get('Jx','confirm').negativeLabel,
+            onClick: this.onClick.bind(this, MooTools.lang.get('Jx','confirm').negativeLabel)
         })
         this.buttons.add(this.ok, this.cancel);
         this.options.toolbars = [this.buttons];
@@ -85,13 +78,11 @@ Jx.Dialog.Confirm = new Class({
     
     createText: function (lang) {
     	this.parent();
-    	this.options.affirmitiveLabel = MooTools.lang.get('Jx','confirm').affirmitiveLabel;
-    	this.options.negativeLabel = MooTools.lang.get('Jx','confirm').negativeLabel;
     	if ($defined(this.ok)) {
-    		this.ok.setLabel(this.options.affirmitiveLabel);
+    		this.ok.setLabel(MooTools.lang.get('Jx','confirm').affirmitiveLabel);
     	}
     	if ($defined(this.cancel)) {
-    		this.cancel.setLabel(this.options.negativeLabel);
+    		this.cancel.setLabel(MooTools.lang.get('Jx','confirm').negativeLabel);
     	}
     	
     }

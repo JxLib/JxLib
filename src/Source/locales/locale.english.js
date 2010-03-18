@@ -35,22 +35,22 @@ MooTools.lang.set('en-US', 'Jx', {
 		barToolTip: 'drag this bar to resize'
 	},
 	panel: {
-		collapseTooltip: 'Collapse/Expand Panel', //colB
-        collapseLabel: 'Collapse',  //colM
-        expandLabel: 'Expand', //colM
+		collapseTooltip: 'Collapse/Expand Panel',
+        collapseLabel: 'Collapse',
+        expandLabel: 'Expand', 
         maximizeTooltip: 'Maximize Panel',
         maximizeLabel: 'Maximize',
-        restoreTooltip: 'Restore Panel', //maxB
-        restoreLabel: 'Restore', //maxM
-        closeTooltip: 'Close Panel', //closeB
-        closeLabel: 'Close' //closeM
+        restoreTooltip: 'Restore Panel', 
+        restoreLabel: 'Restore', 
+        closeTooltip: 'Close Panel', 
+        closeLabel: 'Close'
 	},
 	confirm: {
 		affirmitiveLabel: 'Yes',
         negativeLabel: 'No'
 	},
 	dialog: {
-		label: 'New Dialog'
+		resizeToolTip: 'Resize dialog'
 	},
 	message: {
 		okButton: 'Ok'

@@ -5,6 +5,9 @@
  * Extends: <Jx.ListItem>
  *
  * Events:
+ * 
+ * MooTools.lang Keys:
+ * - notice.closeTip
  *
  * License:
  * Copyright (c) 2009, DM Solutions Group.

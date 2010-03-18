@@ -11,6 +11,10 @@
  * (code)
  * (end)
  *
+ * MooTools.lang Keys:
+ * - 'formatter.boolean'.true
+ * - 'formatter.boolean'.false
+ * 
  * License:
  * Copyright (c) 2009, Jon Bomgardner.
  *
@@ -20,18 +24,7 @@ Jx.Formatter.Boolean = new Class({
 
     Extends: Jx.Formatter,
 
-    options: {
-        /**
-         * Option: true
-         * The text to display for true values
-         */
-        'true': MooTools.lang.get('Jx','formatter.boolean')['true'],
-        /**
-         * Option: false
-         * The text to display for false values
-         */
-        'false': MooTools.lang.get('Jx','formatter.boolean')['false']
-    },
+    options: {},
     /**
      * APIMethod: format
      * Takes a value, determines boolean equivalent and
@@ -60,7 +53,7 @@ Jx.Formatter.Boolean = new Class({
         default:
             b = true;
         }
-        return b ? this.options['true'] : this.options['false'];
+        return b ? MooTools.lang.get('Jx','formatter.boolean')['true'] : MooTools.lang.get('Jx','formatter.boolean')['false'];
     },
     
     /**
@@ -74,8 +67,6 @@ Jx.Formatter.Boolean = new Class({
      */
     changeText: function (lang) {
     	this.parent();
-    	this.options['true'] = MooTools.lang.get('Jx','formatter.boolean')['true'];
-        this.options['false'] = MooTools.lang.get('Jx','formatter.boolean')['false'];
     }
 
 });

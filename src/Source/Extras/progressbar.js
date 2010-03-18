@@ -25,6 +25,10 @@
  * onUpdate - Fired when the bar is updated
  * onComplete - fires when the progress bar completes it's fill
  * 
+ * MooTools.lang keys:
+ * - progressbar.messageText
+ * - progressbar.progressText
+ * 
  */
 Jx.Progressbar = new Class({
     Family: 'Jx.Progressbar',
@@ -33,17 +37,6 @@ Jx.Progressbar = new Class({
     options: {
         onUpdate: $empty,
         onComplete: $empty,
-        /**
-         * Option: messageText
-         * The text of a message displayed above the bar. Set to NULL to prevent any text from appearing
-         */
-        messageText: MooTools.lang.get('Jx','progressbar').messageText,
-        /**
-         * Option: progressText
-         * The text displayed inside the bar. This defaults to "{progress} of {total}" 
-         * where {progress} and {total} are substituted for passed in values.
-         */
-        progressText: MooTools.lang.get('Jx','progressbar').progressText,
         /**
          * Option: bar
          * an object that gives options for the bar itself. Specifically, 
@@ -112,8 +105,8 @@ Jx.Progressbar = new Class({
         
         //Message
         if (this.message) {
-            if ($defined(this.options.messageText)) {
-                this.message.set('html', this.options.messsageText);
+            if ($defined(MooTools.lang.get('Jx','progressbar').messageText)) {
+                this.message.set('html', MooTools.lang.get('Jx','progressbar').messageText);
             } else {
                 this.message.destroy();
             }
@@ -146,16 +139,17 @@ Jx.Progressbar = new Class({
         
         //TODO: check for {progress} and {total} in progressText
         var obj = {};
-        if (this.options.progressText.contains('{progress}')) {
+        var progressText = MooTools.lang.get('Jx','progressbar').progressText
+        if (progressText.contains('{progress}')) {
             obj.progress = 0;
         }
-        if (this.options.progressText.contains('{total}')) {
+        if (progressText.contains('{total}')) {
             obj.total = 0;
         }
         
         //Progress text
         if (this.text) {
-            this.text.set('html', this.options.progressText.substitute(obj));
+            this.text.set('html', progressText.substitute(obj));
         }
         
     },
@@ -174,13 +168,14 @@ Jx.Progressbar = new Class({
         //update bar width
         this.text.get('tween', {property:'width', onComplete: function() {
             var obj = {};
-            if (this.options.progressText.contains('{progress}')) {
+            var progressText = MooTools.lang.get('Jx','progressbar').progressText
+            if (progressText.contains('{progress}')) {
                 obj.progress = progress;
             }
-            if (this.options.progressText.contains('{total}')) {
+            if (progressText.contains('{total}')) {
                 obj.total = total;
             }
-            var t = this.options.progressText.substitute(obj);
+            var t = progressText.substitute(obj);
             this.text.set('text', t);
         }.bind(this)}).start(newWidth);
         
@@ -207,9 +202,10 @@ Jx.Progressbar = new Class({
      */
     changeText: function (lang) {
     	this.parent();
-    	this.options.messageText = MooTools.lang.get('Jx','progressbar').messageText;
-        this.options.progressText = MooTools.lang.get('Jx','progressbar').progressText;
-        //The text will change the next time update is called.
+    	if (this.message) {
+    		this.message.set('html',MooTools.lang.get('Jx','progressbar').messageText);
+    	}
+        //progress text will update on next update.
     }
     
 });

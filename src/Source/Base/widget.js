@@ -53,6 +53,9 @@
  * The mask and spinner functionality is provided by the MooTools Spinner
  * class.  You can use any options documented for Spinner or Mask by setting
  * the maskOptions option when creating a widget.
+ * 
+ * MooTools.Lang Keys:
+ * widget.busyMessage - sets the message of the waiter component when used
  */
 Jx.Widget = new Class({
     Family: "Jx.Widget",
@@ -90,7 +93,6 @@ Jx.Widget = new Class({
          * to use the busy mask.
          */
         busyMask: {
-          'message': MooTools.lang.get('Jx','widget').busyMessage,
           'class': 'jxSpinner jxSpinnerLarge',
           img: {'class':'jxSpinnerImage'},
           content: {'class':'jxSpinnerContent'},
@@ -783,7 +785,7 @@ Jx.Widget = new Class({
             opts.img = null;
             opts.message = new Element('p',{
               'class':'jxSpinnerMessage',
-              html: '<span class="jxSpinnerImage"></span>'+this.options.busyMask.message
+              html: '<span class="jxSpinnerImage"></span>'+MooTools.lang.get('Jx','widget').busyMessage
             });
           }
           opts = $merge(this.options.busyMask, opts);
@@ -810,12 +812,12 @@ Jx.Widget = new Class({
      *    translations changed.
      */
     changeText: function (lang) {
-      this.options.busyMask['message'] = MooTools.lang.get('Jx','widget').busyMessage;
-      //if the mask is being used then recreate it with the new text
-      if (this.busy) {
-        this.setBusy(false);
-        this.setBusy(true);
-      }
+        //if the mask is being used then recreate it. The code will pull
+        //the new text automatically
+        if (this.busy) {
+            this.setBusy(false);
+            this.setBusy(true);
+        }
     },
     
     /**

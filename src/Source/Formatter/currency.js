@@ -11,6 +11,9 @@
  * Example:
  * (code)
  * (end)
+ * 
+ * MooTools.lang Keys:
+ * - 'formatter.currency'.sign
  *
  * License:
  * Copyright (c) 2009, Jon Bomgardner.
@@ -21,14 +24,7 @@ Jx.Formatter.Currency = new Class({
 
     Extends: Jx.Formatter.Number,
 
-    options: {
-        /**
-         * Option: sign
-         * The sign to use for this currency. Defaults to
-         * the US '$'.
-         */
-        sign: MooTools.lang.get('Jx','formatter.currency').sign
-    },
+    options: {},
     /**
      * APIMethod: format
      * Takes a number and formats it as currency.
@@ -50,9 +46,9 @@ Jx.Formatter.Currency = new Class({
 
         var ret;
         if (neg && !this.options.useParens) {
-            ret = "-" + this.options.sign + value.substring(1, value.length);
+            ret = "-" + MooTools.lang.get('Jx','formatter.currency').sign + value.substring(1, value.length);
         } else {
-            ret = this.options.sign + value;
+            ret = MooTools.lang.get('Jx','formatter.currency').sign + value;
         }
 
         return ret;
@@ -69,6 +65,5 @@ Jx.Formatter.Currency = new Class({
      */
     changeText: function (lang) {
     	this.parent();
-    	this.options.sign = MooTools.lang.get('Jx','formatter.currency').sign;
     }
 });

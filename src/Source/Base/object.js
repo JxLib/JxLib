@@ -245,8 +245,8 @@ Jx.Object = new Class({
 
         this.setOptions(options);
         if (this.options.useLang) {
-        MooTools.lang.addEvent('langChange', this.changeText)
-      }
+            MooTools.lang.addEvent('langChange', this.changeText)
+        }
         this.fireEvent('preInit');
         this.init();
         this.fireEvent('postInit');

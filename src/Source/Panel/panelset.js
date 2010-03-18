@@ -25,6 +25,9 @@
  * var p3 = new Jx.Panel({collapse: false, maximize: true, content: 'c3'});
  * var panelSet = new Jx.PanelSet('panels', [p1,p2,p3]);
  * (end)
+ * 
+ * MooTools.lang Keys:
+ * - panelset.barTooltip
  *
  * License:
  * Copyright (c) 2008, DM Solutions Group Inc.
@@ -43,11 +46,7 @@ Jx.PanelSet = new Class({
         /* Option: panels
          * an array of <Jx.Panel> objects that will be managed by the set.
          */
-        panels: [],
-        /* Option: barTooltip
-         * the tooltip to place on the title bars of each panel
-         */
-        barTooltip: MooTools.lang.get('Jx','panelset').barTooltip
+        panels: []
     },
 
     /**
@@ -97,7 +96,7 @@ Jx.PanelSet = new Class({
             prepareBar: (function(i) {
                 var bar = new Element('div', {
                     'class': 'jxPanelBar',
-                    'title': this.options.barTooltip
+                    'title': MooTools.lang.get('Jx','panelset').barTooltip
                 });
 
                 var panel = this.panels[i];
@@ -231,6 +230,6 @@ Jx.PanelSet = new Class({
     
     createText: function (lang) {
       this.parent();
-      this.options.barTooltip = MooTools.lang.get('Jx','panelset').barTooltip;
+      //barTooltip is handled by the splitter's createText() function
     }
 });

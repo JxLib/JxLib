@@ -6,6 +6,9 @@
  *
  * This class extends Jx.Panel to provide a consistent interface for uploading
  * files in an application.
+ * 
+ * MooTools.lang Keys:
+ * - upload.buttonText
  *
  * License:
  * Copyright (c) 2009, Jon Bomgardner.
@@ -44,11 +47,6 @@ Jx.Panel.FileUpload = new Class({
          * file input
          */
         prompt: null,
-        /**
-         * Option: buttonText
-         * The text to place on the upload button
-         */
-        buttonText: MooTools.lang.get('Jx','upload').buttonText,
         /**
          * Option: removeOnComplete
          * Determines whether a file is removed from the queue after uploading
@@ -106,7 +104,7 @@ Jx.Panel.FileUpload = new Class({
         });
         this.queueDiv.inject(this.domObjA);
         this.uploadBtn = new Jx.Button({
-            label : this.options.buttonText,
+            label : MooTools.lang.get('Jx','upload').buttonText,
             onClick: this.upload.bind(this)
         });
         var tlb = new Jx.Toolbar({position: 'bottom'}).add(this.uploadBtn);
@@ -297,9 +295,8 @@ Jx.Panel.FileUpload = new Class({
      */
     createText: function (lang) {
       this.parent();
-      this.options.buttonText = MooTools.lang.get('Jx','upload').buttonText;
       if ($defined(this.uploadBtn)) {
-        this.uploadBtn.setLabel(this.options.buttonText);
+        this.uploadBtn.setLabel(MooTools.lang.get('Jx','upload').buttonText);
       }
     }
 });
