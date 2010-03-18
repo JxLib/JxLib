@@ -154,18 +154,33 @@ a.jxTabClose {
 /* HORIZONTALTAB BAR - TOP and BOTTOM TABS */
 /* ======================================= */
 
-.jxBarTop div.jxTabContainer,
-.jxBarBottom div.jxTabContainer {
+.jxTabBarTop .jxBarWrapper, 
+.jxTabBarBottom .jxBarWrapper {
+  padding-left: 2px;
+}
+
+.jxBarTop span.jxTabContainer,
+.jxBarBottom span.jxTabContainer {
   /* Base setup */
+  margin-right: -1px;
+  padding: 2px 0px;
 }
 
 .jxBarTop a.jxTab,
-.jxBarTop span.jxTabContent {
+.jxBarTop span.jxTabContent,
+.jxTabBarTop .jxBarScrollRight a.jxButton,
+.jxTabBarTop .jxBarScrollRight span.jxButtonContent,
+.jxTabBarTop .jxBarScrollLeft a.jxButton,
+.jxTabBarTop .jxBarScrollLeft span.jxButtonContent {
   background-image: url(images/tab_top.png);
 }
 
 .jxBarBottom a.jxTab,
-.jxBarBottom span.jxTabContent {
+.jxBarBottom span.jxTabContent,
+.jxTabBarBottom .jxBarScrollRight a.jxButton,
+.jxTabBarBottom .jxBarScrollRight span.jxButtonContent,
+.jxTabBarBottom .jxBarScrollLeft a.jxButton,
+.jxTabBarBottom .jxBarScrollLeft span.jxButtonContent {
   background-image: url(images/tab_bottom.png);
 }
 
@@ -325,10 +340,18 @@ a.jxTabClose {
 /* VERTICAL TAB BAR - LEFT and RIGHT */
 /* ================================= */
 
+.jxTabBarLeft .jxBarWrapper, 
+.jxTabBarRight .jxBarWrapper {
+  padding-top: 2px;
+}
+
 .jxBarLeft span.jxTabContainer,
 .jxBarRight span.jxTabContainer {
   /* Base setup */
+  margin-bottom: -1px;
+  padding: 0px 2px;
 }
+
 
 .jxBarLeft a.jxTab,
 .jxBarLeft span.jxTabContent {

@@ -95,12 +95,15 @@
 .jxBarBottom .jxBarScrollLeft {
   float: right;
   z-index: 1;
+  padding: 2px 0px;
+  margin-right: -1px;
 }
 
 .jxBarTop .jxBarScrollRight,
 .jxBarBottom .jxBarScrollRight {
   float: right;
   z-index: 1;
+  padding: 2px 0px;
 }
 
 .jxBarTop .jxBarScrollLeft img.jxButtonIcon,
