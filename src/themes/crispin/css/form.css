@@ -97,7 +97,8 @@
 .jxInputText,
 .jxInputPassword,
 .jxInputTextarea,
-.jxInputCombo {
+.jxInputCombo,
+.jxInputColor {
   margin: 0px 4px;
   padding: 4px;
   border: 1px solid #bbb;
@@ -109,7 +110,8 @@
   color: #000;
 }
 
-.jxInputCombo {
+.jxInputCombo,
+.jxInputColor {
   padding: 4px 20px 4px 20px;
   /* overall width is 250px, margins+padding+border is 50px */
   width: 200px;
@@ -128,6 +130,12 @@
   left: 0px;
   top: 0px;
   margin: 4px 4px 4px 8px;
+}
+
+.jxInputContainerColor .jxInputIcon {
+  border: 1px solid #bbb;
+  width: 15px;
+  height: 15px;
 }
 
 .jxInputIconHidden .jxInputIcon {
@@ -183,7 +191,8 @@ img.jxInputRevealerIcon {
 .jxInputPassword:focus,
 .jxInputTextarea:focus,
 .jxInputSelect:focus,
-.jxInputCombo:focus {
+.jxInputCombo:focus,
+.jxInputColor:focus {
   border: 1px solid #000;
 }
 
@@ -221,7 +230,9 @@ img.jxInputRevealerIcon {
 .jxFieldError .jxInputText,
 .jxFieldError .jxInputPassword,
 .jxFieldError .jxInputTextarea,
-.jxFieldError .jxInputSelect {
+.jxFieldError .jxInputSelect,
+.jxFieldError .jxInputCombo,
+.jxFieldError .jxInputColor {
   background-color: #FBE3E4; 
   color: #8a1f11; 
   border-color: #FBC2C4;
@@ -230,7 +241,9 @@ img.jxInputRevealerIcon {
 .jxFieldSuccess .jxInputText,
 .jxFieldSuccess .jxInputPassword,
 .jxFieldSuccess .jxInputTextarea,
-.jxFieldSuccess .jxInputSelect {
+.jxFieldSuccess .jxInputSelect,
+.jxFieldSuccess .jxInputCombo,
+.jxFieldSuccess .jxInputColor {
   background-color: #E6EFC2; 
   color: #264409; 
   border-color: #C6D880;
@@ -239,14 +252,18 @@ img.jxInputRevealerIcon {
 .jxFieldError .jxInputText:focus,
 .jxFieldError .jxInputPassword:focus,
 .jxFieldError .jxInputTextarea:focus,
-.jxFieldError .jxInputSelect:focus {
+.jxFieldError .jxInputSelect:focus,
+.jxFieldError .jxInputCombo:focus,
+.jxFieldError .jxInputColor:focus {
   border-color: #8a1f11;
 }
 
 .jxFieldSuccess .jxInputText:focus,
 .jxFieldSuccess .jxInputPassword:focus,
 .jxFieldSuccess .jxInputTextarea:focus,
-.jxFieldSuccess .jxInputSelect:focus {
+.jxFieldSuccess .jxInputSelect:focus,
+.jxFieldSuccess .jxInputCombo:focus,
+.jxFieldSuccess .jxInputColor:focus {
   border-color: #264409;
 }
 

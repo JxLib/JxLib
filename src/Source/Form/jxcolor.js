@@ -18,54 +18,89 @@
  * This file is licensed under an MIT style license
  */
   Jx.Field.Color = new Class({
-    Extends: Jx.Field.Text,
-
+    Extends: Jx.Field,
+    Binds: ['changed','hide'],
+    type: 'Color',
     options: {
-      /**
-       *  Option: showDelay
-       *  set time in milliseconds when to show the color field on mouseenter
-       */
-      showDelay : 250,
-      /**
-       * Option: buttonOptions
-       * all Buttons for Jx.Button.Color (except onChange event)
-       *
-       */
-      buttonOptions : {},
-      /**
-       * Option: errorMsg
-       * error message for the validator.
-       */
-      errorMsg : 'Invalid Web-Color',
+        buttonTemplate: '<a class="jxButtonContainer jxButton" href="javascript:void(0);"><img class="jxButtonIcon" src="'+Jx.aPixel.src+'"></a>',
       /**
        * Option: template
        * The template used to render this field
        */
-      template: '<span class="jxInputContainer"><label class="jxInputLabel"></label><input class="jxInputText" type="text" name="{name}"/><span class="jxInputTag"></span></span>'
-    },
-    btnColor : null,
-    validator : null,
-    render: function() {
-      this.parent();
-      var self = this;
-      var colorOpts = this.options.buttonOptions;
-      // overwrite custom onChange with own???
-      // is it possible to preserve the old one and call it inside the function?
-      colorOpts.onChange = function() {
-        self.setValue(self.btnColor.options.color);
-        self.field.fireEvent('blur');
-      }
-      this.btnColor = new Jx.Button.Color(colorOpts).addTo(this);
+         template: '<span class="jxInputContainer"><label class="jxInputLabel"></label><span class="jxInputWrapper"><input type="text" class="jxInputColor"  name="{name}"><img class="jxInputIcon" src="'+Jx.aPixel.src+'"><span class="jxInputRevealer"></span></span><span class="jxInputTag"></span></span>',        
+      
+      /**
+       * Option: showOnHover
+       * {Boolean} show the color palette when hovering over the input, default 
+       * is false
+       */
+       showOnHover: false,
+      /**
+       *  Option: showDelay
+       *  set time in milliseconds when to show the color field on mouseenter
+       */
+      showDelay: 250,
+      /**
+       * Option: errorMsg
+       * error message for the validator.
+       */
+      errorMsg: 'Invalid Web-Color',
+        /**
+         * Option: color
+         * a color to initialize the field with, defaults to #000000
+         * (black) if not specified.
+         */
+        color: '#000000'
 
-      var validator = new Jx.Plugin.Field.Validator({
+    },
+    button: null,
+    validator: null,
+    render: function() {
+        this.classes.combine({
+          wrapper: 'jxInputWrapper',
+          revealer: 'jxInputRevealer',
+          icon: 'jxInputIcon'
+        });
+        this.parent();
+
+      var self = this;
+        
+      if (!Jx.Field.Color.ColorPalette) {
+          Jx.Field.Color.ColorPalette = new Jx.ColorPalette(this.options);
+      }
+
+      this.button = new Jx.Button.Flyout({
+          template: this.options.buttonTemplate,
+          imageClass: 'jxInputRevealerIcon',
+          onBeforeOpen: function() {
+            if (Jx.Field.Color.ColorPalette.currentButton) {
+                Jx.Field.Color.ColorPalette.currentButton.hide();
+            }
+            Jx.Field.Color.ColorPalette.currentButton = this;
+            Jx.Field.Color.ColorPalette.addEvent('change', self.changed);
+            Jx.Field.Color.ColorPalette.addEvent('click', self.hide);
+            this.content.appendChild(Jx.Field.Color.ColorPalette.domObj);
+            Jx.Field.Color.ColorPalette.domObj.setStyle('display', 'block');
+          },
+          onOpen: function() {
+            /* setting these before causes an update problem when clicking on
+             * a second color button when another one is open - the color
+             * wasn't updating properly
+             */
+            Jx.Field.Color.ColorPalette.options.color = self.options.color;
+            Jx.Field.Color.ColorPalette.updateSelected();
+          }
+        }).addTo(this.revealer);
+
+      this.validator = new Jx.Plugin.Field.Validator({
         validators: [{
-            validatorClass : 'colorHex',
-            validator : {
-              name : 'colorValidator',
+            validatorClass: 'colorHex',
+            validator: {
+              name: 'colorValidator',
               options: {
-                validateOnChange : false,
+                validateOnChange: false,
                 errorMsg: self.options.errorMsg,
-                test : function(field,props) {
+                test: function(field,props) {
                   try {
                     var c = field.get('value').hexToRgb(true);
                     if(c == null) return false;
@@ -77,18 +112,39 @@
                   }catch(e) {
                     return false;
                   }
-                  self.btnColor.setColor(c.rgbToHex());
+                  self.options.color = c.rgbToHex();
                   return true;
                 }
               }
             }
         }],
-        validateOnBlur : true,
-        validateOnChange : true
+        validateOnBlur: true,
+        validateOnChange: true
       });
-      validator.attach(this);
-      this.field.addEvent('mouseenter', function(ev) {
-        self.btnColor.clicked.delay(self.options.showDelay, self.btnColor);
-      });
+      this.validator.attach(this);
+      if (this.options.showOnHover) {
+          this.field.addEvent('mouseenter', function(ev) {
+              self.button.clicked.delay(self.options.showDelay, self.button);
+          });
+      }
+      this.setValue(this.options.color);
+      this.icon.setStyle('background-color', this.options.color);
+      this.addEvent('change', this.changed);
+    },
+    setColor: function(c) {
+        this.options.color = c;
+        this.setValue(c);
+        this.icon.setStyle('background-color', c);
+    },
+    changed: function() {
+        var c = Jx.Field.Color.ColorPalette.options.color;
+        this.setColor(c);
+    },
+    hide: function() {
+        this.button.setActive(false);
+        Jx.Field.Color.ColorPalette.removeEvent('change', this.changed);
+        Jx.Field.Color.ColorPalette.removeEvent('click', this.hide);
+        this.button.hide();
+        Jx.Field.Color.ColorPalette.currentButton = null;    
     }
   });

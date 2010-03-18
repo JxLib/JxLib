@@ -153,6 +153,7 @@ Jx.Button.Flyout = new Class({
         }
         // now we go on the stack.
         Jx.Button.Flyout.Stack.push(this);
+        this.fireEvent('beforeOpen');
 
         this.options.active = true;
         this.domA.addClass(this.options.activeClass);
