@@ -92,6 +92,8 @@ Jx.Progressbar = new Class({
             this.domObj.inject($(this.options.parent));
         }
         
+        this.domObj.addClass('jxProgressSarting');
+        
         //determine width of progressbar
         if (this.options.bar.width === 'auto') {
             //get width of container
@@ -99,9 +101,11 @@ Jx.Progressbar = new Class({
         }
         
         //determine height
+        /**
         if (this.options.bar.height === 'auto') {
             this.options.bar.height = this.domObj.getStyle('height').toInt() - 4;
         }
+        **/
         
         //Message
         if (this.message) {
@@ -116,30 +120,30 @@ Jx.Progressbar = new Class({
         if (this.container) {
             this.container.setStyles({
                 'position': 'relative',
-                'width': this.options.bar.width,
-                'height' : this.options.bar.height + 4
+                'width': this.options.bar.width
+                //'height' : this.options.bar.height + 4
             });
         }
         
         //Outline
         if (this.outline) {
             this.outline.setStyles({
-                'width': this.options.bar.width,
-                'height' : this.options.bar.height
+                'width': this.options.bar.width
+                //'height' : this.options.bar.height
             });
         }
         
         //Fill
         if (this.fill) {
             this.fill.setStyles({
-                'width': 0,
-                'height' : this.options.bar.height
+                'width': 0
+                //'height' : this.options.bar.height
             });
         }
         
         //TODO: check for {progress} and {total} in progressText
         var obj = {};
-        var progressText = MooTools.lang.get('Jx','progressbar').progressText
+        var progressText = MooTools.lang.get('Jx','progressbar').progressText;
         if (progressText.contains('{progress}')) {
             obj.progress = 0;
         }
@@ -163,6 +167,12 @@ Jx.Progressbar = new Class({
      *              equal to the total)
      */
     update: function (total, progress) {
+    	
+    	//check for starting class
+    	if (this.domObj.hasClass('jxProgressStarting')) {
+    		this.domObj.removeClass('jxProgressStarting').addClass('jxProgressWorking');
+    	}
+    	
         var newWidth = (progress * this.options.bar.width) / total;
         
         //update bar width
@@ -183,6 +193,7 @@ Jx.Progressbar = new Class({
             
             if (total === progress) {
                 this.complete = true;
+                this.domObj.removeClass('jxProgressWorking').addClass('jxProgressFinished');
                 this.fireEvent('complete');
             } else {
                 this.fireEvent('update');
