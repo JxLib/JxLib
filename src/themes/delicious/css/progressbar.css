@@ -16,47 +16,61 @@
     line-height: 20px;
 }
 
-.jxProgressBar-container .jxProgressBar {
+.jxProgressBar {
     position: relative;
     display: block;
     width: 100%;
-    height: 20px;
     height: 20px;
     border: none;
     margin: 0px;
     padding: 0px;
 }
 
-.jxProgressBar-container .jxProgressBar .jxProgressBar-outline {
+.jxProgressBar-outline {
     position: absolute;
     display: block;
     top: 0px;
     left: 0px;
     z-index: 10;
+    height: 20px;
     border-left: 1px solid #cbc8c8;
     border-right: 1px solid #cbc8c8;
     background-image: url(images/progressbar.png);
     background-position: 0px -140px;
 }
 
-.jxProgressBar-container .jxProgressBar .jxProgressBar-fill {
+.jxProgressBar-fill {
     position: absolute;
     display: block;
     top: 0px;
     left: 0px;
     z-index: 20;
-    border-left: 1px solid #49afe8;
-    border-right: 1px solid #49afe8;
+    height: 20px;
+    border: none;
     background-image: url(images/progressbar.png);
     background-position: 0px 0px;
 }
 
-.jxProgressBar-container .jxProgressBar .jxProgressBar-text {
+.jxProgressStarting .jxProgressBar-fill {
+    border: none;
+}
+
+.jxProgressWorking .jxProgressBar-fill {
+    border-left: 1px solid #49afe8;
+}
+
+.jxProgressFinished .jxProgressBar-fill {
+    border-left: 1px solid #49afe8;
+    border-right: 1px solid #49afe8;
+}
+
+.jxProgressBar-text {
     position: absolute;
     display: block;
     top: 0px;
     left: 1px;
     width: auto;
+    height: 20px;
     z-index: 30;
     border: none;
     margin: 0px;

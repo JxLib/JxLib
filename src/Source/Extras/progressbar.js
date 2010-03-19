@@ -92,7 +92,7 @@ Jx.Progressbar = new Class({
             this.domObj.inject($(this.options.parent));
         }
         
-        this.domObj.addClass('jxProgressSarting');
+        this.domObj.addClass('jxProgressStarting');
         
         //determine width of progressbar
         if (this.options.bar.width === 'auto') {
