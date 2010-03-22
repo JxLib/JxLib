@@ -5,9 +5,9 @@
  * Extends: <Jx.Widget>
  *
  * An implementation of tooltips. These are very simple tooltips that are
- * designed to be instantiated in javascript and directly attached to the object
- * that they are the tip for. We can only have one Tip per element so we use
- * element storage to store the tip object and check for it's presence
+ * designed to be instantiated in javascript and directly attached to the
+ * object that they are the tip for. We can only have one Tip per element so
+ * we use element storage to store the tip object and check for it's presence
  * before creating a new tip. If one is there we remove it and create this new
  * one.
  *
@@ -23,12 +23,12 @@
 Jx.Tooltip = new Class({
     Family: 'Jx.Widget',
     Extends : Jx.Widget,
-
+    Binds: ['enter', 'leave', 'move'],
     options : {
         /**
          * Option: offsets
-         * An object with x and y components for where to put the tip related to
-         * the mouse cursor.
+         * An object with x and y components for where to put the tip related
+         * to the mouse cursor.
          */
         offsets : {
             x : 15,
@@ -42,8 +42,8 @@ Jx.Tooltip = new Class({
         showDelay : 100,
         /**
          * Option: cssClass
-         * a class to be added to the tip's container. This can be used to style
-         * the tip.
+         * a class to be added to the tip's container. This can be used to
+         * style the tip.
          */
         cssClass : null
     },
@@ -58,10 +58,9 @@ Jx.Tooltip = new Class({
     parameters: ['target','tip','options'],
 
     /**
-     * APIMethod: render
+     * Method: render
      * Creates the tooltip
      *
-
      */
     render : function () {
         this.parent();
@@ -96,10 +95,9 @@ Jx.Tooltip = new Class({
         this.options.target.store('Tip', this);
 
         //add events
-        this.options.target.addEvent('mouseenter', this.enter.bindWithEvent(this));
-        this.options.target.addEvent('mouseleave', this.leave.bindWithEvent(this));
-        this.options.target.addEvent('mousemove', this.move.bindWithEvent(this));
-
+        this.options.target.addEvent('mouseenter', this.enter);
+        this.options.target.addEvent('mouseleave', this.leave);
+        this.options.target.addEvent('mousemove', this.move);
     },
 
     /**
@@ -108,9 +106,8 @@ Jx.Tooltip = new Class({
      *
      * Parameters:
      * event - the event object
-     * element - the element the cursor passed over
      */
-    enter : function (event, element) {
+    enter : function (event) {
         this.timer = $clear(this.timer);
         this.timer = (function () {
             this.domObj.setStyle('visibility', 'visible');
@@ -123,9 +120,8 @@ Jx.Tooltip = new Class({
      *
      * Parameters:
      * event - the event object
-     * element - the element the cursor passed over
      */
-    leave : function (event, element) {
+    leave : function (event) {
         this.timer = $clear(this.timer);
         this.timer = (function () {
             this.domObj.setStyle('visibility', 'hidden');
@@ -172,7 +168,7 @@ Jx.Tooltip = new Class({
         this.domObj.setStyle('left', tipPlacement.x);
     },
     /**
-     * Method: detach
+     * APIMethod: detach
      * Called to manually remove a tooltip.
      */
     detach : function () {

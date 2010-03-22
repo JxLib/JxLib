@@ -43,6 +43,10 @@ Jx.Store.Strategy.Save = new Class({
      */
     totalChanges: 0,
     
+    /**
+     * Method: init
+     * initialize this strategy
+     */
     init: function () {
         this.parent();
         this.bound = {
@@ -51,6 +55,10 @@ Jx.Store.Strategy.Save = new Class({
         };
     },
     
+    /**
+     * APIMethod: activate
+     * activates the strategy if it isn't already active.
+     */
     activate: function () {
         this.parent();
         if (Jx.type(this.options.autoSave) === 'number') {
@@ -63,6 +71,10 @@ Jx.Store.Strategy.Save = new Class({
         
     },
     
+    /**
+     * APIMethod: deactivate
+     * deactivates the strategy if it is already active.
+     */
     deactivate: function () {
         this.parent();
         if ($defined(this.periodicalId)) {
@@ -77,8 +89,8 @@ Jx.Store.Strategy.Save = new Class({
     
     /**
      * APIMethod: saveRecord
-     * Called by event handlers when store data is changed, updated, or deleted.
-     * If deleted, the record will be removed from the deleted array.
+     * Called by event handlers when store data is changed, updated, or
+     * deleted. If deleted, the record will be removed from the deleted array.
      * 
      * Parameters:
      * record - The Jx.Record instance that was changed
@@ -139,9 +151,9 @@ Jx.Store.Strategy.Save = new Class({
      * come back failed we will hold that response and send it to the caller
      * via the fired event. This method is responsible for updating the status
      * of each record as it returns and on inserts, it updates the primary key
-     * of the record. If it was a delete it will remove it permanently from the
-     * store's deleted array (provided it returns successful - based on the 
-     * success attribute of the meta object). When all changes have been 
+     * of the record. If it was a delete it will remove it permanently from
+     * the store's deleted array (provided it returns successful - based on
+     * the success attribute of the meta object). When all changes have been 
      * accounted for the method fires a finished event and passes all of the 
      * failed responses to the caller so they can be handled appropriately.
      * 
@@ -178,7 +190,5 @@ Jx.Store.Strategy.Save = new Class({
                 failed: this.failedChanges
             });
         }
-            
     }
-    
 });

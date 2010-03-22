@@ -26,6 +26,10 @@ Jx.Store.Strategy = new Class({
      */
     active: null,
     
+    /**
+     * Method: init
+     * initialize the strategy, should be called by subclasses
+     */
     init: function () {
         this.parent();
         this.active = false;
@@ -64,7 +68,4 @@ Jx.Store.Strategy = new Class({
         }
         return false;
     }
-    
-    
-    
 });

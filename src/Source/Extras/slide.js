@@ -1,4 +1,4 @@
-
+// $Id$
 /**
  * Class: Jx.Slide
  * Hides and shows an element without depending on a fixed width or height
@@ -9,7 +9,7 @@
 Jx.Slide = new Class({
     Family: 'Jx.Slide',
     Implements: Jx.Object,
-
+    Binds: ['handleClick'],
     options: {
         /**
          * Option: target
@@ -43,7 +43,7 @@ Jx.Slide = new Class({
         onSlideIn: $empty
     },
     /**
-     * APIMethod: init
+     * Method: init
      * sets up the slide
      */
     init: function () {
@@ -54,14 +54,14 @@ Jx.Slide = new Class({
 
         if ($defined(this.options.trigger)) {
             this.trigger = $(this.options.trigger);
-            this.trigger.addEvent('click', this.handleClick.bindWithEvent(this));
+            this.trigger.addEvent('click', this.handleClick);
         }
 
         this.target.store('slider', this);
 
     },
     /**
-     * APIMethod: handleClick
+     * Method: handleClick
      * event handler for clicks on the trigger. Starts the slide process
      */
     handleClick: function () {
@@ -102,10 +102,10 @@ Jx.Slide = new Class({
         if (dir === 'in') {
             h = this.target.retrieve(this.options.type);
             this.target.setStyles({
-                'overflow': 'hidden',
-                'display': 'block'
+                overflow: 'hidden',
+                display: 'block',
             });
-            this.target.setStyle(this.options.type, 0);
+            this.target.setStyles(this.options.type, 0);
             this.target.tween(this.options.type, h);
         } else {
             if (this.options.type === 'height') {

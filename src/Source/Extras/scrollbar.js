@@ -7,13 +7,16 @@
  * Copyright 2009 by Jonathan Bomgardner
  * License: MIT-style
  * 
- * Based in part on 'Mootools CSS Styled Scrollbar' on http://solutoire.com/2008/03/10/mootools-css-styled-scrollbar/
+ * Based in part on 'Mootools CSS Styled Scrollbar' on
+ * http://solutoire.com/2008/03/10/mootools-css-styled-scrollbar/
  */
 Jx.Scrollbar = new Class({
     
     Family: 'Jx.Scrollbar',
     
     Extends: Jx.Widget,
+    
+    Binds: ['scrollIt'],
     
     options: {
         /**
@@ -39,7 +42,10 @@ Jx.Scrollbar = new Class({
          * useScrollers option must be true. Default is 50 (px).
          */
         scrollerInterval: 50,
-        
+        /**
+         * Option: template
+         * the HTML template for a scrollbar
+         */
         template: '<div class="jxScrollbarContainer"><div class="jxScrollLeft"></div><div class="jxSlider"></div><div class="jxScrollRight"></div></div>'
     },
     
@@ -54,15 +60,15 @@ Jx.Scrollbar = new Class({
     //element is the element we want to scroll. 
     parameters: ['element', 'options'],
     
+    /**
+     * Method: render
+     * render the widget
+     */
     render: function () {
-        
         this.parent();
-        
         this.el = document.id(this.options.element);
-        
         if (this.el) {
             this.el.addClass('jxHas'+this.options.direction.capitalize()+'Scrollbar');
-            
             
             //wrap content to make scroll work correctly
             var children = this.el.getChildren();
@@ -93,7 +99,7 @@ Jx.Scrollbar = new Class({
                 max: this.steps,
                 step: 1,
                 mode: this.options.direction,
-                onChange: this.scrollIt.bind(this)
+                onChange: this.scrollIt
                 
             });
             
@@ -144,11 +150,7 @@ Jx.Scrollbar = new Class({
                     this.sliderHolder.setStyle('height', holderSize + 'px');
                 }
             }
-            
-            
-            
             document.id(this.slider).inject(this.sliderHolder);
-            
             
             //allows mouse wheel to function
             if (this.options.useMouseWheel) {
@@ -165,11 +167,13 @@ Jx.Scrollbar = new Class({
             }.bind(this));
 
             this.slider.start();
-            
-            
         }
     },
     
+    /**
+     * Method: scrollIt
+     * scroll the content in response to the slider being moved.
+     */
     scrollIt: function (step) {
         var x = this.options.direction==='horizontal'?step:0;
         var y = this.options.direction==='horizontal'?0:step;

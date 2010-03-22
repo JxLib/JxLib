@@ -19,7 +19,10 @@ Jx.Store.Strategy.Full = new Class({
     name: 'full',
     
     options:{},
-    
+    /**
+     * Method: init
+     * initialize this strategy
+     */
     init: function () {
         this.parent();
         this.bound = {
@@ -28,19 +31,27 @@ Jx.Store.Strategy.Full = new Class({
         }
     },
     
+    /**
+     * APIMethod: activate
+     * activates the strategy if it isn't already active.
+     */
     activate: function () {
         this.parent();
         this.store.addEvent('storeLoad', this.bound.load);
         
     },
     
+    /**
+     * APIMethod: deactivate
+     * deactivates the strategy if it is already active.
+     */
     deactivate: function () {
         this.parent();
         this.store.removeEvent('storeLoad', this.bound.load);
         
     },
     /**
-     * Method: load
+     * APIMethod: load
      * Called as the eventhandler for the store load method. Can also
      * be called independently to load data into the current store.
      * 
@@ -60,6 +71,7 @@ Jx.Store.Strategy.Full = new Class({
         opts.data.itemsPerPage = -1;
         this.store.protocol.read(opts);
     },
+    
     /**
      * Method: loadStore
      * Called as the event hanlder for the protocol's dataLoaded event. Checks 

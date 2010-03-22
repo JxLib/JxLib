@@ -27,8 +27,8 @@ Jx.Store.Strategy.Sort = new Class({
         sortOnStoreEvents: ['storeColumnChanged','storeDataLoaded'],
         /**
          * Option: defaultSort
-         * The default sorting type, currently set to merge but can be any of the
-         * sorters available
+         * The default sorting type, currently set to merge but can be any of
+         * the sorters available
          */
         defaultSort : 'merge',
         /**
@@ -56,6 +56,10 @@ Jx.Store.Strategy.Sort = new Class({
         'native' : "Nativesort"
     },
     
+    /**
+     * Method: init
+     * initialize this strategy
+     */
     init: function () {
         this.parent();
         this.bound = {
@@ -63,6 +67,10 @@ Jx.Store.Strategy.Sort = new Class({
         };
     },
     
+    /**
+     * APIMethod: activate
+     * activates the strategy if it isn't already active.
+     */
     activate: function () {
         if ($defined(this.options.sortOnStoreEvents)) {
             this.options.sortOnStoreEvents.each(function (ev) {
@@ -71,6 +79,10 @@ Jx.Store.Strategy.Sort = new Class({
         }
     },
     
+    /**
+     * APIMethod: deactivate
+     * deactivates the strategy if it is already active.
+     */
     deactivate: function () {
         if ($defined(this.options.sortOnStoreEvents)) {
             this.options.sortOnStoreEvents.each(function (ev) {
@@ -85,16 +97,14 @@ Jx.Store.Strategy.Sort = new Class({
      * 
      * Parameters: 
      * cols - Optional. An array of columns to sort/group by 
-     * sort - the sort type (quick,heap,merge,native),defaults to options.defaultSort
+     * sort - the sort type (quick,heap,merge,native),defaults to
+     *     options.defaultSort
      * dir - the direction to sort. Set to "desc" for descending,
      * anything else implies ascending (even null). 
      */
     sort : function (cols, sort, dir) {
-        
         if (this.store.count()) {
-        
             this.store.fireEvent('sortStart', this);
-            
             var c;
             if ($defined(cols) && Jx.type(cols) === 'array') {
                 c = this.options.sortCols = cols;

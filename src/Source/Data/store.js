@@ -102,6 +102,10 @@ Jx.Store = new Class({
      */
     ready: false,
     
+    /**
+     * Method: init
+     * initialize the store, should be called by sub-classes
+     */
     init: function () {
         this.parent();
         
@@ -136,6 +140,11 @@ Jx.Store = new Class({
         
     },
     
+    /**
+     * Method: cleanup
+     * avoid memory leaks when a store is destroyed, should be called
+     * by sub-classes if overridden
+     */
     cleanup: function () {
         this.strategies.each(function(strategy){
             strategy.destroy();
@@ -173,12 +182,12 @@ Jx.Store = new Class({
     },
     /**
      * APIMethod: load
-     * used to load the store. It simply fires an event that the strategies are
-     * listening for.
+     * used to load the store. It simply fires an event that the strategies
+     * are listening for.
      * 
      * Parameters:
-     * params - a hash of parameters passed to the strategy for determining what records
-     *          to load.
+     * params - a hash of parameters passed to the strategy for determining
+     *     what records to load.
      */
     load: function (params) {
         this.fireEvent('storeLoad', params);
@@ -479,15 +488,16 @@ Jx.Store = new Class({
      * 
      * Parameters:
      * data - an array of data to add.
-     * position - 'top' or 'bottom'. Indicates whether to add at the top or the
-     *          bottom of the store
+     * position - 'top' or 'bottom'. Indicates whether to add at the top or
+     * the bottom of the store
      */
     addRecords: function (data, position) {
         var def = $defined(data);
         var type = Jx.type(data);
         if (def && type === 'array') {
             this.fireEvent('storeBeginAddRecords', this);
-            //if position is top, reverse the array or we'll add them in the wrong order.
+            //if position is top, reverse the array or we'll add them in the
+            // wrong order.
             if (position === 'top') {
                 data.reverse();
             }
@@ -505,8 +515,8 @@ Jx.Store = new Class({
      * Returns the record at the given index or the current store index
      * 
      * Parameters:
-     * index - the index from which to return the record. Optional. Defaults to
-     *          the current store index
+     * index - the index from which to return the record. Optional. Defaults
+     * to the current store index
      */
     getRecord: function (index) {
         if (!$defined(index)) {
@@ -585,7 +595,8 @@ Jx.Store = new Class({
      * Paremeters:
      * data - the data to use in creating this inserted record. Should be in
      *          whatever form the current implementation of Jx.Record needs
-     * position - where to place the record. Should be either 'top' or 'bottom'.
+     * position - where to place the record. Should be either 'top' or
+     *    'bottom'.
      */
     insertRecord: function (data, position) {
         this.addRecord(data, position, true);
@@ -602,8 +613,8 @@ Jx.Store = new Class({
     /**
      * APIMethod: findByColumn
      * Used to find a specific record by the value in a specific column. This
-     * is particularly useful for finding records by a unique id column. The search
-     * will stop on the first instance of the value
+     * is particularly useful for finding records by a unique id column. The
+     * search will stop on the first instance of the value
      * 
      * Parameters:
      * column - the name (or index) of the column to search by

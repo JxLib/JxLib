@@ -20,10 +20,32 @@ Jx.Notice = new Class({
     Extends: Jx.ListItem,
 
     options: {
+        /**
+         * Option: fx
+         * the effect to use on the notice when it is shown and hidden,
+         * 'fade' by default
+         */
         fx: 'fade',
+        /**
+         * Option: chrome
+         * {Boolean} should the notice be displayed with chrome or not,
+         * default is false
+         */
         chrome: false,
+        /**
+         * Option: enabled
+         * {Boolean} default is false
+         */
         enabled: true,
+        /**
+         * Option: template
+         * {String} the HTML template of a notice
+         */
         template: '<li class="jxNoticeItemContainer"><div class="jxNoticeItem"><span class="jxNotice"></span><a class="jxNoticeClose" href="javascript:void(0);" title="' + MooTools.lang.get('Jx','notice').closeTip + '"></a></div></li>',
+        /**
+         * Option: klass
+         * {String} css class to add to the notice
+         */
         klass: ''
     },
 
@@ -35,7 +57,7 @@ Jx.Notice = new Class({
     }),
 
     /**
-     * APIMethod: render
+     * Method: render
      */
     render: function () {
         this.parent();
@@ -47,11 +69,17 @@ Jx.Notice = new Class({
             this.domClose.addEvent('click', this.close.bind(this));
         }
     },
-
+    /**
+     * APIMethod: close
+     * close the notice
+     */
     close: function() {
         this.fireEvent('close', this);
     },
-    
+    /**
+     * APIMethod: show
+     * show the notice
+     */
     show: function(el, onComplete) {
         if (this.options.chrome) {
             this.showChrome();
@@ -64,7 +92,10 @@ Jx.Notice = new Class({
             if (onComplete) onComplete();
         }
     },
-    
+    /**
+     * APIMethod: hide
+     * hide the notice
+     */
     hide: function(onComplete) {
         if (this.options.chrome) {
             this.hideChrome();
@@ -78,7 +109,10 @@ Jx.Notice = new Class({
         }
     }
 });
-
+/**
+ * Class: Jx.Notice.Information
+ * A <Jx.Notice> subclass useful for displaying informational messages
+ */
 Jx.Notice.Information = new Class({
     Extends: Jx.Notice,
     options: {
@@ -86,6 +120,10 @@ Jx.Notice.Information = new Class({
         klass: 'jxNoticeInformation'
     }
 });
+/**
+ * Class: Jx.Notice.Success
+ * A <Jx.Notice> subclass useful for displaying success messages
+ */
 Jx.Notice.Success = new Class({
     Extends: Jx.Notice,
     options: {
@@ -93,6 +131,10 @@ Jx.Notice.Success = new Class({
         klass: 'jxNoticeSuccess'
     }
 });
+/**
+ * Class: Jx.Notice.Success
+ * A <Jx.Notice> subclass useful for displaying warning messages
+ */
 Jx.Notice.Warning = new Class({
     Extends: Jx.Notice,
     options: {
@@ -100,6 +142,10 @@ Jx.Notice.Warning = new Class({
         klass: 'jxNoticeWarning'
     }
 });
+/**
+ * Class: Jx.Notice.Error
+ * A <Jx.Notice> subclass useful for displaying error messages
+ */
 Jx.Notice.Error = new Class({
     Extends: Jx.Notice,
     options: {

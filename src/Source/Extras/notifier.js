@@ -1,6 +1,16 @@
-
-
-
+// $Id$
+/**
+ * Class: Jx.Notifier
+ *
+ * Extends: <Jx.ListView>
+ *
+ * Events:
+ *
+ * License:
+ * Copyright (c) 2009, DM Solutions Group.
+ *
+ * This file is licensed under an MIT style license
+ */
 Jx.Notifier = new Class({
     
     Family: 'Jx.Notifier',
@@ -32,10 +42,10 @@ Jx.Notifier = new Class({
         listObj: 'jxNoticeList'
     }),
     
-    init: function () {
-        this.parent();
-    },
-    
+    /**
+     * Method: render
+     * render the widget
+     */
     render: function () {
         this.parent();
         
@@ -53,6 +63,13 @@ Jx.Notifier = new Class({
         }.bind(this));
     },
     
+    /**
+     * APIMethod: add
+     * Add a new notice to the notifier
+     *
+     * Parameters:
+     * notice - {<Jx.Notice>} the notice to add
+     */
     add: function (notice) {
         if (!(notice instanceof Jx.Notice)) {
             notice = new Jx.Notice({content: notice});
@@ -61,6 +78,13 @@ Jx.Notifier = new Class({
         notice.show(this.listObj);
     },
     
+    /**
+     * APIMethod: remove
+     * Add a new notice to the notifier
+     *
+     * Parameters:
+     * notice - {<Jx.Notice>} the notice to remove
+     */
     remove: function (notice) {
         if (this.domObj.hasChild(notice)) {
             notice.removeEvents('close');

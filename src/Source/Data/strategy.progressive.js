@@ -19,12 +19,27 @@ Jx.Store.Strategy.Progressive = new Class({
          */
         dropRecords: true
     },
-    
+    /**
+     * Property: startingPage
+     */
     startingPage: 0,
+    /**
+     * Property: maxPages
+     */
     maxPages: null,
+    /**
+     * Property: loadedPages
+     */
     loadedPages: 0,
+    /**
+     * Property: loadAt
+     */
     loadAt: 'bottom',
     
+    /**
+     * Method: init
+     * initialize this strategy
+     */
     init: function () {
         this.parent();
         if (this.options.dropPages) {
@@ -54,9 +69,9 @@ Jx.Store.Strategy.Progressive = new Class({
     
     /**
      * Method: loadData
-     * This method does the actual work of loading data to the store. It is called
-     * when either the protocol finishes or setPage() has the data and it's not
-     * expired.
+     * This method does the actual work of loading data to the store. It is
+     * called when either the protocol finishes or setPage() has the data and
+     * it's not expired.
      * 
      * Parameters:
      * data - the data to load into the store.

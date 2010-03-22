@@ -9,8 +9,9 @@
  * palette of web-safe colours.  The user can also enter an opacity value.
  *
  * A Jx.ColorPalette can be embedded anywhere in a web page using its addTo
- * method.  However, a <Jx.Button> suJx.Tooltipbclass is provided (<Jx.Button.Color>)
- * that embeds a colour panel inside a button for easy use in toolbars.
+ * method.  However, a <Jx.Button> suJx.Tooltipbclass is provided
+ * (<Jx.Button.Color>) that embeds a colour panel inside a button for easy use
+ * in toolbars.
  *
  * Colour changes are propogated via a change event.  To be notified
  * of changes in a Jx.ColorPalette, use the addEvent method.
@@ -60,7 +61,7 @@ Jx.ColorPalette = new Class({
         hexColors: ['00', '33', '66', '99', 'CC', 'FF']
     },
     /**
-     * APIMethod: render
+     * Method: render
      * initialize a new instance of Jx.ColorPalette
      */
     render: function() {
@@ -79,7 +80,10 @@ Jx.ColorPalette = new Class({
 
         top.adopt(d);
 
-        this.colorInputLabel = new Element('label', {'class':'jxColorLabel', html:'#'});
+        this.colorInputLabel = new Element('label', {
+          'class':'jxColorLabel', 
+          html:'#'
+        });
         top.adopt(this.colorInputLabel);
 
         var cc = this.changed.bind(this);
@@ -158,7 +162,9 @@ Jx.ColorPalette = new Class({
                     g = j%6;
                     b = i%6;
                 }
-                var bgColor = '#'+this.options.hexColors[r]+this.options.hexColors[g]+this.options.hexColors[b];
+                var bgColor = '#'+this.options.hexColors[r]+
+                                  this.options.hexColors[g]+
+                                  this.options.hexColors[b];
 
                 var td = new Element('td');
                 if (!bSkip) {
@@ -250,7 +256,7 @@ Jx.ColorPalette = new Class({
     },
 
     /**
-     * Method: setColor
+     * APIMethod: setColor
      * set the colour represented by this colour panel
      *
      * Parameters:
@@ -262,7 +268,7 @@ Jx.ColorPalette = new Class({
     },
 
     /**
-     * Method: setAlpha
+     * APIMethod: setAlpha
      * set the alpha represented by this colour panel
      *
      * Parameters:
@@ -290,7 +296,8 @@ Jx.ColorPalette = new Class({
             
         } else {
             styles.opacity = 1;
-            //not sure what the proper way to remove the filter would be since I don't have IE to test against.
+            //not sure what the proper way to remove the filter would be since
+            // I don't have IE to test against.
             styles.filter = '';  
         }
         this.selectedSwatch.setStyles(styles);
@@ -302,11 +309,12 @@ Jx.ColorPalette = new Class({
     /**
      * APIMethod: changeText
      * This method should be overridden by subclasses. It should be used
-     * to change any language specific default text that is used by the widget.
+     * to change any language specific default text that is used by the
+     * widget.
      * 
      * Parameters:
      * lang - the language being changed to or that had it's data set of 
-     * 		translations changed.
+     *    translations changed.
      */
     changeText: function (lang) {
     	this.parent();

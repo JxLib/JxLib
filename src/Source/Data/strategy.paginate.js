@@ -27,7 +27,7 @@ Jx.Store.Strategy.Paginate = new Class({
             return {
                 page: this.page,
                 itemsPerPage: this.itemsPerPage
-            }
+            };
         },
         /**
          * Option: startingItemsPerPage
@@ -43,15 +43,16 @@ Jx.Store.Strategy.Paginate = new Class({
         startingPage: 1,
         /**
          * Option: expirationInterval
-         * The interval, in milliseconds (1000 = 1 sec), to hold a page of data
-         * before it expires. If the page is expired, the next time the page
-         * is accessed it must be retrieved again. Default is 5 minutes (1000 * 60 * 5)
+         * The interval, in milliseconds (1000 = 1 sec), to hold a page of
+         * data before it expires. If the page is expired, the next time the
+         * page is accessed it must be retrieved again. Default is 5 minutes
+         * (1000 * 60 * 5)
          */
         expirationInterval: (1000 * 60 * 5),
         /**
          * Option: ignoreExpiration
-         * Set to TRUE to ignore the expirationInterval setting and never expire
-         * pages.
+         * Set to TRUE to ignore the expirationInterval setting and never
+         * expire pages.
          */
         ignoreExpiration: false
     },
@@ -77,6 +78,10 @@ Jx.Store.Strategy.Paginate = new Class({
      */
     itemsPerPage: null,
     
+    /**
+     * Method: init
+     * initialize this strategy
+     */
     init: function () {
         this.parent();
         //set up bindings that we need here
@@ -88,11 +93,19 @@ Jx.Store.Strategy.Paginate = new Class({
         this.page = this.options.startingPage;
     },
     
+    /**
+     * APIMethod: activate
+     * activates the strategy if it isn't already active.
+     */
     activate: function () {
         this.parent();
         this.store.addEvent('storeLoad', this.bound.load);
     },
     
+    /**
+     * APIMethod: deactivate
+     * deactivates the strategy if it is already active.
+     */
     deactivate: function () {
         this.parent();
         this.store.removeEvent('storeLoad', this.bound.load);
@@ -135,9 +148,9 @@ Jx.Store.Strategy.Paginate = new Class({
     },
     /**
      * Method: loadData
-     * This method does the actual work of loading data to the store. It is called
-     * when either the protocol finishes or setPage() has the data and it's not
-     * expired.
+     * This method does the actual work of loading data to the store. It is
+     * called when either the protocol finishes or setPage() has the data and
+     * it's not expired.
      * 
      * Parameters:
      * data - the data to load into the store.
@@ -155,8 +168,8 @@ Jx.Store.Strategy.Paginate = new Class({
     },
     /**
      * Method: parseMetaData
-     * Takes the metadata returned from the protocol and places it in the appropriate
-     * places.
+     * Takes the metadata returned from the protocol and places it in the
+     * appropriate Vplaces.
      * 
      * Parameters:
      * meta - the meta data object returned from the protocol.
@@ -274,6 +287,4 @@ Jx.Store.Strategy.Paginate = new Class({
     getTotalCount: function () {
         return this.totalItems;
     }
-    
-    
 });
