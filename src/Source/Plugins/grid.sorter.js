@@ -98,7 +98,9 @@ Jx.Plugin.Grid.Sorter = new Class({
                 this.grid.addEvent('doneCreateGrid', this.bound.addHeaderClass);
                 //sort the store
                 var strategy = this.grid.getModel().getStrategy('sort');
-                strategy.sort(this.current.name, null, this.direction);
+                if (strategy) {
+                  strategy.sort(this.current.name, null, this.direction);
+                }
             }
 
         }
