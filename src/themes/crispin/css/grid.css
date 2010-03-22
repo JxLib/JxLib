@@ -191,28 +191,21 @@ td.jxGridCellPrelight {
   background-color: #cce3ff;
 }
 
-/* Sort styles */
-.jxColSortable {
-    padding-right: 20px;
-}
-
-.jxGridCell.jxColSortable {
-    padding-right: 0;
-}
-
-.jxColSortable span {
+.jxColSortable img {
+    vertical-align: top;
+    width: 16px;
+    height: 12px;
     background-image: url('images/emblems.png');
-    padding-right: 20px;
     background-repeat: no-repeat;
     background-position: right top;
 }
  
-.jxGridColumnSortedAsc span {
-    background-position: right -160px;
+.jxGridColumnSortedAsc img {
+    background-position: right -162px;
 }
  
-.jxGridColumnSortedDesc span {
-    background-position: right -16px;
+.jxGridColumnSortedDesc img {
+    background-position: right -18px;
 }
  
 .jxGridColumnResize,
@@ -245,11 +238,13 @@ td.jxGridCellPrelight {
   margin: 3px;
   font-size: 10px;
   box-shadow: 2px 2px 5px #888; /* i really like the boxshadow */
-  -moz-box-shadow : 2px 2px 5px #888;  
+  -moz-box-shadow : 2px 2px 5px #888;
   -webkit-box-shadow : 2px 2px 5px #888;
+  /*
   border-radius: 5px;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
+  */
   background-color: #dddddd;
   border: 1px solid #999999;
   position: absolute;
@@ -259,12 +254,4 @@ td.jxGridCellPrelight {
   position: relative;
   height: 100%;
   width: 100%;
-}
-
-.jxGridEditorPopup .jxInputText,
-.jxGridEditorPopup .jxInputText,
-.jxGridEditorPopup .jxInputTextarea {
-  border-radius: 2px;
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
 }

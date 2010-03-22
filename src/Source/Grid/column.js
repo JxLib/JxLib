@@ -145,6 +145,9 @@ Jx.Column = new Class({
             'class' : 'jxGridCellContent',
             'html' : text
         });
+        new Element('img', {
+          src: Jx.aPixel.src
+        }).inject(el);
         if ($defined(ht.cssClass)) {
             if (Jx.type(ht.cssClass) === 'function') {
                 el.addClass(ht.cssClass.run(text));

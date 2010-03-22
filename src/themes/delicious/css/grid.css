@@ -191,28 +191,21 @@ td.jxGridCellPrelight {
   background-color: #cce3ff;
 }
 
-/* Sort styles */
-.jxColSortable {
-    padding-right: 20px;
-}
-
-.jxGridCell.jxColSortable {
-    padding-right: 0;
-}
-
-.jxColSortable span {
+.jxColSortable img {
+    vertical-align: top;
+    width: 16px;
+    height: 12px;
     background-image: url('images/emblems.png');
-    padding-right: 20px;
     background-repeat: no-repeat;
     background-position: right top;
 }
  
-.jxGridColumnSortedAsc span {
-    background-position: right -160px;
+.jxGridColumnSortedAsc img {
+    background-position: right -162px;
 }
  
-.jxGridColumnSortedDesc span {
-    background-position: right -16px;
+.jxGridColumnSortedDesc img {
+    background-position: right -18px;
 }
  
 .jxGridColumnResize,
