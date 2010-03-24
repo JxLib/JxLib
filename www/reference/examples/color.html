@@ -11,7 +11,6 @@
 window.addEvent('load', function() {
     colorButton();
     colorDisabled();
-    colorInput();
 });
 </script>
 
@@ -57,78 +56,6 @@ function colorDisabled() {
     }).addTo('buttonsDisabled');
 }
 </script>
-<script id="colorButtonInputScript">
-  function colorInput() {
-  // an example Class for a Jx.Field.Text and Jx.Button.Color combination
-  /*
-  Jx.Field.Color = new Class({
-    Extends: Jx.Field.Text,
-
-    options: {
-      showDelay : 250,
-      buttonOptions : {},
-      errorMsg : 'Invalid Web-Color'
-    },
-    btnColor : null,
-    validator : null,
-    render: function() {
-      this.parent();
-      var self = this;
-      var colorOpts = this.options.buttonOptions;
-      // overwrite custom onChange with own???
-      colorOpts.onChange = function() {
-        self.setValue(self.btnColor.options.color);
-        self.field.fireEvent('blur');
-      }
-      this.btnColor = new Jx.Button.Color(colorOpts).addTo(this);
-
-      var validator = new Jx.Plugin.Field.Validator({
-        validators: [{
-            validatorClass : 'colorHex',
-            validator : {
-              name : 'colorValidator',
-              options: {
-                validateOnChange : false,
-                errorMsg: self.options.errorMsg,
-                test : function(field,props) {
-                  try {
-                    var c = field.get('value').hexToRgb(true);
-                    if(c == null) return false;
-                    for(var i = 0; i < 3; i++) {
-                      if(c[i].toString() == 'NaN') {
-                        return false;
-                      }
-                    }
-                  }catch(e) {
-                    return false;
-                  }
-                  self.btnColor.setColor(c.rgbToHex());
-                  return true;
-                }
-              }
-            }
-        }],
-        validateOnBlur : true,
-        validateOnChange : true
-      });
-      validator.attach(this);
-      this.field.addEvent('mouseenter', function(ev) {
-        self.btnColor.clicked.delay(self.options.showDelay, self.btnColor);
-      });
-    }
-  });
-*/
-  var test = new Jx.Field.Color({
-    label : 'Choose Color',
-    buttonOptions: {
-      color: '#f00'
-    }
-  }).addTo('colorInput');
-}
-</script>
-<script type="text/javascript">
-
-</script>
 </head>
 <body>
 <h1>Jx.Button.Color Examples</h1>
@@ -142,8 +69,5 @@ function colorDisabled() {
 <p>Color buttons can be enabled and disabled too.</p>
 <div id="buttonsDisabled" class="buttonBox"></div>
 
-<h2 id="colorButtonInput">Color Button with Jx.Field.Text</h2>
-<p>Use a color Button with an input field.</p>
-<div id="colorInput" class="buttonBox"></div>
 </body>
 </html>

@@ -107,9 +107,15 @@ function drawBasicForm() {
   new Jx.Field.Button({
     buttonClass: Jx.Button.Color,
     buttonOptions:{label: 'Foreground', color: '#f0f', alpha: 50},
-    label: 'Choose a color'
+    label: 'Choose a Color'
   }).addTo(fieldSet1);
   
+  new Jx.Field.Color({
+    label: 'Choose a Color',
+    buttonOptions: {
+      color: '#f00'
+    }
+  }).addTo(fieldSet1);  
   
   new Jx.Field.Button({
     buttonOptions:{
