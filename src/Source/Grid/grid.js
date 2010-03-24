@@ -140,7 +140,6 @@ Jx.Grid = new Class({
             this.model.addEvent('storeRecordAdded', this.addRow);
             this.model.addEvent('storeRecordRemoved', this.removeRow);
             this.model.addEvent('storeMultipleRecordsRemoved', this.removeRows);
-            this.model.addEvent('storeDataLoaded', this.render);
         }
 
         if ($defined(this.options.columns)) {
@@ -273,6 +272,7 @@ Jx.Grid = new Class({
         var size = this.domObj.getContentBoxSize();
 
         //sum all of the column widths except the hidden columns and the header column
+        /**
         var w = size.width - rowWidth - 1;
         var totalCols = 0;
         this.columns.columns.each(function (col) {
@@ -281,7 +281,8 @@ Jx.Grid = new Class({
                 totalCols += col.getWidth();
             }
         }, this);
-
+		**/
+        
         /* -1 because of the right/bottom borders */
         this.rowColObj.setStyles({
             width : rowWidth - 1,
@@ -354,6 +355,10 @@ Jx.Grid = new Class({
         n = this.gridTableBody.cloneNode(false);
         this.gridTable.replaceChild(n, this.gridTableBody);
         this.gridTableBody = n;
+        
+        if (Jx.Styles.isStyleSheetDefined(this.styleSheet)) {
+        	Jx.Styles.removeStyleSheet(this.styleSheet);
+        }
 
     },
 
@@ -404,20 +409,36 @@ Jx.Grid = new Class({
                 this.colTableBody.setStyle('visibility', 'hidden');
             }
 
+            //This section actually adds the rows
+            this.model.first();
+            while (this.model.valid()) {
+                tr = this.row.getGridRowElement(this.model.getPosition());
+                var rl = this.makeList(tr);
+                this.gridTableBody.appendChild(tr);
+                //this.rowList.add(rl.container);
+
+                //Actually add the columns
+                this.columns.getColumnCells(rl);
+
+                if (this.model.hasNext()) {
+                    this.model.next();
+                } else {
+                    break;
+                }
+
+            }
+            
+            
+            //Moved rowheaders after other columns so we can figure the heights
+            //of each row (after render)
             if (this.row.useHeaders()) {
                 this.rowTableHead.setStyle('visibility', 'visible');
-
-                var rowHeight = this.row.getHeight();
-
-
 
                 //loop through all rows and add header
                 this.model.first();
                 while (this.model.valid()) {
-                    var tr = new Element('tr', {
-                        styles : {
-                            height : rowHeight
-                        }
+                    var tr = new Element('tr',{
+                    	'class': 'jxGridRow'+this.model.getPosition()
                     });
                     var rowHeaderList = this.makeList(tr);
                     this.row.getRowHeader(rowHeaderList);
@@ -441,35 +462,15 @@ Jx.Grid = new Class({
                 //hide row headers
                 this.rowTableHead.setStyle('visibility', 'hidden');
             }
-
-            colHeight = this.columns.getHeaderHeight();
-
-
-            //This section actually adds the rows
-            this.model.first();
-            while (this.model.valid()) {
-                tr = this.row.getGridRowElement();
-                tr.store('jxRowData', {row: this.model.getPosition()});
-
-
-                var rl = this.makeList(tr);
-                this.gridTableBody.appendChild(tr);
-                //this.rowList.add(rl.container);
-
-                //Actually add the columns
-                this.columns.getColumnCells(rl);
-
-                if (this.model.hasNext()) {
-                    this.model.next();
-                } else {
-                    break;
-                }
-
-            }
-
+            
+            this.domObj.resize();
+            this.resize();
+            this.columns.calculateWidths();
             Jx.Styles.enableStyleSheet(this.styleSheet);
             this.columns.createRules(this.styleSheet, "."+this.uniqueId);
-            this.domObj.resize();
+            this.row.calculateHeights();
+            this.row.createRules(this.styleSheet, "."+this.uniqueId);
+            
             this.fireEvent('doneCreateGrid', this);
         } else {
             this.model.load();

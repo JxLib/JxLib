@@ -185,7 +185,7 @@
 Jx.Object = new Class({
     Family: "Jx.Object",
     Implements: [Options, Events],
-    Bind: ['changeText'],
+    Binds: ['changeText'],
     plugins: new Hash(),
     pluginNamespace: 'Other',
     /**

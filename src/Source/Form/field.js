@@ -25,6 +25,8 @@ Jx.Field = new Class({
     Family: 'Jx.Field',
     Extends : Jx.Widget,
     pluginNamespace: 'Field',
+    
+    Binds: ['onBlur','onChange'],
 
     options : {
         /**
@@ -241,6 +243,12 @@ Jx.Field = new Class({
                 this.field.set("disabled", "disabled");
                 this.field.addClass('jxFieldDisabled');
             }
+            
+            //add events
+            this.field.addEvents({
+            	'blur': this.onBlur,
+            	'change': this.onChange
+            });
 
             this.field.store('field', this);
         }
@@ -336,6 +344,14 @@ Jx.Field = new Class({
     	if ($defined(this.requiredText)) {
     		this.requiredText.set('html',MooTools.lang.get('Jx','field').requiredText);
     	}
+    },
+    
+    onBlur: function () {
+    	this.fireEvent('blur',this);
+    },
+    
+    onChange: function () {
+    	this.fireEvent('change', this);
     }
 
 });

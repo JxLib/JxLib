@@ -669,5 +669,50 @@ Jx.Store = new Class({
             this.removeRecord(first);
         }
         this.fireEvent('storeMultipleRecordsRemoved', [this, first, last]);
-    }
+    },
+    
+    /**
+	 * APIMethod: parseTemplate
+	 * parses the provided template to determine which store columns are
+	 * required to complete it.
+	 *
+	 * Parameters:
+	 * template - the template to parse
+	 */
+	parseTemplate: function (template) {
+	    //we parse the template based on the columns in the data store looking
+	    //for the pattern {column-name}. If it's in there we add it to the
+	    //array of ones to look fo
+	    var arr = [];
+	    this.options.columns.each(function (col) {
+	        var s = '{' + col.name + '}';
+	        if (template.contains(s)) {
+	            arr.push(col.name);
+	        }
+	    }, this);
+	    return arr;
+	},
+	
+	/**
+	 * APIMethod: fillTemplate
+	 * Actually does the work of getting the data from the store
+	 * and creating a single item based on the provided template
+	 * 
+	 * Parameters: 
+	 * index - the index of the data in the store to use in populating the
+	 *          template.
+	 * template - the template to fill
+	 * columnsNeeded - the array of columns needed by this template. should be 
+	 * 			obtained by calling parseTemplate().
+	 */
+	fillTemplate: function (index, template, columnsNeeded) {
+		index = $defined(index)? index : this.index;
+		
+	    //create the item
+	    var itemObj = {};
+	    columnsNeeded.each(function (col) {
+	        itemObj[col] = this.get(col, index);
+	    }, this);
+	    return template.substitute(itemObj);
+	}
 });

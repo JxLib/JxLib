@@ -43,7 +43,7 @@ Jx.Row = new Class({
         },
         /**
          * Option: rowHeight
-         * The height of the row. Make it null or 'auto' to auto-calculate
+         * The height of the row. Make it null or 'auto' to auto-calculate.
          */
         rowHeight : 20,
         /**
@@ -52,30 +52,26 @@ Jx.Row = new Class({
          */
         headerWidth : 20,
         /**
-         * Option: headerField
-         * The field in the model to use as the header
+         * Option: headerColumn
+         * The name of the column in the model to use as the header
          */
-        headerField : 'id',
-        /**
-         * Option: templates
-         * objects used to determine the type of tag and css class to
-         * assign to a header cell. The css class can
-         * also be a function that returns a string to assign as the css
-         * class. The function will be passed the text to be formatted.
-         */
-        templates: {
-            header: {
-                tag: 'span',
-                cssClass: null
-            }
-        }
-
+        headerColumn : 'id'
     },
     /**
      * Property: grid
      * A reference to the grid that this row model belongs to
      */
     grid : null,
+    /**
+     * Property: heights
+     * This will hold the calculated height of each row in the grid.
+     */
+    heights: [],
+    /**
+     * Property: rules
+     * A hash that will hold all of the CSS rules for the rows.
+     */
+    rules: $H(),
 
     parameters: ['options','grid'],
 
@@ -94,16 +90,18 @@ Jx.Row = new Class({
      * APIMethod: getGridRowElement
      * Used to create the TR for the main grid row
      */
-    getGridRowElement : function () {
+    getGridRowElement : function (row) {
 
         var tr = new Element('tr');
-        tr.setStyle('height', this.getHeight());
+        //tr.setStyle('height', this.getHeight());
         if (this.options.alternateRowColors) {
             tr.className = (this.grid.getModel().getPosition() % 2) ? this.options.rowClasses.even
                     : this.options.rowClasses.odd;
         } else {
             tr.className = this.options.rowClasses.all;
         }
+        tr.store('jxRowData', {row: row});
+        tr.addClass('jxGridRow'+row);
         return tr;
     },
     /**
@@ -116,21 +114,13 @@ Jx.Row = new Class({
         var th = new Element('td', {
             'class' : 'jxGridRowHead'
         });
-
-        var text = model.get(this.options.headerField);
-        var ht = this.options.templates.header;
-        var el = new Element(ht.tag, {
-            'class' : 'jxGridCellContent',
-            'html' : text
-        }).inject(th);
-        if ($defined(ht.cssClass)) {
-            if (Jx.type(ht.cssClass) === 'function') {
-                el.addClass(ht.cssClass.run(text));
-            } else {
-                el.addClass(ht.cssClass);
-            }
-        }
-
+        var col = this.grid.columns.getByName(this.options.headerColumn);
+        var el = col.getHTML();
+        el.inject(th);
+        th.store('jxCellData',{
+        	row: model.getPosition(),
+        	rowHeader: true
+        });
         return th;
 
     },
@@ -141,19 +131,44 @@ Jx.Row = new Class({
     getRowHeaderWidth : function () {
         //this can be drawn from the column for the
         //header field
-        var col = this.grid.columns.getByField(this.options.headerField);
-        return col.getWidth(true, true);
+    	var col = this.grid.columns.getByName(this.options.headerColumn);
+    	if (!$defined(col.getWidth())) {
+    		col.calculateWidth(true);
+    	}
+        return col.getWidth();
     },
 
     /**
      * APIMethod: getHeight
      * determines and returns the height of a row
      */
-    getHeight : function () {
+    getHeight : function (row) {
         //this should eventually compute a height, however, we would need
         //a fixed width to do so reliably. For right now, we use a fixed height
         //for all rows.
-        return this.options.rowHeight;
+    	if ((!$defined(this.options.rowHeight) || this.options.rowHeight === 'auto') && $defined(this.heights[row])) {
+    		return this.heights[row];
+    	} else if (Jx.type(this.options.rowHeight === 'number')) {
+    		return this.options.rowHeight;
+    	}
+    },
+    calculateHeights : function () {
+    	//grab all rows in the grid body
+    	document.id(this.grid.gridTableBody).getChildren().each(function(row){
+    		row = document.id(row);
+    		var data = row.retrieve('jxRowData');
+    		var s = row.getMarginBoxSize();
+    		this.heights[data.row] = s.height;
+    	},this);
+    },
+    
+    createRules: function(styleSheet, scope) {
+        this.grid.gridTableBody.getChildren().each(function(row, idx) {
+            var selector = scope+' .jxGridRow'+idx;
+            var rule = Jx.Styles.insertCssRule(selector, '', styleSheet);
+            this.rules.set('jxGridRow'+idx, rule);
+            rule.style.height = this.getHeight(idx) + "px";
+        }, this);
     },
     /**
      * APIMethod: useHeaders
@@ -171,10 +186,10 @@ Jx.Row = new Class({
      */
     getRowHeader : function (list) {
         var th = this.getRowHeaderCell();
-        if (this.grid.model.getPosition() === 0) {
-            var rowWidth = this.getRowHeaderWidth();
-            th.setStyle("width", rowWidth);
-        }
+        //if (this.grid.model.getPosition() === 0) {
+        //    var rowWidth = this.getRowHeaderWidth();
+        //    th.setStyle("width", rowWidth);
+        //}
         th.store('jxCellData', {
             rowHeader: true,
             row: this.grid.model.getPosition()
@@ -182,10 +197,10 @@ Jx.Row = new Class({
         list.add(th);
     },
     /**
-     * APIMethod: getRowHeaderField
-     * returns the name of the model field that is used for the header
+     * APIMethod: getRowHeaderColumn
+     * returns the name of the column that is used for the row header
      */
-    getRowHeaderField : function () {
-        return this.options.headerField;
+    getRowHeaderColumn : function () {
+        return this.options.headerColumn;
     }
 });

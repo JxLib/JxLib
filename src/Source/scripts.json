@@ -274,15 +274,30 @@
         },
         
         "column": {
-            "deps": ["object"],
+            "deps": ["widget"],
             "desc": "A representation of a single grid column"
         },
         
         "row": {
             "deps": ["object"],
             "desc": "Holds information related to display of rows in the grid."
+        },
+		
+		"renderer": {
+		    "deps": ["grid"],
+			"desc": ""
+	    },
+		
+		"renderer.text": {
+		    "deps": ["renderer"],
+			"desc": ""
+	    },
+        
+        "renderer.checkbox": {
+            "deps": ["renderer"],
+            "desc": ""
         }
-
+			
     },
     
     "Plugins" : {

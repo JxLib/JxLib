@@ -90,7 +90,7 @@ Jx.Adaptor.Tree = new Class({
     	}
         var l = this.store.count() - 1;
         for (var i = this.currentRecord + 1; i <= l; i++) {
-            var template = this.fillTemplate(i);
+            var template = this.store.fillTemplate(i,this.options.template,this.columnsNeeded);
 
             var item;
             if (this.hasChildren(i)) {

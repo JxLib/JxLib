@@ -16,7 +16,10 @@
  */
 Jx.Plugin.Grid.Selector = new Class({
 
+	Family: 'Jx.Plugin.Grid.Selector',
     Extends : Jx.Plugin,
+    
+    Binds: ['select','checkSelection','checkAll'],
 
     options : {
         /**
@@ -33,13 +36,35 @@ Jx.Plugin.Grid.Selector = new Class({
          * Option: column
          * determines if columns are selectable
          */
-        column : false
+        column : false,
+        /**
+         * Option: multiple
+         * Allow multiple selections
+         */
+        multiple: false,
+        /**
+         * Option: useCheckColumn
+         * Whether to use a check box column as the row header or as the 
+         * first column in the grid and use it for manipulating selections.
+         */
+        useCheckColumn: false,
+        /**
+         * Option: checkAsHeader
+         * Determines if the check column is the header of the rows
+         */
+        checkAsHeader: false
     },
     /**
-     * Property: bound
-     * storage for bound methods useful for working with events
+     * Property: selected
+     * Holds arrays of selected rows and/or columns and their headers
      */
-    bound: {},
+    selected: $H({
+    	columns: [],
+    	rows: [],
+    	rowHeads: [],
+    	columnHeads: []
+    }),
+    
     /**
      * APIMethod: init
      * construct a new instance of the plugin.  The plugin must be attached
@@ -47,7 +72,6 @@ Jx.Plugin.Grid.Selector = new Class({
      */
     init: function() {
         this.parent();
-        this.bound.select = this.select.bind(this);
     },
     /**
      * APIMethod: attach
@@ -62,10 +86,38 @@ Jx.Plugin.Grid.Selector = new Class({
             return;
         }
         this.grid = grid;
-        this.grid.addEvent('gridCellSelect', this.bound.select);
+        this.grid.addEvent('gridCellSelect', this.select);
         if (this.options.cell) {
             this.oldSelectionClass = this.grid.selection.options.selectedClass;
             this.grid.selection.options.selectClass = "jxGridCellSelected";
+            if (this.options.multiple) {
+            	this.grid.selection.options.selectMode = 'multiple';
+            }
+        }
+        
+        //setup check column if needed
+        if (this.options.useCheckColumn) {
+        	this.checkColumn = new Jx.Column({
+        		template: '<span class="jxGridCellContent jxInputContainer jxInputContainerCheck"><input class="jxInputCheck" type="checkbox" name="checkAll" id="checkAll"/></span>',
+        		renderMode: 'fit',
+        		renderer: new Jx.Grid.Renderer.Checkbox({
+        			onChange: this.checkSelection
+        		}),
+        		name: 'selection'
+        	}, this.grid);
+        	this.grid.columns.columns.reverse();
+        	this.grid.columns.columns.push(this.checkColumn);
+        	this.grid.columns.columns.reverse();
+        	
+        	if (this.options.checkAsHeader) {
+        		this.oldHeaderColumn = this.grid.row.options.headerColumn;
+        		this.grid.row.options.headerColumn = 'selection';
+        	} else {
+        		//attach event to header
+        		$(this.checkColumn).getFirst().addEvents({
+        			'change': this.checkAll
+        		});
+        	}
         }
     },
     /**
@@ -73,10 +125,17 @@ Jx.Plugin.Grid.Selector = new Class({
      */
     detach: function() {
         if (this.grid) {
-            this.grid.removeEvent('gridCellSelect', this.bound.select);
+            this.grid.removeEvent('gridCellSelect', this.select);
             if (this.options.cell) {
                 this.grid.selection.options.selectedClass = this.oldSelectionClass;
             }
+        }
+        if (this.options.useCheckColumn) {
+        	var col = this.grid.columns.getByName('selection');
+        	this.grid.columns.columns.erase(col);
+        	if (this.options.checkAsHeader) {
+        		this.grid.row.options.headerColumn = this.oldHeaderColumn;
+        	}
         }
         this.grid = null;
     },
@@ -110,19 +169,29 @@ Jx.Plugin.Grid.Selector = new Class({
             this.grid.selection.options.selectClass = this.oldSelectionClass;
             
         } else if (opt === 'row') {
-            this.selectedRow.removeClass('jxGridRowSelected');
-            this.selectedRow = null;
-            this.selectedRowHead.removeClass('jxGridRowHeaderSelected');
-            this.selectedRowHead = null;
+        	
+        	this.selected.get('rows').each(function(row){
+        		row.removeClass('jxGridRowSelected');
+        	},this);
+        	this.selected.set('rows',[]);
+        	
+        	this.selected.get('rowHeads').each(function(rowHead){
+        		rowHead.removeClass('jxGridRowHeaderSelected');
+        	},this);
+        	this.selected.set('rowHeads',[]);
+        	
         } else {
-            if ($defined(this.selectedCol)) {
+            this.selected.get('columns').each(function(column){
                 for (var i = 0; i < this.grid.gridTable.rows.length; i++) {
-                    this.grid.gridTable.rows[i].cells[this.selectedCol].removeClass('jxGridColumnSelected');
+                    this.grid.gridTable.rows[i].cells[column].removeClass('jxGridColumnSelected');
                 }
-            }
-            this.selectedColHead.removeClass('jxGridColumnHeaderSelected');
-            this.selectedColHead = null;
-            this.selectedCol = null;
+            },this);
+            this.selected.set('columns',[]);
+            
+            this.selected.get('columnHeads').each(function(rowHead){
+        		rowHead.removeClass('jxGridColumnHeaderSelected');
+        	},this);
+        	this.selected.set('columnHeads',[]);
         }
     },
     /**
@@ -159,23 +228,49 @@ Jx.Plugin.Grid.Selector = new Class({
         if (!this.options.row) { return; }
 
         var tr = (row >= 0 && row < this.grid.gridTableBody.rows.length) ? this.grid.gridTableBody.rows[row] : null;
-
-        if (tr.hasClass('jxGridRowSelected')) {
-            this.selectedRow.removeClass('jxGridRowSelected');
-            this.selectedRow = null;
-        } else {
-            if (this.selectedRow) {
-                this.selectedRow.removeClass('jxGridRowSelected');
-            }
-            this.selectedRow = $(tr);
-            this.selectedRow.addClass('jxGridRowSelected');
+        tr = $(tr);
+        
+        var rows = this.selected.get('rows');
+	    if (tr.hasClass('jxGridRowSelected')) {
+	        tr.removeClass('jxGridRowSelected');
+	        this.setCheckField(row, false);
+	        //search array and remove this item
+	        rows.erase(tr);
+	    } else {
+	        rows.push(tr);
+	        tr.addClass('jxGridRowSelected');
+	        this.setCheckField(row, true);
+	    }
+	        
+	    if (!this.options.multiple) {
+	    	rows.each(function(row){
+	    		if (row !== tr) {
+	    			row.removeClass('jxGridRowSelected');
+	    			this.setCheckField(row.retrieve('jxRowData').row,false);
+	    			rows.erase(row);
+	    		}
+	    	},this);
         }
-        this.selectRowHeader(row);
+        	
+	    this.selectRowHeader(row);
 
+    },
+    
+    setCheckField: function (row, checked) {
+    	if (this.options.useCheckColumn) {
+    		var check;
+    		if (this.options.checkAsHeader) {
+    			check = $(this.grid.rowTableHead.rows[row].cells[0]).getFirst().getFirst();
+    		} else {
+    			var col = this.grid.columns.getIndexFromGrid(this.checkColumn.name);
+    			check = $(this.grid.gridTableBody.rows[row].cells[col]).getFirst().getFirst();
+    		}
+        	check.retrieve('field').setValue(checked);
+        }
     },
     /**
      * Method: selectRowHeader
-     * Apply the jxGridRowHea}derSelected style to the row header cell of a
+     * Apply the jxGridRowHeaderSelected style to the row header cell of a
      * selected row.
      *
      * Parameters:
@@ -185,20 +280,30 @@ Jx.Plugin.Grid.Selector = new Class({
         if (!this.grid.row.useHeaders()) {
             return;
         }
-        var cell = (row >= 0 && row < this.grid.rowTableHead.rows.length) ? this.grid.rowTableHead.rows[row].cells[0] : null;
+        var cell = (row >= 0 && row < this.grid.rowTableHead.rows.length) ? 
+        		this.grid.rowTableHead.rows[row].cells[0] : null;
 
         if (!cell) {
             return;
         }
-        if (this.selectedRowHead) {
-            this.selectedRowHead.removeClass('jxGridRowHeaderSelected');
+        cell = $(cell);
+        var cells = this.selected.get('rowHeads');
+        if (cells.contains(cell)) {
+            cell.removeClass('jxGridRowHeaderSelected');
+        } else {
+        	cell.addClass('jxGridRowHeaderSelected');
+        	cells.push(cell);
         }
-        if (this.selectedRowHead !== cell) {
-            this.selectedRowHead = $(cell);
-            cell.addClass('jxGridRowHeaderSelected');
-        } else if (cell.hasClass('jxgridRowHeaderSelected')) {
-            this.selectedRowHead = null;
+        
+        if (!this.options.multiple) {
+        	cells.each(function(c){
+        		if (c !== cell) {
+        			c.removeClass('jxGridRowHeaderSelected');
+        			cells.erase(c);
+        		}
+        	},this);
         }
+        
     },
     /**
      * Method: selectColumn
@@ -210,19 +315,33 @@ Jx.Plugin.Grid.Selector = new Class({
      */
     selectColumn: function (col) {
         if (col >= 0 && col < this.grid.gridTable.rows[0].cells.length) {
-            if ($defined(this.selectedCol)) {
-                for (var i = 0; i < this.grid.gridTable.rows.length; i++) {
-                    this.grid.gridTable.rows[i].cells[this.selectedCol].removeClass('jxGridColumnSelected');
-                }
-            }
-            if (col !== this.selectedCol) {
-                this.selectedCol = col;
-                for (i = 0; i < this.grid.gridTable.rows.length; i++) {
-                    this.grid.gridTable.rows[i].cells[col].addClass('jxGridColumnSelected');
-                }
+        	var cols = this.selected.get('columns');
+        	
+        	var m = '';
+            if (cols.contains(col)) {
+            	//deselect
+            	m = 'removeClass';
+            	cols.erase(col);
             } else {
-                this.selectedCol = null;
+            	//select
+            	m = 'addClass';
+            	cols.push(col);
             }
+            for (var i = 0; i < this.grid.gridTable.rows.length; i++) {
+                this.grid.gridTable.rows[i].cells[col][m]('jxGridColumnSelected');
+            }
+            
+            if (!this.options.multiple) {
+            	cols.each(function(c){
+            		if (c !== col) {
+            			for (var i = 0; i < this.grid.gridTable.rows.length; i++) {
+                            this.grid.gridTable.rows[i].cells[c].removeClass('jxGridColumnSelected');
+                        }
+            			cols.erase(c);
+            		}
+            	},this);
+            }
+            
             this.selectColumnHeader(col);
         }
     },
@@ -241,21 +360,70 @@ Jx.Plugin.Grid.Selector = new Class({
         }
 
 
-        var cell = (col >= 0 && col < this.grid.colTableBody.rows[0].cells.length) ? this.grid.colTableBody.rows[0].cells[col]
-                                                                                                                          : null;
+        var cell = (col >= 0 && col < this.grid.colTableBody.rows[0].cells.length) ? 
+        		this.grid.colTableBody.rows[0].cells[col] : null;
+        		
         if (cell === null) {
             return;
         }
 
-        if (this.selectedColHead) {
-            this.selectedColHead.removeClass('jxGridColumnHeaderSelected');
-        }
-        if (this.selectedColHead !== cell) {
-            this.selectedColHead = $(cell);
-            cell.addClass('jxGridColumnHeaderSelected');
+        cell = $(cell);
+        cells = this.selected.get('columnHeads');
+        
+        if (cells.contains(cell)) {
+            cell.removeClass('jxGridColumnHeaderSelected');
+            cells.erase(cell);
         } else {
-            this.selectedColHead = null;
+        	cell.addClass('jxGridColumnHeaderSelected');
+        	cells.push(cell);
+        }
+        
+        if (!this.options.multiple) {
+        	cells.each(function(c){
+        		if (c !== cell) {
+        			c.removeClass('jxGridColumnHeaderSelected');
+        			cells.erase(c);
+        		}
+        	},this);
         }
 
+    },
+    /**
+     * Method: checkSelection
+     * Checks whether a row's check box is/isn't checked and modifies the 
+     * selection appropriately.
+     * 
+     * Parameters:
+     * column - <Jx.Column> that created the checkbox
+     * field - <Jx.Field.Checkbox> instance that was checked/unchecked
+     */
+    checkSelection: function (column, field) {
+    	var data = $(field).getParent().retrieve('jxCellData');
+    	this.selectRow(data.row);
+    },
+    /**
+     * Method: checkAll
+     * Checks all checkboxes in the column the selector inserted.
+     */
+    checkAll: function () {
+    	var check;
+    	var col;
+    	var rows;
+    	
+    	var checked = this.checkColumn.domObj.getFirst().get('checked');
+    	//checked = (checked === 'on')? true : false;
+    	
+		if (this.options.checkAsHeader) {
+			col = 0;
+			rows = this.grid.rowTableHead.rows;
+		} else {
+			var col = this.grid.columns.getIndexFromGrid(this.checkColumn.name);
+			rows = this.grid.gridTableBody.rows;
+		}
+		
+		$A(rows).each(function(row){
+			check = row.cells[col].getFirst().getFirst();
+			check.retrieve('field').setValue(checked);
+		},this);
     }
 });

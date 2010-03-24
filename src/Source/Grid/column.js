@@ -18,24 +18,30 @@
 Jx.Column = new Class({
 
 	Family: 'Jx.Column',
-    Extends: Jx.Object,
+    Extends: Jx.Widget,
 
     options: {
         /**
-         * Option: header
-         * The text to be used as a header for this column
+         * Option: renderMode
+         * The mode to use in rendering this column to determine its width. 
+         * Valid options include
+         * 
+         * fit - auto calculates the width for the best fit to the text. This 
+         * 			is the default.
+         * fixed - uses the value passed in the width option, doesn't 
+         * 			auto calculate.
+         * expand - uses the value in the width option as a minimum width and 
+         * 			allows this column to expand and take up any leftover space. 
+         * 			NOTE: there can be only 1 expand column in a grid. The 
+         * 			Jx.Columns object will only take the first column with this 
+         * 			option as the expanding column. All remaining columns marked 
+         * 			"expand" will be treated as "fixed".
          */
-        header: null,
-        /**
-         * Option: modelField
-         * The field of the model that this column is keyed to
-         */
-        modelField: null,
+        renderMode: 'fit',
         /**
          * Option: width
-         * Determines the width of the column. Set to 'null' or 'auto'
-         * to allow the column to autocalculate it's width based on its
-         * contents
+         * Determines the width of the column when using 'fixed' rendering mode
+         * or acts as a minimum width when using 'expand' mode.
          */
         width: null,
         /**
@@ -59,51 +65,31 @@ Jx.Column = new Class({
          */
         isHidden: false,
         /**
-         * Option: formatter
-         * an instance of <Jx.Formatter> or one of its subclasses which
-         * will be used to format the data in this column. It can also be
-         * an object containing the name (This should be the part after
-         * Jx.Formatter in the class name. For instance, to get a currency
-         * formatter, specify 'Currency' as the name.) and options for the
-         * needed formatter (see individual formatters for options).
-         * (code)
-         * {
-         *    name: 'formatter name',
-         *    options: {}
-         * }
-         * (end)
-         */
-        formatter: null,
-        /**
          * Option: name
          * The name given to this column
          */
         name: '',
         /**
+         * Option: template
+         */
+        template: '<span class="jxGridCellContent">Header</span>',
+        /**
+         * Option: renderer
+         * an instance of a Jx.Grid.Renderer to use in rendering the content
+         * of this column.
+         */
+        renderer: null,
+        /**
          * Option: dataType
          * The type of the data in this column, used for sorting. Can be
          * alphanumeric, numeric, currency, boolean, or date
          */
-        dataType: 'alphanumeric',
-        /**
-         * Option: templates
-         * objects used to determine the type of tag and css class to
-         * assign to a header cell and a regular cell. The css class can
-         * also be a function that returns a string to assign as the css
-         * class. The function will be passed the text to be formatted.
-         */
-        templates: {
-            header: {
-                tag: 'span',
-                cssClass: null
-            },
-            cell: {
-                tag: 'span',
-                cssClass: null
-            }
-        }
-
+        dataType: 'alphanumeric'
     },
+    
+    classes: $H({
+    	domObj: 'jxGridCellContent'
+    }),
     /**
      * Property: model
      * holds a reference to the model (an instance of <Jx.Store> or subclass)
@@ -117,56 +103,53 @@ Jx.Column = new Class({
      * initializes the column object
      */
     init : function () {
+    	
+    	
         this.parent();
         if ($defined(this.options.grid) && this.options.grid instanceof Jx.Grid) {
             this.grid = this.options.grid;
         }
         this.name = this.options.name;
-        //we need to check the formatter
-        if ($defined(this.options.formatter)
-                && !(this.options.formatter instanceof Jx.Formatter)) {
-            var t = Jx.type(this.options.formatter);
+        //check renderer
+        if ($defined(this.options.renderer)
+                && !(this.options.renderer instanceof Jx.Grid.Renderer)) {
+            var t = Jx.type(this.options.renderer);
             if (t === 'object') {
-                this.options.formatter = new Jx.Formatter[this.options.formatter.name](
-                        this.options.formatter.options);
+                this.options.renderer = new Jx.Grid.Renderer[this.options.renderer.name](
+                        this.options.renderer.options);
             }
+        } else {
+        	//set a default renderer
         }
+        
+        this.options.renderer.setColumn(this);
+        
     },
+    	
     /**
      * APIMethod: getHeaderHTML
-     * Returns the header text wrapped in the tag specified in
-     * options.templates.hedaer.tag
      */
     getHeaderHTML : function () {
-        var text = this.options.header ? this.options.header
-                : this.options.modelField;
-        var ht = this.options.templates.header;
-        var el = new Element(ht.tag, {
-            'class' : 'jxGridCellContent',
-            'html' : text
-        });
-        new Element('img', {
-          src: Jx.aPixel.src
-        }).inject(el);
-        if ($defined(ht.cssClass)) {
-            if (Jx.type(ht.cssClass) === 'function') {
-                el.addClass(ht.cssClass.run(text));
-            } else {
-                el.addClass(ht.cssClass);
-            }
-        }
-        this.header = el;
-        return el;
+    	if (this.isSortable()) {
+    		new Element('img', {
+	          src: Jx.aPixel.src
+	        }).inject(this.domObj);	
+    	}
+        return this.domObj;
     },
 
     setWidth: function(newWidth) {
+    	this.width = parseInt(newWidth,10);
         if (this.rule && parseInt(newWidth,10) >= 0) {
-            this.width = parseInt(newWidth,10);
             this.rule.style.width = parseInt(newWidth,10) + "px";
         }
     },
+    
+    getWidth: function () {
+    	return this.width;
+    },
     /**
-     * APIMethod: getWidth
+     * APIMethod: calculateWidth
      * returns the width of the column.
      *
      * Parameters:
@@ -175,70 +158,58 @@ Jx.Column = new Class({
      *          preset
      * rowHeader - flag to tell us if this calculation is for the row header
      */
-    getWidth : function (recalculate, rowHeader) {
-        rowHeader = $defined(rowHeader) ? rowHeader : false;
+    calculateWidth : function (rowHeader) {
+        //if this gets called then we assume that we want to calculate the width
+    	rowHeader = $defined(rowHeader) ? rowHeader : false;
         var maxWidth;
-        //check for null width or for "auto" setting and measure all contents in this column
-        //in the entire model as well as the header (really only way to do it).
-        if (!$defined(this.width) || recalculate) {
-            if (this.options.width !== null
-                    && this.options.width !== 'auto') {
-                maxWidth = this.width = Jx.getNumber(this.options.width);
+        
+        //calculate the width
+        var model = this.grid.getModel();
+        var oldPos = model.getPosition();
+        maxWidth = 0;
+        model.first();
+        while (model.valid()) {
+            //check size by placing text into a TD and measuring it.
+        	this.options.renderer.render();
+            var text = $(this.options.renderer);
+            var klass = 'jxGridCell';
+            if (this.grid.row.useHeaders()
+                    && this.options.name === this.grid.row
+                    .getRowHeaderColumn()) {
+                klass = 'jxGridRowHead';
+            }
+            var s = this.measure(text, klass, rowHeader, model.getPosition());
+            if (s.width > maxWidth) {
+                maxWidth = s.width;
+            }
+            if (model.hasNext()) {
+                model.next();
             } else {
-                //calculate the width
-                var model = this.grid.getModel();
-                var oldPos = model.getPosition();
-                maxWidth = 0;
-                model.first();
-                while (model.valid()) {
-                    //check size by placing text into a TD and measuring it.
-                    var text = model.get(this.options.modelField);
-                    var klass = 'jxGridCell';
-                    if (this.grid.row.useHeaders()
-                            && this.options.modelField === this.grid.row
-                            .getRowHeaderField()) {
-                        klass = 'jxGridRowHead';
-                    }
-                    var s = this.measure(text, klass, rowHeader);
-                    if (s.width > maxWidth) {
-                        maxWidth = s.width;
-                    }
-                    if (model.hasNext()) {
-                        model.next();
-                    } else {
-                        break;
-                    }
-                }
-
-                //check the column header as well (unless this is the row header)
-                if (!(this.grid.row.useHeaders() && this.options.modelField === this.grid.row
-                        .getRowHeaderField())) {
-                    klass = 'jxGridColHead';
-                    if (this.isEditable()) {
-                        klass += ' jxColEditable';
-                    }
-                    if (this.isResizable()) {
-                        klass += ' jxColResizable';
-                    }
-                    if (this.isSortable()) {
-                        klass += ' jxColSortable';
-                    }
-                    s = this.measure(this.options.header, klass);
-                    if (s.width > maxWidth) {
-                        maxWidth = s.width;
-                    }
-                }
-                if (!rowHeader) {
-                    this.width = maxWidth;
-                }
-                model.moveTo(oldPos);
+                break;
             }
         }
-        if (!rowHeader) {
-            return this.width;
-        } else {
-            return maxWidth;
+
+        //check the column header as well (unless this is the row header)
+        if (!(this.grid.row.useHeaders() && this.options.name === this.grid.row
+                .getRowHeaderColumn())) {
+            klass = 'jxGridColHead';
+            if (this.isEditable()) {
+                klass += ' jxColEditable';
+            }
+            if (this.isResizable()) {
+                klass += ' jxColResizable';
+            }
+            if (this.isSortable()) {
+                klass += ' jxColSortable';
+            }
+            s = this.measure(this.domObj.clone(), klass);
+            if (s.width > maxWidth) {
+                maxWidth = s.width;
+            }
         }
+        this.width = maxWidth;
+        model.moveTo(oldPos);
+        return this.width;
     },
     /**
      * Method: measure
@@ -249,27 +220,19 @@ Jx.Column = new Class({
      * klass - a string indicating and extra classes to add so that
      *          css classes can be taken into account.
      */
-    measure : function (text, klass, rowHeader) {
-        if ($defined(this.options.formatter)
-                && text !== this.options.header) {
-            text = this.options.formatter.format(text);
-        }
+    measure : function (text, klass, rowHeader, row) {
         var d = new Element('span', {
             'class' : klass
         });
-        var el = new Element('span', {
-            'html' : text,
-            'class': 'jxGridCellContent'
-        }).inject(d);
-        d.setStyle('height', this.grid.row.getHeight());
+        text.inject(d);
+        //d.setStyle('height', this.grid.row.getHeight(row));
         d.setStyles({
             'visibility' : 'hidden',
             'width' : 'auto'
-            //'font-family' : 'Arial'  removed because CSS may impose different font(s)
         });
         d.inject(document.body, 'bottom');
         var s = d.measure(function () {
-            //if nogt rowHeader, get size of innner span
+            //if not rowHeader, get size of innner span
             if (!rowHeader) {
                 return this.getFirst().getContentBoxSize();
             } else {
@@ -309,31 +272,11 @@ Jx.Column = new Class({
     },
     /**
      * APIMethod: getHTML
-     * returns the content of the current model row wrapped in the tag
-     * specified by options.templates.cell.tag and with the appropriate classes
-     * added
+     * calls render method of the renderer object passed in.
      */
     getHTML : function () {
-        var text = this.grid.getModel().get(this.options.modelField);
-        var ct = this.options.templates.cell;
-        if ($defined(this.options.formatter)) {
-            text = this.options.formatter.format(text);
-        }
-        var el = new Element(ct.tag, {
-            'html' : text,
-            'class' : 'jxGridCellContent',
-            styles: {
-                // width: this.getWidth()
-            }
-        });
-        if ($defined(ct.cssClass)) {
-            if (Jx.type(ct.cssClass) === 'function') {
-                el.addClass(ct.cssClass.run(text));
-            } else {
-                el.addClass(ct.cssClass);
-            }
-        }
-        return el;
+        this.options.renderer.render();
+        return document.id(this.options.renderer);
     }
 
 });

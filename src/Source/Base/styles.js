@@ -137,7 +137,8 @@ Jx.Styles = new(new Class({
         }
         return this.dynamicStyleMap.get(name);
     },
-    /* APIMethod: enableStyleSheet
+    /**
+     * APIMethod: enableStyleSheet
      * enable a style sheet
      *
      * Parameters:
@@ -146,7 +147,8 @@ Jx.Styles = new(new Class({
     enableStyleSheet: function (name) {
         this.getDynamicStyleSheet(name).disabled = false;
     },
-    /* APIMethod: disableStyleSheet
+    /**
+     * APIMethod: disableStyleSheet
      * enable a style sheet
      *
      * Parameters:
@@ -154,5 +156,27 @@ Jx.Styles = new(new Class({
      */
     disableStyleSheet: function (name) {
         this.getDynamicStyleSheet(name).disabled = true;
+    },
+    /**
+     * APIMethod: removeStyleSheet
+     * Removes a style sheet
+     * 
+     * Parameters:
+     * name = <String> the title of the stylesheet to remove
+     */
+    removeStyleSheet: function (name) {
+    	this.disableStyleSheet(name);
+    	this.getDynamicStyleSheet(name).dispose();
+    	this.dynamicStyleMap.erase(name);
+    },
+    /**
+     * APIMethod: isStyleSheetDefined
+     * Determined if the passed in name is a defined dynamic style sheet.
+     * 
+     * Parameters:
+     * name = <String> the title of the stylesheet to remove
+     */
+    isStyleSheetDefined: function (name) {
+    	return this.dynamicStyleMap.has(name);
     }
 }))();

@@ -58,14 +58,13 @@ Jx.Columns = new Class({
 
         this.options.columns.each(function (col) {
             //check the column to see if it's a Jx.Grid.Column or an object
-                if (col instanceof Jx.Column) {
-                    this.columns.push(col);
-                } else if (Jx.type(col) === "object") {
-                    col.grid = this.grid;
-                    this.columns.push(new Jx.Column(col));
-                }
+            if (col instanceof Jx.Column) {
+                this.columns.push(col);
+            } else if (Jx.type(col) === "object") {
+                this.columns.push(new Jx.Column(col,this.grid));
+            }
 
-            }, this);
+        }, this);
     },
     /**
      * APIMethod: getHeaderHeight
@@ -150,9 +149,9 @@ Jx.Columns = new Class({
      */
     getHeaders : function (list) {
         var r = this.grid.row.useHeaders();
-        var hf = this.grid.row.getRowHeaderField();
+        var hf = this.grid.row.getRowHeaderColumn();
         this.columns.each(function (col, idx) {
-            if (r && hf === col.options.modelField) {
+            if (r && hf === col.options.name) {
                 //do nothing
             } else if (!col.isHidden()) {
                 var th = new Element('td', {
@@ -160,7 +159,7 @@ Jx.Columns = new Class({
                 });
                 th.adopt(col.getHeaderHTML());
                 // th.setStyle('width', col.getWidth());
-                th.addClass('jxColHead-' + col.options.modelField);
+                th.addClass('jxColHead-' + col.name);
                 //add other styles for different attributes
                 if (col.isEditable()) {
                     th.addClass('jxColEditable');
@@ -190,10 +189,10 @@ Jx.Columns = new Class({
      */
     getColumnCells : function (list) {
         var r = this.grid.row;
-        var f = r.getRowHeaderField();
+        var f = r.getRowHeaderColumn();
         var h = r.useHeaders();
         this.columns.each(function (col, idx) {
-            if (h && col.options.modelField !== f && !col.isHidden()) {
+            if (h && col.name !== f && !col.isHidden()) {
                 list.add(this.getColumnCell(col, idx));
             } else if (!h && !col.isHidden()) {
                 list.add(this.getColumnCell(col, idx));
@@ -213,7 +212,7 @@ Jx.Columns = new Class({
             'class' : 'jxGridCell'
         });
         td.adopt(col.getHTML());
-        td.addClass('jxCol-' + col.options.modelField);
+        td.addClass('jxCol-' + col.name);
         td.addClass('jxGridCol'+idx);
         //add other styles for different attributes
         if (col.isEditable()) {
@@ -234,18 +233,67 @@ Jx.Columns = new Class({
 
         return td;
     },
+    
+    calculateWidths: function () {
+    	//to calculate widths we loop through each column
+    	var expand = null;
+    	var totalWidth = 0;
+    	this.columns.each(function(col,idx){
+    		//are we checking the rowheader?
+    		var rowHeader = false;
+    		if (col.name == this.grid.row.options.headerColumn) {
+    			rowHeader = true;
+    		}
+    		//if it's fixed, set the width to the passed in width
+    		if (col.options.renderMode == 'fixed') {
+    			col.setWidth(col.options.width);
+    			
+    		} else if (col.options.renderMode == 'fit') {
+    			col.calculateWidth(rowHeader);
+    		} else if (col.options.renderMode == 'expand' && !$defined(expand)) {
+    			expand = col;
+    		} else {
+    			//treat it as fixed if has width, otherwise as fit
+    			if ($defined(col.options.width)) {
+    				col.setWidth(col.options.width);
+    			} else {
+    				col.calculateWidth(rowHeader);
+    			}
+    		}
+    		totalWidth += col.getWidth();
+    	},this);
+    	
+    	//now figure the expand column
+    	if ($defined(expand)) {
+    		var size = this.grid.gridObj.getMarginBoxSize();
+    		var leftOverSpace = size.width - totalWidth;
+    		if (leftOverSpace >= expand.options.width) {
+    			expand.setWidth(leftOverSpace);
+    		} else {
+    			expand.setWidth(expand.options.width);
+    		}
+    	}
+    },
 
     createRules: function(styleSheet, scope) {
         this.columns.each(function(col, idx) {
             var selector = scope+' .jxGridCol'+idx+', '+scope + " .jxGridCol" + idx + " .jxGridCellContent";
-            col.rule = Jx.Styles.insertCssRule(selector, '', styleSheet);
+            var dec = '';
+            if (col.options.renderMode === 'fixed' || col.options.renderMode === 'expand') {
+            	//set the white-space to 'normal !important'
+            	dec = 'white-space: normal !important';
+            }
+            col.rule = Jx.Styles.insertCssRule(selector, dec, styleSheet);
             col.rule.style.width = col.getWidth() + "px";
         }, this);
     },
 
     updateRule: function(column) {
         var col = this.getByName(column);
-        col.rule.style.width = col.getWidth(true) + "px";
+        if (col.options.renderMode === 'fit') {
+        	col.calculateWidth();
+        }
+        col.rule.style.width = col.getWidth() + "px";
     },
     
     /**
