@@ -42,9 +42,9 @@ function drawToolbar() {
      * a menu and then creates a panel to host the grid in
      * The actual grid code is in another sample
      */
-	
-	var m = new Jx.Menu({label: 'Other Options', enabled: false})
-	
+  
+  var m = new Jx.Menu({label: 'Other Options', enabled: false})
+  
     new Jx.Menu({label: 'Row Options'}).addTo('buttons').add([
         new Jx.Menu.Item({
             label: 'Row Prelight',
@@ -105,49 +105,48 @@ function drawToolbar() {
             onUp: function() { selector.deactivate('cell'); }
         })]
     );
-	 var b = new Jx.Menu.Item({
-        label: 'Check Column as Header',
-        toggle: true,
-        enabled: false,
-        onDown: function() { 
-		  selector.detach(); 
-		  selector.activate('checkAsHeader'); 
-		  selector.attach(grid); 
-		  grid.render(); 
-		},
-        onUp: function() { 
-		  selector.detach(); 
-		  selector.deactivate('checkAsHeader'); 
-		  selector.attach(grid); 
-		  grid.render(); }
-    });
-	
-	m.addTo('buttons').add([
-        new Jx.Menu.Item({
-            label: 'Multiple Selection',
-            toggle: true,
-            onDown: function() { selector.activate('multiple'); },
-            onUp: function() { selector.deactivate('multiple'); }
-        }),
-        new Jx.Menu.Item({
-            label: 'Check Column',
-            toggle: true,
-            onDown: function() { 
-			  selector.detach(); 
-			  selector.activate('useCheckColumn'); 
-			  selector.attach(grid); 
-			  grid.render(); 
-			  b.setEnabled(true); 
-			},
-            onUp: function() { 
-			  selector.detach(); 
-			  selector.deactivate('useCheckColumn'); 
-			  selector.attach(grid); 
-			  grid.render(); 
-			  b.setEnabled(false);
-			}
-        }), b]
-	);
+   var b = new Jx.Menu.Item({
+     label: 'Check Column as Header',
+     toggle: true,
+     enabled: false,
+     onDown: function() { 
+      selector.detach(); 
+      selector.activate('checkAsHeader'); 
+      selector.attach(grid); 
+      grid.render(); 
+    },
+    onUp: function() { 
+      selector.detach(); 
+      selector.deactivate('checkAsHeader'); 
+      selector.attach(grid); 
+      grid.render(); 
+    }});
+  
+  m.addTo('buttons').add([
+    new Jx.Menu.Item({
+      label: 'Multiple Selection',
+      toggle: true,
+      onDown: function() { selector.activate('multiple'); },
+      onUp: function() { selector.deactivate('multiple'); }
+    }),
+    new Jx.Menu.Item({
+      label: 'Check Column',
+      toggle: true,
+      onDown: function() { 
+        selector.detach(); 
+        selector.activate('useCheckColumn'); 
+        selector.attach(grid); 
+        grid.render(); 
+        b.setEnabled(true); 
+      },
+      onUp: function() { 
+        selector.detach(); 
+        selector.deactivate('useCheckColumn'); 
+        selector.attach(grid); 
+        grid.render(); 
+        b.setEnabled(false);
+      }
+     }), b]);
    
     aboutDialog = null;
     new Jx.Button({
