@@ -41,7 +41,8 @@ Jx.Dialog.Confirm = new Class({
      */
     render: function () {
         //create content to be added
-        this.buttons = new Jx.Toolbar({position: 'bottom'});
+        //turn scrolling off as confirm only has 2 buttons.
+        this.buttons = new Jx.Toolbar({position: 'bottom',scroll: false});
         
         this.ok = new Jx.Button({
             label: MooTools.lang.get('Jx','confirm').affirmitiveLabel,
