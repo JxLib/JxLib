@@ -8,11 +8,11 @@
  * 
  */
 Jx.Grid.Renderer.Text = new Class({
-	
-	Family: 'Jx.Grid.Renderer.Text',
-	Extends: Jx.Grid.Renderer,
-	
-	options: {
+  
+  Family: 'Jx.Grid.Renderer.Text',
+  Extends: Jx.Grid.Renderer,
+  
+  options: {
         /**
          * Option: formatter
          * an instance of <Jx.Formatter> or one of its subclasses which
@@ -30,12 +30,6 @@ Jx.Grid.Renderer.Text = new Class({
          */
         formatter: null,
         /**
-         * Option: template
-         * The template for rendering this cell. Will be processed as per
-         * the Jx.Widget standard.
-         */
-        template: '<span class="jxGridCellContent"></span>',
-        /**
          * Option: textTemplate
          * Will be used for creating the text that goes iside the template. Use
          * placeholders for indicating the field(s). You can add as much text 
@@ -51,20 +45,17 @@ Jx.Grid.Renderer.Text = new Class({
          * A string or function to use in adding classes to the text
          */
         css: null
-	},
-	
-	store: null,
-	
-	columnsNeeded: null,
-	
-	classes: $H({
-		domObj: 'jxGridCellContent'
-	}),
-	
-	init: function () {
-		this.parent();
-		//check the formatter
-		if ($defined(this.options.formatter)
+  },
+  
+  store: null,
+  
+  columnsNeeded: null,
+  
+  
+  init: function () {
+    this.parent();
+    //check the formatter
+    if ($defined(this.options.formatter)
                 && !(this.options.formatter instanceof Jx.Formatter)) {
             var t = Jx.type(this.options.formatter);
             if (t === 'object') {
@@ -72,26 +63,26 @@ Jx.Grid.Renderer.Text = new Class({
                         this.options.formatter.options);
             }
         }
-	},
-	
-	setColumn: function (column) {
-		this.parent();
-		
-		this.store = column.grid.getModel();
-		
-		if ($defined(this.options.textTemplate)) {
-			this.columnsNeeded = this.store.parseTemplate(this.options.textTemplate);
-		}
-	},
-	
-	render: function () {
-		this.parent();
-		
-		var text = '';
-		if ($defined(this.options.textTemplate)) {
-			text = this.store.fillTemplate(null,this.options.textTemplate,this.columnsNeeded);
-		} 
-		
+  },
+  
+  setColumn: function (column) {
+    this.parent();
+    
+    this.store = column.grid.getModel();
+    
+    if ($defined(this.options.textTemplate)) {
+      this.columnsNeeded = this.store.parseTemplate(this.options.textTemplate);
+    }
+  },
+  
+  render: function () {
+    this.parent();
+    
+    var text = '';
+    if ($defined(this.options.textTemplate)) {
+      text = this.store.fillTemplate(null,this.options.textTemplate,this.columnsNeeded);
+    } 
+    
         if ($defined(this.options.formatter)) {
             text = this.options.formatter.format(text);
         }
@@ -99,11 +90,11 @@ Jx.Grid.Renderer.Text = new Class({
         this.domObj.set('html',text);
         
         if ($defined(this.options.css) && Jx.type(this.options.css) === 'function') {
-        	this.domObj.addClass(this.options.css.run(text));
+          this.domObj.addClass(this.options.css.run(text));
         } else if ($defined(this.options.css) && Jx.type(this.options.css) === 'string'){
-        	this.domObj.addClass(this.options.css);
+          this.domObj.addClass(this.options.css);
         }
         
-	}
-		
+  }
+    
 });

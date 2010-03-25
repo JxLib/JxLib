@@ -440,6 +440,7 @@ Jx.Grid = new Class({
                     var tr = new Element('tr',{
                     	'class': 'jxGridRow'+this.model.getPosition()
                     });
+                    tr.store('jxRowData', {row:this.model.getPosition()});
                     var rowHeaderList = this.makeList(tr);
                     this.row.getRowHeader(rowHeaderList);
                     this.rowTableHead.appendChild(tr);

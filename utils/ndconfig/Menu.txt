@@ -73,6 +73,9 @@ Group: Jx  {
       File: Column  (Grid/column.js)
       File: Columns  (Grid/columns.js)
       File: Grid  (Grid/grid.js)
+      File: Grid.Renderer  (Grid/renderer.js)
+      File: Grid.Renderer.CheckBox  (Grid/renderer.checkbox.js)
+      File: Grid.Renderer.Text  (Grid/renderer.text.js)
       File: Row  (Grid/row.js)
 
       Group: Plugins  {
@@ -91,7 +94,8 @@ Group: Jx  {
 
       File: ColorPalette  (Extras/colorpalette.js)
       File: Notice  (Extras/notice.js)
-      File: notifier.js  (Extras/notifier.js)
+      File: Notice.Float  (Extras/notifier.float.js)
+      File: Notifier  (Extras/notifier.js)
       File: Progressbar  (Extras/progressbar.js)
       File: Scrollbar  (Extras/scrollbar.js)
       File: Slide  (Extras/slide.js)
@@ -207,6 +211,7 @@ Group: Jx  {
       File: Field  (Form/field.js)
       File: Field.Button  (Form/jxbutton.js)
       File: Field.Check  (Form/checkbox.js)
+      File: Field.Color  (Form/jxcolor.js)
       File: Field.Combo  (Form/jxcombo.js)
       File: Field.File  (Form/file.js)
       File: Field.Hidden  (Form/hidden.js)

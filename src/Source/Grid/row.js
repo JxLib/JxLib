@@ -154,12 +154,21 @@ Jx.Row = new Class({
     },
     calculateHeights : function () {
     	//grab all rows in the grid body
-    	document.id(this.grid.gridTableBody).getChildren().each(function(row){
-    		row = document.id(row);
-    		var data = row.retrieve('jxRowData');
-    		var s = row.getMarginBoxSize();
-    		this.heights[data.row] = s.height;
-    	},this);
+      document.id(this.grid.gridTableBody).getChildren().each(function(row){
+        row = document.id(row);
+        var data = row.retrieve('jxRowData');
+        var s = row.getMarginBoxSize();
+        this.heights[data.row] = s.height;
+      },this);
+      document.id(this.grid.rowTableHead).getChildren().each(function(row){
+        row = document.id(row);
+        var data = row.retrieve('jxRowData');
+        if (data) {
+          var s = row.getMarginBoxSize();
+          this.heights[data.row] = Math.max(this.heights[data.row],s.height);
+        }
+      },this);
+    	
     },
     
     createRules: function(styleSheet, scope) {
