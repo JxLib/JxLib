@@ -66,13 +66,17 @@ Jx.Form = new Class({
      * Property: fields
      * An array of all of the single fields (not contained in a fieldset) for this form
      */
-    fields : new Hash(),
+    fields : null,
     /**
      * Property: pluginNamespace
      * required variable for plugins
      */
     pluginNamespace: 'Form',
-
+    
+    init: function() {
+      this.parent();
+      this.fields = new Hash();
+    },
     /**
      * APIMethod: render
      * Constructs the form but does not add it to anything to be shown. The caller
