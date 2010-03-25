@@ -22,7 +22,7 @@
 
 .jxGridTable {
     position: relative;
-    table-layout: fixed;
+    /* table-layout: fixed; this screws up Safari :( */
     border-collapse: collapse;
     border-style: none;
 
