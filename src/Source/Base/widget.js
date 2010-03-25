@@ -100,7 +100,8 @@ Jx.Widget = new Class({
           useIframeShim: true,
           iframeShimOptions: {
             className: 'jxIframeShim'
-          }
+          },
+          fx: true
         }
     },
 
@@ -790,14 +791,16 @@ Jx.Widget = new Class({
           }
           opts = $merge(this.options.busyMask, opts);
           
-          this.domObj.spin(opts);
+          this.domObj.get('spinner', opts).show(!this.options.busyMask.fx);
+  		
         }
       } else {
         if (this.options.busyClass) {
           this.domObj.removeClass(this.options.busyClass);
         }
         if (this.options.busyMask && this.domObj.unspin) {
-          this.domObj.unspin();
+          this.domObj.get('spinner').hide(!this.options.busyMask.fx);
+    	
         }
       }
     },
