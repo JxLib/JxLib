@@ -46,7 +46,7 @@ Jx.Dialog.Prompt = new Class({
      */
     render: function () {
         //create content to be added
-        this.buttons = new Jx.Toolbar({position: 'bottom'});
+        this.buttons = new Jx.Toolbar({position: 'bottom',scroll:false});
         this.ok = new Jx.Button({
                 label: MooTools.lang.get('Jx','prompt').okButton,
                 onClick: this.onClick.bind(this, 'Ok')
