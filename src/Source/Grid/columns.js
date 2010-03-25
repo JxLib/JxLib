@@ -154,7 +154,7 @@ Jx.Columns = new Class({
             if (r && hf === col.options.name) {
                 //do nothing
             } else if (!col.isHidden()) {
-                var th = new Element('td', {
+                var th = new Element('th', {
                     'class' : 'jxGridColHead jxGridCol'+idx
                 });
                 th.adopt(col.getHeaderHTML());

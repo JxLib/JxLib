@@ -194,7 +194,7 @@ Jx.Grid = new Class({
         this.colTable = new Element('table', {
             'class' : 'jxGridTable jxGridHeader'
         });
-        this.colTableBody = new Element('tbody');
+        this.colTableBody = new Element('thead');
         this.colTable.appendChild(this.colTableBody);
         this.colObj.appendChild(this.colTable);
 
@@ -393,7 +393,7 @@ Jx.Grid = new Class({
                 this.columns.getHeaders(headerList);
 
                 /* one extra column at the end for filler */
-                th = new Element('td', {
+                th = new Element('th', {
                     'class':'jxGridColHead'
                 }).inject(trBody);
                 new Element('span',{
@@ -452,7 +452,7 @@ Jx.Grid = new Class({
                 }
                 /* one extra row at the end for filler */
                 tr = new Element('tr').inject(this.rowTableHead);
-                th = new Element('td', {
+                th = new Element('th', {
                     'class' : 'jxGridRowHead',
                     styles : {
                         width : this.row.getRowHeaderWidth(),

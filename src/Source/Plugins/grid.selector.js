@@ -98,7 +98,7 @@ Jx.Plugin.Grid.Selector = new Class({
         //setup check column if needed
         if (this.options.useCheckColumn) {
         	this.checkColumn = new Jx.Column({
-        		template: '<span class="jxGridCellContent jxInputContainer jxInputContainerCheck"><input class="jxInputCheck" type="checkbox" name="checkAll" id="checkAll"/></span>',
+        		template: '<span class="jxGridCellContent"><span class="jxInputContainer jxInputContainerCheck"><input class="jxInputCheck" type="checkbox" name="checkAll" id="checkAll"/></span></span>',
         		renderMode: 'fit',
         		renderer: new Jx.Grid.Renderer.Checkbox({
         			onChange: this.checkSelection
@@ -200,15 +200,15 @@ Jx.Plugin.Grid.Selector = new Class({
      */
     select : function (cell) {
 
-        console.log('select method');
+        // console.log('select method');
         var data = cell.retrieve('jxCellData');
-        console.log(data);
+        // console.log(data);
 
-        if (this.options.row) {
+        if (this.options.row && $defined(data.row)) {
             this.selectRow(data.row);
         }
 
-        if (this.options.column) {
+        if (this.options.column && $defined(data.index)) {
             if (this.grid.row.useHeaders()) {
                 this.selectColumn(data.index - 1);
             } else {

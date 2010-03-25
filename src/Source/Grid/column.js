@@ -124,6 +124,10 @@ Jx.Column = new Class({
         
         this.options.renderer.setColumn(this);
         
+        this.sortImg = new Element('img', {
+	          src: Jx.aPixel.src
+        });
+        
     },
     	
     /**
@@ -131,11 +135,9 @@ Jx.Column = new Class({
      */
     getHeaderHTML : function () {
     	if (this.isSortable()) {
-    		new Element('img', {
-	          src: Jx.aPixel.src
-	        }).inject(this.domObj);	
+    		this.sortImg.inject(this.domObj);	
     	}
-        return this.domObj;
+      return this.domObj;
     },
 
     setWidth: function(newWidth) {

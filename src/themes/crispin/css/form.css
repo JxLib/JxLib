@@ -41,10 +41,6 @@
   position: relative;
   overflow: hidden; /* ensures that floated elements are contained */
   border: 1px solid #ccc;
-  border-radius: 10px;
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
-  -khtml-border-radius: 10px;
   margin: 10px;
   padding: 5px;
 }
@@ -433,3 +429,17 @@ form .jxFormInlineblock .jxInputGroup .jxInputLabel {
   width: auto;
 }
 
+/** Jx.Grid Overrides **/
+
+.jxGridCellContent .jxInputContainer,
+.jxGridCellContent .jxInputRadio,
+.jxGridCellContent .jxInputCheck {
+  display: inline;
+  position: relative;
+  border: none;
+  margin: 0px;
+  padding: 0px;
+  font-size: 0px;
+  line-height: 0px;
+  color: #000;
+}

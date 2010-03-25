@@ -429,3 +429,17 @@ form .jxFormInlineblock .jxInputGroup .jxInputLabel {
   width: auto;
 }
 
+/** Jx.Grid Overrides **/
+
+.jxGridCellContent .jxInputContainer,
+.jxGridCellContent .jxInputRadio,
+.jxGridCellContent .jxInputCheck {
+  display: inline;
+  position: relative;
+  border: none;
+  margin: 0px;
+  padding: 0px;
+  font-size: 0px;
+  line-height: 0px;
+  color: #000;
+}

@@ -111,7 +111,7 @@ Jx.Row = new Class({
     getRowHeaderCell : function () {
         //get and set text for element
         var model = this.grid.getModel();
-        var th = new Element('td', {
+        var th = new Element('th', {
             'class' : 'jxGridRowHead'
         });
         var col = this.grid.columns.getByName(this.options.headerColumn);

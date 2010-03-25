@@ -18,7 +18,7 @@ Jx.Grid.Renderer.Checkbox = new Class({
     field: null,
     updateStore: false,
     checkboxOptions: {
-      template : '<span class="jxInputContainer"><input class="jxInputCheck" type="checkbox" name="{name}"/></span>',
+      template : '<input class="jxInputContainer jxInputCheck" type="checkbox" name="{name}"/>',
       name: ''
     }
   },
