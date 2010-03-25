@@ -32,7 +32,7 @@ window.addEvent('load', function() {
 
     editorOptions = {
       validate   : true,
-      blurDelay : false,
+      blurDelay  : 1000,
       popup : {
         use        : true,
         useButtons : true,
@@ -45,7 +45,16 @@ window.addEvent('load', function() {
           validatorOptions: {
             validators : ['minLength:4'],
             validateOnBlur: true,
-            validateOnChange : true
+            validateOnChange : false
+          }
+        },
+        {
+          field   : 'dob',
+          type    : 'Text',
+          validatorOptions: {
+            validators : ['validate-date'],
+            validateOnBlur: true,
+            validateOnChange : false
           }
         },
         {
@@ -54,12 +63,7 @@ window.addEvent('load', function() {
           options : {
             comboOpts: [
               { value: 'true',  text: 'true'  },
-              { value: 'false', text: 'false' },
-              { value: '1', text: '11' },
-              { value: '2', text: '22' },
-              { value: 3, text: '33' },
-              { value: 4, text: '44' },
-              { value: 5, text: '55' }
+              { value: 'false', text: 'false' }
             ]
           }
         }
@@ -68,7 +72,17 @@ window.addEvent('load', function() {
       cellChangeFx : {
 
       },
-      useKeyboard : true
+      useKeyboard : true,
+      keys : {
+        'ctrl+d' : 'cancelNGoDiagonal'
+      },
+      keyboardMethods: {
+        'cancelNGoDiagonal' : function(ev){
+          ev.preventDefault();
+          this.getNextCellInRow(false);
+          this.getNextCellInCol(false);
+        }
+      }
     };
 
     editor = new Jx.Plugin.Grid.Editor(editorOptions);
@@ -291,9 +305,9 @@ function drawToolbar() {
 </script>
 <script id="gridScript" type="text/javascript">
   function drawGrid() {
-    var model = [
-        {'id':1,'name':'<img src="http://famfamfam.com/lab/icons/silk/icons/sport_soccer.png" />','dob':'12/4/1974','active':'true','duesLeft':30,'url':'http://www.google.com','phone':'16753780987'},
-        {'id':2,'name':'Bob Smith','dob':'8/4/1987','active':'false','duesLeft':0,'url':'http://www.microsoft.com','phone':'867-465-3686'},
+    var model = ([
+        {'id':1,'name':'Yay Super','dob':'12/4/1974','active':'true','duesLeft':30,'url':'http://www.google.com','phone':'16753780987'},
+        {'id':2,'name':'Bill Clinton','dob':'8/4/1987','active':'false','duesLeft':0,'url':'http://www.microsoft.com','phone':'867-465-3686'},
         {'id':3,'name':'Joe Black','dob':'5/25/1963','active':true,'duesLeft':10,'url':'http://www.yahoo.com','phone':'1(857) 467-9847'},
         {'id':4,'name':'Betty White','dob':'6/3/1979','active':true,'duesLeft':45,'url':'http://www.jxlib.org','phone':'2748467384'},
         {'id':5,'name':'Greg Little','dob':'5/3/1993','active':false,'duesLeft':19.89,'url':'http://www.mootools.net','phone':'9676574583'},
@@ -301,11 +315,11 @@ function drawToolbar() {
         {'id':7,'name':'Jason Lee','dob':'4/13/1977','active':false,'duesLeft':14,'url':'http://www.ajaxian.com','phone':'9786456753'},
         {'id':8,'name':'Elizabeth Freeman','dob':'7/3/1994','active':true,'duesLeft':5,'url':'http://www.smashingmagazine.com','phone':'9567563426'},
         {'id':9,'name':'Bob Red','dob':'8/5/1972','active':true,'duesLeft':74,'url':'http://www.jquery.org','phone':'2637485769'},
-        {'id':10,'name':'Russel Stover','dob':'9/10/1969','active':'1','duesLeft':65,'url':'http://www.sourceforge.net','phone':'8474657839'},
-        {'id':11,'name':'Granny Smith','dob':'10/28/1985','active':'2','duesLeft':0,'url':'http://www.gametrailers.com','phone':'6748485948'},
-        {'id':12,'name':'Reba Butterworth','dob':'11/11/1989','active':4,'duesLeft':0,'url':'http://www.metro.tokyo.jp/ENGLISH/','phone':'7584985767'},
-        {'id':13,'name':'Frank Gillis','dob':'2/3/1976','active':3,'duesLeft':5,'url':'http://www.alistapart.com','phone':'4758693094'}
-    ];
+        {'id':10,'name':'Russel Stover','dob':'9/10/1969','active':'false','duesLeft':65,'url':'http://www.sourceforge.net','phone':'8474657839'},
+        {'id':11,'name':'Granny Smith','dob':'10/28/1985','active':'true','duesLeft':0,'url':'http://www.gametrailers.com','phone':'6748485948'},
+        {'id':12,'name':'Reba Butterworth','dob':'11/11/1989','active':true,'duesLeft':0,'url':'http://www.metro.tokyo.jp/ENGLISH/','phone':'7584985767'},
+        {'id':13,'name':'Frank Gillis','dob':'2/3/1976','active':'true','duesLeft':5,'url':'http://www.alistapart.com','phone':'4758693094'}
+    ]);
 
     var parser = new Jx.Store.Parser.JSON();
     var full = new Jx.Store.Strategy.Full();
@@ -343,47 +357,62 @@ function drawToolbar() {
           headerRowHeight: 20,
           useHeaders: true,
           columns: [{
+            renderMode: 'fit',
             header: 'Id',
             modelField: 'id',
             name: 'id',
             isEditable: true,
             isSortable: true,
             isResizable: true,
-            dataType: 'numeric'
+            dataType: 'numeric',
+            renderer: new Jx.Grid.Renderer.Text({
+              textTemplate: '{id}'
+            })
           },{
+            renderMode: 'fit',
             header: 'Name',
             modelField: 'name',
-            formatter: null,
             name: 'name',
             isEditable: true,
             isSortable: true,
             isResizable: true,
             validate: true,
-            dataType: 'alphanumeric'
+            dataType: 'alphanumeric',
+            renderer: new Jx.Grid.Renderer.Text({
+              textTemplate: '{name}'
+            })
           },{
+            renderMode: 'fit',
             header: 'Date of Birth',
             modelField: 'dob',
-            formatter: {
-              name : 'Date',
-              options: {}
-            },
             name: 'dob',
-            isEditable: true,
+            isEditable: false,
             isSortable: true,
             isResizable: true,
             validate: true,
-            dataType: 'date'
+            dataType: 'date',
+            renderer: new Jx.Grid.Renderer.Text({
+              textTemplate: '{dob}',
+              formatter: {
+                name : 'Date',
+                options: {}
+              }
+            })
           },{
+            renderMode: 'fit',
             header: 'Active?',
             modelField: 'active',
-            formatter: null,
             name: 'active',
-            isEditable: true,
+            isEditable: false,
             isSortable: true,
             isResizable: true,
             validate: true,
-            dataType: 'boolean'
+            dataType: 'boolean',
+            renderer: new Jx.Grid.Renderer.Text({
+              textTemplate: '{active}'
+            })
           },{
+            renderMode: 'fit',
             header: 'Dues Left',
             modelField: 'duesLeft',
             formatter: null,
@@ -391,32 +420,40 @@ function drawToolbar() {
             isEditable: true,
             isSortable: true,
             isResizable: true,
-            dataType: 'numeric'
+            dataType: 'numeric',
+            renderer: new Jx.Grid.Renderer.Text({
+              textTemplate: '{duesLeft}'
+            })
           },{
+            renderMode: 'fit',
             header: 'Website',
             modelField: 'url',
-            formatter: {
-              name:'Uri',
-              options: {}
-            },
             name: 'url',
             isEditable: true,
             isSortable: true,
             isResizable: true,
             dataType: 'alphanumeric',
-            fieldFormatted : false
+            fieldFormatted : true,
+            renderer: new Jx.Grid.Renderer.Text({
+              textTemplate: '{url}'
+            })
           },{
+            template: '<span class="jxGridCellContent">Home Phone</span>',
+            renderMode: 'fit',
             header: 'Home Phone',
             modelField: 'phone',
-            formatter: {
-              name:'Phone',
-              options: {}
-            },
             name: 'phone',
             isEditable: true,
             isSortable: true,
             isResizable: true,
-            dataType: 'alphanumeric'
+            dataType: 'alphanumeric',
+            renderer: new Jx.Grid.Renderer.Text({
+              textTemplate: '{phone}',
+              formatter: {
+                name:'Phone',
+                options: {}
+              }
+            })
           }
          ]
         },

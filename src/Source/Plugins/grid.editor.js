@@ -144,6 +144,26 @@ Jx.Plugin.Grid.Editor = new Class({
         'down'             : 'valueDecrement'
       },
       /**
+       * Option: keyboardMethods
+       *
+       * can be used to overwrite existing keyboard methods that are used inside
+       * this.options.keys - also possible to add new ones.
+       * Functions are bound to the editor plugin when using 'this'
+       *
+       * example:
+       *  keys : {
+       *    'ctrl+u' : 'cancelNGoRightNDown'
+       *  },
+       *  keyboardMethods: {
+       *    'cancelNGoRightNDown' : function(ev){
+       *      ev.preventDefault();
+       *      this.getNextCellInRow(false);
+       *      this.getNextCellInCol(false);
+       *    }
+       *  }
+       */
+      keyboardMethods : {},
+      /**
        * Option: linkClickListener
        * disables all click events on links that are formatted with Jx.Formatter.Uri
        * - otherwise the link will open directly instead of open the input editor)
@@ -160,6 +180,7 @@ Jx.Plugin.Grid.Editor = new Class({
      *   cell         : Reference to the cell inside the table 
      *   span         : Reference to the Dom Element inside the selected cell of the grid
      *   oldValue     : Old value of the cell from the grid's model
+     *   newValue     : Object with <data> and <error> for better validation possibilites
      *   timeoutId    : TimeoutId if the focus blurs the input.
      *   coords       : Coordinates of the selected cell
      *   colOptions   : Reference to the column's option in which the cell is
@@ -170,6 +191,7 @@ Jx.Plugin.Grid.Editor = new Class({
       cell        : null,
       span        : null,
       oldValue    : null,
+      newValue    : { data: null, error: false },
       timeoutId   : null,
       coords      : {},
       colOptions  : {},
@@ -218,8 +240,6 @@ Jx.Plugin.Grid.Editor = new Class({
      */
     init: function() {
       this.parent();
-      //this.bound.activate   = this.activate.bind(this);
-      //this.bound.deactivate = this.deactivate.bind(this);
     },
     /**
      * APIMethod: attach
@@ -235,7 +255,8 @@ Jx.Plugin.Grid.Editor = new Class({
       this.grid = grid;
 
       this.grid.addEvent('gridCellSelect', this.activate);
-      this.grid.addEvent('gridCellUnSelect', this.deactivate);
+//      this.grid.addEvent('gridCellUnSelect', this.deactivate);
+      this.grid.addEvent('gridCellUnSelect', this.terminate);
 
       /*
        * add default field options to the options in case some new options were entered
@@ -283,7 +304,13 @@ Jx.Plugin.Grid.Editor = new Class({
       
       var keyboardEvents = {};
       for(var i in this.options.keys) {
-        keyboardEvents[i] = this.keyboardMethods[this.options.keys[i]];
+        if($defined(this.keyboardMethods[this.options.keys[i]])) {
+          keyboardEvents[i] = this.keyboardMethods[this.options.keys[i]];
+        }else if($defined(this.options.keyboardMethods[this.options.keys[i]])){
+          keyboardEvents[i] = this.options.keyboardMethods[this.options.keys[i]].bind(self);
+        }else{
+          console.log("keyboard method %o not defined", this.options.keys[i]);
+        }
       }
 
       // initalize keyboard support but do NOT activate it (this is done inside this.activate()).
@@ -320,12 +347,14 @@ Jx.Plugin.Grid.Editor = new Class({
      * disables the grid 'externally'
      *
      * @var Boolean close - default true: also closes the currently open input/popup
+     * @var Boolean save - default false: also changes the currently open input/popup
      * @return void
      */
-    disable : function(close) {
+    disable : function(close, save) {
       close = $defined(close) ? close : true;
+      save = $defined(save) ? save : false;
       if(close && this.activeCell.cell != null) {
-        this.deactivate(false);
+        this.deactivate(save);
       }
       this.options.enabled = false;
     },
@@ -351,9 +380,9 @@ Jx.Plugin.Grid.Editor = new Class({
       var row   = data.row,
           index = data.index;
 
-      if(Browser.Engine.webkit) {
+      //if(Browser.Engine.webkit) {
         clearTimeout(this.activeCell.timeoutId);
-      }
+      //}
 
       if(this.cellIsInGrid(row, index)) {
 
@@ -364,7 +393,7 @@ Jx.Plugin.Grid.Editor = new Class({
           return;
         }
         // if disabling a currently active one fails (mandatory for example) do not continue
-        if(this.deactivate() == false) {
+        if(this.activeCell.cell != null && this.deactivate() == false) {
           return;
         }
 
@@ -374,6 +403,7 @@ Jx.Plugin.Grid.Editor = new Class({
         // store properties of the active cell
         this.activeCell = {
           oldValue      : model.get(data.index),
+          newValue      : { data : null, error: false},
           fieldOptions  : this.getFieldOptionsByColName(colOptions.name),
           colOptions    : colOptions,
           coords        : {row : row, index : index},
@@ -423,9 +453,9 @@ Jx.Plugin.Grid.Editor = new Class({
         }
 
         // update the 'oldValue' to the formatted style, to compare the new value with the formatted one instead with the non-formatted-one
-        if(this.options.fieldFormatted && this.activeCell.colOptions.formatter != null) {
+        if(this.options.fieldFormatted && this.activeCell.colOptions.renderer.options.formatter != null) {
           if(!$defined(this.activeCell.colOptions.fieldFormatted) || this.activeCell.colOptions.fieldFormatted == true ) {
-            jxFieldOptions.value = this.activeCell.colOptions.formatter.format(jxFieldOptions.value);
+            jxFieldOptions.value = this.activeCell.colOptions.renderer.options.formatter.format(jxFieldOptions.value);
             this.activeCell.oldValue = jxFieldOptions.value;
           }
         }
@@ -434,23 +464,26 @@ Jx.Plugin.Grid.Editor = new Class({
         this.activeCell.field = new Jx.Field[this.activeCell.fieldOptions.type](jxFieldOptions);
         // create validator
         if(this.options.validate && this.activeCell.colOptions.validate) {
+          // validation events are passed in this.deactivate()
           var validator = new Jx.Plugin.Field.Validator(this.activeCell.fieldOptions.validatorOptions);
-          validator.addEvent('fieldValidationFailed', function(field, validator) {
-        	console.log('Logged from grid.editor validator event');
-            console.log(field, validator);
-          });
-          validator.addEvent('fieldValidationPassed', function(field, validator) {
-        	console.log('Logged from grid.editor validator event');
-            console.log(field, validator);
+          validator.options.editor = this
+          // add validation events
+          validator.addEvents({
+            'fieldValidationFailed' : function(field, validator) {
+              console.log("failed",field, validator);
+              validator.options.editor.activeCell.newValue.error = true;
+              validator.options.editor.terminate();
+            },
+            'fieldValidationPassed' : function(field, validator) {
+              console.log("passed",field, validator);
+              validator.options.editor.activeCell.newValue.error = false;
+              validator.options.editor.terminate();
+            }
           });
           this.activeCell.validator = validator;
           this.activeCell.validator.attach(this.activeCell.field);
-          console.log(this.activeCell,this.activeCell.fieldOptions.validatorOptions);
         }
-        //This is the problem. No need to call render, it happens automatically.
-        //this.activeCell.field.render();
         this.setStyles(cell);
-
 
         if(this.options.useKeyboard) {
           this.keyboard.activate();
@@ -485,6 +518,7 @@ Jx.Plugin.Grid.Editor = new Class({
             });
           }
         }
+
         this.activeCell.field.field.focus();
       }else{
         if($defined(console)) {console.warn('out of grid %o',cell)}
@@ -500,10 +534,11 @@ Jx.Plugin.Grid.Editor = new Class({
      * @return true if no data error occured, false if error (popup/input stays visible)
      */
     deactivate: function(save) {
+      var self = this;
       if(this.activeCell.field != null) {
         save = $defined(save) ? save : true;
 
-        var valueNew = {data : null, error : false};
+        var newValue = {data : null, error : false};
         clearTimeout(this.activeCell.timeoutId);
 
         // update the value in the model
@@ -516,36 +551,47 @@ Jx.Plugin.Grid.Editor = new Class({
           switch(this.activeCell.fieldOptions.type) {
             case 'Select':
               var index = this.activeCell.field.field.selectedIndex;
-              valueNew.data = document.id(this.activeCell.field.field.options[index]).get('value');
-              //this.grid.model.set(this.activeCell.coords.index, document.id(this.activeCell.field.field.options[index]).get("value"));
+              newValue.data = document.id(this.activeCell.field.field.options[index]).get('value');
               break;
             case 'Textarea':
-              valueNew.data = this.activeCell.field.getValue().replace(/\n/gi, '<br />');
-              //this.grid.model.set(this.activeCell.coords.index, this.activeCell.field.getValue().replace(/\n/gi, '<br />'));
+              newValue.data = this.activeCell.field.getValue().replace(/\n/gi, '<br />');
               break;
             default:
-              valueNew.data = this.activeCell.field.getValue();
-              //this.grid.model.set(this.activeCell.coords.index, this.activeCell.field.getValue());
+              newValue.data = this.activeCell.field.getValue();
               break;
           }
-
-          valueNew = this.checkValue(valueNew);
-
-          // save the value
-          if(valueNew.data != null && valueNew.error == false) {
-            this.grid.model.set(this.activeCell.coords.index, valueNew.data);
-            this.addFormatterUriClickListener();
-          // else show error message
-          }else if(valueNew.error == true) {
-            this.activeCell.span.show();
+          if(save) {
+            this.activeCell.newValue.data = newValue.data;
+            // manually blur the field to activate the validator -> continues with this.terminate()
+            this.activeCell.timeoutId = this.activeCell.field.field.blur.delay(50, this.activeCell.field.field);
           }
-
-          // update reference to activeCell
-          this.activeCell.cell = this.grid.gridTableBody.rows[this.activeCell.coords.row].cells[this.activeCell.coords.index-1];
-
         }else{
           this.activeCell.span.show();
+          this.unsetActiveField();
         }
+      }
+    },
+    /**
+     * Private method: terminate
+     *
+     * continues the deactivating of a cell after validation
+     * @return void
+     */
+    terminate : function() {
+      // save the value
+      if(this.activeCell.cell != null) {
+        var newValue = this.activeCell.newValue;
+        if(newValue.data != null && newValue.error == false) {
+          this.grid.model.set(this.activeCell.coords.index, newValue.data);
+          this.addFormatterUriClickListener();
+        // else show error message
+        }else if(newValue.error == true) {
+          this.activeCell.span.show();
+        }
+
+        // update reference to activeCell
+        this.activeCell.cell = this.grid.gridTableBody.rows[this.activeCell.coords.row].cells[this.activeCell.coords.index-1];
+
         if(this.options.useKeyboard) {
           this.activeCell.field.removeEvent('keypress', this.setKeyboard);
         }
@@ -556,15 +602,15 @@ Jx.Plugin.Grid.Editor = new Class({
          * the row could probably be highlighted as well?
          */
         if(this.options.cellChangeFx.use) {
-          if(valueNew.data != null && valueNew.error == false) {
+          if(newValue.data != null && newValue.error == false) {
             this.activeCell.cell.highlight(this.options.cellChangeFx.success);
-          }else if(valueNew.error){
+          }else if(newValue.error){
             this.activeCell.cell.highlight(this.options.cellChangeFx.error);
           }
         }
 
         // check for error and keep input field alive
-        if(valueNew.error) {
+        if(newValue.error) {
           if(this.options.cellChangeFx.use) {
             this.activeCell.field.field.highlight(this.options.cellChangeFx.error);
           }
@@ -578,6 +624,7 @@ Jx.Plugin.Grid.Editor = new Class({
           return true;
         }
       }
+      return true;
     },
     /**
      * Method: checkValue
@@ -819,7 +866,7 @@ Jx.Plugin.Grid.Editor = new Class({
      *
      * @return void
      */
-    setPopUpButtons : function(innerWrapper) {
+    setPopUpButtons : function() {
       var self = this,
           buttons = {
           submit : null,
@@ -872,6 +919,7 @@ Jx.Plugin.Grid.Editor = new Class({
       this.activeCell = {
         field         : null,
         oldValue      : null,
+        newValue      : { data: null, error: false},
         cell          : null,
         span          : null,
         timeoutId     : null,
@@ -906,29 +954,31 @@ Jx.Plugin.Grid.Editor = new Class({
      */
     getNextCellInRow: function(save) {
       save = $defined(save) ? save : true;
-      var nextCell = true, nextRow = true;
-      var i = 0;
-      do {
-        nextCell = i > 0 ? nextCell.getNext() : this.activeCell.cell.getNext();
-        // check if cell is still in row, otherwise returns null
-        if(nextCell == null) {
-          nextRow  = this.activeCell.cell.getParent('tr').getNext();
-          // check if this was the last row in the table
-          if(nextRow == null) {
-            nextRow = this.activeCell.cell.getParent('tbody').getFirst();
+      if(this.activeCell.cell != null) {
+        var nextCell = true, nextRow = true;
+        var i = 0;
+        do {
+          nextCell = i > 0 ? nextCell.getNext() : this.activeCell.cell.getNext();
+          // check if cell is still in row, otherwise returns null
+          if(nextCell == null) {
+            nextRow  = this.activeCell.cell.getParent('tr').getNext();
+            // check if this was the last row in the table
+            if(nextRow == null) {
+              nextRow = this.activeCell.cell.getParent('tbody').getFirst();
+            }
+            nextCell = nextRow.getFirst();
           }
-          nextCell = nextRow.getFirst();
-        }
-        var data  = nextCell.retrieve('jxCellData'),
-            row   = data.row,
-            index = data.index;
-        i++;
-      }while(!data.col.options.isEditable);
+          var data  = nextCell.retrieve('jxCellData'),
+              row   = data.row,
+              index = data.index;
+          i++;
+        }while(!data.col.options.isEditable);
 
-      if(save === false) {
-        this.deactivate(save);
+        if(save === false) {
+          this.deactivate(save);
+        }
+        this.grid.selection.select(nextCell);
       }
-      this.grid.selection.select(nextCell);
     },
     /**
      * APIMethod: getPrevCellInRow
@@ -941,29 +991,31 @@ Jx.Plugin.Grid.Editor = new Class({
      */
     getPrevCellInRow: function(save) {
       save = $defined(save) ? save : true;
-      var prevCell, prevRow, i = 0;
-      do {
-        prevCell = i > 0 ? prevCell.getPrevious() : this.activeCell.cell.getPrevious();
-        // check if cell is still in row, otherwise returns null
-        if(prevCell == null) {
-          prevRow  = this.activeCell.cell.getParent('tr').getPrevious();
-          // check if this was the last row in the table
-          if(prevRow == null) {
-            // @todo this does not always work when shift+tab is hold pressed (out of grid error)
-            prevRow = this.activeCell.cell.getParent('tbody').getLast();
+      if(this.activeCell.cell != null) {
+        var prevCell, prevRow, i = 0;
+        do {
+          prevCell = i > 0 ? prevCell.getPrevious() : this.activeCell.cell.getPrevious();
+          // check if cell is still in row, otherwise returns null
+          if(prevCell == null) {
+            prevRow  = this.activeCell.cell.getParent('tr').getPrevious();
+            // check if this was the last row in the table
+            if(prevRow == null) {
+              // @todo this does not always work when shift+tab is hold pressed (out of grid error)
+              prevRow = this.activeCell.cell.getParent('tbody').getLast();
+            }
+            prevCell = prevRow.getLast();
           }
-          prevCell = prevRow.getLast();
-        }
-        var data  = prevCell.retrieve('jxCellData'),
-            row   = data.row,
-            index = data.index;
-        i++;
-      }while(!data.col.options.isEditable);
+          var data  = prevCell.retrieve('jxCellData'),
+              row   = data.row,
+              index = data.index;
+          i++;
+        }while(!data.col.options.isEditable);
 
-      if(save === false) {
-        this.deactivate(save);
+        if(save === false) {
+          this.deactivate(save);
+        }
+        this.grid.selection.select(prevCell);
       }
-      this.grid.selection.select(prevCell);
     },
     /**
      * APIMethod: getNextCellInCol
@@ -975,16 +1027,18 @@ Jx.Plugin.Grid.Editor = new Class({
      */
     getNextCellInCol : function(save) {
       save = $defined(save) ? save : true;
-      var nextRow, nextCell;
-      nextRow = this.activeCell.cell.getParent().getNext();
-      if(nextRow == null) {
-        nextRow = this.activeCell.cell.getParent('tbody').getFirst();
+      if(this.activeCell.cell != null) {
+        var nextRow, nextCell;
+        nextRow = this.activeCell.cell.getParent().getNext();
+        if(nextRow == null) {
+          nextRow = this.activeCell.cell.getParent('tbody').getFirst();
+        }
+        nextCell = nextRow.getElement('td.jxGridCol'+this.activeCell.coords.index);
+        if(save === false) {
+          this.deactivate(save);
+        }
+        this.grid.selection.select(nextCell);
       }
-      nextCell = nextRow.getElement('td.jxGridCol'+this.activeCell.coords.index);
-      if(save === false) {
-        this.deactivate(save);
-      }
-      this.grid.selection.select(nextCell);
     },
     /**
      * APIMethod: getPrevCellInCol
@@ -996,16 +1050,18 @@ Jx.Plugin.Grid.Editor = new Class({
      */
     getPrevCellInCol : function(save) {
       save = $defined(save) ? save : true;
-      var prevRow, prevCell;
-      prevRow = this.activeCell.cell.getParent().getPrevious();
-      if(prevRow == null) {
-        prevRow = this.activeCell.cell.getParent('tbody').getLast();
+      if(this.activeCell.cell != null) {
+        var prevRow, prevCell;
+        prevRow = this.activeCell.cell.getParent().getPrevious();
+        if(prevRow == null) {
+          prevRow = this.activeCell.cell.getParent('tbody').getLast();
+        }
+        prevCell = prevRow.getElement('td.jxGridCol'+this.activeCell.coords.index);
+        if(save === false) {
+          this.deactivate(save);
+        }
+        this.grid.selection.select(prevCell);
       }
-      prevCell = prevRow.getElement('td.jxGridCol'+this.activeCell.coords.index);
-      if(save === false) {
-        this.deactivate(save);
-      }
-      this.grid.selection.select(prevCell);
     },
     /**
      * Method: cellValueIncrement
@@ -1104,7 +1160,7 @@ Jx.Plugin.Grid.Editor = new Class({
         var uriCols = [], tableCols, anchor;
         // find out which columns are using a Jx.Formatter.Uri
         this.grid.columns.columns.each(function(col,i) {
-          if(col.options.formatter != null && col.options.formatter instanceof Jx.Formatter.Uri) {
+          if(col.options.renderer.options.formatter != null && col.options.renderer.options.formatter instanceof Jx.Formatter.Uri) {
             uriCols.push(i);
           }
         });

@@ -583,7 +583,7 @@
             "desc": "Formats dates using the mootools-more Date extensions"
         },
         "uri": {
-            "deps": ["String.Extras", "formatter"],
+            "deps": ["String.Extras", "formatter","uri"],
             "desc": "Formats uris using the mootools-more URI extensions"
         },
         "boolean": {
