@@ -309,7 +309,7 @@ Jx.Plugin.Grid.Editor = new Class({
         }else if($defined(this.options.keyboardMethods[this.options.keys[i]])){
           keyboardEvents[i] = this.options.keyboardMethods[this.options.keys[i]].bind(self);
         }else{
-          console.log("keyboard method %o not defined", this.options.keys[i]);
+          $defined(console) ? console.log("keyboard method %o not defined", this.options.keys[i]) : false;
         }
       }
 
@@ -380,9 +380,7 @@ Jx.Plugin.Grid.Editor = new Class({
       var row   = data.row,
           index = data.index;
 
-      //if(Browser.Engine.webkit) {
-        clearTimeout(this.activeCell.timeoutId);
-      //}
+      clearTimeout(this.activeCell.timeoutId);
 
       if(this.cellIsInGrid(row, index)) {
 
@@ -553,7 +551,7 @@ Jx.Plugin.Grid.Editor = new Class({
           // validation only if it should be saved!
           if(this.activeCell.validator != null && !this.activeCell.validator.isValid()) {
             newValue.error = true;
-            this.activeCell.field.field.focus();
+            this.activeCell.field.field.focus.delay(50, this.activeCell.field.field);
           }
         }else{
           this.activeCell.span.show();
@@ -606,66 +604,6 @@ Jx.Plugin.Grid.Editor = new Class({
           return true;
         }
       }
-    },
-    /**
-     * Method: checkValue
-     * 
-     * Performs a simple datatype check for dates, integers, strings and booleans
-     *
-     * @todo use MooTools FormValidator with more complex validation? Or custom callback function for validating values?
-     *
-     * @var {Object} newValue
-     * @return {Object} newValue
-     */
-    checkValue : function(newValue) {
-      if(this.options.validate) {
-        var valueTmp;
-        switch(this.activeCell.colOptions.dataType) {
-          case 'date':
-            valueTmp = new Date.parse(newValue.data);
-            if(valueTmp.toString() == 'Invalid Date' || newValue.data.length == 0) {
-              newValue = {
-                data  : this.activeCell.oldValue,
-                error : true
-              }
-            }
-          break;
-          case 'numeric':
-            valueTmp = newValue.data.toInt();
-            if(valueTmp == 'NaN') {
-              newValue = {
-                data : this.activeCell.oldValue,
-                error: true
-              }
-            }
-          break;
-          case 'alphanumeric':
-            valueTmp = newValue.data.toString();
-            if(!valueTmp) {
-              newValue = {
-                data : this.activeCell.oldValue,
-                error: true
-              }
-            }
-          break;
-          case 'boolean':
-            switch(newValue.data) {
-              case 'true':  case 'false':
-              case true  :  case false  :
-              case 1     :  case 0      :
-              case '1'   :  case '0'    :
-                break;
-              default:
-                newValue = {
-                  data : this.activeCell.oldValue,
-                  error: true
-                }
-              break;
-            }
-          break;
-        }
-      }
-      return newValue;
     },
     /**
      * Method: setStyles

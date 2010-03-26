@@ -7,7 +7,7 @@
 /**
  * Class: Jx.Field.Color
  *
- * Extends: <Jx.Field.Text>
+ * Extends: <Jx.Field>
  *
  * This class provides a Jx.Field.Text in combination with a Jx.Button.Color
  * to have a Colorpicker with an input field.
@@ -19,22 +19,21 @@
  */
   Jx.Field.Color = new Class({
     Extends: Jx.Field,
-    Binds: ['changed','hide'],
+    Binds: ['changed','hide','keyup'],
     type: 'Color',
     options: {
-        buttonTemplate: '<a class="jxButtonContainer jxButton" href="javascript:void(0);"><img class="jxButtonIcon" src="'+Jx.aPixel.src+'"></a>',
+      buttonTemplate: '<a class="jxButtonContainer jxButton" href="javascript:void(0);"><img class="jxButtonIcon" src="'+Jx.aPixel.src+'"></a>',
       /**
        * Option: template
        * The template used to render this field
        */
-         template: '<span class="jxInputContainer"><label class="jxInputLabel"></label><span class="jxInputWrapper"><input type="text" class="jxInputColor"  name="{name}"><img class="jxInputIcon" src="'+Jx.aPixel.src+'"><span class="jxInputRevealer"></span></span><span class="jxInputTag"></span></span>',        
-      
+      template: '<span class="jxInputContainer"><label class="jxInputLabel"></label><span class="jxInputWrapper"><input type="text" class="jxInputColor"  name="{name}"><img class="jxInputIcon" src="'+Jx.aPixel.src+'"><span class="jxInputRevealer"></span></span><span class="jxInputTag"></span></span>',
       /**
        * Option: showOnHover
        * {Boolean} show the color palette when hovering over the input, default 
        * is false
        */
-       showOnHover: false,
+      showOnHover: false,
       /**
        *  Option: showDelay
        *  set time in milliseconds when to show the color field on mouseenter
@@ -45,16 +44,17 @@
        * error message for the validator.
        */
       errorMsg: 'Invalid Web-Color',
-        /**
-         * Option: color
-         * a color to initialize the field with, defaults to #000000
-         * (black) if not specified.
-         */
-        color: '#000000'
+      /**
+       * Option: color
+       * a color to initialize the field with, defaults to #000000
+       * (black) if not specified.
+       */
+      color: '#000000'
 
     },
     button: null,
     validator: null,
+    colorPalette : null,
     render: function() {
         this.classes.combine({
           wrapper: 'jxInputWrapper',
@@ -64,15 +64,17 @@
         this.parent();
 
       var self = this;
-        
+      /*
       if (!Jx.Field.Color.ColorPalette) {
           Jx.Field.Color.ColorPalette = new Jx.ColorPalette(this.options);
       }
-
+      */
+      this.colorPalette = new Jx.ColorPalette(this.options);
       this.button = new Jx.Button.Flyout({
           template: this.options.buttonTemplate,
           imageClass: 'jxInputRevealerIcon',
           onBeforeOpen: function() {
+            /*
             if (Jx.Field.Color.ColorPalette.currentButton) {
                 Jx.Field.Color.ColorPalette.currentButton.hide();
             }
@@ -81,14 +83,29 @@
             Jx.Field.Color.ColorPalette.addEvent('click', self.hide);
             this.content.appendChild(Jx.Field.Color.ColorPalette.domObj);
             Jx.Field.Color.ColorPalette.domObj.setStyle('display', 'block');
+            */
+            if (self.colorPalette.currentButton) {
+                self.colorPalette.currentButton.hide();
+            }
+            self.colorPalette.currentButton = this;
+            self.colorPalette.addEvent('change', self.changed);
+            /*
+            self.colorPalette.addEvent('change', function(ev) {
+              //console.log("change", ev,this);
+              self.changed();
+            });
+            */
+            self.colorPalette.addEvent('click', self.hide);
+            this.content.appendChild(self.colorPalette.domObj);
+            self.colorPalette.domObj.setStyle('display', 'block');
           },
           onOpen: function() {
             /* setting these before causes an update problem when clicking on
              * a second color button when another one is open - the color
              * wasn't updating properly
              */
-            Jx.Field.Color.ColorPalette.options.color = self.options.color;
-            Jx.Field.Color.ColorPalette.updateSelected();
+            self.colorPalette.options.color = self.options.color;
+            self.colorPalette.updateSelected();
           }
         }).addTo(this.revealer);
 
@@ -112,7 +129,8 @@
                   }catch(e) {
                     return false;
                   }
-                  self.options.color = c.rgbToHex();
+                  c = c.rgbToHex().toUpperCase();
+                  self.setColor(c);
                   return true;
                 }
               }
@@ -122,14 +140,21 @@
         validateOnChange: true
       });
       this.validator.attach(this);
+      this.field.addEvent('keyup', this.onKeyUp.bind(this));
       if (this.options.showOnHover) {
-          this.field.addEvent('mouseenter', function(ev) {
-              self.button.clicked.delay(self.options.showDelay, self.button);
-          });
+        this.field.addEvent('mouseenter', function(ev) {
+          self.button.clicked.delay(self.options.showDelay, self.button);
+        });
       }
       this.setValue(this.options.color);
       this.icon.setStyle('background-color', this.options.color);
-      this.addEvent('change', this.changed);
+      //this.addEvent('change', self.changed);
+    },
+    onBlur : function() {
+      //console.log("blurring...");
+    },
+    onKeyUp : function(ev) {
+      // would be nice too :)
     },
     setColor: function(c) {
         this.options.color = c;
@@ -137,14 +162,18 @@
         this.icon.setStyle('background-color', c);
     },
     changed: function() {
-        var c = Jx.Field.Color.ColorPalette.options.color;
+        var c = this.colorPalette.options.color;
         this.setColor(c);
     },
     hide: function() {
         this.button.setActive(false);
-        Jx.Field.Color.ColorPalette.removeEvent('change', this.changed);
-        Jx.Field.Color.ColorPalette.removeEvent('click', this.hide);
+//        Jx.Field.Color.ColorPalette.removeEvent('change', this.changed);
+//        Jx.Field.Color.ColorPalette.removeEvent('click', this.hide);
+        this.colorPalette.removeEvent('change', this.changed);
+        this.colorPalette.removeEvent('click', this.hide);
+
         this.button.hide();
-        Jx.Field.Color.ColorPalette.currentButton = null;    
+//        Jx.Field.Color.ColorPalette.currentButton = null;
+        this.colorPalette.currentButton = null;
     }
   });
