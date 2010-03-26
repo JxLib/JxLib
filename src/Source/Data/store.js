@@ -211,14 +211,9 @@ Jx.Store = new Class({
      */
     hasNext : function () {
         if ($defined(this.data)) {
-            if (this.index < this.data.length - 1) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return null;
+            return this.index < this.data.length - 1;
         }
+        return null;
     },
 
     /**
@@ -230,14 +225,9 @@ Jx.Store = new Class({
      */
     hasPrevious : function () {
         if ($defined(this.data)) {
-            if (this.index > 0) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return null;
+            return this.index > 0;
         }
+        return null;
     },
 
     /**
@@ -333,9 +323,8 @@ Jx.Store = new Class({
     count : function () {
         if ($defined(this.data)) {
             return this.data.length;
-        } else {
-            return null;
         }
+        return null;
     },
 
     /**
@@ -348,9 +337,8 @@ Jx.Store = new Class({
     getPosition : function () {
         if ($defined(this.data)) {
             return this.index;
-        } else {
-            return null;
         }
+        return null;
     },
 
     /**
@@ -581,7 +569,8 @@ Jx.Store = new Class({
         var record = this.data[index];
         record.state = Jx.Record.DELETE;
         // Set to Null or slice it out and compact the array???
-        this.data[index] = null;
+        //this.data[index] = null;
+        this.data.splice(index,1);
         if (!$defined(this.deleted)) {
             this.deleted = [];
         }
@@ -592,7 +581,7 @@ Jx.Store = new Class({
      * APIMethod: insertRecord
      * Shortcut to addRecord which facilitates marking a record as inserted.
      * 
-     * Paremeters:
+     * Parameters:
      * data - the data to use in creating this inserted record. Should be in
      *          whatever form the current implementation of Jx.Record needs
      * position - where to place the record. Should be either 'top' or
