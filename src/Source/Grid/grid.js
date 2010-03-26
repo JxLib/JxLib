@@ -217,7 +217,7 @@ Jx.Grid = new Class({
             }
         });
         this.gridTable = new Element('table', {
-            'class' : 'jxGridTable'
+            'class' : 'jxGridTable jxGridContent'
         });
         this.gridTableBody = new Element('tbody');
         this.gridTable.appendChild(this.gridTableBody);
@@ -396,16 +396,12 @@ Jx.Grid = new Class({
 
                 /* one extra column at the end for filler */
                 th = new Element('th', {
-                    'class':'jxGridColHead'
-                }).inject(trBody);
-                new Element('span',{
-                    'class': 'jxGridCellContent',
-                    styles : {
-                        width : 1000,
-                        height : colHeight - 1
+                    'class':'jxGridColHead',
+                    styles: {
+                      width: 1000,
+                      height: colHeight - 1
                     }
-                }).inject(th);
-
+                }).inject(trBody);
             } else {
                 //hide the headers
                 this.colTableBody.setStyle('visibility', 'hidden');

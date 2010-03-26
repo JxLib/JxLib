@@ -131,7 +131,7 @@ Jx.Styles = new(new Class({
     getDynamicStyleSheet: function (name) {
         name = (name) ? name : 'default';
         if (!this.dynamicStyleMap.has(name)) {
-            var sheet = new Element('style').set('type', 'text/css').set('title', name).inject(document.head);
+            var sheet = new Element('style').set('type', 'text/css').inject(document.head);
             sheet.indicies = [];
             this.dynamicStyleMap.set(name, sheet);
         }

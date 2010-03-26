@@ -151,75 +151,104 @@ Jx.Column = new Class({
     },
 
     setWidth: function(newWidth) {
+      var delta = this.cellWidth - this.width;
     	this.width = parseInt(newWidth,10);
-        if (this.rule && parseInt(newWidth,10) >= 0) {
-            this.rule.style.width = parseInt(newWidth,10) + "px";
-        }
+    	this.cellWidth = this.width + delta;
+      if (this.rule && parseInt(newWidth,10) >= 0) {
+          this.rule.style.width = parseInt(newWidth,10) + "px";
+      }
+      if (this.cellRule && parseInt(this.cellWidth,10) >= 0) {
+          this.cellRule.style.width = parseInt(this.cellWidth,10) + "px";
+      }
     },
     
     getWidth: function () {
     	return this.width;
     },
+    
+    getCellWidth: function() {
+      return this.cellWidth;
+    },
+    
     /**
      * APIMethod: calculateWidth
      * returns the width of the column.
      *
      * Parameters:
-     * recalculate - {boolean} determines if the width should be recalculated
-     *          if the column is set to autocalculate. Has no effect if the width is
-     *          preset
      * rowHeader - flag to tell us if this calculation is for the row header
      */
     calculateWidth : function (rowHeader) {
         //if this gets called then we assume that we want to calculate the width
     	rowHeader = $defined(rowHeader) ? rowHeader : false;
         var maxWidth;
+        var maxCellWidth;
         
-        //calculate the width
         var model = this.grid.getModel();
-        var oldPos = model.getPosition();
-        maxWidth = 0;
         model.first();
-        while (model.valid()) {
-            //check size by placing text into a TD and measuring it.
-        	this.options.renderer.render();
-            var text = $(this.options.renderer);
-            var klass = 'jxGridCell';
-            if (this.grid.row.useHeaders()
-                    && this.options.name === this.grid.row
-                    .getRowHeaderColumn()) {
-                klass = 'jxGridRowHead';
+        if (this.options.renderMode == 'fixed' && model.valid) {
+          var t = new Element('span', {
+            'class': 'jxGridCellContent',
+            html: 'a',
+            styles: {
+              width: this.options.width
             }
-            var s = this.measure(text, klass, rowHeader, model.getPosition());
-            if (s.width > maxWidth) {
-                maxWidth = s.width;
+          });
+          var s = this.measure(t,'jxGridCell');
+          maxWidth = s.content.width;
+          maxCellWidth = s.cell.width;
+        } else {
+            //calculate the width
+            var oldPos = model.getPosition();
+            maxWidth = maxCellWidth = 0;
+            while (model.valid()) {
+                //check size by placing text into a TD and measuring it.
+                this.options.renderer.render();
+                var text = $(this.options.renderer);
+                var klass = 'jxGridCell';
+                if (this.grid.row.useHeaders()
+                        && this.options.name === this.grid.row
+                        .getRowHeaderColumn()) {
+                    klass = 'jxGridRowHead';
+                }
+                var s = this.measure(text, klass, rowHeader, model.getPosition());
+                if (s.content.width > maxWidth) {
+                    maxWidth = s.content.width;
+                }
+                if (s.cell.width > maxCellWidth) {
+                  maxCellWidth = s.cell.width
+                }
+                if (model.hasNext()) {
+                    model.next();
+                } else {
+                    break;
+                }
             }
-            if (model.hasNext()) {
-                model.next();
-            } else {
-                break;
-            }
-        }
 
-        //check the column header as well (unless this is the row header)
-        if (!(this.grid.row.useHeaders() && this.options.name === this.grid.row
-                .getRowHeaderColumn())) {
-            klass = 'jxGridColHead';
-            if (this.isEditable()) {
-                klass += ' jxColEditable';
-            }
-            if (this.isResizable()) {
-                klass += ' jxColResizable';
-            }
-            if (this.isSortable()) {
-                klass += ' jxColSortable';
-            }
-            s = this.measure(this.domObj.clone(), klass);
-            if (s.width > maxWidth) {
-                maxWidth = s.width;
+            //check the column header as well (unless this is the row header)
+            if (!(this.grid.row.useHeaders() && 
+                this.options.name === this.grid.row.getRowHeaderColumn())) {
+                klass = 'jxGridColHead';
+                if (this.isEditable()) {
+                    klass += ' jxColEditable';
+                }
+                if (this.isResizable()) {
+                    klass += ' jxColResizable';
+                }
+                if (this.isSortable()) {
+                    klass += ' jxColSortable';
+                }
+                s = this.measure(this.domObj.clone(), klass);
+                if (s.content.width > maxWidth) {
+                    maxWidth = s.content.width;
+                }
+                if (s.cell.width > maxCellWidth) {
+                  maxCellWidth = s.cell.width
+                }
             }
         }
+        
         this.width = maxWidth;
+        this.cellWidth = maxCellWidth;
         model.moveTo(oldPos);
         return this.width;
     },
@@ -231,6 +260,8 @@ Jx.Column = new Class({
      * text - the text to measure
      * klass - a string indicating and extra classes to add so that
      *          css classes can be taken into account.
+     * rowHeader - 
+     * row - 
      */
     measure : function (text, klass, rowHeader, row) {
         var d = new Element('span', {
@@ -242,13 +273,20 @@ Jx.Column = new Class({
             'visibility' : 'hidden',
             'width' : 'auto'
         });
+        
         d.inject(document.body, 'bottom');
         var s = d.measure(function () {
             //if not rowHeader, get size of innner span
             if (!rowHeader) {
-                return this.getFirst().getContentBoxSize();
+                return {
+                  content: this.getFirst().getContentBoxSize(),
+                  cell: this.getFirst().getMarginBoxSize()
+                }
             } else {
-                return this.getMarginBoxSize();
+                return {
+                  content: this.getMarginBoxSize(),
+                  cell: this.getMarginBoxSize()
+                }
             }
         });
         d.destroy();

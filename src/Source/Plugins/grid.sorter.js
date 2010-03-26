@@ -35,14 +35,6 @@ Jx.Plugin.Grid.Sorter = new Class({
      */
     currentGridIndex : null,
     /**
-     * APIMethod: init
-     * construct a new instance of the plugin.  The plugin must be attached
-     * to a Jx.Grid instance to be useful though.
-     */
-    init: function() {
-        this.parent();
-    },
-    /**
      * APIMethod: attach
      * Sets up the plugin and attaches the plugin to the grid events it
      * will be monitoring
@@ -86,8 +78,9 @@ Jx.Plugin.Grid.Sorter = new Class({
                     this.currentGridIndex = data.index - 1;
                 }
 
-                //The grid should be listening for the sortFinished event and will re-render the grid
-                //we will listen for the grid's doneCreateGrid event to add the header
+                // The grid should be listening for the sortFinished event and
+                // will re-render the grid we will listen for the grid's
+                // doneCreateGrid event to add the header
                 this.grid.addEvent('doneCreateGrid', this.addHeaderClass);
                 //sort the store
                 var strategy = this.grid.getModel().getStrategy('sort');
@@ -104,7 +97,7 @@ Jx.Plugin.Grid.Sorter = new Class({
      * column we sorted by so that the sort arrow shows
      */
     addHeaderClass : function () {
-        this.grid.removeEvent('doneCreateGrid', this.bound.addHeaderClass);
+        this.grid.removeEvent('doneCreateGrid', this.addHeaderClass);
 
         //get header TD
         var th = this.grid.colTable.rows[0].cells[this.currentGridIndex];

@@ -15,7 +15,7 @@
  */
 Jx.Columns = new Class({
 
-	Family: 'Jx.Columns',
+  Family: 'Jx.Columns',
     Extends : Jx.Object,
 
     options : {
@@ -227,7 +227,7 @@ Jx.Columns = new Class({
 
         td.store('jxCellData',{
             col: col,
-            index: idx,	//This is the position of the column
+            index: idx, //This is the position of the column
             row: this.grid.model.getPosition()
         });
 
@@ -235,65 +235,82 @@ Jx.Columns = new Class({
     },
     
     calculateWidths: function () {
-    	//to calculate widths we loop through each column
-    	var expand = null;
-    	var totalWidth = 0;
-    	this.columns.each(function(col,idx){
-    		//are we checking the rowheader?
-    		var rowHeader = false;
-    		if (col.name == this.grid.row.options.headerColumn) {
-    			rowHeader = true;
-    		}
-    		//if it's fixed, set the width to the passed in width
-    		if (col.options.renderMode == 'fixed') {
-    			col.setWidth(col.options.width);
-    			
-    		} else if (col.options.renderMode == 'fit') {
-    			col.calculateWidth(rowHeader);
-    		} else if (col.options.renderMode == 'expand' && !$defined(expand)) {
-    			expand = col;
-    		} else {
-    			//treat it as fixed if has width, otherwise as fit
-    			if ($defined(col.options.width)) {
-    				col.setWidth(col.options.width);
-    			} else {
-    				col.calculateWidth(rowHeader);
-    			}
-    		}
-    		totalWidth += col.getWidth();
-    	},this);
-    	
-    	//now figure the expand column
-    	if ($defined(expand)) {
-    		var size = this.grid.gridObj.getMarginBoxSize();
-    		var leftOverSpace = size.width - totalWidth;
-    		if (leftOverSpace >= expand.options.width) {
-    			expand.setWidth(leftOverSpace);
-    		} else {
-    			expand.setWidth(expand.options.width);
-    		}
-    	}
+      //to calculate widths we loop through each column
+      var expand = null;
+      var totalWidth = 0;
+      var rowHeaderWidth = 0;
+      this.columns.each(function(col,idx){
+        //are we checking the rowheader?
+        var rowHeader = false;
+        if (col.name == this.grid.row.options.headerColumn) {
+          rowHeader = true;
+        }
+        //if it's fixed, set the width to the passed in width
+        if (col.options.renderMode == 'fixed') {
+          col.calculateWidth(); //col.setWidth(col.options.width);
+          
+        } else if (col.options.renderMode == 'fit') {
+          col.calculateWidth(rowHeader);
+        } else if (col.options.renderMode == 'expand' && !$defined(expand)) {
+          expand = col;
+        } else {
+          //treat it as fixed if has width, otherwise as fit
+          if ($defined(col.options.width)) {
+            col.setWidth(col.options.width);
+          } else {
+            col.calculateWidth(rowHeader);
+          }
+        }
+        totalWidth += col.getWidth();
+        if (rowHeader) {
+          rowHeaderWidth = col.getWidth();
+        }
+      },this);
+      
+      // width of the container
+      var containerWidth = this.grid.gridObj.getParent().getContentBoxSize();
+      var gridSize = this.grid.gridObj.getMarginBoxSize();
+      if (containerWidth > totalWidth) {
+        //now figure the expand column
+        if ($defined(expand)) {
+          var leftOverSpace = gridSize.width - totalWidth;
+          if (leftOverSpace >= expand.options.width) {
+            expand.setWidth(leftOverSpace);
+          } else {
+            expand.setWidth(expand.options.width);
+          }
+        }
+      } else {
+        this.grid.gridTable.setContentBoxSize({'width': totalWidth - rowHeaderWidth});
+        this.grid.colTable.setContentBoxSize({'width': totalWidth - rowHeaderWidth});
+      }
     },
 
     createRules: function(styleSheet, scope) {
         this.columns.each(function(col, idx) {
-            var selector = scope+' .jxGridCol'+idx+', '+scope + " .jxGridCol" + idx + " .jxGridCellContent";
+            var selector = scope+' .jxGridCol'+idx
             var dec = '';
             if (col.options.renderMode === 'fixed' || col.options.renderMode === 'expand') {
-            	//set the white-space to 'normal !important'
-            	dec = 'white-space: normal !important';
+              //set the white-space to 'normal !important'
+              dec = 'white-space: normal !important';
             }
+            col.cellRule = Jx.Styles.insertCssRule(selector, dec, styleSheet);
+            col.cellRule.style.width = col.getCellWidth() + "px";
+
+            var selector = scope+" .jxGridCol" + idx + " .jxGridCellContent";
             col.rule = Jx.Styles.insertCssRule(selector, dec, styleSheet);
             col.rule.style.width = col.getWidth() + "px";
+
         }, this);
     },
 
     updateRule: function(column) {
         var col = this.getByName(column);
         if (col.options.renderMode === 'fit') {
-        	col.calculateWidth();
+          col.calculateWidth();
         }
         col.rule.style.width = col.getWidth() + "px";
+        col.cellRule.style.width = col.getCellWidth() + "px";
     },
     
     /**

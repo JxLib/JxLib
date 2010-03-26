@@ -64,5 +64,8 @@ MooTools.lang.set('en-US', 'Jx', {
 	},
 	upload: {
 		buttonText: 'Upload Files'
+	},
+	'plugin.resize': {
+	  tooltip: 'Drag to resize, double click to auto-size.'
 	}
 });

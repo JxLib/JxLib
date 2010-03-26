@@ -21,16 +21,13 @@
 }
 
 .jxGridTable {
+    width: 100%;
     position: relative;
-    /* table-layout: fixed; this screws up Safari :( */
+    table-layout: fixed;
     border-collapse: collapse;
     border-style: none;
 
     cursor: default;
-}
-
-.jxGridHeader {
-    width: 100%;
 }
 
 .jxGridTableBody {
@@ -72,12 +69,12 @@
 }
 
 .jxGridColHead .jxGridCellContent {
-    padding: 0px;
+    padding: 0px 3px;
     text-align: center;
     font-weight: bold;
     color: #333;
-  
 }
+
 .jxGridRowHead .jxGridCellContent {
   text-align: center;
   font-weight: bold;
@@ -97,7 +94,7 @@
 
     text-align: center;
     cursor: default;
-    padding: 0px 3px;
+    padding: 0px;
     white-space: nowrap;
 }
 
@@ -180,7 +177,7 @@ th.jxGridCellPrelight {
   background-color: #cce3ff;
 }
 
-.jxColSortable img {
+.jxGridHeader .jxColSortable img {
     vertical-align: top;
     width: 16px;
     height: 16px;
@@ -188,12 +185,16 @@ th.jxGridCellPrelight {
     background-repeat: no-repeat;
     background-position: right top;
 }
+
+.jxGridHeader .jxColSortable .jxGridCellContent {
+  margin-right: -16px; /* recenter the column heading text */
+}
  
-.jxGridColumnSortedAsc img {
+.jxGridHeader .jxGridColumnSortedAsc img {
     background-position: right -162px;
 }
  
-.jxGridColumnSortedDesc img {
+.jxGridHeader .jxGridColumnSortedDesc img {
     background-position: right -18px;
 }
  
