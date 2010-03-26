@@ -255,8 +255,8 @@ Jx.Plugin.Grid.Editor = new Class({
       this.grid = grid;
 
       this.grid.addEvent('gridCellSelect', this.activate);
-//      this.grid.addEvent('gridCellUnSelect', this.deactivate);
-      this.grid.addEvent('gridCellUnSelect', this.terminate);
+      this.grid.addEvent('gridCellUnSelect', this.deactivate);
+//      this.grid.addEvent('gridCellUnSelect', this.terminate);
 
       /*
        * add default field options to the options in case some new options were entered
@@ -409,7 +409,8 @@ Jx.Plugin.Grid.Editor = new Class({
           coords        : {row : row, index : index},
           cell          : cell,
           span          : cell.getElement('span.jxGridCellContent'),
-          validator     : null
+          validator     : null,
+          field         : null
         }
 
         // check if this column has special validation settings - otherwise use default from this.options.validate
@@ -464,23 +465,7 @@ Jx.Plugin.Grid.Editor = new Class({
         this.activeCell.field = new Jx.Field[this.activeCell.fieldOptions.type](jxFieldOptions);
         // create validator
         if(this.options.validate && this.activeCell.colOptions.validate) {
-          // validation events are passed in this.deactivate()
-          var validator = new Jx.Plugin.Field.Validator(this.activeCell.fieldOptions.validatorOptions);
-          validator.options.editor = this
-          // add validation events
-          validator.addEvents({
-            'fieldValidationFailed' : function(field, validator) {
-              console.log("failed",field, validator);
-              validator.options.editor.activeCell.newValue.error = true;
-              validator.options.editor.terminate();
-            },
-            'fieldValidationPassed' : function(field, validator) {
-              console.log("passed",field, validator);
-              validator.options.editor.activeCell.newValue.error = false;
-              validator.options.editor.terminate();
-            }
-          });
-          this.activeCell.validator = validator;
+          this.activeCell.validator = new Jx.Plugin.Field.Validator(this.activeCell.fieldOptions.validatorOptions);
           this.activeCell.validator.attach(this.activeCell.field);
         }
         this.setStyles(cell);
@@ -534,8 +519,7 @@ Jx.Plugin.Grid.Editor = new Class({
      * @return true if no data error occured, false if error (popup/input stays visible)
      */
     deactivate: function(save) {
-      var self = this;
-      if(this.activeCell.field != null) {
+      if(this.activeCell.field !== null) {
         save = $defined(save) ? save : true;
 
         var newValue = {data : null, error : false};
@@ -565,32 +549,28 @@ Jx.Plugin.Grid.Editor = new Class({
             // manually blur the field to activate the validator -> continues with this.terminate()
             this.activeCell.timeoutId = this.activeCell.field.field.blur.delay(50, this.activeCell.field.field);
           }
+          // validation only if it should be saved!
+          if(this.activeCell.validator != null && !this.activeCell.validator.isValid()) {
+            newValue.error = true;
+            this.activeCell.field.field.focus();
+          }
         }else{
           this.activeCell.span.show();
-          this.unsetActiveField();
         }
-      }
-    },
-    /**
-     * Private method: terminate
-     *
-     * continues the deactivating of a cell after validation
-     * @return void
-     */
-    terminate : function() {
-      // save the value
-      if(this.activeCell.cell != null) {
-        var newValue = this.activeCell.newValue;
+
+
         if(newValue.data != null && newValue.error == false) {
           this.grid.model.set(this.activeCell.coords.index, newValue.data);
           this.addFormatterUriClickListener();
-        // else show error message
+        // else show error message and cell
         }else if(newValue.error == true) {
           this.activeCell.span.show();
         }
 
         // update reference to activeCell
-        this.activeCell.cell = this.grid.gridTableBody.rows[this.activeCell.coords.row].cells[this.activeCell.coords.index-1];
+        if($defined(this.activeCell.coords.row) && $defined(this.activeCell.coords.index)) {
+          this.activeCell.cell = this.grid.gridTableBody.rows[this.activeCell.coords.row].cells[this.activeCell.coords.index-1];
+        }
 
         if(this.options.useKeyboard) {
           this.activeCell.field.removeEvent('keypress', this.setKeyboard);
@@ -624,7 +604,6 @@ Jx.Plugin.Grid.Editor = new Class({
           return true;
         }
       }
-      return true;
     },
     /**
      * Method: checkValue

@@ -32,7 +32,7 @@ window.addEvent('load', function() {
 
     editorOptions = {
       validate   : true,
-      blurDelay  : 1000,
+      blurDelay  : false,
       popup : {
         use        : true,
         useButtons : true,
@@ -225,7 +225,7 @@ function drawToolbar() {
         new Jx.Menu.Item({
             label: 'Close On Blur',
             toggle: true,
-            active: true,
+            active: editorOptions.blurDelay,
             onDown: function() { editor.options.blurDelay = 500; },
             onUp: function() { editor.options.blurDelay = false; }
         }),
@@ -261,7 +261,7 @@ function drawToolbar() {
             label: 'PopUp Options'
         }).add([
           new Jx.Menu.Item({
-              label: 'Use PopUp',
+              label: 'Input Field only',
               toggle: true,
               active: !editorOptions.popup.use,
               onDown: function() { editor.options.popup.use = false; },
