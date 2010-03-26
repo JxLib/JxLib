@@ -261,7 +261,7 @@ Jx.Columns = new Class({
             col.calculateWidth(rowHeader);
           }
         }
-        totalWidth += col.getWidth();
+        totalWidth += Jx.getNumber(col.getWidth());
         if (rowHeader) {
           rowHeaderWidth = col.getWidth();
         }
@@ -270,20 +270,24 @@ Jx.Columns = new Class({
       // width of the container
       var containerWidth = this.grid.gridObj.getParent().getContentBoxSize();
       var gridSize = this.grid.gridObj.getMarginBoxSize();
-      if (containerWidth > totalWidth) {
+      if (containerWidth.width > totalWidth) {
         //now figure the expand column
         if ($defined(expand)) {
+          // var leftOverSpace = gridSize.width - totalWidth + rowHeaderWidth;
           var leftOverSpace = gridSize.width - totalWidth;
           if (leftOverSpace >= expand.options.width) {
+            expand.options.width = leftOverSpace;
+            expand.calculateWidth();
             expand.setWidth(leftOverSpace);
+            totalWidth += leftOverSpace;
           } else {
             expand.setWidth(expand.options.width);
           }
         }
-      } else {
+      } //else {
         this.grid.gridTable.setContentBoxSize({'width': totalWidth - rowHeaderWidth});
         this.grid.colTable.setContentBoxSize({'width': totalWidth - rowHeaderWidth});
-      }
+      // }
     },
 
     createRules: function(styleSheet, scope) {

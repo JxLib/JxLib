@@ -186,7 +186,9 @@ Jx.Column = new Class({
         
         var model = this.grid.getModel();
         model.first();
-        if (this.options.renderMode == 'fixed' && model.valid) {
+        if ((this.options.renderMode == 'fixed' || 
+             this.options.renderMode == 'expand') && 
+            model.valid) {
           var t = new Element('span', {
             'class': 'jxGridCellContent',
             html: 'a',
