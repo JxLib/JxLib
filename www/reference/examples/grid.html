@@ -126,8 +126,18 @@ function drawToolbar() {
     new Jx.Menu.Item({
       label: 'Multiple Selection',
       toggle: true,
-      onDown: function() { selector.activate('multiple'); },
-      onUp: function() { selector.deactivate('multiple'); }
+      onDown: function() {
+          selector.detach();
+          selector.activate('multiple');
+          selector.attach(grid);
+          grid.render();
+      },
+      onUp: function() {
+          selector.detach();
+          selector.deactivate('multiple');
+          selector.attach(grid);
+          grid.render();
+      }
     }),
     new Jx.Menu.Item({
       label: 'Check Column',

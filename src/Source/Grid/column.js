@@ -72,19 +72,19 @@ Jx.Column = new Class({
         /**
          * Option: template
          */
-        template: '<span class="jxGridCellContent">Header</span>',
+        template: null,
         /**
          * Option: renderer
          * an instance of a Jx.Grid.Renderer to use in rendering the content
-         * of this column.
+         * of this column or a config object for creating one like so:
+         *
+         * (code)
+         * {
+         *     name: 'Text',
+         *     options: { ... renderer options ... }
+         * }
          */
-        renderer: null,
-        /**
-         * Option: dataType
-         * The type of the data in this column, used for sorting. Can be
-         * alphanumeric, numeric, currency, boolean, or date
-         */
-        dataType: 'alphanumeric'
+        renderer: null
     },
     
     classes: $H({
@@ -103,31 +103,41 @@ Jx.Column = new Class({
      * initializes the column object
      */
     init : function () {
-    	
-    	
+
+        this.name = this.options.name;
+
+        //adjust header for column
+        if (!$defined(this.options.template)) {
+            this.options.template = '<span class="jxGridCellContent">' + this.name.capitalize() + '</span>';
+        }
+
         this.parent();
         if ($defined(this.options.grid) && this.options.grid instanceof Jx.Grid) {
             this.grid = this.options.grid;
         }
-        this.name = this.options.name;
+
         //check renderer
-        if ($defined(this.options.renderer)
-                && !(this.options.renderer instanceof Jx.Grid.Renderer)) {
-            var t = Jx.type(this.options.renderer);
-            if (t === 'object') {
-                this.options.renderer = new Jx.Grid.Renderer[this.options.renderer.name](
-                        this.options.renderer.options);
-            }
+        if (!$defined(this.options.renderer)) {
+            //set a default renderer
+            this.options.renderer = new Jx.Grid.Renderer.Text({
+                textTemplate: '{' + this.name + '}'
+            });
         } else {
-        	//set a default renderer
+            if (!(this.options.renderer instanceof Jx.Grid.Renderer)) {
+                var t = Jx.type(this.options.renderer);
+                if (t === 'object') {
+                    this.options.renderer = new Jx.Grid.Renderer[this.options.renderer.name.capitalize()](
+                            this.options.renderer.options);
+                }
+            }
         }
-        
+
         this.options.renderer.setColumn(this);
-        
+
         this.sortImg = new Element('img', {
-	          src: Jx.aPixel.src
+            src: Jx.aPixel.src
         });
-        
+
     },
     	
     /**

@@ -19,7 +19,7 @@ Jx.Grid.Renderer = new Class({
      * The template for rendering this cell. Will be processed as per
      * the Jx.Widget standard.
      */
-    template: '<span class="jxGridCellContent"></span>',
+    template: '<span class="jxGridCellContent"></span>'
   },
 
   classes: $H({

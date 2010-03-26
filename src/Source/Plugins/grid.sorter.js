@@ -16,7 +16,8 @@
 Jx.Plugin.Grid.Sorter = new Class({
 
     Extends : Jx.Plugin,
-
+    Binds: ['sort', 'addHeaderClass'],
+    
     options : {},
     /**
      * Property: current
@@ -34,19 +35,12 @@ Jx.Plugin.Grid.Sorter = new Class({
      */
     currentGridIndex : null,
     /**
-     * Property: bound
-     * storage for bound methods useful for working with events
-     */
-    bound: {},
-    /**
      * APIMethod: init
      * construct a new instance of the plugin.  The plugin must be attached
      * to a Jx.Grid instance to be useful though.
      */
     init: function() {
         this.parent();
-        this.bound.sort = this.sort.bind(this);
-        this.bound.addHeaderClass = this.addHeaderClass.bind(this);
     },
     /**
      * APIMethod: attach
@@ -60,15 +54,14 @@ Jx.Plugin.Grid.Sorter = new Class({
 
         this.grid = grid;
 
-        this.grid.addEvent('gridCellSelect', this.bound.sort);
-        this.boundAddHeader = this.addHeaderClass.bind(this);
+        this.grid.addEvent('gridCellSelect', this.sort);
     },
     /**
      * APIMethod: detach
      */
     detach: function() {
         if (this.grid) {
-            this.grid.removeEvent('gridCellSelect', this.bound.sort);
+            this.grid.removeEvent('gridCellSelect', this.sort);
         }
         this.grid = null;
     },
@@ -95,7 +88,7 @@ Jx.Plugin.Grid.Sorter = new Class({
 
                 //The grid should be listening for the sortFinished event and will re-render the grid
                 //we will listen for the grid's doneCreateGrid event to add the header
-                this.grid.addEvent('doneCreateGrid', this.bound.addHeaderClass);
+                this.grid.addEvent('doneCreateGrid', this.addHeaderClass);
                 //sort the store
                 var strategy = this.grid.getModel().getStrategy('sort');
                 if (strategy) {
