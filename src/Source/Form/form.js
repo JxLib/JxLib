@@ -50,7 +50,12 @@ Jx.Form = new Class({
          * Option: name
          * the name property for the form
          */
-        name: ''
+        name: '',
+        /**
+         * Option: acceptCharset
+         * the character encoding to be used. Defaults to utf-8.
+         */
+        acceptCharset: 'utf-8'
     },
     
     /**
@@ -89,6 +94,7 @@ Jx.Form = new Class({
             'action' : this.options.action,
             'class' : 'jxForm',
             'name' : this.options.name,
+            'accept-charset': this.options.acceptCharset,
             events: {
                 keypress: function(e) {
                     if (e.key == 'enter' && 
