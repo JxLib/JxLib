@@ -110,23 +110,48 @@ Jx.Plugin.Grid.Resize = new Class({
         if (this.options.column && this.grid.columns.useHeaders()) {
             var hf = this.grid.row.getRowHeaderColumn();
             this.grid.columns.columns.each(function(col, idx) {
-                if (col.options.name != hf && col.domObj) {
+                if (col.options.name != hf && 
+                    col.isResizable() && 
+                    col.domObj) {
                     var el = new Element('div', {
                         'class':'jxGridColumnResize',
                         title: this.options.tooltip,
                         events: {
                             dblclick: function() {
+                                col.options.renderMode = 'fixed';
                                 col.options.width = 'auto';
                                 col.setWidth(col.getWidth(true));
                             }
                         }
-                    }).inject(col.domObj.getParent());
+                    }).inject(col.domObj);
+                    el.store('col', col);
                     this.els.column.push(el);
                     this.drags.column.push(new Drag(el, {
                         limit: {y:[0,0]},
+                        snap: 2,
+                        onBeforeStart: function(el) {
+                          var l = el.getPosition(el.parentNode).x.toInt();
+                          el.setStyles({
+                            left: l,
+                            right: null
+                          });
+                          
+                        },
+                        onStart: function(el) {
+                          var l = el.getPosition(el.parentNode).x.toInt();
+                          el.setStyles({
+                            left: l,
+                            right: null
+                          });
+                        },
                         onDrag: function(el) {
+                            var col = el.retrieve('col');
+                            col.options.renderMode = 'fixed';
                             var w = el.getPosition(el.parentNode).x.toInt();
                             col.setWidth(w);
+                        },
+                        onComplete: function(el) {
+                          el.setStyle('left', null);
                         }
                     }));
                 }

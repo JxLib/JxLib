@@ -73,6 +73,7 @@
     text-align: center;
     font-weight: bold;
     color: #333;
+    height: 100%;
 }
 
 .jxGridRowHead .jxGridCellContent {
@@ -83,6 +84,8 @@
 /* Normal Styles */
 
 .jxGridColHead {
+    height: 100%;
+  
     border-top: 0px solid  #d8d8d8;
     border-right: 1px solid #d8d8d8;
     border-bottom: 1px solid #d8d8d8;
@@ -96,6 +99,8 @@
     cursor: default;
     padding: 0px;
     white-space: nowrap;
+    
+    overflow: hidden;
 }
 
 .jxGridRowHead {
@@ -212,6 +217,10 @@ th.jxGridCellPrelight {
     height: 100%;
     width: 4px;
     cursor: col-resize;
+}
+
+.jxColSortable .jxGridColumnResize {
+  right: 8px;
 }
 
 .jxGridRowResize {

@@ -154,6 +154,7 @@ Jx.Column = new Class({
       var delta = this.cellWidth - this.width;
     	this.width = parseInt(newWidth,10);
     	this.cellWidth = this.width + delta;
+    	this.options.width = newWidth;
       if (this.rule && parseInt(newWidth,10) >= 0) {
           this.rule.style.width = parseInt(newWidth,10) + "px";
       }
