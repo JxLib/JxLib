@@ -195,6 +195,7 @@ function drawGrid() {
     
     var parser = new Jx.Store.Parser.JSON();
     var full = new Jx.Store.Strategy.Full();
+    var sort = new Jx.Store.Strategy.Sort({sortOnStoreEvents: null});
     var store = new Jx.Store({
         columns: [
             {name: 'header',type: 'alphanumeric'},
@@ -207,7 +208,7 @@ function drawGrid() {
             {name: 'description', type: 'alphanumeric'}
         ],
         protocol: new Jx.Store.Protocol.Local(data,{parser: parser}),
-        strategies: [full],
+        strategies: [full,sort],
         record: Jx.Record
     });
     
