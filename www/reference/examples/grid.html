@@ -43,7 +43,7 @@ function drawToolbar() {
      * The actual grid code is in another sample
      */
   
-  var m = new Jx.Menu({label: 'Other Options', enabled: false})
+  var m = new Jx.Menu({label: 'Other Options', enabled: true})
   
     new Jx.Menu({label: 'Row Options'}).addTo('buttons').add([
         new Jx.Menu.Item({
@@ -108,7 +108,7 @@ function drawToolbar() {
    var b = new Jx.Menu.Item({
      label: 'Check Column as Header',
      toggle: true,
-     enabled: false,
+     enabled: true,
      onDown: function() { 
       selector.detach(); 
       selector.activate('checkAsHeader'); 

@@ -423,6 +423,7 @@ Jx.Plugin.Grid.Editor = new Class({
         // check for different input field types
         switch(this.activeCell.fieldOptions.type) {
           case 'Text':
+          case 'Color':
           case 'Password':
           case 'File':
             jxFieldOptions.value = this.activeCell.oldValue;
@@ -448,7 +449,7 @@ Jx.Plugin.Grid.Editor = new Class({
           case 'Radio':
           case 'Checkbox':
           default:
-            alert("Fieldtype \""+this.activeCell.fieldOptions.type+"\" is not supported yet :(\nIf you have set a validator for a column, you maybe have forgotton to enter a field type.");
+            $defined(console) ? console.warn("Fieldtype %o is not supported yet. If you have set a validator for a column, you maybe have forgotton to enter a field type.", this.activeCell.fieldOptions.type) : false;
             return;
             break;
         }
@@ -587,6 +588,7 @@ Jx.Plugin.Grid.Editor = new Class({
           }else if(newValue.error){
             this.activeCell.cell.highlight(this.options.cellChangeFx.error);
           }
+          //this.activeCell.cell.removeProperty('style').delay(250, this.activeCell.cell);
         }
 
         // check for error and keep input field alive
@@ -732,9 +734,6 @@ Jx.Plugin.Grid.Editor = new Class({
      */
     showPopUp : function(cell) {
       if(this.popup.domObj != null) {
-        this.popup.domObj.setStyles({
-          'width'  : cell.getContentBoxSize().width
-        });
         Jx.Widget.prototype.position(this.popup.domObj, cell, {
             horizontal: ['left left'],
             vertical: ['top top']
@@ -765,7 +764,6 @@ Jx.Plugin.Grid.Editor = new Class({
           template  = Jx.Widget.prototype.processTemplate(this.options.popup.template, this.classes);
 
       popup = template.jxGridEditorPopup;
-      popup.setStyle('width', cell.getContentBoxSize().width);
       
       innerWrapper = template.jxGridEditorPopupInnerWrapper;
       /**
@@ -934,7 +932,7 @@ Jx.Plugin.Grid.Editor = new Class({
     getNextCellInRow: function(save) {
       save = $defined(save) ? save : true;
       if(this.activeCell.cell != null) {
-        var nextCell = true, nextRow = true;
+        var nextCell = true, nextRow = true, sumCols = this.grid.columns.columns.length;
         var i = 0;
         do {
           nextCell = i > 0 ? nextCell.getNext() : this.activeCell.cell.getNext();
@@ -951,6 +949,12 @@ Jx.Plugin.Grid.Editor = new Class({
               row   = data.row,
               index = data.index;
           i++;
+          // if all columns are set to uneditable during runtime, jump out of the loop after
+          // running through 2 times to prevent an endless-loop and browser crash :)
+          if(i == sumCols*2) {
+            this.deactivate(save);
+            return;
+          }
         }while(!data.col.options.isEditable);
 
         if(save === false) {
@@ -971,7 +975,7 @@ Jx.Plugin.Grid.Editor = new Class({
     getPrevCellInRow: function(save) {
       save = $defined(save) ? save : true;
       if(this.activeCell.cell != null) {
-        var prevCell, prevRow, i = 0;
+        var prevCell, prevRow, i = 0, sumCols = this.grid.columns.columns.length;
         do {
           prevCell = i > 0 ? prevCell.getPrevious() : this.activeCell.cell.getPrevious();
           // check if cell is still in row, otherwise returns null
@@ -988,6 +992,12 @@ Jx.Plugin.Grid.Editor = new Class({
               row   = data.row,
               index = data.index;
           i++;
+          // if all columns are set to uneditable during runtime, jump out of the loop after
+          // running through 2 times to prevent an endless-loop and browser crash :)
+          if(i == sumCols*2) {
+            this.deactivate(save);
+            return;
+          }
         }while(!data.col.options.isEditable);
 
         if(save === false) {
