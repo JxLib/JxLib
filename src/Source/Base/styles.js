@@ -27,14 +27,14 @@
  */
 Jx.Styles = new(new Class({
     /**
-     * dynamicStyleMap - <Hash> used to keep a reference to dynamically created
-     * style sheets for quick access
+     * dynamicStyleMap - <Hash> used to keep a reference to dynamically
+     * created style sheets for quick access
      */
     dynamicStyleMap: new Hash(),
     /**
      * APIMethod: getCssRule
-     * retrieve a reference to a CSS rule in a specific style sheet based on its
-     * selector.  If the rule does not exist, create it.
+     * retrieve a reference to a CSS rule in a specific style sheet based on
+     * its selector.  If the rule does not exist, create it.
      *
      * Parameters:
      * selector - <String> the CSS selector for the rule
@@ -67,16 +67,16 @@ Jx.Styles = new(new Class({
      *
      * Parameters:
      * selector - <String> the CSS selector for the rule
-     * declaration - <String> CSS-formatted rules to include.  May be empty, in
-     * which case you may want to use the returned rule object to manipulate
-     * styles
+     * declaration - <String> CSS-formatted rules to include.  May be empty,
+     * in which case you may want to use the returned rule object to
+     * manipulate styles
      * styleSheetName - <String> the name of the sheet to place the rules in, 
      * or empty to put them in a default sheet.
      *
      * Returns:
      * <CSSRule> - a CSS Rule object with properties that are browser
-     * dependent.  In general, you can use rule.styles to set any CSS properties
-     * in the same way that you would set them on a DOM object.
+     * dependent.  In general, you can use rule.styles to set any CSS
+     * properties in the same way that you would set them on a DOM object.
      */
     insertCssRule: function (selector, declaration, styleSheetName) {
         var ss = this.getDynamicStyleSheet(styleSheetName);
@@ -98,8 +98,8 @@ Jx.Styles = new(new Class({
      *
      * Parameters:
      * selector - <String> the CSS selector for the rule
-     * styleSheetName - <String> the name of the sheet to remove the rule from, 
-     * or empty to remove them from the default sheet.
+     * styleSheetName - <String> the name of the sheet to remove the rule
+     * from,  or empty to remove them from the default sheet.
      *
      * Returns:
      * <Boolean> true if the rule was removed, false if it was not.
@@ -165,9 +165,9 @@ Jx.Styles = new(new Class({
      * name = <String> the title of the stylesheet to remove
      */
     removeStyleSheet: function (name) {
-    	this.disableStyleSheet(name);
-    	this.getDynamicStyleSheet(name).dispose();
-    	this.dynamicStyleMap.erase(name);
+      this.disableStyleSheet(name);
+      this.getDynamicStyleSheet(name).dispose();
+      this.dynamicStyleMap.erase(name);
     },
     /**
      * APIMethod: isStyleSheetDefined
@@ -177,6 +177,6 @@ Jx.Styles = new(new Class({
      * name = <String> the title of the stylesheet to remove
      */
     isStyleSheetDefined: function (name) {
-    	return this.dynamicStyleMap.has(name);
+      return this.dynamicStyleMap.has(name);
     }
 }))();
