@@ -138,6 +138,7 @@ ul.jxTabBar {
   display: block;
   position: relative;
   float: left;
+  clear: none;
   list-style-type: none;
 
   margin: 0px;  /* margins don't seem to work properly in IE */
