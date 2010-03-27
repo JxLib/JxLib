@@ -22,19 +22,49 @@ function hToolbar() {
      * it without a parent if you are going to use it with a panel
      * or dialog.
      */
-    new Jx.Toolbar({template: "<ul class='jxToolbar myToolbarClass'></ul>"}).add(
+    var mySelect = new Jx.Field.Select({
+        id: 'Select1',
+        name: 'Select1',
+        label: 'Select:',
+        comboOpts: [{
+            value: 'opt11',
+            text: 'Option #1',
+            selected: false
+        },{
+            value: 'opt12',
+            text: 'Option #2',
+            selected: true
+        },{
+            value: 'opt13',
+            text: 'Option #3',
+            selected: false
+        }]
+    });
+
+    var tb = new Jx.Toolbar({template: "<ul class='jxToolbar myToolbarClass'></ul>"}).add(
         new Jx.Button({
           id: 'basic1',
-          label: 'Basic Button',
+          label: 'Add Select Item',
           image: 'images/asterisk_orange.png',
-          tooltip: 'a tooltip',
-          onClick: function() { log('click button with just a label'); }
+          tooltip: 'click to add an item to the select',
+          onClick: function() { 
+              mySelect.addOption({
+                  value: 'newItem',
+                  text: 'Bigger Better Item',
+                  selected: false
+              },'top');
+              tb.update();
+          }
         }),
         new Jx.Button({
           id: 'basic2',
           image: 'images/asterisk_orange.png',
           tooltip: 'a tooltip',
-          onClick: function() { log('click button with just a label'); }
+          onClick: function() { 
+              log('click button with just a label');
+              this.setLabel('A dynamic label!');
+              tb.update();
+          }
         }),
         /* a visual separator in the toolbar */
         new Jx.Toolbar.Separator(),
@@ -60,8 +90,10 @@ function hToolbar() {
                 {label: 'Filberts'},
                 {label: 'Cashews'}
             ]
-        })
+        }),
+        mySelect
     ).addTo('toolbar1');
+
 
     new Jx.Toolbar().add(
         new Jx.Button.Multi({
