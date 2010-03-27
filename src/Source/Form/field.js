@@ -26,8 +26,6 @@ Jx.Field = new Class({
     Extends : Jx.Widget,
     pluginNamespace: 'Field',
     
-    Binds: ['onBlur','onChange'],
-
     options : {
         /**
          * Option: id
@@ -246,8 +244,8 @@ Jx.Field = new Class({
             
             //add events
             this.field.addEvents({
-            	'blur': this.onBlur,
-            	'change': this.onChange
+            	'blur': this.onBlur.bind(this),
+            	'change': this.onChange.bind(this)
             });
 
             this.field.store('field', this);
