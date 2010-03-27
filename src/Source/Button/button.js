@@ -257,7 +257,7 @@ Jx.Button = new Class({
      * evt - {Event} the user click event
      */
     clicked : function(evt) {
-        if (this.options.enabled) {
+        if (this.options.enabled && !this.isBusy()) {
             if (this.options.toggle) {
                 this.setActive(!this.options.active);
             } else {
