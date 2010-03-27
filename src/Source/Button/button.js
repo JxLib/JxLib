@@ -311,18 +311,20 @@ Jx.Button = new Class({
      * active - {Boolean} the new active state of the button
      */
     setActive: function(active) {
-        if (this.options.active == active) {
-            return;
+        if (this.options.enabled && !this.isBusy()) {
+          if (this.options.active == active) {
+              return;
+          }
+          this.options.active = active;
+          if (this.domA) {
+              if (this.options.active) {
+                  this.domA.addClass(this.options.activeClass);
+              } else {
+                  this.domA.removeClass(this.options.activeClass);
+              }
+          }
+          this.fireEvent(active ? 'down':'up', this);
         }
-        this.options.active = active;
-        if (this.domA) {
-            if (this.options.active) {
-                this.domA.addClass(this.options.activeClass);
-            } else {
-                this.domA.removeClass(this.options.activeClass);
-            }
-        }
-        this.fireEvent(active ? 'down':'up', this);
     },
     /**
      * APIMethod: setImage
