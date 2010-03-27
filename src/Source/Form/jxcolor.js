@@ -54,7 +54,6 @@
     },
     button: null,
     validator: null,
-    colorPalette : null,
     render: function() {
         this.classes.combine({
           wrapper: 'jxInputWrapper',
@@ -64,17 +63,13 @@
         this.parent();
 
       var self = this;
-      /*
       if (!Jx.Field.Color.ColorPalette) {
           Jx.Field.Color.ColorPalette = new Jx.ColorPalette(this.options);
       }
-      */
-      this.colorPalette = new Jx.ColorPalette(this.options);
       this.button = new Jx.Button.Flyout({
           template: this.options.buttonTemplate,
           imageClass: 'jxInputRevealerIcon',
           onBeforeOpen: function() {
-            /*
             if (Jx.Field.Color.ColorPalette.currentButton) {
                 Jx.Field.Color.ColorPalette.currentButton.hide();
             }
@@ -83,29 +78,14 @@
             Jx.Field.Color.ColorPalette.addEvent('click', self.hide);
             this.content.appendChild(Jx.Field.Color.ColorPalette.domObj);
             Jx.Field.Color.ColorPalette.domObj.setStyle('display', 'block');
-            */
-            if (self.colorPalette.currentButton) {
-                self.colorPalette.currentButton.hide();
-            }
-            self.colorPalette.currentButton = this;
-            self.colorPalette.addEvent('change', self.changed);
-            /*
-            self.colorPalette.addEvent('change', function(ev) {
-              //console.log("change", ev,this);
-              self.changed();
-            });
-            */
-            self.colorPalette.addEvent('click', self.hide);
-            this.content.appendChild(self.colorPalette.domObj);
-            self.colorPalette.domObj.setStyle('display', 'block');
           },
           onOpen: function() {
             /* setting these before causes an update problem when clicking on
              * a second color button when another one is open - the color
              * wasn't updating properly
              */
-            self.colorPalette.options.color = self.options.color;
-            self.colorPalette.updateSelected();
+            Jx.Field.Color.ColorPalette.options.color = self.options.color;
+            Jx.Field.Color.ColorPalette.updateSelected();
           }
         }).addTo(this.revealer);
 
@@ -162,18 +142,15 @@
         this.icon.setStyle('background-color', c);
     },
     changed: function() {
-        var c = this.colorPalette.options.color;
+        var c = Jx.Field.Color.ColorPalette.options.color;
         this.setColor(c);
     },
     hide: function() {
         this.button.setActive(false);
-//        Jx.Field.Color.ColorPalette.removeEvent('change', this.changed);
-//        Jx.Field.Color.ColorPalette.removeEvent('click', this.hide);
-        this.colorPalette.removeEvent('change', this.changed);
-        this.colorPalette.removeEvent('click', this.hide);
+        Jx.Field.Color.ColorPalette.removeEvent('change', this.changed);
+        Jx.Field.Color.ColorPalette.removeEvent('click', this.hide);
 
         this.button.hide();
-//        Jx.Field.Color.ColorPalette.currentButton = null;
-        this.colorPalette.currentButton = null;
+        Jx.Field.Color.ColorPalette.currentButton = null;
     }
   });
