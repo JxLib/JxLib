@@ -67,7 +67,8 @@ Jx.Dialog = new Class({
         eventMaskOptions: {
           'class':'jxEventMask',
           maskMargins: false,
-          useIframeShim: false
+          useIframeShim: false,
+          destroyOnHide: true,
         },
         /* just overrides default position of panel, don't document this */
         position: 'absolute',
@@ -170,11 +171,11 @@ Jx.Dialog = new Class({
                 handle: this.title,
                 onBeforeStart: (function(){
                     this.stack();
+                }).bind(this),
+                onStart: (function() {
                     if (!this.options.modal && this.options.parent.mask) {
                       this.options.parent.mask(this.options.eventMaskOptions);
                     }
-                }).bind(this),
-                onStart: (function() {
                     this.contentContainer.setStyle('visibility','hidden');
                     this.chrome.addClass('jxChromeDrag');
                 }).bind(this),
