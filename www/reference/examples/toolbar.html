@@ -121,6 +121,13 @@ function hToolbar() {
             ]
         })
     ).addTo('toolbar1');
+    // because the toolbar1 div is not managed by us but it does change
+    // with the size of the window, we can manually fire a sizeChanged
+    // event on it to tell the toolbar container to recompute its layout
+    // when the window resizes
+    window.addEvent('resize', function(){
+      $('toolbar1').fireEvent('sizeChange');
+    });
 };
 </script>
 
