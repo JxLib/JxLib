@@ -104,9 +104,9 @@ Jx.Menu = new Class({
      *
      * Parameters:
      * item - {<Jx.MenuItem>} the menu item to add.  Multiple menu items
-     * can be added by passing multiple arguments to this function.
-     * position -
-     * owner -
+     *     can be added by passing an array of menu items.
+     * position - the index to add the item at, defaults to the end of the
+     *     menu
      */
     add: function(item, position, owner) {
         if (Jx.type(item) == 'array') {
