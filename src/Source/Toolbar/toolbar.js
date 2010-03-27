@@ -273,21 +273,21 @@ Jx.Toolbar = new Class({
      * the buttons on one line.
      */
     update: function () {
-        if (['top','bottom'].contains(this.options.position)) {
-            (function(){
-                var s = 0;
-                var children = this.domObj.getChildren();
-                children.each(function(button){
-                    var size = button.getMarginBoxSize();
-                    s += size.width +0.5;
-                },this);
-                if (s !== 0) {
-                    this.domObj.setStyle('width', Math.round(s));
-                } else {
-                    this.domObj.setStyle('width','auto');
-                }
-                this.fireEvent('update');
-            }).delay(1,this);
-        }
+        // if (['top','bottom'].contains(this.options.position)) {
+        //     (function(){
+        //         var s = 0;
+        //         var children = this.domObj.getChildren();
+        //         children.each(function(button){
+        //             var size = button.getMarginBoxSize();
+        //             s += size.width +0.5;
+        //         },this);
+        //         if (s !== 0) {
+        //             this.domObj.setStyle('width', Math.round(s));
+        //         } else {
+        //             this.domObj.setStyle('width','auto');
+        //         }
+        //     }).delay(1,this);
+        // }
+        this.fireEvent('update');
     }
 });
