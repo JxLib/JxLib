@@ -6,8 +6,6 @@
  *
  * Grid plugin to sort the grid by a single column.
  *
- * Original selection code from Jx.Grid's original class
- *
  * License:
  * Copyright (c) 2009, Jon Bomgardner.
  *
@@ -15,10 +13,10 @@
  */
 Jx.Plugin.Grid.Sorter = new Class({
 
+    Family: 'Jx.Plugin.Grid.Sorter',
     Extends : Jx.Plugin,
     Binds: ['sort', 'addHeaderClass'],
-    
-    options : {},
+
     /**
      * Property: current
      * refernce to the currently sorted column

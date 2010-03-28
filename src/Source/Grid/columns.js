@@ -261,16 +261,18 @@ Jx.Columns = new Class({
             col.calculateWidth(rowHeader);
           }
         }
-        totalWidth += Jx.getNumber(col.getWidth());
-        if (rowHeader) {
-          rowHeaderWidth = col.getWidth();
+        if (!col.isHidden() && !(col.name == this.grid.row.options.headerColumn)) {
+            totalWidth += Jx.getNumber(col.getWidth());
+            if (rowHeader) {
+                rowHeaderWidth = col.getWidth();
+            }
         }
       },this);
       
       // width of the container
-      var containerWidth = this.grid.gridObj.getParent().getContentBoxSize();
-      var gridSize = this.grid.gridObj.getMarginBoxSize();
-      if (containerWidth.width > totalWidth) {
+      //var containerWidth = this.grid.gridObj.getContentBoxSize();
+      var gridSize = this.grid.gridObj.getContentBoxSize();
+      if (gridSize.width > totalWidth) {
         //now figure the expand column
         if ($defined(expand)) {
           // var leftOverSpace = gridSize.width - totalWidth + rowHeaderWidth;
@@ -285,8 +287,8 @@ Jx.Columns = new Class({
           }
         }
       } //else {
-        this.grid.gridTable.setContentBoxSize({'width': totalWidth - rowHeaderWidth});
-        this.grid.colTable.setContentBoxSize({'width': totalWidth - rowHeaderWidth});
+      this.grid.gridTable.setContentBoxSize({'width': totalWidth - rowHeaderWidth});
+      this.grid.colTable.setContentBoxSize({'width': totalWidth - rowHeaderWidth});
       // }
     },
 

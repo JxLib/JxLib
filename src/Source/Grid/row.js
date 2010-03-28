@@ -157,15 +157,19 @@ Jx.Row = new Class({
       document.id(this.grid.gridTableBody).getChildren().each(function(row){
         row = document.id(row);
         var data = row.retrieve('jxRowData');
-        var s = row.getMarginBoxSize();
+        var s = row.getContentBoxSize();
         this.heights[data.row] = s.height;
       },this);
       document.id(this.grid.rowTableHead).getChildren().each(function(row){
         row = document.id(row);
         var data = row.retrieve('jxRowData');
         if (data) {
-          var s = row.getMarginBoxSize();
+          var s = row.getContentBoxSize();
           this.heights[data.row] = Math.max(this.heights[data.row],s.height);
+          if (Browser.Engine.webkit) {
+              //for some reason webkit (Safari and Chrome)
+              this.heights[data.row] -= 1;
+          }
         }
       },this);
     	
@@ -176,7 +180,14 @@ Jx.Row = new Class({
             var selector = scope+' .jxGridRow'+idx;
             var rule = Jx.Styles.insertCssRule(selector, '', styleSheet);
             this.rules.set('jxGridRow'+idx, rule);
-            rule.style.height = this.getHeight(idx) + "px";
+            rule.style.height = this.heights[idx] + "px";
+
+            if (Browser.Engine.webkit) {
+                selector += " th";
+                var thRule = Jx.Styles.insertCssRule(selector, '', styleSheet);
+                thRule.style.height = this.heights[idx] + "px";
+            }
+
         }, this);
     },
     /**
