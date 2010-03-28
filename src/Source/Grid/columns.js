@@ -131,11 +131,16 @@ Jx.Columns = new Class({
      * index - an integer denoting the placement of the column in the grid (zero-based)
      */
     getByGridIndex : function (index) {
-        var headers = this.grid.colTableBody.getFirst().getChildren();
+        var headers = this.options.useHeaders ? 
+                        this.grid.colTableBody.getFirst().getChildren() :
+                        this.grid.gridTableBody.getFirst().getChildren();
         var cell = headers[index];
-        var hClasses = cell.get('class').split(' ').filter(function (cls) {
-            return cls.test('jxColHead-');
-        });
+          var hClasses = cell.get('class').split(' ').filter(function (cls) {
+            if(this.options.useHeaders)
+              return cls.test('jxColHead-')
+            else
+              return cls.test('jxCol-');
+          }.bind(this));
         var parts = hClasses[0].split('-');
         return this.getByName(parts[1]);
     },
@@ -334,13 +339,19 @@ Jx.Columns = new Class({
      * name - the name of the column to get an index for
      */
     getIndexFromGrid : function (name) {
-        var headers = this.grid.colTableBody.getFirst().getChildren();
+        var headers = this.options.useHeaders ? 
+                        this.grid.colTableBody.getFirst().getChildren() :
+                        this.grid.gridTableBody.getFirst().getChildren();
         var c;
         var i = -1;
+        var self = this;
         headers.each(function (h) {
             i++;
             var hClasses = h.get('class').split(' ').filter(function (cls) {
-                return cls.test('jxColHead-');
+                if(self.options.useHeaders)
+                  return cls.test('jxColHead-');
+                else
+                  return cls.test('jxCol-');
             });
             hClasses.each(function (cls) {
                 if (cls.test(name)) {

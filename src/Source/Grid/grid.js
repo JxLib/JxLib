@@ -488,7 +488,9 @@ Jx.Grid = new Class({
 
         var currentRow = this.model.getPosition();
         this.model.moveTo(row);
-        var newTD = this.columns.getColumnCell(this.columns.getByName(col),column + 1);
+        // need to find out whether the header is used or not, to have the right reference back
+        var colIndex = this.options.row.useHeaders ? column+1 : column;
+        var newTD = this.columns.getColumnCell(this.columns.getByName(col),colIndex);
         //get parent list
         var list = td.getParent().retrieve('jxList');
         list.replace(td, newTD);

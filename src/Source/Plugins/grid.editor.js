@@ -256,7 +256,6 @@ Jx.Plugin.Grid.Editor = new Class({
 
       this.grid.addEvent('gridCellSelect', this.activate);
       this.grid.addEvent('gridCellUnSelect', this.deactivate);
-//      this.grid.addEvent('gridCellUnSelect', this.terminate);
 
       /*
        * add default field options to the options in case some new options were entered
@@ -384,9 +383,10 @@ Jx.Plugin.Grid.Editor = new Class({
 
       if(this.cellIsInGrid(row, index)) {
 
+        var colIndex   = this.grid.options.row.useHeaders ? index-1 : index;
         var model      = this.grid.getModel(),
             //cell       = this.grid.gridTableBody.rows[row].cells[col] ? this.grid.gridTableBody.rows[row].cells[col] : null,
-            colOptions = this.grid.columns.getByGridIndex(index-1).options;
+            colOptions = this.grid.columns.getByGridIndex(colIndex).options;
         if (!cell || !colOptions.isEditable) {
           return;
         }
@@ -401,14 +401,15 @@ Jx.Plugin.Grid.Editor = new Class({
         // store properties of the active cell
         this.activeCell = {
           oldValue      : model.get(data.index),
-          newValue      : { data : null, error: false},
+          newValue      : {data: null, error: false},
           fieldOptions  : this.getFieldOptionsByColName(colOptions.name),
           colOptions    : colOptions,
           coords        : {row : row, index : index},
           cell          : cell,
           span          : cell.getElement('span.jxGridCellContent'),
           validator     : null,
-          field         : null
+          field         : null,
+          timeoutId     : null
         }
 
         // check if this column has special validation settings - otherwise use default from this.options.validate
@@ -484,13 +485,14 @@ Jx.Plugin.Grid.Editor = new Class({
           this.activeCell.field.field.addEvents({
             // activate the timeout to close the input/poup
             'blur' : function() {
+              // @todo For some reason, webkit does not clear the timeout correctly when navigating through the grid with keyboard
               clearTimeout(self.activeCell.timeoutId);
               self.activeCell.timeoutId = self.deactivate.delay(self.options.blurDelay);
             },
             // clear the timeout when the user focusses again
             'focus' : function() {
               clearTimeout(self.activeCell.timeoutId);
-            },
+            }, 
             // clear the timeout when the user puts the mouse over the input
             'mouseover' : function() {
               clearTimeout(self.activeCell.timeoutId);
@@ -518,11 +520,13 @@ Jx.Plugin.Grid.Editor = new Class({
      * @return true if no data error occured, false if error (popup/input stays visible)
      */
     deactivate: function(save) {
+
+      clearTimeout(this.activeCell.timeoutId);
+      
       if(this.activeCell.field !== null) {
         save = $defined(save) ? save : true;
 
         var newValue = {data : null, error : false};
-        clearTimeout(this.activeCell.timeoutId);
 
         // update the value in the model
         if(save && this.activeCell.field.getValue().toString() != this.activeCell.oldValue.toString()) {
@@ -546,7 +550,7 @@ Jx.Plugin.Grid.Editor = new Class({
           if(save) {
             this.activeCell.newValue.data = newValue.data;
             // manually blur the field to activate the validator -> continues with this.terminate()
-            this.activeCell.timeoutId = this.activeCell.field.field.blur.delay(50, this.activeCell.field.field);
+            //this.activeCell.timeoutId = this.activeCell.field.field.blur.delay(50, this.activeCell.field.field);
           }
           // validation only if it should be saved!
           if(this.activeCell.validator != null && !this.activeCell.validator.isValid()) {
@@ -558,7 +562,7 @@ Jx.Plugin.Grid.Editor = new Class({
         }
 
 
-        if(newValue.data != null && newValue.error == false) {
+        if(save && newValue.data != null && newValue.error == false) {
           this.grid.model.set(this.activeCell.coords.index, newValue.data);
           this.addFormatterUriClickListener();
         // else show error message and cell
@@ -568,7 +572,8 @@ Jx.Plugin.Grid.Editor = new Class({
 
         // update reference to activeCell
         if($defined(this.activeCell.coords.row) && $defined(this.activeCell.coords.index)) {
-          this.activeCell.cell = this.grid.gridTableBody.rows[this.activeCell.coords.row].cells[this.activeCell.coords.index-1];
+          var colIndex = this.grid.options.row.useHeaders ? this.activeCell.coords.index-1 : this.activeCell.coords.index;
+          this.activeCell.cell = this.grid.gridTableBody.rows[this.activeCell.coords.row].cells[colIndex];
         }
 
         if(this.options.useKeyboard) {
