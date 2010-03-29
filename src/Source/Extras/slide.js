@@ -103,7 +103,7 @@ Jx.Slide = new Class({
             h = this.target.retrieve(this.options.type);
             this.target.setStyles({
                 overflow: 'hidden',
-                display: 'block',
+                display: 'block'
             });
             this.target.setStyles(this.options.type, 0);
             this.target.tween(this.options.type, h);
