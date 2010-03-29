@@ -103,6 +103,7 @@ Jx.Form = new Class({
                         this.defaultAction.click) {
                         document.id(this.defaultAction).focus();
                         this.defaultAction.click();
+                        e.stop();
                     }
                 }.bind(this)
             }
