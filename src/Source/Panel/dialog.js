@@ -68,7 +68,7 @@ Jx.Dialog = new Class({
           'class':'jxEventMask',
           maskMargins: false,
           useIframeShim: false,
-          destroyOnHide: true,
+          destroyOnHide: true
         },
         /* just overrides default position of panel, don't document this */
         position: 'absolute',
