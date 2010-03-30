@@ -8,7 +8,7 @@
  */
 Jx.Grid.Renderer.Button = new Class({
 
-    Family: 'Jx.Grid.Renderer.Checkbox',
+    Family: 'Jx.Grid.Renderer.Button',
     Extends: Jx.Grid.Renderer,
 
     Binds: [],

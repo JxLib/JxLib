@@ -431,18 +431,27 @@ Jx.Plugin.Grid.Editor = new Class({
             jxFieldOptions.value = this.activeCell.oldValue.replace(/<br \/>/gi, '\n');
             break;
           case 'Select':
-            // find out which visible value fits to the value inside <option>{value}</option>
-            // and set it to selected
-            if(jxFieldOptions.comboOpts) {
-              for(var i = 0, j = jxFieldOptions.comboOpts.length; i < j; i++) {
-                if(jxFieldOptions.comboOpts[i].value == this.activeCell.oldValue.toString()) {
-                  jxFieldOptions.comboOpts[i].selected = true;
+            // find out which visible value fits to the value inside <option>{value}</option> and set it to selected
+            var oldValue  = this.activeCell.oldValue.toString()
+            function setCombos(opts, oldValue) {
+              for(var i = 0, j = opts.length; i < j; i++) {
+                if(opts[i].value == oldValue) {
+                  opts[i].selected = true;
                 }else{
-                  jxFieldOptions.comboOpts[i].selected = false;
+                  opts[i].selected = false;
                 }
               }
-            }else if(jxFieldOptions.groupOpts) {
-              // @todo groupOpts field options auto-select
+              return opts;
+            }
+
+            if(jxFieldOptions.comboOpts) {
+              jxFieldOptions.comboOpts = setCombos(jxFieldOptions.comboOpts, oldValue);
+            }else if(jxFieldOptions.optGroups) {
+              var groups = jxFieldOptions.optGroups;
+              for(var k = 0, n = groups.length; k < n; k++) {
+                groups[k].options = setCombos(groups[k].options, oldValue);
+              }
+              jxFieldOptions.optGroups = groups;
             }
             break;
           case 'Radio':
@@ -875,10 +884,12 @@ Jx.Plugin.Grid.Editor = new Class({
     getNextCellInRow: function(save) {
       save = $defined(save) ? save : true;
       if(this.activeCell.cell != null) {
-        var nextCell = true, nextRow = true, sumCols = this.grid.columns.columns.length;
+        var nextCell = true, nextRow = true,
+            sumCols = this.grid.columns.columns.length,
+            jxCellClass = 'td.jxGridCell';
         var i = 0;
         do {
-          nextCell = i > 0 ? nextCell.getNext() : this.activeCell.cell.getNext();
+          nextCell = i > 0 ? nextCell.getNext(jxCellClass) : this.activeCell.cell.getNext(jxCellClass);
           // check if cell is still in row, otherwise returns null
           if(nextCell == null) {
             nextRow  = this.activeCell.cell.getParent('tr').getNext();
@@ -886,11 +897,9 @@ Jx.Plugin.Grid.Editor = new Class({
             if(nextRow == null) {
               nextRow = this.activeCell.cell.getParent('tbody').getFirst();
             }
-            nextCell = nextRow.getFirst();
+            nextCell = nextRow.getFirst(jxCellClass);
           }
-          var data  = nextCell.retrieve('jxCellData'),
-              row   = data.row,
-              index = data.index;
+          var data  = nextCell.retrieve('jxCellData');
           i++;
           // if all columns are set to uneditable during runtime, jump out of the loop after
           // running through 2 times to prevent an endless-loop and browser crash :)
@@ -918,9 +927,11 @@ Jx.Plugin.Grid.Editor = new Class({
     getPrevCellInRow: function(save) {
       save = $defined(save) ? save : true;
       if(this.activeCell.cell != null) {
-        var prevCell, prevRow, i = 0, sumCols = this.grid.columns.columns.length;
+        var prevCell, prevRow, i = 0,
+            sumCols = this.grid.columns.columns.length,
+            jxCellClass = 'td.jxGridCell';
         do {
-          prevCell = i > 0 ? prevCell.getPrevious() : this.activeCell.cell.getPrevious();
+          prevCell = i > 0 ? prevCell.getPrevious(jxCellClass) : this.activeCell.cell.getPrevious(jxCellClass);
           // check if cell is still in row, otherwise returns null
           if(prevCell == null) {
             prevRow  = this.activeCell.cell.getParent('tr').getPrevious();
@@ -929,7 +940,7 @@ Jx.Plugin.Grid.Editor = new Class({
               // @todo this does not always work when shift+tab is hold pressed (out of grid error)
               prevRow = this.activeCell.cell.getParent('tbody').getLast();
             }
-            prevCell = prevRow.getLast();
+            prevCell = prevRow.getLast(jxCellClass);
           }
           var data  = prevCell.retrieve('jxCellData'),
               row   = data.row,

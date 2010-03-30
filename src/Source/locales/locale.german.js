@@ -25,7 +25,7 @@ MooTools.lang.set('de-DE', 'Jx', {
 		'false': 'Nein'
 	},
 	'formatter.currency': {
-		sign: '$'
+		sign: '€'
 	},
 	'formatter.number': {
 		decimalSeparator: '.',
@@ -64,5 +64,8 @@ MooTools.lang.set('de-DE', 'Jx', {
 	},
 	upload: {
 		buttonText: 'Dateien hochladen'
+	},
+	'plugin.resize': {
+	  tooltip: 'Klicken um Größe zu verändern. Doppelklick für automatische Größe.'
 	}
 });

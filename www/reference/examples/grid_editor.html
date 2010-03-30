@@ -36,7 +36,13 @@ window.addEvent('load', function() {
       popup : {
         use        : true,
         useButtons : true,
-        useLabels  : false
+        useLabels  : false,
+        button: {
+          submit: {
+            label : MooTools.lang.get('Jx', 'prompt').okButton,
+            image : 'images/accept.png'
+          }
+        }
       },
       fieldOptions : [
         {
@@ -68,14 +74,40 @@ window.addEvent('load', function() {
           }
         },
         {
+          field   : 'duesLeft',
+          type    : 'Select',
+          options : {
+            optGroups: [
+              {
+                name : 'Dues < 5',
+                options: [
+                  {value: 0, text: '0'},
+                  {value: 1, text: '1'},
+                  {value: 2, text: '2'},
+                  {value: 3, text: '3'},
+                  {value: 4, text: '4'},
+                ]
+              },
+              {
+                name : 'Dues >= 5',
+                options: [
+                  {value: 5, text: '5'},
+                  {value: 6, text: '6'},
+                  {value: 7, text: '7'},
+                  {value: 8, text: '8'},
+                  {value: 9, text: '9'},
+                  {value:10, text: '10'},
+                ]
+              }
+            ]
+          }
+        },
+        {
           field   : 'url',
           type    : 'Textarea'
         }
       ],
       fieldFormatted : true,
-      cellChangeFx : {
-
-      },
       useKeyboard : true,
       keys : {
         'ctrl+d' : 'cancelNGoDiagonal'
@@ -168,7 +200,7 @@ function drawToolbar() {
           new Jx.Menu.Item({
               label: 'Date of Birth',
               toggle: true,
-              active: true,
+              active: false,
               onDown: function() { grid.columns.getByName('dob').options.isEditable = true },
               onUp: function() { grid.columns.getByName('dob').options.isEditable = false }
           }),
@@ -354,8 +386,7 @@ function drawToolbar() {
         row: {
           useHeaders: true,
           alternateRowColors: true,
-          headerField: 'id',
-          rowHeight: 20
+          headerField: 'id'
         },
         columns: {
           headerRowHeight: 20,
@@ -368,10 +399,7 @@ function drawToolbar() {
             isEditable: true,
             isSortable: true,
             isResizable: true,
-            dataType: 'numeric',
-            renderer: new Jx.Grid.Renderer.Text({
-              textTemplate: '{id}'
-            })
+            dataType: 'numeric'
           },{
             renderMode: 'fit',
             header: 'Name',
@@ -381,12 +409,9 @@ function drawToolbar() {
             isSortable: true,
             isResizable: true,
             validate: true,
-            dataType: 'alphanumeric',
-            renderer: new Jx.Grid.Renderer.Text({
-              textTemplate: '{name}'
-            })
+            dataType: 'alphanumeric'
           },{
-            renderMode: 'fit',
+            renderMode: 'expand',
             header: 'Date of Birth',
             modelField: 'dob',
             name: 'dob',
@@ -411,10 +436,7 @@ function drawToolbar() {
             isSortable: true,
             isResizable: true,
             validate: true,
-            dataType: 'boolean',
-            renderer: new Jx.Grid.Renderer.Text({
-              textTemplate: '{active}'
-            })
+            dataType: 'boolean'
           },{
             renderMode: 'fit',
             header: 'Dues Left',
@@ -424,10 +446,7 @@ function drawToolbar() {
             isEditable: true,
             isSortable: true,
             isResizable: true,
-            dataType: 'numeric',
-            renderer: new Jx.Grid.Renderer.Text({
-              textTemplate: '{duesLeft}'
-            })
+            dataType: 'numeric'
           },{
             renderMode: 'fit',
             header: 'Website',
@@ -437,10 +456,7 @@ function drawToolbar() {
             isSortable: true,
             isResizable: true,
             dataType: 'alphanumeric',
-            fieldFormatted : true,
-            renderer: new Jx.Grid.Renderer.Text({
-              textTemplate: '{url}'
-            })
+            fieldFormatted : true
           },{
             template: '<span class="jxGridCellContent">Home Phone</span>',
             renderMode: 'fit',
