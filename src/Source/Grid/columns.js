@@ -203,6 +203,7 @@ Jx.Columns = new Class({
                 list.add(this.getColumnCell(col, idx));
             }
         }, this);
+        list.add(new Element('td'));
     },
     /**
      * APIMethod: getColumnCell
