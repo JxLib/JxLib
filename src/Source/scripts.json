@@ -355,7 +355,7 @@
         },
         
         "field.validator": {
-            "deps": ["plugin.field","Form.Validator","Form.Validator.Extras", "tooltip"],
+            "deps": ["plugin.field","Form.Validator","Form.Validator.Extras"],
             "desc": "Provides validation services for Jx.Field subclasses"
         },
         
@@ -367,6 +367,16 @@
         "form.validator": {
             "deps": ["plugin.form", "field.validator"],
             "desc": "Provides validation services for Jx.Form"
+        },
+
+        "plugin.toolbarContainer": {
+            "deps": ["plugin"],
+            "desc": "Namespace for Jx.Toolbar.Container"
+        },
+
+        "toolbarContainer.tabMenu": {
+            "deps": ["plugin.toolbarContainer"],
+            "desc": "Adds a menu of tabs to the toolbar container for easy access to all tabs."
         }
         
     },

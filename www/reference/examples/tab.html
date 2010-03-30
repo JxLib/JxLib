@@ -21,6 +21,8 @@ function drawTabBox() {
      * place them in a tab box
      */
     var tabBox = new Jx.TabBox({parent: 'tabArea'});
+
+
     
     /* we can put other Jx components into tabs as content */
     var panel = new Jx.Panel({
@@ -56,6 +58,12 @@ function drawTabBox() {
             contentURL: 'tab_content.html'
         })
     );
+
+    /* add the tabMenu plugin to test it finding all of the tabs */
+    var container = $(tabBox.tabBar).getParent('.jxBarContainer').retrieve('jxBarContainer');
+    var plugin = new Jx.Plugin.ToolbarContainer.TabMenu();
+    plugin.attach(container);
+
     /* we can dynamically add and remove tabs too */
     new Jx.Button({
         label: 'Add New Tab',
