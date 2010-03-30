@@ -221,7 +221,14 @@ function drawGrid() {
         strategies: [full,sort],
         record: Jx.Record
     });
-    
+
+    var clickFn = function (obj) {
+        var btn = obj.obj;
+        var gridCell = $(btn).getParent().getParent();
+        var data = gridCell.retrieve('jxCellData');
+        alert('You clicked a button in row ' + data.row);
+    };
+
   //setup options
   var options = {
       parent: 'gridArea',
@@ -327,10 +334,29 @@ function drawGrid() {
               isResizable: true,
               isHidden: false,
               name: 'description',
-              dataType: 'alphanumeric',
               renderer: new Jx.Grid.Renderer.Text({
                 textTemplate: '{description}'
               })
+          },{
+              template: '<span class="jxGridCellContent">Actions</span>',
+              renderMode: 'fit',
+              isEditable: false,
+              isSortable: false,
+              isResizable: false,
+              isHidden: false,
+              name: 'button',
+              renderer: {
+                  name: 'button',
+                  options: {
+                      buttonOptions: [{
+                        label: 'Click Me ...',
+                        onClick: clickFn
+                      },{
+                        label: '... Or Me',
+                        onClick: clickFn
+                      }]
+                  }
+              }
           }
          ]
       },

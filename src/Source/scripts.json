@@ -296,6 +296,11 @@
         "renderer.checkbox": {
             "deps": ["renderer"],
             "desc": ""
+        },
+
+        "renderer.button": {
+            "deps": ["renderer"],
+            "desc": ""
         }
 			
     },
