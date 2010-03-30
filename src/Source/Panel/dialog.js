@@ -401,8 +401,6 @@ Jx.Dialog = new Class({
             'display': 'block',
             'visibility': 'hidden'
         });
-        /* stack the dialog */
-        this.stack();
         this.toolbar.update();
         
         /* do the modal thing */
@@ -413,7 +411,10 @@ Jx.Dialog = new Class({
             }
           });
           this.options.parent.mask(opts);
+          Jx.Stack.stack(this.options.parent.get('mask').element);
         }
+        /* stack the dialog */
+        this.stack();
 
         if (this.options.closed) {
             var m = this.domObj.measure(function(){
@@ -453,6 +454,7 @@ Jx.Dialog = new Class({
         this.domObj.setStyle('display','none');
         this.unstack();
         if (this.options.modal && this.options.parent.unmask) {
+          Jx.Stack.unstack(this.options.parent.get('mask').element);
           this.options.parent.unmask();
         }
 
