@@ -29,25 +29,25 @@ MooTools.lang.set('en-US', 'Jx', {
 	},
 	'formatter.number': {
 		decimalSeparator: '.',
-        thousandsSeparator: ','
+    thousandsSeparator: ','
 	},
 	splitter: {
 		barToolTip: 'drag this bar to resize'
 	},
 	panel: {
 		collapseTooltip: 'Collapse/Expand Panel',
-        collapseLabel: 'Collapse',
-        expandLabel: 'Expand', 
-        maximizeTooltip: 'Maximize Panel',
-        maximizeLabel: 'Maximize',
-        restoreTooltip: 'Restore Panel', 
-        restoreLabel: 'Restore', 
-        closeTooltip: 'Close Panel', 
-        closeLabel: 'Close'
+    collapseLabel: 'Collapse',
+    expandLabel: 'Expand',
+    maximizeTooltip: 'Maximize Panel',
+    maximizeLabel: 'Maximize',
+    restoreTooltip: 'Restore Panel',
+    restoreLabel: 'Restore',
+    closeTooltip: 'Close Panel',
+    closeLabel: 'Close'
 	},
 	confirm: {
 		affirmitiveLabel: 'Yes',
-        negativeLabel: 'No'
+    negativeLabel: 'No'
 	},
 	dialog: {
 		resizeToolTip: 'Resize dialog'
@@ -67,5 +67,9 @@ MooTools.lang.set('en-US', 'Jx', {
 	},
 	'plugin.resize': {
 	  tooltip: 'Drag to resize, double click to auto-size.'
-	}
+	},
+  'plugin.editor': {
+    submitButton: 'Save',
+    cancelButton: 'Cancel'
+  }
 });

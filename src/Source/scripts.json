@@ -46,6 +46,10 @@
 		"locale.english": {
 			"deps": ["Lang"],
 			"desc":  "Default translations of text strings used in JX for US english (en-US)"
+		},
+		"locale.german": {
+			"deps": ["Lang"],
+			"desc":  "Default translations of text strings used in JX for German (Germany) (de-DE)"
 		}
 	},
     

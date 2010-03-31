@@ -67,5 +67,9 @@ MooTools.lang.set('de-DE', 'Jx', {
 	},
 	'plugin.resize': {
 	  tooltip: 'Klicken um Größe zu verändern. Doppelklick für automatische Größe.'
-	}
+	},
+  'plugin.editor': {
+    submitButton: 'Speichern',
+    cancelButton: 'Abbrechen'
+  }
 });

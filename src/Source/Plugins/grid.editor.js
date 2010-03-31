@@ -41,22 +41,21 @@ Jx.Plugin.Grid.Editor = new Class({
        * - useLabel   - determines whether to use labels on top of the input.
        *                Text will be the column header
        * - useButtons - determines whether to use Submit and Cancel Buttons
-       * - buttonLabel.submit - Text for Submit Button
-       * - buttonLabel.cancel - Text for Cancel Button
+       * - buttonLabel.submit - Text for Submit Button, uses MooTools.lang.get('Jx', 'plugin.editor').submitButton for default
+       * - buttonLabel.cancel - Text for Cancel Button, uses MooTools.lang.get('Jx', 'plugin.editor').cancelButton for default
        */
       popup : {
         use           : true,
         useLabels     : false,
-        useCloseIcon  : false,      // do we need this? 
         useButtons    : true,
         button        : {
           submit : {
-            label : 'Save',
-            image : 'http://famfamfam.com/lab/icons/silk/icons/accept.png'
+            label : '',
+            image : 'images/accept.png'
           },
           cancel : {
-            label : 'Cancel',
-            image : 'http://famfamfam.com/lab/icons/silk/icons/cancel.png'
+            label : '',
+            image : 'images/cancel.png'
           }
         },
         template: '<div class="jxGridEditorPopup"><div class="jxGridEditorPopupInnerWrapper"></div></div>'
@@ -106,7 +105,6 @@ Jx.Plugin.Grid.Editor = new Class({
       cellChangeFx : {
         use     : true,
         success : '#090',
-        warning : '#FC0',     // not yet implemented
         error   : '#F00'
       },
       /**
@@ -217,7 +215,7 @@ Jx.Plugin.Grid.Editor = new Class({
       domObj       : null,
       innerWarpper : null,
       closeIcon    : null,
-      buttons      : {
+      button       : {
         submit : null,
         cancel : null
       }
@@ -283,8 +281,8 @@ Jx.Plugin.Grid.Editor = new Class({
        */
       var self = this;
       this.keyboardMethods = {
-        saveNClose     : function(ev) { 
-          if(self.activeCell.fieldOptions.type != 'Textarea') {
+        saveNClose     : function(ev) {
+          if(self.activeCell.fieldOptions.type != 'Textarea' || (self.activeCell.fieldOptions.type == 'Textarea' && ev.key != 'enter')) {
             self.deactivate()
           }
         },
@@ -471,7 +469,7 @@ Jx.Plugin.Grid.Editor = new Class({
         }
 
         // create jx.field
-        this.activeCell.field = new Jx.Field[this.activeCell.fieldOptions.type](jxFieldOptions);
+        this.activeCell.field = new Jx.Field[this.activeCell.fieldOptions.type.capitalize()](jxFieldOptions);
         // create validator
         if(this.options.validate && this.activeCell.colOptions.validate) {
           this.activeCell.validator = new Jx.Plugin.Field.Validator(this.activeCell.fieldOptions.validatorOptions);
@@ -734,28 +732,6 @@ Jx.Plugin.Grid.Editor = new Class({
       });
       */
 
-      /**
-       * COMMENT do we need this close Icon?
-       */
-      if(this.options.popup.useCloseIcon) {
-        closeIcon = new Element('a', {
-          'html'  : '<img src="'+Jx.aPixel.src+'" alt="" title=""/>',
-          'class' : 'jxTabClose',   // or something similar.. I choosed this because it's exactly what I needed
-          'styles' : {
-            'position' : 'absolute',
-            'right'    : '0',
-            'top'      : '-3px',
-            'z-index'  : 1
-          },
-          'events' : {
-            'click' : function() {
-              self.deactivate(false);
-            }
-          }
-        }).inject(innerWrapper);
-      }
-
-
       this.popup.domObj         = popup;
       this.popup.innerWrapper   = innerWrapper;
       this.popup.closeIcon      = closeIcon;
@@ -776,13 +752,13 @@ Jx.Plugin.Grid.Editor = new Class({
      * @return void
      */
     setPopUpStylesAfterRendering: function() {
-      if(this.options.popup.useButtons && this.popup.buttons.submit != null && this.popup.buttons.cancel != null) {
-        this.popup.domObj.setStyle('min-width', this.popup.buttons.submit.domObj.getSize().x + this.popup.buttons.cancel.domObj.getSize().x + "px");
+      if(this.options.popup.useButtons && this.popup.button.submit != null && this.popup.button.cancel != null) {
+        this.popup.domObj.setStyle('min-width', this.popup.button.submit.domObj.getSize().x + this.popup.button.cancel.domObj.getSize().x + "px");
       }else{
-        if(this.popup.buttons.submit != null)
-          this.popup.buttons.submit.domObj.hide();
-        if(this.popup.buttons.cancel != null)
-          this.popup.buttons.cancel.domObj.hide();
+        if(this.popup.button.submit != null)
+          this.popup.button.submit.domObj.hide();
+        if(this.popup.button.cancel != null)
+          this.popup.button.cancel.domObj.hide();
       }
       this.activeCell.field.field.setStyle('width',
         this.activeCell.field.type == 'Select' ?
@@ -797,38 +773,38 @@ Jx.Plugin.Grid.Editor = new Class({
      */
     setPopUpButtons : function() {
       var self = this,
-          buttons = {
+          button = {
           submit : null,
           cancel : null
         };
       // check if buttons are needed, innerWrapper exists and no buttons already exist
-      if(this.options.popup.useButtons && this.popup.innerWrapper != null && this.popup.buttons.submit == null) {
-        buttons.submit = new Jx.Button({
-          label : this.options.popup.button.submit.label,
+      if(this.options.popup.useButtons && this.popup.innerWrapper != null && this.popup.button.submit == null) {
+        button.submit = new Jx.Button({
+          label : this.options.popup.button.submit.label.length == 0 ? MooTools.lang.get('Jx','plugin.editor').submitButton : this.options.popup.button.submit.label,
           image : this.options.popup.button.submit.image,
           onClick: function() {
             self.deactivate(true);
           }
         }).addTo(this.popup.innerWrapper);
-        buttons.cancel = new Jx.Button({
-          label : this.options.popup.button.cancel.label,
+        button.cancel = new Jx.Button({
+          label : this.options.popup.button.cancel.label.length == 0 ? MooTools.lang.get('Jx','plugin.editor').cancelButton : this.options.popup.button.cancel.label,
           image : this.options.popup.button.cancel.image,
           onClick: function() {
             self.deactivate(false);
           }
         }).addTo(this.popup.innerWrapper);
-      }else if(this.options.popup.useButtons && this.popup.buttons.submit != null) {
-        buttons = {
-          submit : this.popup.buttons.submit,
-          cancel : this.popup.buttons.cancel
+      }else if(this.options.popup.useButtons && this.popup.button.submit != null) {
+        button = {
+          submit : this.popup.button.submit,
+          cancel : this.popup.button.cancel
         };
       // check if buttons are not needed and buttons already exist to remove them
-      }else if(this.options.popup.useButtons == false && this.popup.buttons.submit != null) {
-        this.popup.buttons.submit.cleanup();
-        this.popup.buttons.cancel.cleanup();
+      }else if(this.options.popup.useButtons == false && this.popup.button.submit != null) {
+        this.popup.button.submit.cleanup();
+        this.popup.button.cancel.cleanup();
       }
 
-      this.popup.buttons = buttons;
+      this.popup.button = button;
     },
     /**
      * Method: unsetActiveField
@@ -868,8 +844,8 @@ Jx.Plugin.Grid.Editor = new Class({
         this.popup.domObj.destroy();
         this.popup.innerWrapper   = null;
         this.popup.closeIcon      = null;
-        this.popup.buttons.submit = null;
-        this.popup.buttons.cancel = null;
+        this.popup.button.submit = null;
+        this.popup.button.cancel = null;
       }
     },
     /**
@@ -1124,5 +1100,23 @@ Jx.Plugin.Grid.Editor = new Class({
           }
         });
       }
+    },
+    /**
+     * APIMethod: changeText
+     * This method should be overridden by subclasses. It should be used
+     * to change any language specific default text that is used by the widget.
+     *
+     * Parameters:
+     * lang - the language being changed to or that had it's data set of
+     * 		translations changed.
+     */
+    changeText: function (lang) {
+    	this.parent();
+    	if (this.options.popup.use && this.options.popup.useButtons) {
+        if(this.options.popup.button.submit.label.length == 0)
+          this.popup.button.submit.label = MooTools.lang.get('Jx','plugin.editor').submitButton;
+        if(this.options.popup.button.cancel.label.length == 0)
+          this.popup.button.cancel.label = MooTools.lang.get('Jx','plugin.editor').cancelButton;
+    	}
     }
 }); 

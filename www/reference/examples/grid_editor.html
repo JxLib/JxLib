@@ -30,19 +30,13 @@ window.addEvent('load', function() {
     sorter = new Jx.Plugin.Grid.Sorter({});
     resizer = new Jx.Plugin.Grid.Resize({});
 
+    //Jx.setLanguage('de-DE');
+
     editorOptions = {
       validate   : true,
       blurDelay  : 250,
-      popup : {
-        use        : true,
-        useButtons : true,
-        useLabels  : false,
-        button: {
-          submit: {
-            label : MooTools.lang.get('Jx', 'prompt').okButton,
-            image : 'images/accept.png'
-          }
-        }
+      popup      : {
+        use: true
       },
       fieldOptions : [
         {
@@ -60,7 +54,7 @@ window.addEvent('load', function() {
           validatorOptions: {
             validators : ['validate-date'],
             validateOnBlur: true,
-            validateOnChange : false
+            validateOnChange : true
           }
         },
         {
@@ -72,6 +66,19 @@ window.addEvent('load', function() {
               { value: 'false', text: 'false' }
             ]
           }
+          /*
+          type    : 'Radio',
+          options : [
+            {
+              label : 'Yes',
+              value : true
+            },
+            {
+              label : 'No',
+              value : false
+            }
+          ]
+          */
         },
         {
           field   : 'duesLeft',
@@ -109,8 +116,12 @@ window.addEvent('load', function() {
       ],
       fieldFormatted : true,
       useKeyboard : true,
+      cellChangeFx : {
+        use : false
+      },
       keys : {
-        'ctrl+d' : 'cancelNGoDiagonal'
+        'ctrl+d' : 'cancelNGoDiagonal',
+        'alt+s' : 'saveNClose'
       },
       keyboardMethods: {
         'cancelNGoDiagonal' : function(ev){
