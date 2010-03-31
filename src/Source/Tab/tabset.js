@@ -89,7 +89,7 @@ Jx.TabSet = new Class({
      * than one tab can be added by passing extra parameters to this method.
      */
     add: function() {
-        $A(arguments).each(function(tab) {
+        $A(arguments).flatten().each(function(tab) {
             if (tab instanceof Jx.Button.Tab) {
                 tab.addEvent('down',this.setActiveTabFn);
                 tab.tabSet = this;
