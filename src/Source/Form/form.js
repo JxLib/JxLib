@@ -231,5 +231,15 @@ Jx.Form = new Class({
             return this.fields.get(id);
         } 
         return null;
+    },
+    
+    setBusy: function(state) {
+      if (this.busy == state) {
+        return;
+      }
+      this.parent(state);
+      this.fields.each(function(field) {
+        field.setBusy(state, true);
+      });
     }
 });

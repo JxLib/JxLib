@@ -244,8 +244,9 @@ Jx.Field = new Class({
             
             //add events
             this.field.addEvents({
-            	'blur': this.onBlur.bind(this),
-            	'change': this.onChange.bind(this)
+              'focus': this.onFocus.bind(this),
+              'blur': this.onBlur.bind(this),
+              'change': this.onChange.bind(this)
             });
 
             this.field.store('field', this);
@@ -335,21 +336,32 @@ Jx.Field = new Class({
      * 
      * Parameters:
      * lang - the language being changed to or that had it's data set of 
-     * 		translations changed.
+     *    translations changed.
      */
     changeText: function (lang) {
-    	this.parent();
-    	if ($defined(this.requiredText)) {
-    		this.requiredText.set('html',MooTools.lang.get('Jx','field').requiredText);
-    	}
+      this.parent();
+      if ($defined(this.requiredText)) {
+        this.requiredText.set('html',MooTools.lang.get('Jx','field').requiredText);
+      }
+    },
+    
+    onFocus: function() {
+      this.fireEvent('focus', this);
     },
     
     onBlur: function () {
-    	this.fireEvent('blur',this);
+      this.fireEvent('blur',this);
     },
     
     onChange: function () {
-    	this.fireEvent('change', this);
+      this.fireEvent('change', this);
+    },
+    
+    setBusy: function(state, withoutMask) {
+      if (!withoutMask) {
+        this.parent(state);
+      }
+      this.field.set('readonly', state || this.options.readonly);
     }
 
 });
