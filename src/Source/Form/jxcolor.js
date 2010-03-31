@@ -130,11 +130,15 @@
       this.icon.setStyle('background-color', this.options.color);
       //this.addEvent('change', self.changed);
     },
-    onBlur : function() {
-      //console.log("blurring...");
-    },
     onKeyUp : function(ev) {
-      // would be nice too :)
+      var color = this.getValue();
+      if (color.substring(0,1) == '#') {
+          color = color.substring(1);
+      }
+      if (color.toLowerCase().match(/^[0-9a-f]{6}$/)) {
+          this.options.color = '#' +color.toUpperCase();
+          this.setColor(this.options.color);
+      }
     },
     setColor: function(c) {
         this.options.color = c;
