@@ -110,8 +110,8 @@ Jx.Adaptor.Tree = new Class({
                     label: template
                 }));
             }
-            $(item).store('index', i);
-            $(item).store('jxAdaptor', this);
+            document.id(item).store('index', i);
+            document.id(item).store('jxAdaptor', this);
             //check for a parent
             if (this.hasParent(i)) {
                 //add as child of parent
@@ -130,7 +130,7 @@ Jx.Adaptor.Tree = new Class({
         var items = folder.items();
         if (!$defined(items) || items.length === 0) {
             //get items via the store
-        	var index = $(folder).retrieve('index');
+        	var index = document.id(folder).retrieve('index');
         	var node = this.store.get('primaryKey', index);
         	this.busyFolder = folder;
         	this.busyFolder.setBusy(true);

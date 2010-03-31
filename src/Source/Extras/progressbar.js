@@ -89,7 +89,7 @@ Jx.Progressbar = new Class({
         this.parent();
         
         if ($defined(this.options.parent)) {
-            this.domObj.inject($(this.options.parent));
+            this.domObj.inject(document.id(this.options.parent));
         }
         
         this.domObj.addClass('jxProgressStarting');

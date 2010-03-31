@@ -30,7 +30,7 @@ Jx.Grid.Renderer.Checkbox = new Class({
   render: function () {
     this.parent();
     var checkbox = new Jx.Field.Checkbox(this.options.checkboxOptions);
-    this.domObj.adopt($(checkbox));
+    this.domObj.adopt(document.id(checkbox));
     
     if (this.options.useStore) {
       //set initial state
@@ -69,7 +69,7 @@ Jx.Grid.Renderer.Checkbox = new Class({
   updateStore: function (field) {
     var newValue = field.getValue();
     
-    var data = $(field).getParent().retrieve('jxCellData');
+    var data = document.id(field).getParent().retrieve('jxCellData');
     var row = data.row;
     
     if (this.store.get(this.options.field, row) !== newValue) {

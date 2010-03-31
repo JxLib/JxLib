@@ -54,7 +54,7 @@ Jx.Field.Radio = new Class({
                     sibling = this.field.getPrevious();
                 }
                 this.field.setStyle('visibility','hidden');
-                this.field.inject($(document.body));
+                this.field.inject(document.id(document.body));
                 this.field.checked = true;
                 this.field.defaultChecked = true;
                 this.field.dispose();

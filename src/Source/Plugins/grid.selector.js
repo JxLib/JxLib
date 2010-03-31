@@ -131,7 +131,7 @@ Jx.Plugin.Grid.Selector = new Class({
         	}
             //attach event to header
             if (this.options.multiple) {
-                var ch = $(this.checkColumn).getElement('input');
+                var ch = document.id(this.checkColumn).getElement('input');
                 ch.addEvents({
                     'change': this.checkAll
                 });
@@ -142,10 +142,10 @@ Jx.Plugin.Grid.Selector = new Class({
 
     afterGridRender: function () {
         if (this.options.checkAsHeader) {
-            var chkCol = $(this.checkColumn).clone();
+            var chkCol = document.id(this.checkColumn).clone();
             chkCol.getElement('input').addEvent('change',this.checkAll);
             this.grid.rowColObj.adopt(chkCol);
-            //$(this.checkColumn).inject(this.grid.rowColObj);
+            //document.id(this.checkColumn).inject(this.grid.rowColObj);
         }
         this.grid.removeEvent('doneCreateGrid',this.afterGridRender);
     },
@@ -257,7 +257,7 @@ Jx.Plugin.Grid.Selector = new Class({
         if (!this.options.row) { return; }
 
         var tr = (row >= 0 && row < this.grid.gridTableBody.rows.length) ? this.grid.gridTableBody.rows[row] : null;
-        tr = $(tr);
+        tr = document.id(tr);
         
         var rows = this.selected.get('rows');
 	    if (tr.hasClass('jxGridRowSelected')) {
@@ -266,9 +266,9 @@ Jx.Plugin.Grid.Selector = new Class({
 
             if (this.options.multiple && this.options.useCheckColumn) {
                 if (this.options.checkAsHeader) {
-                    $(this.grid.rowColObj).getElement('input').removeProperty('checked');
+                    document.id(this.grid.rowColObj).getElement('input').removeProperty('checked');
                 } else {
-                    $(this.checkColumn).getElement('input').removeProperty('checked');
+                    document.id(this.checkColumn).getElement('input').removeProperty('checked');
                 }
             }
 
@@ -298,10 +298,10 @@ Jx.Plugin.Grid.Selector = new Class({
     	if (this.options.useCheckColumn) {
     		var check;
     		if (this.options.checkAsHeader) {
-    			check = $(this.grid.rowTableHead.rows[row].cells[0]).getFirst().getFirst();
+    			check = document.id(this.grid.rowTableHead.rows[row].cells[0]).getFirst().getFirst();
     		} else {
     			var col = this.grid.columns.getIndexFromGrid(this.checkColumn.name);
-    			check = $(this.grid.gridTableBody.rows[row].cells[col]).getFirst().getFirst();
+    			check = document.id(this.grid.gridTableBody.rows[row].cells[col]).getFirst().getFirst();
     		}
         	check.retrieve('field').setValue(checked);
         }
@@ -324,7 +324,7 @@ Jx.Plugin.Grid.Selector = new Class({
         if (!cell) {
             return;
         }
-        cell = $(cell);
+        cell = document.id(cell);
         var cells = this.selected.get('rowHeads');
         if (cells.contains(cell)) {
             cell.removeClass('jxGridRowHeaderSelected');
@@ -406,7 +406,7 @@ Jx.Plugin.Grid.Selector = new Class({
             return;
         }
 
-        cell = $(cell);
+        cell = document.id(cell);
         cells = this.selected.get('columnHeads');
         
         if (cells.contains(cell)) {
@@ -437,7 +437,7 @@ Jx.Plugin.Grid.Selector = new Class({
      * field - <Jx.Field.Checkbox> instance that was checked/unchecked
      */
     checkSelection: function (column, field) {
-    	var data = $(field).getParent().retrieve('jxCellData');
+    	var data = document.id(field).getParent().retrieve('jxCellData');
     	this.selectRow(data.row);
     },
     /**

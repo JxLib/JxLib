@@ -61,7 +61,7 @@ Jx.Dialog.Confirm = new Class({
             });
         } else {
             this.question = this.options.question;
-            $(this.question).addClass('jxConfirmQuestion');
+            document.id(this.question).addClass('jxConfirmQuestion');
         }
         this.options.content = this.question;
         this.parent();

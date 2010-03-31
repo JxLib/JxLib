@@ -10,7 +10,7 @@
  *
  * (code)
  * var tabbox = new Jx.TabBox();
- * var toolbarContainer = $(tabBox.tabBar).getParent('.jxBarContainer').retrieve('jxBarContainer');
+ * var toolbarContainer = document.id(tabBox.tabBar).getParent('.jxBarContainer').retrieve('jxBarContainer');
  * (end)
  *
  * You can then use the attach method to connect the plugin. Otherwise, you can add it via any normal means to a
@@ -75,7 +75,7 @@ Jx.Plugin.ToolbarContainer.TabMenu = new Class({
 
     addButton: function (item) {
         var tab;
-        tab = (item instanceof Jx.Button.Tab) ? item : $(item).getFirst().retrieve('jxTab');
+        tab = (item instanceof Jx.Button.Tab) ? item : document.id(item).getFirst().retrieve('jxTab');
 
 
         var l = tab.getLabel();
@@ -90,7 +90,7 @@ Jx.Plugin.ToolbarContainer.TabMenu = new Class({
             }.bind(this)
         });
 
-        $(tab).store('menuItem', mi);
+        document.id(tab).store('menuItem', mi);
 
         tab.addEvent('close', function() {
             this.menu.remove(mi);

@@ -48,12 +48,12 @@ Jx.Slide = new Class({
      */
     init: function () {
 
-        this.target = $(this.options.target);
+        this.target = document.id(this.options.target);
 
         this.target.set('tween', {onComplete: this.setDisplay.bind(this)});
 
         if ($defined(this.options.trigger)) {
-            this.trigger = $(this.options.trigger);
+            this.trigger = document.id(this.options.trigger);
             this.trigger.addEvent('click', this.handleClick);
         }
 

@@ -71,7 +71,7 @@ Jx.Dialog.Message = new Class({
             });
         } else {
             this.question = this.options.question;
-            $(this.question).addClass('jxMessage');
+            document.id(this.question).addClass('jxMessage');
         }
         this.options.content = this.question;
         this.parent();

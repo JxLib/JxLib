@@ -86,7 +86,7 @@ Jx.Field.Combo = new Class({
             }
             this.contentContainer.setStyle('visibility','hidden');
             this.contentContainer.setStyle('display','block');
-            $(document.body).adopt(this.contentContainer);
+            document.id(document.body).adopt(this.contentContainer);
             /* we have to size the container for IE to render the chrome correctly
              * but just in the menu/sub menu case - there is some horrible peekaboo
              * bug in IE related to ULs that we just couldn't figure out

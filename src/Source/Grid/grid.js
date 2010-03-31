@@ -356,7 +356,7 @@ Jx.Grid = new Class({
         this.gridTable.replaceChild(n, this.gridTableBody);
         this.gridTableBody = n;
 
-        $(this.rowColObj).empty();
+        document.id(this.rowColObj).empty();
         
         if (Jx.Styles.isStyleSheetDefined(this.styleSheet)) {
         	Jx.Styles.removeStyleSheet(this.styleSheet);

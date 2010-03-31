@@ -743,7 +743,7 @@ Jx.Splitter = new Class({
     createText: function (lang) {
     	this.parent();
     	this.bars.each(function(bar){
-    		$(bar).set('title', MooTools.lang.get('Jx','splitter').title);
+    		document.id(bar).set('title', MooTools.lang.get('Jx','splitter').title);
     	},this);
     	
     }

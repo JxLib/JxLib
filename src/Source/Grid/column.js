@@ -206,7 +206,7 @@ Jx.Column = new Class({
             while (model.valid()) {
                 //check size by placing text into a TD and measuring it.
                 this.options.renderer.render();
-                var text = $(this.options.renderer);
+                var text = document.id(this.options.renderer);
                 var klass = 'jxGridCell';
                 if (this.grid.row.useHeaders()
                         && this.options.name === this.grid.row

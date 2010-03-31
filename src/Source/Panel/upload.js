@@ -127,7 +127,7 @@ Jx.Panel.FileUpload = new Class({
 
         this.currentFile = new Jx.Field.File(this.fileOpt);
         this.currentFile.addEvent('fileSelected', this.moveToQueue.bind(this));
-        $(this.currentFile).replaces($(cf));
+        document.id(this.currentFile).replaces(document.id(cf));
 
         //add to queue div
 
@@ -282,7 +282,7 @@ Jx.Panel.FileUpload = new Class({
         var name = file.getFileName();
         //TODO: Should prompt the user to be sure - use Jx.Dialog.Confirm?
         this.list.remove(file.queuedDiv);
-        //$(name).destroy();
+        //document.id(name).destroy();
         this.fileQueue = this.fileQueue.erase(file);
         if (this.fileQueue.length === 0) {
             this.uploadBtn.setEnabled(false);

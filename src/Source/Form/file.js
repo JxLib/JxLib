@@ -181,14 +181,14 @@ Jx.Field.File = new Class({
         });
 
         //iframeBody.grab(this.form);
-        $(this.form).set('target', this.iframe.get('name')).setStyles({
+        document.id(this.form).set('target', this.iframe.get('name')).setStyles({
             visibility: 'hidden',
             display: 'none'
         }).inject(document.body);
 
 
         //move the form input into it (cloneNode)
-        $(this.form).grab(this.field.cloneNode(true));
+        document.id(this.form).grab(this.field.cloneNode(true));
         //if polling the server we need an APC_UPLOAD_PROGRESS id.
         //get it from the server.
         if (this.options.progress) {
@@ -226,7 +226,7 @@ Jx.Field.File = new Class({
 
 
         //submit the form
-        $(this.form).submit();
+        document.id(this.form).submit();
         //begin polling if needed
         if (this.options.progress && $defined(this.progressID)) {
             this.pollUpload();

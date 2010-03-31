@@ -117,7 +117,7 @@ Jx.Toolbar.Container = new Class({
             this.scrollLeft = new Jx.Button({
                 image: Jx.aPixel.src
             }).addTo(this.controls, 'bottom');
-            $(this.scrollLeft).addClass('jxBarScrollLeft');
+            document.id(this.scrollLeft).addClass('jxBarScrollLeft');
             this.scrollLeft.addEvents({
                 click: this.scroll.bind(this, 'left')
             });
@@ -125,7 +125,7 @@ Jx.Toolbar.Container = new Class({
             this.scrollRight = new Jx.Button({
                 image: Jx.aPixel.src
             }).addTo(this.controls, 'bottom');
-            $(this.scrollRight).addClass('jxBarScrollRight');
+            document.id(this.scrollRight).addClass('jxBarScrollRight');
             this.scrollRight.addEvents({
                 click: this.scroll.bind(this, 'right')
             });
