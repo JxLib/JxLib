@@ -36,6 +36,23 @@ Jx.Plugin = new Class({
      */
     detach: function(obj){
         obj.deregisterPlugin(this);
-    }
+    },
 
+    /**
+     * APIMethod: changeText
+     * This method should be overridden by subclasses. It should be used
+     * to change any language specific default text that is used by the widget.
+     *
+     * Parameters:
+     * lang - the language being changed to or that had it's data set of
+     *    translations changed.
+     */
+    changeText: function (lang) {
+        //if the mask is being used then recreate it. The code will pull
+        //the new text automatically
+        if (this.busy) {
+            this.setBusy(false);
+            this.setBusy(true);
+        }
+    }
 });

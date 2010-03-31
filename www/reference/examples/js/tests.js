@@ -23,10 +23,10 @@ jxSkins.each(function(skin, i) {
         title: skin.label
     });
     if (Browser.Engine.trident4) {
-        new Asset.css('../../lib/themes/'+skin.skin+'/ie6.css', { rel: 'stylesheet' });
+        new Asset.css('../../lib/themes/'+skin.skin+'/ie6.css', {rel: 'stylesheet'});
     }
     if (Browser.Engine.trident5) {
-        new Asset.css('../../lib/themes/'+skin.skin+'/ie7.css', { rel: 'stylesheet' });
+        new Asset.css('../../lib/themes/'+skin.skin+'/ie7.css', {rel: 'stylesheet'});
     }
 });
 
@@ -91,6 +91,19 @@ window.addEvent('load', function() {
                 }
                 logDialog.show();
             }
+        }),
+        // allow the user to change the currently active language
+        new Jx.Button.Combo({
+          label: 'Switch Language',
+          items: [
+            {label: 'English (en-US)', image: 'http://upload.wikimedia.org/wikipedia/commons/7/7d/Icons-flag-us.png'},
+            {label: 'German (de-DE)', image: 'http://upload.wikimedia.org/wikipedia/commons/b/b5/Icons-flag-de.png'}
+          ],
+          onChange : function() {
+            // not very nice but it works :)
+            var lang = this.getValue().split(" ")[1].split("(")[1].split(")")[0];
+            Jx.setLanguage(lang);
+          }
         }),
         // allow the user to change the current skin
         new Jx.Button.Combo({
@@ -254,7 +267,7 @@ window['PR_normalizedHtml']
 window['_pr_isIE6'] = function () {
   var isIE6 = navigator && navigator.userAgent &&
       /\bMSIE 6\./.test(navigator.userAgent);
-  window['_pr_isIE6'] = function () { return isIE6; };
+  window['_pr_isIE6'] = function () {return isIE6;};
   return isIE6;
 };
 
@@ -268,7 +281,7 @@ window['_pr_isIE6'] = function () {
     var set = {};
     for (var i = words.length; --i >= 0;) {
       var w = words[i];
-      if (w) { set[w] = null; }
+      if (w) {set[w] = null;}
     }
     return set;
   }
@@ -453,7 +466,7 @@ window['_pr_isIE6'] = function () {
   /** unescapes html to plain text. */
   function htmlToText(html) {
     var pos = html.indexOf('&');
-    if (pos < 0) { return html; }
+    if (pos < 0) {return html;}
     // Handle numeric entities specially.  We can't use functional substitution
     // since that doesn't work in older versions of Safari.
     // These should be rare since most browsers convert them to normal chars.
@@ -494,7 +507,7 @@ window['_pr_isIE6'] = function () {
         out.push('<', name);
         for (var i = 0; i < node.attributes.length; ++i) {
           var attr = node.attributes[i];
-          if (!attr.specified) { continue; }
+          if (!attr.specified) {continue;}
           out.push(' ');
           normalizedHtml(attr, out);
         }
@@ -565,7 +578,7 @@ window['_pr_isIE6'] = function () {
 
         switch (ch) {
           case '\t':
-            if (!out) { out = []; }
+            if (!out) {out = [];}
             out.push(plainText.substring(pos, i));
             // calculate how much space we need in front of this part
             // nSpaces is the amount of padding -- the number of spaces needed
@@ -585,7 +598,7 @@ window['_pr_isIE6'] = function () {
             ++charInLine;
         }
       }
-      if (!out) { return plainText; }
+      if (!out) {return plainText;}
       out.push(plainText.substring(pos));
       return out.join('');
     };
@@ -624,7 +637,7 @@ window['_pr_isIE6'] = function () {
       for (var i = 0, n = matches.length; i < n; ++i) {
         var match = matches[i];
         if (match.length > 1 && match.charAt(0) === '<') {
-          if (pr_commentPrefix.test(match)) { continue; }
+          if (pr_commentPrefix.test(match)) {continue;}
           if (pr_cdataPrefix.test(match)) {
             // strip CDATA prefix and suffix.  Don't unescape since it's CDATA
             sourceBuf.push(match.substring(9, match.length - 3));
@@ -647,7 +660,7 @@ window['_pr_isIE6'] = function () {
                 var name2 = matches[j].match(pr_tagNameRe);
                 if (name2 && name2[2] === name) {
                   if (name2[1] === '/') {
-                    if (--depth === 0) { break end_tag_loop; }
+                    if (--depth === 0) {break end_tag_loop;}
                   } else {
                     ++depth;
                   }
@@ -671,7 +684,7 @@ window['_pr_isIE6'] = function () {
         }
       }
     }
-    return { source: sourceBuf.join(''), tags: extractedTags };
+    return {source: sourceBuf.join(''), tags: extractedTags};
   }
 
   /** True if the given tag contains a class attribute with the nocode class. */
@@ -691,7 +704,7 @@ window['_pr_isIE6'] = function () {
    *    whose decorations are already present on out.
    */
   function appendDecorations(offset, sourceCode, langHandler, out) {
-    if (!sourceCode) { return; }
+    if (!sourceCode) {return;}
     var decorations = langHandler.call({}, sourceCode);
     if (offset) {
       for (var i = decorations.length; (i -= 2) >= 0;) {
@@ -839,7 +852,7 @@ window['_pr_isIE6'] = function () {
         }
         pos += token.length;
         tail = tail.substring(token.length);
-        if (style !== PR_COMMENT && notWs.test(token)) { lastToken = token; }
+        if (style !== PR_COMMENT && notWs.test(token)) {lastToken = token;}
       }
       return decorations;
     };
@@ -1401,7 +1414,7 @@ window['_pr_isIE6'] = function () {
           // the language extension "cpp" is used to find a language handler as
           // passed to PR_registerLangHandler.
           var langExtension = cs.className.match(/\blang-(\w+)\b/);
-          if (langExtension) { langExtension = langExtension[1]; }
+          if (langExtension) {langExtension = langExtension[1];}
 
           // make sure this is not nested in an already prettified element
           var nested = false;

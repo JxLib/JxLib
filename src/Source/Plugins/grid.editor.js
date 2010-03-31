@@ -17,7 +17,7 @@
 Jx.Plugin.Grid.Editor = new Class({
 
     Extends : Jx.Plugin,
-    Binds: ['activate','deactivate'],
+    Binds: ['activate','deactivate','changeText'],
 
     options : {
       /**
@@ -774,9 +774,9 @@ Jx.Plugin.Grid.Editor = new Class({
     setPopUpButtons : function() {
       var self = this,
           button = {
-          submit : null,
-          cancel : null
-        };
+            submit : null,
+            cancel : null
+          };
       // check if buttons are needed, innerWrapper exists and no buttons already exist
       if(this.options.popup.useButtons && this.popup.innerWrapper != null && this.popup.button.submit == null) {
         button.submit = new Jx.Button({
@@ -1113,10 +1113,13 @@ Jx.Plugin.Grid.Editor = new Class({
     changeText: function (lang) {
     	this.parent();
     	if (this.options.popup.use && this.options.popup.useButtons) {
-        if(this.options.popup.button.submit.label.length == 0)
-          this.popup.button.submit.label = MooTools.lang.get('Jx','plugin.editor').submitButton;
-        if(this.options.popup.button.cancel.label.length == 0)
-          this.popup.button.cancel.label = MooTools.lang.get('Jx','plugin.editor').cancelButton;
+        if(this.popup.button.submit != null) {
+          this.popup.button.submit.cleanup();
+          this.popup.button.cancel.cleanup();
+          this.popup.button.submit = null;
+          this.popup.button.cancel = null;
+          this.setPopUpButtons();
+        }
     	}
     }
 }); 
