@@ -66,11 +66,6 @@ Jx.Button = new Class({
     Extends: Jx.Widget,
 
     options: {
-        /* Option: id
-         * optional.  A string value to use as the ID of the button
-         * container.
-         */
-        id: '',
         /* Option: image
          * optional.  A string value that is the url to load the image to
          * display in this button.  The default styles size this image to 16 x

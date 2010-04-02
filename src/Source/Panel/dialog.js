@@ -98,11 +98,6 @@ Jx.Dialog = new Class({
          * (optional) {String} the title of the dialog box.
          */
         label: '',
-        /* Option: id
-         * (optional) {String} an HTML ID to assign to the dialog, primarily
-         * used for applying CSS styles to specific dialogs
-         */
-        id: '',
         /* Option: parent
          * (optional) {HTMLElement} a reference to an HTML element that
          * the dialog is to be contained by.  The default value is for the dialog

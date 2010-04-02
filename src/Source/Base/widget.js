@@ -62,6 +62,10 @@ Jx.Widget = new Class({
     Extends: Jx.Object,
     
     options: {
+        /* Option: id
+         * (optional) {String} an HTML ID to assign to the widget
+         */
+        id: null,
         /**
          * Option: content
          * content may be an HTML element reference, the id of an HTML element
@@ -717,7 +721,10 @@ Jx.Widget = new Class({
         this.elements = this.processElements(this.options.template,
             this.classes);
         if ($defined(this.domObj)) {
-          document.id(this.domObj).store('jxWidget', this);
+          if ( $defined(this.options.id)) {
+            this.domObj.set('id', this.options.id);
+          }
+          this.domObj.store('jxWidget', this);
         }
     },
 

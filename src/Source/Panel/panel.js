@@ -54,10 +54,6 @@ Jx.Panel = new Class({
         maximizeClass: 'jxPanelMaximize',
         closeClass: 'jxPanelClose',
 
-        /* Option: id
-         * String, an id to assign to the panel's container
-         */
-        id: '',
         /* Option: label
          * String, the title of the Jx Panel
          */

@@ -38,11 +38,6 @@ Jx.Form = new Class({
          */
         fileUpload: false,
         /**
-         * Option: id
-         * the id of this form
-         */
-        id: null,
-        /**
          * Option: formClass
          */
         formClass: null,
