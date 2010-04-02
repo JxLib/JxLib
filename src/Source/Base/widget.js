@@ -697,6 +697,7 @@ Jx.Widget = new Class({
      */
     cleanup: function(){
         if ($defined(this.domObj)) {
+            this.domObj.eliminiate('jxWidget');
             this.domObj.destroy();
         }
         if ($defined(this.addable)) {
@@ -715,6 +716,9 @@ Jx.Widget = new Class({
     render: function() {
         this.elements = this.processElements(this.options.template,
             this.classes);
+        if ($defined(this.domObj)) {
+          document.id(this.domObj).store('jxWidget', this);
+        }
     },
 
     /**

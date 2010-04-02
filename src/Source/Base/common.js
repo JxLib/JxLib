@@ -1,5 +1,15 @@
 // $Id$
 /**
+ * Function: $jx
+ * dereferences a DOM Element to a JxLib object if possible and returns
+ * a reference to the object, or null if not defined.
+ */
+function $jx(id) {
+  id = document.id(id);
+  return id ? id.retrieve('jxWidget') : null;
+}
+
+/**
  * Class: Jx
  * Jx is a global singleton object that contains the entire Jx library
  * within it.  All Jx functions, attributes and classes are accessed
