@@ -1,9 +1,3 @@
-/* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
 /**
  * Class: Jx.Field.Color
  *
@@ -13,13 +7,13 @@
  * to have a Colorpicker with an input field.
  *
  * License:
- * Copyright (c) 2010, Conrad Barthelmes.
+ * Copyright (c) 2010, Paul Spener, Fred Warnock, Conrad Barthelmes
  *
  * This file is licensed under an MIT style license
  */
   Jx.Field.Color = new Class({
     Extends: Jx.Field,
-    Binds: ['changed','hide','keyup'],
+    Binds: ['changed','hide','keyup','changeText'],
     type: 'Color',
     options: {
       buttonTemplate: '<a class="jxButtonContainer jxButton" href="javascript:void(0);"><img class="jxButtonIcon" src="'+Jx.aPixel.src+'"></a>',
@@ -130,6 +124,12 @@
       this.icon.setStyle('background-color', this.options.color);
       //this.addEvent('change', self.changed);
     },
+    /*
+     * Method: onKeyUp
+     *
+     * listens to the keyup event and validates the input for a hex color
+     *
+     */
     onKeyUp : function(ev) {
       var color = this.getValue();
       if (color.substring(0,1) == '#') {
@@ -156,5 +156,8 @@
 
         this.button.hide();
         Jx.Field.Color.ColorPalette.currentButton = null;
+    },
+    changeText: function(lang) {
+      this.parent();
     }
   });

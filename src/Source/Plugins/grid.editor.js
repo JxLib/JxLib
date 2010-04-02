@@ -162,6 +162,14 @@ Jx.Plugin.Grid.Editor = new Class({
        */
       keyboardMethods : {},
       /**
+       * Option: keypressLoop
+       * loop through the grid when pressing TAB (or some other method that uses
+       * this.getNextCellInRow() or this.getPrevCellInRow()). If set to false,
+       * the input field/popup will not start at the opposite site of the grid
+       * Defaults to true
+       */
+      keypressLoop : true,
+      /**
        * Option: linkClickListener
        * disables all click events on links that are formatted with Jx.Formatter.Uri
        * - otherwise the link will open directly instead of open the input editor)
@@ -870,8 +878,10 @@ Jx.Plugin.Grid.Editor = new Class({
           if(nextCell == null) {
             nextRow  = this.activeCell.cell.getParent('tr').getNext();
             // check if this was the last row in the table
-            if(nextRow == null) {
+            if(nextRow == null && this.options.keypressLoop) {
               nextRow = this.activeCell.cell.getParent('tbody').getFirst();
+            }else if(nextRow == null && !this.options.keypressLoop){
+              return;
             }
             nextCell = nextRow.getFirst(jxCellClass);
           }
@@ -912,9 +922,10 @@ Jx.Plugin.Grid.Editor = new Class({
           if(prevCell == null) {
             prevRow  = this.activeCell.cell.getParent('tr').getPrevious();
             // check if this was the last row in the table
-            if(prevRow == null) {
-              // @todo this does not always work when shift+tab is hold pressed (out of grid error)
+            if(prevRow == null && this.options.keypressLoop) {
               prevRow = this.activeCell.cell.getParent('tbody').getLast();
+            }else if(prevRow == null && !this.options.keypressLoop) {
+              return;
             }
             prevCell = prevRow.getLast(jxCellClass);
           }
@@ -1070,7 +1081,8 @@ Jx.Plugin.Grid.Editor = new Class({
      * Method: addFormatterUriClickListener
      *
      * looks up for Jx.Formatter.Uri columns to disable the link and open the
-     * inline editor instead. set option linkClickListener to false to disable this
+     * inline editor instead when CTRL is NOT pressed.
+     * set option linkClickListener to false to disable this
      *
      */
     addFormatterUriClickListener : function() {

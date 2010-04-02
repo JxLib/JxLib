@@ -62,8 +62,8 @@ window.addEvent('load', function() {
           type    : 'Select',
           options : {
             comboOpts: [
-              { value: 'true',  text: 'true'  },
-              { value: 'false', text: 'false' }
+              { value: 'true',  text: MooTools.lang.get('Jx','formatter.boolean')['true']  },
+              { value: 'false', text: MooTools.lang.get('Jx','formatter.boolean')['false'] }
             ]
           }
           /*
@@ -86,24 +86,24 @@ window.addEvent('load', function() {
           options : {
             optGroups: [
               {
-                name : 'Dues < 5',
+                name : 'Dues d 5',
                 options: [
                   {value: 0, text: '0'},
                   {value: 1, text: '1'},
                   {value: 2, text: '2'},
                   {value: 3, text: '3'},
-                  {value: 4, text: '4'},
+                  {value: 4, text: '4'}
                 ]
               },
               {
-                name : 'Dues >= 5',
+                name : 'Dues g 5',
                 options: [
                   {value: 5, text: '5'},
                   {value: 6, text: '6'},
                   {value: 7, text: '7'},
                   {value: 8, text: '8'},
                   {value: 9, text: '9'},
-                  {value:10, text: '10'},
+                  {value:10, text: '10'}
                 ]
               }
             ]
@@ -353,7 +353,7 @@ function drawToolbar() {
 <script id="gridScript" type="text/javascript">
   function drawGrid() {
     var model = ([
-        {'id':1,'name':'Yay Super','dob':'12/4/1974','active':'true','duesLeft':30,'url':'http://www.google.com','phone':'16753780987'},
+        {'id':1,'name':'Yay Super','dob':'12/4/1974','active':'true','duesLeft':2,'url':'http://www.google.com','phone':'16753780987'},
         {'id':2,'name':'Bill Clinton','dob':'8/4/1987','active':'false','duesLeft':0,'url':'http://www.microsoft.com','phone':'867-465-3686'},
         {'id':3,'name':'Joe Black','dob':'5/25/1963','active':true,'duesLeft':10,'url':'http://www.yahoo.com','phone':'1(857) 467-9847'},
         {'id':4,'name':'Betty White','dob':'6/3/1979','active':true,'duesLeft':45,'url':'http://www.jxlib.org','phone':'2748467384'},
@@ -431,13 +431,16 @@ function drawToolbar() {
             isResizable: true,
             validate: true,
             dataType: 'date',
-            renderer: new Jx.Grid.Renderer.Text({
-              textTemplate: '{dob}',
-              formatter: {
-                name : 'Date',
-                options: {}
+            renderer: {
+              name : 'Text',
+              options: {
+                textTemplate: '{dob}',
+                formatter: {
+                  name : 'Date',
+                  options: {}
+                }
               }
-            })
+            }
           },{
             renderMode: 'fit',
             header: 'Active?',
@@ -467,7 +470,17 @@ function drawToolbar() {
             isSortable: true,
             isResizable: true,
             dataType: 'alphanumeric',
-            fieldFormatted : true
+            fieldFormatted : false,
+            renderer: {
+              name: 'text',
+              options: {
+                textTemplate: '{url}',
+                formatter: {
+                  name:'Uri',
+                  options: {}
+                }
+              }
+            }
           },{
             template: '<span class="jxGridCellContent">Home Phone</span>',
             renderMode: 'fit',
@@ -478,13 +491,16 @@ function drawToolbar() {
             isSortable: true,
             isResizable: true,
             dataType: 'alphanumeric',
-            renderer: new Jx.Grid.Renderer.Text({
-              textTemplate: '{phone}',
-              formatter: {
-                name:'Phone',
-                options: {}
+            renderer: {
+              name : 'text',
+              options: {
+                textTemplate : '{phone}',
+                formatter: {
+                  name:'Phone',
+                  options: {}
+                }
               }
-            })
+            }
           }
          ]
         },

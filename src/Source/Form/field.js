@@ -25,6 +25,7 @@ Jx.Field = new Class({
     Family: 'Jx.Field',
     Extends : Jx.Widget,
     pluginNamespace: 'Field',
+    Binds: ['changeText'],
     
     options : {
         /**
@@ -339,11 +340,11 @@ Jx.Field = new Class({
      *    translations changed.
      */
     changeText: function (lang) {
-      this.parent();
-      if ($defined(this.requiredText)) {
-        this.requiredText.set('html',MooTools.lang.get('Jx','field').requiredText);
-      }
-    },
+        this.parent();
+        if ($defined(this.requiredText)) {
+          this.requiredText.set('html',MooTools.lang.get('Jx','field').requiredText);
+        }
+    }, 
     
     onFocus: function() {
       this.fireEvent('focus', this);
