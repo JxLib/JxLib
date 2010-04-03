@@ -83,10 +83,14 @@ Jx.Plugin.ToolbarContainer.TabMenu = new Class({
             l = '';
         }
         var mi = new Jx.Menu.Item({
-            label: tab.getLabel(),
+            label: l,
             image: tab.options.image,
             onClick: function() {
-                tab.setActive(true);
+                if (tab.isActive()) {
+                    this.container.scrollIntoView(tab);
+                } else {
+                    tab.setActive(true);
+                }
             }.bind(this)
         });
 
