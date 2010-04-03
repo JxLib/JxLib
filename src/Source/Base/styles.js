@@ -80,11 +80,17 @@ Jx.Styles = new(new Class({
      */
     insertCssRule: function (selector, declaration, styleSheetName) {
         var ss = this.getDynamicStyleSheet(styleSheetName);
+
         var rule;
         var text = selector + " {" + declaration + "}";
         if (Browser.Engine.name === 'trident') {
-            ss.styleSheet.cssText += text;
-            rule = ss.sheet.rules[ss.insertRule.length];
+            if (declaration == '') {
+                //IE requires SOME text for the declaration. Passing '{}' will
+                //create an empty rule.
+                declaration = '{}';
+            }
+            var index = ss.styleSheet.addRule(selector,declaration);
+            rule = ss.styleSheet.rules[index];
         } else {
             ss.sheet.insertRule(text, ss.indicies.length);
             rule = ss.sheet.cssRules[ss.indicies.length];
