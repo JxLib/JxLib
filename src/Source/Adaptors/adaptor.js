@@ -12,6 +12,9 @@
  * data access code in the widgets themselves. Widgets should have no idea where 
  * the data/items come from so that they will be usable in the broadest number
  * of situations.
+ *
+ * Copyright 2010 by Jonathan Bomgardner
+ * License: mit-style
  */
 Jx.Adaptor = new Class({
 	
@@ -21,11 +24,27 @@ Jx.Adaptor = new Class({
 	name: 'Jx.Adaptor',
 
 	options: {
+        /**
+         * Option: template
+         * The text template to use in creating the items for this adaptor
+         */
 	    template: '',
+        /**
+         * Option: useTemplate
+         * Whether or not to use the text template above. Defaults to true.
+         */
 	    useTemplate: true,
+        /**
+         * Option: store
+         * The store to use with the adaptor.
+         */
 	    store: null
 	},
-	
+    /**
+     * Property: columnsNeeded
+     * Will hold an array of the column names needed for processing the
+     * template
+     */
 	columnsNeeded: null,
 	
 	init: function () {

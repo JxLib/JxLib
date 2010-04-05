@@ -9,7 +9,10 @@
  * 
  * if useAjax option is set to true then this adapter will send an Ajax request
  * to the server, through the store's strategy (should be Jx.Store.Strategy.Progressive)
- * to request additional nodes. 
+ * to request additional nodes.
+ *
+ * Copyright 2010 by Jonathan Bomgardner
+ * License: mit-style
  */
 Jx.Adaptor.Tree.Mptt = new Class({
     

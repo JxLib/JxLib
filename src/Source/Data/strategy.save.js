@@ -20,7 +20,7 @@ Jx.Store.Strategy.Save = new Class({
     options: {
         /**
          * Option: autoSave
-         * Whether the strateggy should be watching the store to save changes
+         * Whether the strategy should be watching the store to save changes
          * automatically. Set to True to watch events, set it to a number of 
          * milliseconds to have the strategy save every so many seconds
          */

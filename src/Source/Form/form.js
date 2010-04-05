@@ -4,9 +4,9 @@
  *
  * Extends: <Jx.Widget>
  *
- * A class that represents an HTML form. You add fields using either Jx.Form.add()
- * or by using the field's .addTo() method. You can get all form values or set them
- * using this class. It also handles validation of fields.
+ * A class that represents an HTML form. You add fields using either
+ * Jx.Form.add() or by using the field's .addTo() method. You can get all form
+ * values or set them using this class. It also handles validation of fields.
  *
  * Example:
  * (code)
@@ -64,7 +64,8 @@ Jx.Form = new Class({
 
     /**
      * Property: fields
-     * An array of all of the single fields (not contained in a fieldset) for this form
+     * An array of all of the single fields (not contained in a fieldset) for
+     * this form
      */
     fields : null,
     /**
@@ -79,8 +80,8 @@ Jx.Form = new Class({
     },
     /**
      * APIMethod: render
-     * Constructs the form but does not add it to anything to be shown. The caller
-     * should use form.addTo() to add the form to the DOM.
+     * Constructs the form but does not add it to anything to be shown. The
+     * caller should use form.addTo() to add the form to the DOM.
      */
     render : function () {
         //create the form first
@@ -202,7 +203,7 @@ Jx.Form = new Class({
 
     /**
      * APIMethod: reset
-     *
+     * Resets all fields back to their original value
      */
     reset : function () {
         this.fields.each(function (field, name) {
@@ -210,7 +211,14 @@ Jx.Form = new Class({
         }, this);
         this.fireEvent('reset',this);
     },
-
+    /**
+     * APIMethod: getFieldsByName
+     * Allows retrieving a field from a form by the name of the field (NOT the
+     * ID).
+     *
+     * Parameters:
+     * name - {string} the name of the field to find
+     */
     getFieldsByName: function (name) {
         var fields = [];
         this.fields.each(function(val, id){
@@ -220,14 +228,26 @@ Jx.Form = new Class({
         },this);
         return fields;
     },
-    
+    /**
+     * APIMethod: getField
+     * Returns a Jx.Field object by its ID.
+     *
+     * Parameters:
+     * id - {string} the id of the field to find.
+     */
     getField: function (id) {
         if (this.fields.has(id)) {
             return this.fields.get(id);
         } 
         return null;
     },
-    
+    /**
+     * APIMethod: setBusy
+     * Sets the busy state of the Form and all of it's fields.
+     *
+     * Parameters:
+     * state - {boolean} indicated whether the form is busy or not.
+     */
     setBusy: function(state) {
       if (this.busy == state) {
         return;

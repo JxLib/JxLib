@@ -5,7 +5,7 @@
  * Extends: <Jx.Object>
  *
  * Class that holds functions for doing comparison operations.
- * This class requires the clientside Date() extensions (deps/date.js).
+ * This class requires the mootools-more Date() extensions.
  *
  * notes:
  * Each function that does a comparison returns

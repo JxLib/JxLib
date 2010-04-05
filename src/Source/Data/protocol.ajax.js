@@ -33,9 +33,9 @@ Jx.Store.Protocol.Ajax = new Class({
         /**
          * Option: urls
          * This is a hash of the urls to use for each method. If the rest 
-         * option is set to true the only one needed will be the urls.rest. These
-         * can be overridden if needed by passing an options object into the
-         * various methods with the appropriate urls.
+         * option is set to true the only one needed will be the urls.rest.
+         * These can be overridden if needed by passing an options object into
+         * the various methods with the appropriate urls.
          */
         urls: {
             rest: null,
@@ -54,8 +54,6 @@ Jx.Store.Protocol.Ajax = new Class({
      * Send a read request via AJAX
      * 
      * Parameters:
-     * page - the page requested
-     * itemsPerPage - the number of items on the page
      * options - the options to pass to the request.
      */
     read: function (options) {

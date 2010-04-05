@@ -1,4 +1,18 @@
-
+/**
+ * Class: Jx.Store.Strategy.Progressive
+ *
+ * Extends: <Jx.Store.Strategy.Paginate>
+ *
+ * Store strategy for progressively obtaining results in a store. You can
+ * continually call nextPage() to get the next page and the store will retain
+ * all current data. You can set a maximum number of records the store should
+ * hold and whether it should dropRecords when that max is hit.
+ *
+ * License:
+ * Copyright (c) 2010, Jon Bomgardner.
+ *
+ * This file is licensed under an MIT style license
+ */
 Jx.Store.Strategy.Progressive = new Class({
     
     Extends: Jx.Store.Strategy.Paginate,
@@ -33,6 +47,7 @@ Jx.Store.Strategy.Progressive = new Class({
     loadedPages: 0,
     /**
      * Property: loadAt
+     * Options are 'top' or 'bottom'. Defaults to 'bottom'.
      */
     loadAt: 'bottom',
     
@@ -90,13 +105,13 @@ Jx.Store.Strategy.Progressive = new Class({
      * the store
      * 
      * Parameters:
-     * end - which end to load to. Either 'top' or 'bottom'.
+     * params - a hash of parameters to pass to the request if needed.
      */
     nextPage: function (params) {
         if (!$defined(params)) {
             params = {};
         }
-        if (this.options.dropPages && this.totalPages > this.startingPage + this.loadedPages) {
+        if (this.options.dropRecords && this.totalPages > this.startingPage + this.loadedPages) {
             this.loadAt = 'bottom';
             if (this.loadedPages >= this.maxPages) {
                 //drop records before getting more
@@ -108,10 +123,16 @@ Jx.Store.Strategy.Progressive = new Class({
         this.page = this.startingPage + this.loadedPages + 1;
         this.load($merge(this.params, params));
     },
-    
+    /**
+     * APIMethod: previousPage
+     * Allows a caller to move back to the previous page.
+     *
+     * Parameters:
+     * params - a hash of parameters to pass to the request if needed.
+     */
     previousPage: function (params) {
-        //if we're not dropping pages there's nothing todo
-        if (!this.options.dropPages) {
+        //if we're not dropping pages there's nothing to do
+        if (!this.options.dropRecords) {
             return;
         }
         

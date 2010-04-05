@@ -822,7 +822,7 @@ Jx.Widget = new Class({
      * to change any language specific default text that is used by the widget.
      * 
      * Parameters:
-     * lang - the language being changed to or that had it's data set of 
+     * lang - {string} the language being changed to or that had it's data set of 
      *    translations changed.
      */
     changeText: function (lang) {

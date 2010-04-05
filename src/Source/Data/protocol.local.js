@@ -4,8 +4,8 @@
  * 
  * Extends: Jx.Store.Protocol
  * 
- * Based on the Protocol base class, the local protocol uses data that it is handed
- * upon instantiation to process requests.
+ * Based on the Protocol base class, the local protocol uses data that it is
+ * handed upon instantiation to process requests.
  * 
  * Constructor Parameters:
  * data - The data to use 
@@ -76,7 +76,8 @@ Jx.Store.Protocol.Local = new Class({
     }
     
     /**
-     * The following methods are not implemented as they make no sense for a local protocol:
+     * The following methods are not implemented as they make no sense for a
+     * local protocol:
      * - create
      * - update 
      * - delete

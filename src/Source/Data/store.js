@@ -10,8 +10,7 @@
  * For the most part the store is pretty "dumb" meaning it 
  * starts with very limited functionality. Actually, it can't
  * even load data by itself. Instead, it needs to have protocols,
- * strategies, and a record class passed to it that it knows how to use
- * and can use it.  
+ * strategies, and a record class passed to it that it can use.
  * 
  * Example:
  * (code)
@@ -46,7 +45,8 @@ Jx.Store = new Class({
          * Option: protocol
          * The protocol to use for communication in this store. The store 
          * itself doesn't actually use it but it is accessed by the strategies
-         * to do their work. This option is required and the store won't work without it.
+         * to do their work. This option is required and the store won't work
+         * without it.
          */
         protocol: null,
         /**
@@ -60,10 +60,10 @@ Jx.Store = new Class({
         strategies: null,
         /**
          * Option: record
-         * This is a Jx.Store.Record instance or one of its subclasses. This is the 
-         * class that will be used to hold each individual record in the store.
-         * Don't pass in a instance of the class but rather the class name 
-         * itself. If none is passed in it will default to Jx.Store.Record
+         * This is a Jx.Store.Record instance or one of its subclasses. This is
+         * the class that will be used to hold each individual record in the
+         * store. Don't pass in a instance of the class but rather the class
+         * name itself. If none is passed in it will default to Jx.Record
          */
         record: null,
         /**
@@ -87,7 +87,7 @@ Jx.Store = new Class({
      */
     index : 0,
     /**
-     * Property: id
+     * APIProperty: id
      * The id of this store.
      */
     id : null,

@@ -164,8 +164,7 @@ if (!$defined(Jx.aPixel)) {
 if (!$defined(Jx.isAir)) {
 	(function() {
 		/**
-		 * Determine if we're running in Adobe AIR. Run this regardless of whether
-		 * the above runs or not.
+		 * Determine if we're running in Adobe AIR.
 		 */
 		var aScripts = document.getElementsByTagName('SCRIPT');
 		var src = aScripts[0].src;

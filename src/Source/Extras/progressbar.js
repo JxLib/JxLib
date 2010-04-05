@@ -28,7 +28,9 @@
  * MooTools.lang keys:
  * - progressbar.messageText
  * - progressbar.progressText
- * 
+ *
+ * Copyright (c) 2010 by Jonathan Bomgardner
+ * Licensed under an mit-style license
  */
 Jx.Progressbar = new Class({
     Family: 'Jx.Progressbar',
@@ -99,13 +101,6 @@ Jx.Progressbar = new Class({
             //get width of container
             this.options.bar.width = this.domObj.getStyle('width').toInt();
         }
-        
-        //determine height
-        /**
-        if (this.options.bar.height === 'auto') {
-            this.options.bar.height = this.domObj.getStyle('height').toInt() - 4;
-        }
-        **/
         
         //Message
         if (this.message) {

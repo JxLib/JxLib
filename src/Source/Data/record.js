@@ -1,6 +1,6 @@
 // $Id$
 /**
- * Class: Jx.record
+ * Class: Jx.Record
  * 
  * Extends: <Jx.Object>
  * 
@@ -38,9 +38,9 @@ Jx.Record = new Class({
      * used to determine the state of this record. When not null (meaning no 
      * changes were made) this should be one of
      * 
-     * - Jx.Store.Record.UPDATE
-     * - Jx.Store.Record.DELETE
-     * - Jx.Store.Record.INSERT
+     * - Jx.Record.UPDATE
+     * - Jx.Record.DELETE
+     * - Jx.Record.INSERT
      */
     state: null,
     /**

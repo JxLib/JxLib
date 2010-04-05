@@ -2,9 +2,10 @@
  * Class: Jx.Adaptor.Tree
  * This base class is used to change a store (a flat list of records) into the
  * data structure needed for a Jx.Tree. It will have 2 subclasses:
- * <Jx.Adapter.Tree.Mptt> and <Jx.Adapter.Tree.Parent>
+ * <Jx.Adapter.Tree.Mptt> and <Jx.Adapter.Tree.Parent>.
  * 
- *  
+ * Copyright 2010 by Jonathan Bomgardner
+ * License: mit-style
  */
 Jx.Adaptor.Tree = new Class({
     
@@ -15,26 +16,48 @@ Jx.Adaptor.Tree = new Class({
     
     options: {
         /**
-         * Option: useAjax
-         * Determines if this adapter should use ajax to request data on the
-         * fly. 
+         * Option: monitorFolders
+         * Determines if this adapter should use monitor the TreeFolder items in
+         * order to request any items they should contain if they are empty.
          */
         monitorFolders: false,
+        /**
+         * Option: startingNodeKey
+         * The store primary key to use as the node that we're requesting.
+         * Initially set to -1 to indicate that we're request the first set of
+         * data
+         */
         startingNodeKey: -1,
-        folderOptions: {
-            image: null,
-            imageClass: null
-        },
-        itemOptions: {
-            image: null,
-            imageClass: null
-        }
+        /**
+         * Option: folderOptions
+         * A Hash containing the options for <Jx.TreeFolder>. Defaults to null.
+         */
+        folderOptions: null,
+        /**
+         * Option: itemOptions
+         * A Hash containing the options for <Jx.TreeItem>. Defaults to null.
+         */
+        itemOptions: null
     },
-    
+    /**
+     * Property: folders
+     * A Hash containing all of the <Jx.TreeFolders> in this tree.
+     */
     folders: new Hash(),
-    
+    /**
+     * Property: currentRecord
+     * An integer indicating the last position we were at in the store. Used to
+     * allow the adaptor to pick up rendering items after we request additional
+     * data.
+     */
     currentRecord: -1,
-    
+    /**
+     * APIMethod: attach
+     * Attaches this adaptor to a specific tree instance.
+     *
+     * Parameters:
+     * tree - an instance of <Jx.Tree>
+     */
     attach: function (tree) {
         this.parent(tree);
         
@@ -60,12 +83,18 @@ Jx.Adaptor.Tree = new Class({
         
         
     },
-    
+    /**
+     * APIMethod: detach
+     * removes this adaptor from the current tree.
+     */
     detach: function () {
     	this.parent();
     	this.store.removeEvent('storeDataLoaded', this.fill);
     },
-    
+    /**
+     * APIMethod: firstLoad
+     * Method used to start the first store load.
+     */
     firstLoad: function () {
     	//initial store load
     	this.busy = 'tree';
@@ -125,7 +154,11 @@ Jx.Adaptor.Tree = new Class({
         }
         this.currentRecord = l;
     },
-    
+    /**
+     * Method: checkFolder
+     * Called by the disclose event of the tree to determine if we need to
+     * request additional items for a branch of the tree.
+     */
     checkFolder: function (folder) {
         var items = folder.items();
         if (!$defined(items) || items.length === 0) {
@@ -140,12 +173,24 @@ Jx.Adaptor.Tree = new Class({
             });
         }
     },
-    
+    /**
+     * Method: hasChildren
+     * Virtual method to be overridden by sublcasses. Determines if a specific
+     * node has any children.
+     */
     hasChildren: $empty,
-    
+    /**
+     * Method: hasParent
+     * Virtual method to be overridden by sublcasses. Determines if a specific
+     * node has a parent node.
+     */
     hasParent: $empty,
-    
-    getParentIndex: function(){}
+    /**
+     * Method: getParentIndex
+     * Virtual method to be overridden by sublcasses. Determines the store index
+     * of the parent node.
+     */
+    getParentIndex: $empty
     
     
 });
