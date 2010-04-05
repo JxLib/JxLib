@@ -74,6 +74,7 @@ Group: Jx  {
       File: Columns  (Grid/columns.js)
       File: Grid  (Grid/grid.js)
       File: Grid.Renderer  (Grid/renderer.js)
+      File: Grid.Renderer.Button  (Grid/renderer.button.js)
       File: Grid.Renderer.CheckBox  (Grid/renderer.checkbox.js)
       File: Grid.Renderer.Text  (Grid/renderer.text.js)
       File: Row  (Grid/row.js)
@@ -86,6 +87,8 @@ Group: Jx  {
          File: Resize  (Plugins/grid.resize.js)
          File: Selector  (Plugins/grid.selector.js)
          File: Sorter  (Plugins/grid.sorter.js)
+         File: Toolbar  (Plugins/plugin.toolbarContainer.js)
+         File: ToolbarContainer.TabMenu  (Plugins/toolbarContainer.tabMenu.js)
          }  # Group: Plugins
 
       }  # Group: Grid

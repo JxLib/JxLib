@@ -153,7 +153,10 @@ function menuToggle() {
     );
     /* create a menu from some toggle items plus the stuff in the set */
     new Jx.Menu({
-        label: 'Formatting'
+        label: 'Formatting' 
+    },{
+        exposeOnHover: true,
+        hideDelay: 350
     }).add([
         new Jx.Menu.Item({
             label: 'Bold',
@@ -201,6 +204,7 @@ function menuToggle() {
   <div id="statesMenu" class="buttonBox"></div>
   
   <h2 id="menuToggle">Menu Toggle Items</h2>
+  <p>This menu is configured to show as soon as you hover over the menu button and to hide 350 ms after you mouse out of the menu.  To try it, make sure no other menus are open then hover over the button below to expose the menu.</p>
   <p>Like buttons, menu items can also be set to toggle and grouped using a Button Set.  When a menu item is toggled, it gets a marker next to it in the menu (if it has no image) or a box around an existing image.  When it is part of a set, only one of the set is toggled on at a time.</p>
   <div id="toggleMenu" class="buttonBox"></div>
 

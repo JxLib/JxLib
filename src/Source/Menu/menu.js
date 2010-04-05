@@ -22,6 +22,7 @@
 Jx.Menu = new Class({
     Family: 'Jx.Menu',
     Extends: Jx.Widget,
+    Binds: ['onMouseEnter','onMouseLeave','hide','keypressHandler'],
     /**
      * Property: button
      * {<Jx.Button>} The button that represents this menu in a toolbar and
@@ -43,6 +44,19 @@ Jx.Menu = new Class({
     parameters: ['buttonOptions', 'options'],
 
     options: {
+        /**
+         * Option: exposeOnHover
+         * {Boolean} default false, if set to true the menu will show
+         * when the mouse hovers over it rather than when it is clicked.
+         */
+        exposeOnHover: false,
+        /**
+         * Option: hideDelay
+         * {Integer} default 0, if greater than 0, this is the number of
+         * milliseconds to delay before hiding a menu when the mouse leaves
+         * the menu button or list.
+         */
+        hideDelay: 0,
         template: "<div class='jxMenuContainer'><ul class='jxMenu'></ul></div>",
         buttonTemplate: '<span class="jxButtonContainer"><a class="jxButton jxButtonMenu jxDiscloser"><span class="jxButtonContent"><img class="jxButtonIcon" src="'+Jx.aPixel.src+'"><span class="jxButtonLabel"></span></span></a></span>',
         position: {
@@ -82,17 +96,15 @@ Jx.Menu = new Class({
                 onClick:this.show.bind(this)
             }));
 
-            this.button.domA.addEvent('mouseover', this.onMouseOver.bindWithEvent(this));
+            this.button.domA.addEvent('mouseenter', this.onMouseEnter);
+            this.button.domA.addEvent('mouseleave', this.onMouseLeave);
 
             this.domObj = this.button.domObj;
             this.domObj.store('jxMenu', this);
         }
-
-        /* pre-bind the hide function for efficiency */
-        this.bound = {
-            mousedown: this.hide.bindWithEvent(this),
-            keypress: this.keypressHandler.bindWithEvent(this)
-        };
+        
+        this.subDomObj.addEvent('mouseenter', this.onMouseEnter);
+        this.subDomObj.addEvent('mouseleave', this.onMouseLeave);
 
         if (this.options.parent) {
             this.addTo(this.options.parent);
@@ -167,12 +179,36 @@ Jx.Menu = new Class({
      * Parameters:
      * e - {Event} the mouse event
      */
-    onMouseOver: function(e) {
+    onMouseEnter: function(e) {
+        if (this.hideTimer) {
+          $clear(this.hideTimer);
+          this.hideTimer = null;
+        }
         if (Jx.Menu.Menus[0] && Jx.Menu.Menus[0] != this) {
             this.show({event:e});
+        } else if (this.options.exposeOnHover) {
+          if (Jx.Menu.Menus[0] && Jx.Menu.Menus[0] == this) {
+            Jx.Menu.Menus[0] = null;
+          }
+          this.show({event:e});
         }
     },
-
+    /**
+     * Method: onMouseLeave
+     * Handle the user moving the mouse off this button or menu by
+     * starting the hide process if so configured.
+     *
+     * Parameters:
+     * e - {Event} the mouse event
+     */
+    onMouseLeave: function(e) {
+      if (this.options.hideDelay > 0) {
+        this.hideTimer = (function(){
+          this.deactivate();
+        }).delay(this.options.hideDelay, this);
+      }
+    },
+    
     /**
      * Method: eventInMenu
      * determine if an event happened inside this menu or a sub menu
@@ -245,8 +281,8 @@ Jx.Menu = new Class({
             this.button.domA.removeClass(this.button.options.activeClass);
         }
         this.list.each(function(item){item.retrieve('jxMenuItem').hide(e);});
-        document.removeEvent('mousedown', this.bound.mousedown);
-        document.removeEvent('keydown', this.bound.keypress);
+        document.removeEvent('mousedown', this.hide);
+        document.removeEvent('keydown', this.keypressHandler);
         this.unstack(this.contentContainer);
         this.contentContainer.dispose();
         this.visibleItem = null;
@@ -281,8 +317,8 @@ Jx.Menu = new Class({
         });
 
         /* we have to size the container for IE to render the chrome correctly
-         * but just in the menu/sub menu case - there is some horrible peekaboo
-         * bug in IE related to ULs that we just couldn't figure out
+         * but just in the menu/sub menu case - there is some horrible 
+         * peekaboo bug in IE related to ULs that we just couldn't figure out
          */
         this.contentContainer.setContentBoxSize(this.subDomObj.getMarginBoxSize());
         this.showChrome(this.contentContainer);
@@ -298,8 +334,8 @@ Jx.Menu = new Class({
         }
 
         /* fix bug in IE that closes the menu as it opens because of bubbling */
-        document.addEvent('mousedown', this.bound.mousedown);
-        document.addEvent('keydown', this.bound.keypress);
+        document.addEvent('mousedown', this.hide);
+        document.addEvent('keydown', this.keypressHandler);
         this.fireEvent('show', this);
     },
     /**
