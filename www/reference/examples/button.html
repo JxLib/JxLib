@@ -7,6 +7,7 @@
 <script type="text/javascript" src="../../lib/mootools-more.js"></script>
 <script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
 <script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/locale.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
 window.addEvent('load', function() {
     basicButtons();
@@ -20,7 +21,7 @@ function basicButtons() {
     /* buttons in normal content */
     new Jx.Button({
       id: 'basic1',
-      label: 'Label and Icon',
+      label: { set: 'Examples', key: 'button', value: 'labelAndIcon' },
       image: 'images/asterisk_orange.png',
       tooltip: 'a tooltip',
       onClick: function() { log('click button with just a label, put a message in the log'); }
@@ -28,12 +29,18 @@ function basicButtons() {
     /* just a label on this one */
     new Jx.Button({
       id: 'basic2',
-      label: 'Just a label',
+      label: { set: 'Examples', key: 'button', value: 'justALabel' },
       tooltip: 'a tooltip',
       onClick: function() { log('click button with just a label'); }
     }).addTo('buttons');
-    /* just an image on this one */
     new Jx.Button({
+      id: 'basic3',
+      label: 'Not Localized',
+      tooltip: 'a tooltip',
+      onClick: function() { log('click button that is not localized and uses a normal string as a label'); }
+    }).addTo('buttons');
+    /* just an image on this one */
+    var bug = new Jx.Button({
       image: 'images/bug.png',
       tooltip: 'a tooltip',
       onClick: function() {log('button with just an image clicked')}
@@ -47,30 +54,30 @@ function basicButtons() {
 function toggleButtons() {
     /* this is a toggle style button */
     var transmit = new Jx.Button({
-      label: 'Start Transmitting',
+      label: { set: 'Examples', key: 'button', value: 'startTransmission' },
       image: 'images/transmit.png',
       tooltip: 'a tooltip',
       toggle: true,
       enabled: false,
-      onDown: function(){this.setLabel('Stop Transmitting')},
-      onUp: function(){this.setLabel('Start Transmitting')}
+      onDown: function(){this.setLabel({ set: 'Examples', key: 'button', value: 'stopTransmission' })},
+      onUp: function(){this.setLabel({ set: 'Examples', key: 'button', value: 'startTransmission' })}
     }).addTo('toggleButton');
     /* this is another toggle button that controls the first one
      * and demonstrates changing labels on the fly
      */
     new Jx.Button({
-      label: 'Enable Transmission',
+      label: { set: 'Examples', key: 'button', value: 'enableTransmission' },
       image: 'images/lightbulbs.png',
       imageClass: 'toggleLight',
       tooltip: 'a tooltip',
       toggle: true,
       onDown: function(){
           transmit.setEnabled(true); 
-          this.setLabel('Disable Transmission')
+          this.setLabel({ set: 'Examples', key: 'button', value: 'disableTransmission' })
       },
       onUp: function(){
           transmit.setEnabled(false); 
-          this.setLabel('Enable Transmission')
+          this.setLabel({ set: 'Examples', key: 'button', value: 'enableTransmission' })
       }
     }).addTo('toggleButton');    
 }
@@ -80,25 +87,25 @@ function toggleButtons() {
 function buttonSets() {
     /* create some toggle buttons to group as a set */
     var tLeft = new Jx.Button({
-        label: 'left', 
+        label: { set: 'Examples', key: 'button', value: 'left' },
         image:'images/text.png', 
         imageClass: 'text-align-left',
         toggle:true
     }).addTo('toggleSet');
     var tCenter = new Jx.Button({
-        label: 'center', 
+        label: { set: 'Examples', key: 'button', value: 'center' },
         image:'images/text.png', 
         imageClass: 'text-align-center',
         toggle:true
     }).addTo('toggleSet');
     var tRight = new Jx.Button({
-        label: 'right', 
+        label: { set: 'Examples', key: 'button', value: 'right' },
         image:'images/text.png', 
         imageClass: 'text-align-right',
         toggle:true
     }).addTo('toggleSet');
     var tJustify = new Jx.Button({
-        label: 'justify', 
+        label: { set: 'Examples', key: 'button', value: 'justify' },
         image:'images/text.png', 
         imageClass: 'text-align-justify',
         toggle:true

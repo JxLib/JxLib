@@ -222,7 +222,8 @@ Jx.Button = new Class({
 
         if (this.domLabel) {
             if (this.options.label || this.domA.hasClass('jxDiscloser')) {
-                this.domLabel.set('html',this.options.label);
+                //this.domLabel.set('html',this.options.label);
+                this.setLabel(this.options.label);
             } else {
                 //this.domLabel.removeClass('jx'+this.type+'Label');
                 this.domLabel.setStyle('display','none');
@@ -346,7 +347,7 @@ Jx.Button = new Class({
     setLabel: function(label) {
         this.options.label = label;
         if (this.domLabel) {
-            this.domLabel.set('html', label);
+            this.domLabel.set('html', this.getText(label));
             this.domLabel.setStyle('display', label || this.domA.hasClass('jxDiscloser') ? null : 'none');
         }
     },
@@ -401,5 +402,16 @@ Jx.Button = new Class({
         if (this.domA) {
             this.domA.blur();
         }
+    },
+
+    /**
+     * APIMethod: changeText
+     *
+     * updates the label of the button on langChange Event for
+     * Internationalization
+     */
+    changeText : function(lang) {
+        this.parent();
+        this.setLabel(this.options.label);
     }
 });

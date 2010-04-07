@@ -81,8 +81,8 @@ Jx.Tooltip = new Class({
             }
         }).inject(document.body);
 
-        if (Jx.type(this.options.tip) === 'string') {
-            this.domObj.set('html', this.options.tip);
+        if (Jx.type(this.options.tip) === 'string' || Jx.type(this.options.tip) == 'object') {
+            this.domObj.set('html', this.getText(this.options.tip));
         } else {
             this.domObj.grab(this.options.tip);
         }

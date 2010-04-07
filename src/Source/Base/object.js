@@ -245,7 +245,11 @@ Jx.Object = new Class({
 
         this.setOptions(options);
         if (this.options.useLang) {
-            MooTools.lang.addEvent('langChange', this.changeText)
+            //MooTools.lang.addEvent('langChange', this.changeText)
+            var self = this;
+            MooTools.lang.addEvent('langChange', function(ev) {
+              self.changeText();
+            });
         }
         this.fireEvent('preInit');
         this.init();
@@ -373,16 +377,39 @@ Jx.Object = new Class({
             return this.plugins.get(name);
         }
     },
-    
+
+    /**
+     * APIMethod: getText
+     * 
+     * returns the text for a jx.widget used in a label. 
+     * 
+     * Parameters:
+     * val - <String> || <Function> || <Object> = { set: '', key: ''[, value: ''] } for a MooTools.lang object
+     */
+    getText: function(val) {
+      if (Jx.type(val) == 'string') {
+        return val;
+      } else if (Jx.type(val) == 'function') {
+        return val();
+      } else if (Jx.type(val) == 'object' && $defined(val.set) && $defined(val.key)) {
+        this.i18n = val;
+        if($defined(val.value)) {
+          return MooTools.lang.get(val.set, val.key)[val.value];
+        }else{
+          return MooTools.lang.get(val.set, val.key);
+        }
+      }
+      return '';
+    },
+
     /**
      * APIMethod: changeText
      * This method should be overridden by subclasses. It should be used
      * to change any language specific default text that is used by the widget.
-     * 
+     *
      * Parameters:
-     * lang - the language being changed to or that had it's data set of 
+     * lang - the language being changed to or that had it's data set of
      *    translations changed.
      */
-    changeText: $empty
-
+    changeText : $empty
 });
