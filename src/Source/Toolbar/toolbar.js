@@ -289,5 +289,8 @@ Jx.Toolbar = new Class({
         //     }).delay(1,this);
         // }
         this.fireEvent('update');
+    },
+    changeText : function(lang) {
+      this.update();
     }
 });

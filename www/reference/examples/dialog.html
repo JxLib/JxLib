@@ -7,6 +7,7 @@
 <script type="text/javascript" src="../../lib/mootools-more.js"></script>
 <script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
 <script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/locale.js" type="text/javascript" charset="utf-8"></script>
 <script  type="text/javascript">
     var d1, d2, d3, d4;
     window.addEvent('load', function() {
@@ -39,7 +40,7 @@ function drawBasicDialog() {
     /* a simple dialog with HTML content, not moveable.
      */
     d1 = new Jx.Dialog({
-        label: 'Static Dialog',
+        label: 'static',
         image: 'images/page_white_text.png',
         modal: false, 
         resize: false,
@@ -50,7 +51,7 @@ function drawBasicDialog() {
 
     new Jx.Button({
         image: 'images/page_white_text.png', 
-        label: 'Static', 
+        label: {set:'Examples',key:'dialog',value:'btnStatic'},
         onClick: d1.open.bind(d1)
     }).addTo('basicDialogButton'); 
     
@@ -65,7 +66,7 @@ function drawPositionedDialog() {
      * modal.
      */
     d2 = new Jx.Dialog({
-        label: 'Positioned Dialog',
+        label: {set:'Examples',key:'dialog',value:'dialogModal'},
         image: 'images/page_white_code.png',
         modal: true, 
         horizontal: '200 left', 
@@ -77,7 +78,7 @@ function drawPositionedDialog() {
     
     new Jx.Button({
         image: 'images/page_white_code.png', 
-        label: 'Positioned Modal', 
+        label: {set:'Examples',key:'dialog',value:'btnModal'},
         onClick: d2.open.bind(d2)
     }).addTo('positionedDialogButton');
 }
@@ -107,7 +108,7 @@ function drawToolbarDialog() {
     );
     
     d3 = new Jx.Dialog({
-        label: 'Toolbar Dialog with Ajax Content',
+        label: {set:'Examples',key:'dialog',value:'dialogDynamic'},
         image: 'images/page_white_world.png',
         modal: false, 
         horizontal: 'right -200',
@@ -126,7 +127,7 @@ function drawToolbarDialog() {
     
     new Jx.Button({
         image: 'images/page_white_world.png', 
-        label: 'Dynamic Content and Toolbar', 
+        label: {set:'Examples',key:'dialog',value:'btnDynamic'},
         onClick: d3.open.bind(d3)
     }).addTo('toolbarDialogButton');
 }
@@ -137,7 +138,7 @@ function drawAjaxFailedDialog() {
      * content events
      */
     d4 = new Jx.Dialog({
-        label: 'Invalid Content URL',
+        label: {set:'Examples',key:'dialog',value:'dialogInvalid'},
         image: 'images/page_white_world.png',
         modal: false, 
         width: 400,
@@ -161,7 +162,7 @@ function drawAjaxFailedDialog() {
     });
     new Jx.Button({
        image: 'images/page_white_world.png', 
-       label: 'Invalid Content URL', 
+       label: {set:'Examples',key:'dialog',value:'btnInvalid'},
        onClick: d4.open.bind(d4)
     }).addTo('ajaxFailedDialogButton');
 }

@@ -527,6 +527,15 @@ Jx.Dialog = new Class({
     	if ($defined(this.resizeHandle)) {
     		this.resizeHandle.set('title', MooTools.lang.get('Jx','dialog').resizeTooltip);
     	}
+    },
+
+    changeText : function(lang) {
+      this.parent();
+      // COMMENT: this does not prevent the dialog from being minimized :(
+      this.domObj.resize(this.options);
+      this.contentContainer.setStyle('visibility','');
+      this.fireEvent('resize');
+      this.resizeChrome(this.domObj);
     }
 });
 

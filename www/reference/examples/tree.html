@@ -7,6 +7,7 @@
 <script type="text/javascript" src="../../lib/mootools-more.js"></script>
 <script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
 <script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/locale.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
 window.addEvent('load', function() {
     basicTree();
@@ -42,7 +43,7 @@ function basicTree() {
 
     /* you can put an item right into the tree */
     var item = new Jx.TreeItem({
-        label: 'Tree item with custom icon',
+        label: {set:'Examples',key:'tree',value:'customIcon'},
         selectable: false,
         image: 'images/bug.png',
         onClick: function() {
@@ -54,7 +55,7 @@ function basicTree() {
     
     /* add a folder to the tree */
     var folder = new Jx.TreeFolder({
-        label: 'Tree folder with custom icon',
+        label: {set:'Examples',key:'tree',value:'customFolder'},
         image: 'images/blue_folder.png',
         imageClass: 'blueFolder',
         enabled: false,
@@ -64,24 +65,32 @@ function basicTree() {
     
     /* put an item into the folder */
     var item = new Jx.TreeItem({
-        label: 'A Sub Item'
+        label: {set:'Examples',key:'tree',value:'subItem'}
     });
     folder.add(item);
     
     /* you can put a folder into a folder */
-    var subFolder = new Jx.TreeFolder({label: 'A Sub Folder'});
+    var subFolder = new Jx.TreeFolder({label: {set:'Examples',key:'tree',value:'subFolder'}});
     folder.add(subFolder);
 
     /* and items into that too! */
-    var item = new Jx.TreeItem({label: 'Another Sub Item'});
+    var item = new Jx.TreeItem({label: {set:'Examples',key:'tree',value:'subItem2'}});
     subFolder.add(item);
     
     /* add a lot more stuff */
     for (var j=1; j<4; j++) {
-        var folder = new Jx.TreeFolder({label: 'Folder ' + j});
+        var folder = new Jx.TreeFolder({
+          label: function(j) {
+            return MooTools.lang.get('Examples', 'tree').item + j;
+          }.bind(folder, [j])
+        });
         tree.add(folder);
         for (var i=1; i<10; i++) {
-            var item = new Jx.TreeItem({label: 'Item ' + i});
+            var item = new Jx.TreeItem({
+              label: function(i,j) {
+                return MooTools.lang.get('Examples', 'tree').folder + j +"."+ i;
+              }.bind(item, [i,j])
+            });
             folder.add(item);
         }        
     }    
@@ -156,7 +165,7 @@ function customTree() {
 <body>
 <h1>Jx.Tree Examples</h1>
 <p>API Reference: <a id="tree-js" href="javascript:void();" title="link to API Reference">Jx.Tree</a>, <a id="treefolder-js" href="javascript:void();" title="link to API Reference">Jx.TreeFolder</a>, <a id="treeitem-js" href="javascript:void();" title="link to API Reference">Jx.TreeItem</a></p>
-<h2 id="basicTree">Basic Tree</h2>
+<h2 id="basicTree">Basic Tree (localized)</h2>
 <p>A tree is a component that organizes items into folders and sub folders, allowing the user to open and close the folders as needed to find them.</p>
 <div id="treeArea" class="treeBox"></div>
 <h2 id="customTree">Custom Tree Items</h2>

@@ -7,6 +7,7 @@
 <script type="text/javascript" src="../../lib/mootools-more.js"></script>
 <script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
 <script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/locale.js" type="text/javascript" charset="utf-8"></script>
 <script  type="text/javascript">
 window.addEvent('load', function() {
     drawBasicPanel();
@@ -20,13 +21,13 @@ function drawBasicPanel() {
      * collapsing the first one will move the other one.
      */
     var p1 = new Jx.Panel({
-        label: 'Basic Panel 1',
+        label: { set: 'Examples', key: 'panel', value: 'basic1' },
         content: 'basicPanelContent',
         height: 200
     }).addTo('panelBasic');
     // p1.domObj.setStyle('z-index',1);
     new Jx.Button({
-      label: 'Toggle Panel Mask',
+      label: { set: 'Examples', key: 'panel', value: 'togglePanelMask' },
       toggle: true,
       onDown: function() {
         p1.setBusy(true);
@@ -37,7 +38,7 @@ function drawBasicPanel() {
     }).addTo('panelBasic');
     new Jx.Panel({
         image: 'images/page_white_world.png',
-        label: 'Basic Panel 2',
+        label: { set: 'Examples', key: 'panel', value: 'basic2' },
         contentURL: 'panel_content.html',
         menu: true,
         height: 200
@@ -51,19 +52,19 @@ function drawToolbarPanel() {
      * in.
      */
     var tbTop = new Jx.Toolbar({position: 'top'}).add(
-        new Jx.Button({label:'Top'})
+        new Jx.Button({label: {set:'Examples',key:'panel',value:'btnTop'} })
     );
     var tbRight = new Jx.Toolbar({position: 'right'}).add(
-        new Jx.Button({label:'Right'})
+        new Jx.Button({label: {set:'Examples',key:'panel',value:'btnRight'} })
     );
     var tbBottom = new Jx.Toolbar({position: 'bottom'}).add(
-        new Jx.Button({label:'Bottom'})
+        new Jx.Button({label: {set:'Examples',key:'panel',value:'btnBottom'} })
     );
     var tbLeft = new Jx.Toolbar({position: 'left'}).add(
-        new Jx.Button({label:'Left'})
+        new Jx.Button({label: {set:'Examples',key:'panel',value:'btnLeft'} })
     );
     new Jx.Panel({
-        label: 'Panel with Toolbars',
+        label: {set:'Examples',key:'panel',value:'panelToolbar'},
         content: 'toolbarPanelContent',
         height: 200,
         toolbars:[tbTop, tbRight, tbBottom, tbLeft]

@@ -392,6 +392,7 @@ Jx.Object = new Class({
       } else if (Jx.type(val) == 'function') {
         return val();
       } else if (Jx.type(val) == 'object' && $defined(val.set) && $defined(val.key)) {
+        // COMMENT: just an idea how a localization object could be stored to the instance if needed somewhere else and options change?
         this.i18n = val;
         if($defined(val.value)) {
           return MooTools.lang.get(val.set, val.key)[val.value];

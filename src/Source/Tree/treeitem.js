@@ -118,7 +118,7 @@ Jx.TreeItem = new Class ({
         }
 
         if (this.options.label && this.domLabel) {
-            this.domLabel.set('html',this.options.label);
+            this.setLabel(this.options.label);
         }
 
         if (this.domA) {
@@ -210,7 +210,7 @@ Jx.TreeItem = new Class ({
     setLabel: function(label) {
         this.options.label = label;
         if (this.domLabel) {
-            this.domLabel.set('html',label);
+            this.domLabel.set('html',this.getText(label));
         }
     },
 
@@ -282,5 +282,9 @@ Jx.TreeItem = new Class ({
           this.domImg.removeClass(this.options.busyClass);
         }
       }
+    },
+    changeText : function(lang) {
+      this.parent();
+      this.setLabel(this.options.label);
     }
 });

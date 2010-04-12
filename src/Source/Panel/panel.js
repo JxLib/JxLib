@@ -120,7 +120,7 @@ Jx.Panel = new Class({
             this.domImg.setStyle('backgroundImage', 'url('+this.options.image+')');
         }
         if (this.options.label && this.domLabel) {
-            this.domLabel.set('html',this.options.label);
+            this.setLabel(this.options.label);
         }
 
         var tbDiv = new Element('div');
@@ -387,7 +387,7 @@ Jx.Panel = new Class({
      * s - {String} the new label
      */
     setLabel: function(s) {
-        this.domLabel.set('html',s);
+        this.domLabel.set('html',this.getText(s));
     },
     /**
      * Method: getLabel
@@ -538,6 +538,11 @@ Jx.Panel = new Class({
 	    		this.colM.setLabel(MooTools.lang.get('Jx','panel').collapseLabel);
 	    	}
     	}
+      if (this.options.label && this.domLabel) {
+          this.setLabel(this.options.label);
+      }
+      // TODO: is this the right method to call?
+      // if toolbars left/right are used and localized, they may change their size..
+      this.layoutContent();
     }
-
 });

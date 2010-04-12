@@ -15,7 +15,7 @@ window.addEvent('load', function() {
 });
 </script>
 
-<script id="basicListView" type="text/javascript">
+<script id="basicListViewScript" type="text/javascript">
 function basicListView() {
     var listView = new Jx.ListView().addTo('listViewArea').add([
       new Jx.ListItem({content: 'item 1'}),
@@ -27,7 +27,7 @@ function basicListView() {
 }
 </script>
 
-<script id="accessibleListView" type="text/javascript">
+<script id="accessibleListViewScript" type="text/javascript">
 function accessibleListView() {
   var linkTempl = "<li class='jxListItemContainer'><a class='jxListItem' href='javascript:void(0);'></a></li>";
   var listView = new Jx.ListView().addTo('listViewArea2').add([
@@ -40,7 +40,7 @@ function accessibleListView() {
 }
 </script>
 
-<script id="complexListView" type="text/javascript">
+<script id="complexListViewScript" type="text/javascript">
 function complexListView() {
   var linkTempl = "<li class='jxListItemContainer'><a class='jxListItem' href='javascript:void(0);'><img src='"+Jx.aPixel.src+"' class='itemImg {class}'><span class='itemLabel'>{label}</span><span class='itemTools'><img src='images/delete.png'></span></span></a><span class='itemInput'><input type='checkbox'></span></li>";
   var listView = new Jx.ListView().addTo('listViewArea3');

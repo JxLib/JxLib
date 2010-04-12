@@ -81,7 +81,8 @@ Jx.Button = new Class({
         tooltip: '',
         /* Option: label
          * optional, default is no label.  A string value that is used as a
-         * label on the button.
+         * label on the button. - use an object for localization: { set: 'Examples', key: 'lanKey', value: 'langValue' }
+         * see widget.js for details
          */
         label: '',
         /* Option: toggle
@@ -222,7 +223,6 @@ Jx.Button = new Class({
 
         if (this.domLabel) {
             if (this.options.label || this.domA.hasClass('jxDiscloser')) {
-                //this.domLabel.set('html',this.options.label);
                 this.setLabel(this.options.label);
             } else {
                 //this.domLabel.removeClass('jx'+this.type+'Label');

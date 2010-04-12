@@ -7,6 +7,7 @@
 <script type="text/javascript" src="../../lib/mootools-more.js"></script>
 <script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
 <script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/locale.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
 var grid;
 var panel;
@@ -43,84 +44,85 @@ function drawToolbar() {
      * The actual grid code is in another sample
      */
   
-  var m = new Jx.Menu({label: 'Other Options', enabled: true})
   
-    new Jx.Menu({label: 'Row Options'}).addTo('buttons').add([
+    new Jx.Menu({label: {set:'Examples',key:'grid',value:'rowOptions'}}).addTo('buttons').add([
         new Jx.Menu.Item({
-            label: 'Row Prelight',
+            label: {set:'Examples',key:'grid',value:'rowPrelight'},
             toggle: true,
             onDown: function() { prelighter.activate('row'); },
             onUp: function() { prelighter.deactivate('row'); }
         }),
         new Jx.Menu.Item({
-            label: 'Row Header Prelight',
+            label: {set:'Examples',key:'grid',value:'rowHeaderPrelight'},
             toggle: true,
             onDown: function() { prelighter.activate('rowHeader'); },
             onUp: function() { prelighter.deactivate('rowHeader'); }
         }),
         new Jx.Menu.Item({
-            label: 'Row Selection',
+            label: {set:'Examples',key:'grid',value:'rowSelection'},
             toggle: true,
             onDown: function() { selector.activate('row'); m.setEnabled(true); },
             onUp: function() { selector.deactivate('row'); m.setEnabled(false);}
         })]
     );
-    new Jx.Menu({label: 'Column Options'}).addTo('buttons').add([
+    new Jx.Menu({label: {set:'Examples',key:'grid',value:'colOptions'}}).addTo('buttons').add([
         new Jx.Menu.Item({
-            label: 'Column Resize',
+            label: {set:'Examples',key:'grid',value:'colResize'},
             toggle: true,
             onDown: function() { resizer.activate('column'); },
             onUp: function() { resizer.deactivate('column'); }
         }),
         new Jx.Menu.Item({
-            label: 'Column Prelight',
+            label: {set:'Examples',key:'grid',value:'colPrelight'},
             toggle: true,
             onDown: function() { prelighter.activate('column'); },
             onUp: function() { prelighter.deactivate('column'); }
         }),
         new Jx.Menu.Item({
-            label: 'Column Header Prelight',
+            label: {set:'Examples',key:'grid',value:'colHeaderPrelight'},
             toggle: true,
             onDown: function() { prelighter.activate('columnHeader'); },
             onUp: function() { prelighter.deactivate('columnHeader'); }
         }),
         new Jx.Menu.Item({
-            label: 'Column Selection',
+            label: {set:'Examples',key:'grid',value:'colSelection'},
             toggle: true,
             onDown: function() { selector.activate('column'); },
             onUp: function() { selector.deactivate('column'); }
         })]
     );
-    new Jx.Menu({label: 'Cell Options'}).addTo('buttons').add([
+    new Jx.Menu({label: {set:'Examples',key:'grid',value:'cellOptions'}}).addTo('buttons').add([
         new Jx.Menu.Item({
-            label: 'Cell Prelight',
+            label: {set:'Examples',key:'grid',value:'cellPrelight'},
             toggle: true,
             onDown: function() { prelighter.activate('cell'); },
             onUp: function() { prelighter.deactivate('cell'); }
         }),
         new Jx.Menu.Item({
-            label: 'Cell Selection',
+            label: {set:'Examples',key:'grid',value:'cellSelection'},
             toggle: true,
             onDown: function() { selector.activate('cell'); },
             onUp: function() { selector.deactivate('cell'); }
         })]
     );
-   var b = new Jx.Menu.Item({
-     label: 'Check Column as Header',
-     toggle: true,
-     enabled: true,
-     onDown: function() { 
-      selector.detach(); 
-      selector.activate('checkAsHeader'); 
-      selector.attach(grid); 
-      grid.render(); 
-    },
-    onUp: function() { 
-      selector.detach(); 
-      selector.deactivate('checkAsHeader'); 
-      selector.attach(grid); 
-      grid.render(); 
-    }});
+    
+    var m = new Jx.Menu({label: 'Other Options', enabled: true})
+     var b = new Jx.Menu.Item({
+       label: 'Check Column as Header',
+       toggle: true,
+       enabled: true,
+       onDown: function() {
+        selector.detach();
+        selector.activate('checkAsHeader');
+        selector.attach(grid);
+        grid.render();
+      },
+      onUp: function() {
+        selector.detach();
+        selector.deactivate('checkAsHeader');
+        selector.attach(grid);
+        grid.render();
+      }});
   
   m.addTo('buttons').add([
     new Jx.Menu.Item({
@@ -349,10 +351,10 @@ function drawGrid() {
                   name: 'button',
                   options: {
                       buttonOptions: [{
-                        label: 'Click Me ...',
+                        label: {set:'Examples',key:'grid',value:'clickMe'},
                         onClick: clickFn
                       },{
-                        label: '... Or Me',
+                        label: {set:'Examples',key:'grid',value:'orMe'},
                         onClick: clickFn
                       }]
                   }

@@ -701,7 +701,7 @@ Jx.Widget = new Class({
      */
     cleanup: function(){
         if ($defined(this.domObj)) {
-            this.domObj.eliminiate('jxWidget');
+            this.domObj.eliminate('jxWidget');
             this.domObj.destroy();
         }
         if ($defined(this.addable)) {

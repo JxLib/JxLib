@@ -599,6 +599,11 @@ Jx.Grid = new Class({
 
     onMouseLeave: function (cell, list) {
         this.fireEvent('gridCellLeave', [cell,list,this]);
+    },
+
+    changeText : function(lang) {
+      this.parent();
+      this.render();
     }
 
 });
