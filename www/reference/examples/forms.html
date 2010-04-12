@@ -13,8 +13,9 @@ window.addEvent('load', function() {
 }); 
 </script>
 <script id="basicFormScript" type="text/javascript" charset="utf-8">
+var form;
 function drawBasicForm() {
-  var form = new Jx.Form({
+  form = new Jx.Form({
     name: 'testForm',
     formClass: 'jxFormInline'
   }).addTo('formBasic');
@@ -69,6 +70,28 @@ function drawBasicForm() {
         value: 'opt13',
         text: 'Option #3',
         selected: false
+    }]
+  }).addTo(fieldSet1);
+  
+  new Jx.Field.Select({
+    id: 'Select12',
+    name: 'Select12',
+    label: 'Select One',
+    tag: 'another tag',
+    size: 5,
+    multiple: true,
+    comboOpts: [{
+        value: 'opt121',
+        text: 'Option #1',
+        selected: false
+    },{
+        value: 'opt122',
+        text: 'Option #2',
+        selected: true
+    },{
+        value: 'opt123',
+        text: 'Option #3',
+        selected: true
     }]
   }).addTo(fieldSet1);
   

@@ -34,18 +34,33 @@ Jx.Field.Select = new Class({
 
     options: {
         /**
+         * Option: multiple
+         * {Boolean} optional, defaults to false.  If true, then the select
+         * will support multi-select
+         */
+        mulitple: false,
+        /**
+         * Option: size
+         * {Integer} optional, defaults to 1.  If set, then this specifies
+         * the number of rows of the select that are visible
+         */
+        size: 1,
+        /**
          * Option: comboOpts
-         * Optional, defaults to null. if not null, this should be an array of objects
-         * formated like [{value:'', selected: true|false, text:''},...]
+         * Optional, defaults to null. if not null, this should be an array of
+         * objects formated like [{value:'', selected: true|false,
+         * text:''},...]
          */
         comboOpts: null,
         /**
          * Option: optGroups
-         * Optional, defaults to null. if not null this should be an array of objects
-         * defining option groups for this select. The comboOpts and optGroups options
-         * are mutually exclusive. optGroups will always be shown if defined.
+         * Optional, defaults to null. if not null this should be an array of
+         * objects defining option groups for this select. The comboOpts and
+         * optGroups options are mutually exclusive. optGroups will always be
+         * shown if defined.
          *
-         * define them like [{name: '', options: [{value:'', selected: '', text: ''}...]},...]
+         * define them like [{name: '', options: [{value:'', selected: '',
+         * text: ''}...]},...]
          */
         optGroups: null,
         /**
@@ -67,6 +82,12 @@ Jx.Field.Select = new Class({
     render: function () {
         this.parent();
         this.field.addEvent('change', function() {this.fireEvent('change', this);}.bind(this));
+        if ($defined(this.options.multiple)) {
+          this.field.set('multiple', this.options.multiple);
+        }
+        if ($defined(this.options.size)) {
+          this.field.set('size', this.options.size);
+        }
         if ($defined(this.options.optGroups)) {
             this.options.optGroups.each(function(group){
                 var gr = new Element('optGroup');
