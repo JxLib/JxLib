@@ -151,7 +151,7 @@ Jx.Selection = new Class({
             this.selection.length > this.options.minimumSelection) {
             document.id(item).removeClass(this.options.selectClass);
             this.selection.erase(item);
-            this.fireEvent(this.options.eventToFire.unselect, item, this);
+            this.fireEvent(this.options.eventToFire.unselect, [item, this]);
         }
     },
     
