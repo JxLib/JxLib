@@ -131,10 +131,10 @@ Jx.Selection = new Class({
                 if (this.selection.length > 1) {
                     this.unselect(this.selection[0]);
                 }
+                this.fireEvent(this.options.eventToFire.select, item);
             } else {
                 this.unselect(item);
             }
-            this.fireEvent(this.options.eventToFire.select, item);
         }
     },
     
