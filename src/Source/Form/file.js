@@ -166,7 +166,8 @@ Jx.Field.File = new Class({
         //create the iframe
         this.iframe = new IFrame(null, {
             styles: {
-                display: 'none'
+                // display: 'none'
+                'visibility':'hidden'
             },
 
             name : this.generateId()
@@ -188,7 +189,18 @@ Jx.Field.File = new Class({
 
 
         //move the form input into it (cloneNode)
-        document.id(this.form).grab(this.field.cloneNode(true));
+        var parent = document.id(this.field.getParent());
+        var sibling = document.id(this.field).getPrevious();
+        var clone = this.field.clone();
+        document.id(this.form).grab(this.field);
+        // tried clone.replaces(this.field) but it didn't seem to work
+        if (sibling) {
+          clone.inject(sibling, 'after');
+        } else if (parent) {
+            clone.inject(parent, 'top');
+        }
+        this.field = clone;
+        this.text.field.set('value', '');
         //if polling the server we need an APC_UPLOAD_PROGRESS id.
         //get it from the server.
         if (this.options.progress) {
