@@ -47,6 +47,8 @@ Jx.Menu.Context = new Class({
         if (this.list.count() ==0) {
             return;
         }
+        
+        this.target = e.target;
 
         this.contentContainer.setStyle('visibility','hidden');
         this.contentContainer.setStyle('display','block');

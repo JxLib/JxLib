@@ -18,7 +18,25 @@ window.addEvent('load', function() {
 <script id="basicTreeScript" type="text/javascript">
 function basicTree() {
     var cm = new Jx.Menu.Context();
-    var mi = new Jx.Menu.Item({label:'test'});
+    var mi = new Jx.Menu.Item({
+      label:'test',
+      onClick: function() {
+        var p = this;
+        while (p.owner) {
+          p = p.owner;
+        }
+        var el = p.target;
+        if (el.tagName != 'A') {
+          el = el.getParent('a.jxTreeItem');
+        }
+        if (el) {
+          var item = el.retrieve('jxTreeItem');
+          if (item) {
+            console.log(item.getText(item.getLabel()));
+          }
+        }
+      }
+    });
     cm.add(mi);
 
     /* the tree object goes in a div */
