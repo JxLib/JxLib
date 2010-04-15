@@ -631,7 +631,7 @@
         },
         
         "field": {
-            "deps": ["widget","tooltip"],
+            "deps": ["widget","tooltip", "fieldset", "form"],
             "desc": "Base class for all inputs"
         },
         
