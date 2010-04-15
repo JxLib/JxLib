@@ -6,7 +6,15 @@
  */
 function $jx(id) {
   id = document.id(id);
-  return id ? id.retrieve('jxWidget') : null;
+  if (id) {
+    var widget = id.retrieve('jxWidget');
+    if (!widget && id != document.body) {
+      return $jx(id.getParent());
+    } else {
+      return widget;
+    }
+  }
+  return null;
 }
 
 /**
