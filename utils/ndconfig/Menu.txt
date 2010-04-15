@@ -188,7 +188,7 @@ Group: Jx  {
    Group: Data  {
 
       File: Compare  (Data/compare.js)
-      File: record  (Data/record.js)
+      File: Record  (Data/record.js)
       File: Sort Base class for all of the sorting algorithm classes.  (Data/sort.js)
       File: Sort.Heapsort  (Data/heapsort.js)
       File: Sort.Mergesort  (Data/mergesort.js)
@@ -204,9 +204,9 @@ Group: Jx  {
       File: Store.Strategy  (Data/strategy.js)
       File: Store.Strategy.Full  (Data/strategy.full.js)
       File: Store.Strategy.Paginate  (Data/strategy.paginate.js)
+      File: Store.Strategy.Progressive  (Data/strategy.progressive.js)
       File: Store.Strategy.Save  (Data/strategy.save.js)
       File: Store.Strategy.Sort  (Data/strategy.sort.js)
-      File: strategy.progressive.js  (Data/strategy.progressive.js)
       }  # Group: Data
 
    Group: Form  {

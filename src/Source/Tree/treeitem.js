@@ -91,7 +91,9 @@ Jx.TreeItem = new Class ({
         this.domObj = this.elements.get('jxTreeContainer');
         this.domObj.store('jxTreeItem', this);
         this.domA.store('jxTreeItem', this);
-
+        if (this.options.contextMenu) {
+          this.domA.store('jxContextMenu', this.options.contextMenu);
+        }
         /* the target for jxPressed, jxSelected, jxHover classes */
         this.domObj.store('jxListTarget', this.domA);
 
@@ -125,8 +127,7 @@ Jx.TreeItem = new Class ({
             this.domA.addEvents({
                 click: this.click.bind(this),
                 dblclick: this.dblclick.bind(this),
-                drag: function(e) { e.stop(); },
-                contextmenu: function(e) { e.stop(); }
+                drag: function(e) { e.stop(); }
             });
             if (typeof Drag != 'undefined') {
                 new Drag(this.domA, {

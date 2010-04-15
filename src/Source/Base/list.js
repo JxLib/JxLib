@@ -164,7 +164,7 @@ Jx.List = new Class({
                     this.removeClass('jxPressed');
                 }
             },
-            click: function () {
+            click: function (e) {
                 if (target.selection && 
                     isEnabled(this) && 
                     isSelectable(this)) {
@@ -182,6 +182,14 @@ Jx.List = new Class({
                     var itemTarget = item.retrieve('jxListTargetItem') || item;
                     target.fireEvent('unselect', itemTarget);
                 }
+            },
+            contextmenu: function(e) {
+              var cm = this.retrieve('jxContextMenu');
+              if (cm) {
+                cm.show(e);
+                this.removeClass(target.options.pressClass);
+              } 
+              e.stop();
             }
         };
         
@@ -236,6 +244,9 @@ Jx.List = new Class({
         var target = el.retrieve('jxListTarget') || el;
         if (target) {
             target.store('jxListTargetItem', el);
+            target.addEvents({
+              contextmenu: this.bound.contextmenu
+            });
             if (this.options.press && this.options.pressClass) {
                 target.addEvents({
                     mousedown: this.bound.mousedown,
