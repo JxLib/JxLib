@@ -148,19 +148,10 @@ Jx.Field.Combo = new Class({
         this.fireEvent('change', this);
     },
 
-    /**
-     * Method: getValue
-     * returns the currently selected value
-     */
-    getValue: function() {
-        return this.options.label;
-    },
-
     setValue: function(value) {
+        this.field.set('value', value);
         this.buttonSet.buttons.each(function(button){
-            if (button.options.label === value) {
-                button.setActive(true);
-            }
+          button.setActive(button.options.label === value);
         },this);
     },
 
