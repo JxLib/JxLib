@@ -93,8 +93,9 @@ window.addEvent('load', function() {
             }
         }),
         // allow the user to change the currently active language
-        new Jx.Button.Combo({
-          label: 'Switch Language',
+        new Jx.Field.Combo({
+          readonly: true,
+          label: 'Language',
           items: [
             {label: 'English (en-US)', image: 'http://upload.wikimedia.org/wikipedia/commons/7/7d/Icons-flag-us.png'},
             {label: 'German (de-DE)', image: 'http://upload.wikimedia.org/wikipedia/commons/b/b5/Icons-flag-de.png'}
@@ -106,7 +107,9 @@ window.addEvent('load', function() {
           }
         }),
         // allow the user to change the current skin
-        new Jx.Button.Combo({
+        new Jx.Field.Combo({
+            readonly: true,
+            label: 'Theme',
             items: jxSkins,
             onChange: function() {
                 var ss = this.getValue();

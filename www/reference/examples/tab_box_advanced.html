@@ -17,20 +17,20 @@ window.addEvent('load', function() {
 <script id="tabBoxScript" type="text/javascript" charset="utf-8">
 function drawTabBox() {
     new Jx.TabBox().add(
-        new Jx.Button.Tab({
+        new Jx.Tab({
             label: 'Sub tabs', 
             content: new Jx.TabBox().add(
-                new Jx.Button.Tab({
+                new Jx.Tab({
                     label: 'Sub Tab 1', 
                     content: 'content4'
                 }),
-                new Jx.Button.Tab({
+                new Jx.Tab({
                     label: 'Sub Tab 2', 
                     content: 'content5'
                 })
             )
         }),
-        new Jx.Button.Tab({
+        new Jx.Tab({
             label: 'Panel', 
             content: new Jx.Panel({
                 label: 'A Panel', 
@@ -42,7 +42,7 @@ function drawTabBox() {
                 ]
             })            
         }),
-        new Jx.Button.Tab({
+        new Jx.Tab({
             active: true,
             label: 'Panel Set',
             content: new Jx.PanelSet({

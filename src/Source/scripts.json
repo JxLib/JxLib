@@ -174,11 +174,6 @@
             "desc": "Flyout buttons expose a panel when the user clicks the button."
         },
 
-        "tab": {
-            "deps": ["button","layout"],
-            "desc": "A single tab in a tab set."
-        },
-
         "color": {
             "deps": ["flyout","colorpalette"],
             "desc": "A Jx.ColorPalette wrapped up in a Jx.Button."
@@ -187,11 +182,6 @@
         "multi": {
             "deps": ["button","menu","set"],
             "desc": "Multi buttons are used to contain multiple buttons in a drop down list where only one button is actually visible and clickable in the interface."
-        },
-
-        "combo": {
-            "deps": ["multi","set","menu.item"],
-            "desc": "A drop down list of selectable items."
         },
 
         "set": {
@@ -468,6 +458,11 @@
     "Tab": {
 
         "desc": "This group contains components used to create tabbed interfaces.  Note that tabs themselves are actually included in the Button group.",
+
+        "tab": {
+            "deps": ["button","layout"],
+            "desc": "A single tab in a tab set."
+        },
         
         "tabbox": {
             "deps": ["toolbar","panel","tabset"],
@@ -476,7 +471,7 @@
 
         "tabset": {
             "deps": ["tab"],
-            "desc": "A TabSet manages a set of Jx.Button.Tab content areas by ensuring that only one of the content areas is visible (i.e. the active tab). "
+            "desc": "A TabSet manages a set of Jx.Tab content areas by ensuring that only one of the content areas is visible (i.e. the active tab). "
         }
 
     },

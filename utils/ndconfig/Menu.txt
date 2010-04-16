@@ -63,7 +63,6 @@ Group: Jx  {
       File: Button.Flyout  (Button/flyout.js)
       File: Button.Color  (Button/color.js)
       File: Button.Multi  (Button/multi.js)
-      File: Button.Combo  (Button/combo.js)
       File: ButtonSet  (Button/set.js)
       File: Button  (Button/button.js)
       }  # Group: Button
@@ -108,7 +107,7 @@ Group: Jx  {
 
    Group: Tabs  {
 
-      File: Button.Tab  (Button/tab.js)
+      File: Tab  (Tab/tab.js)
       File: TabBox  (Tab/tabbox.js)
       File: TabSet  (Tab/tabset.js)
       }  # Group: Tabs

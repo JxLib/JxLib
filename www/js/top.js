@@ -15,7 +15,7 @@ window.addEvent('load', function() {
     toolbarContainer.add(toolbar);
     
     /* create the main navigation tabs */
-    homeTab = new Jx.Button.Tab({
+    homeTab = new Jx.Tab({
         label: 'Home', 
         content: 'homePage',
         onDown: function() {
@@ -25,7 +25,7 @@ window.addEvent('load', function() {
             }).delay(10);
         }
     });
-    examplesTab = new Jx.Button.Tab({
+    examplesTab = new Jx.Tab({
         label: 'Examples', 
         content: 'exampleList',
         onDown: function() {
@@ -35,7 +35,7 @@ window.addEvent('load', function() {
             }).delay(10);
         }
     });
-    refTab = new Jx.Button.Tab({
+    refTab = new Jx.Tab({
         label: 'API Reference', 
         content: 'refList',
         onDown: function() {
@@ -45,7 +45,7 @@ window.addEvent('load', function() {
             }).delay();
         }
     });
-    testsTab = new Jx.Button.Tab({
+    testsTab = new Jx.Tab({
         label: 'Tests', 
         content: 'testList',
         onDown: function() {
@@ -54,7 +54,7 @@ window.addEvent('load', function() {
             }).delay();
         }
     });
-    codeTab = new Jx.Button.Tab({
+    codeTab = new Jx.Tab({
         label: 'Code', 
         onDown: function() {
             (function(){
@@ -63,7 +63,7 @@ window.addEvent('load', function() {
             }).delay();
         }
     });
-    groupTab = new Jx.Button.Tab({
+    groupTab = new Jx.Tab({
         label: 'Group', 
         onDown: function() {
             (function(){
@@ -72,7 +72,7 @@ window.addEvent('load', function() {
             }).delay();
         }
     });
-    downloadTab = new Jx.Button.Tab({
+    downloadTab = new Jx.Tab({
         label: 'Download Builder', 
         onDown: function() {
             (function(){

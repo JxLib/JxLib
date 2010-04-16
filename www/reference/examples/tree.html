@@ -25,16 +25,8 @@ function basicTree() {
         while (p.owner) {
           p = p.owner;
         }
-        var el = p.target;
-        if (el.tagName != 'A') {
-          el = el.getParent('a.jxTreeItem');
-        }
-        if (el) {
-          var item = el.retrieve('jxTreeItem');
-          if (item) {
-            console.log(item.getText(item.getLabel()));
-          }
-        }
+        var item = $jx(p.target);
+        console.dir(item);
       }
     });
     cm.add(mi);

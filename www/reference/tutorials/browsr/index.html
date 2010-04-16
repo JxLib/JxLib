@@ -34,7 +34,7 @@
         // the tab box will contain an initial about tab that can't be closed
         // and tabs for each of the images that a user clicks on
         tabBox = new Jx.TabBox().add(
-            new Jx.Button.Tab({
+            new document.id({
                 // this is not really recommended :)
                 label: '<span style="color:#0063DC">brows</span><span style="color:#FF0084">r</span>', 
                 contentURL: 'about.html', 
@@ -232,7 +232,7 @@
         if (title.length > 20) {
             title = title.substring(0,20) + '...';
         }
-        var tab = new Jx.Button.Tab({
+        var tab = new document.id({
             label: title,
             image: 'http://farm'+photo.farm+'.static.flickr.com/'+photo.server+'/'+photo.id+'_'+photo.secret+'_t.jpg',
             close: true,
@@ -265,7 +265,7 @@
                 events: {
                     click: function() {
                         tabBox.add(
-                            new Jx.Button.Tab({
+                            new document.id({
                                 label: photo.owner.username,
                                 image: 'images/user.png',
                                 close: true,

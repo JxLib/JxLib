@@ -4,11 +4,11 @@
  *
  * Extends: <Jx.Object>
  *
- * A TabSet manages a set of <Jx.Button.Tab> content areas by ensuring that only one
+ * A TabSet manages a set of <Jx.Tab> content areas by ensuring that only one
  * of the content areas is visible (i.e. the active tab).  TabSet does not
- * manage the actual tabs.  The instances of <Jx.Button.Tab> that are to be managed
+ * manage the actual tabs.  The instances of <Jx.Tab> that are to be managed
  * as a set have to be added to both a TabSet and a <Jx.Toolbar>.  The content
- * areas of the <Jx.Button.Tab>s are sized to fit the content area that the TabSet
+ * areas of the <Jx.Tab>s are sized to fit the content area that the TabSet
  * is managing.
  *
  * Example:
@@ -16,10 +16,10 @@
  * var tabBar = new Jx.Toolbar('tabBar');
  * var tabSet = new Jx.TabSet('tabArea');
  *
- * var tab1 = new Jx.Button.Tab('tab 1', {contentID: 'content1'});
- * var tab2 = new Jx.Button.Tab('tab 2', {contentID: 'content2'});
- * var tab3 = new Jx.Button.Tab('tab 3', {contentID: 'content3'});
- * var tab4 = new Jx.Button.Tab('tab 4', {contentURL: 'test_content.html'});
+ * var tab1 = new Jx.Tab('tab 1', {contentID: 'content1'});
+ * var tab2 = new Jx.Tab('tab 2', {contentID: 'content2'});
+ * var tab3 = new Jx.Tab('tab 3', {contentID: 'content3'});
+ * var tab4 = new Jx.Tab('tab 4', {contentURL: 'test_content.html'});
  *
  * tabSet.add(t1, t2, t3, t4);
  * tabBar.add(t1, t2, t3, t4);
@@ -82,7 +82,7 @@ Jx.TabSet = new Class({
 
     /**
      * Method: add
-     * Add one or more <Jx.Button.Tab>s to the TabSet.
+     * Add one or more <Jx.Tab>s to the TabSet.
      *
      * Parameters:
      * tab - {<Jx.Tab>} an instance of <Jx.Tab> to add to the tab set.  More
@@ -90,7 +90,7 @@ Jx.TabSet = new Class({
      */
     add: function() {
         $A(arguments).flatten().each(function(tab) {
-            if (tab instanceof Jx.Button.Tab) {
+            if (tab instanceof Jx.Tab) {
                 tab.addEvent('down',this.setActiveTabFn);
                 tab.tabSet = this;
                 this.domObj.appendChild(tab.content);
@@ -112,7 +112,7 @@ Jx.TabSet = new Class({
      * tab - {<Jx.Tab>} the tab to remove.
      */
     remove: function(tab) {
-        if (tab instanceof Jx.Button.Tab && this.tabs.indexOf(tab) != -1) {
+        if (tab instanceof Jx.Tab && this.tabs.indexOf(tab) != -1) {
             this.tabs.erase(tab);
             if (this.activeTab == tab) {
                 if (this.tabs.length) {
@@ -128,7 +128,7 @@ Jx.TabSet = new Class({
      * Set the active tab to the one passed to this method
      *
      * Parameters:
-     * tab - {<Jx.Button.Tab>} the tab to make active.
+     * tab - {<Jx.Tab>} the tab to make active.
      */
     setActiveTab: function(tab) {
         if (this.activeTab && this.activeTab != tab) {

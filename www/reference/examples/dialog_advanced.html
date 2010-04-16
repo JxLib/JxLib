@@ -83,11 +83,11 @@ function drawTabDialog() {
     // A Dialog with a Tab Box for content, resizeable and moveable.
     // Tab Box definition
     var tabBox = new Jx.TabBox().add(
-        new Jx.Button.Tab({
+        new Jx.Tab({
             label: 'Tab 1', 
             content: 'tab1'
         }),
-        new Jx.Button.Tab({
+        new Jx.Tab({
             label: 'Tab 2', 
             content: 'tab2'
         })
@@ -139,11 +139,11 @@ function drawSplitDialog() {
     });
     
     var tabBox = new Jx.TabBox({parent: splitter.elements[0]}).add(
-       new Jx.Button.Tab({
+       new Jx.Tab({
            label: 'Tab 1', 
            content: 'tab3'
        }),
-       new Jx.Button.Tab({
+       new Jx.Tab({
            label: 'Tab 2', 
            content: 'tab4'
        })

@@ -75,7 +75,7 @@ Jx.Plugin.ToolbarContainer.TabMenu = new Class({
 
     addButton: function (item) {
         var tab;
-        tab = (item instanceof Jx.Button.Tab) ? item : document.id(item).getFirst().retrieve('jxTab');
+        tab = (item instanceof Jx.Tab) ? item : document.id(item).getFirst().retrieve('jxTab');
 
 
         var l = tab.getLabel();

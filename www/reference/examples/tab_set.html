@@ -34,7 +34,7 @@ function drawTabSet() {
         content: '<p>This is a panel embedded in a tab.</p>'
     });
     
-    var t1 = new Jx.Button.Tab({
+    var t1 = new Jx.Tab({
         image: 'images/star.png',
         content: 'starContent',
         onClose: function() {
@@ -42,7 +42,7 @@ function drawTabSet() {
             tabSet.remove(this);
         }
     });
-    var t2 = new Jx.Button.Tab({
+    var t2 = new Jx.Tab({
         label: 'Embedded Panel',
         content: panel,
         onClose: function() {
@@ -50,7 +50,7 @@ function drawTabSet() {
             tabSet.remove(this);
         }
     });
-    var t3 = new Jx.Button.Tab({
+    var t3 = new Jx.Tab({
         label: 'Inline Content',
         image: 'images/page_white_code.png',
         content: 'labelContent',
@@ -59,7 +59,7 @@ function drawTabSet() {
             tabSet.remove(this);
         }
     });
-    var t4 = new Jx.Button.Tab({
+    var t4 = new Jx.Tab({
         label: 'Ajax Content',
         image: 'images/page_white_world.png',
         contentURL: 'tab_content.html',
@@ -68,7 +68,7 @@ function drawTabSet() {
             tabSet.remove(this);
         }
     });
-    var t5 = new Jx.Button.Tab({
+    var t5 = new Jx.Tab({
         label: 'Closeable Tab',
         close: true,
         contentURL: 'tab_content.html',
@@ -83,7 +83,7 @@ function drawTabSet() {
     new Jx.Button({
         label: 'Add New Tab',
         onClick: function() {
-            var t = new Jx.Button.Tab({
+            var t = new Jx.Tab({
                 label: 'Closeable Tab',
                 close: true,
                 contentURL: 'tab_content.html',
@@ -103,7 +103,7 @@ function drawTabSet() {
 <body>
 <div>
     <h1>Jx.TabSet Examples</h1>
-    <p>API Reference: <a id="button-tab-js" href="javascript:void(0)" title="link to API Reference">Jx.Button.Tab</a> Extends <a id="button-js" href="javascript:void(0)" title="link to API Reference">Jx.Button</a> See Also: <a id="tabset-js" href="javascript:void(0)" title="link to API Reference">jx.TabSet</a></p>
+    <p>API Reference: <a id="button-tab-js" href="javascript:void(0)" title="link to API Reference">Jx.Tab</a> Extends <a id="button-js" href="javascript:void(0)" title="link to API Reference">Jx.Button</a> See Also: <a id="tabset-js" href="javascript:void(0)" title="link to API Reference">jx.TabSet</a></p>
     <h2 id="tabSet">Tab Sets</h2>
     <p>A tab set manages tabs and their content areas so only one tab is active at a time and that only one content area is visible at a time.  A tab set puts the content areas of each tab into a single container.  Unlike a tab box, a tab set does not display the tabs themselves, so you have to explicitly add them to a toolbar or other container on the page.  This allows more flexibility for some advanced layout options.</p>
     <div id="addTabArea" class="buttonBox"></div>

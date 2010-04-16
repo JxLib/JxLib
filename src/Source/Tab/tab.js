@@ -1,6 +1,6 @@
 // $Id$
 /**
- * Class: Jx.Button.Tab
+ * Class: Jx.Tab
  *
  * Extends: <Jx.Button>
  *
@@ -22,7 +22,7 @@
  *
  * Example:
  * (code)
- * var tab1 = new Jx.Button.Tab({
+ * var tab1 = new Jx.Tab({
  *     label: 'tab 1',
  *     content: 'content1',
  *     onDown: function(tab) {
@@ -41,8 +41,8 @@
  *
  * This file is licensed under an MIT style license
  */
-Jx.Button.Tab = new Class({
-    Family: 'Jx.Button.Tab',
+Jx.Tab = new Class({
+    Family: 'Jx.Tab',
     Extends: Jx.Button,
     /**
      * Property: content
@@ -120,7 +120,7 @@ Jx.Button.Tab = new Class({
 
     /**
      * Method: render
-     * Create a new instance of Jx.Button.Tab.  Any layout options passed are used
+     * Create a new instance of Jx.Tab.  Any layout options passed are used
      * to create a <Jx.Layout> for the tab content area.
      */
     render : function( ) {
@@ -169,4 +169,17 @@ Jx.Button.Tab = new Class({
             this.setActive(true);
         }
     }
+});
+
+/* keep the old location temporarily */
+Jx.Button.Tab = new Class({
+  Extends: Jx.Tab,
+  init: function() {
+    if (console.warn) {
+      console.warn('WARNING: Jx.Button.Tab has been renamed to Jx.Tab');
+    } else {
+      console.log('WARNING: Jx.Button.Tab has been renamed to Jx.Tab');
+    }
+    this.parent();
+  }
 });

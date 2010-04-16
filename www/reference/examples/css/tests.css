@@ -156,6 +156,10 @@ ul {
   color: #333;
 }
 
+#pageBar .jxInputCombo {
+  width: 100px;
+}
+
 .buttonBox {
   display: block;
   position: relative;

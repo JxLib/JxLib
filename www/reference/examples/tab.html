@@ -33,26 +33,26 @@ function drawTabBox() {
     
     /* make some tabs */
     tabBox.add(
-        new Jx.Button.Tab({
+        new Jx.Tab({
             image: 'images/star.png',
             content: 'starContent'
         }),
-        new Jx.Button.Tab({
+        new Jx.Tab({
             label: 'Embedded Panel',
             content: panel
         }),
-        new Jx.Button.Tab({
+        new Jx.Tab({
             label: 'Inline Content',
             image: 'images/page_white_code.png',
             content: 'labelContent'
         }),
-        new Jx.Button.Tab({
+        new Jx.Tab({
             active: true,
             label: 'Ajax Content',
             image: 'images/page_white_world.png',
             contentURL: 'tab_content.html'
         }),
-        new Jx.Button.Tab({
+        new Jx.Tab({
             label: 'Closeable Tab',
             close: true,
             contentURL: 'tab_content.html'
@@ -69,7 +69,7 @@ function drawTabBox() {
         label: 'Add New Tab',
         onClick: function() {
             tabBox.add(
-                new Jx.Button.Tab({
+                new Jx.Tab({
                     label: 'Closeable Tab',
                     close: true,
                     contentURL: 'tab_content.html'
@@ -82,7 +82,7 @@ function drawTabBox() {
         label: 'Add New Active Tab',
         onClick: function() {
             tabBox.add(
-                new Jx.Button.Tab({
+                new Jx.Tab({
                     label: 'Active Tab',
                     active: true,
                     close: true,
@@ -101,7 +101,7 @@ function drawEventTabs() {
         position: 'bottom'
     });
 
-    var disabledTab = new Jx.Button.Tab({
+    var disabledTab = new Jx.Tab({
         label: 'Disabled',
         enabled: false,
         content: 'disabledContent'
@@ -126,7 +126,7 @@ function drawEventTabs() {
     /* handle some events in the second tab to show how that works */
     tabBox.add(
         disabledTab,
-        new Jx.Button.Tab({
+        new Jx.Tab({
             label: 'Events (active)',
             content: 'eventContent',
             onUp: function() {
@@ -155,11 +155,11 @@ function drawTabsOnLeft() {
      * of the tab here).
      */
     tabBox.add(
-        new Jx.Button.Tab({
+        new Jx.Tab({
             label: '<img src="images/tab1.png" width="16" height="32">',
             content: 'leftTabContent'
         }),
-        new Jx.Button.Tab({
+        new Jx.Tab({
             label: '<img src="images/tab2.png" width="16" height="53">', 
             content: 'leftTabCloseable',
             close: true
@@ -172,7 +172,7 @@ function drawTabsOnLeft() {
 <body>
 
     <h1>Jx.Tab Examples</h1>
-    <p>API Reference: <a id="button-tab-js" href="javascript:void(0)" title="link to API Reference">Jx.Button.Tab</a> Extends <a id="button-js" href="javascript:void(0)" title="link to API Reference">Jx.Button</a> See Also: <a id="tabbox-js" href="javascript:void(0)" title="link to API Reference">Jx.TabBox</a></p>
+    <p>API Reference: <a id="button-tab-js" href="javascript:void(0)" title="link to API Reference">Jx.Tab</a> Extends <a id="button-js" href="javascript:void(0)" title="link to API Reference">Jx.Button</a> See Also: <a id="tabbox-js" href="javascript:void(0)" title="link to API Reference">Jx.TabBox</a></p>
     <h2 id="tabBox">Basic Tabs in a Tab Box</h2>
     <p>Tabs are essentially buttons that toggle a content area.  Tabs can have images, labels, or both.  Tabs can attach to inline HTML content, load content asynchronously from a URL, or embed other JxLib objects such as panels.</p>
     <p>A tab box is a single control that uses a panel to display a toolbar attached to a content area and puts the tabs in the toolbar and the tab content areas into the box's content area.</p>
