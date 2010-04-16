@@ -189,7 +189,7 @@ Jx.TreeItem = new Class ({
      */
     select: function() {
         if (this.selection && this.options.enabled) {
-            this.selection.select(document.id(this));
+            this.selection.select(this.domA);
         }
     },
 
