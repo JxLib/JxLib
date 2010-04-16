@@ -217,6 +217,7 @@ Jx.Field = new Class({
                 });
                 this.requiredText.inject(this.label);
             }
+
         }
 
         // FIELD
@@ -251,6 +252,11 @@ Jx.Field = new Class({
             });
 
             this.field.store('field', this);
+
+            // add click event to label to set the focus to the field
+            if(this.label) {
+                this.label.addEvent('click', this.field.focus.bind(this.field));
+            }
         }
 
         // TAG

@@ -70,6 +70,13 @@ Jx.Field.Checkbox = new Class({
                 this.field.set("defaultChecked", "checked");
             }
         }
+
+        // add click event to the label to toggle the checkbox
+        if(this.label) {
+          this.label.addEvent('click', function(ev) {
+            this.setValue(this.getValue() != null ? false : true)
+          }.bind(this));
+        }
     },
 
     /**
