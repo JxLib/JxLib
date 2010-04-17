@@ -50,7 +50,9 @@ Jx.Form = new Class({
          * Option: acceptCharset
          * the character encoding to be used. Defaults to utf-8.
          */
-        acceptCharset: 'utf-8'
+        acceptCharset: 'utf-8',
+
+        template: '<form class="jxForm"></form>'
     },
     
     /**
@@ -73,6 +75,10 @@ Jx.Form = new Class({
      * required variable for plugins
      */
     pluginNamespace: 'Form',
+
+    classes: $H({
+        domObj: 'jxForm'
+    }),
     
     init: function() {
       this.parent();
@@ -84,11 +90,11 @@ Jx.Form = new Class({
      * caller should use form.addTo() to add the form to the DOM.
      */
     render : function () {
+        this.parent();
         //create the form first
-        this.domObj = new Element('form', {
+        this.domObj.set({
             'method' : this.options.method,
             'action' : this.options.action,
-            'class' : 'jxForm',
             'name' : this.options.name,
             'accept-charset': this.options.acceptCharset,
             events: {
@@ -108,9 +114,7 @@ Jx.Form = new Class({
         if (this.options.fileUpload) {
             this.domObj.set('enctype', 'multipart/form-data');
         }
-        if ($defined(this.options.id)) {
-            this.domObj.set('id', this.options.id);
-        }
+        
         if ($defined(this.options.formClass)) {
             this.domObj.addClass(this.options.formClass);
         }
