@@ -131,7 +131,7 @@ Jx.Field.Combo = new Class({
     
     setImage: function(url) {
       if ($defined(this.icon)) {
-        this.icon.setStyle('background-image', 'url('+url+')');
+        this.icon.setStyle('background', 'url('+url+') no-repeat center center');
       }
       if (!url) {
         this.wrapper.addClass('jxInputIconHidden');

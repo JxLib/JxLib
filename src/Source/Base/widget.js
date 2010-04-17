@@ -79,6 +79,17 @@ Jx.Widget = new Class({
          */
         contentURL: null,
         /**
+         * Option: loadOnDemand
+         * {boolean} ajax content will only be loaded if the action is requested
+         * (like loading the content into a tab when activated)
+         */
+        loadOnDemand : false,
+        /**
+         * Option: cacheContent
+         * {boolean} determine whether the content should be loaded everytime or being cached
+         */
+        cacheContent : true,
+        /**
          * Option: template
          * the default HTML structure of this widget.  The default template
          * is just a div with a class of jxWidget in the base class
@@ -211,12 +222,18 @@ Jx.Widget = new Class({
                 url: this.options.contentURL,
                 method:'get',
                 evalScripts:true,
+                onRequest:(function() {
+                  if(this.options.loadOnDemand) {
+                      this.setBusy(true);
+                  }
+                }).bind(this),
                 onSuccess:(function(html) {
                     element.innerHTML = html;
                     this.contentIsLoaded = true;
                     if (Jx.isAir){
                         $clear(this.reqTimeout);
                     }
+                    this.setBusy(false);
                     this.fireEvent('contentLoaded', this);
                 }).bind(this),
                 onFailure: (function(){

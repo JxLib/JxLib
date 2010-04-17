@@ -67,6 +67,14 @@ MooTools.lang.set('en-US', 'Examples', {
     subFolder      : 'A Sub Folder',
     item           : 'Item ',
     folder         : 'Folder '
+  },
+
+  tabset : {
+    newTab         : 'Add new Tab',
+    embedded       : 'Embedded Panel',
+    inline         : 'Inline Content',
+    ajax           : 'Ajax Content',
+    closeable      : 'Closeable Tab'
   }
 
 });
@@ -138,6 +146,14 @@ MooTools.lang.set('de-DE', 'Examples', {
     subFolder      : 'Ein Unter-Ordner',
     item           : 'Eintrag ',
     folder         : 'Ordner '
+  },
+
+  tabset : {
+    newTab         : 'Neues Tab hinzufügen',
+    embedded       : 'Eingebettetes Panel',
+    inline         : 'Inline Inhalt',
+    ajax           : 'Ajax Inhalt',
+    closeable      : 'Schlie&szlig;bares Tab'
   }
 
 });

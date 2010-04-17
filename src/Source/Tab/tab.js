@@ -129,7 +129,9 @@ Jx.Tab = new Class({
         this.domObj.store('jxTab', this);
         this.processElements(this.options.contentTemplate, this.classes);
         new Jx.Layout(this.content, this.options);
-        this.loadContent(this.content);
+        if(!this.options.loadOnDemand) {
+          this.loadContent(this.content);
+        }
         this.addEvent('down', function(){
             this.content.addClass(this.options.activeTabClass);
         }.bind(this));
@@ -165,9 +167,31 @@ Jx.Tab = new Class({
      * actionPerformed event
      */
     clicked : function(evt) {
-        if (this.options.enabled) {
+      if(this.options.enabled) {
+        /*
+        if((!this.contentIsLoaded && this.options.loadOnDemand) ||
+             this.contentIsLoaded && !this.options.cacheContent ) {
+          this.loadContent(this.content);
+          this.addEvent('contentLoaded', function(ev) {
+            this.setBusy(false);
             this.setActive(true);
+          }.bind(this));
+        }else{
+          this.setActive(true);
         }
+        */
+        if(this.contentIsLoaded && this.options.cacheContent) {
+          this.setActive(true);
+        }else if(this.options.loadOnDemand || !this.options.cacheContent){
+          this.loadContent(this.content);
+          this.addEvent('contentLoaded', function(ev) {
+            //this.setBusy(false);
+            this.setActive(true);
+          }.bind(this));
+        }else{
+          this.setActive(true);
+        }
+      }
     }
 });
 

@@ -100,7 +100,7 @@ window.addEvent('load', function() {
             {label: 'English (en-US)', image: 'http://upload.wikimedia.org/wikipedia/commons/7/7d/Icons-flag-us.png'},
             {label: 'German (de-DE)', image: 'http://upload.wikimedia.org/wikipedia/commons/b/b5/Icons-flag-de.png'}
           ],
-          onChange : function() {
+          onChange : function(a,b,c) {
             // not very nice but it works :)
             var lang = this.getValue().split(" ")[1].split("(")[1].split(")")[0];
             Jx.setLanguage(lang);

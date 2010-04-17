@@ -42,15 +42,17 @@ function drawTabBox() {
             content: panel
         }),
         new Jx.Tab({
+            active: true,
             label: 'Inline Content',
             image: 'images/page_white_code.png',
             content: 'labelContent'
         }),
         new Jx.Tab({
-            active: true,
             label: 'Ajax Content',
             image: 'images/page_white_world.png',
-            contentURL: 'tab_content.html'
+            contentURL: 'tab_content.html',
+            loadOnDemand: true,
+            cacheContent : false
         }),
         new Jx.Tab({
             label: 'Closeable Tab',
