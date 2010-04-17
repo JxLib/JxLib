@@ -7,6 +7,7 @@
 <script type="text/javascript" src="../../lib/mootools-more.js"></script>
 <script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
 <script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/locale.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
 window.addEvent('load', function() {
     drawTabSet();
@@ -43,7 +44,7 @@ function drawTabSet() {
         }
     });
     var t2 = new Jx.Tab({
-        label: 'Embedded Panel',
+        label: {set:'Examples',key:'tabset',value:'embedded'},
         content: panel,
         onClose: function() {
             tb.remove(this);
@@ -51,7 +52,7 @@ function drawTabSet() {
         }
     });
     var t3 = new Jx.Tab({
-        label: 'Inline Content',
+        label: {set:'Examples',key:'tabset',value:'inline'},
         image: 'images/page_white_code.png',
         content: 'labelContent',
         onClose: function() {
@@ -60,7 +61,7 @@ function drawTabSet() {
         }
     });
     var t4 = new Jx.Tab({
-        label: 'Ajax Content',
+        label: {set:'Examples',key:'tabset',value:'ajax'},
         image: 'images/page_white_world.png',
         contentURL: 'tab_content.html',
         onClose: function() {
@@ -69,7 +70,7 @@ function drawTabSet() {
         }
     });
     var t5 = new Jx.Tab({
-        label: 'Closeable Tab',
+        label: {set:'Examples',key:'tabset',value:'closeable'},
         close: true,
         contentURL: 'tab_content.html',
         onClose: function() {
@@ -81,7 +82,7 @@ function drawTabSet() {
     tabSet.add(t1,t2,t3,t4,t5);
 
     new Jx.Button({
-        label: 'Add New Tab',
+        label: {set:'Examples',key:'tabset',value:'newTab'},
         onClick: function() {
             var t = new Jx.Tab({
                 label: 'Closeable Tab',
