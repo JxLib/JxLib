@@ -44,6 +44,11 @@ Jx.Columns = new Class({
     columns : [],
 
     parameters: ['options','grid'],
+    /**
+     * Property: hasExpandable
+     * 
+     */
+    hasExpandable: null,
 
     /**
      * APIMethod: init
@@ -56,12 +61,18 @@ Jx.Columns = new Class({
             this.grid = this.options.grid;
         }
 
+        this.hasExpandable = false;
+
         this.options.columns.each(function (col) {
             //check the column to see if it's a Jx.Grid.Column or an object
             if (col instanceof Jx.Column) {
                 this.columns.push(col);
             } else if (Jx.type(col) === "object") {
                 this.columns.push(new Jx.Column(col,this.grid));
+            }
+            var c = this.columns[this.columns.length - 1 ];
+            if (c.options.renderMode === 'expand') {
+                this.hasExpandable = true;
             }
 
         }, this);
@@ -203,7 +214,11 @@ Jx.Columns = new Class({
                 list.add(this.getColumnCell(col, idx));
             }
         }, this);
-        list.add(new Element('td'));
+        if (!this.hasExpandable) {
+            list.add(new Element('td',{
+                'class': 'jxGridCellUnattached'
+            }));
+        }
     },
     /**
      * APIMethod: getColumnCell
@@ -268,7 +283,7 @@ Jx.Columns = new Class({
           }
         }
         if (!col.isHidden() && !(col.name == this.grid.row.options.headerColumn)) {
-            totalWidth += Jx.getNumber(col.getWidth());
+            totalWidth += Jx.getNumber(col.getCellWidth());
             if (rowHeader) {
                 rowHeaderWidth = col.getWidth();
             }
@@ -282,11 +297,15 @@ Jx.Columns = new Class({
         //now figure the expand column
         if ($defined(expand)) {
           // var leftOverSpace = gridSize.width - totalWidth + rowHeaderWidth;
-          var leftOverSpace = gridSize.width - totalWidth;
+          // -2 is for the right hand border on the cell and the table
+          var leftOverSpace = gridSize.width - totalWidth - 2;
           if (leftOverSpace >= expand.options.width) {
+            //in order for this to be set properly the cellWidth must be the
+            //leftover space. we need to figure out the delta value and
+            //subtract it from the leftover width
             expand.options.width = leftOverSpace;
             expand.calculateWidth();
-            expand.setWidth(leftOverSpace);
+            expand.setWidth(leftOverSpace, true);
             totalWidth += leftOverSpace;
           } else {
             expand.setWidth(expand.options.width);

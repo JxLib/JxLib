@@ -150,13 +150,21 @@ Jx.Column = new Class({
       return this.domObj;
     },
 
-    setWidth: function(newWidth) {
-      var delta = this.cellWidth - this.width;
-    	this.width = parseInt(newWidth,10);
-    	this.cellWidth = this.width + delta;
-    	this.options.width = newWidth;
-      if (this.rule && parseInt(newWidth,10) >= 0) {
-          this.rule.style.width = parseInt(newWidth,10) + "px";
+    setWidth: function(newWidth, asCellWidth) {
+        asCellWidth = $defined(asCellWidth) ? asCellWidth : false;
+
+        var delta = this.cellWidth - this.width;
+        if (!asCellWidth) {
+    	    this.width = parseInt(newWidth,10);
+    	    this.cellWidth = this.width + delta;
+    	    this.options.width = newWidth;
+        } else {
+            this.width = parseInt(newWidth,10) - delta;
+            this.cellWidth = newWidth;
+            this.options.width = this.width;
+        }
+      if (this.rule && parseInt(this.width,10) >= 0) {
+          this.rule.style.width = parseInt(this.width,10) + "px";
       }
       if (this.cellRule && parseInt(this.cellWidth,10) >= 0) {
           this.cellRule.style.width = parseInt(this.cellWidth,10) + "px";
