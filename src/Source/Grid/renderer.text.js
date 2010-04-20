@@ -80,20 +80,23 @@ Jx.Grid.Renderer.Text = new Class({
     
     var text = '';
     if ($defined(this.options.textTemplate)) {
-      text = this.store.fillTemplate(null,this.options.textTemplate,this.columnsNeeded);
+        if (!$defined(this.columnsNeeded) || (Jx.type(this.columnsNeeded) === 'array' && this.columnsNeeded.length === 0)) {
+            this.columnsNeeded = this.store.parseTemplate(this.options.textTemplate);
+        }
+        text = this.store.fillTemplate(null,this.options.textTemplate,this.columnsNeeded);
     } 
     
-        if ($defined(this.options.formatter)) {
-            text = this.options.formatter.format(text);
-        }
-        
-        this.domObj.set('html',text);
-        
-        if ($defined(this.options.css) && Jx.type(this.options.css) === 'function') {
-          this.domObj.addClass(this.options.css.run(text));
-        } else if ($defined(this.options.css) && Jx.type(this.options.css) === 'string'){
-          this.domObj.addClass(this.options.css);
-        }
+    if ($defined(this.options.formatter)) {
+        text = this.options.formatter.format(text);
+    }
+
+    this.domObj.set('html',text);
+
+    if ($defined(this.options.css) && Jx.type(this.options.css) === 'function') {
+      this.domObj.addClass(this.options.css.run(text));
+    } else if ($defined(this.options.css) && Jx.type(this.options.css) === 'string'){
+      this.domObj.addClass(this.options.css);
+    }
         
   }
     

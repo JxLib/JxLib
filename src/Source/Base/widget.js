@@ -741,6 +741,8 @@ Jx.Widget = new Class({
           if ( $defined(this.options.id)) {
             this.domObj.set('id', this.options.id);
           }
+          //TODO: Should we autogenerate an id when one is not provided? like so...
+          // this.domObj.set('id',this.generateId());
           this.domObj.store('jxWidget', this);
         }
     },

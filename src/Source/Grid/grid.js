@@ -165,8 +165,6 @@ Jx.Grid = new Class({
             this.row = new Jx.Row({grid: this});
         }
 
-
-
         //initialize the grid
         this.domObj = new Element('div', {'class':this.uniqueId});
         var l = new Jx.Layout(this.domObj, {
@@ -271,17 +269,7 @@ Jx.Grid = new Class({
 
         var size = this.domObj.getContentBoxSize();
 
-        //sum all of the column widths except the hidden columns and the header column
-        /**
-        var w = size.width - rowWidth - 1;
-        var totalCols = 0;
-        this.columns.columns.each(function (col) {
-            if (col.options.modelField !== this.row.getRowHeaderField()
-                    && !col.isHidden()) {
-                totalCols += col.getWidth();
-            }
-        }, this);
-		**/
+
         
         /* -1 because of the right/bottom borders */
         this.rowColObj.setStyles({
@@ -308,6 +296,25 @@ Jx.Grid = new Class({
             width : size.width - rowWidth - 1,
             height : size.height - colHeight - 1
         });
+
+    },
+
+    resizeRowsCols: function (mode) {
+        mode = $defined(mode) ? mode : 'all';
+
+        if (mode === 'all' || mode === 'columns') {
+            Jx.Styles.removeStyleSheet(this.styleSheet + "Columns");
+            Jx.Styles.enableStyleSheet(this.styleSheet + "Columns");
+            this.columns.calculateWidths();
+            this.columns.createRules(this.styleSheet + "Columns", "."+this.uniqueId);
+        }
+        
+        if (mode === 'all' || mode === 'rows') {
+            Jx.Styles.removeStyleSheet(this.styleSheet + "Rows");
+            Jx.Styles.enableStyleSheet(this.styleSheet + "Rows");
+            this.row.calculateHeights();
+            this.row.createRules(this.styleSheet + "Rows", "."+this.uniqueId);
+        }
 
     },
 
@@ -463,13 +470,9 @@ Jx.Grid = new Class({
             }
             
             this.domObj.resize();
+            this.resizeRowsCols();
             this.resize();
-            this.columns.calculateWidths();
-            Jx.Styles.enableStyleSheet(this.styleSheet);
-            this.columns.createRules(this.styleSheet, "."+this.uniqueId);
-            this.row.calculateHeights();
-            this.row.createRules(this.styleSheet, "."+this.uniqueId);
-            
+
             this.fireEvent('doneCreateGrid', this);
         } else {
             this.model.load();
@@ -602,8 +605,9 @@ Jx.Grid = new Class({
     },
 
     changeText : function(lang) {
-      this.parent();
-      this.render();
+        this.parent();
+        this.resize();
+        this.resizeRowsCols();     
     }
 
 });

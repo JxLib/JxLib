@@ -40,7 +40,8 @@ function drawToolbar() {
             paginationOptions: {
                 ignoreExpiration: true
             },
-            parent: 'toolbarArea'
+            parent: 'toolbarArea',
+            scroll: false
         },
 
         init: function () {
@@ -149,204 +150,188 @@ function drawGrid() {
       row: {
           useHeaders: true,
           alternateRowColors: true,
-          headerField: 'id',
-          rowHeight: 20
+          headerColumn: 'id',
+          rowHeight: 'auto'
       },
       columns: {
           headerRowHeight: 20,
           useHeaders: true,
           columns: [{
-              header: null,
-              modelField: 'id',
-              width: 'auto',
+              template: '<span class="jxGridCellContent">ID</span>',
+              renderMode: 'fit',
               isEditable: false,
               isSortable: false,
               isResizable: true,
               isHidden: false,
-              cssClass: '',
-              formatter: null,
-              name: 'header',
-              dataType: 'numeric'
+              name: 'id',
+              renderer: new Jx.Grid.Renderer.Text({
+                textTemplate: '{id}'
+              })
           },{
-              header: 'Area',
-              modelField: 'AREA',
-              width: 'auto',
-              isEditable: true,
-              isSortable: true,
+              template: '<span class="jxGridCellContent">Area</span>',
+              renderMode: 'fit',
+              isEditable: false,
+              isSortable: false,
               isResizable: true,
               isHidden: false,
-              cssClass: '',
-              formatter: null,
               name: 'area',
-              dataType: 'numeric'
+              renderer: new Jx.Grid.Renderer.Text({
+                textTemplate: '{AREA}'
+              })
           },{
-              header: 'Perimeter',
-              modelField: 'PERIMETER',
-              width: 'auto',
+              template: '<span class="jxGridCellContent">Perimeter</span>',
+              renderMode: 'fit',
               isEditable: false,
               isSortable: false,
               isResizable: true,
               isHidden: false,
-              cssClass: '',
-              formatter: null,
               name: 'perimeter',
-              dataType: 'numeric'
+              renderer: new Jx.Grid.Renderer.Text({
+                textTemplate: '{Perimeter}'
+              })
           },{
-              header: 'Popplace_',
-              modelField: 'POPPLACE_',
-              width: 'auto',
+              template: '<span class="jxGridCellContent">Popplace_</span>',
+              renderMode: 'fit',
               isEditable: false,
               isSortable: false,
               isResizable: true,
               isHidden: false,
-              cssClass: '',
-              formatter: null,
               name: 'popplace',
-              dataType: 'numeric'
+              renderer: new Jx.Grid.Renderer.Text({
+                textTemplate: '{POPPLACE_}'
+              })
           },{
-              header: 'Popplace_I',
-              modelField: 'POPPLACE_I',
-              width: 'auto',
+              template: '<span class="jxGridCellContent">Popplace_I</span>',
+              renderMode: 'fit',
               isEditable: false,
               isSortable: false,
               isResizable: true,
               isHidden: false,
-              cssClass: '',
-              formatter: null,
               name: 'popplace-i',
-              dataType: 'numeric'
+              renderer: new Jx.Grid.Renderer.Text({
+                textTemplate: '{POPPLACE_I}'
+              })
           },{
-              header: 'Unique Key',
-              modelField: 'UNIQUE_KEY',
-              width: 'auto',
+              template: '<span class="jxGridCellContent">Unique Key</span>',
+              renderMode: 'fit',
               isEditable: false,
               isSortable: false,
               isResizable: true,
               isHidden: false,
-              cssClass: '',
-              formatter: null,
               name: 'uniqueKey',
-              dataType: 'alphanumeric'
+              renderer: new Jx.Grid.Renderer.Text({
+                textTemplate: '{UNIQUE_KEY}'
+              })
           },{
-              header: 'Name',
-              modelField: 'NAME',
-              width: 'auto',
+              template: '<span class="jxGridCellContent">Name</span>',
+              renderMode: 'fit',
               isEditable: false,
               isSortable: false,
               isResizable: true,
               isHidden: false,
-              cssClass: '',
-              formatter: null,
               name: 'name',
-              dataType: 'alphanumeric'
+              renderer: new Jx.Grid.Renderer.Text({
+                textTemplate: '{Name}'
+              })
           },{
-              header: 'Name_E',
-              modelField: 'NAME_E',
-              width: 'auto',
+              template: '<span class="jxGridCellContent">Name_E</span>',
+              renderMode: 'fit',
               isEditable: false,
               isSortable: false,
               isResizable: true,
               isHidden: false,
-              cssClass: '',
-              formatter: null,
-              name: 'nameE',
-              dataType: 'alphanumeric'
+              name: 'name-e',
+              renderer: new Jx.Grid.Renderer.Text({
+                textTemplate: '{NAME_E}'
+              })
           },{
-              header: 'Name_F',
-              modelField: 'NAME_F',
-              width: 'auto',
+              template: '<span class="jxGridCellContent">Name_F</span>',
+              renderMode: 'fit',
               isEditable: false,
               isSortable: false,
               isResizable: true,
               isHidden: false,
-              cssClass: '',
-              formatter: null,
-              name: 'nameF',
-              dataType: 'alphanumeric'
+              name: 'name-f',
+              renderer: new Jx.Grid.Renderer.Text({
+                textTemplate: '{NAME_F_}'
+              })
           },{
-              header: 'Reg_Code',
-              modelField: 'REG_CODE',
-              width: 'auto',
+              template: '<span class="jxGridCellContent">Reg_Code</span>',
+              renderMode: 'fit',
               isEditable: false,
               isSortable: false,
               isResizable: true,
               isHidden: false,
-              cssClass: '',
-              formatter: null,
-              name: 'regCode',
-              dataType: 'numeric'
+              name: 'reg-code',
+              renderer: new Jx.Grid.Renderer.Text({
+                textTemplate: '{REG_CODE}'
+              })
           },{
-              header: 'NTS50',
-              modelField: 'NTS50',
-              width: 'auto',
+              template: '<span class="jxGridCellContent">NTS50</span>',
+              renderMode: 'fit',
               isEditable: false,
               isSortable: false,
               isResizable: true,
               isHidden: false,
-              cssClass: '',
-              formatter: null,
               name: 'nts50',
-              dataType: 'alphanumeric'
+              renderer: new Jx.Grid.Renderer.Text({
+                textTemplate: '{NS50}'
+              })
           },{
-              header: 'Latitude',
-              modelField: 'LAT',
-              width: 'auto',
+              template: '<span class="jxGridCellContent">Latitude</span>',
+              renderMode: 'fit',
               isEditable: false,
               isSortable: false,
               isResizable: true,
               isHidden: false,
-              cssClass: '',
-              formatter: null,
               name: 'latitude',
-              dataType: 'numeric'
+              renderer: new Jx.Grid.Renderer.Text({
+                textTemplate: '{LAT}'
+              })
           },{
-              header: 'Longitude',
-              modelField: 'LONG',
-              width: 'auto',
+              template: '<span class="jxGridCellContent">Longitude</span>',
+              renderMode: 'fit',
               isEditable: false,
               isSortable: false,
               isResizable: true,
               isHidden: false,
-              cssClass: '',
-              formatter: null,
               name: 'longitude',
-              dataType: 'numeric'
+              renderer: new Jx.Grid.Renderer.Text({
+                textTemplate: '{LONG}'
+              })
           },{
-              header: 'Sgd_Code',
-              modelField: 'SGC_CODE',
-              width: 'auto',
+              template: '<span class="jxGridCellContent">Sgc_Code</span>',
+              renderMode: 'fit',
               isEditable: false,
               isSortable: false,
               isResizable: true,
               isHidden: false,
-              cssClass: '',
-              formatter: null,
-              name: 'sgdCode',
-              dataType: 'numeric'
+              name: 'sgcCode',
+              renderer: new Jx.Grid.Renderer.Text({
+                textTemplate: '{SGD_CODE}'
+              })
           },{
-              header: 'Capital',
-              modelField: 'CAPITAL',
-              width: 'auto',
+              template: '<span class="jxGridCellContent">Capital</span>',
+              renderMode: 'fit',
               isEditable: false,
               isSortable: false,
               isResizable: true,
               isHidden: false,
-              cssClass: '',
-              formatter: null,
               name: 'capital',
-              dataType: 'numeric'
+              renderer: new Jx.Grid.Renderer.Text({
+                textTemplate: '{CAPITAL}'
+              })
           },{
-              header: 'Pop_Range',
-              modelField: 'POP_RANGE',
-              width: 'auto',
+              template: '<span class="jxGridCellContent">Pop_Range</span>',
+              renderMode: 'fit',
               isEditable: false,
               isSortable: false,
               isResizable: true,
               isHidden: false,
-              cssClass: '',
-              formatter: null,
               name: 'popRange',
-              dataType: 'numeric'
+              renderer: new Jx.Grid.Renderer.Text({
+                textTemplate: '{POP_RANGE}'
+              })
           }
          ]
       },
@@ -356,6 +341,9 @@ function drawGrid() {
   var grid = new Jx.Grid(options);
   var tlb = new pagingToolbar({
       store: store
+  });
+  store.addEvent('storeDataLoaded', function () {
+      grid.render();
   });
   store.load();
   

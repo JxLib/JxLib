@@ -381,9 +381,7 @@ Jx.Store = new Class({
         } else {
             data = this.data;
         }
-        for (var i = 0, l = data.length; i < l; i++) {
-            fn.call(bind, data[i], i, data);
-        }
+        data.each(fn, bind);
     },
     /**
      * APIMethod: get
@@ -695,12 +693,21 @@ Jx.Store = new Class({
 	 * 			obtained by calling parseTemplate().
 	 */
 	fillTemplate: function (index, template, columnsNeeded) {
-		index = $defined(index)? index : this.index;
+        var record = null;
+		if ($defined(index)) {
+            if (index instanceof Jx.Record) {
+                record = index;
+            } else {
+                record = this.getRecord(index);
+            }
+        } else {
+            record = this.getRecord(this.index);
+        }
 		
 	    //create the item
 	    var itemObj = {};
 	    columnsNeeded.each(function (col) {
-	        itemObj[col] = this.get(col, index);
+	        itemObj[col] = record.get(col);
 	    }, this);
 	    return template.substitute(itemObj);
 	}

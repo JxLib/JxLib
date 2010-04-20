@@ -118,7 +118,7 @@ Jx.Plugin.Grid.Resize = new Class({
                         title: this.options.tooltip,
                         events: {
                             dblclick: function() {
-                                col.options.renderMode = 'fixed';
+                                col.options.renderMode = 'fit';
                                 col.options.width = 'auto';
                                 col.setWidth(col.getWidth(true));
                             }
@@ -149,9 +149,11 @@ Jx.Plugin.Grid.Resize = new Class({
                             col.options.renderMode = 'fixed';
                             var w = el.getPosition(el.parentNode).x.toInt();
                             col.setWidth(w);
+                            col.grid.resizeRowsCols("rows");
                         },
                         onComplete: function(el) {
                           el.setStyle('left', null);
+                          //col.grid.resizeRowsCols("rows");
                         }
                     }));
                 }

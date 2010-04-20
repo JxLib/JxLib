@@ -66,7 +66,14 @@ Jx.Compare = new Class({
      */
     convert: function (val) {
         if (Jx.type(val) === 'string') {
+            var neg = false;
+            if (val.substr(0,1) == '-') {
+                neg = true;
+            }
             val = parseFloat(val.replace(/^[^\d\.]*([\d., ]+).*/g, "$1").replace(new RegExp("[^\\\d" + this.options.separator + "]", "g"), '').replace(/,/, '.')) || 0;
+            if (neg) {
+                val = val * -1;
+            }
         }
         return val || 0;
     },
