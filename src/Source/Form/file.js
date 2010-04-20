@@ -139,6 +139,9 @@ Jx.Field.File = new Class({
         if (this.field.value !== '' && (this.text.field.value !== this.field.value)) {
             this.text.field.value = this.field.value;
             this.fireEvent('fileSelected', this);
+            if (this.options.autoUpload) {
+                this.upload();
+            }
         }
     },
     /**
@@ -287,7 +290,7 @@ Jx.Field.File = new Class({
      * called if there is a problem getting progress on the upload
      */
     uploadFailure: function (xhr) {
-        this.fireEvent('uploadProgressError', this);
+        this.fireEvent('uploadProgressError', [this, xhr]);
     },
     /**
      * Method: processIFrameUpload

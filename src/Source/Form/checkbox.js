@@ -121,6 +121,10 @@ Jx.Field.Checkbox = new Class({
         } else {
             this.field.erase('checked');
         }
+    },
+
+    getChecked: function () {
+        return this.field.get("checked");
     }
 
 });

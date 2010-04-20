@@ -193,4 +193,5 @@ Jx.Adaptor.Tree = new Class({
     getParentIndex: $empty
     
     
+    
 });
