@@ -12,6 +12,7 @@ window.addEvent('load', function() {
     hToolbar();
     vToolbar();
     drawMultiToolbar();
+    drawAlignedToolbar();
 });
 </script>
 
@@ -187,6 +188,48 @@ function drawMultiToolbar() {
     )
 };
 </script>
+
+<script id="alignedToolbarsScript" type="text/javascript">
+function drawAlignedToolbar() {
+    new Jx.Toolbar.Container({
+        align: 'left',
+        scroll: false
+    }).addTo(
+        'toolbar4'
+    ).add(
+        new Jx.Toolbar().add(
+            new Jx.Button({label: 'button one'}),
+            new Jx.Button({label: 'button two'}),
+            new Jx.Button({label: 'button three'}),
+            new Jx.Button({label: 'button four'})
+        )
+    );
+    new Jx.Toolbar.Container({
+        align: 'right',
+        scroll: false
+    }).addTo(
+        'toolbar5'
+    ).add(
+        new Jx.Toolbar().add(
+            new Jx.Button({label: 'button one'}),
+            new Jx.Button({label: 'button two'}),
+            new Jx.Button({label: 'button three'})
+        )
+    );
+     new Jx.Toolbar.Container({
+        align: 'center',
+        scroll: false
+    }).addTo(
+        'toolbar6'
+    ).add(
+        new Jx.Toolbar().add(
+            new Jx.Button({label: 'button one'}),
+            new Jx.Button({label: 'button two'}),
+            new Jx.Button({label: 'button three'})
+        )
+    );
+};
+</script>
 </head>
 <body>
 <h1>Jx.Toolbar Examples</h1>
@@ -203,6 +246,15 @@ function drawMultiToolbar() {
 <h2 id="multiToolbar">Multiple Stacked Toolbars with Scrolling</h2>
 <p>You can also add multiple toolbars to the same container as demonstrated here:</p>
 <div id="toolbar3" style="width: 500px" class="toolbarBox"></div>
+
+<h2 id="alignedToolbars">Aligning Toolbars</h2>
+<p>You can align non-scrolling toolbars by using the align option. Please note that you <strong>can not use scrolling and align together.</strong></p>
+<h3>Aligned Left</h3>
+<div id="toolbar4" style="width: 500px" class="toolbarBox"></div>
+<h3>Aligned Right</h3>
+<div id="toolbar5" style="width: 500px" class="toolbarBox"></div>
+<h3>Aligned Center</h3>
+<div id="toolbar6" style="width: 500px" class="toolbarBox"></div>
 
 </body>
 </html>

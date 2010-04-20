@@ -55,6 +55,14 @@ Jx.Toolbar.Container = new Class({
          * Default is true.
          */
         scroll: true,
+        /**
+         * Option: align
+         * Determines whether the toolbar is aligned left, center, or right.
+         * Mutually exclusive with the scroll option. If scroll is set to true
+         * this option does nothing. Default: 'left', valid values: 'left',
+         * 'center', or 'right'
+         */
+        align: 'left',
         template: "<div class='jxBarContainer'><div class='jxBarControls'></div></div>",
         scrollerTemplate: "<div class='jxBarScroller'><div class='jxBarWrapper'></div></div>"
     },
@@ -91,6 +99,8 @@ Jx.Toolbar.Container = new Class({
         if (this.options.scroll) {
             this.processElements(this.options.scrollerTemplate, this.classes);
             this.domObj.grab(this.scroller, 'top');
+        } else {
+            this.domObj.addClass('jxToolbarAlign' + this.options.align.capitalize());
         }
 
         /* this allows toolbars to add themselves to this bar container

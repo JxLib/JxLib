@@ -219,4 +219,25 @@ li.jxToolItem  span.jxBarSeparator {
   /* Base setup */
   clear: both;
 }
+/* Aligning options */
+.jxToolbarAlignLeft ul {
+    float: left;
+}
 
+.jxToolbarAlignRight ul {
+    float: right;
+}
+
+.jxToolbarAlignCenter {
+    text-align: center;
+}
+
+.jxToolbarAlignCenter ul {
+    float: none;
+}
+
+
+.jxToolbarAlignCenter ul li {
+    float: none;
+    display: inline;
+}
