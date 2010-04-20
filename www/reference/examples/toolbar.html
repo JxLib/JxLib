@@ -191,42 +191,36 @@ function drawMultiToolbar() {
 
 <script id="alignedToolbarsScript" type="text/javascript">
 function drawAlignedToolbar() {
-    new Jx.Toolbar.Container({
+    new Jx.Toolbar({
         align: 'left',
         scroll: false
     }).addTo(
         'toolbar4'
-    ).add(
-        new Jx.Toolbar().add(
-            new Jx.Button({label: 'button one'}),
-            new Jx.Button({label: 'button two'}),
-            new Jx.Button({label: 'button three'}),
-            new Jx.Button({label: 'button four'})
-        )
-    );
-    new Jx.Toolbar.Container({
+    ).add([
+      new Jx.Button({label: 'button one'}),
+      new Jx.Button({label: 'button two'}),
+      new Jx.Button({label: 'button three'}),
+      new Jx.Button({label: 'button four'})
+    ]);
+    new Jx.Toolbar({
         align: 'right',
         scroll: false
     }).addTo(
         'toolbar5'
-    ).add(
-        new Jx.Toolbar().add(
-            new Jx.Button({label: 'button one'}),
-            new Jx.Button({label: 'button two'}),
-            new Jx.Button({label: 'button three'})
-        )
-    );
-     new Jx.Toolbar.Container({
+    ).add([
+      new Jx.Button({label: 'button one'}),
+      new Jx.Button({label: 'button two'}),
+      new Jx.Button({label: 'button three'})
+    ]);
+     new Jx.Toolbar({
         align: 'center',
         scroll: false
     }).addTo(
         'toolbar6'
     ).add(
-        new Jx.Toolbar().add(
-            new Jx.Button({label: 'button one'}),
-            new Jx.Button({label: 'button two'}),
-            new Jx.Button({label: 'button three'})
-        )
+        new Jx.Button({label: 'button one'}),
+        new Jx.Button({label: 'button two'}),
+        new Jx.Button({label: 'button three'})
     );
 };
 </script>

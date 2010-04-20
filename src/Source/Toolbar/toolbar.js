@@ -87,6 +87,14 @@ Jx.Toolbar = new Class({
          * things it contains.  Default is false.
          */
         autoSize: false,
+        /**
+         * Option: align
+         * Determines whether the toolbar is aligned left, center, or right.
+         * Mutually exclusive with the scroll option. If scroll is set to true
+         * this option does nothing. Default: 'left', valid values: 'left',
+         * 'center', or 'right'
+         */
+        align: 'left',
         /* Option: scroll
          * if true, the toolbar may scroll if the contents are wider than
          * the size of the toolbar
@@ -141,6 +149,7 @@ Jx.Toolbar = new Class({
                 parent: parent,
                 position: this.options.position,
                 autoSize: this.options.autoSize,
+                align: this.options.align,
                 scroll: this.options.scroll
             });
         }
