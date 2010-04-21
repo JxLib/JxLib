@@ -31,10 +31,16 @@ MooTools.lang.set('en-US', 'Examples', {
     btnModal      : 'Positioned Modal',
     btnDynamic    : 'Dynamic Content and Toolbar',
     btnInvalid    : 'Invalid Content URL',
+    btnConfirm    : 'Confirm Dialog',
+    btnPrompt     : 'Prompt Dialog',
+    btnMessage    : 'Message Dialog',
     dialogStatic  : 'Static Dialog',
     dialogModal   : 'Positioned Modal Dialog',
     dialogDynamic : 'Toolbar Dialog with Ajax Content',
-    dialogInvalid : 'Invalid Content URL'
+    dialogInvalid : 'Invalid Content URL',
+    dialogConfirm : 'Do you like JxLib?',
+    dialogPrompt  : 'Enter a value!',
+    dialogMessage : 'Hello World.'
   },
 
   grid : {
@@ -110,10 +116,16 @@ MooTools.lang.set('de-DE', 'Examples', {
     btnModal      : 'modal positioniert',
     btnDynamic    : 'Dynamischer Inhalt mit Toolbar',
     btnInvalid    : 'Ungültige URL',
+    btnConfirm    : 'Bestätigungs Dialog',
+    btnPrompt     : 'Eingabe Dialog',
+    btnMessage    : 'Nachricht Dialog',
     dialogStatic  : 'Statischer Dialog',
     dialogModal   : 'modal positioniertes Fenster',
     dialogDynamic : 'Fenster mit Toolbar und Ajax-Inhalt',
-    dialogInvalid : 'Ungültige URL'
+    dialogInvalid : 'Ungültige URL',
+    dialogConfirm : 'Magst du JxLib?',
+    dialogPrompt  : 'Gib einen Wert ein!',
+    dialogMessage : 'Hello World.'
   },
 
   grid : {

@@ -49,7 +49,11 @@ Jx.Dialog.Message = new Class({
          * Option: collapse
          * by default, message dialogs are not collapsible
          */
-        collapse: false
+        collapse: false,
+        useKeyboard : true,
+        keys : {
+          'enter' : 'ok'
+        }
     },
     /**
      * Method: render
@@ -64,17 +68,33 @@ Jx.Dialog.Message = new Class({
         });
         this.buttons.add(this.ok);
         this.options.toolbars = [this.buttons];
-        if (Jx.type(this.options.message) === 'string') {
+        var type = Jx.type(this.options.message);
+        if (type === 'string' || type == 'object' || type == 'element') {
             this.question = new Element('div', {
-                'class': 'jxMessage',
-                html: this.options.message
+                'class': 'jxMessage'
             });
+            switch(type) {
+              case 'string':
+              case 'object':
+                this.question.set('html', this.getText(this.options.message));
+              break;
+              case 'element':
+                this.options.message.inject(this.question);
+                break;
+            }
         } else {
             this.question = this.options.question;
             document.id(this.question).addClass('jxMessage');
         }
         this.options.content = this.question;
+        if(this.options.useKeyboard) {
+          var self = this;
+          this.options.keyboardMethods.ok = function(ev) { ev.preventDefault(); self.close(); }
+        }
         this.parent();
+        if(this.options.useKeyboard) {
+          this.keyboard.addEvents(this.getKeyboardEvents());
+        }
     },
     /**
      * Method: onOk
@@ -95,7 +115,7 @@ Jx.Dialog.Message = new Class({
     setMessage: function(message) {
       this.options.message = message;
       if ($defined(this.question)) {
-        this.question.set('html',message);
+        this.question.set('html',this.getText(message));
       }
     },
     
@@ -103,10 +123,13 @@ Jx.Dialog.Message = new Class({
      * Method: createText
      * handle change in language
      */
-    createText: function (lang) {
+    changeText: function (lang) {
       this.parent();
       if ($defined(this.ok)) {
         this.ok.setLabel(MooTools.lang.get('Jx','message').okButton);
+      }
+      if(Jx.type(this.options.message) === 'object') {
+        this.question.set('html', this.getText(this.options.message))
       }
     }
 });

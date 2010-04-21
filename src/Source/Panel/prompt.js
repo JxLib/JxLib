@@ -32,13 +32,22 @@ Jx.Dialog.Prompt = new Class({
          */
         startingValue: '',
         /**
+         *
+         */
+        mandatory : false,
+        /**
          * Jx.Dialog option defaults
          */
         width: 400,
         height: 200,
         close: true,
         resize: true,
-        collapse: false
+        collapse: false,
+        useKeyboard : true,
+        keys : {
+          'esc'   : 'abort',
+          'enter' : 'confirm'
+        }
     },
     /**
      * APIMethod: render
@@ -59,12 +68,21 @@ Jx.Dialog.Prompt = new Class({
         this.options.toolbars = [this.buttons];
         
         this.field = new Jx.Field.Text({
-            label: this.options.prompt,
+            label: this.getText(this.options.prompt),
             value: this.options.startingValue,
             containerClass: 'jxPrompt'
         });
         this.options.content = document.id(this.field);
+        
+        if(this.options.useKeyboard) {
+          var self = this;
+          this.options.keyboardMethods.confirm = function(ev) { ev.preventDefault(); self.onClick(self.ok.getLabel()); }
+          this.options.keyboardMethods.abort = function(ev) { ev.preventDefault(); self.onClick(self.cancel.getLabel()); }
+        }
         this.parent();
+        if(this.options.useKeyboard) {
+          this.keyboard.addEvents(this.getKeyboardEvents());
+        }
     },
     /**
      * Method: onClick
@@ -76,7 +94,7 @@ Jx.Dialog.Prompt = new Class({
         this.fireEvent('close', [this, value, this.field.getValue()]);
     },
     
-    createText: function (lang) {
+    changeText: function (lang) {
     	this.parent();
     	if ($defined(this.ok)) {
     		this.ok.setLabel(MooTools.lang.get('Jx','prompt').okButton);
@@ -84,6 +102,7 @@ Jx.Dialog.Prompt = new Class({
     	if ($defined(this.cancel)) {
     		this.cancel.setLabel(MooTools.lang.get('Jx','prompt').cancelButton);
     	}
+      this.field.setLabel(this.options.prompt);
     }
 
 

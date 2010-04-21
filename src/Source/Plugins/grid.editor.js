@@ -314,7 +314,7 @@ Jx.Plugin.Grid.Editor = new Class({
         }else if($defined(this.options.keyboardMethods[this.options.keys[i]])){
           keyboardEvents[i] = this.options.keyboardMethods[this.options.keys[i]].bind(self);
         }else{
-          $defined(console) ? console.log("keyboard method %o not defined", this.options.keys[i]) : false;
+          $defined(console) ? console.warn("keyboard method %o not defined", this.options.keys[i]) : false;
         }
       }
 
@@ -870,7 +870,7 @@ Jx.Plugin.Grid.Editor = new Class({
       if(this.activeCell.cell != null) {
         var nextCell = true, nextRow = true,
             sumCols = this.grid.columns.columns.length,
-            jxCellClass = 'td.jxGridCell';
+            jxCellClass = 'td.jxGridCell:not(.jxGridCellUnattached)';
         var i = 0;
         do {
           nextCell = i > 0 ? nextCell.getNext(jxCellClass) : this.activeCell.cell.getNext(jxCellClass);
@@ -915,7 +915,7 @@ Jx.Plugin.Grid.Editor = new Class({
       if(this.activeCell.cell != null) {
         var prevCell, prevRow, i = 0,
             sumCols = this.grid.columns.columns.length,
-            jxCellClass = 'td.jxGridCell';
+            jxCellClass = 'td.jxGridCell:not(.jxGridCellUnattached)';
         do {
           prevCell = i > 0 ? prevCell.getPrevious(jxCellClass) : this.activeCell.cell.getPrevious(jxCellClass);
           // check if cell is still in row, otherwise returns null

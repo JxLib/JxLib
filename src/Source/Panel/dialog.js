@@ -120,13 +120,47 @@ Jx.Dialog = new Class({
          * closeable by the user or not.  Default is true.
          */
         close: true,
+        /**
+         * Option: useKeyboard
+         * (optional) {Boolean} determines whether the Dialog listens to keyboard events
+         * Default is false
+         */
+        useKeyboard : false,
+        /**
+         * Option: keys
+         * (optional) {Object} refers with the syntax for MooTools Keyboard Class
+         * to functions
+         */
+        keys: {
+          'esc' : 'close'
+        },
+        /**
+         * Option: keyboardMethods
+         *
+         * can be used to overwrite existing keyboard methods that are used inside
+         * this.options.keys - also possible to add new ones.
+         * Functions are bound to the dialog when using 'this'
+         *
+         * example:
+         *  keys : {
+         *    'alt+enter' : 'maximize'
+         *  },
+         *  keyboardMethods: {
+         *    'maximize' : function(ev){
+         *      ev.preventDefault();
+         *      this.maximize();
+         *    }
+         *  }
+         */
+        keyboardMethods : {},
         collapsedClass: 'jxDialogMin',
         collapseClass: 'jxDialogCollapse',
         menuClass: 'jxDialogMenu',
         maximizeClass: 'jxDialogMaximize',
         closeClass: 'jxDialogClose',
         type: 'dialog',
-        template: '<div class="jxDialog"><div class="jxDialogTitle"><img class="jxDialogIcon" src="'+Jx.aPixel.src+'" alt="" title=""/><span class="jxDialogLabel"></span><div class="jxDialogControls"></div></div><div class="jxDialogContentContainer"><div class="jxDialogContent"></div></div></div>'
+        template: '<div class="jxDialog"><div class="jxDialogTitle"><img class="jxDialogIcon" src="'+Jx.aPixel.src+'" alt="" title=""/><span class="jxDialogLabel"></span><div class="jxDialogControls"></div></div><div class="jxDialogContentContainer"><div class="jxDialogContent"></div></div></div>',
+
     },
     classes: new Hash({
         domObj: 'jxDialog',
@@ -137,6 +171,11 @@ Jx.Dialog = new Class({
         contentContainer: 'jxDialogContentContainer',
         content: 'jxDialogContent'
     }),
+    /**
+     * MooTools Keyboard class for Events (mostly used in Dialog.Confirm, Prompt or Message)
+     * But also optional here with esc to close
+     */
+    keyboard : null,
     /**
      * APIMethod: render
      * renders Jx.Dialog
@@ -243,6 +282,9 @@ Jx.Dialog = new Class({
         this.domObj.addEvent('mousedown', (function(){
             this.stack();
         }).bind(this));
+
+        // initialize keyboard class
+        this.initializeKeyboard();
     },
 
     /**
@@ -492,6 +534,9 @@ Jx.Dialog = new Class({
         } else {
             this.addEvent('contentLoaded', this.openOnLoaded);
         }
+        if(this.options.useKeyboard && this.keyboard != null) {
+          this.keyboard.activate();
+        }
     },
     /**
      * Method: close
@@ -501,6 +546,9 @@ Jx.Dialog = new Class({
     close: function() {
         this.isOpening = false;
         this.hide();
+        if(this.options.useKeyboard && this.keyboard != null) {
+          this.keyboard.deactivate();
+        }
         this.fireEvent('close');
     },
 
@@ -531,11 +579,45 @@ Jx.Dialog = new Class({
 
     changeText : function(lang) {
       this.parent();
-      // COMMENT: this does not prevent the dialog from being minimized :(
-      this.domObj.resize(this.options);
-      this.contentContainer.setStyle('visibility','');
-      this.fireEvent('resize');
-      this.resizeChrome(this.domObj);
+      // re-opening and resizing the dialog to prevent it from being minimized
+      this.toggleCollapse(false);
+    },
+
+    initializeKeyboard: function() {
+      if(this.options.useKeyboard) {
+        var self = this;
+        this.keyboardEvents = {};
+        this.keyboardMethods = {
+          close : function(ev) {ev.preventDefault();self.close()}
+        }
+        this.keyboard = new Keyboard({
+          events: this.getKeyboardEvents()
+        });
+      }
+    },
+
+    /**
+     * Method: getKeyboardMethods
+     * used by this and all child classes to have methods listen to keyboard events,
+     * returned object will be parsed to the events object of a MooTools Keyboard instance
+     *
+     * @return Object
+     */
+    getKeyboardEvents : function() {
+      var self = this;
+      for(var i in this.options.keys) {
+        // only add a reference once, otherwise keyboard events will be fired twice in subclasses
+        if(!$defined(this.keyboardEvents[i])) {
+          if($defined(this.keyboardMethods[this.options.keys[i]])) {
+            this.keyboardEvents[i] = this.keyboardMethods[this.options.keys[i]];
+          }else if($defined(this.options.keyboardMethods[this.options.keys[i]])){
+            this.keyboardEvents[i] = this.options.keyboardMethods[this.options.keys[i]].bind(self);
+          }else{
+            $defined(console) ? console.warn("keyboard method %o not defined for %o", this.options.keys[i], this) : false;
+          }
+        }
+      }
+      return this.keyboardEvents;
     }
 });
 

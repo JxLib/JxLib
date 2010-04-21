@@ -29,12 +29,21 @@ Jx.Dialog.Confirm = new Class({
         /**
          * Jx.Dialog option defaults
          */
+        useKeyboard : true,
+        keys : {
+          'esc'   : 'abort',
+          'enter' : 'confirm'
+        },
         width: 300,
         height: 150,
         close: false,
         resize: true,
         collapse: false
     },
+    /**
+     * Reference to MooTools keyboards Class for handling keypress events like Enter or ESC
+     */
+    keyboard : null,
     /**
      * APIMethod: render
      * creates the dialog
@@ -43,28 +52,51 @@ Jx.Dialog.Confirm = new Class({
         //create content to be added
         //turn scrolling off as confirm only has 2 buttons.
         this.buttons = new Jx.Toolbar({position: 'bottom',scroll: false});
-        
+
+        // COMMENT: returning boolean would be more what people expect instead of a localized label of a button?
         this.ok = new Jx.Button({
             label: MooTools.lang.get('Jx','confirm').affirmitiveLabel,
-            onClick: this.onClick.bind(this, MooTools.lang.get('Jx','confirm').affirmitiveLabel)
+            //onClick: this.onClick.bind(this, MooTools.lang.get('Jx','confirm').affirmitiveLabel)
+            onClick: this.onClick.bind(this, true)
         }),
         this.cancel = new Jx.Button({
             label: MooTools.lang.get('Jx','confirm').negativeLabel,
-            onClick: this.onClick.bind(this, MooTools.lang.get('Jx','confirm').negativeLabel)
+            //onClick: this.onClick.bind(this, MooTools.lang.get('Jx','confirm').negativeLabel)
+            onClick: this.onClick.bind(this, false)
         })
         this.buttons.add(this.ok, this.cancel);
         this.options.toolbars = [this.buttons];
-        if (Jx.type(this.options.question) === 'string') {
+        var type = Jx.type(this.options.question);
+        if (type === 'string' || type === 'object' || type == 'element'){
             this.question = new Element('div', {
-                'class': 'jxConfirmQuestion',
-                html: this.options.question
+                'class': 'jxConfirmQuestion'
             });
+            switch(type) {
+              case 'string':
+              case 'object':
+                this.question.set('html', this.getText(this.options.question));
+              break;
+              case 'element':
+                this.options.question.inject(this.question);
+                break;
+            }
         } else {
             this.question = this.options.question;
             document.id(this.question).addClass('jxConfirmQuestion');
         }
         this.options.content = this.question;
+
+        // add default key functions
+        if(this.options.useKeyboard) {
+          var self = this;
+          this.options.keyboardMethods.confirm = function(ev) { ev.preventDefault(); self.onClick(true); }
+          this.options.keyboardMethods.abort = function(ev) { ev.preventDefault(); self.onClick(false); }
+        }
         this.parent();
+        // add new ones
+        if(this.options.useKeyboard) {
+          this.keyboard.addEvents(this.getKeyboardEvents());
+        }
     },
     /**
      * Method: onClick
@@ -77,7 +109,7 @@ Jx.Dialog.Confirm = new Class({
         this.fireEvent('close', [this, value]);
     },
     
-    createText: function (lang) {
+    changeText: function (lang) {
     	this.parent();
     	if ($defined(this.ok)) {
     		this.ok.setLabel(MooTools.lang.get('Jx','confirm').affirmitiveLabel);
@@ -85,8 +117,9 @@ Jx.Dialog.Confirm = new Class({
     	if ($defined(this.cancel)) {
     		this.cancel.setLabel(MooTools.lang.get('Jx','confirm').negativeLabel);
     	}
-    	
+      if(Jx.type(this.options.question) === 'object') {
+        this.question.set('html', this.getText(this.options.question))
+      }
     }
-
 
 });
