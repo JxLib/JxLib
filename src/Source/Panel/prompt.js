@@ -28,13 +28,24 @@ Jx.Dialog.Prompt = new Class({
         prompt: '',
         /**
          * Option: startingValue
-         * The startingvalue to place in the text box
+         * The startingvalue to place in the input field
          */
         startingValue: '',
         /**
-         *
+         * Option: fieldOptions,
+         * Object with various
          */
-        mandatory : false,
+        fieldOptions: {
+          type : 'Text',
+          options: {},
+          validate : true,
+          validatorOptions: {
+            validators: ['required'],
+            validateOnBlur: true,
+            validateOnChange : false
+          },
+          showErrorMsg : true
+        },
         /**
          * Jx.Dialog option defaults
          */
@@ -45,8 +56,8 @@ Jx.Dialog.Prompt = new Class({
         collapse: false,
         useKeyboard : true,
         keys : {
-          'esc'   : 'abort',
-          'enter' : 'confirm'
+          'esc'   : 'cancel',
+          'enter' : 'ok'
         }
     },
     /**
@@ -58,26 +69,41 @@ Jx.Dialog.Prompt = new Class({
         this.buttons = new Jx.Toolbar({position: 'bottom',scroll:false});
         this.ok = new Jx.Button({
                 label: MooTools.lang.get('Jx','prompt').okButton,
-                onClick: this.onClick.bind(this, 'Ok')
+                onClick: this.onClick.bind(this, true)
             });
         this.cancel = new Jx.Button({
                 label: MooTools.lang.get('Jx','prompt').cancelButton,
-                onClick: this.onClick.bind(this,'Cancel')
+                onClick: this.onClick.bind(this, false)
             });
         this.buttons.add(this.ok, this.cancel);
         this.options.toolbars = [this.buttons];
-        
-        this.field = new Jx.Field.Text({
-            label: this.getText(this.options.prompt),
-            value: this.options.startingValue,
-            containerClass: 'jxPrompt'
-        });
+
+        var fOpts = this.options.fieldOptions;
+            fOpts.options.label = this.getText(this.options.prompt);
+            fOpts.options.value = this.options.startingValue;
+            fOpts.options.containerClass = 'jxPrompt';
+
+        if(Jx.type(fOpts.type) === 'string' && $defined(Jx.Field[fOpts.type.capitalize()])) {
+          this.field = new Jx.Field[fOpts.type.capitalize()](fOpts.options);
+        }else if(Jx.type(fOpts.type) === 'Jx.Object'){
+          this.field = fOpts.type;
+        }else{
+          // warning and fallback?
+          window.console ? console.warn("Field type does not exist %o, using Jx.Field.Text", fOpts.type) : false;
+          this.field = new Jx.Field.Text(fOpts.options);
+        }
+
+        if(this.options.fieldOptions.validate) {
+          this.validator = new Jx.Plugin.Field.Validator(this.options.fieldOptions.validatorOptions);
+          this.validator.attach(this.field);
+        }
+
         this.options.content = document.id(this.field);
         
         if(this.options.useKeyboard) {
           var self = this;
-          this.options.keyboardMethods.confirm = function(ev) { ev.preventDefault(); self.onClick(self.ok.getLabel()); }
-          this.options.keyboardMethods.abort = function(ev) { ev.preventDefault(); self.onClick(self.cancel.getLabel()); }
+          this.options.keyboardMethods.ok     = function(ev) { ev.preventDefault(); self.onClick(true); }
+          this.options.keyboardMethods.cancel = function(ev) { ev.preventDefault(); self.onClick(false); }
         }
         this.parent();
         if(this.options.useKeyboard) {
@@ -89,9 +115,21 @@ Jx.Dialog.Prompt = new Class({
      * Called when the OK button is clicked. Closes the dialog.
      */
     onClick: function (value) {
-        this.isOpening = false;
-        this.hide();
-        this.fireEvent('close', [this, value, this.field.getValue()]);
+        if(value && $defined(this.validator)) {
+          if(this.validator.isValid()) {
+            this.isOpening = false;
+            this.hide();
+            this.fireEvent('close', [this, value, this.field.getValue()]);
+          }else{
+            //this.options.content.adopt(this.validator.getError());
+            this.field.field.focus.delay(50, this.field.field);
+            //todo: show error messages ?
+          }
+        }else{
+          this.isOpening = false;
+          this.hide();
+          this.fireEvent('close', [this, value, this.field.getValue()]);
+        }
     },
     
     changeText: function (lang) {
@@ -102,7 +140,7 @@ Jx.Dialog.Prompt = new Class({
     	if ($defined(this.cancel)) {
     		this.cancel.setLabel(MooTools.lang.get('Jx','prompt').cancelButton);
     	}
-      this.field.setLabel(this.options.prompt);
+      this.field.label.set('html', this.getText(this.options.prompt));
     }
 
 

@@ -32,14 +32,14 @@ MooTools.lang.set('en-US', 'Examples', {
     btnDynamic    : 'Dynamic Content and Toolbar',
     btnInvalid    : 'Invalid Content URL',
     btnConfirm    : 'Confirm Dialog',
-    btnPrompt     : 'Prompt Dialog',
+    btnPrompt     : 'Prompt Dialog E-Mail',
     btnMessage    : 'Message Dialog',
     dialogStatic  : 'Static Dialog',
     dialogModal   : 'Positioned Modal Dialog',
     dialogDynamic : 'Toolbar Dialog with Ajax Content',
     dialogInvalid : 'Invalid Content URL',
     dialogConfirm : 'Do you like JxLib?',
-    dialogPrompt  : 'Enter a value!',
+    dialogPrompt  : 'E-Mail Address',
     dialogMessage : 'Hello World.'
   },
 
@@ -124,7 +124,7 @@ MooTools.lang.set('de-DE', 'Examples', {
     dialogDynamic : 'Fenster mit Toolbar und Ajax-Inhalt',
     dialogInvalid : 'Ungültige URL',
     dialogConfirm : 'Magst du JxLib?',
-    dialogPrompt  : 'Gib einen Wert ein!',
+    dialogPrompt  : 'E-Mail Adresse',
     dialogMessage : 'Hello World.'
   },
 

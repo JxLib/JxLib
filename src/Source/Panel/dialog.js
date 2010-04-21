@@ -122,14 +122,14 @@ Jx.Dialog = new Class({
         close: true,
         /**
          * Option: useKeyboard
-         * (optional) {Boolean} determines whether the Dialog listens to keyboard events
+         * (optional) {Boolean} determines whether the Dialog listens to keyboard events globally
          * Default is false
          */
         useKeyboard : false,
         /**
          * Option: keys
          * (optional) {Object} refers with the syntax for MooTools Keyboard Class
-         * to functions
+         * to functions. Set key to false to disable it manually 
          */
         keys: {
           'esc' : 'close'
@@ -143,10 +143,10 @@ Jx.Dialog = new Class({
          *
          * example:
          *  keys : {
-         *    'alt+enter' : 'maximize'
+         *    'alt+enter' : 'maximizeDialog'
          *  },
          *  keyboardMethods: {
-         *    'maximize' : function(ev){
+         *    'maximizeDialog' : function(ev){
          *      ev.preventDefault();
          *      this.maximize();
          *    }
@@ -494,7 +494,9 @@ Jx.Dialog = new Class({
           Jx.Stack.unstack(this.options.parent.get('mask').element);
           this.options.parent.unmask();
         }
-
+        if(this.options.useKeyboard && this.keyboard != null) {
+          this.keyboard.deactivate();
+        }
     },
     /**
      * Method: openURL
@@ -546,9 +548,6 @@ Jx.Dialog = new Class({
     close: function() {
         this.isOpening = false;
         this.hide();
-        if(this.options.useKeyboard && this.keyboard != null) {
-          this.keyboard.deactivate();
-        }
         this.fireEvent('close');
     },
 
@@ -613,7 +612,10 @@ Jx.Dialog = new Class({
           }else if($defined(this.options.keyboardMethods[this.options.keys[i]])){
             this.keyboardEvents[i] = this.options.keyboardMethods[this.options.keys[i]].bind(self);
           }else{
-            $defined(console) ? console.warn("keyboard method %o not defined for %o", this.options.keys[i], this) : false;
+            // allow disabling of special keys by setting them to false or null with having a warning
+            if(this.options.keyboardMethods[this.options.keys[i]] != false) {
+              $defined(console) ? console.warn("keyboard method %o not defined for %o", this.options.keys[i], this) : false;
+            }
           }
         }
       }

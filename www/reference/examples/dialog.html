@@ -9,7 +9,7 @@
 <script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/locale.js" type="text/javascript" charset="utf-8"></script>
 <script  type="text/javascript">
-    var d1, d2, d3, d4, d5, d6, d7, d8;
+    var d1, d2, d3, d4, d5, d6, d7, d8, d9;
     window.addEvent('load', function() {
         drawBasicDialog();
         drawPositionedDialog();
@@ -79,10 +79,10 @@ function drawPositionedDialog() {
         useKeyboard: true,
         // example how to add custom keyboard shortcuts, this also works with subclasses
         keys : {
-          'alt+enter' : 'maximize'
+          'alt+enter' : 'maximizeDialog'
         },
         keyboardMethods : {
-          'maximize' : function(ev) {
+          'maximizeDialog' : function(ev) {
             ev.preventDefault();
             this.maximize();
           }
@@ -182,8 +182,9 @@ function drawAjaxFailedDialog() {
 </script>
 <script id="confirmDialogScript">
 function drawConfirmDialog() {
-    /* a dialog that fails to load some content so we can test the
-     * content events
+
+    /**
+     *  Confirm Dialog with localized question
      */
     d5 = new Jx.Dialog.Confirm({
         image: 'images/help.png',
@@ -198,6 +199,9 @@ function drawConfirmDialog() {
         onClick: d5.open.bind(d5)
     }).addTo('confirmDialogButton');
 
+    /**
+     * Message Dialog with localized Message
+     */
     d6 = new Jx.Dialog.Message({
         image   : 'images/world.png',
         message : {set:'Examples',key:'dialog',value:'dialogMessage'}
@@ -208,7 +212,10 @@ function drawConfirmDialog() {
         label: {set:'Examples',key:'dialog',value:'btnMessage'},
         onClick: d6.open.bind(d6)
     }).addTo('confirmDialogButton');
-    
+
+    /**
+     * Message Dialog with an html Element that is injected inside the dialog
+     */
     d7 = new Jx.Dialog.Message({
         image   : 'images/exclamation.png',
         message : $('warningMessage'),
@@ -226,12 +233,17 @@ function drawConfirmDialog() {
 </script>
 <script id="promptDialogScript">
 function drawPromptDialog() {
-    /* a dialog that fails to load some content so we can test the
-     * content events
+    /**
+     * Prompt Dialog in default state with a Jx.Field.Text and an email validator
      */
     d8 = new Jx.Dialog.Prompt({
         image: 'images/help.png',
         prompt: {set:'Examples',key:'dialog',value:'dialogPrompt'},
+        fieldOptions: {
+          validatorOptions: {
+            validators: ['required','validate-email']
+          }
+        },
         onClose : function(dialog, buttonValue, fieldValue) {
           log("You pressed " + buttonValue + ". Field value is " + fieldValue);
         }
@@ -240,6 +252,69 @@ function drawPromptDialog() {
         image: 'images/page_white_world.png',
         label: {set:'Examples',key:'dialog',value:'btnPrompt'},
         onClick: d8.open.bind(d8)
+    }).addTo('promptDialogButton');
+
+    /**
+     * Prompt Dialog with a Textarea and another validator
+     */
+    d9 = new Jx.Dialog.Prompt({
+        image: 'images/help.png',
+        prompt: 'Enter at least 50 characters',
+        fieldOptions: {
+          type: 'Textarea',
+          validatorOptions: {
+            validators: ['required','minLength:50']
+          }
+        },
+        onClose : function(dialog, buttonValue, fieldValue) {
+          log("You pressed " + buttonValue + ". Field value is " + fieldValue);
+        }
+    });
+    new Jx.Button({
+        image: 'images/page_white_world.png',
+        label: 'Prompt Textarea',
+        onClick: d9.open.bind(d9)
+    }).addTo('promptDialogButton');
+
+    /**
+     * Prompt Dialog with a reference to Jx.Field.Select.
+     * The label of a referenced field overwrites the prompt message of
+     * Dialog.Prompt options.
+     */
+    var selectField = new Jx.Field.Select({
+                        label : 'Select anything',
+                        containerClass : 'jxPrompt',
+                        comboOpts : [
+                          {value : '', text:'', selected: true},
+                          {value : 'abc', text:'ABC      ', selected: false},
+                          {value : 'def', text:'DEF      ', selected: false},
+                          {value : 'ghi', text:'GHI      ', selected: false},
+                          {value : 'jkl', text:'JKL      ', selected: false},
+                          {value : 'mno', text:'MNO      ', selected: false},
+                          {value : 'pqr', text:'PQR      ', selected: false},
+                          {value : 'stu', text:'STU      ', selected: false},
+                          {value : 'vwx', text:'VWX      ', selected: false},
+                          {value : 'yz', text:'YZ      ', selected: false}
+                        ]
+                      });
+    
+    d10 = new Jx.Dialog.Prompt({
+        image: 'images/help.png',
+        prompt: 'Select something',
+        fieldOptions: {
+          type: selectField,
+          validatorOptions: {
+            validators: ['required']
+          }
+        },
+        onClose : function(dialog, buttonValue, fieldValue) {
+          log("You pressed " + buttonValue + ". Field value is " + fieldValue);
+        }
+    });
+    new Jx.Button({
+        image: 'images/page_white_world.png',
+        label: 'Prompt Select',
+        onClick: d10.open.bind(d10)
     }).addTo('promptDialogButton');
 }
 </script>
@@ -263,11 +338,11 @@ function drawPromptDialog() {
 <div id="ajaxFailedDialogButton" class="buttonBox"></div>
 
 <h2 id="confirmDialog">Confirm &amp; Message Dialog</h2>
-<p>The Dialog can also be an alternative to window.confirm() or alert()</p>
+<p>The Dialog can also be an alternative to window.confirm() or alert().</p>
 <div id="confirmDialogButton" class="buttonBox"></div>
 
 <h2 id="promptDialog">Prompt Dialog</h2>
-<p>Press the button to enter a value</p>
+<p>Some examples of a custom window.prompt() dialog that can be configured in many ways.</p>
 <div id="promptDialogButton" class="buttonBox"></div>
 
 <div id='inlineContent'>

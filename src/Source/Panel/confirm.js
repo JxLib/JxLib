@@ -31,8 +31,8 @@ Jx.Dialog.Confirm = new Class({
          */
         useKeyboard : true,
         keys : {
-          'esc'   : 'abort',
-          'enter' : 'confirm'
+          'esc'   : 'cancel',
+          'enter' : 'ok'
         },
         width: 300,
         height: 150,
@@ -89,8 +89,8 @@ Jx.Dialog.Confirm = new Class({
         // add default key functions
         if(this.options.useKeyboard) {
           var self = this;
-          this.options.keyboardMethods.confirm = function(ev) { ev.preventDefault(); self.onClick(true); }
-          this.options.keyboardMethods.abort = function(ev) { ev.preventDefault(); self.onClick(false); }
+          this.options.keyboardMethods.ok     = function(ev) { ev.preventDefault(); self.onClick(true); }
+          this.options.keyboardMethods.cancel = function(ev) { ev.preventDefault(); self.onClick(false); }
         }
         this.parent();
         // add new ones
