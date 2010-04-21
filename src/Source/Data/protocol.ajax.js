@@ -185,7 +185,9 @@ Jx.Store.Protocol.Ajax = new Class({
      */
     run: function (record, options, method) {
         
-        this.options.requestOptions.data = this.parser.encode(record);
+        this.options.requestOptions.data = {
+            data: this.parser.encode(record)
+        };
         
         var resp = new Jx.Store.Response();
         resp.requestType = method;
