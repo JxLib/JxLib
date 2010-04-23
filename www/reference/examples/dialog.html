@@ -194,7 +194,7 @@ function drawConfirmDialog() {
         }
     });
     new Jx.Button({
-        image: 'images/page_white_world.png',
+        image: 'images/help.png',
         label: {set:'Examples',key:'dialog',value:'btnConfirm'},
         onClick: d5.open.bind(d5)
     }).addTo('confirmDialogButton');
@@ -208,7 +208,7 @@ function drawConfirmDialog() {
     });
 
     new Jx.Button({
-        image: 'images/page_white_world.png',
+        image: 'images/world.png',
         label: {set:'Examples',key:'dialog',value:'btnMessage'},
         onClick: d6.open.bind(d6)
     }).addTo('confirmDialogButton');
@@ -225,7 +225,7 @@ function drawConfirmDialog() {
     });
 
     new Jx.Button({
-        image: 'images/page_white_world.png',
+        image: 'images/exclamation.png',
         label: 'Inline HTML Message',
         onClick: d7.open.bind(d7)
     }).addTo('confirmDialogButton');
@@ -249,7 +249,7 @@ function drawPromptDialog() {
         }
     });
     new Jx.Button({
-        image: 'images/page_white_world.png',
+        image: 'images/help.png',
         label: {set:'Examples',key:'dialog',value:'btnPrompt'},
         onClick: d8.open.bind(d8)
     }).addTo('promptDialogButton');
@@ -258,7 +258,7 @@ function drawPromptDialog() {
      * Prompt Dialog with a Textarea and another validator
      */
     d9 = new Jx.Dialog.Prompt({
-        image: 'images/help.png',
+        image: 'images/page_white_text.png',
         prompt: 'Enter at least 50 characters',
         fieldOptions: {
           type: 'Textarea',
@@ -271,7 +271,7 @@ function drawPromptDialog() {
         }
     });
     new Jx.Button({
-        image: 'images/page_white_world.png',
+        image: 'images/page_white_text.png',
         label: 'Prompt Textarea',
         onClick: d9.open.bind(d9)
     }).addTo('promptDialogButton');
@@ -299,7 +299,7 @@ function drawPromptDialog() {
                       });
     
     d10 = new Jx.Dialog.Prompt({
-        image: 'images/help.png',
+        image: 'images/script.png',
         prompt: 'Select something',
         fieldOptions: {
           type: selectField,
@@ -312,7 +312,7 @@ function drawPromptDialog() {
         }
     });
     new Jx.Button({
-        image: 'images/page_white_world.png',
+        image: 'images/script.png',
         label: 'Prompt Select',
         onClick: d10.open.bind(d10)
     }).addTo('promptDialogButton');

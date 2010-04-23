@@ -438,7 +438,7 @@ Jx.Plugin.Grid.Editor = new Class({
             break;
           case 'Select':
             // find out which visible value fits to the value inside <option>{value}</option> and set it to selected
-            var oldValue  = this.activeCell.oldValue.toString()
+            var oldValue  = this.activeCell.oldValue.toString();
             function setCombos(opts, oldValue) {
               for(var i = 0, j = opts.length; i < j; i++) {
                 if(opts[i].value == oldValue) {
@@ -601,12 +601,19 @@ Jx.Plugin.Grid.Editor = new Class({
          * the row could probably be highlighted as well?
          */
         if(this.options.cellChangeFx.use) {
+          var highlighter = new Fx.Tween(this.activeCell.cell, {
+            duration: 250,
+            onComplete: function(ev) {
+              this.element.removeProperty('style');
+            }
+          });
+          var currentCellBg = this.activeCell.cell.getStyle('background-color');
+          currentCellBg = currentCellBg == 'transparent' ? '#fff' : currentCellBg;
           if(newValue.data != null && newValue.error == false) {
-            this.activeCell.cell.highlight(this.options.cellChangeFx.success);
+            highlighter.start('background-color',this.options.cellChangeFx.success, currentCellBg);
           }else if(newValue.error){
-            this.activeCell.cell.highlight(this.options.cellChangeFx.error);
+            highlighter.start('background-color',this.options.cellChangeFx.error, currentCellBg);
           }
-          //this.activeCell.cell.removeProperty('style').delay(250, this.activeCell.cell);
         }
 
         // check for error and keep input field alive

@@ -30,108 +30,6 @@ window.addEvent('load', function() {
     sorter = new Jx.Plugin.Grid.Sorter({});
     resizer = new Jx.Plugin.Grid.Resize({});
 
-    editorOptions = {
-      validate   : true,
-      blurDelay  : 250,
-      popup      : {
-        use: true
-      },
-      fieldOptions : [
-        {
-          field   : 'name',
-          type    : 'Text',
-          validatorOptions: {
-            validators : ['minLength:4'],
-            validateOnBlur: true,
-            validateOnChange : false
-          }
-        },
-        {
-          field   : 'dob',
-          type    : 'Text',
-          validatorOptions: {
-            validators : ['validate-date'],
-            validateOnBlur: true,
-            validateOnChange : true
-          }
-        },
-        {
-          field   : 'active',
-          type    : 'Select',
-          options : {
-            comboOpts: [
-              { value: 'true',  text: MooTools.lang.get('Jx','formatter.boolean')['true']  },
-              { value: 'false', text: MooTools.lang.get('Jx','formatter.boolean')['false'] }
-            ]
-          }
-          /*
-          type    : 'Radio',
-          options : [
-            {
-              label : 'Yes',
-              value : true
-            },
-            {
-              label : 'No',
-              value : false
-            }
-          ]
-          */
-        },
-        {
-          field   : 'duesLeft',
-          type    : 'Select',
-          options : {
-            optGroups: [
-              {
-                name : 'Dues d 5',
-                options: [
-                  {value: 0, text: '0'},
-                  {value: 1, text: '1'},
-                  {value: 2, text: '2'},
-                  {value: 3, text: '3'},
-                  {value: 4, text: '4'}
-                ]
-              },
-              {
-                name : 'Dues g 5',
-                options: [
-                  {value: 5, text: '5'},
-                  {value: 6, text: '6'},
-                  {value: 7, text: '7'},
-                  {value: 8, text: '8'},
-                  {value: 9, text: '9'},
-                  {value:10, text: '10'}
-                ]
-              }
-            ]
-          }
-        },
-        {
-          field   : 'url',
-          type    : 'Textarea'
-        }
-      ],
-      fieldFormatted : true,
-      useKeyboard : true,
-      cellChangeFx : {
-        use : false
-      },
-      keys : {
-        'ctrl+d' : 'cancelNGoDiagonal',
-        'alt+s' : 'saveNClose'
-      },
-      keyboardMethods: {
-        'cancelNGoDiagonal' : function(ev){
-          ev.preventDefault();
-          this.getNextCellInRow(false);
-          this.getNextCellInCol(false);
-        }
-      }
-    };
-
-    editor = new Jx.Plugin.Grid.Editor(editorOptions);
-
     grid = drawGrid();
     drawToolbar();
 
@@ -506,7 +404,95 @@ function drawToolbar() {
     };
     //create grid
     var grid = new Jx.Grid(options);
-//    grid.render();
+
+    editorOptions = {
+      validate   : true,
+      blurDelay  : 250,
+      popup      : {
+        use: true
+      },
+      fieldOptions : [
+        {
+          field   : 'name',
+          type    : 'Text',
+          validatorOptions: {
+            validators : ['minLength:4'],
+            validateOnBlur: true,
+            validateOnChange : false
+          }
+        },
+        {
+          field   : 'dob',
+          type    : 'Text',
+          validatorOptions: {
+            validators : ['validate-date'],
+            validateOnBlur: true,
+            validateOnChange : true
+          }
+        },
+        {
+          field   : 'active',
+          type    : 'Select',
+          options : {
+            comboOpts: [
+              { value: 'true',  text: MooTools.lang.get('Jx','formatter.boolean')['true']  },
+              { value: 'false', text: MooTools.lang.get('Jx','formatter.boolean')['false'] }
+            ]
+          }
+        },
+        {
+          field   : 'duesLeft',
+          type    : 'Select',
+          options : {
+            optGroups: [
+              {
+                name : 'Dues < 5',
+                options: [
+                  {value: 0, text: '0'},
+                  {value: 1, text: '1'},
+                  {value: 2, text: '2'},
+                  {value: 3, text: '3'},
+                  {value: 4, text: '4'}
+                ]
+              },
+              {
+                name : 'Dues >= 5',
+                options: [
+                  {value: 5, text: '5'},
+                  {value: 6, text: '6'},
+                  {value: 7, text: '7'},
+                  {value: 8, text: '8'},
+                  {value: 9, text: '9'},
+                  {value:10, text: '10'}
+                ]
+              }
+            ]
+          }
+        },
+        {
+          field   : 'url',
+          type    : 'Textarea'
+        }
+      ],
+      fieldFormatted : true,
+      useKeyboard : true,
+      cellChangeFx : {
+        //use : false
+      },
+      keys : {
+        'ctrl+d' : 'cancelNGoDiagonal',
+        'alt+s'  : 'saveNClose'
+      },
+      keyboardMethods: {
+        'cancelNGoDiagonal' : function(ev){
+          ev.preventDefault();
+          this.getNextCellInRow(false);
+          this.getNextCellInCol(false);
+        }
+      }
+    };
+
+    editor = new Jx.Plugin.Grid.Editor(editorOptions);
 
     store.addEvent('storeDataLoaded', function () {
       grid.render();
