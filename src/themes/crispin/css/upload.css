@@ -4,19 +4,21 @@
 }
 
 .jxFileUploadPanel .jxInputContainer {
-    width: 300px;
+    /*width: 300px;*/
 }
  
 .jxUploadQueue {
-    width: 100%;  
-    margin-top: 10px;  
+    /*width: 100%;*/  
+    /*margin-top: 10px;*/  
 }
 
 .jxUploadQueue div {
+    display: block;
     position: relative;
-    width: 95%;
-    clear: both;
-    border-top: 1px solid black;
+    overflow: hidden;
+    /*width: 95%;*/
+    /*clear: both;*/
+    /*border-top: 1px solid black;*/
     padding: 2px;
 }
 
@@ -25,42 +27,49 @@
 }
 
 .jxUploadQueue div span.jxUploadFileName {
-    float: left;
-    font-size: 16px;
+    /*float: left;*/
+    font-size: 12px;
+    line-height: 16px;
 }
 
 .jxUploadQueue div span.jxUploadFileDelete,
 .jxUploadQueue div span.jxUploadFileProgress,
 .jxUploadQueue div span.jxUploadFileComplete,
 .jxUploadQueue div span.jxUploadFileError {
-    float: right;
+    /*float: right;*/
+    position: absolute;
+    top: 0px;
+    right: 0px;
     width: 16px;
     height: 16px;
     background-repeat: no-repeat;
-    background-position: top left;
     cursor: pointer;
 }
 
 .jxUploadQueue div span.jxUploadFileDelete {
-    background-image: url('images/delete.gif');
+    background-image: url('images/icons.png');
+    background-position: 0px -128px;
 }
 
 .jxUploadQueue div span.jxUploadFileProgress {
-    background-image: url('images/loading.gif');
+    background-image: url('images/spinner_16.gif');
+    background-position: top left;
 }
 
 .jxUploadQueue div span.jxUploadFileComplete {
-    background-image: url('images/green_tick.png');
+    background-image: url('images/icons.png');
+    background-position: 0px -48px;
 }
 
 .jxUploadQueue div span.jxUploadFileError {
-    background-image: url('images/error.png');
+    background-image: url('images/icons.png');
+    background-position: 0px -32px;
 }
 
 .jxUploadFileErrorTip {
   padding: 4px 4px 4px 20px; 
   border: 2px solid #ddd;
-  background: url("images/error.png") no-repeat left top;
+  background: url("images/icons.png") no-repeat 0px -32px;
   color: black;
   width: 100px;
 }
