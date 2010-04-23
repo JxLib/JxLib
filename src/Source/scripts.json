@@ -1,690 +1,776 @@
 {
-
     "Base": {
-        
         "desc": "The Base Group holds anything common to all other Jx classes and widgets.  All JxLib components require this group, so selecting anything else will select this group too.",
-        
         "common": {
             "deps": ["Class","Element","Browser","Element.Style","Request","Core","Class.Extras","Class.Binds","Array","Element.Event","Element.Dimensions", "Element.Measure","Lang"],
-            "desc":"Jx namespace with methods and classes common to most Jx widgets"
+            "desc":"Jx namespace with methods and classes common to most Jx widgets",
+            "css": ["common.css"],
+            "images": []
         },
-        
         "styles": {
             "deps": ["common"],
-            "desc": "A singleton object useful for dynamically creating and manipulating CSS styles"
+            "desc": "A singleton object useful for dynamically creating and manipulating CSS styles",
+            "css": [],
+            "images": []
         },
-        
         "object": {
-        	"deps": ["common", "Class.Extras"],
-        	"desc": "Base class for all other object in the JxLib framework."
+          "deps": ["common", "Class.Extras"],
+          "desc": "Base class for all other object in the JxLib framework.",
+          "css": [],
+          "images": []
         },
-        
         "widget": {
-        	"deps": ["object","Selectors","locale.english"],
-        	"opt": ["spinner"],
-        	"desc": "Base class for all widgets (visual classes) in the JxLib Framework."
+          "deps": ["object","Selectors","locale.english"],
+          "opt": ["spinner"],
+          "desc": "Base class for all widgets (visual classes) in the JxLib Framework.",
+          "css": ["chrome"],
+          "images": []
         },
-        
         "list": {
             "deps":["object", "selection"],
-            "desc":"A class that is used to manage lists of DOM elements"
+            "desc":"A class that is used to manage lists of DOM elements",
+            "css": ["list"],
+            "images": []
         },
-        
         "selection": {
             "deps": ["object"],
-            "desc": "A class to manage selection across multiple list objects"
+            "desc": "A class to manage selection across multiple list objects",
+            "css": [],
+            "images": []
         },
-        
         "stack": {
           "deps" : ["common"],
-          "desc": "A singleton object for managing a global z-index stack for widgets that need to order themselves in the z-index of the page relative to other such widgets."
+          "desc": "A singleton object for managing a global z-index stack for widgets that need to order themselves in the z-index of the page relative to other such widgets.",
+          "css": [],
+          "images": []
         }
-
     },
-	
-	"locales": {
-		"locale.english": {
-			"deps": ["Lang"],
-			"desc":  "Default translations of text strings used in JX for US english (en-US)"
-		},
-		"locale.german": {
-			"deps": ["Lang"],
-			"desc":  "Default translations of text strings used in JX for German (Germany) (de-DE)"
-		}
-	},
-    
+  "locales": {
+    "locale.english": {
+      "deps": ["Lang"],
+      "desc":  "Default translations of text strings used in JX for US english (en-US)",
+      "css": [],
+      "images": []
+    },
+    "locale.german": {
+      "deps": ["Lang"],
+      "desc":  "Default translations of text strings used in JX for German (Germany) (de-DE)",
+      "css": [],
+      "images": []
+    }
+  },
     "Data": {
-    	
-    	"desc": "This group contains components needed to utilize the data store and it's subclasses.",
-    	
-    	"store": {
-    		"deps" : ["object","record"],
-    		"desc" : "An implementation of a basic data store."
-    	},
-    	
-    	"compare": {
-    		"deps": ["object","Date.Extras"],
-    		"desc": "Class that provides functions for comparing various data types. Used by the Jx.Sort class and it's descendants"
-    	},
-    	
-    	"sort": {
-    		"deps": ["object","compare"],
-    		"desc": "Base class for the sort algorithm implementations"
-    	},
-    	
-    	"mergesort": {
-    		"deps": ["sort"],
-    		"desc": "An implementation of the merge sort algorithm"
-    	},
-    	
-    	"heapsort": {
-    		"deps": ["sort"],
-    		"desc": "An implementation of the heap sort algorithm"
-    	},
-    	
-    	"quicksort": {
-    		"deps": ["sort"],
-    		"desc": "An implementation of the quick sort algorithm"
-    	},
-    	
-    	"nativesort": {
-    	   "deps": ["sort"],
-    	   "desc": "An implementation of the Javascript native sorting with the Jx.Sort interface"
-    	},
-    	
-    	"response": {
+      "desc": "This group contains components needed to utilize the data store and it's subclasses.",
+      "store": {
+        "deps" : ["object","record"],
+        "desc" : "An implementation of a basic data store.",
+        "css": [],
+        "images": []
+      },
+      "compare": {
+        "deps": ["object","Date.Extras"],
+        "desc": "Class that provides functions for comparing various data types. Used by the Jx.Sort class and it's descendants",
+        "css": [],
+        "images": []
+      },
+      "sort": {
+        "deps": ["object","compare"],
+        "desc": "Base class for the sort algorithm implementations",
+        "css": [],
+        "images": []
+      },
+      "mergesort": {
+        "deps": ["sort"],
+        "desc": "An implementation of the merge sort algorithm",
+        "css": [],
+        "images": []
+      },
+      "heapsort": {
+        "deps": ["sort"],
+        "desc": "An implementation of the heap sort algorithm",
+        "css": [],
+        "images": []
+      },
+      "quicksort": {
+        "deps": ["sort"],
+        "desc": "An implementation of the quick sort algorithm",
+        "css": [],
+        "images": []
+      },
+      "nativesort": {
+         "deps": ["sort"],
+         "desc": "An implementation of the Javascript native sorting with the Jx.Sort interface",
+         "css": [],
+         "images": []
+      },
+      "response": {
            "deps": ["store"],
-           "desc": ""
+           "desc": "",
+           "css": [],
+           "images": []
         },
-        
-    	"protocol": {
+      "protocol": {
            "deps": ["response","store"],
-           "desc": ""
+           "desc": "",
+           "css": [],
+           "images": []
         },
-        
         "protocol.local": {
            "deps": ["protocol"],
-           "desc": ""
+           "desc": "",
+           "css": [],
+           "images": []
         },
-        
         "protocol.ajax": {
            "deps": ["protocol"],
-           "desc": ""
+           "desc": "",
+           "css": [],
+           "images": []
         },
-        
         "strategy": {
            "deps": ["store"],
-           "desc": ""
+           "desc": "",
+           "css": [],
+           "images": []
         },
-        
         "strategy.full": {
            "deps": ["strategy"],
-           "desc": ""
+           "desc": "",
+           "css": [],
+           "images": []
         },
-        
         "strategy.paginate": {
            "deps": ["strategy"],
-           "desc": ""
+           "desc": "",
+           "css": [],
+           "images": []
         },
-        
         "strategy.progressive": {
            "deps": ["strategy"],
-           "desc": ""
+           "desc": "",
+           "css": [],
+           "images": []
         },
-        
          "strategy.save": {
            "deps": ["strategy"],
-           "desc": ""
+           "desc": "",
+           "css": [],
+           "images": []
         },
-        
         "strategy.sort": {
            "deps": ["strategy","sort","compare"],
-           "desc": ""
+           "desc": "",
+           "css": [],
+           "images": []
         },
-        
         "parser": {
            "deps": ["store"],
-           "desc": ""
+           "desc": "",
+           "css": [],
+           "images": []
         },
-        
         "parser.json": {
            "deps": ["parser", "JSON"],
-           "desc": ""
+           "desc": "",
+           "css": [],
+           "images": []
         },
-        
         "record": {
            "deps": ["object"],
-           "desc": ""
+           "desc": "",
+           "css": [],
+           "images": []
         }
-        
     },
-
     "Button": {
-
         "desc": "This group contains components that are button-like.  All button classes ultimately derive from the basic button class.",
-        
         "button": {
             "deps": ["widget"],
             "opt" : ["Drag"],
-            "desc": "Jx.Button creates a clickable element that can be added to a web page."
+            "desc": "Jx.Button creates a clickable element that can be added to a web page.",
+            "css": ["button"],
+            "images": []
         },
-
         "flyout": {
             "deps": ["button"],
-            "desc": "Flyout buttons expose a panel when the user clicks the button."
+            "desc": "Flyout buttons expose a panel when the user clicks the button.",
+            "css": [],
+            "images": []
         },
-
         "color": {
             "deps": ["flyout","colorpalette"],
-            "desc": "A Jx.ColorPalette wrapped up in a Jx.Button."
+            "desc": "A Jx.ColorPalette wrapped up in a Jx.Button.",
+            "css": [],
+            "images": []
         },
-
         "multi": {
             "deps": ["button","menu","set"],
-            "desc": "Multi buttons are used to contain multiple buttons in a drop down list where only one button is actually visible and clickable in the interface."
+            "desc": "Multi buttons are used to contain multiple buttons in a drop down list where only one button is actually visible and clickable in the interface.",
+            "css": [],
+            "images": []
         },
-
         "set": {
             "deps": ["object"],
-            "desc": "A ButtonSet manages a set of Jx.Button instances by ensuring that only one of the buttons is active."
+            "desc": "A ButtonSet manages a set of Jx.Button instances by ensuring that only one of the buttons is active.",
+            "css": [],
+            "images": []
         }
-
     },
-
     "Panel": {
-
         "desc": "This group contains components that act as a visual container for content.",
-
         "panel": {
             "deps": ["widget","menu.item","layout","container","toolbar.item"],
-            "desc":"A panel is a fundamental container object that has a content area and optional toolbars around the content area."
+            "desc":"A panel is a fundamental container object that has a content area and optional toolbars around the content area.",
+            "css": ["panel"],
+            "images": []
         },
-        
         "dialog": {
             "deps": ["panel"],
             "opt": ["Drag"],
-            "desc": "A Jx.Dialog that implements a floating dialog."
+            "desc": "A Jx.Dialog that implements a floating dialog.",
+            "css": ["dialog"],
+            "images": []
         },
-
         "panelset": {
             "deps": ["splitter","panel"],
-            "desc": "A panel set manages a set of panels within a DOM element."
+            "desc": "A panel set manages a set of panels within a DOM element.",
+            "css": [],
+            "images": []
         },
-        
         "message": {
             "deps": ["dialog","button","toolbar.item"],
-            "desc": "A subclass of jx.Dialog for displaying messages w/a single OK button."
+            "desc": "A subclass of jx.Dialog for displaying messages w/a single OK button.",
+            "css": ["message"],
+            "images": []
         },
-        
         "confirm": {
             "deps": ["dialog","button","toolbar.item"],
-            "desc": "A subclass of Jx.dialog for asking a yes/no type question of the user. "
+            "desc": "A subclass of Jx.dialog for asking a yes/no type question of the user. ",
+            "css": ["confirm"],
+            "images": []
         },
-        
         "prompt": {
             "deps": ["dialog","button","toolbar.item","text"],
-            "desc": "A subclass of Jx.dialog for prompting the user for text input. "
+            "desc": "A subclass of Jx.dialog for prompting the user for text input. ",
+            "css": [],
+            "images": []
         },
-        
         "dataview": {
             "deps": ["panel","store","list"],
-            "desc": ""
+            "desc": "",
+            "css": [],
+            "images": []
         },
-        
         "group": {
             "deps": ["dataview", "selection"],
-            "desc": ""
+            "desc": "",
+            "css": [],
+            "images": []
         },
-        
         "upload": {
             "deps": ["panel","file","progressbar","button","toolbar.item","tooltip"],
-            "desc": ""
+            "desc": "",
+            "css": ["upload"],
+            "images": []
         },
-        
         "listview": {
             "deps": ["list","listitem"],
-            "desc":""
+            "desc":"",
+            "css": [],
+            "images": []
         },
-        
         "listitem": {
             "deps": ["widget"],
-            "desc":""
+            "desc":"",
+            "css": [],
+            "images": []
         }
-
     },
-
     "Grid": {
-
         "desc": "This group contains components related to the Grid control.",
-        
         "grid": {
             "deps": ["widget", "styles", "layout","columns","row","plugin.grid","store","list","selection"],
-            "desc": "A tabular control that has fixed scrolling headers on the rows and columns like a spreadsheet."
+            "desc": "A tabular control that has fixed scrolling headers on the rows and columns like a spreadsheet.",
+            "css": ["grid"],
+            "images": []
         },
-
         "columns": {
             "deps": ["object","column"],
-            "desc": "A container for defining and holding individual columns"
+            "desc": "A container for defining and holding individual columns",
+            "css": [],
+            "images": []
         },
-        
         "column": {
             "deps": ["widget"],
-            "desc": "A representation of a single grid column"
+            "desc": "A representation of a single grid column",
+            "css": [],
+            "images": []
         },
-        
         "row": {
             "deps": ["object"],
-            "desc": "Holds information related to display of rows in the grid."
+            "desc": "Holds information related to display of rows in the grid.",
+            "css": [],
+            "images": []
         },
-		
-		"renderer": {
-		    "deps": ["grid"],
-			"desc": ""
-	    },
-		
-		"renderer.text": {
-		    "deps": ["renderer"],
-			"desc": ""
-	    },
-        
+    "renderer": {
+        "deps": ["grid"],
+      "desc": ""  ,
+        "css": [],
+        "images": []
+      },
+    "renderer.text": {
+        "deps": ["renderer"],
+      "desc": ""  ,
+        "css": [],
+        "images": []
+      },
         "renderer.checkbox": {
             "deps": ["renderer"],
-            "desc": ""
+            "desc": "",
+            "css": [],
+            "images": []
         },
-
         "renderer.button": {
             "deps": ["renderer"],
-            "desc": ""
+            "desc": "",
+            "css": [],
+            "images": []
         }
-			
     },
-    
     "Plugins" : {
-        
         "desc": "This group contains all of the plugins used throughout the framework. You can identify what plugins go with what widgets by the name. For example 'grid.selector' will work with the Jx.Grid class.",
-
         "plugin": {
             "deps": ["object"],
-            "desc": "Base class for all plugins"
+            "desc": "Base class for all plugins",
+            "css": [],
+            "images": []
         },
-        
         "plugin.grid": {
             "deps": ["plugin"],
-            "desc": "Namespace for grid plugins"
+            "desc": "Namespace for grid plugins",
+            "css": [],
+            "images": []
         },
-        
         "grid.selector": {
             "deps": ["plugin.grid"],
-            "desc": "Allows selecting rows, columns, and cells in grids"
+            "desc": "Allows selecting rows, columns, and cells in grids",
+            "css": [],
+            "images": []
         },
-        
         "grid.prelighter": {
             "deps": ["plugin.grid"],
-            "desc": "Highlights rows, columns, cells, and headers in grids"
+            "desc": "Highlights rows, columns, cells, and headers in grids",
+            "css": [],
+            "images": []
         },
-        
         "grid.sorter": {
             "deps": ["plugin.grid"],
-            "desc" : "Enables column sorting in grids"
+            "desc" : "Enables column sorting in grids",
+            "css": [],
+            "images": []
         },
-
         "grid.resize": {
             "deps": ["plugin.grid"],
-            "desc" : "Enables column resizing in grids"
+            "desc" : "Enables column resizing in grids",
+            "css": [],
+            "images": []
         },
-
         "grid.editor": {
             "deps": ["plugin.grid","Keyboard"],
-            "desc" : "Enables inline editing in grids"
+            "desc" : "Enables inline editing in grids",
+            "css": [],
+            "images": []
         },
-        
         "plugin.dataview": {
             "deps": ["plugin"],
-            "desc" : "Namespace for DataView plugins"
+            "desc" : "Namespace for DataView plugins",
+            "css": [],
+            "images": []
         },
-        
         "dataview.groupfolder": {
             "deps": ["plugin.dataview", "slide"],
-            "desc" : "Enables closing and opening groups in a group dataview"
+            "desc" : "Enables closing and opening groups in a group dataview",
+            "css": [],
+            "images": []
         },
-        
         "plugin.field": {
             "deps": ["plugin"],
-            "desc": "Namespace for Jx.Field plugins"
+            "desc": "Namespace for Jx.Field plugins",
+            "css": [],
+            "images": []
         },
-        
         "field.validator": {
             "deps": ["plugin.field","Form.Validator","Form.Validator.Extras"],
-            "desc": "Provides validation services for Jx.Field subclasses"
+            "desc": "Provides validation services for Jx.Field subclasses",
+            "css": [],
+            "images": []
         },
-        
         "plugin.form": {
             "deps": ["plugin"],
-            "desc": "Namespace for Jx.Form plugins"
+            "desc": "Namespace for Jx.Form plugins",
+            "css": [],
+            "images": []
         },
-        
         "form.validator": {
             "deps": ["plugin.form", "field.validator"],
-            "desc": "Provides validation services for Jx.Form"
+            "desc": "Provides validation services for Jx.Form",
+            "css": [],
+            "images": []
         },
-
         "plugin.toolbarContainer": {
             "deps": ["plugin"],
-            "desc": "Namespace for Jx.Toolbar.Container"
+            "desc": "Namespace for Jx.Toolbar.Container",
+            "css": [],
+            "images": []
         },
-
         "toolbarContainer.tabMenu": {
             "deps": ["plugin.toolbarContainer"],
-            "desc": "Adds a menu of tabs to the toolbar container for easy access to all tabs."
+            "desc": "Adds a menu of tabs to the toolbar container for easy access to all tabs.",
+            "css": [],
+            "images": []
         }
-        
     },
-	
-	"Adaptors": {
-		"adaptor": {
-		    "deps": ["plugin"],
-			"desc": ""
-		},
-		
-		"adaptor.tree": {
-		    "deps": ["adaptor"],
-		    "desc": ""
-		},
-		
-		"tree.mptt": {
-		    "deps": ["adaptor.tree"],
-		    "desc": ""
-		},
-		
-		"tree.parent": {
-		    "deps": ["adaptor.tree"],
-		    "desc": ""
-		}
-	},
-
+  "Adaptors": {
+    "adaptor": {
+        "deps": ["plugin"],
+      "desc": ""  ,
+        "css": [],
+        "images": []
+    },
+    "adaptor.tree": {
+        "deps": ["adaptor"],
+        "desc": "",
+        "css": [],
+        "images": []
+    },
+    "tree.mptt": {
+        "deps": ["adaptor.tree"],
+        "desc": "",
+        "css": [],
+        "images": []
+    },
+    "tree.parent": {
+        "deps": ["adaptor.tree"],
+        "desc": "",
+        "css": [],
+        "images": []
+    }
+  },
     "Menu": {
-
         "desc": "This group contains components that are used in the menuing system.  Typically you would want to include all components in this group if you want to include menu support in your application.",
-        
         "context": {
             "deps": ["menu"],
-            "desc": "A Jx.Menu that has no button but can be opened at a specific browser location to implement context menus (for instance)."
+            "desc": "A Jx.Menu that has no button but can be opened at a specific browser location to implement context menus (for instance).",
+            "css": ["menu"],
+            "images": []
         },
-
         "menu.item": {
             "deps": ["button","menu"],
-            "desc": "A menu item is a single entry in a menu."
+            "desc": "A menu item is a single entry in a menu.",
+            "css": [],
+            "images": []
         },
-
         "menu": {
             "deps": ["button","list"],
-            "desc": "A main menu as opposed to a sub menu that lives inside the menu."
+            "desc": "A main menu as opposed to a sub menu that lives inside the menu.",
+            "css": [],
+            "images": []
         },
-
         "menu.separator": {
             "deps": ["menu"],
-            "desc": "Convenience class to create a visual separator in a menu."
+            "desc": "Convenience class to create a visual separator in a menu.",
+            "css": [],
+            "images": []
         },
-
         "submenu": {
             "deps": ["menu.item","menu"],
-            "desc": "A sub menu contains menu items within a main menu or another sub menu."
+            "desc": "A sub menu contains menu items within a main menu or another sub menu.",
+            "css": [],
+            "images": []
         }
-
     },
-
     "Layout": {
-
         "desc": "This group contains components that manage the layout of other components or HTML elements.",
-        
         "layout": {
             "deps": ["common","object"],
-            "desc":"Jx.Layout is used to provide more flexible layout options for applications"
+            "desc":"Jx.Layout is used to provide more flexible layout options for applications",
+            "css": ["layout"],
+            "images": []
         },
-
         "splitter": {
             "deps": ["layout"],
             "opt": ["Drag"],
-            "desc": "A Jx.Splitter creates two or more containers within a parent container and provides user control over the size of the containers."
+            "desc": "A Jx.Splitter creates two or more containers within a parent container and provides user control over the size of the containers.",
+            "css": ["splitter"],
+            "images": []
         },
-
         "snap": {
             "deps": ["common","splitter"],
-            "desc": "A helper class to create an element that can snap a split panel open or closed."
+            "desc": "A helper class to create an element that can snap a split panel open or closed.",
+            "css": [],
+            "images": []
         }
-
     },
-
     "Tab": {
-
         "desc": "This group contains components used to create tabbed interfaces.  Note that tabs themselves are actually included in the Button group.",
-
         "tab": {
             "deps": ["button","layout"],
-            "desc": "A single tab in a tab set."
+            "desc": "A single tab in a tab set.",
+            "css": ["tab"],
+            "images": []
         },
-        
         "tabbox": {
             "deps": ["toolbar","panel","tabset"],
-            "desc": "A convenience class to handle the common case of a single toolbar directly attached to the content area of the tabs."
+            "desc": "A convenience class to handle the common case of a single toolbar directly attached to the content area of the tabs.",
+            "css": [],
+            "images": []
         },
-
         "tabset": {
             "deps": ["tab"],
-            "desc": "A TabSet manages a set of Jx.Tab content areas by ensuring that only one of the content areas is visible (i.e. the active tab). "
+            "desc": "A TabSet manages a set of Jx.Tab content areas by ensuring that only one of the content areas is visible (i.e. the active tab). ",
+            "css": [],
+            "images": []
         }
-
     },
-
     "Toolbar": {
-
         "desc": "This group contains components that are used to create toolbars.  Toolbars are typically used to contain buttons but they can also contain other HTML elements and Jx components.  If you are using toolbars in your application, you probably want to include this whole group.",
-        
         "toolbar": {
             "deps": ["widget", "list"],
-            "desc": "A toolbar is a container object that contains other objects such as buttons."
+            "desc": "A toolbar is a container object that contains other objects such as buttons.",
+            "css": ["toolbar"],
+            "images": []
         },
-        
         "container": {
             "deps": ["toolbar","button"],
             "opt": ["Fx.Tween"],
-            "desc": "A toolbar container contains toolbars.  This has an optional dependency on Fx.Tween that, if included, will allow toolbars that contain more elements than can be displayed to be smoothly scrolled left and right.  Without this optional dependency, the toolbar will jump in fixed increments rather than smoothly scrolling."
+            "desc": "A toolbar container contains toolbars.  This has an optional dependency on Fx.Tween that, if included, will allow toolbars that contain more elements than can be displayed to be smoothly scrolled left and right.  Without this optional dependency, the toolbar will jump in fixed increments rather than smoothly scrolling.",
+            "css": [],
+            "images": []
         },
-
         "toolbar.item": {
             "deps": ["toolbar"],
-            "desc": "A helper class to provide a container for something to go into a Jx.Toolbar."
-        },     
-
+            "desc": "A helper class to provide a container for something to go into a Jx.Toolbar.",
+            "css": [],
+            "images": []
+        },
         "toolbar.separator": {
             "deps": ["toolbar"],
-            "desc": "A helper class that represents a visual separator in a Jx.Toolbar."
+            "desc": "A helper class that represents a visual separator in a Jx.Toolbar.",
+            "css": [],
+            "images": []
         }
-
     },
-
     "Tree": {
-
         "desc": "This group contains components required to build a tree.  If you want to include a tree in your application, you will need all the components in this group.",
-        
         "tree": {
             "deps": ["widget", "list"],
-            "desc": "Jx.Tree displays hierarchical data in a tree structure of folders and nodes."
+            "desc": "Jx.Tree displays hierarchical data in a tree structure of folders and nodes.",
+            "css": ["tree"],
+            "images": []
         },
-
         "treefolder": {
             "deps": ["treeitem", "tree"],
-            "desc": "A Jx.TreeFolder is an item in a tree that can contain other items. It is expandable and collapsible."
+            "desc": "A Jx.TreeFolder is an item in a tree that can contain other items. It is expandable and collapsible.",
+            "css": [],
+            "images": []
         },
-
         "treeitem": {
             "deps": ["widget"],
             "opt": ["Drag"],
-            "desc": "An item in a tree."
+            "desc": "An item in a tree.",
+            "css": [],
+            "images": []
         }
-
     },
-
     "Extras": {
-
         "desc": "This group contains extra components.",
-        
         "colorpalette": {
             "deps": ["widget"],
-            "desc": "A Jx.ColorPalette presents a user interface for selecting colors.  This is typically combined with a Jx.Button.Color which embeds the color palette in a flyout."
+            "desc": "A Jx.ColorPalette presents a user interface for selecting colors.  This is typically combined with a Jx.Button.Color which embeds the color palette in a flyout.",
+            "css": ["color"],
+            "images": []
         },
-        
         "tooltip": {
             "deps": ["widget"],
-            "desc": "These are very simple tooltips that are designed to be instantiated in javascript and directly attached to the object that they are the tip for."
+            "desc": "These are very simple tooltips that are designed to be instantiated in javascript and directly attached to the object that they are the tip for.",
+            "css": ["tooltip"],
+            "images": []
         },
-        
         "progressbar": {
             "deps": ["widget","Fx.Tween"],
-            "desc": "A css-based progress bar."
+            "desc": "A css-based progress bar.",
+            "css": ["progressbar"],
+            "images": []
         },
-        
         "slider": {
             "deps": ["widget", "Slider"],
-            "desc": "A wrapper for mootools' slider class o=to make it more Jx Friendly."
+            "desc": "A wrapper for mootools' slider class o=to make it more Jx Friendly.",
+            "css": ["slider"],
+            "images": []
         },
-        
         "slide": {
             "deps": ["object","Fx.Tween"],
-            "desc": "A class that shows and hides elements using a slide effect. Does not use a wrapper element or require a fixed width or height."
+            "desc": "A class that shows and hides elements using a slide effect. Does not use a wrapper element or require a fixed width or height.",
+            "css": [],
+            "images": []
         },
-        
         "notifier": {
             "deps": ["listview","Fx.Tween", "notice"],
-            "desc": "Base class for notification areas that can hold temporary notices."
+            "desc": "Base class for notification areas that can hold temporary notices.",
+            "css": ["notification"],
+            "images": []
         },
         "notifier.float": {
             "deps": ["notifier"],
-            "desc": "A notification area that floats in a container above other content."
-            
+            "desc": "A notification area that floats in a container above other content.",
+            "css": [],
+            "images": []
+
         },
         "notice": {
             "deps":["listitem"],
-            "desc": ""
+            "desc": "",
+            "css": [],
+            "images": []
         },
-        
         "scrollbar": {
             "deps": ["slider"],
-            "desc": "An implementation of a custom CSS-styled scrollbar."
+            "desc": "An implementation of a custom CSS-styled scrollbar.",
+            "css": ["scrollbar"],
+            "images": []
         }
-        
     },
-    
     "Formatter": {
-    
         "desc": "This group contains classes used for formatting display output.",
-        
         "formatter": {
             "deps": ["object"],
-            "desc": "Base formatter object"
+            "desc": "Base formatter object",
+            "css": [],
+            "images": []
         },
-        
         "currency": {
             "deps": ["number"],
-            "desc": "Formats input as currency. Currently only US currency is supported"
+            "desc": "Formats input as currency. Currently only US currency is supported",
+            "css": [],
+            "images": []
         },
         "number": {
             "deps": ["formatter"],
-            "desc": "Formats numbers including negative and floats"
+            "desc": "Formats numbers including negative and floats",
+            "css": [],
+            "images": []
         },
         "date": {
             "deps": ["Date.Extras","formatter"],
-            "desc": "Formats dates using the mootools-more Date extensions"
+            "desc": "Formats dates using the mootools-more Date extensions",
+            "css": [],
+            "images": []
         },
         "uri": {
             "deps": ["String.Extras", "formatter","uri"],
-            "desc": "Formats uris using the mootools-more URI extensions"
+            "desc": "Formats uris using the mootools-more URI extensions",
+            "css": [],
+            "images": []
         },
         "boolean": {
             "deps": ["formatter"],
-            "desc": "Formats boolean input"
+            "desc": "Formats boolean input",
+            "css": [],
+            "images": []
         },
         "phone": {
             "deps": ["formatter"],
-            "desc": "Formats phone numbers in US format including area code"
+            "desc": "Formats phone numbers in US format including area code",
+            "css": [],
+            "images": []
         }
-
     },
-    
     "Form": {
-        
         "desc": "This group contains classes used for creating and manipulating forms and other inputs in script.",
-        
         "form": {
             "deps": ["widget", "String.QueryString","Form.Validator"],
-            "desc": "Represents a HTML Form"
+            "desc": "Represents a HTML Form",
+            "css": ["form"],
+            "images": []
         },
-        
         "fieldset": {
             "deps": ["widget"],
-            "desc": "Used to create fieldsets in Forms"
+            "desc": "Used to create fieldsets in Forms",
+            "css": [],
+            "images": []
         },
-        
         "field": {
             "deps": ["widget","tooltip", "fieldset", "form"],
-            "desc": "Base class for all inputs"
+            "desc": "Base class for all inputs",
+            "css": [],
+            "images": []
         },
-        
         "checkbox": {
             "deps": ["field"],
-            "desc": "Represents a checkbox input"
+            "desc": "Represents a checkbox input",
+            "css": [],
+            "images": []
         },
-        
         "hidden": {
             "deps": ["field"],
-            "desc": "Represents a hidden input"
+            "desc": "Represents a hidden input",
+            "css": [],
+            "images": []
         },
-        
         "radio": {
             "deps": ["field"],
-            "desc": "Represents a radio button input"
+            "desc": "Represents a radio button input",
+            "css": [],
+            "images": []
         },
-        
         "text": {
             "deps": ["field"],
             "opt": ["OverText"],
-            "desc": "Represents a text input"
+            "desc": "Represents a text input",
+            "css": [],
+            "images": []
         },
-        
         "select": {
             "deps": ["field"],
-            "desc": "Represents a select, or drop down, input"
+            "desc": "Represents a select, or drop down, input",
+            "css": [],
+            "images": []
         },
-        
         "textarea": {
             "deps": ["field"],
-            "desc": "Represents a textarea input"
+            "desc": "Represents a textarea input",
+            "css": [],
+            "images": []
         },
-        
         "jxbutton": {
             "deps": ["field", "button"],
-            "desc": "Represents a button input"
+            "desc": "Represents a button input",
+            "css": [],
+            "images": []
         },
-        
         "jxcombo": {
             "deps": ["field", "button", "menu", "menu.item", "set"],
-            "desc": "Represents an editable combo"
+            "desc": "Represents an editable combo",
+            "css": [],
+            "images": []
         },
-        
         "password": {
             "deps": ["field"],
-            "desc": "Represents a password input"
+            "desc": "Represents a password input",
+            "css": [],
+            "images": []
         },
-        
         "file": {
             "deps": ["field", "text", "button", "Request.JSON", "hidden","form"],
-            "desc": "Represents a file input w/upload and progress tracking capabilities (requires APC for progress)"
+            "desc": "Represents a file input w/upload and progress tracking capabilities (requires APC for progress)",
+            "css": ["file"],
+            "images": []
         },
-
         "jxcolor": {
             "deps": ["field", "text", "button", "button.color", "validator","form"],
-            "desc": "Represents an input field with a jx.button.color"
+            "desc": "Represents an input field with a jx.button.color",
+            "css": [],
+            "images": []
         }
     }
-
 }
