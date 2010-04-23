@@ -74,7 +74,7 @@ Jx.Tab = new Class({
         /* Option: template
          * the HTML template for a tab
          */
-        template: '<span class="jxTabContainer"><a class="jxTab"><span class="jxTabContent"><img class="jxTabIcon"><span class="jxTabLabel"></span></span></a><a class="jxTabClose"></span>',
+        template: '<span class="jxTabContainer"><a class="jxTab"><span class="jxTabContent"><img class="jxTabIcon" src="'+Jx.aPixel.src+'"><span class="jxTabLabel"></span></span></a><a class="jxTabClose"></span>',
         /* Option: contentTemplate
          * the HTML template for a tab's content area
          */
