@@ -46,7 +46,7 @@ window.addEvent('load', function() {
     var tb = new Jx.Toolbar();
     tb.add(
         new Jx.Button({
-            label: 'clear log',
+            label: {set:'Examples',key:'mainToolbar',value:'btnClearLog'},
             onClick: function() {
                 logDialog.content.innerHTML = '<ol></ol>';
             }
@@ -54,7 +54,7 @@ window.addEvent('load', function() {
     );
     logDialog = new Jx.Dialog({
         id: 'eventLogDialog',
-        label: 'Event Log',
+        label: {set:'Examples',key:'mainToolbar',value:'btnEvLog'},
         modal: false,
         vertical: '30 top',
         horizontal: 'right 30',
@@ -71,7 +71,7 @@ window.addEvent('load', function() {
     new Jx.Toolbar({parent:'pageBar', scroll: false}).add(
         // show and hide the background grid
         new Jx.Button({
-            label: 'Background Grid',
+            label: {set:'Examples',key:'mainToolbar',value:'btnBgGrid'},
             toggle: true,
             active: defaultGrid == 'on',
             onDown: function() {
@@ -85,7 +85,7 @@ window.addEvent('load', function() {
         }),
         // show the event log dialog
         new Jx.Button({
-            label: 'Event Log', 
+            label: {set:'Examples',key:'mainToolbar',value:'btnEvLog'},
             onClick: function() {
                 if (!logDialog) {
                 }
@@ -95,21 +95,29 @@ window.addEvent('load', function() {
         // allow the user to change the currently active language
         new Jx.Field.Combo({
           readonly: true,
-          label: 'Language',
+          label: {set:'Examples',key:'mainToolbar',value:'labelLang'},
           items: [
-            {label: 'English (en-US)', image: 'http://upload.wikimedia.org/wikipedia/commons/7/7d/Icons-flag-us.png'},
-            {label: 'German (de-DE)', image: 'http://upload.wikimedia.org/wikipedia/commons/b/b5/Icons-flag-de.png'}
+            {label: {set:'Examples',key:'mainToolbar',value:'langEn'}, image: 'http://upload.wikimedia.org/wikipedia/commons/7/7d/Icons-flag-us.png'},
+            {label: {set:'Examples',key:'mainToolbar',value:'langDe'}, image: 'http://upload.wikimedia.org/wikipedia/commons/b/b5/Icons-flag-de.png'}
           ],
           onChange : function() {
             // not very nice but it works :)
             var lang = this.getValue().split(" ")[1].split("(")[1].split(")")[0];
             Jx.setLanguage(lang);
+            switch(lang) {
+              case 'en-US':
+                this.setLabel({set:'Examples',key:'mainToolbar',value:'langEn'});
+                break;
+              case 'de-DE':
+                this.setLabel({set:'Examples',key:'mainToolbar',value:'langDe'});
+                break;
+            }
           }
         }),
         // allow the user to change the current skin
         new Jx.Field.Combo({
             readonly: true,
-            label: 'Theme',
+            label: {set:'Examples',key:'mainToolbar',value:'labelTheme'},
             items: jxSkins,
             onChange: function() {
                 var ss = this.getValue();

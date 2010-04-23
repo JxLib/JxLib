@@ -119,13 +119,13 @@ Jx.Field.Combo = new Class({
         });
         
         this.addEvent('change', function(){
-          console.log('on change detected');
+          window.console ? console.log('on change detected') : false;
         })
     },
     
     setLabel: function(label) {
       if ($defined(this.field)) {
-        this.field.value = label;
+        this.field.value = this.getText(label);
       }
     },
     

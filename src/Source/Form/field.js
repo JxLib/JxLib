@@ -204,7 +204,7 @@ Jx.Field = new Class({
                 this.label.addClass(this.options.labelClass);
             }
             if ($defined(this.options.label)) {
-                this.label.set('html', this.options.label
+                this.label.set('html', this.getText(this.options.label)
                         + this.options.labelSeparator);
             }
 
@@ -347,6 +347,9 @@ Jx.Field = new Class({
      */
     changeText: function (lang) {
         this.parent();
+        if ($defined(this.options.label)) {
+          this.label.set('html', this.getText(this.options.label) + this.options.labelSeparator);
+        }
         if ($defined(this.requiredText)) {
           this.requiredText.set('html',MooTools.lang.get('Jx','field').requiredText);
         }

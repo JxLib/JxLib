@@ -1,6 +1,16 @@
 
 MooTools.lang.set('en-US', 'Examples', {
 
+  mainToolbar : {
+    btnBgGrid   : 'Background Grid',
+    btnEvLog    : 'Event Log',
+    btnClearLog : 'clear log',
+    labelLang   : 'Language',
+    labelTheme  : 'Theme',
+    langEn      : 'English (en-US)',
+    langDe      : 'Deutsch (de-DE)'
+  },
+
   // name the 'key' after the html example page ?
 	button : {
     labelAndIcon        : 'Label and Icon',
@@ -86,6 +96,16 @@ MooTools.lang.set('en-US', 'Examples', {
 });
 
 MooTools.lang.set('de-DE', 'Examples', {
+
+  mainToolbar : {
+    btnBgGrid   : 'Hintergrund Raster',
+    btnEvLog    : 'Ereignis Log',
+    btnClearLog : 'Log leeren',
+    labelLang   : 'Sprache',
+    labelTheme  : 'Design',
+    langEn      : 'English (en-US)',
+    langDe      : 'Deutsch (de-DE)'
+  },
 
 	button : {
     labelAndIcon : 'Beschriftung und Symbol',
