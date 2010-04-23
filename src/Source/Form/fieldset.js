@@ -93,7 +93,7 @@ Jx.Fieldset = new Class({
 
         if (this.legend) {
             if ($defined(this.options.legend)) {
-                this.legend.set('html', this.options.legend);
+                this.legend.set('html', this.getText(this.options.legend));
                 if ($defined(this.options.legendClass)) {
                     this.legend.addClass(this.options.legendClass);
                 }
