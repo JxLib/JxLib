@@ -4,8 +4,8 @@
         "common": {
             "deps": ["Class","Element","Browser","Element.Style","Request","Core","Class.Extras","Class.Binds","Array","Element.Event","Element.Dimensions", "Element.Measure","Lang"],
             "desc":"Jx namespace with methods and classes common to most Jx widgets",
-            "css": ["common.css"],
-            "images": []
+            "css": ["license","reset","common"],
+            "images": ["a_pixel.png"]
         },
         "styles": {
             "deps": ["common"],
@@ -24,12 +24,12 @@
           "opt": ["spinner"],
           "desc": "Base class for all widgets (visual classes) in the JxLib Framework.",
           "css": ["chrome"],
-          "images": []
+          "images": ["spinner_16.gif","spinner_24.gif"]
         },
         "list": {
             "deps":["object", "selection"],
             "desc":"A class that is used to manage lists of DOM elements",
-            "css": ["list"],
+            "css": [],
             "images": []
         },
         "selection": {
@@ -189,13 +189,13 @@
             "opt" : ["Drag"],
             "desc": "Jx.Button creates a clickable element that can be added to a web page.",
             "css": ["button"],
-            "images": []
+            "images": ["button.png"]
         },
         "flyout": {
             "deps": ["button"],
             "desc": "Flyout buttons expose a panel when the user clicks the button.",
             "css": [],
-            "images": []
+            "images": ["flyout_chrome.png","emblems.png"]
         },
         "color": {
             "deps": ["flyout","colorpalette"],
@@ -207,7 +207,7 @@
             "deps": ["button","menu","set"],
             "desc": "Multi buttons are used to contain multiple buttons in a drop down list where only one button is actually visible and clickable in the interface.",
             "css": [],
-            "images": []
+            "images": ["button_multi.png","button_multi_disclose.png"]
         },
         "set": {
             "deps": ["object"],
@@ -222,14 +222,14 @@
             "deps": ["widget","menu.item","layout","container","toolbar.item"],
             "desc":"A panel is a fundamental container object that has a content area and optional toolbars around the content area.",
             "css": ["panel"],
-            "images": []
+            "images": ["panel_controls.png","panelbar.png"]
         },
         "dialog": {
             "deps": ["panel"],
             "opt": ["Drag"],
             "desc": "A Jx.Dialog that implements a floating dialog.",
             "css": ["dialog"],
-            "images": []
+            "images": ["dialog_chrome.png","dialog_resize.png"]
         },
         "panelset": {
             "deps": ["splitter","panel"],
@@ -271,13 +271,13 @@
             "deps": ["panel","file","progressbar","button","toolbar.item","tooltip"],
             "desc": "",
             "css": ["upload"],
-            "images": []
+            "images": ["icons.png"]
         },
         "listview": {
             "deps": ["list","listitem"],
             "desc":"",
-            "css": [],
-            "images": []
+            "css": ["list"],
+            "images": ["listitem.png"]
         },
         "listitem": {
             "deps": ["widget"],
@@ -292,7 +292,7 @@
             "deps": ["widget", "styles", "layout","columns","row","plugin.grid","store","list","selection"],
             "desc": "A tabular control that has fixed scrolling headers on the rows and columns like a spreadsheet.",
             "css": ["grid"],
-            "images": []
+            "images": ["table_col.png","table_row.png"]
         },
         "columns": {
             "deps": ["object","column"],
@@ -367,7 +367,7 @@
             "deps": ["plugin.grid"],
             "desc" : "Enables column sorting in grids",
             "css": [],
-            "images": []
+            "images": ["emblems.png"]
         },
         "grid.resize": {
             "deps": ["plugin.grid"],
@@ -379,7 +379,7 @@
             "deps": ["plugin.grid","Keyboard"],
             "desc" : "Enables inline editing in grids",
             "css": [],
-            "images": []
+            "images": ["icons.png"]
         },
         "plugin.dataview": {
             "deps": ["plugin"],
@@ -468,19 +468,19 @@
             "deps": ["button","menu"],
             "desc": "A menu item is a single entry in a menu.",
             "css": [],
-            "images": []
+            "images": ["menuitem.png"]
         },
         "menu": {
             "deps": ["button","list"],
             "desc": "A main menu as opposed to a sub menu that lives inside the menu.",
-            "css": [],
-            "images": []
+            "css": ["menu"],
+            "images": ["flyout_chrome.png","emblems.png"]
         },
         "menu.separator": {
             "deps": ["menu"],
             "desc": "Convenience class to create a visual separator in a menu.",
             "css": [],
-            "images": []
+            "images": ["toolbar_separator_v.png"]
         },
         "submenu": {
             "deps": ["menu.item","menu"],
@@ -517,13 +517,13 @@
             "deps": ["button","layout"],
             "desc": "A single tab in a tab set.",
             "css": ["tab"],
-            "images": []
+            "images": ["tab_top.png","tab_bottom.png","tab_left.png","tab_right.png","tab_close.png"]
         },
         "tabbox": {
             "deps": ["toolbar","panel","tabset"],
             "desc": "A convenience class to handle the common case of a single toolbar directly attached to the content area of the tabs.",
             "css": [],
-            "images": []
+            "images": ["tabbar.png","tabbar_bottom.png","tabbar_left.png","tabbar_right.png"]
         },
         "tabset": {
             "deps": ["tab"],
@@ -538,14 +538,14 @@
             "deps": ["widget", "list"],
             "desc": "A toolbar is a container object that contains other objects such as buttons.",
             "css": ["toolbar"],
-            "images": []
+            "images": ["toolbar.png"]
         },
         "container": {
             "deps": ["toolbar","button"],
             "opt": ["Fx.Tween"],
             "desc": "A toolbar container contains toolbars.  This has an optional dependency on Fx.Tween that, if included, will allow toolbars that contain more elements than can be displayed to be smoothly scrolled left and right.  Without this optional dependency, the toolbar will jump in fixed increments rather than smoothly scrolling.",
             "css": [],
-            "images": []
+            "images": ["emblems.png"]
         },
         "toolbar.item": {
             "deps": ["toolbar"],
@@ -557,7 +557,7 @@
             "deps": ["toolbar"],
             "desc": "A helper class that represents a visual separator in a Jx.Toolbar.",
             "css": [],
-            "images": []
+            "images": ["toolbar_separator_h.png","toolbar_separator_v.png"]
         }
     },
     "Tree": {
@@ -566,7 +566,7 @@
             "deps": ["widget", "list"],
             "desc": "Jx.Tree displays hierarchical data in a tree structure of folders and nodes.",
             "css": ["tree"],
-            "images": []
+            "images": ["tree.png","tree_vert_line.png"]
         },
         "treefolder": {
             "deps": ["treeitem", "tree"],
@@ -579,7 +579,7 @@
             "opt": ["Drag"],
             "desc": "An item in a tree.",
             "css": [],
-            "images": []
+            "images": ["tree_hover.png"]
         }
     },
     "Extras": {
@@ -588,7 +588,7 @@
             "deps": ["widget"],
             "desc": "A Jx.ColorPalette presents a user interface for selecting colors.  This is typically combined with a Jx.Button.Color which embeds the color palette in a flyout.",
             "css": ["color"],
-            "images": []
+            "images": ["grid.png"]
         },
         "tooltip": {
             "deps": ["widget"],
@@ -600,11 +600,11 @@
             "deps": ["widget","Fx.Tween"],
             "desc": "A css-based progress bar.",
             "css": ["progressbar"],
-            "images": []
+            "images": ["progressbar.png"]
         },
         "slider": {
             "deps": ["widget", "Slider"],
-            "desc": "A wrapper for mootools' slider class o=to make it more Jx Friendly.",
+            "desc": "A wrapper for mootools' slider class to make it more Jx Friendly.",
             "css": ["slider"],
             "images": []
         },
@@ -631,7 +631,7 @@
             "deps":["listitem"],
             "desc": "",
             "css": [],
-            "images": []
+            "images": ["notice.png","notice_error.png","notice_warning.png","notice_success.png","icons.png"]
         },
         "scrollbar": {
             "deps": ["slider"],
