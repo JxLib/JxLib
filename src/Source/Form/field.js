@@ -212,7 +212,7 @@ Jx.Field = new Class({
 
             if (this.options.required) {
                 this.requiredText = new Element('em', {
-                    'html' : MooTools.lang.get('Jx','field').requiredText,
+                    'html' : this.getText({set:'Jx',key:'field',value:'requiredText'}),
                     'class' : 'required'
                 });
                 this.requiredText.inject(this.label);
@@ -349,6 +349,13 @@ Jx.Field = new Class({
         this.parent();
         if ($defined(this.options.label)) {
           this.label.set('html', this.getText(this.options.label) + this.options.labelSeparator);
+        }
+        if(this.options.required) {
+          this.requiredText = new Element('em', {
+              'html' : this.getText({set:'Jx',key:'field',value:'requiredText'}),
+              'class' : 'required'
+          });
+          this.requiredText.inject(this.label);
         }
         if ($defined(this.requiredText)) {
           this.requiredText.set('html',MooTools.lang.get('Jx','field').requiredText);

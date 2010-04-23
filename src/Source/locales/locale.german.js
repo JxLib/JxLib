@@ -29,7 +29,7 @@ MooTools.lang.set('de-DE', 'Jx', {
 	},
 	'formatter.number': {
 		decimalSeparator: '.',
-        thousandsSeparator: ','
+    thousandsSeparator: ','
 	},
 	splitter: {
 		barToolTip: 'Ziehen Sie diese Leiste um die Gr&ouml;&szlig;e zu verändern'

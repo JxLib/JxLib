@@ -21,7 +21,7 @@ function basicButtons() {
     /* buttons in normal content */
     new Jx.Button({
       id: 'basic1',
-      label: { set: 'Examples', key: 'button', value: 'labelAndIcon' },
+      label: {set:'Examples',key:'button',value:'labelAndIcon'},
       image: 'images/asterisk_orange.png',
       tooltip: 'a tooltip',
       onClick: function() { log('click button with just a label, put a message in the log'); }
@@ -29,7 +29,7 @@ function basicButtons() {
     /* just a label on this one */
     new Jx.Button({
       id: 'basic2',
-      label: { set: 'Examples', key: 'button', value: 'justALabel' },
+      label: {set:'Examples',key:'button',value:'justALabel'},
       tooltip: 'a tooltip',
       onClick: function() { log('click button with just a label'); }
     }).addTo('buttons');
@@ -54,7 +54,7 @@ function basicButtons() {
 function toggleButtons() {
     /* this is a toggle style button */
     var transmit = new Jx.Button({
-      label: { set: 'Examples', key: 'button', value: 'startTransmission' },
+      label: {set:'Examples',key:'button',value:'startTransmission'},
       image: 'images/transmit.png',
       tooltip: 'a tooltip',
       toggle: true,
@@ -66,18 +66,18 @@ function toggleButtons() {
      * and demonstrates changing labels on the fly
      */
     new Jx.Button({
-      label: { set: 'Examples', key: 'button', value: 'enableTransmission' },
+      label: {set:'Examples',key:'button',value:'enableTransmission'},
       image: 'images/lightbulbs.png',
       imageClass: 'toggleLight',
       tooltip: 'a tooltip',
       toggle: true,
       onDown: function(){
           transmit.setEnabled(true); 
-          this.setLabel({ set: 'Examples', key: 'button', value: 'disableTransmission' })
+          this.setLabel({set:'Examples',key:'button',value:'disableTransmission'})
       },
       onUp: function(){
           transmit.setEnabled(false); 
-          this.setLabel({ set: 'Examples', key: 'button', value: 'enableTransmission' })
+          this.setLabel({set:'Examples',key:'button',value:'enableTransmission'})
       }
     }).addTo('toggleButton');    
 }
@@ -87,25 +87,25 @@ function toggleButtons() {
 function buttonSets() {
     /* create some toggle buttons to group as a set */
     var tLeft = new Jx.Button({
-        label: { set: 'Examples', key: 'button', value: 'left' },
+        label: {set:'Examples',key:'button',value:'left'},
         image:'images/text.png', 
         imageClass: 'text-align-left',
         toggle:true
     }).addTo('toggleSet');
     var tCenter = new Jx.Button({
-        label: { set: 'Examples', key: 'button', value: 'center' },
+        label: {set:'Examples',key:'button',value:'center'},
         image:'images/text.png', 
         imageClass: 'text-align-center',
         toggle:true
     }).addTo('toggleSet');
     var tRight = new Jx.Button({
-        label: { set: 'Examples', key: 'button', value: 'right' },
+        label: {set:'Examples',key:'button',value:'right'},
         image:'images/text.png', 
         imageClass: 'text-align-right',
         toggle:true
     }).addTo('toggleSet');
     var tJustify = new Jx.Button({
-        label: { set: 'Examples', key: 'button', value: 'justify' },
+        label: {set:'Examples',key:'button',value:'justify'},
         image:'images/text.png', 
         imageClass: 'text-align-justify',
         toggle:true

@@ -91,6 +91,36 @@ MooTools.lang.set('en-US', 'Examples', {
     inline         : 'Inline Content',
     ajax           : 'Ajax Content',
     closeable      : 'Closeable Tab'
+  },
+
+  menuContext : {
+    file           : 'File',
+      'new'          : 'New',
+      open           : 'Open',
+      save           : 'Save',
+      saveAs         : 'Save As',
+      print          : 'Print',
+      printPreview   : 'Print Preview',
+      properties     : 'Properties',
+    edit           : 'Edit',
+      undo           : 'Undo',
+      redo           : 'Redo',
+      cut            : 'Cut',
+      copy           : 'Copy',
+      paste          : 'Paste',
+    format         : 'Format',
+      intendMore     : 'Intend More',
+      intendLess     : 'Intend Less',
+      font           : 'Font',
+        bold           : 'Bold',
+        italic         : 'Italic',
+        strikethrough  : 'Strikethrough',
+        underline      : 'Underline',
+      align          : 'Align',
+        left           : 'Left',
+        center         : 'Center',
+        right          : 'Right',
+        fill           : 'Fill'
   }
 
 });
@@ -186,6 +216,36 @@ MooTools.lang.set('de-DE', 'Examples', {
     inline         : 'Inline Inhalt',
     ajax           : 'Ajax Inhalt',
     closeable      : 'Schlie&szlig;bares Tab'
+  },
+
+  menuContext : {
+    file           : 'Datei',
+      'new'          : 'Neu',
+      open           : 'Öffnen',
+      save           : 'Speichern',
+      saveAs         : 'Speichern unter',
+      print          : 'Drucken',
+      printPreview   : 'Druck Vorschau',
+      properties     : 'Eigenschaften',
+    edit           : 'Bearbeiten',
+      undo           : 'Rückgängig',
+      redo           : 'Wiederherstellen',
+      cut            : 'Ausschneiden',
+      copy           : 'Kopieren',
+      paste          : 'Einfügen',
+    format         : 'Formatierung',
+      intendMore     : 'Einrücken',
+      intendLess     : 'Ausrücken',
+      font           : 'Schrift',
+        bold           : 'Fett',
+        italic         : 'Kursiv',
+        strikethrough  : 'Durchgestrichen',
+        underline      : 'Unterstrichen',
+      align          : 'Ausrichtung',
+        left           : 'Links',
+        center         : 'Zentriert',
+        right          : 'Rechts',
+        fill           : 'Blocksatz'
   }
 
 });
