@@ -90,20 +90,12 @@
   width: 10000%;
 }
 
-
-.jxBarTop .jxBarScrollLeft,
-.jxBarBottom .jxBarScrollLeft {
+.jxBarTop .jxBarControls .jxButtonContainer,
+.jxBarBottom .jxBarControls .jxButtonContainer {
   /* float: right; */
   z-index: 1;
   padding: 2px 0px;
-  margin-right: -1px;
-}
-
-.jxBarTop .jxBarScrollRight,
-.jxBarBottom .jxBarScrollRight {
-  /* float: right; */
-  z-index: 1;
-  padding: 2px 0px;
+  margin-left: -1px;
 }
 
 .jxBarTop .jxBarScrollLeft img.jxButtonIcon,
@@ -121,7 +113,8 @@
 .jxBarControls {
     float: right;
     position: relative;
-
+    font-size: 0px;
+    line-height: 0px;
 }
 
 /* The jx toolbar and tabbar are both built out of a UL

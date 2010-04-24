@@ -168,19 +168,15 @@ a.jxTabClose {
 
 .jxBarTop a.jxTab,
 .jxBarTop span.jxTabContent,
-.jxTabBarTop .jxBarScrollRight a.jxButton,
-.jxTabBarTop .jxBarScrollRight span.jxButtonContent,
-.jxTabBarTop .jxBarScrollLeft a.jxButton,
-.jxTabBarTop .jxBarScrollLeft span.jxButtonContent {
+.jxTabBarTop .jxBarControls a.jxButton,
+.jxTabBarTop .jxBarControls span.jxButtonContent{
   background-image: url(images/tab_top.png);
 }
 
 .jxBarBottom a.jxTab,
 .jxBarBottom span.jxTabContent,
-.jxTabBarBottom .jxBarScrollRight a.jxButton,
-.jxTabBarBottom .jxBarScrollRight span.jxButtonContent,
-.jxTabBarBottom .jxBarScrollLeft a.jxButton,
-.jxTabBarBottom .jxBarScrollLeft span.jxButtonContent {
+.jxTabBarBottom .jxBarControls a.jxButton,
+.jxTabBarBottom .jxBarControls span.jxButtonContent {
   background-image: url(images/tab_bottom.png);
 }
 
