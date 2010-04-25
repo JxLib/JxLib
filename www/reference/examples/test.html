@@ -1,0 +1,173 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Jx.Toolbar Examples</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<script type="text/javascript" src="../../lib/mootools-core.js"></script>
+<script type="text/javascript" src="../../lib/mootools-more.js"></script>
+<script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
+<script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/locale.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+window.addEvent('load', function() {
+    testFn();
+
+});
+</script>
+
+<script id="hToolbarScript" type="text/javascript">
+function testFn() {
+    var parser = new Jx.Store.Parser.JSON();
+    var full = new Jx.Store.Strategy.Full();
+
+    var save = new Jx.Store.Strategy.Save({autoSave: true});
+    var sort = new Jx.Store.Strategy.Sort({sortOnStoreEvents: null});
+
+    prelighter = new Jx.Plugin.Grid.Prelighter({});
+    selector = new Jx.Plugin.Grid.Selector({
+		row:true,
+		useCheckColumn:true,
+		checkAsHeader:true,
+		multiple:true
+    });
+    sorter = new Jx.Plugin.Grid.Sorter({});
+
+    var store = new Jx.Store({
+        columns:[
+        		{name: 'IdEvent', type: 'numeric'},
+	            {name: 'Name', type: 'alphanumeric'},
+	            {name: 'Description', type: 'alphanumeric'},
+	            {name: 'Edit', type: 'alphanumeric'},
+	            {name: 'Status', type: 'alphanumeric'},
+	            {name: 'Delete', type: 'alphanumeric'}
+                ],
+        protocol: new Jx.Store.Protocol.Ajax({
+	        requestOptions: {
+			    async: false,
+				wait: true,
+				link: 'chain'
+		    },
+
+			urls: 	{
+			    read: '',
+	            'delete': ''
+			},
+			parser: new Jx.Store.Parser.JSON(),
+			rest: false
+        }),
+        strategies: [full,save,sort],
+        record: Jx.Record
+    });
+
+	//setup options
+	var options = {
+      parent: 'gridEventEnabled',
+      row: {
+      		useHeaders: true,
+	        alternateRowColors: true,
+	        headerColumn: 'header',
+	        rowHeight: 'auto'
+      		},
+      columns: {
+          headerRowHeight: 20,
+          useHeaders: true,
+          columns: [{
+              template: '<span class="jxGridCellContent">&nbsp;</span>',
+              isEditable: false,
+              isSortable: false,
+              isResizable: false,
+              isHidden: true,
+              name: 'IdEvent'
+          },{
+              template: '<span class="jxGridCellContent">Name</span>',
+              isEditable: false,
+              isSortable: true,
+              isResizable: false,
+              name: 'Name'
+          },{
+              template: '<span class="jxGridCellContent">Description</span>',
+              renderMode: 'expand',
+              isEditable: false,
+              isSortable: false,
+              isResizable: true,
+              name: 'Description'
+          },{
+              template: '<span class="jxGridCellContent">&nbsp;</span>',
+              isEditable: false,
+              isSortable: false,
+              isResizable: false,
+              name: 'Edit'
+          },{
+              template: '<span class="jxGridCellContent">&nbsp;</span>',
+              isEditable: false,
+              isSortable: false,
+              isResizable: false,
+              name: 'Status'
+          },{
+              template: '<span class="jxGridCellContent">&nbsp;</span>',
+              isEditable: false,
+              isSortable: false,
+              isResizable: false,
+              name: 'Delete'
+          }]
+      },
+      model: store
+	};
+
+
+
+	//create grid
+	grid = new Jx.Grid(options);
+
+ 	store.addEvent('storeDataLoaded', function () {
+			prelighter.activate('cell');
+			prelighter.attach(grid);
+			selector.attach(grid);
+			grid.render();
+	    }
+    );
+
+	store.load();
+
+};
+</script>
+
+<style>
+.tmp{background-color:whitesmoke; width:100%;}
+.tmp th{height:30px;background-color:silver;}
+.tmp td{height:25px;border:1px solid silver;text-align:center;}
+#layout{
+    border-color:#F0F0F0 #CCCCCC #CCCCCC #F0F0F0;
+    border-style:solid;
+    border-width:1px;
+}
+#TextName{
+    width:250px;
+}
+
+.gridBox {
+  display: block;
+  position: relative;
+  margin: 0px;
+  border: 1px solid #ccc;
+  width: 800px;
+  height: 305px;
+  clear: both;
+}
+
+#divListing{margin: 20px;}
+
+.textWrap { white-space: normal }
+.jxGridCellContent{ text-align: left }
+.jxInputCheck{ vertical-align: bottom }
+
+</style>
+</head>
+<body>
+
+<div id="gridEventEnabled" class="gridBox">
+    
+</div>
+
+</body>
+</html>
