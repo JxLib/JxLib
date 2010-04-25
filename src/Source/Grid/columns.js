@@ -245,6 +245,9 @@ Jx.Columns = new Class({
         if (col.isSortable()) {
             td.addClass('jxColSortable');
         }
+        if (!col.isAttached()) {
+            td.addClass('jxGridCellUnattached');
+        }
 
         td.store('jxCellData',{
             col: col,

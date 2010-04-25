@@ -69,6 +69,7 @@ Jx.Grid.Renderer.Text = new Class({
     this.parent();
     
     this.store = column.grid.getModel();
+    this.attached = true;
     
     if ($defined(this.options.textTemplate)) {
       this.columnsNeeded = this.store.parseTemplate(this.options.textTemplate);

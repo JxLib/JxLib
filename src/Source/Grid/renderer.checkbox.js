@@ -49,6 +49,7 @@ Jx.Grid.Renderer.Checkbox = new Class({
     
     if (this.options.useStore) {
       this.store = this.column.grid.getModel();
+      this.attached = true;
     }
   },
   

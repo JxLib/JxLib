@@ -332,6 +332,14 @@ Jx.Column = new Class({
         return this.options.isHidden;
     },
     /**
+     * APIMethod: isAttached
+     * returns whether this column is attached to a store.
+     */
+    isAttached: function () {
+        return this.options.renderer.attached;
+    },
+
+    /**
      * APIMethod: getHTML
      * calls render method of the renderer object passed in.
      */

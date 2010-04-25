@@ -21,6 +21,13 @@ Jx.Grid.Renderer = new Class({
      */
     template: '<span class="jxGridCellContent"></span>'
   },
+    /**
+     * APIProperty: attached
+     * tells whether this renderer is used in attached mode
+     * or not. Should be set by renderers that get a reference to
+     * the store.
+     */
+  attached: null,
 
   classes: $H({
     domObj: 'jxGridCellContent'
@@ -30,6 +37,7 @@ Jx.Grid.Renderer = new Class({
 
   init: function () {
     this.parent();
+    this.attached = false;
   },
   
   render: function () {
