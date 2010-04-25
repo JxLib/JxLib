@@ -79,7 +79,15 @@ function drawPositionedDialog() {
         useKeyboard: true,
         // example how to add custom keyboard shortcuts, this also works with subclasses
         keys : {
-          'alt+enter' : 'maximizeDialog'
+          'alt+enter' : 'maximizeDialog',
+          'ctrl+up' : function(ev) {
+            ev.preventDefault();
+            this.toggleCollapse(true);
+          },
+          'ctrl+down' : function(ev) {
+            ev.preventDefault();
+            this.toggleCollapse(false);
+          }
         },
         keyboardMethods : {
           'maximizeDialog' : function(ev) {

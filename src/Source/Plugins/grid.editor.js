@@ -313,6 +313,8 @@ Jx.Plugin.Grid.Editor = new Class({
           keyboardEvents[i] = this.keyboardMethods[this.options.keys[i]];
         }else if($defined(this.options.keyboardMethods[this.options.keys[i]])){
           keyboardEvents[i] = this.options.keyboardMethods[this.options.keys[i]].bind(self);
+        }else if(Jx.type(this.options.keys[i]) == 'function') {
+          keyboardEvents[i] = this.options.keys[i].bind(self);
         }else{
           $defined(console) ? console.warn("keyboard method %o not defined", this.options.keys[i]) : false;
         }

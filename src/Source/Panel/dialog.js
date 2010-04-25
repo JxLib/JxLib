@@ -611,6 +611,8 @@ Jx.Dialog = new Class({
             this.keyboardEvents[i] = this.keyboardMethods[this.options.keys[i]];
           }else if($defined(this.options.keyboardMethods[this.options.keys[i]])){
             this.keyboardEvents[i] = this.options.keyboardMethods[this.options.keys[i]].bind(self);
+          }else if(Jx.type(this.options.keys[i]) == 'function') {
+            this.keyboardEvents[i] = this.options.keys[i].bind(self);
           }else{
             // allow disabling of special keys by setting them to false or null with having a warning
             if(this.options.keyboardMethods[this.options.keys[i]] != false) {
