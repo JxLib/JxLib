@@ -454,7 +454,20 @@
         "desc": "",
         "css": [],
         "images": []
+    },
+    "adaptor.combo": {
+        "deps": ["adaptor"],
+        "desc": "",
+        "css": [],
+        "images": []
+    },
+    "combo.fill": {
+        "deps": ["adaptor.combo"],
+        "desc": "",
+        "css": [],
+        "images": []
     }
+
   },
     "Menu": {
         "desc": "This group contains components that are used in the menuing system.  Typically you would want to include all components in this group if you want to include menu support in your application.",

@@ -1,0 +1,161 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Tree Adaptor Examples</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<script type="text/javascript" src="../../lib/mootools-core.js"></script>
+<script type="text/javascript" src="../../lib/mootools-more.js"></script>
+<script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
+<script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/locale.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+window.addEvent('load', function() {
+    setupComboAdaptor();
+    setupComboAdaptor2();
+});
+</script>
+
+<script id="setupComboAdaptorScript" type="text/javascript">
+function setupComboAdaptor(){
+
+    var data = [
+        {id: 1, image: 'images/swatches.png', imageClass: 'comboRed', label: 'red'},
+        {id: 2, image: 'images/swatches.png', imageClass: 'comboMagenta', label: 'magenta'},
+        {id: 3, image: 'images/swatches.png', imageClass: 'comboBlue', label: 'Blue'},
+        {id: 4, image: '', imageClass: '', label: 'cyan'},
+        {id: 5, image: 'images/swatches.png', imageClass: 'comboGreen', label: 'Green'},
+        {id: 6, image: 'images/swatches.png', imageClass: 'comboYellow', label: 'Yellow'}
+    ];
+
+ 	var parser = new Jx.Store.Parser.JSON();
+ 	var full = new Jx.Store.Strategy.Full();
+
+	var store = new Jx.Store({
+		columns: [{
+			name: 'label',
+			type: 'alphanumeric'
+		}, {
+			name: 'image',
+			type: 'alphanumeric'
+		}, {
+			name: 'imageClass',
+			type: 'alphanumeric'
+		}, {
+			name: 'id',
+			type: 'numeric'
+		}],
+		protocol: new Jx.Store.Protocol.Local(data, {
+			parser: parser
+		}),
+		strategies: [full],
+		record: Jx.Record,
+		recordOptions: {
+			primaryKey: 'id'
+		}
+	});
+	var adaptor = new Jx.Adaptor.Combo.Fill({
+        useTemplate: true,
+        template: '{label}',
+		store: store,
+        imagePathColumn: 'image',
+        imageClassColumn: 'imageClass'
+    });
+
+	var c1 = new Jx.Field.Combo({
+        id: 'Select11',
+        name: 'Select11',
+        label: 'Combo Test',
+        readonly: true,
+        tag: 'another tag',
+        plugins: [adaptor]
+    }).addTo('combo-adaptor');
+
+	store.load();
+}
+</script>
+
+<script id="setupComboAdaptor2Script" type="text/javascript">
+function setupComboAdaptor2(){
+
+    var data = [
+        {id: 1, image: 'images/swatches.png', imageClass: 'comboRed', label: 'red'},
+        {id: 2, image: 'images/swatches.png', imageClass: 'comboMagenta', label: 'magenta'},
+        {id: 3, image: 'images/swatches.png', imageClass: 'comboBlue', label: 'Blue'},
+        {id: 4, image: '', imageClass: '', label: 'cyan'},
+        {id: 5, image: 'images/swatches.png', imageClass: 'comboGreen', label: 'Green'},
+        {id: 6, image: 'images/swatches.png', imageClass: 'comboYellow', label: 'Yellow'},
+        {id: 7, image: '', imageClass: '', label: 'cyan'},
+        {id: 8, image: 'images/swatches.png', imageClass: 'comboGreen', label: 'Green'},
+        {id: 9, image: 'images/swatches.png', imageClass: 'comboYellow', label: 'Yellow'}
+    ];
+
+ 	var parser = new Jx.Store.Parser.JSON();
+ 	var full = new Jx.Store.Strategy.Full();
+
+	var store = new Jx.Store({
+		columns: [{
+			name: 'label',
+			type: 'alphanumeric'
+		}, {
+			name: 'image',
+			type: 'alphanumeric'
+		}, {
+			name: 'imageClass',
+			type: 'alphanumeric'
+		}, {
+			name: 'id',
+			type: 'numeric'
+		}],
+		protocol: new Jx.Store.Protocol.Local(data, {
+			parser: parser
+		}),
+		strategies: [full],
+		record: Jx.Record,
+		recordOptions: {
+			primaryKey: 'id'
+		}
+	});
+	var adaptor = new Jx.Adaptor.Combo.Fill({
+        useTemplate: true,
+        template: '{label}',
+		store: store,
+        imagePathColumn: 'image',
+        imageClassColumn: 'imageClass',
+        noRepeat: true
+    });
+
+	var c1 = new Jx.Field.Combo({
+        id: 'Select11',
+        name: 'Select11',
+        label: 'Combo Test',
+        readonly: true,
+        tag: 'another tag',
+        plugins: [adaptor]
+    }).addTo('combo-adaptor2');
+
+	store.load();
+}
+</script>
+</head>
+<body>
+	<h1>Combo Adaptor Examples</h1>
+  	<p>API Reference: <a id="" href="javascript:void();" title="link to API Reference"></a></p>
+
+  	<h2 id="setupComboAdaptor">Jx.Adaptor.Combo.Fill - noRepeat: false</h2>
+	<p>
+		This examples shows how to use an adaptor to fill a combo box. This first box uses
+        noRepeat: false (the default setting).
+	</p>
+    <div id="combo-adaptor"></div>
+
+    <h2 id="setupComboAdaptor2">Jx.Adaptor.Combo.Fill - noRepeat: true</h2>
+    <p>
+        This combo box uses noRepeat: true and has introduced a few repeating labels.
+        This setting will allow you to take any store and only populate your combo with
+        unique values.
+    </p>
+    <div id="combo-adaptor2"></div>
+
+
+</body>
+</html>

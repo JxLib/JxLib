@@ -20,6 +20,7 @@
 Jx.Field.Combo = new Class({
     Family: 'Jx.Field.Combo',
     Extends: Jx.Field,
+    pluginNamespace: 'Combo',
 
     options: {
         buttonTemplate: '<a class="jxButtonContainer jxButton" href="javascript:void(0);"><img class="jxButtonIcon" src="'+Jx.aPixel.src+'"></a>',
@@ -63,14 +64,8 @@ Jx.Field.Combo = new Class({
                 if (img.indexOf('a_pixel') != -1) {
                     img = '';
                 }
-                this.setImage(img);
-                if (this.options.imageClass && this.icon) {
-                    this.icon.removeClass(this.options.imageClass);
-                }
-                if (button.options.imageClass && this.icon) {
-                    this.options.imageClass = button.options.imageClass;
-                    this.icon.addClass(button.options.imageClass);
-                }
+                this.setImage(img, button.options.imageClass);
+
                 this.fireEvent('change', this);
             }).bind(this)
         });
@@ -129,9 +124,22 @@ Jx.Field.Combo = new Class({
       }
     },
     
-    setImage: function(url) {
+    setImage: function(url, imageClass) {
       if ($defined(this.icon)) {
-        this.icon.setStyle('background', 'url('+url+') no-repeat center center');
+        this.icon.setStyle('background-image', 'url('+url+')');
+        this.icon.setStyle('background-repeat', 'no-repeat');
+
+        if (this.options.imageClass) {
+            this.icon.removeClass(this.options.imageClass);
+        }
+        if (imageClass) {
+            this.options.imageClass = imageClass;
+            this.icon.addClass(imageClass);
+            this.icon.setStyle('background-position','');
+        } else {
+            this.options.imageClass = null;
+            this.icon.setStyle('background-position','center center');
+        }
       }
       if (!url) {
         this.wrapper.addClass('jxInputIconHidden');
