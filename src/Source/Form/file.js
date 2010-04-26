@@ -120,6 +120,7 @@ Jx.Field.File = new Class({
         this.setupIframe = true;
         this.iframe = new IFrame(null, {
             styles: {
+                'display':'none',
                 'visibility':'hidden'
             },
             name : this.generateId()
