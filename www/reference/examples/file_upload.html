@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Tree Adaptor Examples</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<script type="text/javascript" src="../../lib/mootools-core.js"></script>
+<script type="text/javascript" src="../../lib/mootools-more.js"></script>
+<script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
+<script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/locale.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+window.addEvent('load', function() {
+    setupFileUploadNoProgress();
+    setupFileUploadProgress();
+});
+</script>
+
+
+<script id="setupFileUploadNoProgressScript" type="text/javascript">
+function setupFileUploadNoProgress(){
+    var uploadPanel  = new Jx.Panel.FileUpload({
+        label: 'Upload File Test',
+        file: {
+            progress: false,
+            handlerUrl: 'upload.php',
+            id: 'file-upload-test',
+            name: 'file-upload-test',
+            label: 'File to Upload',
+            debug: true,
+            mode: 'multiple'
+        },
+        prompt: 'Choose some files to upload',
+        removeOnComplete: true,
+        onFileUploadComplete: function(filename){
+            log("File " + filename + " Uploaded.");
+        },
+        onAllUploadsCompleted: function() {
+            log("All Files Uploaded.");
+        }
+    });
+    uploadPanel.addTo('fileUploadPanelDiv');
+    $(uploadPanel).resize();
+}
+</script>
+<script id="setupFileUploadProgressScript" type="text/javascript">
+function setupFileUploadProgress(){
+    var uploadPanel  = new Jx.Panel.FileUpload({
+        label: 'Upload File Test',
+        file: {
+            progress: true,
+            handlerUrl: 'upload.php',
+            progressUrl: 'progress.php',
+            progressIDUrl:'progress-id.php',
+            id: 'file-upload-test',
+            name: 'file-upload-test',
+            label: 'File to Upload',
+            debug: true,
+            mode: 'multiple'
+        },
+        prompt: 'Choose some files to upload',
+        removeOnComplete: true,
+        onFileUploadComplete: function(filename){
+            log("File " + filename + " Uploaded with progress.");
+        },
+        onAllUploadsCompleted: function() {
+            log("All Files Uploaded with progress.");
+        }
+    });
+    uploadPanel.addTo('fileUploadPanelDiv2');
+    $(uploadPanel).resize();
+}
+</script>
+<style type="text/css">
+    .fileUploadBox {
+        width: 500px;
+        position: relative;
+        height: 500px;
+    }
+
+</style>
+
+</head>
+<body>
+	<h1>File Upload Panel Examples</h1>
+  	<p>API Reference: <a id="" href="javascript:void();" title="link to API Reference"></a></p>
+
+  	<h2 id="setupFileUploadNoProgress">File Upload Panel with no Progress Bar</h2>
+	<p>
+		This example shows off the file upload panel. This one doesn't show progress.
+	</p>
+    <div id="fileUploadPanelDiv" class="fileUploadBox"></div>
+
+  	<h2 id="setupFileUploadProgress">File Upload Panel with Progress Bar</h2>
+	<p>
+		This example shows off the file upload panel. This one does show progress (but needs
+        APC or similar on the server side to work properly).
+	</p>
+    <div id="fileUploadPanelDiv2" class="fileUploadBox"></div>
+
+</body>
+</html>

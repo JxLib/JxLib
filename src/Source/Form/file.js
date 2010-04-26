@@ -80,6 +80,17 @@ Jx.Field.File = new Class({
          */
         debug: false,
         /**
+         * Option: mode
+         * determines whether this file field acts in single upload mode or
+         * multiple file upload mode. The multiple upload mode was done to work with
+         * Jx.Panel.FileUpload. When in multiple mode, this field will remove the actual
+         * file control after a file is selected, fires an event to signify the selection but will
+         * hold on to the files until told to upload them. Obviously 'multiple' mode isn't designed
+         * to be used when the control is outside of the Upload Panel (unless the user designs
+         * their own upload panel around it).
+         */
+        mode: 'single',
+        /**
          * Events
          */
         onUploadBegin: $empty,
@@ -94,6 +105,30 @@ Jx.Field.File = new Class({
      * The Field type used in rendering
      */
     type: 'File',
+    /**
+     * Property: forms
+     * holds all form references when we're in multiple mode
+     */
+    forms: null,
+
+    init: function () {
+        this.parent();
+
+        this.forms = new Hash();
+        //create the iframe
+        //we use the same iFrame for each so we don't have to recreate it each time
+        this.setupIframe = true;
+        this.iframe = new IFrame(null, {
+            styles: {
+                'visibility':'hidden'
+            },
+            name : this.generateId()
+        });
+        this.iframe.inject(document.body);
+        this.iframe.addEvent('load', this.processIFrameUpload.bind(this));
+
+    },
+
     /**
      * APIMethod: render
      * renders the file input
@@ -118,13 +153,12 @@ Jx.Field.File = new Class({
             label: MooTools.lang.get('Jx','file').browseLabel
         });
 
-
         this.fake.adopt(this.text, this.browseButton);
         this.field.grab(this.fake, 'after');
 
         this.field.addEvents({
             change : this.copyValue.bind(this),
-            mouseout : this.copyValue.bind(this),
+            //mouseout : this.copyValue.bind(this),
             mouseenter : this.mouseEnter.bind(this),
             mouseleave : this.mouseLeave.bind(this)
         });
@@ -136,12 +170,19 @@ Jx.Field.File = new Class({
      * the mouse moves out of it to copy the value into the "fake" text box.
      */
     copyValue: function () {
-        if (this.field.value !== '' && (this.text.field.value !== this.field.value)) {
+        if (this.options.mode=='single' && this.field.value !== '' && (this.text.field.value !== this.field.value)) {
             this.text.field.value = this.field.value;
             this.fireEvent('fileSelected', this);
             if (this.options.autoUpload) {
-                this.upload();
+                this.uploadSingle();
             }
+        } else if (this.options.mode=='multiple') {
+            var filename = this.field.value;
+            var form = this.prepForm();
+            this.forms.set(filename, form);
+            this.text.setValue('');
+            //fire the selected event.
+            this.fireEvent('fileSelected', filename);
         }
     },
     /**
@@ -160,42 +201,20 @@ Jx.Field.File = new Class({
     mouseLeave: function () {
         this.browseButton.domA.removeClass('jxButtonPressed');
     },
-    /**
-     * APIMethod: upload
-     * Call this to upload the file to the server
-     */
-    upload: function () {
-        this.fireEvent('uploadBegin', this);
-        //create the iframe
-        this.iframe = new IFrame(null, {
-            styles: {
-                // display: 'none'
-                'visibility':'hidden'
-            },
 
-            name : this.generateId()
-        });
-        this.iframe.inject(document.body);
-
+    prepForm: function () {
         //load in the form
-        this.form = new Jx.Form({
+        var form = new Jx.Form({
             action : this.options.handlerUrl,
             name : 'jxUploadForm',
             fileUpload: true
         });
 
-        //iframeBody.grab(this.form);
-        document.id(this.form).set('target', this.iframe.get('name')).setStyles({
-            visibility: 'hidden',
-            display: 'none'
-        }).inject(document.body);
-
-
         //move the form input into it (cloneNode)
         var parent = document.id(this.field.getParent());
         var sibling = document.id(this.field).getPrevious();
-        var clone = this.field.clone();
-        document.id(this.form).grab(this.field);
+        var clone = this.field.clone().cloneEvents(this.field);
+        document.id(form).grab(this.field);
         // tried clone.replaces(this.field) but it didn't seem to work
         if (sibling) {
           clone.inject(sibling, 'after');
@@ -203,7 +222,41 @@ Jx.Field.File = new Class({
             clone.inject(parent, 'top');
         }
         this.field = clone;
-        this.text.field.set('value', '');
+
+        this.mouseLeave();
+
+        return form;
+    },
+
+    upload: function () {
+        //do we have files to upload?
+        if (this.forms.getLength() > 0) {
+            var keys = this.forms.getKeys();
+            this.currentKey = keys[0];
+            var form = this.forms.get(this.currentKey);
+            this.forms.erase(this.currentKey);
+            this.uploadSingle(form);
+        } else {
+            //fire finished event...
+            this.fireEvent('allUploadsComplete', this);
+        }
+    },
+    /**
+     * APIMethod: uploadSingle
+     * Call this to upload the file to the server
+     */
+    uploadSingle: function (form) {
+        this.form = $defined(form) ? form : this.prepForm();
+
+        this.fireEvent('fileUploadBegin', [this.currentKey, this]);
+
+        this.text.setValue('');
+
+        document.id(this.form).set('target', this.iframe.get('name')).setStyles({
+            visibility: 'hidden',
+            display: 'none'
+        }).inject(document.body);
+
         //if polling the server we need an APC_UPLOAD_PROGRESS id.
         //get it from the server.
         if (this.options.progress) {
@@ -237,8 +290,6 @@ Jx.Field.File = new Class({
             });
             id.addTo(this.form, 'top');
         }
-        this.iframe.addEvent('load', this.processIFrameUpload.bind(this));
-
 
         //submit the form
         document.id(this.form).submit();
@@ -272,16 +323,12 @@ Jx.Field.File = new Class({
      */
     processProgress: function (data) {
         if ($defined(data)) {
-            this.fireEvent('uploadProgress', [data, this]);
+            this.fireEvent('fileUploadProgress', [data, this.currentKey, this]);
             if (data.current < data.total) {
                 this.polling = true;
                 this.pollUpload();
             } else {
                 this.polling = false;
-                if (this.done) {
-                    this.uploadCleanUp();
-                    this.fireEvent('uploadComplete', [this.doneData, this]);
-                }
             }
         }
     },
@@ -290,7 +337,7 @@ Jx.Field.File = new Class({
      * called if there is a problem getting progress on the upload
      */
     uploadFailure: function (xhr) {
-        this.fireEvent('uploadProgressError', [this, xhr]);
+        this.fireEvent('fileUploadProgressError', [this, xhr]);
     },
     /**
      * Method: processIFrameUpload
@@ -300,18 +347,26 @@ Jx.Field.File = new Class({
     processIFrameUpload: function () {
         //the body text should be a JSON structure
         //get the body
-        var iframeBody = this.iframe.contentDocument.defaultView.document.body.innerHTML;
+        if (!this.setupIframe) {
+            var iframeBody = this.iframe.contentDocument.defaultView.document.body.innerHTML;
 
-        var data = JSON.decode(iframeBody);
-        if ($defined(data.success) && data.success) {
-            this.done = true;
-            this.doneData = data;
-            if (!this.polling) {
+            var data = JSON.decode(iframeBody);
+            if ($defined(data.success) && data.success) {
+                this.done = true;
+                this.doneData = data;
                 this.uploadCleanUp();
-                this.fireEvent('uploadComplete', [data, this]);
+                this.fireEvent('fileUploadComplete', [data, this.currentKey, this]);
+            } else {
+                this.fireEvent('fileUploadError', [data , this.currentKey, this]);
+            }
+
+            if (this.options.mode == 'multiple') {
+                this.upload();
+            } else {
+                this.fireEvent('allUploadsComplete', this);
             }
         } else {
-            this.fireEvent('uploadError', [data , this]);
+            this.setupIframe = false;
         }
     },
     /**
@@ -322,24 +377,22 @@ Jx.Field.File = new Class({
     uploadCleanUp: function () {
         if (!this.options.debug) {
             this.form.destroy();
-            this.iframe.destroy();
+            if (this.options.mode == 'single') {
+                this.iframe.destroy();
+            }
         }
     },
     /**
-     * APIMethod: getFileName
-     * Allows caller to get the filename of the file we're uploading
+     * APIMethod: remove
+     * Removes a file from the hash of forms to upload.
+     *
+     * Parameters:
+     * filename - the filename indicating which file to remove.
      */
-    getFileName: function () {
-        var fn = this.field.get('value');
-        return fn.slice(fn.lastIndexOf('/') + 1);
-    },
-    /**
-     * Method: getExt
-     * Returns the 3-letter extension of this file.
-     */
-    getExt: function () {
-        var fn = this.getFileName();
-        return fn.slice(fn.length - 3);
+    remove: function (filename) {
+        if (this.forms.has(filename)) {
+            this.forms.erase(filename);
+        }
     },
     
     /**

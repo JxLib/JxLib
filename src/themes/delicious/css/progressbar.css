@@ -37,6 +37,7 @@
     border-right: 1px solid #cbc8c8;
     background-image: url(images/progressbar.png);
     background-position: 0px -140px;
+    width: 100%;
 }
 
 .jxProgressBar-fill {
