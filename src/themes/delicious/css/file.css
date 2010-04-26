@@ -26,7 +26,7 @@ div.jxFileFake .jxInputText {
 } 
 
 div.jxFileFake .jxButtonContainer {
-    margin-top: 6px;
+    margin-top: 2px;
     float: left;
 }
 
@@ -37,7 +37,6 @@ div.jxFileFake .jxButtonContainer {
     filter: alpha(opacity:0);
     opacity: 0;
     z-index: 2;
-    margin-top: 3px;
+    margin-top: -5px;
     height: 35px;
-    width: 100%;
 }
