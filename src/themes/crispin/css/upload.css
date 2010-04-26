@@ -30,6 +30,7 @@
     /*float: left;*/
     font-size: 12px;
     line-height: 16px;
+    padding-left: 2px;
 }
 
 .jxUploadQueue li span.jxUploadFileDelete,
@@ -38,8 +39,8 @@
 .jxUploadQueue li span.jxUploadFileError {
     /*float: right;*/
     position: absolute;
-    top: 0px;
-    right: 0px;
+    top: 2px;
+    right: 2px;
     width: 16px;
     height: 16px;
     background-repeat: no-repeat;
