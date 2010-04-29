@@ -17,6 +17,57 @@ window.addEvent('load', function() {
 
 <script id="hToolbarScript" type="text/javascript">
 function testFn() {
+
+    var data = [
+        {
+            "IdEvent":"1",
+            "Name":"Camp 7-9",
+            "Description":"\u00c0 travers des journ\u00e9es th\u00e9matiques, les enfants sont invit\u00e9s \u00e0 vivre d'extraordinaires activit\u00e9s qui leur permettront de d\u00e9couvrir la faune, la flore ainsi que la culture d'ici et d'ailleurs.",
+            "IsEnabled":"1",
+            "Edit": "<img src=\"images\/accept.png\"\/>",
+            "Status":"<img src=\"images\/cancel.png\" \/>",
+            "Delete":"<img src=\"images\/help.png\" \/>"
+        },{
+            "IdEvent":"2",
+            "Name":"Camp 10-12",
+            "Description":"Quelques soient leurs go\u00fbts, les enfants seront combl\u00e9s puisque sports, journ\u00e9es th\u00e9matiques et plus d'une dizaines d'ateliers au choix (th\u00e9\u00e2tre, canotage, bricolage, activit\u00e9s aquatiques, tir \u00e0 l'arc, tir \u00e0 la carabine, etc.) seront au programme. ",
+            "IsEnabled":"1",
+            "Edit": "<img src=\"images\/accept.png\"\/>",
+            "Status":"<img src=\"images\/cancel.png\" \/>",
+            "Delete":"<img src=\"images\/help.png\" \/>"
+        },{
+            "IdEvent":"3",
+            "Name":"Camp 13-17",
+            "Description":"Deux semaines remplies de plaisir, d'aventure, de nouvelles rencontres et de d\u00e9couvertes, voil\u00e0 ce qui attend les adolescents.",
+            "IsEnabled":"1",
+            "Edit": "<img src=\"images\/accept.png\"\/>",
+            "Status":"<img src=\"images\/cancel.png\" \/>",
+            "Delete":"<img src=\"images\/help.png\" \/>"
+        },{
+            "IdEvent":"5",
+            "Name":"Camp Familial",
+            "Description":"Le camp familial vous permet de passer du temps loin des pr\u00e9occupations de la ville, des t\u00e2ches domestiques, de faire des rencontres int\u00e9ressantes et de prendre du temps pour \u00e9tudier la Bible. Des activit\u00e9s adapt\u00e9es \u00e0 chaque groupe d'\u00e2ge sont offertes dans la journ\u00e9e mais, n'ayez crainte, vous aurez amplement le temps de relaxer et de profiter du merveilleux environnement qui s'offrira \u00e0 vous.",
+            "IsEnabled":"1",
+            "Edit": "<img src=\"images\/accept.png\"\/>",
+            "Status":"<img src=\"images\/cancel.png\" \/>",
+            "Delete":"<img src=\"images\/help.png\" \/>"
+        },{
+            "IdEvent":"6",
+            "Name":"Camp 18+",
+            "Description":"Ce camp se veut une fin de semaine de ressourcement pour jeunes adultes afin de marquer la fin des vacances et les pr\u00e9parer \u00e0 servir le Seigneur l\u00e0 o\u00f9 il les appelle. C'est aussi l'occasion de rencontrer de nouveaux amis.",
+            "IsEnabled":"1",
+            "Edit": "<img src=\"images\/accept.png\"\/>",
+            "Status":"<img src=\"images\/cancel.png\" \/>",
+            "Delete":"<img src=\"images\/help.png\" \/>"
+        },{
+            "IdEvent":"7",
+            "Name":"Camp pour adultes",
+            "Description":"Les adultes de tous \u00e2ges sont invit\u00e9s \u00e0 se rencontrer pour quelques jours de d\u00e9tente, de plaisir et d'\u00e9tude de la Bible. Un v\u00e9ritable ressourcement.",
+            "IsEnabled":"1",
+            "Edit": "<img src=\"images\/accept.png\"\/>",
+            "Status":"<img src=\"images\/cancel.png\" \/>",
+            "Delete":"<img src=\"images\/help.png\" \/>"
+        }];
     var parser = new Jx.Store.Parser.JSON();
     var full = new Jx.Store.Strategy.Full();
 
@@ -41,21 +92,10 @@ function testFn() {
 	            {name: 'Status', type: 'alphanumeric'},
 	            {name: 'Delete', type: 'alphanumeric'}
                 ],
-        protocol: new Jx.Store.Protocol.Ajax({
-	        requestOptions: {
-			    async: false,
-				wait: true,
-				link: 'chain'
-		    },
-
-			urls: 	{
-			    read: '',
-	            'delete': ''
-			},
-			parser: new Jx.Store.Parser.JSON(),
-			rest: false
+        protocol: new Jx.Store.Protocol.Local(data,{
+			parser: new Jx.Store.Parser.JSON()
         }),
-        strategies: [full,save,sort],
+        strategies: [full, sort],
         record: Jx.Record
     });
 
@@ -93,18 +133,24 @@ function testFn() {
               name: 'Description'
           },{
               template: '<span class="jxGridCellContent">&nbsp;</span>',
+              renderMode: 'fixed',
+              width: 16,
               isEditable: false,
               isSortable: false,
               isResizable: false,
               name: 'Edit'
           },{
               template: '<span class="jxGridCellContent">&nbsp;</span>',
+              renderMode: 'fixed',
+              width: 16,
               isEditable: false,
               isSortable: false,
               isResizable: false,
               name: 'Status'
           },{
               template: '<span class="jxGridCellContent">&nbsp;</span>',
+              renderMode: 'fixed',
+              width: 16,
               isEditable: false,
               isSortable: false,
               isResizable: false,
@@ -157,9 +203,16 @@ function testFn() {
 
 #divListing{margin: 20px;}
 
-.textWrap { white-space: normal }
-.jxGridCellContent{ text-align: left }
-.jxInputCheck{ vertical-align: bottom }
+.textWrap { white-space: normal; }
+.jxGridCellContent{ text-align: left; }
+.jxInputCheck{ vertical-align: bottom; }
+#gridEventEnabled .jxCol-Edit img,
+#gridEventEnabled .jxCol-Delete img,
+#gridEventEnabled .jxCol-status img {
+    width: 16px;
+    height: 16px;
+}
+
 
 </style>
 </head>

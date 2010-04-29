@@ -300,8 +300,14 @@ Jx.Columns = new Class({
         //now figure the expand column
         if ($defined(expand)) {
           // var leftOverSpace = gridSize.width - totalWidth + rowHeaderWidth;
-          // -2 is for the right hand border on the cell and the table
-          var leftOverSpace = gridSize.width - totalWidth - 2;
+          var leftOverSpace = gridSize.width - totalWidth
+          //account for right borders in firefox...
+          if (Browser.Engine.gecko) {
+            leftOverSpace -= this.getColumnCount(true);
+          } else {
+            // -2 is for the right hand border on the cell and the table for all other browsers
+            leftOverSpace -= 2;
+          }
           if (leftOverSpace >= expand.options.width) {
             //in order for this to be set properly the cellWidth must be the
             //leftover space. we need to figure out the delta value and
@@ -315,8 +321,8 @@ Jx.Columns = new Class({
           }
         }
       } //else {
-      this.grid.gridTable.setContentBoxSize({'width': totalWidth - rowHeaderWidth});
-      this.grid.colTable.setContentBoxSize({'width': totalWidth - rowHeaderWidth});
+      this.grid.gridTable.setContentBoxSize({'width': totalWidth});
+      this.grid.colTable.setContentBoxSize({'width': totalWidth});
       // }
     },
 
@@ -351,8 +357,17 @@ Jx.Columns = new Class({
      * APIMethod: getColumnCount
      * returns the number of columns in this model (including hidden).
      */
-    getColumnCount : function () {
-        return this.columns.length;
+    getColumnCount : function (noHidden) {
+        noHidden = $defined(noHidden) ? false : true;
+        var total = this.columns.length;
+        if (noHidden) {
+            this.columns.each(function(col){
+                if (col.isHidden()) {
+                    total -= 1;
+                }
+            },this);
+        }
+        return total;
     },
     /**
      * APIMethod: getIndexFromGrid
