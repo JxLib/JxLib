@@ -167,8 +167,10 @@ Group: Jx  {
       Group: Adaptors  {
 
          File: Adapter.Tree.Parent  (Adaptors/tree.parent.js)
+         File: Adaptor.Combo  (Adaptors/adaptor.combo.js)
          File: Adaptor.Tree  (Adaptors/adaptor.tree.js)
          File: Adaptor.Tree.Mptt  (Adaptors/tree.mptt.js)
+         File: combo.fill.js  (Adaptors/combo.fill.js)
          }  # Group: Adaptors
 
       }  # Group: Tree

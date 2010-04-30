@@ -149,11 +149,10 @@ Jx.Plugin.Grid.Resize = new Class({
                             col.options.renderMode = 'fixed';
                             var w = el.getPosition(el.parentNode).x.toInt();
                             col.setWidth(w);
-                            col.grid.resizeRowsCols("rows");
                         },
                         onComplete: function(el) {
                           el.setStyle('left', null);
-                          //col.grid.resizeRowsCols("rows");
+                          col.grid.resizeRowsCols("rows");
                         }
                     }));
                 }

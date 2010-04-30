@@ -177,7 +177,7 @@ Jx.Row = new Class({
     
     createRules: function(styleSheet, scope) {
         this.grid.gridTableBody.getChildren().each(function(row, idx) {
-            var selector = scope+' .jxGridRow'+idx;
+            var selector = scope+' .jxGridRow'+idx + ', ' + scope + ' .jxGridRow'+idx+' .jxGridCellContent';
             var rule = Jx.Styles.insertCssRule(selector, '', styleSheet);
             this.rules.set('jxGridRow'+idx, rule);
             rule.style.height = this.heights[idx] + "px";
@@ -186,10 +186,23 @@ Jx.Row = new Class({
                 selector += " th";
                 var thRule = Jx.Styles.insertCssRule(selector, '', styleSheet);
                 thRule.style.height = this.heights[idx] + "px";
+                
+                this.rules.set('th_jxGridRow'+idx, thRule);
             }
 
         }, this);
     },
+    
+    updateRules: function() {
+      this.grid.gridTableBody.getChildren().each(function(row, idx) {
+        var h = this.heights[idx] + "px";
+        this.rules.get('jxGridRow'+idx).style.height = h;
+        if (Browser.Engine.webkit) {
+          this.rules.get('th_jxGridRow'+idx).style.height = h;
+        }
+      }, this);
+    },
+    
     /**
      * APIMethod: useHeaders
      * determines and returns whether row headers should be used
