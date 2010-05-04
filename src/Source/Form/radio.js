@@ -69,6 +69,12 @@ Jx.Field.Radio = new Class({
                 this.field.set("defaultChecked", "checked");
             }
         }
+
+        // add click event to toggle the radio buttons
+        this.label.addEvent('click', function(ev) {
+          this.field.checked ? this.setValue(false) : this.setValue(true);
+        }.bind(this));
+
     },
 
     /**

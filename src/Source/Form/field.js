@@ -198,27 +198,6 @@ Jx.Field = new Class({
             }
         }
 
-        // LABEL
-        if (this.label) {
-            if ($defined(this.options.labelClass)) {
-                this.label.addClass(this.options.labelClass);
-            }
-            if ($defined(this.options.label)) {
-                this.label.set('html', this.getText(this.options.label)
-                        + this.options.labelSeparator);
-            }
-
-            this.label.set('for', this.id);
-
-            if (this.options.required) {
-                this.requiredText = new Element('em', {
-                    'html' : this.getText({set:'Jx',key:'field',value:'requiredText'}),
-                    'class' : 'required'
-                });
-                this.requiredText.inject(this.label);
-            }
-
-        }
 
         // FIELD
         if (this.field) {
@@ -254,9 +233,33 @@ Jx.Field = new Class({
             this.field.store('field', this);
 
             // add click event to label to set the focus to the field
+            // COMMENT: tried it without a function using addEvent('click', this.field.focus.bind(this)) but crashed in IE
             if(this.label) {
-                this.label.addEvent('click', this.field.focus.bind(this.field));
+              this.label.addEvent('click', function() {
+                this.field.focus();
+              }.bind(this));
             }
+        }
+        // LABEL
+        if (this.label) {
+            if ($defined(this.options.labelClass)) {
+                this.label.addClass(this.options.labelClass);
+            }
+            if ($defined(this.options.label)) {
+                this.label.set('html', this.getText(this.options.label)
+                        + this.options.labelSeparator);
+            }
+
+            this.label.set('for', this.id);
+
+            if (this.options.required) {
+                this.requiredText = new Element('em', {
+                    'html' : this.getText({set:'Jx',key:'field',value:'requiredText'}),
+                    'class' : 'required'
+                });
+                this.requiredText.inject(this.label);
+            }
+
         }
 
         // TAG
