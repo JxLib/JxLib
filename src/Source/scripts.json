@@ -45,20 +45,21 @@
           "images": []
         }
     },
-  "locales": {
-    "locale.english": {
-      "deps": ["Lang"],
-      "desc":  "Default translations of text strings used in JX for US english (en-US)",
-      "css": [],
-      "images": []
+    "locales": {
+        "desc": "All current translations of default text strings.",
+        "locale.english": {
+            "deps": ["Lang"],
+            "desc":  "Default translations of text strings used in JX for US english (en-US)",
+            "css": [],
+            "images": []
+        },
+        "locale.german": {
+            "deps": ["Lang"],
+            "desc":  "Default translations of text strings used in JX for German (Germany) (de-DE)",
+            "css": [],
+            "images": []
+        }
     },
-    "locale.german": {
-      "deps": ["Lang"],
-      "desc":  "Default translations of text strings used in JX for German (Germany) (de-DE)",
-      "css": [],
-      "images": []
-    }
-  },
     "Data": {
       "desc": "This group contains components needed to utilize the data store and it's subclasses.",
       "store": {
@@ -105,79 +106,79 @@
       },
       "response": {
            "deps": ["store"],
-           "desc": "",
+           "desc": "The object used to return response information to strategies.",
            "css": [],
            "images": []
         },
       "protocol": {
            "deps": ["response","store"],
-           "desc": "",
+           "desc": "Base class for all store protocols.",
            "css": [],
            "images": []
         },
         "protocol.local": {
            "deps": ["protocol"],
-           "desc": "",
+           "desc": "Store protocol used to load data that is already present in a page as an object.",
            "css": [],
            "images": []
         },
         "protocol.ajax": {
            "deps": ["protocol"],
-           "desc": "",
+           "desc": "Store protocol used to load data from a remote data source via Ajax.",
            "css": [],
            "images": []
         },
         "strategy": {
            "deps": ["store"],
-           "desc": "",
+           "desc": "Base class for all store strategies.",
            "css": [],
            "images": []
         },
         "strategy.full": {
            "deps": ["strategy"],
-           "desc": "",
+           "desc": "Strategy for loading the full data set from a source.",
            "css": [],
            "images": []
         },
         "strategy.paginate": {
            "deps": ["strategy"],
-           "desc": "",
+           "desc": "Strategy for loading data in pages and moving between them. This strategy makes sure the store only contains the current page's data.",
            "css": [],
            "images": []
         },
         "strategy.progressive": {
-           "deps": ["strategy"],
-           "desc": "",
+           "deps": ["strategy.paginate"],
+           "desc": "Strategy based on Strategy.Paginate but loads data progressively without removing old or curent data from the store.",
            "css": [],
            "images": []
         },
          "strategy.save": {
            "deps": ["strategy"],
-           "desc": "",
+           "desc": "Strategy used for saving data back to a source. Can be called manually or setup to automatically save on every change.",
            "css": [],
            "images": []
         },
         "strategy.sort": {
            "deps": ["strategy","sort","compare"],
-           "desc": "",
+           "desc": "Strategy used for sorting results in a store after they are loaded.",
            "css": [],
            "images": []
         },
         "parser": {
            "deps": ["store"],
-           "desc": "",
+           "desc": "Base class for all data parsers. Parsers are used by protocols to get data received or sent in the proper formats.",
            "css": [],
            "images": []
         },
         "parser.json": {
            "deps": ["parser", "JSON"],
-           "desc": "",
+           "desc": "Parser for reading and writting JSON formatted data.",
            "css": [],
            "images": []
         },
         "record": {
            "deps": ["object"],
-           "desc": "",
+           "desc": "The basic record implementation. A store uses records to handle and manipulate data.",
            "css": [],
            "images": []
         }
@@ -257,31 +258,31 @@
         },
         "dataview": {
             "deps": ["panel","store","list"],
-            "desc": "",
+            "desc": "A panel used for displaying records from a store in a list-style interface rather than a grid.",
             "css": [],
             "images": []
         },
         "group": {
             "deps": ["dataview", "selection"],
-            "desc": "",
+            "desc": "A subclass of Dataview that can display records in groups.",
             "css": [],
             "images": []
         },
         "upload": {
             "deps": ["panel","listview","file","progressbar","button","toolbar.item","tooltip"],
-            "desc": "",
+            "desc": "A panel subclass that is designed to be a multiple file upload panel with a queue listing.",
             "css": ["upload"],
             "images": ["icons.png"]
         },
         "listview": {
             "deps": ["list","listitem"],
-            "desc":"",
+            "desc": "A widget that displays items in a list format.",
             "css": ["list"],
             "images": ["listitem.png"]
         },
         "listitem": {
             "deps": ["widget"],
-            "desc":"",
+            "desc": "Reresents a single item in a listview.",
             "css": [],
             "images": []
         }
@@ -312,27 +313,27 @@
             "css": [],
             "images": []
         },
-    "renderer": {
-        "deps": ["grid"],
-      "desc": ""  ,
-        "css": [],
-        "images": []
-      },
-    "renderer.text": {
-        "deps": ["renderer"],
-      "desc": ""  ,
-        "css": [],
-        "images": []
-      },
+        "renderer": {
+            "deps": ["grid"],
+            "desc": "Base class for all renderers. Used to create the contents of column."  ,
+            "css": [],
+            "images": []
+        },
+        "renderer.text": {
+            "deps": ["renderer"],
+            "desc": "Renders data as straight text.",
+            "css": [],
+            "images": []
+        },
         "renderer.checkbox": {
             "deps": ["renderer"],
-            "desc": "",
+            "desc": "Renders a checkbox in a column. Can be connected to a store column or as a standalone check column.",
             "css": [],
             "images": []
         },
         "renderer.button": {
             "deps": ["renderer"],
-            "desc": "",
+            "desc": "Renders one or more buttons in a single column.",
             "css": [],
             "images": []
         }
@@ -430,45 +431,46 @@
             "images": []
         }
     },
-  "Adaptors": {
-    "adaptor": {
-        "deps": ["plugin"],
-      "desc": ""  ,
-        "css": [],
-        "images": []
-    },
-    "adaptor.tree": {
-        "deps": ["adaptor"],
-        "desc": "",
-        "css": [],
-        "images": []
-    },
-    "tree.mptt": {
-        "deps": ["adaptor.tree"],
-        "desc": "",
-        "css": [],
-        "images": []
-    },
-    "tree.parent": {
-        "deps": ["adaptor.tree"],
-        "desc": "",
-        "css": [],
-        "images": []
-    },
-    "adaptor.combo": {
-        "deps": ["adaptor"],
-        "desc": "",
-        "css": [],
-        "images": []
-    },
-    "combo.fill": {
-        "deps": ["adaptor.combo"],
-        "desc": "",
-        "css": [],
-        "images": []
-    }
+    "Adaptors": {
+        "desc": "Similar to (and based on) plugins, Adaptors allow the use of store data in creating and filling various widgets.",
+        "adaptor": {
+            "deps": ["plugin"],
+            "desc": "Base class for all Adaptors."  ,
+            "css": [],
+            "images": []
+        },
+        "adaptor.tree": {
+            "deps": ["adaptor"],
+            "desc": "Base class for all adaptors that fill Jx.Tree widgets. Also acts as the namespace for other Jx.Tree adaptors.",
+            "css": [],
+            "images": []
+        },
+        "tree.mptt": {
+            "deps": ["adaptor.tree"],
+            "desc": "Fills a Jx.Tree instance from a remote table that represents an MPTT (Modified Preorder Table Traversal) data source.",
+            "css": [],
+            "images": []
+        },
+        "tree.parent": {
+            "deps": ["adaptor.tree"],
+            "desc": "Fills a Jx.Tree instance from a standard parent/child/folder style data table.",
+            "css": [],
+            "images": []
+        },
+        "adaptor.combo": {
+            "deps": ["adaptor"],
+            "desc": "Namespace for all Jx.Combo adaptors.",
+            "css": [],
+            "images": []
+        },
+        "combo.fill": {
+            "deps": ["adaptor.combo"],
+            "desc": "Loads data into a Jx.Combo instance from designated column(s) of a data source.",
+            "css": [],
+            "images": []
+        }
 
-  },
+    },
     "Menu": {
         "desc": "This group contains components that are used in the menuing system.  Typically you would want to include all components in this group if you want to include menu support in your application.",
         "context": {
@@ -642,7 +644,7 @@
         },
         "notice": {
             "deps":["listitem"],
-            "desc": "",
+            "desc": "Represents a single item used in a notifier.",
             "css": [],
             "images": ["notice.png","notice_error.png","notice_warning.png","notice_success.png","icons.png"]
         },
