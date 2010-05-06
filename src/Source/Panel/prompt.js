@@ -68,11 +68,11 @@ Jx.Dialog.Prompt = new Class({
         //create content to be added
         this.buttons = new Jx.Toolbar({position: 'bottom',scroll:false});
         this.ok = new Jx.Button({
-                label: MooTools.lang.get('Jx','prompt').okButton,
+                label: this.getText({set:'Jx',key:'prompt',value:'okButton'}),
                 onClick: this.onClick.bind(this, true)
             });
         this.cancel = new Jx.Button({
-                label: MooTools.lang.get('Jx','prompt').cancelButton,
+                label: this.getText({set:'Jx',key:'prompt',value:'cancelButton'}),
                 onClick: this.onClick.bind(this, false)
             });
         this.buttons.add(this.ok, this.cancel);
@@ -135,10 +135,10 @@ Jx.Dialog.Prompt = new Class({
     changeText: function (lang) {
     	this.parent();
     	if ($defined(this.ok)) {
-    		this.ok.setLabel(MooTools.lang.get('Jx','prompt').okButton);
+    		this.ok.setLabel({set:'Jx',key:'prompt',value:'okButton'});
     	}
     	if ($defined(this.cancel)) {
-    		this.cancel.setLabel(MooTools.lang.get('Jx','prompt').cancelButton);
+    		this.cancel.setLabel({set:'Jx',key:'prompt',value:'cancelButton'});
     	}
       this.field.label.set('html', this.getText(this.options.prompt));
     }

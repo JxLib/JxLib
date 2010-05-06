@@ -245,7 +245,7 @@ Jx.Splitter = new Class({
     prepareBar: function() {
         var o = new Element('div', {
             'class': 'jxSplitBar'+this.options.layout.capitalize(),
-            'title': MooTools.lang.get('Jx','panel').barTooltip
+            'title': this.getText({set:'Jx',key:'splitter',value:'barToolTip'})
         });
         return o;
     },
@@ -740,11 +740,10 @@ Jx.Splitter = new Class({
          }
     },
     
-    createText: function (lang) {
+    changeText: function (lang) {
     	this.parent();
     	this.bars.each(function(bar){
-    		document.id(bar).set('title', MooTools.lang.get('Jx','splitter').title);
-    	},this);
-    	
+    		document.id(bar).set('title', this.getText({set:'Jx',key:'splitter',value:'barToolTip'}));
+    	},this);	
     }
 });

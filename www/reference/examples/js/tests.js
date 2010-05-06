@@ -98,7 +98,8 @@ window.addEvent('load', function() {
           label: {set:'Examples',key:'mainToolbar',value:'labelLang'},
           items: [
             {label: {set:'Examples',key:'mainToolbar',value:'langEn'}, image: 'http://upload.wikimedia.org/wikipedia/commons/7/7d/Icons-flag-us.png'},
-            {label: {set:'Examples',key:'mainToolbar',value:'langDe'}, image: 'http://upload.wikimedia.org/wikipedia/commons/b/b5/Icons-flag-de.png'}
+            {label: {set:'Examples',key:'mainToolbar',value:'langDe'}, image: 'http://upload.wikimedia.org/wikipedia/commons/b/b5/Icons-flag-de.png'},
+            {label: {set:'Examples',key:'mainToolbar',value:'langRu'}, image: 'http://upload.wikimedia.org/wikipedia/commons/9/9d/Icons-flag-ru.png'}
           ],
           onChange : function() {
             // not very nice but it works :)
@@ -110,6 +111,9 @@ window.addEvent('load', function() {
                 break;
               case 'de-DE':
                 this.setLabel({set:'Examples',key:'mainToolbar',value:'langDe'});
+                break;
+              case 'ru-RU':
+                this.setLabel({set:'Examples',key:'mainToolbar',value:'langRu'});
                 break;
             }
           }
@@ -143,7 +147,7 @@ window.addEvent('load', function() {
             var d = new Element('div', {'class':'sourceButton'});
             new Jx.Toolbar({scroll:false}).add(
                 new Jx.Button.Flyout({
-                    tooltip: 'show source for this example',
+                    tooltip: {set:'Examples',key:'mainToolbar',value:'showSource'},
                     image: 'images/script.png',
                     onOpen: function() {prettyPrint();},
                     content: '<pre class="prettyprint lang-js">'+s.innerHTML+'</pre>',

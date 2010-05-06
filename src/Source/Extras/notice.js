@@ -107,6 +107,12 @@ Jx.Notice = new Class({
             document.id(this).dispose();
             if (onComplete) onComplete();
         }
+    },
+
+    changeText : function(lang) {
+        this.parent();
+        //this.render();
+        //this.processElements(this.options.template, this.classes);
     }
 });
 /**

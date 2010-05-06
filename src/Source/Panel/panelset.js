@@ -96,7 +96,7 @@ Jx.PanelSet = new Class({
             prepareBar: (function(i) {
                 var bar = new Element('div', {
                     'class': 'jxPanelBar',
-                    'title': MooTools.lang.get('Jx','panelset').barTooltip
+                    'title': this.getText({set:'Jx',key:'splitter',value:'barTooltip'})
                 });
 
                 var panel = this.panels[i];

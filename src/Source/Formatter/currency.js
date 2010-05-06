@@ -46,9 +46,9 @@ Jx.Formatter.Currency = new Class({
 
         var ret;
         if (neg && !this.options.useParens) {
-            ret = "-" + MooTools.lang.get('Jx','formatter.currency').sign + value.substring(1, value.length);
+            ret = "-" + this.getText({set:'Jx',key:'formatter.boolean',value:'sign'}) + value.substring(1, value.length);
         } else {
-            ret = MooTools.lang.get('Jx','formatter.currency').sign + value;
+            ret = this.getText({set:'Jx',key:'formatter.boolean',value:'sign'}) + value;
         }
 
         return ret;

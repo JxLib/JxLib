@@ -100,7 +100,7 @@ Jx.ColorPalette = new Class({
 
         top.adopt(this.colorInput);
 
-        this.alphaLabel = new Element('label', {'class':'jxAlphaLabel', 'html':MooTools.lang.get('Jx','colorpalette').alphaLabel});
+        this.alphaLabel = new Element('label', {'class':'jxAlphaLabel', 'html':this.getText({set:'Jx',key:'colorpalette',value:'alphaLabel'}) });
         top.adopt(this.alphaLabel);
 
         this.alphaInput = new Element('input', {
@@ -320,7 +320,7 @@ Jx.ColorPalette = new Class({
     	this.parent();
     	
     	if ($defined(this.alphaLabel)) {
-    		this.alphaLabel.set('html', MooTools.lang.get('Jx','colorpalette').alphaLabel);
+    		this.alphaLabel.set('html', this.getText({set:'Jx',key:'colorpalette',value:'alphaLabel'}));
     	}
     }
 });

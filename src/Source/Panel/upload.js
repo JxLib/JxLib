@@ -113,7 +113,7 @@ Jx.Panel.FileUpload = new Class({
 
         //this is the upload button at the bottom of the panel.
         this.uploadBtn = new Jx.Button({
-            label : MooTools.lang.get('Jx','upload').buttonText,
+            label : this.getText({set:'Jx',key:'upload',value:'buttonText'}),
             onClick: this.upload.bind(this)
         });
         var tlb = new Jx.Toolbar({position: 'bottom', scroll: false}).add(this.uploadBtn);
@@ -278,10 +278,10 @@ Jx.Panel.FileUpload = new Class({
      * Method: createText
      * handle change in language
      */
-    createText: function (lang) {
+    changeText: function (lang) {
       this.parent();
       if ($defined(this.uploadBtn)) {
-        this.uploadBtn.setLabel(MooTools.lang.get('Jx','upload').buttonText);
+        this.uploadBtn.setLabel({set:'Jx',key:'upload',value:'buttonText'});
       }
     }
 });

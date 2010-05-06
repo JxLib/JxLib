@@ -55,13 +55,11 @@ Jx.Dialog.Confirm = new Class({
 
         // COMMENT: returning boolean would be more what people expect instead of a localized label of a button?
         this.ok = new Jx.Button({
-            label: MooTools.lang.get('Jx','confirm').affirmitiveLabel,
-            //onClick: this.onClick.bind(this, MooTools.lang.get('Jx','confirm').affirmitiveLabel)
+            label: this.getText({set:'Jx',key:'confirm',value:'affirmitiveLabel'}),
             onClick: this.onClick.bind(this, true)
         }),
         this.cancel = new Jx.Button({
-            label: MooTools.lang.get('Jx','confirm').negativeLabel,
-            //onClick: this.onClick.bind(this, MooTools.lang.get('Jx','confirm').negativeLabel)
+            label: this.getText({set:'Jx',key:'confirm',value:'negativeLabel'}),
             onClick: this.onClick.bind(this, false)
         })
         this.buttons.add(this.ok, this.cancel);
@@ -112,10 +110,10 @@ Jx.Dialog.Confirm = new Class({
     changeText: function (lang) {
     	this.parent();
     	if ($defined(this.ok)) {
-    		this.ok.setLabel(MooTools.lang.get('Jx','confirm').affirmitiveLabel);
+    		this.ok.setLabel({set:'Jx',key:'confirm',value:'affirmitiveLabel'});
     	}
     	if ($defined(this.cancel)) {
-    		this.cancel.setLabel(MooTools.lang.get('Jx','confirm').negativeLabel);
+    		this.cancel.setLabel({set:'Jx',key:'confirm',value:'negativeLabel'});
     	}
       if(Jx.type(this.options.question) === 'object') {
         this.question.set('html', this.getText(this.options.question))

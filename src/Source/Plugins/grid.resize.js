@@ -30,9 +30,9 @@ Jx.Plugin.Grid.Resize = new Class({
         /**
          * Option: tooltip
          * the tooltip to display for the draggable portion of the
-         * cell header
+         * cell header, localized with MooTools.lang.get('Jx','plugin.resize').tooltip for default
          */
-        tooltip: MooTools.lang.get('Jx','plugin.resize').tooltip
+        tooltip: ''
     },
     /**
      * Property: els
@@ -115,7 +115,7 @@ Jx.Plugin.Grid.Resize = new Class({
                     col.domObj) {
                     var el = new Element('div', {
                         'class':'jxGridColumnResize',
-                        title: this.options.tooltip,
+                        title: this.options.tooltip == '' ? this.getText({set:'Jx',key:'plugin.resize',value:'tooltip'}) : this.getText(this.options.tooltip),
                         events: {
                             dblclick: function() {
                                 col.options.renderMode = 'fit';
@@ -165,9 +165,9 @@ Jx.Plugin.Grid.Resize = new Class({
      * Method: createText
      * respond to a language change by updating the tooltip
      */
-    createText: function (lang) {
+    changeText: function (lang) {
       this.parent();
-      var txt = MooTools.lang.get('Jx','plugin.resize').tooltip;
+      var txt = this.options.tooltip == '' ? this.getText({set:'Jx',key:'plugin.resize',value:'tooltip'}) : this.getText(this.options.tooltip);
       ['column','row'].each(function(option) {
         this.els[option].each(function(el) { el.set('title',txt); } );
       }, this);

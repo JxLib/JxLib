@@ -237,7 +237,7 @@ Jx.Dialog = new Class({
         if (this.options.resize && typeof Drag != 'undefined') {
             this.resizeHandle = new Element('div', {
                 'class':'jxDialogResize',
-                title: MooTools.lang.get('Jx','panel').resizeTooltip,
+                title: this.getText({set:'Jx',key:'panel',value:'resizeTooltip'}),
                 styles: {
                     'display':this.options.closed?'none':'block'
                 }
@@ -562,23 +562,18 @@ Jx.Dialog = new Class({
         return !((this.domObj.getStyle('display') === 'none') || (this.domObj.getStyle('visibility') === 'hidden'));
     },
     
-    createText: function (lang) {
+    changeText: function (lang) {
     	this.parent();
     	if ($defined(this.maxM)) {
 			if (this.maximize) {
-				this.maxM.setLabel(MooTools.lang.get('Jx','panel').restoreLabel);
+				this.maxM.setLabel(this.getText({set:'Jx',key:'panel',value:'restoreLabel'}));
 	    	} else {
-	    		this.maxM.setLabel(MooTools.lang.get('Jx','panel').maximizeLabel);
+	    		this.maxM.setLabel(this.getText({set:'Jx',key:'panel',value:'maximizeLabel'}));
 	    	}
     	}
     	if ($defined(this.resizeHandle)) {
-    		this.resizeHandle.set('title', MooTools.lang.get('Jx','dialog').resizeTooltip);
+    		this.resizeHandle.set('title', this.getText({set:'Jx',key:'dialog',value:'resizeTooltip'}));
     	}
-    },
-
-    changeText : function(lang) {
-      this.parent();
-      // re-opening and resizing the dialog to prevent it from being minimized
       this.toggleCollapse(false);
     },
 

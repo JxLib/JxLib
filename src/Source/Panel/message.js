@@ -63,7 +63,7 @@ Jx.Dialog.Message = new Class({
         //create content to be added
         this.buttons = new Jx.Toolbar({position: 'bottom',scroll:false});
         this.ok = new Jx.Button({
-            label: MooTools.lang.get('Jx','message').okButton,
+            label: this.getText({set:'Jx',key:'message',value:'okButton'}),
             onClick: this.onOk
         });
         this.buttons.add(this.ok);
@@ -126,7 +126,7 @@ Jx.Dialog.Message = new Class({
     changeText: function (lang) {
       this.parent();
       if ($defined(this.ok)) {
-        this.ok.setLabel(MooTools.lang.get('Jx','message').okButton);
+        this.ok.setLabel({set:'Jx',key:'message',value:'okButton'});
       }
       if(Jx.type(this.options.message) === 'object') {
         this.question.set('html', this.getText(this.options.message))

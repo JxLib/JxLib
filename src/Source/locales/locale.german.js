@@ -8,7 +8,7 @@ MooTools.lang.set('de-DE', 'Jx', {
 		alphaLabel: 'alpha (%)'
 	},
 	notice: {
-		closeTip: 'Notiz schlie&szlig;en'
+		closeTip: 'Notiz schließen'
 	},
 	progressbar: {
 		messageText: 'Lade...',
@@ -28,21 +28,21 @@ MooTools.lang.set('de-DE', 'Jx', {
 		sign: '€'
 	},
 	'formatter.number': {
-		decimalSeparator: '.',
-    thousandsSeparator: ','
+		decimalSeparator: ',',
+    thousandsSeparator: '.'
 	},
 	splitter: {
-		barToolTip: 'Ziehen Sie diese Leiste um die Gr&ouml;&szlig;e zu verändern'
+		barToolTip: 'Ziehen Sie diese Leiste um die Größe zu verändern'
 	},
 	panel: {
-		collapseTooltip: 'Panel ein-/ausklappen', //colB
+        collapseTooltip: 'Panel ein-/ausklappen', //colB
         collapseLabel: 'Einklappen',  //colM
         expandLabel: 'Ausklappen', //colM
         maximizeTooltip: 'Panel maximieren',
         maximizeLabel: 'maximieren',
         restoreTooltip: 'Panel wieder herstellen', //maxB
         restoreLabel: 'wieder herstellen', //maxM
-        closeTooltip: 'Panel schlie&szlig;en', //closeB
+        closeTooltip: 'Panel schließen', //closeB
         closeLabel: 'Schließen' //closeM
 	},
 	confirm: {
@@ -56,7 +56,7 @@ MooTools.lang.set('de-DE', 'Jx', {
 		okButton: 'Ok'
 	},
 	panelset: {
-		barTooltip: 'Ziehen Sie diese Leiste um die Gr&ouml;&szlig;e zu verändern'
+		barTooltip: 'Ziehen Sie diese Leiste um die Größe zu verändern'
 	},
 	prompt: {
 		okButton: 'Ok',
@@ -66,7 +66,7 @@ MooTools.lang.set('de-DE', 'Jx', {
 		buttonText: 'Dateien hochladen'
 	},
 	'plugin.resize': {
-	  tooltip: 'Klicken um Gr&ouml;&szlig;e zu verändern. Doppelklick für automatische Gr&ouml;&szlig;e.'
+	  tooltip: 'Klicken um Größe zu verändern. Doppelklick für automatische Anpassung.'
 	},
   'plugin.editor': {
     submitButton: 'Speichern',

@@ -7,8 +7,10 @@ MooTools.lang.set('en-US', 'Examples', {
     btnClearLog : 'clear log',
     labelLang   : 'Language',
     labelTheme  : 'Theme',
+    showSource  : 'Show source for this example',
     langEn      : 'English (en-US)',
-    langDe      : 'Deutsch (de-DE)'
+    langDe      : 'Deutsch (de-DE)',
+    langRu      : 'Pусский (ru-RU)'
   },
 
   // name the 'key' after the html example page ?
@@ -121,6 +123,10 @@ MooTools.lang.set('en-US', 'Examples', {
         center         : 'Center',
         right          : 'Right',
         fill           : 'Fill'
+  },
+
+  progressBar : {
+    runButton : 'Run Progress Bar'
   }
 
 });
@@ -133,8 +139,10 @@ MooTools.lang.set('de-DE', 'Examples', {
     btnClearLog : 'Log leeren',
     labelLang   : 'Sprache',
     labelTheme  : 'Design',
+    showSource  : 'Zeige Quellcode dieses Beispiels',
     langEn      : 'English (en-US)',
-    langDe      : 'Deutsch (de-DE)'
+    langDe      : 'Deutsch (de-DE)',
+    langRu      : 'Pусский (ru-RU)'
   },
 
 	button : {
@@ -246,6 +254,10 @@ MooTools.lang.set('de-DE', 'Examples', {
         center         : 'Zentriert',
         right          : 'Rechts',
         fill           : 'Blocksatz'
+  },
+
+  progressBar : {
+    runButton : 'Starte den Fortschrittsbalken'
   }
 
 });

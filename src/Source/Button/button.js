@@ -159,8 +159,8 @@ Jx.Button = new Class({
             var mouseDown;
             this.domA.set({
                 href: this.options.href,
-                title: this.options.tooltip,
-                alt: this.options.tooltip
+                title: this.getText(this.options.tooltip),
+                alt: this.getText(this.options.tooltip)
             });
             this.domA.addEvents({
                 click: this.clicked.bindWithEvent(this),
@@ -206,8 +206,8 @@ Jx.Button = new Class({
         if (this.domImg) {
             if (this.options.image || !this.options.label) {
                 this.domImg.set({
-                    title: this.options.tooltip,
-                    alt: this.options.tooltip
+                    title: this.getText(this.options.tooltip),
+                    alt: this.getText(this.options.tooltip)
                 });
                 if (this.options.image && this.options.image.indexOf(Jx.aPixel.src) == -1) {
                     this.domImg.setStyle('backgroundImage',"url("+this.options.image+")");
@@ -368,8 +368,8 @@ Jx.Button = new Class({
     setTooltip: function(tooltip) {
         if (this.domA) {
             this.domA.set({
-                'title':tooltip,
-                'alt':tooltip
+                'title':this.getText(tooltip),
+                'alt':this.getText(tooltip)
             });
         }
         //need to account for the tooltip on the image as well
@@ -379,8 +379,8 @@ Jx.Button = new Class({
             if ($defined(t)) {
                 //change it...
                 this.domImg.set({
-                    'title':tooltip,
-                    'alt':tooltip
+                    'title':this.getText(tooltip),
+                    'alt':this.getText(tooltip)
                 });
             }
         }
@@ -413,5 +413,6 @@ Jx.Button = new Class({
     changeText : function(lang) {
         this.parent();
         this.setLabel(this.options.label);
+        this.setTooltip(this.options.tooltip);
     }
 });

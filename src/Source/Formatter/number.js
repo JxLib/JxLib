@@ -86,11 +86,11 @@ Jx.Formatter.Number = new Class({
             for (var i = 0; i < l; i++) {
                 ret = ret + main.charAt(i);
                 if (i === left - 1 && i !== l - 1) {
-                    ret = ret + MooTools.lang.get('Jx','formatter.number').thousandsSeparator;
+                    ret = ret + this.getText({set:'Jx',key:'formatter.number',value:'thousandsSeparator'});
                 } else if (i >= left) {
                     j++;
                     if (j === 3 && i !== l - 1) {
-                        ret = ret + MooTools.lang.get('Jx','formatter.number').thousandsSeparator;
+                        ret = ret + this.getText({set:'Jx',key:'formatter.number',value:'thousandsSeparator'});
                         j = 0;
                     }
                 }
@@ -101,7 +101,7 @@ Jx.Formatter.Number = new Class({
         }
 
         if (dec) {
-            ret = ret + MooTools.lang.get('Jx','formatter.number').decimalSeparator + parts[1];
+            ret = ret + this.getText({set:'Jx',key:'formatter.number',value:'decimalSeparator'}) + parts[1];
         }
         if (neg && this.options.useParens) {
             ret = "(" + ret + ")";

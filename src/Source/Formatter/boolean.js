@@ -53,7 +53,7 @@ Jx.Formatter.Boolean = new Class({
         default:
             b = true;
         }
-        return b ? MooTools.lang.get('Jx','formatter.boolean')['true'] : MooTools.lang.get('Jx','formatter.boolean')['false'];
+        return b ? this.getText({set:'Jx',key:'formatter.boolean',value:'true'}) : this.getText({set:'Jx',key:'formatter.boolean',value:'false'});
     },
     
     /**

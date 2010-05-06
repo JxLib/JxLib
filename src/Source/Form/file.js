@@ -151,7 +151,7 @@ Jx.Field.File = new Class({
             template : '<span class="jxInputContainer"><input class="jxInputText" type="text" /></span>'
         });
         this.browseButton = new Jx.Button({
-            label: MooTools.lang.get('Jx','file').browseLabel
+            label: this.getText({set:'Jx',key:'file',value:'browseLabel'})
         });
 
         this.fake.adopt(this.text, this.browseButton);
@@ -408,7 +408,7 @@ Jx.Field.File = new Class({
     changeText: function (lang) {
     	this.parent();
     	if ($defined(this.browseButton)) {
-    		this.browseButton.setLabel( MooTools.lang.get('Jx','file').browseLabel);
+    		this.browseButton.setLabel( this.getText({set:'Jx',key:'file',value:'browseLabel'}) );
     	}
     }
 });

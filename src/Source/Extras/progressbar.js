@@ -57,6 +57,12 @@ Jx.Progressbar = new Class({
          */
         parent: null,
         /**
+         * Option: progressText
+         * Text to show while processing, uses 
+         * {progress} von {total}
+         */
+        progressText : null,
+        /**
          * Option: template
          * The template used to create the progressbar
          */
@@ -112,7 +118,7 @@ Jx.Progressbar = new Class({
         //Message
         if (this.message) {
             if ($defined(MooTools.lang.get('Jx','progressbar').messageText)) {
-                this.message.set('html', MooTools.lang.get('Jx','progressbar').messageText);
+                this.message.set('html', this.getText({set:'Jx',key:'progressbar',value:'messageText'}));
             } else {
                 this.message.destroy();
             }
@@ -127,12 +133,9 @@ Jx.Progressbar = new Class({
         
         //TODO: check for {progress} and {total} in progressText
         var obj = {};
-        var progressText;
-        if (!$defined(this.options.progressText)) {
-            progressText = MooTools.lang.get('Jx','progressbar').progressText;
-        } else {
-            progressText = this.options.progressText;
-        }
+        var progressText = this.options.progressText == null ? 
+                              this.getText({set:'Jx',key:'progressbar',value:'progressText'}) :
+                              this.getText(this.options.progressText);
         if (progressText.contains('{progress}')) {
             obj.progress = 0;
         }
@@ -167,12 +170,9 @@ Jx.Progressbar = new Class({
         //update bar width
         this.text.get('tween', {property:'width', onComplete: function() {
             var obj = {};
-            var progressText;
-            if (!$defined(this.options.progressText)) {
-                progressText = MooTools.lang.get('Jx','progressbar').progressText;
-            } else {
-                progressText = this.options.progressText;
-            }
+            var progressText = this.options.progressText == null ?
+                                  this.getText({set:'Jx',key:'progressbar',value:'progressText'}) :
+                                  this.getText(this.options.progressText);
             if (progressText.contains('{progress}')) {
                 obj.progress = progress;
             }
@@ -208,7 +208,7 @@ Jx.Progressbar = new Class({
     changeText: function (lang) {
     	this.parent();
     	if (this.message) {
-    		this.message.set('html',MooTools.lang.get('Jx','progressbar').messageText);
+    		this.message.set('html',this.getText({set:'Jx',key:'progressbar',value:'messageText'}));
     	}
         //progress text will update on next update.
     }

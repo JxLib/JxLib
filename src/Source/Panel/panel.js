@@ -144,7 +144,7 @@ Jx.Panel = new Class({
             this.colB = new Jx.Button({
                 template: this.options.controlButtonTemplate,
                 image: Jx.aPixel.src,
-                tooltip: MooTools.lang.get('Jx','panel').collapseTooltip,
+                tooltip: {set:'Jx',key:'panel',value:'collapseTooltip'},
                 onClick: function() {
                     that.toggleCollapse();
                 }
@@ -152,10 +152,10 @@ Jx.Panel = new Class({
             this.colB.domObj.addClass(this.options.collapseClass);
             this.addEvents({
                 collapse: function() {
-                    this.colB.setTooltip(MooTools.lang.get('Jx','panel').expandTooltip);
+                    this.colB.setTooltip({set:'Jx',key:'panel',value:'expandTooltip'});
                 }.bind(this),
                 expand: function() {
-                    this.colB.setTooltip(MooTools.lang.get('Jx','panel').collapseTooltip);
+                    this.colB.setTooltip({set:'Jx',key:'panel',value:'collapseTooltip'});
                 }.bind(this)
             });
             this.toolbar.add(this.colB);
@@ -167,10 +167,10 @@ Jx.Panel = new Class({
                 var item = this.colM
                 this.addEvents({
                     collapse: function() {
-                        this.colM.setLabel(MooTools.lang.get('Jx','panel').expandLabel);
+                        this.colM.setLabel({set:'Jx',key:'panel',value:'expandLabel'});
                     }.bind(this),
                     expand: function() {
-                        this.colM.setLabel(MooTools.lang.get('Jx','panel').collapseLabel);
+                        this.colM.setLabel({set:'Jx',key:'panel',value:'collapseLabel'});
                     }.bind(this)
                 });
                 this.menu.add(item);
@@ -181,7 +181,7 @@ Jx.Panel = new Class({
             this.maxB = new Jx.Button({
                 template: this.options.controlButtonTemplate,
                 image: Jx.aPixel.src,
-                tooltip: MooTools.lang.get('Jx','panel').maximizeTooltip,
+                tooltip: {set:'Jx',key:'panel',value:'maximizeTooltip'},
                 onClick: function() {
                     that.maximize();
                 }
@@ -189,10 +189,10 @@ Jx.Panel = new Class({
             this.maxB.domObj.addClass(this.options.maximizeClass);
             this.addEvents({
                 maximize: function() {
-                    this.maxB.setTooltip(MooTools.lang.get('Jx','panel').restoreTooltip);
+                    this.maxB.setTooltip({set:'Jx',key:'panel',value:'restoreTooltip'});
                 }.bind(this),
                 restore: function() {
-                    this.maxB.setTooltip(MooTools.lang.get('Jx','panel').maximizeTooltip);
+                    this.maxB.setTooltip({set:'Jx',key:'panel',value:'maximizeTooltip'});
                 }.bind(this)
             });
             this.toolbar.add(this.maxB);
@@ -204,10 +204,10 @@ Jx.Panel = new Class({
                 
                 this.addEvents({
                     maximize: function() {
-                        this.maxM.setLabel(MooTools.lang.get('Jx','panel').restoreLabel);
+                        this.maxM.setLabel({set:'Jx',key:'panel',value:'maximizeLabel'});
                     }.bind(this),
                     restore: function() {
-                        this.maxM.setLabel(MooTools.lang.get('Jx','panel').maximizeLabel);
+                        this.maxM.setLabel({set:'Jx',key:'panel',value:'restoreLabel'});
                     }.bind(this)
                 });
                 this.menu.add(this.maxM);
@@ -218,7 +218,7 @@ Jx.Panel = new Class({
             this.closeB = new Jx.Button({
                 template: this.options.controlButtonTemplate,
                 image: Jx.aPixel.src,
-                tooltip: MooTools.lang.get('Jx','panel').closeTooltip,
+                tooltip: {set:'Jx',key:'panel',value:'closeTooltip'},
                 onClick: function() {
                     that.close();
                 }
@@ -227,7 +227,7 @@ Jx.Panel = new Class({
             this.toolbar.add(this.closeB);
             if (this.menu) {
                 this.closeM = new Jx.Menu.Item({
-                    label: MooTools.lang.get('Jx','panel').closeLabel,
+                    label: {set:'Jx',key:'panel',value:'closeLabel'},
                     onClick: function() {
                         that.close();
                     }
@@ -520,22 +520,22 @@ Jx.Panel = new Class({
     changeText: function (lang) {
     	this.parent();	//TODO: change this class so that we can access these properties without too much voodoo...
     	if($defined(this.closeB)) {
-    		this.closeB.setTooltip(MooTools.lang.get('Jx','panel').closeTooltip);
+    		this.closeB.setTooltip({set:'Jx',key:'panel',value:'closeTooltip'});
     	}
     	if ($defined(this.closeM)) {
-    		this.closeM.setLabel(MooTools.lang.get('Jx','panel').closeLabel);
+    		this.closeM.setLabel({set:'Jx',key:'panel',value:'closeLabel'});
     	}
     	if ($defined(this.maxB)) {
-    		this.maxB.setTooltip(MooTools.lang.get('Jx','panel').maximizeTooltip);
+    		this.maxB.setTooltip({set:'Jx',key:'panel',value:'maximizeTooltip'});
     	}
     	if ($defined(this.colB)) {
-    		this.colB.setTooltip(MooTools.lang.get('Jx','panel').collapseTooltip);
+    		this.colB.setTooltip({set:'Jx',key:'panel',value:'collapseTooltip'});
     	}
     	if ($defined(this.colM)) {
 	    	if (this.options.closed == true) {
-	    		this.colM.setLabel(MooTools.lang.get('Jx','panel').expandLabel);
+	    		this.colM.setLabel({set:'Jx',key:'panel',value:'expandLabel'});
 	    	} else {
-	    		this.colM.setLabel(MooTools.lang.get('Jx','panel').collapseLabel);
+	    		this.colM.setLabel({set:'Jx',key:'panel',value:'collapseLabel'});
 	    	}
     	}
       if (this.options.label && this.domLabel) {

@@ -797,14 +797,18 @@ Jx.Plugin.Grid.Editor = new Class({
       // check if buttons are needed, innerWrapper exists and no buttons already exist
       if(this.options.popup.useButtons && this.popup.innerWrapper != null && this.popup.button.submit == null) {
         button.submit = new Jx.Button({
-          label : this.options.popup.button.submit.label.length == 0 ? MooTools.lang.get('Jx','plugin.editor').submitButton : this.options.popup.button.submit.label,
+          label : this.options.popup.button.submit.label.length == 0 ? 
+                    this.getText({set:'Jx',key:'plugin.editor',value:'submitButton'}) :
+                    this.getText(this.options.popup.button.submit.label),
           image : this.options.popup.button.submit.image,
           onClick: function() {
             self.deactivate(true);
           }
         }).addTo(this.popup.innerWrapper);
         button.cancel = new Jx.Button({
-          label : this.options.popup.button.cancel.label.length == 0 ? MooTools.lang.get('Jx','plugin.editor').cancelButton : this.options.popup.button.cancel.label,
+          label : this.options.popup.button.cancel.label.length == 0 ? 
+                    this.getText({set:'Jx',key:'plugin.editor',value:'cancelButton'}) :
+                    this.getText(this.options.popup.button.cancel.label),
           image : this.options.popup.button.cancel.image,
           onClick: function() {
             self.deactivate(false);

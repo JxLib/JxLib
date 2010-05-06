@@ -816,7 +816,7 @@ Jx.Widget = new Class({
             opts.img = null;
             opts.message = new Element('p',{
               'class':'jxSpinnerMessage',
-              html: '<span class="jxSpinnerImage"></span>'+MooTools.lang.get('Jx','widget').busyMessage
+              html: '<span class="jxSpinnerImage"></span>'+this.getText({set:'Jx',key:'widget',value:'busyMessage'})
             });
           }
           opts = $merge(this.options.busyMask, opts);

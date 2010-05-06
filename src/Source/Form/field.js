@@ -361,7 +361,7 @@ Jx.Field = new Class({
           this.requiredText.inject(this.label);
         }
         if ($defined(this.requiredText)) {
-          this.requiredText.set('html',MooTools.lang.get('Jx','field').requiredText);
+          this.requiredText.set('html',this.getText({set:'Jx',key:'field',value:'requiredText'}));
         }
     }, 
     
