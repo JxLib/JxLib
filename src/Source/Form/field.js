@@ -350,7 +350,7 @@ Jx.Field = new Class({
      */
     changeText: function (lang) {
         this.parent();
-        if ($defined(this.options.label)) {
+        if ($defined(this.options.label) && this.label) {
           this.label.set('html', this.getText(this.options.label) + this.options.labelSeparator);
         }
         if(this.options.required) {
