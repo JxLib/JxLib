@@ -21,7 +21,7 @@
         },
         "widget": {
           "deps": ["object","Selectors","locale.english"],
-          "opt": ["spinner"],
+          "opt": ["Spinner"],
           "desc": "Base class for all widgets (visual classes) in the JxLib Framework.",
           "css": ["chrome"],
           "images": ["spinner_16.gif","spinner_24.gif"]
@@ -56,6 +56,12 @@
         "locale.german": {
             "deps": ["Lang"],
             "desc":  "Default translations of text strings used in JX for German (Germany) (de-DE)",
+            "css": [],
+            "images": []
+        },
+        "locale.russian": {
+            "deps": ["Lang"],
+            "desc":  "Default translations of text strings used in JX for Russia (Russia) (ru-RU)",
             "css": [],
             "images": []
         }
