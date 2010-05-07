@@ -1,4 +1,3 @@
-
 MooTools.lang.set('en-US', 'Examples', {
 
   mainToolbar : {
@@ -7,10 +6,9 @@ MooTools.lang.set('en-US', 'Examples', {
     btnClearLog : 'clear log',
     labelLang   : 'Language',
     labelTheme  : 'Theme',
-    showSource  : 'Show source for this example',
     langEn      : 'English (en-US)',
     langDe      : 'Deutsch (de-DE)',
-    langRu      : 'Pусский (ru-RU)'
+    langRu      : 'Русский (ru-RU)'
   },
 
   // name the 'key' after the html example page ?
@@ -123,10 +121,6 @@ MooTools.lang.set('en-US', 'Examples', {
         center         : 'Center',
         right          : 'Right',
         fill           : 'Fill'
-  },
-
-  progressBar : {
-    runButton : 'Run Progress Bar'
   }
 
 });
@@ -139,10 +133,9 @@ MooTools.lang.set('de-DE', 'Examples', {
     btnClearLog : 'Log leeren',
     labelLang   : 'Sprache',
     labelTheme  : 'Design',
-    showSource  : 'Zeige Quellcode dieses Beispiels',
     langEn      : 'English (en-US)',
     langDe      : 'Deutsch (de-DE)',
-    langRu      : 'Pусский (ru-RU)'
+    langRu      : 'Русский (ru-RU)'
   },
 
 	button : {
@@ -254,10 +247,132 @@ MooTools.lang.set('de-DE', 'Examples', {
         center         : 'Zentriert',
         right          : 'Rechts',
         fill           : 'Blocksatz'
-  },
-
-  progressBar : {
-    runButton : 'Starte den Fortschrittsbalken'
   }
 
+});
+
+MooTools.lang.set('ru-RU', 'Examples', {
+
+  mainToolbar : {
+    btnBgGrid   : 'Фоновая сетка',
+    btnEvLog    : 'Журнал',
+    btnClearLog : 'очистить журнал',
+    labelLang   : 'Языка',
+    labelTheme  : 'Тема',
+    langEn      : 'English (en-US)',
+    langDe      : 'Deutsch (de-DE)',
+    langRu      : 'Русский (ru-RU)'
+  },
+
+  // name the 'key' after the html example page ?
+	button : {
+    labelAndIcon        : 'Метка и Иконка',
+    justALabel          : 'Просто метка',
+    enableTransmission  : 'Разрешить Передачу',
+    disableTransmission : 'Запретить Передачу',
+    startTransmission   : 'Начать Передачу',
+    stopTransmission    : 'Начать Передачу',
+    left    : 'слева',
+    center  : 'по центру',
+    right   : 'справа',
+    justify : 'выровнять'
+  },
+
+  panel : {
+    basic1          : 'Простая Панель Раз',
+    basic2          : 'Простая Панель Два',
+    togglePanelMask : 'Переключить Маску Панели',
+    panelToolbar    : 'Панель с инструментами',
+    btnTop    : 'Сверху',
+    btnRight  : 'Справа',
+    btnBottom : 'Снизу',
+    btnLeft   : 'Слева'
+  },
+
+  dialog : {
+    btnStatic     : 'Статичный',
+    btnModal      : 'Позиционированный модальный',
+    btnDynamic    : 'Динамичное содержимое и Панель Инструментов',
+    btnInvalid    : 'Неверный URL содержимого',
+    btnConfirm    : 'Диалог Подтверждения',
+    btnPrompt     : 'Диалог запроса E-Mail',
+    btnMessage    : 'Диалог Сообщения',
+    dialogStatic  : 'Статичный Диалог',
+    dialogModal   : 'Позиционированный модальный Диалог',
+    dialogDynamic : 'Диалог с инструментами с Ajax содержимым',
+    dialogInvalid : 'Неверный URL содержимого',
+    dialogConfirm : 'Вам нравится JxLib?',
+    dialogPrompt  : 'E-Mail адрес',
+    dialogMessage : 'Привет, Мир.'
+  },
+
+  grid : {
+    rowOptions        : 'Опции Строки',
+    rowPrelight       : 'Подсветка Строки',
+    rowHeaderPrelight : 'Подсветка Заголовка Строки',
+    rowSelection      : 'Выбор Строки',
+    colOptions        : 'Опции Столбца',
+    colResize         : 'Размер Столбца',
+    colPrelight       : 'Подсветка Столбца',
+    colHeaderPrelight : 'Подсветка Заголовка Столбца',
+    colSelection      : 'Выбор Столбца',
+    cellOptions       : 'Опции Ячейки',
+    cellPrelight      : 'Подсветка Ячейки',
+    cellSelection     : 'Выбор Ячейки',
+// leave commented out to let people see that a regular string works too :)
+//    otherOptions      : 'Другии Опции',
+//    checkCol          : 'Выбор Столбца',
+//    checkColHeader    : 'Выбор Столбца как Заголовка',
+//    multipleSelect    : 'Множественный Выбор',
+    clickMe           : 'Щелкни меня...',
+    orMe              : '... Или меня'
+  },
+
+  tree : {
+    customIcon     : 'Узел дерева со своей иконкой',
+    customFolder   : 'Папка дерева со своей инконкой',
+    subItem        : 'Дочерний узел',
+    subItem2       : 'Другой дочерний узел',
+    subFolder      : 'Дочерняя папка',
+    item           : 'Узел ',
+    folder         : 'Папка '
+  },
+
+  tabset : {
+    newTab         : 'Добавить новый Таб',
+    embedded       : 'Встроенная Панель',
+    inline         : 'Встроенное Содержимое',
+    ajax           : 'Ajax Содержимое',
+    closeable      : 'Закрываемый Таб'
+  },
+
+  menuContext : {
+    file           : 'Файл',
+      'new'          : 'Новый',
+      open           : 'Открыть',
+      save           : 'Сохранить',
+      saveAs         : 'Сохрнаить Как',
+      print          : 'Печать',
+      printPreview   : 'Просмотр Печати',
+      properties     : 'Свойства',
+    edit           : 'Правка',
+      undo           : 'Отмена',
+      redo           : 'Вернуть',
+      cut            : 'Вырезать',
+      copy           : 'Копировать',
+      paste          : 'Вставить',
+    format         : 'Формат',
+      intendMore     : 'Отступ больше',
+      intendLess     : 'Отступ меньше',
+      font           : 'Шрфит',
+        bold           : 'Жирный',
+        italic         : 'Курсив',
+        strikethrough  : 'Перечёркнутый',
+        underline      : 'Подчёркнутый',
+      align          : 'Выравнивание',
+        left           : 'По левому краю',
+        center         : 'По центру',
+        right          : 'По правому краю',
+        fill           : 'Заливка'
+  }
 });
