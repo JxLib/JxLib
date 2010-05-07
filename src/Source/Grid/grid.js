@@ -606,8 +606,11 @@ Jx.Grid = new Class({
 
     changeText : function(lang) {
         this.parent();
+        /*
         this.resize();
-        this.resizeRowsCols();     
+        this.resizeRowsCols();
+        */
+        this.render();
     }
 
 });

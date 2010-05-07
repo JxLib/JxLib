@@ -59,6 +59,10 @@ Jx.Grid.Renderer.Text = new Class({
                 && !(this.options.formatter instanceof Jx.Formatter)) {
             var t = Jx.type(this.options.formatter);
             if (t === 'object') {
+                // allow users to leave the options object blank
+                if(!$defined(this.options.formatter.options)) {
+                  this.options.formatter.options = {}
+                }
                 this.options.formatter = new Jx.Formatter[this.options.formatter.name](
                         this.options.formatter.options);
             }
@@ -86,7 +90,6 @@ Jx.Grid.Renderer.Text = new Class({
         }
         text = this.store.fillTemplate(null,this.options.textTemplate,this.columnsNeeded);
     } 
-    
     if ($defined(this.options.formatter)) {
         text = this.options.formatter.format(text);
     }
@@ -100,5 +103,5 @@ Jx.Grid.Renderer.Text = new Class({
     }
         
   }
-    
+
 });
