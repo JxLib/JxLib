@@ -55,7 +55,7 @@ Jx.Dialog.Confirm = new Class({
 
         // COMMENT: returning boolean would be more what people expect instead of a localized label of a button?
         this.ok = new Jx.Button({
-            label: this.getText({set:'Jx',key:'confirm',value:'affirmitiveLabel'}),
+            label: this.getText({set:'Jx',key:'confirm',value:'affirmativeLabel'}),
             onClick: this.onClick.bind(this, true)
         }),
         this.cancel = new Jx.Button({
@@ -110,7 +110,7 @@ Jx.Dialog.Confirm = new Class({
     changeText: function (lang) {
     	this.parent();
     	if ($defined(this.ok)) {
-    		this.ok.setLabel({set:'Jx',key:'confirm',value:'affirmitiveLabel'});
+    		this.ok.setLabel({set:'Jx',key:'confirm',value:'affirmativeLabel'});
     	}
     	if ($defined(this.cancel)) {
     		this.cancel.setLabel({set:'Jx',key:'confirm',value:'negativeLabel'});

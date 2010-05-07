@@ -34,6 +34,9 @@ MooTools.lang.set('en-US', 'Jx', {
 	splitter: {
 		barToolTip: 'drag this bar to resize'
 	},
+  panelset: {
+    barToolTip: 'drag this bar to resize'
+  },
 	panel: {
 		collapseTooltip: 'Collapse/Expand Panel',
     collapseLabel: 'Collapse',
@@ -46,7 +49,7 @@ MooTools.lang.set('en-US', 'Jx', {
     closeLabel: 'Close'
 	},
 	confirm: {
-		affirmitiveLabel: 'Yes',
+		affirmativeLabel: 'Yes',
     negativeLabel: 'No'
 	},
 	dialog: {
@@ -54,9 +57,6 @@ MooTools.lang.set('en-US', 'Jx', {
 	},
 	message: {
 		okButton: 'Ok'
-	},
-	panelset: {
-		barTooltip: 'drag this bar to resize'
 	},
 	prompt: {
 		okButton: 'Ok',

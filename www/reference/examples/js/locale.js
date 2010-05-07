@@ -93,6 +93,10 @@ MooTools.lang.set('en-US', 'Examples', {
     closeable      : 'Closeable Tab'
   },
 
+  progressBar : {
+    runButton : 'Run Progress Bar'
+  },
+
   menuContext : {
     file           : 'File',
       'new'          : 'New',
@@ -219,6 +223,10 @@ MooTools.lang.set('de-DE', 'Examples', {
     closeable      : 'Schlie&szlig;bares Tab'
   },
 
+  progressBar : {
+    runButton     : 'Starte Fortschrittsbalken'
+  },
+
   menuContext : {
     file           : 'Datei',
       'new'          : 'Neu',
@@ -251,13 +259,13 @@ MooTools.lang.set('de-DE', 'Examples', {
 
 });
 
-MooTools.lang.set('ru-RU', 'Examples', {
+MooTools.lang.set('ru-RU-unicode', 'Examples', {
 
   mainToolbar : {
     btnBgGrid   : 'Фоновая сетка',
     btnEvLog    : 'Журнал',
     btnClearLog : 'очистить журнал',
-    labelLang   : 'Языка',
+    labelLang   : 'Язык',
     labelTheme  : 'Тема',
     langEn      : 'English (en-US)',
     langDe      : 'Deutsch (de-DE)',
@@ -271,17 +279,17 @@ MooTools.lang.set('ru-RU', 'Examples', {
     enableTransmission  : 'Разрешить Передачу',
     disableTransmission : 'Запретить Передачу',
     startTransmission   : 'Начать Передачу',
-    stopTransmission    : 'Начать Передачу',
+    stopTransmission    : 'Остановить Передачу',
     left    : 'слева',
     center  : 'по центру',
     right   : 'справа',
-    justify : 'выровнять'
+    justify : 'заливка'
   },
 
   panel : {
     basic1          : 'Простая Панель Раз',
     basic2          : 'Простая Панель Два',
-    togglePanelMask : 'Переключить Маску Панели',
+    togglePanelMask : 'Маска Панели',
     panelToolbar    : 'Панель с инструментами',
     btnTop    : 'Сверху',
     btnRight  : 'Справа',
@@ -292,14 +300,14 @@ MooTools.lang.set('ru-RU', 'Examples', {
   dialog : {
     btnStatic     : 'Статичный',
     btnModal      : 'Позиционированный модальный',
-    btnDynamic    : 'Динамичное содержимое и Панель Инструментов',
+    btnDynamic    : 'Динамическое содержимое и Панель Инструментов',
     btnInvalid    : 'Неверный URL содержимого',
     btnConfirm    : 'Диалог Подтверждения',
     btnPrompt     : 'Диалог запроса E-Mail',
     btnMessage    : 'Диалог Сообщения',
     dialogStatic  : 'Статичный Диалог',
     dialogModal   : 'Позиционированный модальный Диалог',
-    dialogDynamic : 'Диалог с инструментами с Ajax содержимым',
+    dialogDynamic : 'Диалог с панелью инструментов и Ajax содержимым',
     dialogInvalid : 'Неверный URL содержимого',
     dialogConfirm : 'Вам нравится JxLib?',
     dialogPrompt  : 'E-Mail адрес',
@@ -346,6 +354,10 @@ MooTools.lang.set('ru-RU', 'Examples', {
     closeable      : 'Закрываемый Таб'
   },
 
+  progressBar : {
+    runButton : '(Ru)n Progress Bar'
+  },
+
   menuContext : {
     file           : 'Файл',
       'new'          : 'Новый',
@@ -364,7 +376,7 @@ MooTools.lang.set('ru-RU', 'Examples', {
     format         : 'Формат',
       intendMore     : 'Отступ больше',
       intendLess     : 'Отступ меньше',
-      font           : 'Шрфит',
+      font           : 'Шрифт',
         bold           : 'Жирный',
         italic         : 'Курсив',
         strikethrough  : 'Перечёркнутый',

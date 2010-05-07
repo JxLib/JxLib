@@ -96,7 +96,7 @@ Jx.PanelSet = new Class({
             prepareBar: (function(i) {
                 var bar = new Element('div', {
                     'class': 'jxPanelBar',
-                    'title': this.getText({set:'Jx',key:'splitter',value:'barTooltip'})
+                    'title': this.getText({set:'Jx',key:'panelset',value:'barToolTip'})
                 });
 
                 var panel = this.panels[i];

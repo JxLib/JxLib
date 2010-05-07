@@ -104,6 +104,8 @@ window.addEvent('load', function() {
           onChange : function() {
             // not very nice but it works :)
             var lang = this.getValue().split(" ")[1].split("(")[1].split(")")[0];
+            if(lang == 'ru-RU')
+              lang += '-unicode';
             Jx.setLanguage(lang);
             switch(lang) {
               case 'en-US':
@@ -113,6 +115,7 @@ window.addEvent('load', function() {
                 this.setLabel({set:'Examples',key:'mainToolbar',value:'langDe'});
                 break;
               case 'ru-RU':
+              case 'ru-RU-unicode':
                 this.setLabel({set:'Examples',key:'mainToolbar',value:'langRu'});
                 break;
             }

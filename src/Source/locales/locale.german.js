@@ -34,6 +34,9 @@ MooTools.lang.set('de-DE', 'Jx', {
 	splitter: {
 		barToolTip: 'Ziehen Sie diese Leiste um die Größe zu verändern'
 	},
+	panelset: {
+		barToolTip: 'Ziehen Sie diese Leiste um die Größe zu verändern'
+	},
 	panel: {
         collapseTooltip: 'Panel ein-/ausklappen', //colB
         collapseLabel: 'Einklappen',  //colM
@@ -46,17 +49,14 @@ MooTools.lang.set('de-DE', 'Jx', {
         closeLabel: 'Schließen' //closeM
 	},
 	confirm: {
-		affirmitiveLabel: 'Ja',
-        negativeLabel: 'Nein'
+		affirmativeLabel: 'Ja',
+    negativeLabel: 'Nein'
 	},
 	dialog: {
 		label: 'Neues Fenster'
 	},
 	message: {
 		okButton: 'Ok'
-	},
-	panelset: {
-		barTooltip: 'Ziehen Sie diese Leiste um die Größe zu verändern'
 	},
 	prompt: {
 		okButton: 'Ok',

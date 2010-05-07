@@ -1,75 +1,75 @@
-﻿
+//translation in windows-1251 codepage
 MooTools.lang.set('ru-RU', 'Jx', {
 	
 	'widget': {
-		busyMessage: 'Обработка...'
+		busyMessage: '���������...'
 	},
 	'colorpalette': {
 		alphaLabel: 'alpha (%)'
 	},
 	notice: {
-		closeTip: 'закрыть это сообщение'
+		closeTip: '������� ��� ���������'
 	},
 	progressbar: {
-		messageText: 'Загрузка...',
-		progressText: '{progress} из {total}'
+		messageText: '��������...',
+		progressText: '{progress} �� {total}'
 	},
 	field: {
 		requiredText: '*'
 	},
 	file: {
-		browseLabel: 'Выбрать...'
+		browseLabel: '�������...'
 	},
 	'formatter.boolean': {
-		'true': 'Да',
-		'false': 'Нет'
+		'true': '��',
+		'false': '���'
 	},
 	'formatter.currency': {
-		sign: 'р.'
+		sign: '�.'
 	},
 	'formatter.number': {
 		decimalSeparator: ',',
     thousandsSeparator: ' '
 	},
 	splitter: {
-		barToolTip: 'потяни, чтобы изменить размер'
-	},
-	panel: {
-		collapseTooltip: 'Свернуть/Развернуть Панель',
-    collapseLabel: 'Свернуть',
-    expandLabel: 'Развернуть',
-    maximizeTooltip: 'Увеличить Панель',
-    maximizeLabel: 'Увеличить',
-    restoreTooltip: 'Восстановить Панель',
-    restoreLabel: 'Восстановить',
-    closeTooltip: 'Закрыть Панель',
-    closeLabel: 'Закрыть'
-	},
-	confirm: {
-		affirmitiveLabel: 'Да',
-    negativeLabel: 'Нет'
-	},
-	dialog: {
-		resizeToolTip: 'Изменить размер'
-	},
-	message: {
-		okButton: 'Ок'
+		barToolTip: '������, ����� �������� ������'
 	},
 	panelset: {
-		barTooltip: 'потяни, чтобы изменить размер'
+		barToolTip: '������, ����� �������� ������'
+	},
+	panel: {
+		collapseTooltip: '��������/���������� ������',
+    collapseLabel: '��������',
+    expandLabel: '����������',
+    maximizeTooltip: '��������� ������',
+    maximizeLabel: '���������',
+    restoreTooltip: '������������ ������',
+    restoreLabel: '������������',
+    closeTooltip: '������� ������',
+    closeLabel: '�������'
+	},
+	confirm: {
+		affirmativeLabel: '��',
+    negativeLabel: '���'
+	},
+	dialog: {
+		resizeToolTip: '�������� ������'
+	},
+	message: {
+		okButton: '��'
 	},
 	prompt: {
-		okButton: 'Ок',
-		cancelButton: 'Отмена'
+		okButton: '��',
+		cancelButton: '������'
 	},
 	upload: {
-		buttonText: 'Загрузка файла'
+		buttonText: '�������� �����'
 	},
 	'plugin.resize': {
-	  tooltip: 'Потяни, чтобы изменить, двойной щелчок для авто размера.'
+	  tooltip: '������, ����� ��������, ������� ������ ��� ���� �������.'
 	},
   'plugin.editor': {
-    submitButton: 'Сохранить',
-    cancelButton: 'Отмена'
+    submitButton: '���������',
+    cancelButton: '������'
   }
 });
