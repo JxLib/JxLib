@@ -63,6 +63,7 @@
       this.button = new Jx.Button.Flyout({
           template: this.options.buttonTemplate,
           imageClass: 'jxInputRevealerIcon',
+          positionElement: this.field,
           onBeforeOpen: function() {
             if (Jx.Field.Color.ColorPalette.currentButton) {
                 Jx.Field.Color.ColorPalette.currentButton.hide();

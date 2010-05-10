@@ -66,7 +66,21 @@ Jx.Button.Flyout = new Class({
         /* Option: contentTemplate
          * the HTML structure of the flyout content area
          */
-        contentTemplate: '<div class="jxFlyout"><div class="jxFlyoutContent"></div></div>'
+        contentTemplate: '<div class="jxFlyout"><div class="jxFlyoutContent"></div></div>',
+        /* Option: position
+         * where to position the flyout, see Jx.Widget::position
+         * for details on how to specify this option
+         */
+        position: {
+          horizontal: ['left left', 'right right'],
+          vertical: ['bottom top', 'top bottom']
+        },
+        /* Option: positionElement
+         * the element to position the flyout relative to, by default
+         * it is the domObj of this button and should only be changed
+         * if you really know what you are doing
+         */
+        positionElement: null
     },
     
     /**
@@ -166,12 +180,12 @@ Jx.Button.Flyout = new Class({
         });
         this.showChrome(this.contentContainer);
         
-        this.position(this.contentContainer, this.domObj, {
-            horizontal: ['left left', 'right right'],
-            vertical: ['bottom top', 'top bottom'],
-            offsets: this.chromeOffsets
+        var rel = this.options.positionElement || this.domObj;
+        var pos = $merge(this.options.position, {
+          offsets: this.chromeOffsets
         });
-        
+        this.position(this.contentContainer, rel, pos);
+
         /* we have to size the container for IE to render the chrome correctly
          * there is some horrible peekaboo bug in IE 6
          */

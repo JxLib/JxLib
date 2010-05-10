@@ -75,7 +75,8 @@ Jx.Button.Multi = new Class({
         /* Option: template
          * the button template for a multi button
          */
-        template: '<span class="jxButtonContainer"><a class="jxButton jxButtonMulti jxDiscloser"><span class="jxButtonContent"><img src="'+Jx.aPixel.src+'" class="jxButtonIcon"><span class="jxButtonLabel"></span></span></a><a class="jxButtonDisclose" href="javascript:void(0)"><img src="'+Jx.aPixel.src+'"></a></span>'
+        template: '<span class="jxButtonContainer"><a class="jxButton jxButtonMulti jxDiscloser"><span class="jxButtonContent"><img src="'+Jx.aPixel.src+'" class="jxButtonIcon"><span class="jxButtonLabel"></span></span></a><a class="jxButtonDisclose" href="javascript:void(0)"><img src="'+Jx.aPixel.src+'"></a></span>',
+        menuOptions: {}
     },
 
     /**
@@ -101,7 +102,7 @@ Jx.Button.Multi = new Class({
         this.parent();
         this.buttons = [];
 
-        this.menu = new Jx.Menu();
+        this.menu = new Jx.Menu({}, this.options.menuOptions);
         this.menu.button = this;
         this.buttonSet = new Jx.ButtonSet();
 

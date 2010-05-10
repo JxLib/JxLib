@@ -72,6 +72,7 @@ Jx.Field.Combo = new Class({
         if (this.options.items) {
             this.add(this.options.items);
         }
+        var that = this;
         button.addEvent('click', function(e) {
             if (this.list.count() === 0) {
                 return;
@@ -90,8 +91,8 @@ Jx.Field.Combo = new Class({
 
             this.showChrome(this.contentContainer);
 
-            this.position(this.contentContainer, this.button.domObj, {
-                horizontal: ['right right'],
+            this.position(this.contentContainer, that.field, {
+                horizontal: ['left left', 'right right'],
                 vertical: ['bottom top', 'top bottom'],
                 offsets: this.chromeOffsets
             });
