@@ -104,8 +104,8 @@ window.addEvent('load', function() {
           onChange : function() {
             // not very nice but it works :)
             var lang = this.getValue().split(" ")[1].split("(")[1].split(")")[0];
-            if(lang == 'ru-RU')
-              lang += '-unicode';
+            lang += (lang == 'ru-RU') ? '-unicode' : '';
+			
             Jx.setLanguage(lang);
             switch(lang) {
               case 'en-US':
