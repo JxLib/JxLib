@@ -52,7 +52,7 @@ Jx.Adaptor = new Class({
 	    
 	    this.store = this.options.store;
 	    
-	    if (this.options.useTemplate) {
+	    if (this.options.useTemplate && $defined(this.store.getColumns())) {
 	        this.columnsNeeded = this.store.parseTemplate(this.options.template);
 	    }
 	},

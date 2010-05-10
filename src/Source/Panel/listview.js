@@ -15,6 +15,8 @@ Jx.ListView = new Class({
     Family: 'Jx.Widget',
     Extends: Jx.Widget,
 
+    pluginNamespace: 'ListView',
+
     options: {
         template: '<ul class="jxListView jxList"></ul>',
         /**
@@ -69,6 +71,11 @@ Jx.ListView = new Class({
 
     replace: function(item, withItem) {
         this.list.replace(item, withItem);
+        return this;
+    },
+
+    empty: function () {
+        this.list.empty();
         return this;
     }
 });

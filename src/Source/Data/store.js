@@ -691,8 +691,10 @@ Jx.Store = new Class({
 	 * template - the template to fill
 	 * columnsNeeded - the array of columns needed by this template. should be 
 	 * 			obtained by calling parseTemplate().
+     * obj - an object with some prefilled keys to use in substituting.
+     *      Ones that are also in the store will be overwritten.
 	 */
-	fillTemplate: function (index, template, columnsNeeded) {
+	fillTemplate: function (index, template, columnsNeeded, obj) {
         var record = null;
 		if ($defined(index)) {
             if (index instanceof Jx.Record) {
@@ -705,7 +707,7 @@ Jx.Store = new Class({
         }
 		
 	    //create the item
-	    var itemObj = {};
+	    var itemObj = $defined(obj) ? obj : {};
 	    columnsNeeded.each(function (col) {
 	        itemObj[col] = record.get(col);
 	    }, this);

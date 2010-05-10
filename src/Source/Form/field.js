@@ -306,7 +306,7 @@ Jx.Field = new Class({
      * original options
      */
     reset : function () {
-        this.field.set('value', this.options.value);
+        this.setValue(this.options.value);
         this.fireEvent('reset', this);
     },
     /**

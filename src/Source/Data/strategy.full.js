@@ -74,7 +74,7 @@ Jx.Store.Strategy.Full = new Class({
     
     /**
      * Method: loadStore
-     * Called as the event hanlder for the protocol's dataLoaded event. Checks 
+     * Called as the event handler for the protocol's dataLoaded event. Checks
      * the response for success and loads the data into the store if needed.
      * 
      * Parameters:

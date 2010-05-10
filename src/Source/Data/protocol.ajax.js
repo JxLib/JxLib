@@ -97,13 +97,18 @@ Jx.Store.Protocol.Ajax = new Class({
         
         var data = this.parser.parse(str);
         if ($defined(data)) {
-            if ($defined(data.data)) {
-                response.data = data.data;
+            if ($defined(data.success) && data.success) {
+                if ($defined(data.data)) {
+                    response.data = data.data;
+                }
+                if ($defined(data.meta)) {
+                    response.meta = data.meta;
+                }
+                response.code = Jx.Store.Response.SUCCESS;
+            } else {
+                response.code = Jx.Store.Response.FAILURE;
+                response.error = $defined(data.error) ? data.error : null;
             }
-            if ($defined(data.meta)) {
-                response.meta = data.meta;
-            }
-            response.code = Jx.Store.Response.SUCCESS;
         } else {
             response.code = Jx.Store.Response.FAILURE;
         }
@@ -118,7 +123,7 @@ Jx.Store.Protocol.Ajax = new Class({
      * options - options to pass to the request
      */
     insert: function (record, options) {
-        if (!this.options.rest) {
+        if (this.options.rest) {
             options = $merge({url: this.options.urls.rest},options);
         } else {
             options = $merge({url: this.options.urls.insert},options);

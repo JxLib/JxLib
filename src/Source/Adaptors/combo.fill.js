@@ -59,7 +59,9 @@ Jx.Adaptor.Combo.Fill = new Class({
     },
 
     detach: function () {
+        this.parent();
 
+        this.store.removeEvent('storeDataLoaded', this.fill);
     },
 
     fill: function () {

@@ -96,7 +96,7 @@ Jx.Store.Strategy.Save = new Class({
      * record - The Jx.Record instance that was changed
      * store - The instance of the store
      */
-    saveRecord: function (record, store) {
+    saveRecord: function (store, record) {
         //determine the status and route based on that
         if (!this.updating && $defined(record.state)) {
             if (this.totalChanges === 0) {
@@ -139,7 +139,7 @@ Jx.Store.Strategy.Save = new Class({
             records[Jx.Record.DELETE] = this.store.deleted;
             
             records.flatten().each(function (record) {
-                this.saveRecord(record);
+                this.saveRecord(null, record);
             }, this);
         }
         

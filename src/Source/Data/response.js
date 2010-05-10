@@ -13,10 +13,10 @@
  * This file is licensed under an MIT style license
  */
 Jx.Store.Response = new Class({
-    
-    Extends: Jx.Object,
-    
+
     Family: 'Jx.Store.Response',
+    Extends: Jx.Object,
+
     /**
      * Property: code
      * This is the success/failure code
@@ -48,6 +48,11 @@ Jx.Store.Response = new Class({
      * used)
      */
     request: null,
+    /**
+     * Property: error
+     * the error data received from the called page if any.
+     */
+    error: null,
     /**
      * APIMethod: success
      * determines if this response represents a successful response
