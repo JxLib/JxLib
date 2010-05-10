@@ -6,7 +6,8 @@
  *
  * A class that represents an HTML form. You add fields using either
  * Jx.Form.add() or by using the field's .addTo() method. You can get all form
- * values or set them using this class. It also handles validation of fields.
+ * values or set them using this class. It also handles validation of fields
+ * through the use of a plugin (Jx.Plugin.Form.Validator).
  *
  * Example:
  * (code)
@@ -172,7 +173,6 @@ Jx.Form = new Class({
      * values - A Hash of values to set keyed by field name.
      */
     setValues : function (values) {
-        //TODO: This may have to change with change to getValues().
         if (Jx.type(values) === 'object') {
             values = new Hash(values);
         }

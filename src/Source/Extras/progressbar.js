@@ -40,18 +40,6 @@ Jx.Progressbar = new Class({
         onUpdate: $empty,
         onComplete: $empty,
         /**
-         * Option: bar
-         * an object that gives options for the bar itself. Specifically, 
-         * the width and height of the bar. You can set either to 'auto' to
-         * have the bar calculate its own width.
-         */
-        /**
-        bar: {
-            width: 'auto',
-            height: 20
-        },
-         */
-        /**
          * Option: parent
          * The element to put this progressbar into
          */
@@ -103,14 +91,6 @@ Jx.Progressbar = new Class({
         }
         
         this.domObj.addClass('jxProgressStarting');
-        
-        //determine width of progressbar
-        /**
-        if (this.options.bar.width === 'auto') {
-            //get width of container
-            this.options.bar.width = this.domObj.getStyle('width').toInt();
-        }
-        */
 
         //we need to know the width of the bar
         this.width = document.id(this.domObj).getContentBoxSize().width;

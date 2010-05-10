@@ -53,6 +53,20 @@
  * The mask and spinner functionality is provided by the MooTools Spinner
  * class.  You can use any options documented for Spinner or Mask by setting
  * the maskOptions option when creating a widget.
+ *
+ * Events:
+ * Jx.Widget has several events called during it's lifetime (in addition to
+ * the ones for its base class <Jx.Object>).
+ *
+ * preRender - called before rendering begins
+ * postRender - called after rendering is done
+ * deferRender - called when the deferRender option is set to true. The first
+ *      two events (pre- and post- render will NOT be called if deferRender is
+ *      set to true).
+ * contentLoaded - called after content has been loaded successfully
+ * contentLoadFailed - called if content can not be loaded for some reason
+ * addTo - called when a widget is added to another element or widget
+ * busy - called just before the busy mask is rendered/removed
  * 
  * MooTools.Lang Keys:
  * widget.busyMessage - sets the message of the waiter component when used
@@ -86,7 +100,8 @@ Jx.Widget = new Class({
         loadOnDemand : false,
         /**
          * Option: cacheContent
-         * {boolean} determine whether the content should be loaded everytime or being cached
+         * {boolean} determine whether the content should be loaded every time
+         * or if it's being cached
          */
         cacheContent : true,
         /**
@@ -117,7 +132,16 @@ Jx.Widget = new Class({
             className: 'jxIframeShim'
           },
           fx: true
-        }
+        },
+        /**
+         * Option: deferRender
+         * Used to defer rendering of a widget to a later time. Useful when
+         * we need data or other information not at hand at the moment
+         * of Widget instantiation. If set to true, the user will need to call
+         * render() at some later time. The only drawback to doing so will be
+         * the loss of preRender and postRender events.
+         */
+        deferRender: false
     },
 
     /**
