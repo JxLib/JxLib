@@ -58,9 +58,9 @@ Jx.Toolbar.Container = new Class({
         /**
          * Option: align
          * Determines whether the toolbar is aligned left, center, or right.
-         * Mutually exclusive with the scroll option. If scroll is set to true
-         * this option does nothing. Default: 'left', valid values: 'left',
-         * 'center', or 'right'
+         * Mutually exclusive with the scroll option. This option overrides
+         * scroll if set to something other than the default. Default: 'left',
+         * valid values are 'left','center', or 'right'
          */
         align: 'left',
         template: "<div class='jxBarContainer'><div class='jxBarControls'></div></div>",
@@ -96,7 +96,7 @@ Jx.Toolbar.Container = new Class({
             this.domObj.addEvent('sizeChange', this.update);
         }
 
-        if (this.options.scroll) {
+        if (!['center', 'right'].contains(this.options.align) && this.options.scroll) {
             this.processElements(this.options.scrollerTemplate, this.classes);
             this.domObj.grab(this.scroller, 'top');
         } else {
@@ -154,6 +154,11 @@ Jx.Toolbar.Container = new Class({
         }
     },
 
+    /**
+     * APIMethod: update
+     * Updates the scroller enablement dependent on the total size of the
+     * toolbar(s).
+     */
     update: function() {
         if (this.options.scroll) {
             if (['top', 'bottom'].contains(this.options.position)) {
@@ -239,7 +244,7 @@ Jx.Toolbar.Container = new Class({
     },
 
     /**
-     * Method: add
+     * APIMethod: add
      * Add a toolbar to the container.
      *
      * Parameters:
@@ -269,6 +274,13 @@ Jx.Toolbar.Container = new Class({
         return this;
     },
 
+    /**
+     * Method: scroll
+     * Does the work of scrolling the toolbar to a specific position.
+     *
+     * Parameters:
+     * direction - whether to scroll left or right
+     */
     scroll: function(direction) {
         if (this.updating) {
             return
@@ -324,6 +336,13 @@ Jx.Toolbar.Container = new Class({
         }
     },
 
+    /**
+     * Method: afterTweenRight
+     * Updates pointers to buttons after the toolbar scrolls right
+     *
+     * Parameters:
+     * currentButton - the button that was currently first before the scroll
+     */
     afterTweenRight: function(currentButton) {
         var np = this.getNextButton(currentButton);
         if (!np) {
@@ -335,7 +354,14 @@ Jx.Toolbar.Container = new Class({
         }
         this.update();
     },
-
+    /**
+     * Method: afterTweenLeft
+     * Updates pointers to buttons after the toolbar scrolls left
+     *
+     * Parameters:
+     * previousButton - the button that was to the left of the first visible
+     *      button.
+     */
     afterTweenLeft: function(previousButton) {
         this.scroller.store('buttonPointer', previousButton);
         var pp = this.getPreviousButton(previousButton);
@@ -346,10 +372,8 @@ Jx.Toolbar.Container = new Class({
         }
         this.update();
     },
-
-
     /**
-     * Method: remove
+     * APIMethod: remove
      * remove an item from a toolbar.  If the item is not in this toolbar
      * nothing happens
      *
@@ -369,7 +393,7 @@ Jx.Toolbar.Container = new Class({
         this.update();
     },
     /**
-     * Method: scrollIntoView
+     * APIMethod: scrollIntoView
      * scrolls an item in one of the toolbars into the currently visible
      * area of the container if it is not already fully visible
      *
@@ -444,7 +468,13 @@ Jx.Toolbar.Container = new Class({
         }
 
     },
-
+    /**
+     * Method: getPreviousButton
+     * Finds the button to the left of the first visible button
+     *
+     * Parameters:
+     * currentButton - the first visible button
+     */
     getPreviousButton: function(currentButton) {
         pp = currentButton.getPrevious();
         if (!$defined(pp)) {
@@ -456,7 +486,13 @@ Jx.Toolbar.Container = new Class({
         }
         return pp;
     },
-
+    /**
+     * Method: getNextButton
+     * Finds the button to the right of the first visible button
+     *
+     * Parameters:
+     * currentButton - the first visible button
+     */
     getNextButton: function(currentButton) {
         np = currentButton.getNext();
         if (!np) {
