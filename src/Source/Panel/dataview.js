@@ -99,9 +99,9 @@ Jx.Panel.DataView = new Class({
 
         this.bound.update = this.update.bind(this);
         //listen for data updates
-        this.options.data.addEvent('loadFinished', this.bound.update);
-        this.options.data.addEvent('sortFinished', this.bound.update);
-        this.options.data.addEvent('loadError', this.bound.update);
+        this.options.data.addEvent('storeDataLoaded', this.bound.update);
+        this.options.data.addEvent('storeSortFinished', this.bound.update);
+        this.options.data.addEvent('storeDataLoadFailed', this.bound.update);
 
         if (this.options.data.loaded) {
             this.update();
