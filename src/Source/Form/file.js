@@ -93,10 +93,10 @@ Jx.Field.File = new Class({
         /**
          * Events
          */
-        onUploadBegin: $empty,
-        onUploadComplete: $empty,
-        onUploadProgress: $empty,
-        onUploadError: $empty,
+        onFileUploadBegin: $empty,
+        onFileUploadComplete: $empty,
+        onFileUploadProgress: $empty,
+        onFileUploadError: $empty,
         onFileSelected: $empty
 
     },
