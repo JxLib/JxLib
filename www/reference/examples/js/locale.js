@@ -97,7 +97,7 @@ MooTools.lang.set('en-US', 'Examples', {
     runButton : 'Run Progress Bar'
   },
 
-  menuContext : {
+  menu : {
     file           : 'File',
       'new'          : 'New',
       open           : 'Open',
@@ -227,7 +227,7 @@ MooTools.lang.set('de-DE', 'Examples', {
     runButton     : 'Starte Fortschrittsbalken'
   },
 
-  menuContext : {
+  menu : {
     file           : 'Datei',
       'new'          : 'Neu',
       open           : 'Öffnen',
@@ -358,7 +358,7 @@ MooTools.lang.set('ru-RU-unicode', 'Examples', {
     runButton : '(Ru)n Progress Bar'
   },
 
-  menuContext : {
+  menu : {
     file           : 'Файл',
       'new'          : 'Новый',
       open           : 'Открыть',

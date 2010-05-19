@@ -456,6 +456,11 @@ Jx.Menu = new Class({
      */
     blur: function() {
         this.button.blur();
+    },
+
+    changeText: function(lang) {
+      this.parent();
+      //this.render();
     }
 
 });

@@ -18,32 +18,32 @@ window.addEvent('load', function() {
 function menuToolbar() {
     /* a set of grouped menu items */
     var justifyLeft = new Jx.Menu.Item({
-        label: 'Left',
+        label: {set:'Examples',key:'menu',value:'left'},
         toggle: true,
-        imageClass: 'format-justify-left', 
+        imageClass: 'format-justify-left',
         image: 'images/file-edit-menu.png',
-        onDown: function() { log('left justify'); }
+        onClick: function() {log('justify left');}
     });
     var justifyCenter = new Jx.Menu.Item({
-        label: 'Center',
+        label: {set:'Examples',key:'menu',value:'center'},
         toggle: true,
-        imageClass: 'format-justify-center', 
+        imageClass: 'format-justify-center',
         image: 'images/file-edit-menu.png',
-        onDown: function() { log('center justify'); }
+        onClick: function() {log('justify center');}
     });
     var justifyRight = new Jx.Menu.Item({
-        label: 'Right',
+        label: {set:'Examples',key:'menu',value:'right'},
         toggle: true,
-        imageClass: 'format-justify-right', 
+        imageClass: 'format-justify-right',
         image: 'images/file-edit-menu.png',
-        onDown: function() { log('right justify'); }
+        onClick: function() {log('justify right');}
     });
     var justifyFill = new Jx.Menu.Item({
-        label: 'Fill',
+        label: {set:'Examples',key:'menu',value:'fill'},
         toggle: true,
-        imageClass: 'format-justify-fill', 
+        imageClass: 'format-justify-fill',
         image: 'images/file-edit-menu.png',
-        onDown: function() { log('full justify'); }
+        onClick: function() {log('justify fill');}
     });
     new Jx.ButtonSet().add(
         justifyLeft, justifyCenter, justifyRight, justifyFill
@@ -53,97 +53,115 @@ function menuToolbar() {
      * buttons
      */
     new Jx.Toolbar({parent: 'toolbarMenu'}).add(
-        new Jx.Menu({label: 'File'}).add([
+        new Jx.Menu({label: {set:'Examples',key:'menu',value:'file'}}).add([
             new Jx.Menu.Item({
-                label: 'New', 
-                imageClass: 'file-new', 
-                image: 'images/file-edit-menu.png'}),
-            new Jx.Menu.Item({
-                label: 'Open', 
-                imageClass: 'file-open', 
-                image: 'images/file-edit-menu.png'}),
-            new Jx.Menu.Item({
-                label: 'Save', 
-                imageClass: 'file-save', 
-                image: 'images/file-edit-menu.png'}),
-            new Jx.Menu.Item({
-                label: 'Save As', 
-                imageClass: 'file-save-as', 
-                image: 'images/file-edit-menu.png'}),
-            new Jx.Menu.Separator(),
-            new Jx.Menu.Item({
-                label: 'Print', 
-                imageClass: 'file-print', 
-                image: 'images/file-edit-menu.png'}),
-            new Jx.Menu.Item({
-                label: 'Print Preview', 
-                imageClass: 'file-print-preview', 
-                image: 'images/file-edit-menu.png'}),
-            new Jx.Menu.Separator(),
-            new Jx.Menu.Item({
-                label: 'Properties', 
-                imageClass: 'file-properties', 
-                image: 'images/file-edit-menu.png'})]
-        ),
-        new Jx.Menu({label: 'Edit'}).add([
-            new Jx.Menu.Item({
-                label: 'Undo', 
-                imageClass: 'edit-undo', 
-                image: 'images/file-edit-menu.png', enabled: false}),
-            new Jx.Menu.Item({
-                label: 'Redo', 
-                imageClass: 'edit-redo', 
-                image: 'images/file-edit-menu.png', enabled: false}),
-            new Jx.Menu.Separator(),
-            new Jx.Menu.Item({
-                label: 'Cut', 
-                imageClass: 'edit-cut', 
-                image: 'images/file-edit-menu.png'}),
-            new Jx.Menu.Item({
-                label: 'Copy',
-                imageClass: 'edit-copy', 
-                image: 'images/file-edit-menu.png'}),
-            new Jx.Menu.Item({
-                label: 'Paste',
-                imageClass: 'edit-paste', 
-                image: 'images/file-edit-menu.png'})]
-        ),
-        new Jx.Menu({label: 'Format'}).add([
-            new Jx.Menu.Item({
-                label: 'Indent More',
-                toggle: true,
-                imageClass: 'format-indent-more', 
+                label: {set:'Examples',key:'menu',value:'new'},
+                imageClass: 'file-new',
                 image: 'images/file-edit-menu.png',
-                onClick: function() { log('indent more'); }}),
+                onClick: function() {log('new file');}}),
             new Jx.Menu.Item({
-                label: 'Indent Less',
-                toggle: true,
-                imageClass: 'format-indent-less', 
+                label: {set:'Examples',key:'menu',value:'open'},
+                imageClass: 'file-open',
                 image: 'images/file-edit-menu.png',
-                onClick: function() { log('indent less'); }}),
-            new Jx.Menu.SubMenu({label: 'Font'}).add([
+                onClick: function() {log(this.getText({set:'Examples',key:'menu',value:'open'}))}}),
+            new Jx.Menu.Item({
+                label: {set:'Examples',key:'menu',value:'save'},
+                imageClass: 'file-save',
+                image: 'images/file-edit-menu.png',
+                onClick: function() {log('save file');}}),
+            new Jx.Menu.Item({
+                label: {set:'Examples',key:'menu',value:'saveAs'},
+                imageClass: 'file-save-as',
+                image: 'images/file-edit-menu.png',
+                onClick: function() {log('save as');}}),
+            new Jx.Menu.Separator(),
+            new Jx.Menu.Item({
+                label: {set:'Examples',key:'menu',value:'print'},
+                imageClass: 'file-print',
+                image: 'images/file-edit-menu.png',
+                onClick: function() {log('print file');}}),
+            new Jx.Menu.Item({
+                label: {set:'Examples',key:'menu',value:'printPreview'},
+                imageClass: 'file-print-preview',
+                image: 'images/file-edit-menu.png',
+                onClick: function() {log('new file');}}),
+            new Jx.Menu.Separator(),
+            new Jx.Menu.Item({
+                label: {set:'Examples',key:'menu',value:'properties'},
+                imageClass: 'file-properties',
+                image: 'images/file-edit-menu.png',
+                onClick: function() {log('file properties');}})]
+        ),
+        new Jx.Menu({label: {set:'Examples',key:'menu',value:'edit'}}).add([
+            new Jx.Menu.Item({
+                label: {set:'Examples',key:'menu',value:'undo'},
+                imageClass: 'edit-undo',
+                image: 'images/file-edit-menu.png',
+                enabled: false,
+                onClick: function() {log('edit undo');}}),
+            new Jx.Menu.Item({
+                label: {set:'Examples',key:'menu',value:'redo'},
+                imageClass: 'edit-redo',
+                image: 'images/file-edit-menu.png',
+                enabled: false,
+                onClick: function() {log('edit redo');}}),
+            new Jx.Menu.Separator(),
+            new Jx.Menu.Item({
+                label: {set:'Examples',key:'menu',value:'cut'},
+                imageClass: 'edit-cut',
+                image: 'images/file-edit-menu.png',
+                onClick: function() {log('edit cut');}}),
+            new Jx.Menu.Item({
+                label: {set:'Examples',key:'menu',value:'copy'},
+                imageClass: 'edit-copy',
+                image: 'images/file-edit-menu.png',
+                onClick: function() {log('edit copy');}}),
+            new Jx.Menu.Item({
+                label: {set:'Examples',key:'menu',value:'paste'},
+                imageClass: 'edit-paste',
+                image: 'images/file-edit-menu.png',
+                onClick: function() {log('edit paste');}})]
+        ),
+        new Jx.Menu({label: {set:'Examples',key:'menu',value:'format'}}).add([
+            new Jx.Menu.Item({
+                label: {set:'Examples',key:'menu',value:'intendMore'},
+                toggle: true,
+                imageClass: 'format-indent-more',
+                image: 'images/file-edit-menu.png',
+                onClick: function() {log('intend more');}}),
+            new Jx.Menu.Item({
+                label: {set:'Examples',key:'menu',value:'intendLess'},
+                toggle: true,
+                imageClass: 'format-indent-less',
+                image: 'images/file-edit-menu.png',
+                onClick: function() {log('intend less');}}),
+            new Jx.Menu.SubMenu({label: {set:'Examples',key:'menu',value:'font'}}).add([
                 new Jx.Menu.Item({
-                    label: 'Bold',
+                    label: {set:'Examples',key:'menu',value:'bold'},
                     toggle: true,
-                    imageClass: 'format-text-bold', 
-                    image: 'images/file-edit-menu.png'}),
+                    imageClass: 'format-text-bold',
+                    image: 'images/file-edit-menu.png',
+                    onClick: function() {log('format bold');}}),
                 new Jx.Menu.Item({
-                    label: 'Italic',
+                    label: {set:'Examples',key:'menu',value:'italic'},
                     toggle: true,
-                    imageClass: 'format-text-italic', 
-                    image: 'images/file-edit-menu.png'}),
+                    imageClass: 'format-text-italic',
+                    image: 'images/file-edit-menu.png',
+                    onClick: function() {log('format italic');}}),
                 new Jx.Menu.Item({
-                    label: 'Strikethrough',
+                    label: {set:'Examples',key:'menu',value:'strikethrough'},
                     toggle: true,
-                    imageClass: 'format-text-strikethrough', 
-                    image: 'images/file-edit-menu.png'}),
+                    imageClass: 'format-text-strikethrough',
+                    image: 'images/file-edit-menu.png',
+                    onClick: function() {log('strikethrough');}}),
                 new Jx.Menu.Item({
-                    label: 'Underline',
+                    label: {set:'Examples',key:'menu',value:'underline'},
                     toggle: true,
-                    imageClass: 'format-text-underline', 
-                    image: 'images/file-edit-menu.png'})]
+                    imageClass: 'format-text-underline',
+                    image: 'images/file-edit-menu.png',
+                    onClick: function() {log('underline');}})]
             ), 
-            new Jx.Menu.SubMenu({label: 'Justify'}).add([
+            new Jx.Menu.SubMenu({label:{set:'Examples',key:'menu',value:'align'}}).add([
                 justifyLeft, 
                 justifyCenter, 
                 justifyRight, 
