@@ -1,3 +1,30 @@
+/*
+---
+
+name: Jx.Panel.FileUpload
+
+description: A panel subclass that is designed to be a multiple file upload panel with a queue listing.
+
+license: MIT-style license.
+
+requires:
+- Jx.Panel
+- Jx.ListView
+- Jx.Field.File
+- Jx.Progressbar
+- Jx.Button
+- Jx.Toolbar.Item
+- Jx.Tooltip
+
+provides: [Jx.Panel.FileUpload]
+
+css:
+- upload
+
+images:
+- icons.png
+...
+ */
 // $Id$
 /**
  * Class: Jx.Panel.FileUpload

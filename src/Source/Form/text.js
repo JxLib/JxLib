@@ -1,3 +1,22 @@
+/*
+---
+
+name: Jx.Field.Text
+
+description: Represents a text input
+
+license: MIT-style license.
+
+requires:
+- Jx.Field
+
+optional:
+- More/OverText
+
+provides: [Jx.Field.Text]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Field.Text

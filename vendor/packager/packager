@@ -1,0 +1,196 @@
+#!/usr/bin/env php
+<?php
+
+require dirname(__FILE__) . '/packager.php';
+
+$executable = array_shift($argv);
+$command = array_shift($argv);
+$a0 = !empty($argv[0]) ? $argv[0] : null;
+
+if ($a0 == '-h' || $a0 == '--help'){
+	usage($command);
+	exit;
+}
+
+$home = exec('echo $HOME');
+
+$packages = YAML::decode_file("$home/.packages.yml");
+if (empty($packages)) $packages = array();
+
+switch ($command){
+	
+	case 'register':
+
+		$folder = array_shift($argv);
+		$realpath = realpath($folder);
+		
+		if (!$realpath){
+			Packager::warn("file or directory $folder not found\n");
+			exit(1);
+		}
+		
+		$pkg = new Packager($realpath);
+		$name = $pkg->get_package_name();
+		$path = $pkg->get_package_manifest();
+		
+		$packages[$name] = $path;
+		
+		file_put_contents("$home/.packages.yml", YAML::encode($packages));
+		
+		Packager::warn("the package $name has been registered as $path\n");
+
+	break;
+	
+	case 'unregister':
+	
+		$name = array_shift($argv);
+		
+		if (empty($packages[$name])){
+			Packager::warn("there is no package called $name\n");
+			break;
+		}
+
+		unset($packages[$name]);
+	
+		file_put_contents("$home/.packages.yml", YAML::encode($packages));
+	
+		Packager::warn("the package $name has been unregistered\n");
+	
+	break;
+	
+	case 'list':
+	
+		foreach ($packages as $name => $path) Packager::warn("$name: $path\n");
+		
+	break;
+	
+	case 'build':
+
+		$selected = array(
+			'components' => array(),
+			'files' => array(),
+			'add-packages' => array(),
+			'remove-packages' => array(),
+			'blocks' => array(),
+			'use-only' => null
+		);
+		
+		$build = 'components';
+		
+		foreach ($argv as $arg){
+
+			if ($arg == '+packages'){
+				$build = 'add-packages';
+				continue;
+			}
+			
+			if ($arg == '-blocks'){
+				$build = 'blocks';
+				continue;
+			}
+			
+			if ($arg == '+use-only'){
+				$build = 'use-only';
+				if ($selected['use-only'] == null) $selected['use-only'] = array();
+				continue;
+			}
+			
+			if ($arg == '-packages'){
+				$build = 'remove-packages';
+				continue;
+			}
+			
+			if ($arg == '+components'){
+				$build = 'components';
+				continue;
+			}
+			
+			if ($arg == '+files'){
+				$build = 'files';
+				continue;
+			}
+
+			$selected[$build][] = $arg;
+		}
+		
+		$paths = array();
+					
+		foreach ($packages as $name => $path){
+			if (!$selected['use-only'] || array_contains($selected['use-only'], $name)) $paths[] = $path;
+		}
+		
+		$pkg = new Packager($paths);
+		
+		foreach ($selected['add-packages'] as $package_path) $pkg->add_package($package_path);
+		foreach ($selected['remove-packages'] as $package_name) $pkg->remove_package($package_name);
+		
+		$re = "/^([^\/]+)\/\*$/";
+		$wildcards = array();
+		
+		$files = $selected['files'];
+		$components = $selected['components'];
+		$blocks = $selected['blocks'];
+		
+		foreach ($components as $component){
+			preg_match($re, $component, $matches);
+			if (!empty($matches)){
+				array_erase($components, $component);
+				array_include($wildcards, $matches[1]);
+			}
+		}
+		
+		foreach ($files as $file){
+			preg_match($re, $file, $matches);
+			if (!empty($matches)){
+				array_erase($files, $file);
+				array_include($wildcards, $matches[1]);
+			}
+		}
+		
+		$pkg->validate($files, $components, $wildcards);
+		
+		foreach ($components as $component){
+			$file = $pkg->component_to_file($component);
+			if ($file) array_include($files, $file);
+		}
+		
+		foreach ($wildcards as $package){
+			$all = $pkg->get_all_files($package);
+			foreach ($all as $file) array_include($files, $file);
+		}
+		
+		$files = $pkg->complete_files($files);
+		
+		Packager::warn("Build using: " . implode(', ', $pkg->get_packages()) . "\n");
+		
+		Packager::warn("Included Files/Components:\n");
+		
+		foreach ($files as $file){
+			$file_name = $pkg->get_file_name($file);
+			$file_package = $pkg->get_file_package($file);
+			Packager::warn("- $file_package/$file_name: [" . implode(", ", $pkg->get_file_provides($file)) . "]\n");
+		}
+		
+		echo $pkg->build($files, array(), array(), $blocks);
+	
+	break;
+	
+	case 'help':
+	case '-h':
+	case '--help':
+		usage(array_shift($argv));
+	break;
+	
+	default:
+		usage();
+		exit(1);
+	
+}
+
+function usage($command = ''){
+	$dir = dirname(__FILE__);
+	if (empty($command) || !file_exists("$dir/help/$command.txt")) $command = 'default';
+	echo file_get_contents("$dir/help/$command.txt");
+}
+
+?>

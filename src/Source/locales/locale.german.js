@@ -1,4 +1,19 @@
+/*
+---
 
+name: Locale.German
+
+description: Default translations of text strings used in JX for German (Germany) (de-DE)
+
+license: MIT-style license.
+
+requires:
+- More/Lang
+
+provides: [Locale.German]
+
+...
+ */
 MooTools.lang.set('de-DE', 'Jx', {
 
 	'widget': {

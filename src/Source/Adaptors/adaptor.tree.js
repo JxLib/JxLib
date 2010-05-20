@@ -1,3 +1,19 @@
+/*
+---
+
+name: Jx.Adaptor.Tree
+
+description: Base class for all adaptors that fill Jx.Tree widgets. Also acts as the namespace for other Jx.Tree adaptors.
+
+license: MIT-style license.
+
+requires:
+- Jx.Adaptor
+
+provides: [Jx.Adaptor.Tree]
+
+...
+ */
 /**
  * Class: Jx.Adaptor.Tree
  * This base class is used to change a store (a flat list of records) into the

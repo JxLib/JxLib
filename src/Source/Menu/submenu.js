@@ -1,3 +1,20 @@
+/*
+---
+
+name: Jx.Menu.SubMenu
+
+description: A sub menu contains menu items within a main menu or another sub menu.
+
+license: MIT-style license.
+
+requires:
+- Jx.Menu.Item
+- Jx.Menu
+
+provides: [Jx.Menu.SubMenu]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Menu.SubMenu

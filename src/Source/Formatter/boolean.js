@@ -1,3 +1,18 @@
+/*
+---
+
+name: Jx.Formatter.Boolean
+
+description: Formats boolean input
+
+license: MIT-style license.
+
+requires:
+- Jx.Formatter
+
+provides: [Jx.Formatter.Boolean]
+...
+ */
 // $Id$
 /**
  * Class: Jx.Formatter.Boolean

@@ -1,3 +1,27 @@
+/*
+---
+
+name: Jx.Field.File
+
+description: Represents a file input w/upload and progress tracking capabilities (requires APC for progress)
+
+license: MIT-style license.
+
+requires:
+- Jx.Field.Text
+- Jx.Button
+- Core/Request.JSON
+- Jx.Field.Hidden
+- Jx.Form
+
+provides: [Jx.Field.File]
+
+css:
+- file
+
+
+...
+ */
 /**
  * Class: Jx.Field.File
  *
@@ -93,10 +117,10 @@ Jx.Field.File = new Class({
         /**
          * Events
          */
-        onUploadBegin: $empty,
-        onUploadComplete: $empty,
-        onUploadProgress: $empty,
-        onUploadError: $empty,
+        onFileUploadBegin: $empty,
+        onFileUploadComplete: $empty,
+        onFileUploadProgress: $empty,
+        onFileUploadError: $empty,
         onFileSelected: $empty
 
     },

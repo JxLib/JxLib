@@ -1,3 +1,21 @@
+/*
+---
+
+name: Jx.Field
+
+description: Base class for all inputs
+
+license: MIT-style license.
+
+requires:
+- Jx.Fieldset
+- Jx.Form
+
+provides: [Jx.Field]
+
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Field

@@ -1,3 +1,26 @@
+/*
+---
+
+name: Jx.Tree
+
+description: Jx.Tree displays hierarchical data in a tree structure of folders and nodes.
+
+license: MIT-style license.
+
+requires:
+- Jx.Widget
+- Jx.List
+
+provides: [Jx.Tree]
+
+css:
+- tree
+
+images:
+- tree.png
+- tree_vert_line.png
+...
+ */
 // $Id$
 /**
  * Class: Jx.Tree

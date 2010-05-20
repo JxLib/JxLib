@@ -1,3 +1,20 @@
+/*
+---
+
+name: Jx.Store.Strategy.Paginate
+
+description: Strategy for loading data in pages and moving between them. This strategy makes sure the store only contains the current page's data.
+
+license: MIT-style license.
+
+requires:
+- Jx.Store.Strategy
+
+provides: [Jx.Store.Strategy.Paginate]
+
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Store.Strategy.Paginate

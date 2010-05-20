@@ -1,3 +1,19 @@
+/*
+---
+
+name: Jx.Sort.Heapsort
+
+description: An implementation of the heap sort algorithm
+
+license: MIT-style license.
+
+requires:
+- Jx.Sort
+
+provides: [Jx.Sort.Heapsort]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Sort.Heapsort

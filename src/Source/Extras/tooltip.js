@@ -1,3 +1,22 @@
+/*
+---
+
+name: Jx.Tooltip
+
+description: These are very simple tooltips that are designed to be instantiated in javascript and directly attached to the object that they are the tip for.
+
+license: MIT-style license.
+
+requires:
+- Jx.Widget
+
+provides: [Jx.Tooltip]
+
+css:
+- tooltip
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Tooltip

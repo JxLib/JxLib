@@ -1,3 +1,19 @@
+/*
+---
+
+name: Jx.Plugin
+
+description: Base class for all plugins
+
+license: MIT-style license.
+
+requires:
+- Jx.Object
+
+provides: [Jx.Plugin]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Plugin

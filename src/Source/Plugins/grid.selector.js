@@ -1,6 +1,22 @@
+/*
+---
+
+name: Jx.Plugin.Grid.Selector
+
+description: Allows selecting rows, columns, and cells in grids
+
+license: MIT-style license.
+
+requires:
+- Jx.Plugin.Grid
+
+provides: [Jx.Plugin.Grid.Selector]
+
+...
+ */
 // $Id$
 /**
- * Class: Jx.Plugin.Selector
+ * Class: Jx.Plugin.Grid.Selector
  *
  * Extends: <Jx.Plugin>
  *

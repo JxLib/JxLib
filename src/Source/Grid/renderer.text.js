@@ -1,3 +1,19 @@
+/*
+---
+
+name: Jx.Grid.Renderer.Text
+
+description: Renders data as straight text.
+
+license: MIT-style license.
+
+requires:
+- Jx.Grid.Renderer
+
+provides: [Jx.Grid.Renderer.Text]
+
+...
+ */
 /**
  * Class: Jx.Grid.Renderer.Text
  * This is the default renderer for grid cells. It works the same as the 

@@ -1,3 +1,20 @@
+/*
+---
+
+name: Jx.TreeFolder
+
+description: A Jx.TreeFolder is an item in a tree that can contain other items. It is expandable and collapsible.
+
+license: MIT-style license.
+
+requires:
+- Jx.TreeItem
+- Jx.Tree
+
+provides: [Jx.TreeFolder]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.TreeFolder

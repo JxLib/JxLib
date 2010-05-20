@@ -1,3 +1,25 @@
+/*
+---
+
+name: Jx.Button.Multi
+
+description: Multi buttons are used to contain multiple buttons in a drop down list where only one button is actually visible and clickable in the interface.
+
+license: MIT-style license.
+
+requires:
+- Jx.Button
+- Jx.Menu
+- Jx.ButtonSet
+
+provides: [Jx.Button.Multi]
+
+images:
+- button_multi.png
+- button_multi_disclose.png
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Button.Multi

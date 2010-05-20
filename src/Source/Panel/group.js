@@ -1,3 +1,20 @@
+/*
+---
+
+name: Jx.Panel.DataView.Group
+
+description: A subclass of Dataview that can display records in groups.
+
+license: MIT-style license.
+
+requires:
+- Jx.Panel.DataView
+- Jx.Selection
+
+provides: [Jx.Panel.DataView.Group]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Panel.DataView.Group

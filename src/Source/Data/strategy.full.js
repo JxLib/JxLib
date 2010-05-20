@@ -1,3 +1,19 @@
+/*
+---
+
+name: Jx.Store.Strategy.Full
+
+description: Strategy for loading the full data set from a source.
+
+license: MIT-style license.
+
+requires:
+- Jx.Store.Strategy
+
+provides: [Jx.Store.Strategy.Full]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Store.Strategy.Full

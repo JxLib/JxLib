@@ -1,3 +1,19 @@
+/*
+---
+
+name: Jx.Object
+
+description: Base class for all other object in the JxLib framework.
+
+license: MIT-style license.
+
+requires:
+- Jx
+
+provides: [Jx.Object]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Object

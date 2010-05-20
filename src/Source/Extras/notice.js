@@ -1,3 +1,27 @@
+/*
+---
+
+name: Jx.Notice
+
+description: Represents a single item used in a notifier.
+
+license: MIT-style license.
+
+requires:
+- Jx.ListItem
+
+provides: [Jx.Notice]
+
+images:
+- notice.png
+- notice_error.png
+- notice_warning.png
+- notice_success.png
+- icons.png
+
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Notice

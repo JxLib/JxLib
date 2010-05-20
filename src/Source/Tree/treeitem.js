@@ -1,3 +1,25 @@
+/*
+---
+
+name: Jx.TreeItem
+
+description: An item in a tree.
+
+license: MIT-style license.
+
+requires:
+- Jx.Widget
+
+optional:
+- More/Drag
+
+provides: [Jx.TreeItem]
+
+images:
+- tree_hover.png
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.TreeItem

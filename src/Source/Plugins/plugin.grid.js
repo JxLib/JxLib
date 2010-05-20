@@ -1,3 +1,19 @@
+/*
+---
+
+name: Jx.Plugin.Grid
+
+description: Namespace for grid plugins
+
+license: MIT-style license.
+
+requires:
+- Jx.Plugin
+
+provides: [Jx.Plugin.Grid]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Plugin.Grid

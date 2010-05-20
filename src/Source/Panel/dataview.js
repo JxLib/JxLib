@@ -1,3 +1,21 @@
+/*
+---
+
+name: Jx.Panel.DataView
+
+description: A panel used for displaying records from a store in a list-style interface rather than a grid.
+
+license: MIT-style license.
+
+requires:
+- Jx.Panel
+- Jx.Store
+- Jx.List
+
+provides: [Jx.Panel.DataView]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Panel.DataView

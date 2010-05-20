@@ -1,3 +1,23 @@
+/*
+---
+
+name: Jx.Toolbar.Separator
+
+description:  A helper class that represents a visual separator in a Jx.Toolbar.
+
+license: MIT-style license.
+
+requires:
+- Jx.Toolbar
+
+provides: [Jx.Toolbar.Separator]
+
+images:
+- toolbar_separator_h.png
+- toolbar_separator_v.png
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Toolbar.Separator

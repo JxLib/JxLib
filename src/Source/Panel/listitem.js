@@ -1,3 +1,19 @@
+/*
+---
+
+name: Jx.ListItem
+
+description: Represents a single item in a listview.
+
+license: MIT-style license.
+
+requires:
+- Jx.Widget
+
+provides: [Jx.ListItem]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.ListItem

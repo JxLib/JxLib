@@ -1,3 +1,25 @@
+/*
+---
+
+name: Jx.ColorPalette
+
+description: A Jx.ColorPalette presents a user interface for selecting colors.  This is typically combined with a Jx.Button.Color which embeds the color palette in a flyout.
+
+license: MIT-style license.
+
+requires:
+- Jx.Widget
+
+provides: [Jx.ColorPalette]
+
+css:
+- color
+
+images:
+- grid.png
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.ColorPalette

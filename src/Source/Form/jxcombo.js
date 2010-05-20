@@ -1,3 +1,23 @@
+/*
+---
+
+name: Jx.Field.Combo
+
+description: Represents an editable combo
+
+license: MIT-style license.
+
+requires:
+- Jx.Field
+- Jx.Button
+- Jx.Menu
+- Jx.Menu.Item
+- Jx.ButtonSet
+
+provides: [Jx.Field.Combo]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Field.Combo

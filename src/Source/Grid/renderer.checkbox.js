@@ -1,3 +1,20 @@
+/*
+---
+
+name: Jx.Grid.Renderer.Checkbox
+
+description: Renders a checkbox in a column. Can be connected to a store column or as a standalone check column.
+
+license: MIT-style license.
+
+requires:
+- Jx.Grid.Renderer
+- Jx.Field.Checkbox
+
+provides: [Jx.Grid.Renderer.Checkbox]
+
+...
+ */
 /**
  * Class: Jx.Grid.Renderer.CheckBox
  * Renders a checkbox into the cell. Allows options for connecting the cell

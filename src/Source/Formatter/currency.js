@@ -1,3 +1,19 @@
+/*
+---
+
+name: Jx.Formatter.Currency
+
+description: Formats input as currency. Currently only US currency is supported
+
+license: MIT-style license.
+
+requires:
+- Jx.Formatter.Number
+
+provides: [Jx.Formatter.Currency]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Formatter.Currency
@@ -37,7 +53,6 @@ Jx.Formatter.Currency = new Class({
         this.options.precision = 2;
 
         value = this.parent(value);
-
         //check for negative
         var neg = false;
         if (value.contains('(') || value.contains('-')) {
@@ -46,11 +61,10 @@ Jx.Formatter.Currency = new Class({
 
         var ret;
         if (neg && !this.options.useParens) {
-            ret = "-" + this.getText({set:'Jx',key:'formatter.boolean',value:'sign'}) + value.substring(1, value.length);
+            ret = "-" + this.getText({set:'Jx',key:'formatter.currency',value:'sign'}) + value.substring(1, value.length);
         } else {
-            ret = this.getText({set:'Jx',key:'formatter.boolean',value:'sign'}) + value;
+            ret = this.getText({set:'Jx',key:'formatter.currency',value:'sign'}) + value;
         }
-
         return ret;
     },
     

@@ -1,3 +1,19 @@
+/*
+---
+
+name: Jx.Plugin.Form
+
+description: Namespace for Jx.Form plugins
+
+license: MIT-style license.
+
+requires:
+- Jx.Plugin
+
+provides: [Jx.Plugin.Form]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Plugin.Form

@@ -1,3 +1,20 @@
+/*
+---
+
+name: Jx.Compare
+
+description: Class that provides functions for comparing various data types. Used by the Jx.Sort class and it's descendants
+
+license: MIT-style license.
+
+requires:
+- Jx.Object
+- More/Date.Extras
+
+provides: [Jx.Compare]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Compare

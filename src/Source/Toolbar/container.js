@@ -1,3 +1,26 @@
+/*
+---
+
+name: Jx.Toolbar.Container
+
+description: A toolbar container contains toolbars.  This has an optional dependency on Fx.Tween that, if included, will allow toolbars that contain more elements than can be displayed to be smoothly scrolled left and right.  Without this optional dependency, the toolbar will jump in fixed increments rather than smoothly scrolling.
+
+license: MIT-style license.
+
+requires:
+- Jx.Toolbar
+- Jx.Button
+
+optional:
+- Core/Fx.Tween
+
+provides: [Jx.Toolbar.Container]
+
+images:
+- emblems.png
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Toolbar.Container

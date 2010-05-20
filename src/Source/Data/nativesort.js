@@ -1,3 +1,19 @@
+/*
+---
+
+name: Jx.Sort.Nativesort
+
+description: An implementation of the Javascript native sorting with the Jx.Sort interface
+
+license: MIT-style license.
+
+requires:
+- Jx.Sort
+
+provides: [Jx.Sort.Nativesort]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Sort.Nativesort

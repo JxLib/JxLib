@@ -1,3 +1,19 @@
+/*
+---
+
+name: Jx.Plugin.ToolbarContainer.TabMenu
+
+description: Adds a menu of tabs to the toolbar container for easy access to all tabs.
+
+license: MIT-style license.
+
+requires:
+- Jx.Plugin.ToolbarContainer
+
+provides: [Jx.Plugin.ToolbarContainer.TabMenu]
+
+...
+ */
 /**
  * Class: Jx.Plugin.ToolbarContainer.TabMenu
  *
@@ -21,8 +37,6 @@
  *
  * This file is licensed under an MIT style license
  */
-
-
 Jx.Plugin.ToolbarContainer.TabMenu = new Class({
 
     Family: 'Jx.Plugin.ToolbarContainer.TabMenu',
