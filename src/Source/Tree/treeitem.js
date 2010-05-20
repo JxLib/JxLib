@@ -140,6 +140,13 @@ Jx.TreeItem = new Class ({
             this.enable(this.options.enabled, true);
         }
     },
+    
+    setDirty: function(state) {
+      if (state && this.owner && this.owner.setDirty) {
+        this.owner.setDirty(state);
+      }
+    },
+    
     /**
      * Method: finalize
      * Clean up the TreeItem and remove all DOM references
@@ -212,6 +219,7 @@ Jx.TreeItem = new Class ({
         this.options.label = label;
         if (this.domLabel) {
             this.domLabel.set('html',this.getText(label));
+            this.setDirty(true);
         }
     },
 
@@ -219,11 +227,13 @@ Jx.TreeItem = new Class ({
         if (this.domIcon && $defined(url)) {
             this.options.image = url;
             this.domIcon.setStyle('backgroundImage', 'url('+this.options.image+')');
+            this.setDirty(true);
         }
         if (this.domIcon && $defined(imageClass)) {
             this.domIcon.removeClass(this.options.imageClass);
             this.options.imageClass = imageClass;
             this.domIcon.addClass(imageClass);
+            this.setDirty(true);
         }
     },
     enable: function(state, force) {

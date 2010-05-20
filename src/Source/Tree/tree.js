@@ -39,6 +39,7 @@ Jx.Tree = new Class({
      * items added to the tree.
      */
     list: null,
+    dirty: true,
     /**
      * APIProperty: domObj
      * {HTMLElement} the DOM element that contains the visual representation
@@ -110,6 +111,13 @@ Jx.Tree = new Class({
             this.addTo(this.options.parent);
         }
     },
+    
+    setDirty: function(state) {
+      this.dirty = state;
+      if (state && this.owner && this.owner.setDirty) {
+        this.owner.setDirty(state);
+      }
+    },
 
     /**
      * APIMethod: add
@@ -137,6 +145,7 @@ Jx.Tree = new Class({
         item.setSelection(this.selection);
         item.owner = this;
         this.list.add(item, position);
+        this.setDirty(true);
         return this;
     },
     /**
@@ -156,6 +165,7 @@ Jx.Tree = new Class({
         item.owner = null;
         this.list.remove(item);
         item.setSelection(null);
+        this.setDirty(true);
         return this;
     },
     /**
@@ -175,6 +185,7 @@ Jx.Tree = new Class({
         this.list.replace(item, withItem);
         withItem.setSelection(this.selection);
         item.setSelection(null);
+        this.setDirty(true);
         return this;
     },
 
@@ -188,7 +199,9 @@ Jx.Tree = new Class({
         }
         this.list.destroy();
         this.domObj.dispose();
+        this.setDirty(false);
     },
+    
     /**
      * Method: update
      * Update the CSS of the Tree's DOM element in case it has changed
@@ -198,7 +211,6 @@ Jx.Tree = new Class({
      * shouldDescend - {Boolean} propagate changes to child nodes?
      */
     update: function(shouldDescend, isLast) {
-
         if ($defined(isLast)) {
             if (isLast) {
                 this.domObj.removeClass('jxTreeNest');
@@ -216,6 +228,7 @@ Jx.Tree = new Class({
                 item.retrieve('jxTreeItem').update(lastItem);
             }
         });
+        this.setDirty(false);
     },
 
     /**
@@ -242,6 +255,7 @@ Jx.Tree = new Class({
                 this.remove(item.retrieve('jxTreeItem'));
             }
         }, this);
+        this.setDirty(true);
     },
 
     /**

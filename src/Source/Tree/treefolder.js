@@ -25,7 +25,7 @@ Jx.TreeFolder = new Class({
      * {<Jx.Tree>} a Jx.Tree instance for managing the folder contents
      */
     tree : null,
-
+    
     options: {
         /* Option: open
          * is the folder open?  false by default.
@@ -163,20 +163,23 @@ Jx.TreeFolder = new Class({
     update: function(shouldDescend,isLast) {
         /* avoid update if not attached to tree yet */
         if (!this.domObj.parentNode) return;
+        
+        if (this.tree.dirty) {
+          if (!$defined(isLast)) {
+              isLast = this.domObj.hasClass('jxTreeBranchLastOpen') ||
+                       this.domObj.hasClass('jxTreeBranchLastClosed');
+          }
 
-        if (!$defined(isLast)) {
-            isLast = this.domObj.hasClass('jxTreeBranchLastOpen') ||
-                     this.domObj.hasClass('jxTreeBranchLastClosed');
+          ['jxTreeBranchOpen','jxTreeBranchLastOpen','jxTreeBranchClosed',
+          'jxTreeBranchLastClosed'].each(function(c){
+              this.removeClass(c);
+          }, this);
+
+          var c = 'jxTreeBranch';
+          c += isLast ? 'Last' : '';
+          c += this.options.open ? 'Open' : 'Closed';
+          this.domObj.addClass(c);
         }
-
-        ['jxTreeBranchOpen','jxTreeBranchLastOpen','jxTreeBranchClosed',
-        'jxTreeBranchLastClosed'].each(function(c){
-            this.removeClass(c);
-        }.bind(this.domObj));
-        var c = 'jxTreeBranch';
-        c += isLast ? 'Last' : '';
-        c += this.options.open ? 'Open' : 'Closed';
-        this.domObj.addClass(c);
 
         this.tree.update(shouldDescend, isLast);
     },
@@ -207,6 +210,7 @@ Jx.TreeFolder = new Class({
     expand : function() {
         this.options.open = true;
         document.id(this.tree).setStyle('display', 'block');
+        this.setDirty(true);
         this.update(true);
         this.fireEvent('disclosed', this);
         return this;
@@ -221,6 +225,7 @@ Jx.TreeFolder = new Class({
     collapse : function() {
         this.options.open = false;
         document.id(this.tree).setStyle('display', 'none');
+        this.setDirty(true);
         this.update(true);
         this.fireEvent('disclosed', this);
         return this;
