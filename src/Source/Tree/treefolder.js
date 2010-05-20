@@ -173,7 +173,7 @@ Jx.TreeFolder = new Class({
           ['jxTreeBranchOpen','jxTreeBranchLastOpen','jxTreeBranchClosed',
           'jxTreeBranchLastClosed'].each(function(c){
               this.removeClass(c);
-          }, this);
+          }, this.domObj);
 
           var c = 'jxTreeBranch';
           c += isLast ? 'Last' : '';
