@@ -115,6 +115,14 @@ Jx.Button.Flyout = new Class({
         this.content.store('jxFlyout', this);
         this.loadContent(this.content);
     },
+    cleanup: function() {
+      this.content.eliminate('jxFlyout');
+      this.content.destroy();
+      this.contentClasses.each(function(v,k){
+        this[k] = null;
+      }, this);
+      this.parent();
+    },
     /**
      * APIMethod: clicked
      * Override <Jx.Button::clicked> to hide/show the content area of the
