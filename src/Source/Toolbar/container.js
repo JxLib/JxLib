@@ -95,12 +95,19 @@ Jx.Toolbar.Container = new Class({
             this.domObj.grab(this.controls);
             this.domObj.addEvent('sizeChange', this.update);
         }
-
+        // make sure that align is valid
+        if (!["left","center","right"].contains(this.options.align)) {
+          this.options.align = 'left';
+        }
+        // align the toolbar appropriately
+        this.domObj.addClass('jxToolbarAlign' + this.options.align.capitalize());
+        
+        // scrolling is only available if it is left aligned.
+        this.options.scroll = this.options.align != 'left' &&
+                              this.options.scroll;
         if (!['center', 'right'].contains(this.options.align) && this.options.scroll) {
             this.processElements(this.options.scrollerTemplate, this.classes);
             this.domObj.grab(this.scroller, 'top');
-        } else {
-            this.domObj.addClass('jxToolbarAlign' + this.options.align.capitalize());
         }
 
         /* this allows toolbars to add themselves to this bar container

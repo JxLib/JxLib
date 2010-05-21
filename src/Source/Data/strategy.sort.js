@@ -62,9 +62,7 @@ Jx.Store.Strategy.Sort = new Class({
      */
     init: function () {
         this.parent();
-        this.bound = {
-            sort: this.sort.bind(this)
-        };
+        this.bound.sort = this.sort.bind(this);
     },
     
     /**

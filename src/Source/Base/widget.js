@@ -751,6 +751,13 @@ Jx.Widget = new Class({
         if ($defined(this.domA)) {
             this.domA.destroy();
         }
+        if ($defined(this.classes)) {
+          this.classes.each(function(v, k) {
+            this[k] = null;
+          }, this);
+        }
+        this.elements.empty();
+        this.elements = null;
         this.parent();
     },
 

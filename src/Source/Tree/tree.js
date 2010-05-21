@@ -66,6 +66,9 @@ Jx.Tree = new Class({
      * domObj element, anything else is optional.
      */
     classes: new Hash({domObj: 'jxTreeRoot'}),
+    
+    frozen: false,
+    
     /**
      * APIMethod: render
      * Render the Jx.Tree.
@@ -84,14 +87,14 @@ Jx.Tree = new Class({
             this.ownsSelection = true;
         }
 
-        this.bound = {
-            select: function(item) {
-                this.fireEvent('select', item.retrieve('jxTreeItem'));
-            }.bind(this),
-            unselect: function(item) {
-                this.fireEvent('unselect', item.retrieve('jxTreeItem'));
-            }.bind(this)
-        };
+        this.bound.select = function(item) {
+            this.fireEvent('select', item.retrieve('jxTreeItem'));
+        }.bind(this);
+        this.bound.unselect = function(item) {
+            this.fireEvent('unselect', item.retrieve('jxTreeItem'));
+        }.bind(this);
+        this.bound.onAdd = function(item) {this.update();}.bind(this);
+        this.bound.onRemove = function(item) {this.update();}.bind(this);
 
         if (this.selection && this.ownsSelection) {
             this.selection.addEvents({
@@ -104,13 +107,27 @@ Jx.Tree = new Class({
                 hover: true,
                 press: true,
                 select: true,
-                onAdd: function(item) {this.update();}.bind(this),
-                onRemove: function(item) {this.update();}.bind(this)
+                onAdd: this.bound.onAdd,
+                onRemove: this.bound.onRemove
             }, this.selection);
         if (this.options.parent) {
             this.addTo(this.options.parent);
         }
     },
+    /**
+     * APIMethod: freeze
+     * stop the tree from processing updates every time something is added or
+     * removed.  Used for bulk changes, call thaw() when done updating.  Note
+     * the tree will still display the changes but it will delay potentially
+     * expensive recursion across the entire tree on every change just to
+     * update visual styles.
+     */
+    freeze: function() { this.frozen = true; },
+    /**
+     * APIMethod: thaw
+     * unfreeze the tree and recursively update styles
+     */
+    thaw: function() { this.frozen = false; this.update(true); },
     
     setDirty: function(state) {
       this.dirty = state;
@@ -194,12 +211,27 @@ Jx.Tree = new Class({
      * Clean up a Jx.Tree instance
      */
     cleanup: function() {
-        if (this.ownsSelection) {
+        // stop updates when removing existing items.
+        this.freeze();
+        if (this.selection && this.ownsSelection) {
+            this.selection.removeEvents({
+                select: this.bound.select,
+                unselect: this.bound.unselect
+            });
             this.selection.destroy();
+            this.selection = null;
         }
+        this.list.removeEvents({
+          remove: this.bound.onRemove,
+          add: this.bound.onAdd
+        });
         this.list.destroy();
-        this.domObj.dispose();
-        this.setDirty(false);
+        this.list = null;
+        this.bound.select = null;
+        this.bound.unselect = null;
+        this.bound.onRemove = null;
+        this.bound.onAdd = null;
+        this.parent();
     },
     
     /**
@@ -211,6 +243,13 @@ Jx.Tree = new Class({
      * shouldDescend - {Boolean} propagate changes to child nodes?
      */
     update: function(shouldDescend, isLast) {
+        // since the memory leak cleanup, it seems that update gets called
+        // from the bound onRemove event after the list has been cleaned
+        // up.  I suspect that there is a delayed function call for IE in
+        // event handling (or some such thing) PS
+        if (!this.list) return;
+        if (this.frozen) return;
+        
         if ($defined(isLast)) {
             if (isLast) {
                 this.domObj.removeClass('jxTreeNest');
@@ -248,12 +287,14 @@ Jx.Tree = new Class({
      */
     empty: function() {
         this.list.items().each(function(item){
-            if (item.retrieve('jxTreeFolder')) {
-                item.retrieve('jxTreeFolder').empty();
-            }
-            if (item.retrieve('jxTreeItem')) {
-                this.remove(item.retrieve('jxTreeItem'));
-            }
+          var f = item.retrieve('jxTreeItem');
+          if (f && f instanceof Jx.TreeFolder) {
+            f.empty();
+          }
+          if (f && f instanceof Jx.TreeItem) {
+            this.remove(f);
+            f.destroy();
+          }
         }, this);
         this.setDirty(true);
     },

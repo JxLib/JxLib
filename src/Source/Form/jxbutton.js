@@ -53,14 +53,28 @@ Jx.Field.Button = new Class({
     processTemplate: function(template, classes, container) {
         var h = this.parent(template, classes, container);
         this.button = new this.options.buttonClass(this.options.buttonOptions);
+        this.button.addEvent('click', function(){
+          this.fireEvent('click');
+        }.bind(this));
         var c = h.get('jxInputButton');
         if (c) {
             this.button.domObj.replaces(c);
         }
+        this.button.setEnabled(!this.options.disabled);
         return h;
     },
     
     click: function() {
         this.button.clicked();
+    },
+    
+    enable: function() {
+      this.parent();
+      this.button.setEnabled(true);
+    },
+    
+    disable: function() {
+      this.parent();
+      this.button.setEnabled(false);
     }
 });

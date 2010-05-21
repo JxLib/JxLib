@@ -94,6 +94,11 @@ Jx.Selection = new Class({
         this.selection = [];
     },
     
+    cleanup: function() {
+      this.selection = null;
+      this.parent();
+    },
+    
     /**
      * APIMethod: defaultSelect
      * select an item if the selection does not yet contain the minimum
@@ -133,7 +138,9 @@ Jx.Selection = new Class({
                 }
                 this.fireEvent(this.options.eventToFire.select, item);
             } else {
-                this.unselect(item);
+                if (this.options.selectToggle) {
+                  this.unselect(item);
+                }
             }
         }
     },

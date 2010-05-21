@@ -314,6 +314,7 @@ Jx.Field = new Class({
      * Disabled the field
      */
     disable : function () {
+        this.options.disabled = true;
         this.field.set("disabled", "disabled");
         this.field.addClass('jxFieldDisabled');
     },
@@ -322,6 +323,7 @@ Jx.Field = new Class({
      * Enables the field
      */
     enable : function () {
+        this.options.disabled = false;
         this.field.erase("disabled");
         this.field.removeClass('jxFieldDisabled');
     },

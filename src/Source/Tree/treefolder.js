@@ -51,9 +51,7 @@ Jx.TreeFolder = new Class({
         this.parent();
         this.domObj.store('jxTreeFolder', this);
 
-        this.bound = {
-            toggle: this.toggle.bind(this)
-        };
+        this.bound.toggle = this.toggle.bind(this);
 
         this.addEvents({
             click: this.bound.toggle,
@@ -81,9 +79,20 @@ Jx.TreeFolder = new Class({
             this.collapse();
         }
 
-        this.addEvent('postDestroy',function() {
-            this.tree.destroy();
-        }.bind(this));
+    },
+    cleanup: function() {
+      this.domObj.eliminate('jxTreeFolder');
+      this.removeEvents({
+        click: this.bound.toggle,
+        dblclick: this.bound.toggle
+      });
+      if (this.domImg) {
+        this.domImg.removeEvent('click', this.bound.toggle);
+      }
+      this.bound.toggle = null;
+      this.tree.destroy();
+      this.tree = null;
+      this.parent();
     },
     /**
      * APIMethod: add

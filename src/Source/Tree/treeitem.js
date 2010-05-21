@@ -70,8 +70,8 @@ Jx.TreeItem = new Class ({
         lastLeafClass: 'jxTreeLeafLast',
         template: '<li class="jxTreeContainer jxTreeLeaf"><img class="jxTreeImage" src="'+Jx.aPixel.src+'" alt="" title=""><a class="jxTreeItem" href="javascript:void(0);"><img class="jxTreeIcon" src="'+Jx.aPixel.src+'" alt="" title=""><span class="jxTreeLabel"></span></a></li>',
         busyMask: {
-			message: null
-		}
+          message: null
+        }
     },
     classes: new Hash({
         domObj: 'jxTreeContainer',
@@ -101,14 +101,11 @@ Jx.TreeItem = new Class ({
             this.domObj.addClass('jxUnselectable');
         }
 
-        if (this.domObj) {
-            if (this.options.id) {
-                this.domObj.id = this.options.id;
-            }
-            this.domObj.store('jxTreeItem', this);
-            if (!this.options.enabled) {
-                this.domObj.addClass('jxDisabled');
-            }
+        if (this.options.id) {
+            this.domObj.id = this.options.id;
+        }
+        if (!this.options.enabled) {
+            this.domObj.addClass('jxDisabled');
         }
 
         if (this.options.image && this.domIcon) {
@@ -151,19 +148,21 @@ Jx.TreeItem = new Class ({
      * Method: finalize
      * Clean up the TreeItem and remove all DOM references
      */
-    finalize: function() { this.finalizeItem(); },
+    finalize: function() { this.destroy(); },
     /**
      * Method: finalizeItem
      * Clean up the TreeItem and remove all DOM references
      */
-    finalizeItem: function() {
-        if (!this.domObj) {
-            return;
-        }
-        this.options = null;
-        this.domObj.dispose();
-        this.domObj = null;
-        this.owner = null;
+    cleanup: function() {
+      this.domObj.eliminate('jxTreeItem');
+      this.domA.eliminate('jxTreeItem');
+      this.domA.eliminate('jxContextMenu');
+      this.domObj.eliminate('jxListTarget');
+      this.domObj.eliminate('jxListTargetItem');
+      this.domA.removeEvents();
+      this.owner = null;
+      this.selection = null;
+      this.parent();
     },
     /**
      * Method: update

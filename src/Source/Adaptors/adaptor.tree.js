@@ -43,7 +43,7 @@ Jx.Adaptor.Tree = new Class({
      * Property: folders
      * A Hash containing all of the <Jx.TreeFolders> in this tree.
      */
-    folders: new Hash(),
+    folders: null,
     /**
      * Property: currentRecord
      * An integer indicating the last position we were at in the store. Used to
@@ -51,6 +51,10 @@ Jx.Adaptor.Tree = new Class({
      * data.
      */
     currentRecord: -1,
+    init: function() {
+      this.folders = new Hash();
+      this.parent();
+    },
     /**
      * APIMethod: attach
      * Attaches this adaptor to a specific tree instance.

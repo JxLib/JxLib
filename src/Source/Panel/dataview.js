@@ -65,12 +65,6 @@ Jx.Panel.DataView = new Class({
         }
     },
 
-    /**
-     * Property: bound
-     * hold bound functions
-     */
-    bound: {},
-
     init: function () {
         this.domA = new Element('div');
         this.list = this.createList(this.domA, this.options.listOptions);

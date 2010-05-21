@@ -51,11 +51,6 @@ Jx.Plugin.Grid.Prelighter = new Class({
         columnHeader : false
     },
     /**
-     * Property: bound
-     * storage for bound methods useful for working with events
-     */
-    bound: {},
-    /**
      * APIMethod: init
      * construct a new instance of the plugin.  The plugin must be attached
      * to a Jx.Grid instance to be useful though.
