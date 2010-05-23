@@ -129,7 +129,8 @@ $Id$
     <copy todir="${build.home}">
       <fileset dir="${basedir}/src" includes="Source/** themes/** images/**"/>
     </copy>
-    
+
+      <!--
     <delete file="${build.home}/lib/jxlib.uncompressed.js"/>
     <delete file="${build.home}/lib/jxlib.standalone.uncompressed.js"/>
     <delete file="${build.home}/lib/jxlib.js"/>
@@ -144,11 +145,11 @@ $Id$
 
     <echo message="exec 2"/>
   	<exec executable="php">
-		<arg line="${basedir}/utils/combine.php -filelist ${vendor.home}/mootools-core/current/Source/scripts.json -jsonFile ${build.home}/lib/core.json -target ${build.home}/lib/mootools-core.js -basedir ${vendor.home}/mootools-core/current/Source" />
+		<arg line="${basedir}/utils/combine.php -filelist ${vendor.home}/mootools-core/Source/scripts.json -jsonFile ${build.home}/lib/core.json -target ${build.home}/lib/mootools-core.js -basedir ${vendor.home}/mootools-core/current/Source" />
 	</exec>
   	<echo message="exec 3"/>
     <exec executable="php">
-  		<arg line="${basedir}/utils/combine.php -filelist ${vendor.home}/mootools-more/current/Source/scripts.json -jsonFile ${build.home}/lib/more.json -target ${build.home}/lib/mootools-more.js -basedir ${vendor.home}/mootools-more/current/Source" />
+  		<arg line="${basedir}/utils/combine.php -filelist ${vendor.home}/mootools-more/Source/scripts.json -jsonFile ${build.home}/lib/more.json -target ${build.home}/lib/mootools-more.js -basedir ${vendor.home}/mootools-more/current/Source" />
 	</exec>
   	<echo message="exec 4"/>
     <exec executable="php">
@@ -193,7 +194,7 @@ $Id$
     <copy file="${build.home}/images/a_pixel.png" todir="${build.home}/lib"/>
     
     <mkdir dir="${build.home}/themes"/>
-    
+    -->
   </target>
 
   <target name="theme" description="create a theme based on the theme variable">
