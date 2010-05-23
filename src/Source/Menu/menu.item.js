@@ -52,6 +52,10 @@ Jx.Menu.Item = new Class({
         domImg: 'jxMenuItemIcon',
         domLabel: 'jxMenuItemLabel'
     }),
+    init: function() {
+      this.bound.mouseover = this.onMouseOver.bind(this);
+      this.parent();
+    },
     /**
      * APIMethod: render
      * Create a new instance of Jx.Menu.Item
@@ -64,8 +68,15 @@ Jx.Menu.Item = new Class({
         if (this.options.image && this.options.image != Jx.aPixel.src) {
             this.domObj.removeClass(this.options.toggleClass);
         }
-        this.domObj.addEvent('mouseover', this.onMouseOver.bind(this));
+        this.domObj.addEvent('mouseover', this.bound.mouseover);
         this.domObj.store('jxMenuItem', this);
+    },
+    cleanup: function() {
+      this.domObj.eliminate('jxMenuItem');
+      this.domObj.removeEvent('mouseover', this.bound.mouseover);
+      this.bound.mouseover = null;
+      this.owner = null;
+      this.parent();
     },
     /**
      * Method: setOwner
