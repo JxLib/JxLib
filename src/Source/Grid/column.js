@@ -126,6 +126,12 @@ Jx.Column = new Class({
             if (!(this.options.renderer instanceof Jx.Grid.Renderer)) {
                 var t = Jx.type(this.options.renderer);
                 if (t === 'object') {
+                    if(!$defined(this.options.renderer.options.textTemplate)) {
+                      this.options.renderer.options.textTemplate = '{' + this.name + '}';
+                    }
+                    if(!$defined(this.options.renderer.name)) {
+                      this.options.renderer.name = 'Text';
+                    }
                     this.options.renderer = new Jx.Grid.Renderer[this.options.renderer.name.capitalize()](
                             this.options.renderer.options);
                 }

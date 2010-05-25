@@ -12,11 +12,9 @@
 
 window.addEvent('load', function() {
     var tree = new Jx.Tree({parent: 'examplesIndex'});
-    if((Math.random()*100).toInt() % 2 == 0) {
-      MooTools.lang.setLanguage('en-US');
-    }else{
-      MooTools.lang.setLanguage('de-DE');
-    }
+
+    // randomly choose a language? it works ;)
+    MooTools.lang.setLanguage(Cookie.read('jxtests.language') ? Cookie.read('jxtests.language') : 'en-US')
 
     var items = {
         'Jx-Examples': [
