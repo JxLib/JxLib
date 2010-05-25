@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>JX Example</title>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+
+    <script type="text/javascript" src="../../lib/mootools-core.js"></script>
+    <script type="text/javascript" src="../../lib/mootools-more.js"></script>
+    <script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
+
+    <script src="js/locale.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+      window.addEvent('load', function() {
+        var mainSplitter = new Jx.Splitter('splitMain', {
+          containerOptions: [{resizeWithWindow: true,width: 200},{resizeWithWindow: true}]
+        });
+
+        var mainTree = new Jx.Tree({parent: mainSplitter.elements[0]});
+
+        var items = {
+            'Jx-Examples': [
+                {'About':'about.html'},
+                {'Page-Layout' : [
+                    {'Layout' :'layout.html'},
+                    {'Splitter' : 'splitter.html'},
+                    {'Splitter-Integrated' : 'splitter_advanced.html'}
+                ]},
+                {'Panels-and-Dialogs' : [
+                    {'Panel' :'panel.html'},
+                    {'Panel-Set' : 'panelset.html'},
+                    {'Panels-Integrated' : 'panel_advanced.html'},
+                    {'Dialog' : 'dialog.html'},
+                    {'Dialogs-Integrated' : 'dialog_advanced.html'},
+                    {'Message-Dialogs-TBC' : 'dialog_messages.html'},
+                    {'File-Upload-Panel' : 'file_upload.html' }
+                ]},
+                {'Lists' : [
+                    {'Grid' : 'grid.html'},
+                    {'Paginated-Grid' : 'paging-grid.html'},
+                    {'Grid-Inline-Editor' : 'grid_editor.html'},
+                    {'Tree' : 'tree.html'},
+                    {'List-View' : 'list.html'}
+                ]},
+                {'Bars-and-Buttons' : [
+                    {'Toolbar' :'toolbar.html'},
+                    {'Buttons' : [
+                        {'Basic' : 'button.html'},
+                        {'Flyouts' : 'flyout.html'},
+                        {'Flyouts-Integrated' : 'flyout_advanced.html'},
+                        {'Multi' : 'multi.html'},
+                        {'Color' : 'color.html'}
+                    ]},
+                    {'Tabs':[
+                        {'Tabs' : 'tab.html'},
+                        {'Tab-Set' : 'tab_set.html'},
+                        {'Tabs-Integrated' : 'tab_box_advanced.html'}
+                    ]},
+                    {'Menus': [
+                        {'Menu-button' : 'menu.html'},
+                        {'Menu-bar' : 'menu_bar.html'},
+                        {'Context-Menu' : 'menu_context.html'}
+                    ]}
+                ]},
+                {'Extras' : [
+                    {'Forms' : 'forms.html'},
+                    {'Notification' : 'notification.html'},
+                    {'Custom-Scrollbars' : 'custom_scrollbars.html'},
+                    {'Progress-Bar' : 'progressbar.html'},
+                    {'Slider' : 'slider.html'}
+                ]},
+                {'Adaptors' : [
+                    {'Jx.Tree': 'tree_adaptors.html'},
+                    {'Jx.Field.Combo': 'adaptor_combo.html' }
+                ]}
+            ]
+        };
+
+        var requestMain = new Request.HTML({
+          onRequest: function() {
+            //mainSplitter.setBusy(true);
+            mainSplitter.elements[1].getElements('*').each(function(e) {
+              e.dispose();
+            });
+
+          },
+          onSuccess: function(tree, elements, html, js) {
+            //console.log(tree,elements,html,js);
+            mainSplitter.elements[1].adopt(tree);
+            window.fireEvent('loadAjax');
+            //mainSplitter.setBusy(false);
+          },
+          onCancel: function() {
+            //mainSplitter.setBusy(false);
+          },
+          onFailure: function(xhr) {
+            //mainSplitter.setBusy(false);
+            var failure = $('failure').clone();
+            mainSplitter.elements[1].adopt(failure)
+            failure.setStyle('display','block');
+          }
+        });
+        var makeTreeItem = function(o, tree) {
+            for (var i in o) {
+                var v = o[i];
+                if (v instanceof Array) {
+                    var folder = new Jx.TreeFolder({label: {set:'Examples',key:'navigation',value:i}, open: true});
+                    for (var j=0; j<v.length; j++) {
+                        makeTreeItem(v[j], folder);
+                    }
+                    tree.add(folder);
+                } else {
+                    var item = new Jx.TreeItem({
+                        label: {set:'Examples',key:'navigation',value:i},
+                        onClick: function() {
+                          //parent.test.location.href=v;
+                          requestMain.options.url = v;
+                          requestMain.send();
+
+                          Cookie.write('JxExamples.CurrentExample', v);
+                        }
+                    });
+                    tree.add(item);
+                }
+            }
+        };
+        makeTreeItem(items, mainTree);
+
+        if (Browser.Engine.trident4) {
+            new Asset.css('../../lib/themes/crispin/ie6.css', { rel: 'stylesheet' });
+        }
+        if (Browser.Engine.trident5) {
+            new Asset.css('../../lib/themes/crispin/ie7.css', { rel: 'stylesheet' });
+        }
+
+
+      });
+    </script>
+    <style type="text/css">
+      .splitterBox { height: 500px; }
+      .jxSplitArea { overflow: auto; }
+    </style>
+  </head>
+  <body>
+    <h1>JxLib Examples</h1>
+    <br />
+    <div id="splitMain" class="splitterBox"></div>
+    <div id="failure" style="display:none">
+      <h2>Failure :(</h2>
+    </div>
+  </body>
+</html>

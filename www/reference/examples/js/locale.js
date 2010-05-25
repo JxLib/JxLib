@@ -228,7 +228,7 @@ MooTools.lang.set('de-DE', 'Examples', {
     'Extras'                    : 'Extras',
       'Forms'                   : 'Formulare',
       'Notification'            : 'Meldung',
-      'Custom-Scrollbars'       : 'Eigen Scrollbars',
+      'Custom-Scrollbars'       : 'Benutzerdefinierte Scrollbars',
       'Progress-Bar'            : 'Fortschrittsbalken',
       'Slider'                  : 'Slider',
     'Adaptors'                  : 'Adapter',
