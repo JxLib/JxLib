@@ -6,82 +6,88 @@
 <script type="text/javascript" src="../../lib/mootools-core.js" charset="utf-8"></script>
 <script type="text/javascript" src="../../lib/mootools-more.js" charset="utf-8"></script>
 <script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js" charset="utf-8"></script>
+<script src="js/locale.js" type="text/javascript" charset="utf-8"></script>
 <link rel="stylesheet" href="../../lib/themes/crispin/jxtheme.css" type="text/css" media="screen" charset="utf-8">
 <script type="text/javascript" charset="utf-8">
 
 window.addEvent('load', function() {
     var tree = new Jx.Tree({parent: 'examplesIndex'});
-    
+    if((Math.random()*100).toInt() % 2 == 0) {
+      MooTools.lang.setLanguage('en-US');
+    }else{
+      MooTools.lang.setLanguage('de-DE');
+    }
+
     var items = {
-        'Jx Examples': [
+        'Jx-Examples': [
             {'About':'about.html'},
-            {'Page Layout' : [ 
+            {'Page-Layout' : [
                 {'Layout' :'layout.html'},
                 {'Splitter' : 'splitter.html'},
-                {'Splitter Integrated' : 'splitter_advanced.html'}
+                {'Splitter-Integrated' : 'splitter_advanced.html'}
             ]},
-            {'Panels and Dialogs' : [
+            {'Panels-and-Dialogs' : [
                 {'Panel' :'panel.html'},
-                {'Panel Set' : 'panelset.html'},
-                {'Panels Integrated' : 'panel_advanced.html'},
+                {'Panel-Set' : 'panelset.html'},
+                {'Panels-Integrated' : 'panel_advanced.html'},
                 {'Dialog' : 'dialog.html'},
-                {'Dialogs Integrated' : 'dialog_advanced.html'},
-                {'Message Dialogs  TBC' : 'dialog_messages.html'},
-                {'File Upload Panel' : 'file_upload.html' }
+                {'Dialogs-Integrated' : 'dialog_advanced.html'},
+                {'Message-Dialogs-TBC' : 'dialog_messages.html'},
+                {'File-Upload-Panel' : 'file_upload.html' }
             ]},
             {'Lists' : [ 
                 {'Grid' : 'grid.html'},
-                {'Paginated Grid' : 'paging-grid.html'},
-                {'Grid Inline Editor' : 'grid_editor.html'},
+                {'Paginated-Grid' : 'paging-grid.html'},
+                {'Grid-Inline-Editor' : 'grid_editor.html'},
                 {'Tree' : 'tree.html'},
-                {'List View' : 'list.html'}
+                {'List-View' : 'list.html'}
             ]},
-            {'Bars and Buttons' : [
+            {'Bars-and-Buttons' : [
                 {'Toolbar' :'toolbar.html'},
                 {'Buttons' : [
                     {'Basic' : 'button.html'},
                     {'Flyouts' : 'flyout.html'},
-                    {'Flyouts Integrated' : 'flyout_advanced.html'},
+                    {'Flyouts-Integrated' : 'flyout_advanced.html'},
                     {'Multi' : 'multi.html'},
                     {'Color' : 'color.html'}
                 ]},
                 {'Tabs':[
                     {'Tabs' : 'tab.html'},
-                    {'Tab Set' : 'tab_set.html'},
-                    {'Tabs Integrated' : 'tab_box_advanced.html'}
+                    {'Tab-Set' : 'tab_set.html'},
+                    {'Tabs-Integrated' : 'tab_box_advanced.html'}
                 ]},
                 {'Menus': [
-                    {'Menu button' : 'menu.html'},
-                    {'Menu bar' : 'menu_bar.html'},
-                    {'Context Menu' : 'menu_context.html'}
+                    {'Menu-button' : 'menu.html'},
+                    {'Menu-bar' : 'menu_bar.html'},
+                    {'Context-Menu' : 'menu_context.html'}
                 ]}
             ]},
             {'Extras' : [
-                    {'Forms' : 'forms.html'},
-                    {'Notification' : 'notification.html'},
-                    {'Custom Scrollbars' : 'custom_scrollbars.html'},
-                    {'Progress Bar' : 'progressbar.html'},
-                    {'Slider' : 'slider.html'}
+                {'Forms' : 'forms.html'},
+                {'Notification' : 'notification.html'},
+                {'Custom-Scrollbars' : 'custom_scrollbars.html'},
+                {'Progress-Bar' : 'progressbar.html'},
+                {'Slider' : 'slider.html'}
             ]},
-			{'Adaptors' : [
-			        {'Jx.Tree': 'tree_adaptors.html'},
-                    {'Jx.Field.Combo': 'adaptor_combo.html' }
-			]}
+            {'Adaptors' : [
+                {'Jx.Tree': 'tree_adaptors.html'},
+                {'Jx.Field.Combo': 'adaptor_combo.html' }
+            ]}
         ]
     };
-    
+
     var makeTreeItem = function(o, tree) {
         for (var i in o) {
             var v = o[i];
             if (v instanceof Array) {
-                var folder = new Jx.TreeFolder({label: i, open: true});
+                var folder = new Jx.TreeFolder({label: {set:'Examples',key:'navigation',value:i}, open: true});
                 for (var j=0; j<v.length; j++) {
                     makeTreeItem(v[j], folder);
                 }
                 tree.add(folder);
             } else {
                 var item = new Jx.TreeItem({
-                    label: i,
+                    label: {set:'Examples',key:'navigation',value:i},
                     onClick: function() {
                         parent.test.location.href=v;
                         Cookie.write('JxExamples.CurrentExample', v);

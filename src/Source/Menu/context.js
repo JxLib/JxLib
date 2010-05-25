@@ -57,6 +57,10 @@ Jx.Menu.Context = new Class({
          * but just in the menu/sub menu case - there is some horrible peekaboo
          * bug in IE related to ULs that we just couldn't figure out
          */
+         this.contentContainer.setStyles({
+           width: null,
+           height: null
+         });
         this.contentContainer.setContentBoxSize(this.subDomObj.getMarginBoxSize());
 
         this.position(this.contentContainer, document.body, {
