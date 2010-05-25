@@ -137,7 +137,9 @@ window.addEvent('load', function() {
                   this.setLabel({set:'Examples',key:'mainToolbar',value:'langRu'});
                   break;
               }
-              window.top.frames.list.Jx.setLanguage(lang);
+              if(window.top && window.top.frames && window.top.frames.list) {
+                window.top.frames.list.Jx.setLanguage(lang);
+              }
             }else{
               this.options.changeLang = true;
             }
