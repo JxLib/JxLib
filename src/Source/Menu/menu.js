@@ -351,6 +351,10 @@ Jx.Menu = new Class({
          * but just in the menu/sub menu case - there is some horrible 
          * peekaboo bug in IE related to ULs that we just couldn't figure out
          */
+         this.contentContainer.setStyles({
+           width: null,
+           height: null
+         });
         this.contentContainer.setContentBoxSize(this.subDomObj.getMarginBoxSize());
         this.showChrome(this.contentContainer);
 
@@ -487,12 +491,6 @@ Jx.Menu = new Class({
      */
     blur: function() {
         this.button.blur();
-    },
-
-    changeText: function(lang) {
-      this.parent();
-      //this.render();
     }
-
 });
 

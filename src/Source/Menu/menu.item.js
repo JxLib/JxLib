@@ -126,6 +126,19 @@ Jx.Menu.Item = new Class({
         if (this.owner && this.owner.setVisibleItem) {
             this.owner.setVisibleItem(this);
         }
+    },
+    
+    /**
+     * APIMethod: changeText
+     *
+     * updates the label of the menu item on langChange Event for
+     * Internationalization
+     */
+    changeText: function(lang) {
+        this.parent();
+        if (this.owner && this.owner.deactivate) {
+            this.owner.deactivate();
+        }
     }
 });
 
