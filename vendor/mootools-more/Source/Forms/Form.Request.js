@@ -8,15 +8,15 @@ description: Handles the basic functionality of submitting a form and updating a
 license: MIT-style license
 
 authors:
-- Aaron Newton
+ - Aaron Newton
 
 requires:
-- core:1.2.4/Element.Event
-- core:1.2.4/Request.HTML
-- /Class.Binds
-- /Class.Occlude
-- /Spinner
-- /String.QueryString
+ - core:1.2.4/Element.Event
+ - core:1.2.4/Request.HTML
+ - /Class.Binds
+ - /Class.Occlude
+ - /Spinner
+ - /String.QueryString
 
 provides: [Form.Request]
 

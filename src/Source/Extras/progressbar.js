@@ -8,16 +8,16 @@ description: A css-based progress bar.
 license: MIT-style license.
 
 requires:
-- Jx.Widget
-- Core/Fx.Tween
+ - Jx.Widget
+ - Core/Fx.Tween
 
 provides: [Jx.Progressbar]
 
 css:
-- progressbar
+ - progressbar
 
 images:
-- progressbar.png
+ - progressbar.png
 
 ...
  */

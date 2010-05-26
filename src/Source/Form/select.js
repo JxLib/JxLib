@@ -8,7 +8,7 @@ description: Represents a select, or drop down, input
 license: MIT-style license.
 
 requires:
-- Jx.Field
+ - Jx.Field
 
 provides: [Jx.Field.Select]
 

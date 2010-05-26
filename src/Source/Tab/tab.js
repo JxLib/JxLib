@@ -8,20 +8,20 @@ description: A single tab in a tab set.
 license: MIT-style license.
 
 requires:
-- Jx.Button
-- Jx.Layout
+ - Jx.Button
+ - Jx.Layout
 
 provides: [Jx.Tab]
 
 css:
-- tab
+ - tab
 
 images:
-- tab_top.png
-- tab_bottom.png
-- tab_left.png
-- tab_right.png
-- tab_close.png
+ - tab_top.png
+ - tab_bottom.png
+ - tab_left.png
+ - tab_right.png
+ - tab_close.png
 
 ...
  */

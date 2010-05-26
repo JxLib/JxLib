@@ -8,20 +8,20 @@ description: A panel is a fundamental container object that has a content area a
 license: MIT-style license.
 
 requires:
-- Jx.Widget
-- Jx.Menu.Item
-- Jx.Layout
-- Jx.Toolbar.Container
-- Jx.Toolbar.Item
+ - Jx.Widget
+ - Jx.Menu.Item
+ - Jx.Layout
+ - Jx.Toolbar.Container
+ - Jx.Toolbar.Item
 
 provides: [Jx.Panel]
 
 css:
-- panel
+ - panel
 
 images:
-- panel_controls.png
-- panelbar.png
+ - panel_controls.png
+ - panelbar.png
 
 ...
  */

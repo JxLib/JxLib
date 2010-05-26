@@ -8,12 +8,12 @@ description: An implementation of a custom CSS-styled scrollbar.
 license: MIT-style license.
 
 requires:
-- Jx.Slider
+ - Jx.Slider
 
 provides: [Jx.Scrollbar]
 
 css:
-- scrollbar
+ - scrollbar
 
 ...
  */

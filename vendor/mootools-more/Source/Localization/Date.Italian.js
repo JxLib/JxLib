@@ -8,12 +8,12 @@ description: Date messages for Italian.
 license: MIT-style license.
 
 authors:
-- Andrea Novero
-- Valerio Proietti
+ - Andrea Novero
+ - Valerio Proietti
 
 requires:
-- /Lang
-- /Date
+ - /Lang
+ - /Date
 
 provides: [Date.Italian]
 

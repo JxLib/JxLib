@@ -8,8 +8,8 @@ description: An implementation of a basic data store.
 license: MIT-style license.
 
 requires:
-- Jx.Object
-- Jx.Record
+ - Jx.Object
+ - Jx.Record
 
 provides: [Jx.Store]
 

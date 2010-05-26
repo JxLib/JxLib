@@ -8,12 +8,12 @@ description: Handles the basic functionality of submitting a form and updating a
 license: MIT-style license
 
 authors:
-- Aaron Newton
+ - Aaron Newton
 
 requires:
-- /Form.Request
-- /Fx.Reveal
-- /Elements.from
+ - /Form.Request
+ - /Fx.Reveal
+ - /Elements.from
 
 provides: [Form.Request.Append]
 

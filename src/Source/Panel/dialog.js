@@ -8,19 +8,19 @@ description: A Jx.Panel that implements a floating dialog.
 license: MIT-style license.
 
 requires:
-- Jx.Panel
+ - Jx.Panel
 
 optional:
-- More/Drag
+ - More/Drag
 
 provides: [Jx.Dialog]
 
 css:
-- dialog
+ - dialog
 
 images:
-- dialog_chrome.png
-- dialog_resize.png
+ - dialog_chrome.png
+ - dialog_resize.png
 
 ...
  */

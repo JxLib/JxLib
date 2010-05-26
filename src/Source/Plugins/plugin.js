@@ -8,7 +8,7 @@ description: Base class for all plugins
 license: MIT-style license.
 
 requires:
-- Jx.Object
+ - Jx.Object
 
 provides: [Jx.Plugin]
 

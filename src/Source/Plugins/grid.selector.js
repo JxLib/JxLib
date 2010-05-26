@@ -8,7 +8,7 @@ description: Allows selecting rows, columns, and cells in grids
 license: MIT-style license.
 
 requires:
-- Jx.Plugin.Grid
+ - Jx.Plugin.Grid
 
 provides: [Jx.Plugin.Grid.Selector]
 

@@ -8,7 +8,7 @@ description: A notification area that floats in a container above other content.
 license: MIT-style license.
 
 requires:
-- Jx.Notifier
+ - Jx.Notifier
 
 provides: [Jx.Notifier.Float]
 

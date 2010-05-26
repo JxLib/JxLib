@@ -8,7 +8,7 @@ description: Represents a password input
 license: MIT-style license.
 
 requires:
-- Jx.Field.Text
+ - Jx.Field.Text
 
 provides: [Jx.Field.Password]
 

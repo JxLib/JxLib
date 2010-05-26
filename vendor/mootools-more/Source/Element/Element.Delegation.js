@@ -11,13 +11,13 @@ credits:
 license: MIT-style license
 
 authors:
-- Aaron Newton
-- Daniel Steigerwald
+ - Aaron Newton
+ - Daniel Steigerwald
 
 requires:
-- core:1.2.4/Element.Event
-- core:1.2.4/Selectors
-- /MooTools.More
+ - core:1.2.4/Element.Event
+ - core:1.2.4/Selectors
+ - /MooTools.More
 
 provides: [Element.Delegation]
 

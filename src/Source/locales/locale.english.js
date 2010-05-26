@@ -8,7 +8,7 @@ description: Default translations of text strings used in JX for US english (en-
 license: MIT-style license.
 
 requires:
-- More/Lang
+ - More/Lang
 
 provides: [Locale.English.US]
 

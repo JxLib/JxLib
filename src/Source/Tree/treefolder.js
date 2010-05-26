@@ -8,8 +8,8 @@ description: A Jx.TreeFolder is an item in a tree that can contain other items. 
 license: MIT-style license.
 
 requires:
-- Jx.TreeItem
-- Jx.Tree
+ - Jx.TreeItem
+ - Jx.Tree
 
 provides: [Jx.TreeFolder]
 

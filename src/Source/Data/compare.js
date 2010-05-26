@@ -8,8 +8,8 @@ description: Class that provides functions for comparing various data types. Use
 license: MIT-style license.
 
 requires:
-- Jx.Object
-- More/Date.Extras
+ - Jx.Object
+ - More/Date.Extras
 
 provides: [Jx.Compare]
 

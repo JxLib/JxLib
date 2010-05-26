@@ -8,7 +8,7 @@ description: Adds a menu of tabs to the toolbar container for easy access to all
 license: MIT-style license.
 
 requires:
-- Jx.Plugin.ToolbarContainer
+ - Jx.Plugin.ToolbarContainer
 
 provides: [Jx.Plugin.ToolbarContainer.TabMenu]
 

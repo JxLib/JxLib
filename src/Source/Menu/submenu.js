@@ -8,8 +8,8 @@ description: A sub menu contains menu items within a main menu or another sub me
 license: MIT-style license.
 
 requires:
-- Jx.Menu.Item
-- Jx.Menu
+ - Jx.Menu.Item
+ - Jx.Menu
 
 provides: [Jx.Menu.SubMenu]
 

@@ -8,7 +8,7 @@ description: A representation of a single grid column
 license: MIT-style license.
 
 requires:
-- Jx.Widget
+ - Jx.Widget
 
 provides: [Jx.Column]
 

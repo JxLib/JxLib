@@ -8,7 +8,7 @@ description: A TabSet manages a set of Jx.Tab content areas by ensuring that onl
 license: MIT-style license.
 
 requires:
-- Jx.Tab
+ - Jx.Tab
 
 provides: [Jx.TabSet]
 

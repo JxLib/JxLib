@@ -8,7 +8,7 @@ description: Fills a Jx.Tree instance from a remote table that represents an MPT
 license: MIT-style license.
 
 requires:
-- Jx.Adaptor.Tree
+ - Jx.Adaptor.Tree
 
 provides: [Jx.Adaptor.Tree.Mptt]
 

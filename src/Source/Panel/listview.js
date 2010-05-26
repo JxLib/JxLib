@@ -8,16 +8,16 @@ description: A widget that displays items in a list format.
 license: MIT-style license.
 
 requires:
-- Jx.List
-- Jx.ListItem
+ - Jx.List
+ - Jx.ListItem
 
 provides: [Jx.ListView]
 
 css:
-- list
+ - list
 
 images:
-- listitem.png
+ - listitem.png
 ...
  */
 // $Id$

@@ -8,8 +8,8 @@ description: Provides validation services for Jx.Form
 license: MIT-style license.
 
 requires:
-- Jx.Plugin.Form
-- Jx.Plugin.Field.Validator
+ - Jx.Plugin.Form
+ - Jx.Plugin.Field.Validator
 
 provides: [Jx.Plugin.Form.Validator]
 

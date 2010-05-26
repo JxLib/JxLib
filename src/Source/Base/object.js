@@ -8,7 +8,7 @@ description: Base class for all other object in the JxLib framework.
 license: MIT-style license.
 
 requires:
-- Jx
+ - Jx
 
 provides: [Jx.Object]
 

@@ -8,7 +8,7 @@ description: A helper class to provide a container for something to go into a Jx
 license: MIT-style license.
 
 requires:
-- Jx.Toolbar
+ - Jx.Toolbar
 
 provides: [Jx.Toolbar.Item]
 

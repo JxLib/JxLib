@@ -8,7 +8,7 @@ description: Represents a single item in a listview.
 license: MIT-style license.
 
 requires:
-- Jx.Widget
+ - Jx.Widget
 
 provides: [Jx.ListItem]
 

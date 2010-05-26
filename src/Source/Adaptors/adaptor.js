@@ -8,7 +8,7 @@ description: Base class for all Adaptors.
 license: MIT-style license.
 
 requires:
-- Jx.Plugin
+ - Jx.Plugin
 
 provides: [Jx.Adaptor]
 

@@ -8,11 +8,11 @@ description: Date messages for Swedish (SE).
 license: MIT-style license
 
 authors:
-- Martin Lundgren
+ - Martin Lundgren
 
 requires:
-- /Lang
-- /Date
+ - /Lang
+ - /Date
 
 provides: [Date.Swedish]
 

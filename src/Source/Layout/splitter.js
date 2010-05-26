@@ -8,15 +8,15 @@ description: A Jx.Splitter creates two or more containers within a parent contai
 license: MIT-style license.
 
 requires:
-- Jx.Layout
+ - Jx.Layout
 
 optional:
-- More/Drag
+ - More/Drag
 
 provides: [Jx.Splitter]
 
 css:
-- splitter
+ - splitter
 
 ...
  */

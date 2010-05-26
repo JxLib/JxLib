@@ -8,7 +8,7 @@ description: An implementation of the Javascript native sorting with the Jx.Sort
 license: MIT-style license.
 
 requires:
-- Jx.Sort
+ - Jx.Sort
 
 provides: [Jx.Sort.Nativesort]
 

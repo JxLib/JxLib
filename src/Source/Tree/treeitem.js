@@ -8,15 +8,15 @@ description: An item in a tree.
 license: MIT-style license.
 
 requires:
-- Jx.Widget
+ - Jx.Widget
 
 optional:
-- More/Drag
+ - More/Drag
 
 provides: [Jx.TreeItem]
 
 images:
-- tree_hover.png
+ - tree_hover.png
 
 ...
  */

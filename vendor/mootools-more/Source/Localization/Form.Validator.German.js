@@ -8,13 +8,13 @@ description: Date messages for German.
 license: MIT-style license
 
 authors: 
-- Frank Rossi
-- Ulrich Petri
-- Fabian Beiner
+ - Frank Rossi
+ - Ulrich Petri
+ - Fabian Beiner
 
 requires:
-- /Lang
-- /Form.Validator
+ - /Lang
+ - /Form.Validator
 
 provides: [Form.Validator.German]
 

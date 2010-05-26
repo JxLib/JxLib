@@ -8,10 +8,10 @@ description: A subclass of Jx.dialog for prompting the user for text input.
 license: MIT-style license.
 
 requires:
-- Jx.Dialog
-- Jx.Button
-- Jx.Toolbar.Item
-- Jx.Field.Text
+ - Jx.Dialog
+ - Jx.Button
+ - Jx.Toolbar.Item
+ - Jx.Field.Text
 
 provides: [Jx.Dialog.Prompt]
 

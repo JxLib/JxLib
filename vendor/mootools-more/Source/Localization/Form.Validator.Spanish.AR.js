@@ -8,11 +8,11 @@ description: Date messages for Spanish (Argentina).
 license: MIT-style license
 
 authors:
-- Diego Massanti
+ - Diego Massanti
 
 requires:
-- /Lang
-- /Form.Validator
+ - /Lang
+ - /Form.Validator
 
 provides: [Form.Validator.Spanish.AR]
 

@@ -8,11 +8,11 @@ description: Date messages in Portuguese-BR (Brazil).
 license: MIT-style license
 
 authors:
-- Fabio Miranda Costa
+ - Fabio Miranda Costa
 
 requires:
-- /Lang
-- /Date
+ - /Lang
+ - /Date
 
 provides: [Date.Portuguese.BR]
 

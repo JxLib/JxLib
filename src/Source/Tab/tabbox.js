@@ -8,17 +8,17 @@ description: A convenience class to handle the common case of a single toolbar d
 license: MIT-style license.
 
 requires:
-- Jx.Toolbar
-- Jx.Panel
-- Jx.TabSet
+ - Jx.Toolbar
+ - Jx.Panel
+ - Jx.TabSet
 
 provides: [Jx.TabBox]
 
 images:
-- tabbar.png
-- tabbar_bottom.png
-- tabbar_left.png
-- tabbar_right.png
+ - tabbar.png
+ - tabbar_bottom.png
+ - tabbar_left.png
+ - tabbar_right.png
 
 ...
  */

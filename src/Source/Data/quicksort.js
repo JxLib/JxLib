@@ -8,7 +8,7 @@ description: An implementation of the quick sort algorithm.
 license: MIT-style license.
 
 requires:
-- Jx.Sort
+ - Jx.Sort
 
 provides: [Jx.Sort.Quicksort]
 

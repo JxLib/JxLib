@@ -8,7 +8,7 @@ description: Loads data into a Jx.Combo instance from designated column(s) of a 
 license: MIT-style license.
 
 requires:
-- Jx.Adaptor.Combo
+ - Jx.Adaptor.Combo
 
 provides: [Jx.Adaptor.Combo.Fill]
 

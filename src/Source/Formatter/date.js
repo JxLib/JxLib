@@ -8,8 +8,8 @@ description: Formats dates using the mootools-more Date extensions
 license: MIT-style license.
 
 requires:
-- More/Date.Extras
-- Jx.Formatter
+ - More/Date.Extras
+ - Jx.Formatter
 
 provides: [Jx.Formatter.Date]
 ...

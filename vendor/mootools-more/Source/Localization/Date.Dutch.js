@@ -8,11 +8,11 @@ description: Date messages in Dutch.
 license: MIT-style license
 
 authors:
-- Lennart Pilon
+ - Lennart Pilon
 
 requires:
-- /Lang
-- /Date
+ - /Lang
+ - /Date
 
 provides: [Date.Dutch]
 

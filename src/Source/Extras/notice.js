@@ -8,16 +8,16 @@ description: Represents a single item used in a notifier.
 license: MIT-style license.
 
 requires:
-- Jx.ListItem
+ - Jx.ListItem
 
 provides: [Jx.Notice]
 
 images:
-- notice.png
-- notice_error.png
-- notice_warning.png
-- notice_success.png
-- icons.png
+ - notice.png
+ - notice_error.png
+ - notice_warning.png
+ - notice_success.png
+ - icons.png
 
 
 ...

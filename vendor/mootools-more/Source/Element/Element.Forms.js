@@ -8,11 +8,11 @@ description: Extends the Element native object to include methods useful in mana
 license: MIT-style license
 
 authors:
-- Aaron Newton
+ - Aaron Newton
 
 requires:
-- core:1.2.4/Element
-- /MooTools.More
+ - core:1.2.4/Element
+ - /MooTools.More
 
 provides: [Element.Forms]
 

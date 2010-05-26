@@ -8,7 +8,7 @@ description: Base formatter object
 license: MIT-style license.
 
 requires:
-- Jx.Object
+ - Jx.Object
 
 provides: [Jx.Formatter]
 

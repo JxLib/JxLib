@@ -8,10 +8,10 @@ description: Represents a text input
 license: MIT-style license.
 
 requires:
-- Jx.Field
+ - Jx.Field
 
 optional:
-- More/OverText
+ - More/OverText
 
 provides: [Jx.Field.Text]
 

@@ -8,12 +8,12 @@ description: Convenience class to create a visual separator in a menu.
 license: MIT-style license.
 
 requires:
-- Jx.Menu
+ - Jx.Menu
 
 provides: [Jx.Menu.Separator]
 
 images:
-- toolbar_separator_v.png
+ - toolbar_separator_v.png
 
 ...
  */

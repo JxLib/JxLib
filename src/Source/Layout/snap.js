@@ -8,7 +8,7 @@ description: A helper class to create an element that can snap a split panel ope
 license: MIT-style license.
 
 requires:
-- Jx.Splitter
+ - Jx.Splitter
 
 provides: [Jx.Splitter.Snap]
 

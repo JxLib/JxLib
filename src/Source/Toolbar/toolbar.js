@@ -8,16 +8,16 @@ description: A toolbar is a container object that contains other objects such as
 license: MIT-style license.
 
 requires:
-- Jx.Widget
-- Jx.List
+ - Jx.Widget
+ - Jx.List
 
 provides: [Jx.Toolbar]
 
 css:
-- toolbar
+ - toolbar
 
 images:
-- toolbar.png
+ - toolbar.png
 ...
  */
 // $Id$

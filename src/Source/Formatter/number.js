@@ -8,7 +8,7 @@ description: Formats numbers including negative and floats
 license: MIT-style license.
 
 requires:
-- Jx.Formatter
+ - Jx.Formatter
 
 provides: [Jx.Formatter.Number]
 

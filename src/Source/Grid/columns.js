@@ -8,8 +8,8 @@ description: A container for defining and holding individual columns
 license: MIT-style license.
 
 requires:
-- Jx.Column
-- Jx.Object
+ - Jx.Column
+ - Jx.Object
 
 provides: [Jx.Columns]
 

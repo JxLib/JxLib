@@ -8,12 +8,12 @@ description: Date messages for Catalan.
 license: MIT-style license
 
 authors:
-- Miquel Hudin
-- Alfons Sanchez
+ - Miquel Hudin
+ - Alfons Sanchez
 
 requires:
-- /Lang
-- /Form.Validator
+ - /Lang
+ - /Form.Validator
 
 provides: [Form.Validator.Catalan]
 

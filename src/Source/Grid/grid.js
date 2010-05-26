@@ -8,24 +8,24 @@ description: A tabular control that has fixed scrolling headers on the rows and 
 license: MIT-style license.
 
 requires:
-- Jx.Widget
-- Jx.Styles
-- Jx.Layout
-- Jx.Columns
-- Jx.Row
-- Jx.Plugin.Grid
-- Jx.Store
-- Jx.List
-- Jx.Selection
+ - Jx.Widget
+ - Jx.Styles
+ - Jx.Layout
+ - Jx.Columns
+ - Jx.Row
+ - Jx.Plugin.Grid
+ - Jx.Store
+ - Jx.List
+ - Jx.Selection
 
 provides: [Jx.Grid]
 
 css:
-- grid
+ - grid
 
 images:
-- table_col.png
-- table_row.png
+ - table_col.png
+ - table_row.png
 
 ...
  */

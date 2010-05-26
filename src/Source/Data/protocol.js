@@ -8,7 +8,7 @@ description: Base class for all store protocols.
 license: MIT-style license.
 
 requires:
-- Jx.Store.Response
+ - Jx.Store.Response
 
 provides: [Jx.Store.Protocol]
 

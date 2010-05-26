@@ -8,7 +8,7 @@ description: The object used to return response information to strategies.
 license: MIT-style license.
 
 requires:
-- Jx.Store
+ - Jx.Store
 
 provides: [Jx.Store.Response]
 

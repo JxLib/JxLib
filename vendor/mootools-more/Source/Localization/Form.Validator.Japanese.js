@@ -5,11 +5,11 @@ description: Form.Validator messages in Japanese.
 license: MIT-style
 
 authors:
-- Noritaka Horio
+ - Noritaka Horio
 
 requires:
-- /Lang
-- /Form.Validator
+ - /Lang
+ - /Form.Validator
 
 provides: [Form.Validator.Japanese]
 

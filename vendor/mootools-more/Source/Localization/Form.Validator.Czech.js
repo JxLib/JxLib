@@ -8,11 +8,11 @@ description: Form Validator messages for Czech.
 license: MIT-style license
 
 authors:
-- Jan Černý chemiX
+ - Jan Černý chemiX
 
 requires:
-- /Lang
-- /Form.Validator
+ - /Lang
+ - /Form.Validator
 
 provides: [Form.Validator.Czech]
 

@@ -8,7 +8,7 @@ description: Base class for all adaptors that fill Jx.Tree widgets. Also acts as
 license: MIT-style license.
 
 requires:
-- Jx.Adaptor
+ - Jx.Adaptor
 
 provides: [Jx.Adaptor.Tree]
 

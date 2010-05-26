@@ -8,21 +8,20 @@ description: Base class for all widgets (visual classes) in the JxLib Framework.
 license: MIT-style license.
 
 requires:
-- Jx.Object
-- Core/Selectors
-- Locale.English
+ - Jx.Object
+ - Locale.English.US
 
 provides: [Jx.Widget]
 
 css:
-- chrome
+ - chrome
 
 images:
-- spinner_16.gif
-- spinner_24.gif
+ - spinner_16.gif
+ - spinner_24.gif
 
 optional:
-- More/Spinner
+ - More/Spinner
 
 ...
  */

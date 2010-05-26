@@ -8,7 +8,7 @@ description: A singleton object useful for dynamically creating and manipulating
 license: MIT-style license.
 
 requires:
-- Jx
+ - Jx
 
 provides: [Jx.Styles]
 

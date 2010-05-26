@@ -8,7 +8,7 @@ description: Strategy used for saving data back to a source. Can be called manua
 license: MIT-style license.
 
 requires:
-- Jx.Store.Strategy
+ - Jx.Store.Strategy
 
 provides: [Jx.Store.Strategy.Save]
 

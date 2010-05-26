@@ -8,8 +8,8 @@ description: Renders a checkbox in a column. Can be connected to a store column 
 license: MIT-style license.
 
 requires:
-- Jx.Grid.Renderer
-- Jx.Field.Checkbox
+ - Jx.Grid.Renderer
+ - Jx.Field.Checkbox
 
 provides: [Jx.Grid.Renderer.Checkbox]
 

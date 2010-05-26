@@ -8,21 +8,21 @@ description: A panel subclass that is designed to be a multiple file upload pane
 license: MIT-style license.
 
 requires:
-- Jx.Panel
-- Jx.ListView
-- Jx.Field.File
-- Jx.Progressbar
-- Jx.Button
-- Jx.Toolbar.Item
-- Jx.Tooltip
+ - Jx.Panel
+ - Jx.ListView
+ - Jx.Field.File
+ - Jx.Progressbar
+ - Jx.Button
+ - Jx.Toolbar.Item
+ - Jx.Tooltip
 
 provides: [Jx.Panel.FileUpload]
 
 css:
-- upload
+ - upload
 
 images:
-- icons.png
+ - icons.png
 ...
  */
 // $Id$

@@ -8,8 +8,8 @@ description: A class that shows and hides elements using a slide effect. Does no
 license: MIT-style license.
 
 requires:
-- Jx.Object
-- Core/Fx.Tween
+ - Jx.Object
+ - Core/Fx.Tween
 
 provides: [Jx.Slide]
 

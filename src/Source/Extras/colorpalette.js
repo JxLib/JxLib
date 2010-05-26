@@ -8,15 +8,15 @@ description: A Jx.ColorPalette presents a user interface for selecting colors.  
 license: MIT-style license.
 
 requires:
-- Jx.Widget
+ - Jx.Widget
 
 provides: [Jx.ColorPalette]
 
 css:
-- color
+ - color
 
 images:
-- grid.png
+ - grid.png
 
 ...
  */

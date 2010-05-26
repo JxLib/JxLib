@@ -8,7 +8,7 @@ description: Namespace for DataView plugins
 license: MIT-style license.
 
 requires:
-- Jx.Plugin
+ - Jx.Plugin
 
 provides: [Jx.Plugin.DataView]
 ...

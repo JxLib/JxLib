@@ -8,12 +8,12 @@ description: A Jx.Menu that has no button but can be opened at a specific browse
 license: MIT-style license.
 
 requires:
-- Jx.Menu
+ - Jx.Menu
 
 provides: [Jx.Menu.Context]
 
 css:
-- menu
+ - menu
 
 ...
  */

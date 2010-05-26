@@ -8,7 +8,7 @@ description: A singleton object for managing a global z-index stack for widgets 
 license: MIT-style license.
 
 requires:
-- Jx
+ - Jx
 
 provides: [Jx.Stack]
 

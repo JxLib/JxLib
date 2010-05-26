@@ -8,28 +8,30 @@ description: Jx namespace with methods and classes common to most Jx widgets
 license: MIT-style license.
 
 requires:
-- Core/Class
-- Core/Element
-- Core/Browser
-- Core/Element.Style
-- Core/Request
-- Core/Class.Extras
-- More/Class.Binds
-- Core/Array
-- Core/Element.Event
-- Core/Element.Dimensions
-- More/Element.Measure
-- More/Lang
+ - Core/Class
+ - Core/Element
+ - Core/Browser
+ - Core/Element.Style
+ - Core/Request
+ - Core/Class.Extras
+ - More/Class.Binds
+ - Core/Array
+ - Core/Element.Event
+ - Core/Element.Dimensions
+ - More/Element.Measure
+ - More/Mootools.Lang
+ - Core/Slick.Finder
+ - Core/Slick.Parser
 
 provides: [Jx]
 
 css:
-- license
-- reset
-- common
+ - license
+ - reset
+ - common
 
 images:
-- a_pixel.png
+ - a_pixel.png
 
 ...
  */

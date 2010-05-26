@@ -8,11 +8,11 @@ description: Requests the same URL to pull data from a server but increases the 
 license: MIT-style license
 
 authors:
-- Christoph Pojer
+ - Christoph Pojer
 
 requires:
-- core:1.2.4/Request
-- /MooTools.More
+ - core:1.2.4/Request
+ - /MooTools.More
 
 provides: [Request.Periodical]
 

@@ -8,7 +8,7 @@ description: Fills a Jx.Tree instance from a standard parent/child/folder style 
 license: MIT-style license.
 
 requires:
-- Jx.Adaptor.Tree
+ - Jx.Adaptor.Tree
 
 provides: [Jx.Adaptor.Tree.Parent]
 

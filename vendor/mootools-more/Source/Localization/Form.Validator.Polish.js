@@ -8,11 +8,11 @@ description: Date messages for Polish.
 license: MIT-style license
 
 authors:
-- Oskar Krawczyk
+ - Oskar Krawczyk
 
 requires:
-- /Lang
-- /Form.Validator
+ - /Lang
+ - /Form.Validator
 
 provides: [Form.Validator.Polish]
 

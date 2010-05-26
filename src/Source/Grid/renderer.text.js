@@ -8,7 +8,7 @@ description: Renders data as straight text.
 license: MIT-style license.
 
 requires:
-- Jx.Grid.Renderer
+ - Jx.Grid.Renderer
 
 provides: [Jx.Grid.Renderer.Text]
 

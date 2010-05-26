@@ -8,7 +8,7 @@ description: Represents a textarea input
 license: MIT-style license.
 
 requires:
-- Jx.Field
+ - Jx.Field
 
 provides: [Jx.Field.Textarea]
 

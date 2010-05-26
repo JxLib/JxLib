@@ -8,8 +8,8 @@ description: Base class for all inputs
 license: MIT-style license.
 
 requires:
-- Jx.Fieldset
-- Jx.Form
+ - Jx.Fieldset
+ - Jx.Form
 
 provides: [Jx.Field]
 

@@ -8,11 +8,11 @@ description: Date messages for Spanish.
 license: MIT-style license
 
 authors:
-- Ãlfons Sanchez
+ - Ãlfons Sanchez
 
 requires:
-- /Lang
-- /Date
+ - /Lang
+ - /Date
 
 provides: [Date.Spanish]
 

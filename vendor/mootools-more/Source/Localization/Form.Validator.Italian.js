@@ -8,12 +8,12 @@ description: Form.Validator messages in Italian.
 license: MIT-style license
 
 authors:
-- Leonardo Laureti
-- Andrea Novero
+ - Leonardo Laureti
+ - Andrea Novero
 
 requires:
-- /Lang
-- /Form.Validator
+ - /Lang
+ - /Form.Validator
 
 provides: [Form.Validator.Italian]
 

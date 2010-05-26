@@ -8,7 +8,7 @@ description: Store protocol used to load data that is already present in a page 
 license: MIT-style license.
 
 requires:
-- Jx.Store.Protocol
+ - Jx.Store.Protocol
 
 provides: [Jx.Store.Protocol.Local]
 

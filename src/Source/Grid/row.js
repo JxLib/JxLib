@@ -8,7 +8,7 @@ description: Holds information related to display of rows in the grid.
 license: MIT-style license.
 
 requires:
-- Jx.Object
+ - Jx.Object
 
 provides: [Jx.Row]
 

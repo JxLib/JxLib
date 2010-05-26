@@ -8,7 +8,7 @@ description: Base class for all store strategies.
 license: MIT-style license.
 
 requires:
-- Jx.Store
+ - Jx.Store
 
 provides: [Jx.Store.Strategy]
 

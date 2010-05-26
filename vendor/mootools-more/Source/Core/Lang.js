@@ -8,11 +8,11 @@ description: Provides methods for localization.
 license: MIT-style license
 
 authors:
-- Aaron Newton
+ - Aaron Newton
 
 requires:
-- core:1.2.4/Events
-- /MooTools.More
+ - core:1.2.4/Events
+ - /MooTools.More
 
 provides: [MooTools.Lang]
 

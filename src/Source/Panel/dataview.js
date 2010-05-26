@@ -8,9 +8,9 @@ description: A panel used for displaying records from a store in a list-style in
 license: MIT-style license.
 
 requires:
-- Jx.Panel
-- Jx.Store
-- Jx.List
+ - Jx.Panel
+ - Jx.Store
+ - Jx.List
 
 provides: [Jx.Panel.DataView]
 

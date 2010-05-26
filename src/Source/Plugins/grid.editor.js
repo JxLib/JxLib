@@ -8,13 +8,13 @@ description: Enables inline editing in grids
 license: MIT-style license.
 
 requires:
-- Jx.Plugin.Grid
-- More/Keyboard
+ - Jx.Plugin.Grid
+ - More/Keyboard
 
 provides: [Jx.Plugin.Grid.Editor]
 
 images:
-- icons.png
+ - icons.png
 ...
  */
 // $Id$

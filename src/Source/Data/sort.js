@@ -8,8 +8,8 @@ description: Base class for the sort algorithm implementations
 license: MIT-style license.
 
 requires:
-- Jx.Object
-- Jx.Compare
+ - Jx.Object
+ - Jx.Compare
 
 provides: [Jx.Sort]
 

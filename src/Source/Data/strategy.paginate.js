@@ -8,7 +8,7 @@ description: Strategy for loading data in pages and moving between them. This st
 license: MIT-style license.
 
 requires:
-- Jx.Store.Strategy
+ - Jx.Store.Strategy
 
 provides: [Jx.Store.Strategy.Paginate]
 

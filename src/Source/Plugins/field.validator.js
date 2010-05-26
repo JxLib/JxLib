@@ -8,9 +8,9 @@ description: Provides validation services for Jx.Field subclasses
 license: MIT-style license.
 
 requires:
-- Jx.Plugin.Field
-- More/Form.Validator
-- More/Form.Validator.Extras
+ - Jx.Plugin.Field
+ - More/Form.Validator
+ - More/Form.Validator.Extras
 
 provides: [Jx.Plugin.Field.Validator]
 

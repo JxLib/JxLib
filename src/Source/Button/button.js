@@ -8,18 +8,18 @@ description: Jx.Button creates a clickable element that can be added to a web pa
 license: MIT-style license.
 
 requires:
-- Jx.Widget
+ - Jx.Widget
 
 optional:
-- Core/Drag
+ - Core/Drag
 
 provides: [Jx.Button]
 
 css:
-- button
+ - button
 
 images:
-- button.png
+ - button.png
 
 ...
  */

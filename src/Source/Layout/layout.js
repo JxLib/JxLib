@@ -8,13 +8,13 @@ description: Jx.Layout is used to provide more flexible layout options for appli
 license: MIT-style license.
 
 requires:
-- Jx.Object
+ - Jx.Object
 
 
 provides: [Jx.Layout]
 
 css:
-- layout
+ - layout
 
 ...
  */

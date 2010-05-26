@@ -8,9 +8,9 @@ description: Strategy used for sorting results in a store after they are loaded.
 license: MIT-style license.
 
 requires:
-- Jx.Store.Strategy
-- Jx.Sort
-- Jx.Compare
+ - Jx.Store.Strategy
+ - Jx.Sort
+ - Jx.Compare
 
 provides: [Jx.Store.Strategy.Sort]
 ...

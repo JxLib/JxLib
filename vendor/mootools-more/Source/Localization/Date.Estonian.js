@@ -8,11 +8,11 @@ description: Date messages for Estonian.
 license: MIT-style license
 
 authors:
-- Kevin Valdek
+ - Kevin Valdek
 
 requires:
-- /Lang
-- /Date
+ - /Lang
+ - /Date
 
 provides: [Date.Estonian]
 

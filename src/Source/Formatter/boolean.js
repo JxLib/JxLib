@@ -8,7 +8,7 @@ description: Formats boolean input
 license: MIT-style license.
 
 requires:
-- Jx.Formatter
+ - Jx.Formatter
 
 provides: [Jx.Formatter.Boolean]
 ...

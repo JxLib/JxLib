@@ -8,7 +8,7 @@ description: A ButtonSet manages a set of Jx.Button instances by ensuring that o
 license: MIT-style license.
 
 requires:
-- Jx.Object
+ - Jx.Object
 
 provides: [Jx.ButtonSet]
 

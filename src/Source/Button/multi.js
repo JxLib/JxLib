@@ -8,15 +8,15 @@ description: Multi buttons are used to contain multiple buttons in a drop down l
 license: MIT-style license.
 
 requires:
-- Jx.Button
-- Jx.Menu
-- Jx.ButtonSet
+ - Jx.Button
+ - Jx.Menu
+ - Jx.ButtonSet
 
 provides: [Jx.Button.Multi]
 
 images:
-- button_multi.png
-- button_multi_disclose.png
+ - button_multi.png
+ - button_multi_disclose.png
 
 ...
  */

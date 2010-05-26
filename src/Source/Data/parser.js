@@ -8,7 +8,7 @@ description: Base class for all data parsers. Parsers are used by protocols to g
 license: MIT-style license.
 
 requires:
-- Jx.Store
+ - Jx.Store
 
 provides: [Jx.Store.Parser]
 

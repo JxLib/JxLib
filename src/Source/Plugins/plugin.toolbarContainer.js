@@ -8,7 +8,7 @@ description: Namespace for Jx.Toolbar.Container
 license: MIT-style license.
 
 requires:
-- Jx.Plugin
+ - Jx.Plugin
 
 provides: [Jx.Plugin.ToolbarContainer]
 

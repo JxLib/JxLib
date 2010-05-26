@@ -8,14 +8,14 @@ description: Represents a HTML Form
 license: MIT-style license.
 
 requires:
-- Jx.Widget
-- More/String.QueryString
-- More/Form.Validator
+ - Jx.Widget
+ - More/String.QueryString
+ - More/Form.Validator
 
 provides: [Jx.Form]
 
 css:
-- form
+ - form
 
 ...
  */

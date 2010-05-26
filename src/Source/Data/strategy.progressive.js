@@ -8,7 +8,7 @@ description: Strategy based on Strategy.Paginate but loads data progressively wi
 license: MIT-style license.
 
 requires:
-- Jx.Store.Strategy.Paginate
+ - Jx.Store.Strategy.Paginate
 
 provides: [Jx.Store.Strategy.Progressive]
 

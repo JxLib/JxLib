@@ -8,7 +8,7 @@ description: Namespace for grid plugins
 license: MIT-style license.
 
 requires:
-- Jx.Plugin
+ - Jx.Plugin
 
 provides: [Jx.Plugin.Grid]
 

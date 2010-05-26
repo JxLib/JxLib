@@ -8,17 +8,17 @@ description: Jx.Tree displays hierarchical data in a tree structure of folders a
 license: MIT-style license.
 
 requires:
-- Jx.Widget
-- Jx.List
+ - Jx.Widget
+ - Jx.List
 
 provides: [Jx.Tree]
 
 css:
-- tree
+ - tree
 
 images:
-- tree.png
-- tree_vert_line.png
+ - tree.png
+ - tree_vert_line.png
 ...
  */
 // $Id$

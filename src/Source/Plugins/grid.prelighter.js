@@ -8,7 +8,7 @@ description: Highlights rows, columns, cells, and headers in grids
 license: MIT-style license.
 
 requires:
-- Jx.Plugin.Grid
+ - Jx.Plugin.Grid
 
 provides: [Jx.Plugin.Grid.Prelighter]
 

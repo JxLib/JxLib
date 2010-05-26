@@ -8,7 +8,7 @@ description: Store protocol used to load data from a remote data source via Ajax
 license: MIT-style license.
 
 requires:
-- Jx.Store.Protocol
+ - Jx.Store.Protocol
 
 provides: [Jx.Store.Protocol.Ajax]
 

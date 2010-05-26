@@ -8,7 +8,7 @@ description: Strategy for loading the full data set from a source.
 license: MIT-style license.
 
 requires:
-- Jx.Store.Strategy
+ - Jx.Store.Strategy
 
 provides: [Jx.Store.Strategy.Full]
 

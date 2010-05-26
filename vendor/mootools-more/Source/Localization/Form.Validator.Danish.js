@@ -8,11 +8,11 @@ description: Form.Validator messages for Danish.
 license: MIT-style license
 
 authors:
-- Martin Overgaard
+ - Martin Overgaard
 
 requires:
-- /Lang
-- /Form.Validator
+ - /Lang
+ - /Form.Validator
 
 provides: [Form.Validator.Danish]
 

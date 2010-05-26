@@ -8,16 +8,16 @@ description: Represents a file input w/upload and progress tracking capabilities
 license: MIT-style license.
 
 requires:
-- Jx.Field.Text
-- Jx.Button
-- Core/Request.JSON
-- Jx.Field.Hidden
-- Jx.Form
+ - Jx.Field.Text
+ - Jx.Button
+ - Core/Request.JSON
+ - Jx.Field.Hidden
+ - Jx.Form
 
 provides: [Jx.Field.File]
 
 css:
-- file
+ - file
 
 
 ...

@@ -8,14 +8,14 @@ description: A subclass of jx.Dialog for displaying messages w/a single OK butto
 license: MIT-style license.
 
 requires:
-- Jx.Dialog
-- Jx.Button
-- Jx.Toolbar.Item
+ - Jx.Dialog
+ - Jx.Button
+ - Jx.Toolbar.Item
 
 provides: [Jx.Dialog.Message]
 
 css:
-- message
+ - message
 
 ...
  */

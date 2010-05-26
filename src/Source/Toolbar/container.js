@@ -8,16 +8,16 @@ description: A toolbar container contains toolbars.  This has an optional depend
 license: MIT-style license.
 
 requires:
-- Jx.Toolbar
-- Jx.Button
+ - Jx.Toolbar
+ - Jx.Button
 
 optional:
-- Core/Fx.Tween
+ - Core/Fx.Tween
 
 provides: [Jx.Toolbar.Container]
 
 images:
-- emblems.png
+ - emblems.png
 
 ...
  */

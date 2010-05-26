@@ -8,8 +8,8 @@ description: Represents a button input
 license: MIT-style license.
 
 requires:
-- Jx.Field
-- Jx.Button
+ - Jx.Field
+ - Jx.Button
 
 provides: [Jx.Field.Button]
 

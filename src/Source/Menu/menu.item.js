@@ -8,12 +8,12 @@ description: A menu item is a single entry in a menu.
 license: MIT-style license.
 
 requires:
-- Jx.Menu
+ - Jx.Menu
 
 provides: [Jx.Menu.Item]
 
 images:
-- menuitem.png
+ - menuitem.png
 ...
  */
 // $Id$

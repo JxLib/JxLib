@@ -8,7 +8,7 @@ description: Base class for all renderers. Used to create the contents of column
 license: MIT-style license.
 
 requires:
-- Jx.Grid
+ - Jx.Grid
 
 provides: [Jx.Grid.Renderer]
 

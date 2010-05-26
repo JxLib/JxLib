@@ -8,8 +8,8 @@ description: A panel set manages a set of panels within a DOM element.
 license: MIT-style license.
 
 requires:
-- Jx.Splitter
-- Jx.Panel
+ - Jx.Splitter
+ - Jx.Panel
 
 provides: [Jx.PanelSet]
 

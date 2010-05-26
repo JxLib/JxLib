@@ -8,8 +8,8 @@ description: "Renders one or more buttons in a single column.
 license: MIT-style license.
 
 requires:
-- Jx.Grid.Renderer
-- Jx.Button
+ - Jx.Grid.Renderer
+ - Jx.Button
 
 
 provides: [Jx.Grid.Renderer.Button]

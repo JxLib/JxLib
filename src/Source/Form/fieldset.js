@@ -8,7 +8,7 @@ description: Used to create fieldsets in Forms
 license: MIT-style license.
 
 requires:
-- Jx.Widget
+ - Jx.Widget
 
 provides: [Jx.Fieldset]
 

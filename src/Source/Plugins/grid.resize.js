@@ -8,7 +8,7 @@ description: Enables column resizing in grids
 license: MIT-style license.
 
 requires:
-- Jx.Plugin.Grid
+ - Jx.Plugin.Grid
 
 provides: [Jx.Plugin.Grid.Resize]
 

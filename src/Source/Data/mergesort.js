@@ -8,7 +8,7 @@ description: An implementation of the merge sort algorithm
 license: MIT-style license.
 
 requires:
-- Jx.Sort
+ - Jx.Sort
 
 provides: [Jx.Sort.Mergesort]
 

@@ -8,8 +8,8 @@ description:
 license: MIT-style license.
 
 requires:
-- Jx.Button.Flyout
-- Jx.ColorPalette
+ - Jx.Button.Flyout
+ - Jx.ColorPalette
 
 provides: [Jx.Button.Color]
 

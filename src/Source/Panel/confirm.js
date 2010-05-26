@@ -8,14 +8,14 @@ description: A subclass of Jx.dialog for asking a yes/no type question of the us
 license: MIT-style license.
 
 requires:
-- Jx.Dialog
-- Jx.Button
-- Jx.Toolbar.Item
+ - Jx.Dialog
+ - Jx.Button
+ - Jx.Toolbar.Item
 
 provides: [Jx.Dialog.Confirm]
 
 css:
-- confirm
+ - confirm
 
 ...
  */

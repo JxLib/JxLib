@@ -8,11 +8,11 @@ description: Date messages for Ukrainian.
 license: MIT-style license
 
 authors:
-- Slik
+ - Slik
 
 requires:
-- /Lang
-- /Date
+ - /Lang
+ - /Date
 
 provides: [Date.Ukrainian]
 

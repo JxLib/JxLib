@@ -8,12 +8,12 @@ description: These are very simple tooltips that are designed to be instantiated
 license: MIT-style license.
 
 requires:
-- Jx.Widget
+ - Jx.Widget
 
 provides: [Jx.Tooltip]
 
 css:
-- tooltip
+ - tooltip
 
 ...
  */

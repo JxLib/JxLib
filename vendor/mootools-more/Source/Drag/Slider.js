@@ -8,14 +8,14 @@ description: Class for creating horizontal and vertical slider controls.
 license: MIT-style license
 
 authors:
-- Valerio Proietti
+ - Valerio Proietti
 
 requires:
-- core:1.2.4/Element.Dimensions
-- /Class.Binds
-- /Drag
-- /Element.Dimensions
-- /Element.Measure
+ - core:1.2.4/Element.Dimensions
+ - /Class.Binds
+ - /Drag
+ - /Element.Dimensions
+ - /Element.Measure
 
 provides: [Slider]
 

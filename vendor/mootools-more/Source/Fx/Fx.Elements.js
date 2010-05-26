@@ -8,11 +8,11 @@ description: Effect to change any number of CSS properties of any number of Elem
 license: MIT-style license
 
 authors:
-- Valerio Proietti
+ - Valerio Proietti
 
 requires:
-- core:1.2.4/Fx.CSS
-- /MooTools.More
+ - core:1.2.4/Fx.CSS
+ - /MooTools.More
 
 provides: [Fx.Elements]
 

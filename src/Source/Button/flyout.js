@@ -8,13 +8,13 @@ description: Flyout buttons expose a panel when the user clicks the button.
 license: MIT-style license.
 
 requires:
-- Jx.Button
+ - Jx.Button
 
 provides: [Jx.Button.Flyout]
 
 images:
-- flyout_chrome.png
-- emblems.png
+ - flyout_chrome.png
+ - emblems.png
 
 ...
  */
