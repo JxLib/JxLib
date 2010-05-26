@@ -36,6 +36,20 @@ window.addEvent('load', function() {
     });
     
 });
+
+if(document.getElementsByClassName('tabContentActive').length > 0) {
+  document.getElementsByClassName('tabContentActive')[0].addEvent('loadAjax', function() {
+
+      prelighter = new Jx.Plugin.Grid.Prelighter({});
+      selector = new Jx.Plugin.Grid.Selector({});
+      sorter = new Jx.Plugin.Grid.Sorter({});
+      resizer = new Jx.Plugin.Grid.Resize({});
+
+      drawToolbar();
+      drawGrid();
+
+  });
+}
 </script>
 <script id="toolbarScript" type="text/javascript">
 function drawToolbar() {

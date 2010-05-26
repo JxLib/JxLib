@@ -43,6 +43,27 @@ window.addEvent('load', function() {
     });
 
 });
+if(document.getElementsByClassName('tabContentActive').length > 0) {
+  document.getElementsByClassName('tabContentActive')[0].addEvent('loadAjax', function() {
+
+      prelighter = new Jx.Plugin.Grid.Prelighter({});
+      selector = new Jx.Plugin.Grid.Selector({});
+      sorter = new Jx.Plugin.Grid.Sorter({});
+      resizer = new Jx.Plugin.Grid.Resize({});
+
+      grid = drawGrid();
+      drawToolbar();
+
+      window.addEvent('stylesheetChanged', function() {
+          if (aboutDialog && aboutDialog.chrome) {
+              aboutDialog.close();
+              aboutDialog.chrome.dispose();
+              aboutDialog.chrome = null;
+          }
+      });
+
+  });
+}
 </script>
 <script id="toolbarScript" type="text/javascript">
 function drawToolbar() {
@@ -50,7 +71,7 @@ function drawToolbar() {
      * a menu and then creates a panel to host the grid in
      * The actual grid code is in another sample
      */
-    new Jx.Menu({label: 'Row Options'}).addTo('buttons').add([
+    new Jx.Menu({label: 'Row Options'}).addTo('buttonsEditor').add([
         new Jx.Menu.Item({
             label: 'Row Prelight',
             toggle: true,
@@ -70,7 +91,7 @@ function drawToolbar() {
             onUp: function() { selector.deactivate('row'); }
         })]
     );
-    new Jx.Menu({label: 'Column Options'}).addTo('buttons').add([
+    new Jx.Menu({label: 'Column Options'}).addTo('buttonsEditor').add([
         new Jx.Menu.Item({
             label: 'Column Resize',
             toggle: true,
@@ -143,7 +164,7 @@ function drawToolbar() {
         ])
       ]
     );
-    new Jx.Menu({label: 'Cell Options'}).addTo('buttons').add([
+    new Jx.Menu({label: 'Cell Options'}).addTo('buttonsEditor').add([
         new Jx.Menu.Item({
             label: 'Cell Prelight',
             toggle: true,
@@ -158,7 +179,7 @@ function drawToolbar() {
             onUp: function() { selector.deactivate('cell'); }
         })]
     );
-    new Jx.Menu({label: 'Inline Editor Options'}).addTo('buttons').add([
+    new Jx.Menu({label: 'Inline Editor Options'}).addTo('buttonsEditor').add([
         new Jx.Menu.Item({
             label: 'Enable Inline Editing',
             toggle: true,
@@ -243,7 +264,7 @@ function drawToolbar() {
             }
             aboutDialog.show();
         }
-    }).addTo('buttons');
+    }).addTo('buttonsEditor');
 
 }
 </script>
@@ -290,7 +311,7 @@ function drawToolbar() {
   */
     //setup options
     var options = {
-        parent: 'gridArea',
+        parent: 'gridAreaEditor',
         row: {
           useHeaders: true,
           alternateRowColors: true,
@@ -528,8 +549,8 @@ function drawToolbar() {
     <p>The grid component uses an architecture that requires a separate object to provide the data to the grid through a specific api.  This object is called the model for the grid.  The grid allows the model to be changed at any time and the grid will redraw itself with the new model's data.</p>
 
     <p>The editor plugin allows the user to control it only using the keyboard with some common shortcuts.</p>
-	<div id="buttons" class="buttonBox"></div>
-	<div id="gridArea" class="gridBox"></div>
+	<div id="buttonsEditor" class="buttonBox"></div>
+	<div id="gridAreaEditor" class="gridBox"></div>
 
 </body>
 </html>

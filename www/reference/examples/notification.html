@@ -13,13 +13,18 @@
 window.addEvent('load', function() {
     drawBasicNotifier();
 }); 
+if(document.getElementsByClassName('tabContentActive').length > 0) {
+  document.getElementsByClassName('tabContentActive')[0].addEvent('loadAjax', function() {
+    drawBasicNotifier();
+  });
+}
 </script>
 <script id="basicNotifierScript" type="text/javascript" charset="utf-8">
 function drawBasicNotifier() {
   var form = new Jx.Form({
     name: 'testForm',
     formClass: 'jxFormInline'
-  }).addTo('formBasic');
+  }).addTo('formBasicNotification');
   
 
 // First Fieldset
@@ -192,7 +197,7 @@ function drawBasicNotifier() {
     <li>The second field is simply required to be filled out.</li>
     <li>The third box will require an email address.</li>
 </ul>
-<div id="formBasic" class="formBox"></div>
+<div id="formBasicNotification" class="formBox"></div>
 
 </body>
 </html>

@@ -18,14 +18,16 @@
         drawConfirmDialog();
         drawPromptDialog();
     });
-    window.addEvent('loadAjax', function() {
+    if(document.getElementsByClassName('tabContentActive').length > 0) {
+      document.getElementsByClassName('tabContentActive')[0].addEvent('loadAjax', function() {
         drawBasicDialog();
         drawPositionedDialog();
         drawToolbarDialog();
         drawAjaxFailedDialog();
         drawConfirmDialog();
         drawPromptDialog();
-    });
+      });
+    }
     
     /* normally we wouldn't switch the stylesheet on the fly - 
      * the stylesheet switcher emits an event that the 

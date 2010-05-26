@@ -13,6 +13,12 @@ window.addEvent('load', function() {
     colorButton();
     colorDisabled();
 });
+if(document.getElementsByClassName('tabContentActive').length > 0) {
+  document.getElementsByClassName('tabContentActive')[0].addEvent('loadAjax', function() {
+    colorButton();
+    colorDisabled();
+  });
+}
 </script>
 
 <script id="colorButtonScript" type="text/javascript">

@@ -16,6 +16,25 @@
           containerOptions: [{resizeWithWindow: true,width: 200},{resizeWithWindow: true}]
         });
 
+        var mainTabs = new Jx.TabBox({
+          parent: mainSplitter.elements[1]
+        }).add(new Jx.Tab({
+          label       : {set:'Examples',key:'navigation',value:'About'},
+          contentURL  : 'about.html'
+        }));
+
+        // custom function to find out if a tab is already loaded
+        mainTabs.hasTabByURL = function(url) {
+          var t = this.tabSet.tabs,
+              i = t.length;
+          while(i--) {
+            if(t[i].options.contentURL == url) {
+              return t[i];
+            }
+          }
+          return false;
+        }
+
         var mainTree = new Jx.Tree({parent: mainSplitter.elements[0]});
 
         var items = {
@@ -76,30 +95,6 @@
             ]
         };
 
-        var requestMain = new Request.HTML({
-          onRequest: function() {
-            //mainSplitter.setBusy(true);
-            mainSplitter.elements[1].getElements('*').each(function(e) {
-              e.dispose();
-            });
-
-          },
-          onSuccess: function(tree, elements, html, js) {
-            //console.log(tree,elements,html,js);
-            mainSplitter.elements[1].adopt(tree);
-            window.fireEvent('loadAjax');
-            //mainSplitter.setBusy(false);
-          },
-          onCancel: function() {
-            //mainSplitter.setBusy(false);
-          },
-          onFailure: function(xhr) {
-            //mainSplitter.setBusy(false);
-            var failure = $('failure').clone();
-            mainSplitter.elements[1].adopt(failure)
-            failure.setStyle('display','block');
-          }
-        });
         var makeTreeItem = function(o, tree) {
             for (var i in o) {
                 var v = o[i];
@@ -113,10 +108,52 @@
                     var item = new Jx.TreeItem({
                         label: {set:'Examples',key:'navigation',value:i},
                         onClick: function() {
-                          //parent.test.location.href=v;
+                          this.setBusy(true);
+                          /*
                           requestMain.options.url = v;
+                          requestMain.options.example = {set:'Examples',key:'navigation',value:i};
                           requestMain.send();
-
+                          */
+                          var tabExists = mainTabs.hasTabByURL(v);
+                          if(!tabExists) {
+                            var newTab = new Jx.Tab({
+                                            label       : {set:'Examples',key:'navigation',value:i},
+                                            contentURL  : v,
+                                            close       : true,
+                                            active      : true,
+                                            cacheContent: true
+                                          });
+                            // event on content loaded to load the scripts
+                            newTab.addEvents({
+                              'contentLoaded': function() {
+                                newTab.content.fireEvent('loadAjax');
+                                item.setBusy(false);
+                                // <script> tags are ignored and cannot be addressed with the current way
+                                //beautifyDemoScripts('.tabContentActive h2')
+                                //makeLinksForApi('.tabContentActive a');
+                              },
+                              // anything we can do when the content load fails? shouldn't happen on the examples page ;)
+                              'contentLoadFailed': function() {
+                                //item.setBusy(false);
+                              },
+                              // if a script error occurs, the waiting icon won't stop, here we stop it when the tab is closed
+                              'close': function() {
+                                item.setBusy(false)
+                              }
+                            });
+                            mainTabs.tabSet.addEvents({
+                              'tabChange':function(tabSet, tab) {
+                                // select the element on the tree to the left when the tab is activated? :)
+                                window.console ? console.log(mainTree.findChild([tab.options.label])) : false;
+                              }
+                            });
+                            mainTabs.add(newTab);
+                            log(i + " loaded");
+                          }else{
+                            //mainTabs.tabSet.setActiveTab(tabExists);
+                            tabExists.clicked();
+                            item.setBusy(false);
+                          }
                           Cookie.write('JxExamples.CurrentExample', v);
                         }
                     });
@@ -125,6 +162,7 @@
             }
         };
         makeTreeItem(items, mainTree);
+        console.log(mainTree);
 
         if (Browser.Engine.trident4) {
             new Asset.css('../../lib/themes/crispin/ie6.css', { rel: 'stylesheet' });
@@ -132,12 +170,10 @@
         if (Browser.Engine.trident5) {
             new Asset.css('../../lib/themes/crispin/ie7.css', { rel: 'stylesheet' });
         }
-
-
       });
     </script>
     <style type="text/css">
-      .splitterBox { height: 500px; }
+      .splitterBox { height: 600px !important; }
       .jxSplitArea { overflow: auto; }
     </style>
   </head>
@@ -146,7 +182,18 @@
     <br />
     <div id="splitMain" class="splitterBox"></div>
     <div id="failure" style="display:none">
+      <br />
       <h2>Failure :(</h2>
     </div>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." :
+"http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost +
+"google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-124914-7");
+pageTracker._trackPageview();
+</script>
   </body>
 </html>

@@ -12,6 +12,11 @@
 window.addEvent('load', function() {
     drawAdvancedSplit();
 });
+if(document.getElementsByClassName('tabContentActive').length > 0) {
+  document.getElementsByClassName('tabContentActive')[0].addEvent('loadAjax', function() {
+    drawAdvancedSplit();
+  });
+}
 </script>
 <script id="advancedSplitScript" type="text/javascript" charset="utf-8">
 function drawAdvancedSplit() {

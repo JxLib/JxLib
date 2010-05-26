@@ -15,6 +15,14 @@ window.addEvent('load', function() {
     drawMultiToolbar();
     drawAlignedToolbar();
 });
+if(document.getElementsByClassName('tabContentActive').length > 0) {
+  document.getElementsByClassName('tabContentActive')[0].addEvent('loadAjax', function() {
+    hToolbar();
+    vToolbar();
+    drawMultiToolbar();
+    drawAlignedToolbar();
+  });
+}
 </script>
 
 <script id="hToolbarScript" type="text/javascript">

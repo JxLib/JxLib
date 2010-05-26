@@ -13,6 +13,12 @@ window.addEvent('load', function() {
     drawBasicPanel();
     drawToolbarPanel();
 }); 
+if(document.getElementsByClassName('tabContentActive').length > 0) {
+  document.getElementsByClassName('tabContentActive')[0].addEvent('loadAjax', function() {
+    drawBasicPanel();
+    drawToolbarPanel();
+  });
+}
 </script>
 <script id="basicPanelScript" type="text/javascript" charset="utf-8">
 function drawBasicPanel() {

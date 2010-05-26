@@ -19,6 +19,18 @@ window.addEvent('load', function() {
        $('layoutOffsetContainer').resize();
     });
 });
+if(document.getElementsByClassName('tabContentActive').length > 0) {
+  document.getElementsByClassName('tabContentActive')[0].addEvent('loadAjax', function() {
+    var jxl = new Jx.Layout('thePage');
+    jxl.resize();
+    drawBasicLayout();
+    drawOffsetLayout();
+    jxl.addEvent('sizeChange', function() {
+       $('layoutBasicElement').resize();
+       $('layoutOffsetContainer').resize();
+    });
+  });
+}
 </script>
 <script id="basicLayoutScript" type="text/javascript" charset="utf-8">
 function drawBasicLayout() {
