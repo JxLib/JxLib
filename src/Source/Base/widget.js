@@ -263,6 +263,7 @@ Jx.Widget = new Class({
                 onFailure: (function(){
                     this.contentIsLoaded = true;
                     this.fireEvent('contentLoadFailed', this);
+                    this.setBusy(false);
                 }).bind(this),
                 headers: {'If-Modified-Since': 'Sat, 1 Jan 2000 00:00:00 GMT'}
             });
