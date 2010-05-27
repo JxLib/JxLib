@@ -1,7 +1,7 @@
 // $Id$
 /**
  * Class: Jx.List
- * 
+ *
  * Manage a list of DOM elements and provide an API and events for managing
  * those items within a container.  Works with Jx.Selection to manage
  * selection of items in the list.  You have two options for managing
@@ -34,9 +34,9 @@
  * select - fired when an item is selected
  * unselect - fired when an item is selected
  *
- * License: 
+ * License:
  * Copyright (c) 2008, DM Solutions Group Inc.
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.List = new Class({
@@ -52,7 +52,7 @@ Jx.List = new Class({
      * options - {Object} an object containing optional parameters
      * selection - {<Jx.Selection>} null or a Jx.Selection object. If the
      * select option is set to true, then list will use this selection object
-     * to track selections or create its own if no selection object is 
+     * to track selections or create its own if no selection object is
      * supplied.
      */
     parameters: ['container', 'options', 'selection'],
@@ -101,7 +101,7 @@ Jx.List = new Class({
          * down on an item
          */
         pressClass: 'jxPressed',
-        
+
         /**
          * Option: select
          * {Boolean} default false.  If set to true, the wrapper element will
@@ -111,7 +111,7 @@ Jx.List = new Class({
          */
         select: false
     },
-    
+
     /**
      * Method: init
      * internal method to initialize this object
@@ -119,7 +119,7 @@ Jx.List = new Class({
     init: function() {
         this.container = document.id(this.options.container);
         this.container.store('jxList', this);
-        
+
         var target = this;
         var isEnabled = function(el) {
             var item = el.retrieve('jxListTargetItem') || el;
@@ -165,8 +165,8 @@ Jx.List = new Class({
                 }
             },
             click: function (e) {
-                if (target.selection && 
-                    isEnabled(this) && 
+                if (target.selection &&
+                    isEnabled(this) &&
                     isSelectable(this)) {
                     target.selection.select(this, target);
                 }
@@ -188,26 +188,24 @@ Jx.List = new Class({
               if (cm) {
                 cm.show(e);
                 this.removeClass(target.options.pressClass);
-              } 
+              }
               e.stop();
             }
         });
-        
+
         if (this.options.selection) {
-            this.selection = this.options.selection;
+            this.setSelection(this.options.selection);
             this.options.select = true;
         } else if (this.options.select) {
             this.selection = new Jx.Selection(this.options);
             this.ownsSelection = true;
         }
-        
-        this.setSelection(this.selection);
-            
+
         if ($defined(this.options.items)) {
             this.add(this.options.items);
         }
     },
-    
+
     /**
      * Method: cleanup
      * destroy the list and release anything it references
@@ -234,7 +232,7 @@ Jx.List = new Class({
         this.bound.contextmenu=null;
         this.parent();
     },
-    
+
     /**
      * APIMethod: add
      * add an item to the list of items at the specified position
@@ -250,8 +248,8 @@ Jx.List = new Class({
      */
     add: function(item, position) {
         if (Jx.type(item) == 'array') {
-            item.each(function(what){ 
-              this.add(what, position); 
+            item.each(function(what){
+              this.add(what, position);
             }.bind(this) );
             return;
         }
@@ -307,7 +305,7 @@ Jx.List = new Class({
      * remove an item from the list of items
      *
      * Parameters:
-     * item - {mixed} the item to remove or the index of the item to remove. 
+     * item - {mixed} the item to remove or the index of the item to remove.
      * An array of items may also be provided.
      *
      * Returns:
@@ -332,7 +330,7 @@ Jx.List = new Class({
      *
      * Parameters:
      * item - {mixed} the item to replace or the index of the item to replace
-     * withItem - {mixed} the object, DOM element, Jx.Object or an object 
+     * withItem - {mixed} the object, DOM element, Jx.Object or an object
      * implementing getElement to add
      *
      * Returns:
@@ -349,9 +347,9 @@ Jx.List = new Class({
      * find the index of an item in the list
      *
      * Parameters:
-     * item - {mixed} the object, DOM element, Jx.Object or an object 
+     * item - {mixed} the object, DOM element, Jx.Object or an object
      * implementing getElement to find the index of
-     * 
+     *
      * Returns:
      * {integer} the position of the item or -1 if not found
      */
@@ -443,6 +441,8 @@ Jx.List = new Class({
      * {<Jx.Selection>} the selection object, or null to remove it.
      */
     setSelection: function(selection) {
+        if (this.selection == selection) return;
+
         if (this.selection) {
             this.selection.removeEvents(this.bound);
             if (this.ownsSelection) {
@@ -450,7 +450,7 @@ Jx.List = new Class({
                 this.ownsSelection = false;
             }
         }
-        
+
         this.selection = selection;
         if (this.selection) {
             this.selection.addEvents({

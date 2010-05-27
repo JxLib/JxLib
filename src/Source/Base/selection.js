@@ -1,7 +1,7 @@
 // $Id$
 /**
  * Class: Jx.Selection
- * 
+ *
  * Manage selection of objects.
  *
  * Example:
@@ -11,15 +11,15 @@
  *
  * Events:
  * select - fired when an item is added to the selection.  This event may be
- *    changed by passing the eventToFire option when creating the selection 
+ *    changed by passing the eventToFire option when creating the selection
  *    object.
  * unselect - fired when an item is removed from the selection.  This event
  *    may be changed by passing the eventToFire option when creating the
  *    selection object.
  *
- * License: 
+ * License:
  * Copyright (c) 2008, DM Solutions Group Inc.
- * 
+ *
  * This file is licensed under an MIT style license
  */
 
@@ -43,7 +43,7 @@ Jx.Selection = new Class({
          * });
          * (end)
          */
-        eventToFire: { 
+        eventToFire: {
             select: 'select',
             unselect: 'unselect'
         },
@@ -76,29 +76,30 @@ Jx.Selection = new Class({
          */
         minimumSelection: 0
     },
-    
+
     /**
      * Property: selection
      * {Array} an array holding the current selection
      */
     selection: null,
-    
+
     /**
      * Constructor: Jx.Selection
      * create a new instance of Jx.Selection
-     * 
+     *
      * Parameters:
      * options - {Object} options for the new instance
      */
     init: function () {
         this.selection = [];
+        this.parent();
     },
-    
+
     cleanup: function() {
       this.selection = null;
       this.parent();
     },
-    
+
     /**
      * APIMethod: defaultSelect
      * select an item if the selection does not yet contain the minimum
@@ -111,7 +112,7 @@ Jx.Selection = new Class({
             this.select(item);
         }
     },
-    
+
     /**
      * APIMethod: select
      * select an item.
@@ -144,7 +145,7 @@ Jx.Selection = new Class({
             }
         }
     },
-    
+
     /**
      * APIMethod: unselect
      * remove an item from the selection.  The item must already be in the
@@ -154,14 +155,14 @@ Jx.Selection = new Class({
      * item - {DOMElement} a DOM element or an element ID.
      */
     unselect: function (item) {
-        if (this.selection.contains(item) && 
+        if (this.selection.contains(item) &&
             this.selection.length > this.options.minimumSelection) {
             document.id(item).removeClass(this.options.selectClass);
             this.selection.erase(item);
             this.fireEvent(this.options.eventToFire.unselect, [item, this]);
         }
     },
-    
+
     /**
      * APIMethod: selected
      * returns the items in the current selection.
@@ -172,7 +173,7 @@ Jx.Selection = new Class({
     selected: function () {
         return this.selection;
     },
-    
+
     /**
      * APIMethod: isSelected
      * test if an item is in the current selection.
