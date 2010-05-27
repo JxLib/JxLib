@@ -35,8 +35,8 @@
           return false;
         }
 
-        var mainTree = new Jx.Tree({parent: mainSplitter.elements[0]});
 
+        var mainTree = new Jx.Tree({parent: mainSplitter.elements[0]});
         var items = {
             'Jx-Examples': [
                 {'About':'about.html'},
@@ -107,14 +107,12 @@
                 } else {
                     var item = new Jx.TreeItem({
                         label: {set:'Examples',key:'navigation',value:i},
+                        contentURL : v,
                         onClick: function() {
                           this.setBusy(true);
-                          /*
-                          requestMain.options.url = v;
-                          requestMain.options.example = {set:'Examples',key:'navigation',value:i};
-                          requestMain.send();
-                          */
+
                           var tabExists = mainTabs.hasTabByURL(v);
+
                           if(!tabExists) {
                             var newTab = new Jx.Tab({
                                             label       : {set:'Examples',key:'navigation',value:i},
@@ -157,12 +155,34 @@
                           Cookie.write('JxExamples.CurrentExample', v);
                         }
                     });
+                    
+                    item.options.contextMenu = new Jx.Menu.Context(item.domA, {reference:item}).add(
+                      new Jx.Menu.Item({
+                        label : {set:'Examples',key:'navigation',value:'new-window'},
+                        onClick : function(ev) {
+                          //console.log(this, item)
+                          window.open(item.options.contentURL, "_blank");
+                        }
+                      })
+                    );
+
                     tree.add(item);
                 }
             }
         };
         makeTreeItem(items, mainTree);
         console.log(mainTree);
+        /*
+        var mainContextMenu = new Jx.Menu.Context(mainTree);
+        mainContextMenu.add(
+          new Jx.Menu.Item({
+            label : {set:'Examples',key:'navigation',value:'new-window'},
+            onClick : function(a,b,c) {
+              console.log(a,b,c)
+            }
+          })
+        );
+        */
 
         if (Browser.Engine.trident4) {
             new Asset.css('../../lib/themes/crispin/ie6.css', { rel: 'stylesheet' });

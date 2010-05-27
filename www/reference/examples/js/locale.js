@@ -12,6 +12,7 @@ MooTools.lang.set('en-US', 'Examples', {
   },
 
   navigation : {
+    'new-window'                : 'Open example in new Window',
     'Jx-Examples'               : 'Jx Examples',
       'About'                   : 'About',
       'Page-Layout'             : 'Page-Layout',
@@ -190,6 +191,7 @@ MooTools.lang.set('de-DE', 'Examples', {
   },
 
   navigation : {
+    'new-window'                : 'Beispiel in neuem Fenster öffnen',
     'Jx-Examples'               : 'Jx Beispiele',
       'About'                   : 'Über',
       'Page-Layout'             : 'Seiten-Layout',
@@ -367,6 +369,7 @@ MooTools.lang.set('ru-RU-unicode', 'Examples', {
   },
 
   navigation : {
+    'new-window'                : 'Open Example in new Window',
     'Jx-Examples'               : 'Jx Examples',
       'About'                   : 'About',
       'Page-Layout'             : 'Page-Layout',
