@@ -103,7 +103,7 @@ Jx.Toolbar.Container = new Class({
         this.domObj.addClass('jxToolbarAlign' + this.options.align.capitalize());
         
         // scrolling is only available if it is left aligned.
-        this.options.scroll = this.options.align != 'left' &&
+        this.options.scroll = this.options.align == 'left' &&
                               this.options.scroll;
         if (!['center', 'right'].contains(this.options.align) && this.options.scroll) {
             this.processElements(this.options.scrollerTemplate, this.classes);
