@@ -133,7 +133,17 @@ Jx.Button.Flyout = new Class({
         }
         
         this.content.store('jxFlyout', this);
-        this.loadContent(this.content);
+        if(!this.options.loadOnDemand || this.options.active) {
+          this.loadContent(this.content);
+        }
+    },
+    cleanup: function() {
+      this.content.eliminate('jxFlyout');
+      this.content.destroy();
+      this.contentClasses.each(function(v,k){
+        this[k] = null;
+      }, this);
+      this.parent();
     },
     /**
      * APIMethod: clicked
@@ -146,6 +156,9 @@ Jx.Button.Flyout = new Class({
     clicked: function(e) {
         if (!this.options.enabled) {
             return;
+        }
+        if(this.options.loadOnDemand || !this.options.cacheContent) {
+          this.loadContent(this.content);
         }
         /* find out what we are contained by if we don't already know */
         if (!this.owner) {

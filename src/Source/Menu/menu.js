@@ -103,12 +103,13 @@ Jx.Menu = new Class({
             Jx.Menu.Menus = [];
         }
 
-        this.contentContainer.addEvent('onContextmenu', function(e){e.stop();});
-
+        this.bound.stop = function(e){e.stop();};
+        this.bound.remove = function(item) {item.setOwner(null);};
+        this.bound.show = this.show.bind(this);
+        
+        this.contentContainer.addEvent('contextmenu', this.bound.stop);
         this.list = new Jx.List(this.subDomObj, {
-            onRemove: function(item) {
-                item.setOwner(null);
-            }.bind(this)
+            onRemove: this.bound.remove
         });
 
         /* if options are passed, make a button inside an LI so the
@@ -116,7 +117,7 @@ Jx.Menu = new Class({
         if (this.options.buttonOptions) {
             this.button = new Jx.Button($merge(this.options.buttonOptions,{
                 template: this.options.buttonTemplate,
-                onClick:this.show.bind(this)
+                onClick:this.bound.show
             }));
 
             this.button.domA.addEvent('mouseenter', this.onMouseEnter);
@@ -132,6 +133,35 @@ Jx.Menu = new Class({
         if (this.options.parent) {
             this.addTo(this.options.parent);
         }
+    },
+    cleanup: function() {
+      this.list.removeEvent('remove', this.bound.remove);
+      this.list.destroy();
+      this.list = null;
+      if (this.button) {
+        this.domObj.eliminate('jxMenu');
+        this.domObj = null;
+        this.button.removeEvent('click', this.bound.show);
+        this.button.domA.removeEvents({
+          mouseenter: this.onMouseEnter,
+          mouseleave: this.onMouseLeave
+        });
+        
+        this.button.destroy();
+        this.button = null;
+      }
+      this.subDomObj.removeEvents({
+        mouseenter: this.onMouseEnter,
+        mouseleave: this.onMouseLeave
+      });
+      this.subDomObj.removeEvents();
+      this.contentContainer.removeEvent('contextmenu', this.bound.stop);
+      this.subDomObj.destroy();
+      this.contentContainer.destroy();
+      this.bound.onRemove = null;
+      this.bound.show = null;
+      this.bound.stop = null;
+      this.parent();
     },
     /**
      * APIMethod: add
@@ -186,6 +216,7 @@ Jx.Menu = new Class({
         if (item.empty) {
           item.empty();
         }
+        item.setOwner(null);
       }, this);
       this.list.empty();
     },
@@ -343,6 +374,10 @@ Jx.Menu = new Class({
          * but just in the menu/sub menu case - there is some horrible 
          * peekaboo bug in IE related to ULs that we just couldn't figure out
          */
+         this.contentContainer.setStyles({
+           width: null,
+           height: null
+         });
         this.contentContainer.setContentBoxSize(this.subDomObj.getMarginBoxSize());
         this.showChrome(this.contentContainer);
 
@@ -479,12 +514,6 @@ Jx.Menu = new Class({
      */
     blur: function() {
         this.button.blur();
-    },
-
-    changeText: function(lang) {
-      this.parent();
-      //this.render();
     }
-
 });
 

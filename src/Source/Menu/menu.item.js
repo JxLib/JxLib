@@ -70,6 +70,10 @@ Jx.Menu.Item = new Class({
         domImg: 'jxMenuItemIcon',
         domLabel: 'jxMenuItemLabel'
     }),
+    init: function() {
+      this.bound.mouseover = this.onMouseOver.bind(this);
+      this.parent();
+    },
     /**
      * APIMethod: render
      * Create a new instance of Jx.Menu.Item
@@ -82,8 +86,15 @@ Jx.Menu.Item = new Class({
         if (this.options.image && this.options.image != Jx.aPixel.src) {
             this.domObj.removeClass(this.options.toggleClass);
         }
-        this.domObj.addEvent('mouseover', this.onMouseOver.bind(this));
+        this.domObj.addEvent('mouseover', this.bound.mouseover);
         this.domObj.store('jxMenuItem', this);
+    },
+    cleanup: function() {
+      this.domObj.eliminate('jxMenuItem');
+      this.domObj.removeEvent('mouseover', this.bound.mouseover);
+      this.bound.mouseover = null;
+      this.owner = null;
+      this.parent();
     },
     /**
      * Method: setOwner
@@ -132,6 +143,19 @@ Jx.Menu.Item = new Class({
     onMouseOver: function() {
         if (this.owner && this.owner.setVisibleItem) {
             this.owner.setVisibleItem(this);
+        }
+    },
+    
+    /**
+     * APIMethod: changeText
+     *
+     * updates the label of the menu item on langChange Event for
+     * Internationalization
+     */
+    changeText: function(lang) {
+        this.parent();
+        if (this.owner && this.owner.deactivate) {
+            this.owner.deactivate();
         }
     }
 });

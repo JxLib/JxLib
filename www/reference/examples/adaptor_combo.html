@@ -13,6 +13,12 @@ window.addEvent('load', function() {
     setupComboAdaptor();
     setupComboAdaptor2();
 });
+if(document.getElementsByClassName('tabContentActive').length > 0) {
+  document.getElementsByClassName('tabContentActive')[0].addEvent('loadAjax', function() {
+    setupComboAdaptor();
+    setupComboAdaptor2();
+  });
+}
 </script>
 
 <script id="setupComboAdaptorScript" type="text/javascript">

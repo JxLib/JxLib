@@ -83,6 +83,12 @@ Jx.Menu.SubMenu = new Class({
         });
         this.menu.domObj = this.domObj;
     },
+    cleanup: function() {
+      this.menu.domObj = null;
+      this.menu.destroy();
+      this.menu = null;
+      this.parent();
+    },
     /**
      * Method: setOwner
      * Set the owner of this sub menu

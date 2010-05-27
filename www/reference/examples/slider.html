@@ -12,6 +12,11 @@
 window.addEvent('load', function() {
     drawBasicSlider();
 }); 
+if(document.getElementsByClassName('tabContentActive').length > 0) {
+  document.getElementsByClassName('tabContentActive')[0].addEvent('loadAjax', function() {
+    drawBasicSlider();
+  });
+}
 </script>
 <script id="basicSliderScript" type="text/javascript" charset="utf-8">
 function drawBasicSlider() {

@@ -41,10 +41,8 @@ Jx.Store.Strategy.Full = new Class({
      */
     init: function () {
         this.parent();
-        this.bound = {
-            load: this.load.bind(this),
-            loadStore: this.loadStore.bind(this)
-        }
+        this.bound.load = this.load.bind(this);
+        this.bound.loadStore = this.loadStore.bind(this);
     },
     
     /**

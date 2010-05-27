@@ -16,6 +16,13 @@ window.addEvent('load', function() {
     drawTabDialog();
     drawSplitDialog();
 });
+if(document.getElementsByClassName('tabContentActive').length > 0) {
+  document.getElementsByClassName('tabContentActive')[0].addEvent('loadAjax', function() {
+    drawPanelSetDialog();
+    drawTabDialog();
+    drawSplitDialog();
+  });
+}
 
 /* normally we wouldn't switch the stylesheet on the fly - the stylesheet switcher emits
  * an event that the stylesheet has changed and we tear down any existing chrome so that

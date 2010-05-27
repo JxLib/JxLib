@@ -77,13 +77,13 @@ Jx.Store.Strategy.Paginate = new Class({
      * Property: data
      * holds the pages of data keyed by page number.
      */
-    data: new Hash(),
+    data: null,
     /**
      * property: cacheTimer
      * holds one or more cache timer ids - one per page. Each page is set to 
      * expire after a certain amount of time.
      */
-    cacheTimer: new Hash(),
+    cacheTimer: null,
     /**
      * Property: page
      * Tracks the page the store currently holds.
@@ -101,11 +101,11 @@ Jx.Store.Strategy.Paginate = new Class({
      */
     init: function () {
         this.parent();
+        this.data = new Hash();
+        this.cacheTimer = new Hash();
         //set up bindings that we need here
-        this.bound = {
-            load: this.load.bind(this),
-            loadStore: this.loadStore.bind(this)
-        };
+        this.bound.load = this.load.bind(this);
+        this.bound.loadStore = this.loadStore.bind(this);
         this.itemsPerPage = this.options.startingItemsPerPage;
         this.page = this.options.startingPage;
     },

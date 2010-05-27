@@ -62,6 +62,11 @@ Jx.Menu.Separator = new Class({
         this.parent();
         this.domObj.store('jxMenuItem', this);
     },
+    cleanup: function() {
+      this.domObj.eliminate('jxMenuItem');
+      this.owner = null;
+      this.parent();
+    },
     /**
      * Method: setOwner
      * Set the ownder of this menu item

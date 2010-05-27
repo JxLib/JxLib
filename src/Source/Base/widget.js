@@ -290,6 +290,7 @@ Jx.Widget = new Class({
                 onFailure: (function(){
                     this.contentIsLoaded = true;
                     this.fireEvent('contentLoadFailed', this);
+                    this.setBusy(false);
                 }).bind(this),
                 headers: {'If-Modified-Since': 'Sat, 1 Jan 2000 00:00:00 GMT'}
             });
@@ -778,6 +779,13 @@ Jx.Widget = new Class({
         if ($defined(this.domA)) {
             this.domA.destroy();
         }
+        if ($defined(this.classes)) {
+          this.classes.each(function(v, k) {
+            this[k] = null;
+          }, this);
+        }
+        this.elements.empty();
+        this.elements = null;
         this.parent();
     },
 

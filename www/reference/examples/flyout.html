@@ -15,6 +15,14 @@ window.addEvent('load', function() {
     embeddedFlyout();
     disabledFlyout();
 });
+if(document.getElementsByClassName('tabContentActive').length > 0) {
+  document.getElementsByClassName('tabContentActive')[0].addEvent('loadAjax', function() {
+    inlineFlyout();
+    ajaxFlyout();
+    embeddedFlyout();
+    disabledFlyout();
+  });
+}
 </script>
 
 <script id="inlineFlyoutScript" type="text/javascript">
@@ -37,6 +45,7 @@ function ajaxFlyout() {
       label: 'Asynchronous Content',
       image: 'images/page_white_world.png',
       contentURL: 'button_content.html',
+      //loadOnDemand: true,
       onOpen: function() {log('flyout open event');},
       onClose: function() {log('flyout close event');}
     }).addTo('flyoutAjax');

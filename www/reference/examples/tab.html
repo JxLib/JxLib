@@ -14,6 +14,13 @@ window.addEvent('load', function() {
     drawEventTabs();
     drawTabsOnLeft();
 });
+if(document.getElementsByClassName('tabContentActive').length > 0) {
+  document.getElementsByClassName('tabContentActive')[0].addEvent('loadAjax', function() {
+    drawTabBox();
+    drawEventTabs();
+    drawTabsOnLeft();
+  });
+}
 </script>
 
 <script id="tabBoxScript" type="text/javascript" charset="utf-8">

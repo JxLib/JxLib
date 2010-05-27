@@ -15,6 +15,14 @@ window.addEvent('load', function() {
     drawCustomScrollbars3();
     drawCustomScrollbars4();
 }); 
+if(document.getElementsByClassName('tabContentActive').length > 0) {
+  document.getElementsByClassName('tabContentActive')[0].addEvent('loadAjax', function() {
+    drawCustomScrollbars1();
+    drawCustomScrollbars2();
+    drawCustomScrollbars3();
+    drawCustomScrollbars4();
+  });
+}
 </script>
 <script id="customScrollbars-vert-scrollersScript" type="text/javascript" charset="utf-8">
 function drawCustomScrollbars1() {

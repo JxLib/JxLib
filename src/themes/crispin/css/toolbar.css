@@ -166,6 +166,11 @@ li.jxToolItem {
   border: none;
 }
 
+/* inputs in toolbars wrap in IE */
+li.jxToolItem .jxInputWrapper {
+  white-space: nowrap;
+}
+
 /* Seperator height should match that of button images
    and the margins+padding+border should add up to the same total too. */
 

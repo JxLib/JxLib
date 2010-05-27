@@ -12,6 +12,11 @@
 window.addEvent('load', function() {
     drawTabBox();
 });
+if(document.getElementsByClassName('tabContentActive').length > 0) {
+  document.getElementsByClassName('tabContentActive')[0].addEvent('loadAjax', function() {
+    drawTabBox();
+  });
+}
 </script>
 
 <script id="tabBoxScript" type="text/javascript" charset="utf-8">
@@ -58,7 +63,7 @@ function drawTabBox() {
                 ]
             })
         })
-    ).addTo('tabArea');
+    ).addTo('tabAreaAdvanced');
 };
 </script>
 <style>
@@ -76,7 +81,7 @@ function drawTabBox() {
 <h1>Jx.Tab Advanced Examples</h1>
 <h2 id="tabBox">Tab Box with other JxLib objects inside</h2>
 <p>Tabs can contain other JxLib objects like other tab boxes, panels and even splitters.</p>
-<div id="tabArea" class="tabBox"></div>
+<div id="tabAreaAdvanced" class="tabBox"></div>
 
 <div id="content1">
     <h3>Panel Content 1</h3>

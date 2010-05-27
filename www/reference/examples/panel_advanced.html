@@ -15,6 +15,13 @@ window.addEvent('load', function() {
     drawTabPanel();
     drawSplitPanel();
 });
+if(document.getElementsByClassName('tabContentActive').length > 0) {
+  document.getElementsByClassName('tabContentActive')[0].addEvent('loadAjax', function() {
+    drawPanelSet();
+    drawTabPanel();
+    drawSplitPanel();
+  });
+}
 </script>
 
 <script id="drawPanelSetScript" type='text/javascript'>

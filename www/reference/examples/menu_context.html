@@ -12,6 +12,11 @@
 window.addEvent('load', function() {
     menuContext();
 });
+if(document.getElementsByClassName('tabContentActive').length > 0) {
+  document.getElementsByClassName('tabContentActive')[0].addEvent('loadAjax', function() {
+    menuContext();
+  });
+}
 </script>
 
 <script id="menuContextScript" type="text/javascript">

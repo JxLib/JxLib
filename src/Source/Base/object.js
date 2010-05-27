@@ -201,8 +201,7 @@ provides: [Jx.Object]
 Jx.Object = new Class({
     Family: "Jx.Object",
     Implements: [Options, Events],
-    Binds: ['changeText'],
-    plugins: new Hash(),
+    plugins: null,
     pluginNamespace: 'Other',
     /**
      * Constructor: Jx.Object
@@ -228,8 +227,12 @@ Jx.Object = new Class({
        */
       plugins: null
     },
+    
+    bound: null,
 
     initialize: function(){
+        this.plugins = new Hash();
+        this.bound = {};
         //normalize arguments
         var numArgs = arguments.length;
         var options = {};
@@ -258,15 +261,14 @@ Jx.Object = new Class({
                 }
             }
         }
-
+        
         this.setOptions(options);
+
+        this.bound.changeText = this.changeText.bind(this);
         if (this.options.useLang) {
-            //MooTools.lang.addEvent('langChange', this.changeText)
-            var self = this;
-            MooTools.lang.addEvent('langChange', function(ev) {
-              self.changeText();
-            });
+            MooTools.lang.addEvent('langChange', this.bound.changeText);
         }
+
         this.fireEvent('preInit');
         this.init();
         this.fireEvent('postInit');
@@ -345,6 +347,9 @@ Jx.Object = new Class({
                 plugin.destroy();
             }, this);
         }
+        this.plugins.empty();
+        MooTools.lang.removeEvent('langChange', this.bound.changeText);
+        this.bound = null;
     },
 
     /**

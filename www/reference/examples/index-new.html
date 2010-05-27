@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>JX Example</title>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+
+    <script type="text/javascript" src="../../lib/mootools-core.js"></script>
+    <script type="text/javascript" src="../../lib/mootools-more.js"></script>
+    <script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
+
+    <script src="js/locale.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+      window.addEvent('load', function() {
+        var mainSplitter = new Jx.Splitter('splitMain', {
+          containerOptions: [{resizeWithWindow: true,width: 200},{resizeWithWindow: true}]
+        });
+
+        var mainTabs = new Jx.TabBox({
+          parent: mainSplitter.elements[1]
+        }).add(new Jx.Tab({
+          label       : {set:'Examples',key:'navigation',value:'About'},
+          contentURL  : 'about.html'
+        }));
+
+        // custom function to find out if a tab is already loaded
+        mainTabs.hasTabByURL = function(url) {
+          var t = this.tabSet.tabs,
+              i = t.length;
+          while(i--) {
+            if(t[i].options.contentURL == url) {
+              return t[i];
+            }
+          }
+          return false;
+        }
+
+        var mainTree = new Jx.Tree({parent: mainSplitter.elements[0]});
+
+        var items = {
+            'Jx-Examples': [
+                {'About':'about.html'},
+                {'Page-Layout' : [
+                    {'Layout' :'layout.html'},
+                    {'Splitter' : 'splitter.html'},
+                    {'Splitter-Integrated' : 'splitter_advanced.html'}
+                ]},
+                {'Panels-and-Dialogs' : [
+                    {'Panel' :'panel.html'},
+                    {'Panel-Set' : 'panelset.html'},
+                    {'Panels-Integrated' : 'panel_advanced.html'},
+                    {'Dialog' : 'dialog.html'},
+                    {'Dialogs-Integrated' : 'dialog_advanced.html'},
+                    {'Message-Dialogs-TBC' : 'dialog_messages.html'},
+                    {'File-Upload-Panel' : 'file_upload.html' }
+                ]},
+                {'Lists' : [
+                    {'Grid' : 'grid.html'},
+                    {'Paginated-Grid' : 'paging-grid.html'},
+                    {'Grid-Inline-Editor' : 'grid_editor.html'},
+                    {'Tree' : 'tree.html'},
+                    {'List-View' : 'list.html'}
+                ]},
+                {'Bars-and-Buttons' : [
+                    {'Toolbar' :'toolbar.html'},
+                    {'Buttons' : [
+                        {'Basic' : 'button.html'},
+                        {'Flyouts' : 'flyout.html'},
+                        {'Flyouts-Integrated' : 'flyout_advanced.html'},
+                        {'Multi' : 'multi.html'},
+                        {'Color' : 'color.html'}
+                    ]},
+                    {'Tabs':[
+                        {'Tabs' : 'tab.html'},
+                        {'Tab-Set' : 'tab_set.html'},
+                        {'Tabs-Integrated' : 'tab_box_advanced.html'}
+                    ]},
+                    {'Menus': [
+                        {'Menu-button' : 'menu.html'},
+                        {'Menu-bar' : 'menu_bar.html'},
+                        {'Context-Menu' : 'menu_context.html'}
+                    ]}
+                ]},
+                {'Extras' : [
+                    {'Forms' : 'forms.html'},
+                    {'Notification' : 'notification.html'},
+                    {'Custom-Scrollbars' : 'custom_scrollbars.html'},
+                    {'Progress-Bar' : 'progressbar.html'},
+                    {'Slider' : 'slider.html'}
+                ]},
+                {'Adaptors' : [
+                    {'Jx.Tree': 'tree_adaptors.html'},
+                    {'Jx.Field.Combo': 'adaptor_combo.html' }
+                ]}
+            ]
+        };
+
+        var makeTreeItem = function(o, tree) {
+            for (var i in o) {
+                var v = o[i];
+                if (v instanceof Array) {
+                    var folder = new Jx.TreeFolder({label: {set:'Examples',key:'navigation',value:i}, open: true});
+                    for (var j=0; j<v.length; j++) {
+                        makeTreeItem(v[j], folder);
+                    }
+                    tree.add(folder);
+                } else {
+                    var item = new Jx.TreeItem({
+                        label: {set:'Examples',key:'navigation',value:i},
+                        onClick: function() {
+                          this.setBusy(true);
+                          /*
+                          requestMain.options.url = v;
+                          requestMain.options.example = {set:'Examples',key:'navigation',value:i};
+                          requestMain.send();
+                          */
+                          var tabExists = mainTabs.hasTabByURL(v);
+                          if(!tabExists) {
+                            var newTab = new Jx.Tab({
+                                            label       : {set:'Examples',key:'navigation',value:i},
+                                            contentURL  : v,
+                                            close       : true,
+                                            active      : true,
+                                            cacheContent: true
+                                          });
+                            // event on content loaded to load the scripts
+                            newTab.addEvents({
+                              'contentLoaded': function() {
+                                newTab.content.fireEvent('loadAjax');
+                                item.setBusy(false);
+                                // <script> tags are ignored and cannot be addressed with the current way
+                                //beautifyDemoScripts('.tabContentActive h2')
+                                //makeLinksForApi('.tabContentActive a');
+                              },
+                              // anything we can do when the content load fails? shouldn't happen on the examples page ;)
+                              'contentLoadFailed': function() {
+                                //item.setBusy(false);
+                              },
+                              // if a script error occurs, the waiting icon won't stop, here we stop it when the tab is closed
+                              'close': function() {
+                                item.setBusy(false)
+                              }
+                            });
+                            mainTabs.tabSet.addEvents({
+                              'tabChange':function(tabSet, tab) {
+                                // select the element on the tree to the left when the tab is activated? :)
+                                window.console ? console.log(mainTree.findChild([tab.options.label])) : false;
+                              }
+                            });
+                            mainTabs.add(newTab);
+                            log(i + " loaded");
+                          }else{
+                            //mainTabs.tabSet.setActiveTab(tabExists);
+                            tabExists.clicked();
+                            item.setBusy(false);
+                          }
+                          Cookie.write('JxExamples.CurrentExample', v);
+                        }
+                    });
+                    tree.add(item);
+                }
+            }
+        };
+        makeTreeItem(items, mainTree);
+        console.log(mainTree);
+
+        if (Browser.Engine.trident4) {
+            new Asset.css('../../lib/themes/crispin/ie6.css', { rel: 'stylesheet' });
+        }
+        if (Browser.Engine.trident5) {
+            new Asset.css('../../lib/themes/crispin/ie7.css', { rel: 'stylesheet' });
+        }
+      });
+    </script>
+    <style type="text/css">
+      .splitterBox { height: 600px !important; }
+      .jxSplitArea { overflow: auto; }
+    </style>
+  </head>
+  <body>
+    <h1>JxLib Examples</h1>
+    <br />
+    <div id="splitMain" class="splitterBox"></div>
+    <div id="failure" style="display:none">
+      <br />
+      <h2>Failure :(</h2>
+    </div>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." :
+"http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost +
+"google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-124914-7");
+pageTracker._trackPageview();
+</script>
+  </body>
+</html>

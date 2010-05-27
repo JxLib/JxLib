@@ -44,7 +44,10 @@ Jx.Plugin.DataView.GroupFolder = new Class({
      * Property: headerState
      * Hash that holds the open/closed state of each header
      */
-    headerState: new Hash(),
+    headerState: null,
+    init: function() {
+      this.headerState = new Hash();
+    },
     /**
      * APIMethod: attach
      * Attaches this plugin to a dataview

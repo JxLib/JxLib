@@ -12,6 +12,11 @@
 window.addEvent('load', function() {
     drawTabSet();
 });
+if(document.getElementsByClassName('tabContentActive').length > 0) {
+  document.getElementsByClassName('tabContentActive')[0].addEvent('loadAjax', function() {
+    drawTabSet();
+  });
+}
 </script>
 
 <script id="tabSetScript" type="text/javascript">
@@ -26,8 +31,8 @@ function drawTabSet() {
      * also manually remove it from both when the tab
      * is 'closed'.
      */
-    var tb = new Jx.Toolbar({parent: 'toolbar'});
-    var tabSet = new Jx.TabSet('tabContentArea');
+    var tb = new Jx.Toolbar({parent: 'toolbarTabSet'});
+    var tabSet = new Jx.TabSet('tabContentAreaSet');
     
     var panel = new Jx.Panel({
         label: 'Panel in a Tab',
@@ -37,7 +42,7 @@ function drawTabSet() {
     
     var t1 = new Jx.Tab({
         image: 'images/star.png',
-        content: 'starContent',
+        content: 'starContentSet',
         onClose: function() {
             tb.remove(this);
             tabSet.remove(this);
@@ -54,7 +59,7 @@ function drawTabSet() {
     var t3 = new Jx.Tab({
         label: {set:'Examples',key:'tabset',value:'inline'},
         image: 'images/page_white_code.png',
-        content: 'labelContent',
+        content: 'labelContentSet',
         onClose: function() {
             tb.remove(this);
             tabSet.remove(this);
@@ -96,7 +101,7 @@ function drawTabSet() {
             tb.add(t);
             tabSet.add(t);
         }
-    }).addTo('addTabArea');
+    }).addTo('addTabAreaSet');
 };
 </script>
 
@@ -107,14 +112,14 @@ function drawTabSet() {
     <p>API Reference: <a id="button-tab-js" href="javascript:void(0)" title="link to API Reference">Jx.Tab</a> Extends <a id="button-js" href="javascript:void(0)" title="link to API Reference">Jx.Button</a> See Also: <a id="tabset-js" href="javascript:void(0)" title="link to API Reference">jx.TabSet</a></p>
     <h2 id="tabSet">Tab Sets</h2>
     <p>A tab set manages tabs and their content areas so only one tab is active at a time and that only one content area is visible at a time.  A tab set puts the content areas of each tab into a single container.  Unlike a tab box, a tab set does not display the tabs themselves, so you have to explicitly add them to a toolbar or other container on the page.  This allows more flexibility for some advanced layout options.</p>
-    <div id="addTabArea" class="buttonBox"></div>
-    <div id="toolbar" class="toolbarBox"></div>
+    <div id="addTabAreaSet" class="buttonBox"></div>
+    <div id="toolbarTabSet" class="toolbarBox"></div>
     <p>The tab content area is disassociated from the toolbar containing the tabs.</p>
-    <div id="tabContentArea" class="tabBox"></div>
+    <div id="tabContentAreaSet" class="tabBox"></div>
 </div>
 
-<div id="starContent"><p>This tab just has an image.</p></div>
-<div id="labelContent"><p>This tab just has a label.</p></div>
+<div id="starContentSet"><p>This tab just has an image.</p></div>
+<div id="labelContentSet"><p>This tab just has a label.</p></div>
 
 </body>
 </html>

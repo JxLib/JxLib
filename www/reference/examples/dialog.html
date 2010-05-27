@@ -18,6 +18,16 @@
         drawConfirmDialog();
         drawPromptDialog();
     });
+    if(document.getElementsByClassName('tabContentActive').length > 0) {
+      document.getElementsByClassName('tabContentActive')[0].addEvent('loadAjax', function() {
+        drawBasicDialog();
+        drawPositionedDialog();
+        drawToolbarDialog();
+        drawAjaxFailedDialog();
+        drawConfirmDialog();
+        drawPromptDialog();
+      });
+    }
     
     /* normally we wouldn't switch the stylesheet on the fly - 
      * the stylesheet switcher emits an event that the 
@@ -137,6 +147,7 @@ function drawToolbarDialog() {
         width: 400,
         height: 400,
         contentURL: 'dialog_content.html',
+        loadOnDemand: true,
         onContentLoaded: function () {
             var el = this.content.getElementById('updateMe')
             if (el) {

@@ -112,12 +112,14 @@ Jx.Button.Color = new Class({
         this.parent();
         this.updateSwatch();
 
-        this.bound = {
-            changed: this.changed.bind(this),
-            hide: this.hide.bind(this)
-        };
+        this.bound.changed = this.changed.bind(this);
+        this.bound.hide = this.hide.bind(this);
     },
-
+    cleanup: function() {
+      this.bound.changed = false;
+      this.bound.hide = false;
+      this.parent();
+    },
     /**
      * APIMethod: clicked
      * override <Jx.Button.Flyout> to use a singleton color palette.

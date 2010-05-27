@@ -156,8 +156,14 @@ Jx.Tab = new Class({
         this.domObj.store('jxTab', this);
         this.processElements(this.options.contentTemplate, this.classes);
         new Jx.Layout(this.content, this.options);
-        if(!this.options.loadOnDemand) {
+        
+        // load content onDemand if needed
+        if(!this.options.loadOnDemand || this.options.active) {
           this.loadContent(this.content);
+          // set active if needed
+          if(this.options.active) {
+            this.clicked();
+          }
         }
         this.addEvent('down', function(){
             this.content.addClass(this.options.activeTabClass);
@@ -195,20 +201,10 @@ Jx.Tab = new Class({
      */
     clicked : function(evt) {
       if(this.options.enabled) {
-        /*
-        if((!this.contentIsLoaded && this.options.loadOnDemand) ||
-             this.contentIsLoaded && !this.options.cacheContent ) {
-          this.loadContent(this.content);
-          this.addEvent('contentLoaded', function(ev) {
-            this.setBusy(false);
-            this.setActive(true);
-          }.bind(this));
-        }else{
-          this.setActive(true);
-        }
-        */
+        // just set active when caching is enabled
         if(this.contentIsLoaded && this.options.cacheContent) {
           this.setActive(true);
+        // load on demand or reload content if caching is disabled
         }else if(this.options.loadOnDemand || !this.options.cacheContent){
           this.loadContent(this.content);
           this.addEvent('contentLoaded', function(ev) {

@@ -12,6 +12,11 @@
 window.addEvent('load', function() {
     drawBasicProgressbar();
 }); 
+if(document.getElementsByClassName('tabContentActive').length > 0) {
+  document.getElementsByClassName('tabContentActive')[0].addEvent('loadAjax', function() {
+    drawBasicProgressbar();
+  });
+}
 </script>
 <script id="basicProgressbarScript" type="text/javascript" charset="utf-8">
 function drawBasicProgressbar() {

@@ -15,6 +15,14 @@ window.addEvent('load', function() {
     drawSnapSplit();
     window.fireEvent('resize');
 });
+if(document.getElementsByClassName('tabContentActive').length > 0) {
+  document.getElementsByClassName('tabContentActive')[0].addEvent('loadAjax', function() {
+    drawBasicSplit();
+    drawVerticalSplit();
+    drawSnapSplit();
+    window.fireEvent('resize');
+  });
+}
 </script>
 <script id="basicSplitScript" type="text/javascript" charset="utf-8">
 function drawBasicSplit() {

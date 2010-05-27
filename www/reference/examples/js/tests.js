@@ -39,6 +39,41 @@ new Asset.css('css/tests.css', {rel:'stylesheet'});
 // global var for our event log
 var logDialog;
 
+// build 'show source' buttons from each descriptive paragraph that
+// has a similarly named script tag
+var beautifyDemoScripts = function(elements) {
+  elements = elements || 'h2';
+  $$(elements).each(function(p){
+      if (p.id) {
+          var s = $(p.id+'Script');
+          if (!s) return;
+          var d = new Element('div', {'class':'sourceButton'});
+          new Jx.Toolbar({scroll:false}).add(
+              new Jx.Button.Flyout({
+                  tooltip: {set:'Examples',key:'mainToolbar',value:'showSource'},
+                  image: 'images/script.png',
+                  onOpen: function() {prettyPrint();},
+                  content: '<pre class="prettyprint lang-js">'+s.innerHTML+'</pre>',
+                  contentClass: 'exampleScript'
+              })
+          ).addTo(d);
+          d.inject(p);
+      }
+
+  });
+}
+
+var makeLinksForApi = function(elements) {
+  elements = elements || 'a';
+  $$(elements).each(function(a) {
+     if (a.id) {
+         a.addEvent('click', function() {
+            top.main.location.href='../api/#'+a.id;
+         });
+     }
+  });
+}
+
 // when the page is ready, create a toolbar for holding our
 // buttons that are available in all tests
 window.addEvent('load', function() {
@@ -67,7 +102,25 @@ window.addEvent('load', function() {
         inject($$('h1')[0], 'bottom');
         
     var defaultGrid = Cookie.read('jxtests.pagebackground') || 'off';
-    
+    var defaultLang = Cookie.read('jxtests.language') || 'en-US';
+
+    var jxLanguages = [
+      {label: {set:'Examples',key:'mainToolbar',value:'langEn'}, langId:'en-US', image: 'http://upload.wikimedia.org/wikipedia/commons/7/7d/Icons-flag-us.png', active: false},
+      {label: {set:'Examples',key:'mainToolbar',value:'langDe'}, langId:'de-DE', image: 'http://upload.wikimedia.org/wikipedia/commons/b/b5/Icons-flag-de.png', active: false},
+      {label: {set:'Examples',key:'mainToolbar',value:'langRu'}, langId:'ru-RU', image: 'http://upload.wikimedia.org/wikipedia/commons/9/9d/Icons-flag-ru.png', active: false}
+    ];
+
+    jxLanguages.some(function(lang){
+        if (defaultLang == lang.langId) {
+            lang.active = true;
+            return true;
+        }
+    });
+
+    window.addEvent('langChange', function(ev) {
+      console.log(ev);
+    });
+
     new Jx.Toolbar({parent:'pageBar', scroll: false}).add(
         // show and hide the background grid
         new Jx.Button({
@@ -92,32 +145,38 @@ window.addEvent('load', function() {
                 logDialog.show();
             }
         }),
+
         // allow the user to change the currently active language
         new Jx.Field.Combo({
           readonly: true,
           label: {set:'Examples',key:'mainToolbar',value:'labelLang'},
-          items: [
-            {label: {set:'Examples',key:'mainToolbar',value:'langEn'}, image: 'http://upload.wikimedia.org/wikipedia/commons/7/7d/Icons-flag-us.png'},
-            {label: {set:'Examples',key:'mainToolbar',value:'langDe'}, image: 'http://upload.wikimedia.org/wikipedia/commons/b/b5/Icons-flag-de.png'},
-            {label: {set:'Examples',key:'mainToolbar',value:'langRu'}, image: 'http://upload.wikimedia.org/wikipedia/commons/9/9d/Icons-flag-ru.png'}
-          ],
+          items: jxLanguages,
+          // custom option to prevent double language switching at startup
+          changeLang : false,
           onChange : function() {
-            // not very nice but it works :)
-            var lang = this.getValue().split(" ")[1].split("(")[1].split(")")[0];
-            lang += (lang == 'ru-RU') ? '-unicode' : '';
-			
-            Jx.setLanguage(lang);
-            switch(lang) {
-              case 'en-US':
-                this.setLabel({set:'Examples',key:'mainToolbar',value:'langEn'});
-                break;
-              case 'de-DE':
-                this.setLabel({set:'Examples',key:'mainToolbar',value:'langDe'});
-                break;
-              case 'ru-RU':
-              case 'ru-RU-unicode':
-                this.setLabel({set:'Examples',key:'mainToolbar',value:'langRu'});
-                break;
+            if(this.options.changeLang) {
+              // not very nice but it works :)
+              var lang = this.getValue().split(" ")[1].split("(")[1].split(")")[0];
+              lang += (lang == 'ru-RU') ? '-unicode' : '';
+              Cookie.write('jxtests.language', lang);
+              Jx.setLanguage(lang);
+              switch(lang) {
+                case 'en-US':
+                  this.setLabel({set:'Examples',key:'mainToolbar',value:'langEn'});
+                  break;
+                case 'de-DE':
+                  this.setLabel({set:'Examples',key:'mainToolbar',value:'langDe'});
+                  break;
+                case 'ru-RU':
+                case 'ru-RU-unicode':
+                  this.setLabel({set:'Examples',key:'mainToolbar',value:'langRu'});
+                  break;
+              }
+              if(window.top && window.top.frames && window.top.frames.list) {
+                window.top.frames.list.Jx.setLanguage(lang);
+              }
+            }else{
+              this.options.changeLang = true;
             }
           }
         }),
@@ -140,35 +199,9 @@ window.addEvent('load', function() {
             }
         })
     );
-    
-    // build 'show source' buttons from each descriptive paragraph that
-    // has a similarly named script tag
-    $$('h2').each(function(p){
-        if (p.id) {
-            var s = $(p.id+'Script');
-            if (!s) return;
-            var d = new Element('div', {'class':'sourceButton'});
-            new Jx.Toolbar({scroll:false}).add(
-                new Jx.Button.Flyout({
-                    tooltip: {set:'Examples',key:'mainToolbar',value:'showSource'},
-                    image: 'images/script.png',
-                    onOpen: function() {prettyPrint();},
-                    content: '<pre class="prettyprint lang-js">'+s.innerHTML+'</pre>',
-                    contentClass: 'exampleScript'
-                })
-            ).addTo(d);
-            d.inject(p);
-        }
-        
-    });
-    
-    $$('a').each(function(a) {
-       if (a.id) {
-           a.addEvent('click', function() {
-              top.main.location.href='../api/#'+a.id; 
-           });
-       } 
-    });
+
+    beautifyDemoScripts();
+    makeLinksForApi();
     
     new Asset.javascript('http://www.google-analytics.com/ga.js', {
         onload: function(){ 

@@ -14,6 +14,13 @@ window.addEvent('load', function() {
   accessibleListView();
   complexListView();
 });
+if(document.getElementsByClassName('tabContentActive').length > 0) {
+  document.getElementsByClassName('tabContentActive')[0].addEvent('loadAjax', function() {
+    basicListView();
+    accessibleListView();
+    complexListView();
+  });
+}
 </script>
 
 <script id="basicListViewScript" type="text/javascript">

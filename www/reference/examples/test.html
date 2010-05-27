@@ -11,8 +11,12 @@
 <script type="text/javascript">
 window.addEvent('load', function() {
     testFn();
-
 });
+if(document.getElementsByClassName('tabContentActive').length > 0) {
+  document.getElementsByClassName('tabContentActive')[0].addEvent('loadAjax', function() {
+    testFn();
+  });
+}
 </script>
 
 <script id="hToolbarScript" type="text/javascript">

@@ -267,7 +267,6 @@ Jx.Button = new Class({
             this.options.active = false;
             this.setActive(true);
         }
-
     },
     /**
      * APIMethod: clicked
