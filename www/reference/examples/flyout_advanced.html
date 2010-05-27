@@ -14,8 +14,8 @@ window.addEvent('load', function() {
     tabFlyout();
     dialogFlyout();
 });
-if(document.getElementsByClassName('tabContentActive').length > 0) {
-  document.getElementsByClassName('tabContentActive')[0].addEvent('loadAjax', function() {
+if($(document).getElements('.tabContentActiveExamples').length > 0) {
+  $(document).getElements('.tabContentActiveExamples')[0].addEvent('loadAjax', function() {
     panelFlyout();
     tabFlyout();
     dialogFlyout();

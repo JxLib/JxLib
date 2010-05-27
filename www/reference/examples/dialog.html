@@ -18,8 +18,9 @@
         drawConfirmDialog();
         drawPromptDialog();
     });
-    if(document.getElementsByClassName('tabContentActive').length > 0) {
-      document.getElementsByClassName('tabContentActive')[0].addEvent('loadAjax', function() {
+   window.console ? console.log("dialog",$(document).getElements('.tabContentActiveExamples')) : false;
+   if($(document).getElements('.tabContentActiveExamples').length > 0) {
+      $(document).getElements('.tabContentActiveExamples')[0].addEvent('loadAjax', function() {
         drawBasicDialog();
         drawPositionedDialog();
         drawToolbarDialog();
@@ -37,7 +38,7 @@
      * dialog but it is functional if you resize the dialog
      */
     window.addEvent('stylesheetChanged', function() {
-        [d1,d2,d3,d4,d5].each(function(d) {
+        [d1,d2,d3,d4,d5,d6,d7,d8,d9].each(function(d) {
             if (d && d.chrome) {
                 d.close();
                 d.chrome.dispose();
@@ -364,7 +365,7 @@ function drawPromptDialog() {
 <p>Some examples of a custom window.prompt() dialog that can be configured in many ways.</p>
 <div id="promptDialogButton" class="buttonBox"></div>
 
-<div id='inlineContent'>
+<div id="inlineContent">
   <h3>Inline Content</h3>
   <p>This content is loaded by specifying the id of the element to use in the dialog.  The dialog should be modal and start at a specific location (200 pixels from left of modal background, 100 pixels from top).  The content background is white because the content itself has a background color style.</p>
 </div>

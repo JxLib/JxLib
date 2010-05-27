@@ -13,8 +13,8 @@ window.addEvent('load', function() {
     drawBasicPanel();
     drawToolbarPanel();
 }); 
-if(document.getElementsByClassName('tabContentActive').length > 0) {
-  document.getElementsByClassName('tabContentActive')[0].addEvent('loadAjax', function() {
+if($(document).getElements('.tabContentActiveExamples').length > 0) {
+  $(document).getElements('.tabContentActiveExamples')[0].addEvent('loadAjax', function() {
     drawBasicPanel();
     drawToolbarPanel();
   });
