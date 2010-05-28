@@ -114,20 +114,23 @@ Jx.Menu.Item = new Class({
                 this.setActive.delay(1,this,!this.options.active);
             }
             this.fireEvent.delay(1, this, ['click', {obj: this}]);
-            this.blur.delay(1,this);
+            this.blur();
             if (this.owner && this.owner.deactivate) {
                 this.owner.deactivate.delay(1, this.owner, obj.event);
             }
         }
+        return false;
     },
     /**
      * Method: onmouseover
      * handle the mouse moving over the menu item
      */
-    onMouseOver: function() {
+    onMouseOver: function(e) {
+        e.stop();
         if (this.owner && this.owner.setVisibleItem) {
-            this.owner.setVisibleItem.delay(1, this.owner, this);
+            this.owner.setVisibleItem(this);
         }
+        return false;
     },
     
     /**
