@@ -99,8 +99,8 @@ Jx.Field.Combo = new Class({
 
             this.contentContainer.setStyle('visibility','');
 
-            document.addEvent('mousedown', this.hide);
-            document.addEvent('keyup', this.keypressHandler);
+            document.addEvent('mousedown', this.bound.hide);
+            document.addEvent('keyup', this.bound.keypress);
 
             this.fireEvent('show', this);
         }.bindWithEvent(this.menu));

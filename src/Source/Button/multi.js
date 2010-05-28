@@ -106,75 +106,85 @@ Jx.Button.Multi = new Class({
         this.menu.button = this;
         this.buttonSet = new Jx.ButtonSet();
 
-        this.clickHandler = this.clicked.bind(this);
+        this.bound.click = this.clicked.bind(this);
 
         if (this.domDisclose) {
             var button = this;
             var hasFocus;
+            
+            this.bound.disclose = {
+              click: function(e) {
+                  if (this.list.count() === 0) {
+                      return;
+                  }
+                  if (!button.options.enabled) {
+                      return;
+                  }
+                  this.contentContainer.setStyle('visibility','hidden');
+                  this.contentContainer.setStyle('display','block');
+                  document.id(document.body).adopt(this.contentContainer);
+                  /* we have to size the container for IE to render the chrome
+                   * correctly but just in the menu/sub menu case - there is
+                   * some horrible peekaboo bug in IE related to ULs that we
+                   * just couldn't figure out
+                   */
+                  this.contentContainer.setContentBoxSize(this.subDomObj.getMarginBoxSize());
+
+                  this.showChrome(this.contentContainer);
+
+                  this.position(this.contentContainer, this.button.domObj, {
+                      horizontal: ['right right'],
+                      vertical: ['bottom top', 'top bottom'],
+                      offsets: this.chromeOffsets
+                  });
+
+                  this.contentContainer.setStyle('visibility','');
+
+                  document.addEvent('mousedown', this.bound.hide);
+                  document.addEvent('keyup', this.bound.keypress);
+
+                  this.fireEvent('show', this);
+              }.bindWithEvent(this.menu),
+              mouseenter:function(){
+                  document.id(this.domObj.firstChild).addClass('jxButtonHover');
+                  if (hasFocus) {
+                      this.domDisclose.addClass(this.options.pressedClass);
+                  }
+              }.bind(this),
+              mouseleave:function(){
+                  document.id(this.domObj.firstChild).removeClass('jxButtonHover');
+                  this.domDisclose.removeClass(this.options.pressedClass);
+              }.bind(this),
+              mousedown: function(e) {
+                  this.domDisclose.addClass(this.options.pressedClass);
+                  hasFocus = true;
+                  this.focus();
+              }.bindWithEvent(this),
+              mouseup: function(e) {
+                  this.domDisclose.removeClass(this.options.pressedClass);
+              }.bindWithEvent(this),
+              keydown: function(e) {
+                  if (e.key == 'enter') {
+                      this.domDisclose.addClass(this.options.pressedClass);
+                  }
+              }.bindWithEvent(this),
+              keyup: function(e) {
+                  if (e.key == 'enter') {
+                      this.domDisclose.removeClass(this.options.pressedClass);
+                  }
+              }.bindWithEvent(this),
+              blur: function() { hasFocus = false; }
+            };
 
             this.domDisclose.addEvents({
-                'click': (function(e) {
-                    if (this.list.count() === 0) {
-                        return;
-                    }
-                    if (!button.options.enabled) {
-                        return;
-                    }
-                    this.contentContainer.setStyle('visibility','hidden');
-                    this.contentContainer.setStyle('display','block');
-                    document.id(document.body).adopt(this.contentContainer);
-                    /* we have to size the container for IE to render the chrome
-                     * correctly but just in the menu/sub menu case - there is
-                     * some horrible peekaboo bug in IE related to ULs that we
-                     * just couldn't figure out
-                     */
-                    this.contentContainer.setContentBoxSize(this.subDomObj.getMarginBoxSize());
-
-                    this.showChrome(this.contentContainer);
-
-                    this.position(this.contentContainer, this.button.domObj, {
-                        horizontal: ['right right'],
-                        vertical: ['bottom top', 'top bottom'],
-                        offsets: this.chromeOffsets
-                    });
-
-                    this.contentContainer.setStyle('visibility','');
-
-                    document.addEvent('mousedown', this.hide);
-                    document.addEvent('keyup', this.keypressHandler);
-
-                    this.fireEvent('show', this);
-                }).bindWithEvent(this.menu),
-                'mouseenter':(function(){
-                    document.id(this.domObj.firstChild).addClass('jxButtonHover');
-                    if (hasFocus) {
-                        this.domDisclose.addClass(this.options.pressedClass);
-                    }
-                }).bind(this),
-                'mouseleave':(function(){
-                    document.id(this.domObj.firstChild).removeClass('jxButtonHover');
-                    this.domDisclose.removeClass(this.options.pressedClass);
-                }).bind(this),
-                mousedown: (function(e) {
-                    this.domDisclose.addClass(this.options.pressedClass);
-                    hasFocus = true;
-                    this.focus();
-                }).bindWithEvent(this),
-                mouseup: (function(e) {
-                    this.domDisclose.removeClass(this.options.pressedClass);
-                }).bindWithEvent(this),
-                keydown: (function(e) {
-                    if (e.key == 'enter') {
-                        this.domDisclose.addClass(this.options.pressedClass);
-                    }
-                }).bindWithEvent(this),
-                keyup: (function(e) {
-                    if (e.key == 'enter') {
-                        this.domDisclose.removeClass(this.options.pressedClass);
-                    }
-                }).bindWithEvent(this),
-                blur: function() { hasFocus = false; }
-
+              click: this.bound.disclose.click,
+              mouseenter: this.bound.disclose.mouseenter,
+              mouseleave: this.bound.disclose.mouseleave,
+              mousedown: this.bound.disclose.mousedown,
+              mouseup: this.bound.disclose.mouseup,
+              keydown: this.bound.disclose.keydown,
+              keyup: this.bound.disclose.keyup,
+              blur: this.bound.disclose.blur
             });
             if (typeof Drag != 'undefined') {
                 new Drag(this.domDisclose, {
@@ -182,20 +192,70 @@ Jx.Button.Multi = new Class({
                 });
             }
         }
+        this.bound.show = function() {
+            this.domA.addClass(this.options.activeClass);
+        }.bind(this);
+        this.bound.hide = function() {
+            if (this.options.active) {
+                this.domA.addClass(this.options.activeClass);
+            }
+        }.bind(this);
 
         this.menu.addEvents({
-            'show': (function() {
-                this.domA.addClass(this.options.activeClass);
-            }).bind(this),
-            'hide': (function() {
-                if (this.options.active) {
-                    this.domA.addClass(this.options.activeClass);
-                }
-            }).bind(this)
+            'show': this.bound.show,
+            'hide': this.bound.hide
         });
         if (this.options.items) {
             this.add(this.options.items);
         }
+    },
+    cleanup: function() {
+      // clean up the discloser
+      if (this.domDisclose) {
+        this.domDisclose.removeEvents({
+          click: this.bound.disclose.click,
+          mouseenter: this.bound.disclose.mouseenter,
+          mouseleave: this.bound.disclose.mouseleave,
+          mousedown: this.bound.disclose.mousedown,
+          mouseup: this.bound.disclose.mouseup,
+          keydown: this.bound.disclose.keydown,
+          keyup: this.bound.disclose.keyup,
+          blur: this.bound.disclose.blur
+        });
+      }
+      
+      // clean up the button set
+      this.buttonSet.destroy();
+      this.buttonSet = null;
+      
+      // clean up the buttons array
+      this.buttons.each(function(b){
+        b.removeEvents();
+        this.menu.remove(b.multiButton);
+        b.multiButton.destroy();
+        b.multiButton = null;
+        b.destroy();
+      },this);
+      this.buttons.empty();
+      this.buttons = null;
+      
+      // clean up the menu object
+      this.menu.removeEvents({
+        'show': this.bound.show,
+        'hide': this.bound.hide
+      });
+      // unset the menu button because it references this object
+      this.menu.button = null;
+      this.menu.destroy();
+      this.menu = null;
+      
+      // clean up binds and call parent to finish
+      this.bound.show = null;
+      this.bound.hide = null;
+      this.bound.clicked = null;
+      this.bound.disclose = null;
+      this.activeButton = null;
+      this.parent();
     },
     /**
      * APIMethod: add
@@ -289,12 +349,12 @@ Jx.Button.Multi = new Class({
     setActiveButton: function(button) {
         if (this.activeButton) {
             this.activeButton.domA.dispose();
-            this.activeButton.domA.removeEvent('click', this.clickHandler);
+            this.activeButton.domA.removeEvent('click', this.bound.click);
         }
         if (button && button.domA) {
             this.domObj.grab(button.domA, 'top');
             this.domA = button.domA;
-            this.domA.addEvent('click', this.clickHandler);
+            this.domA.addEvent('click', this.bound.click);
             if (this.options.toggle) {
                 this.options.active = false;
                 this.setActive(true);

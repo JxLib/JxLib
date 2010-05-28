@@ -38,6 +38,16 @@ Jx.ButtonSet = new Class({
      * {Array} array of buttons that are managed by this button set
      */
     buttons: [],
+    
+    cleanup: function() {
+      this.buttons.each(function(b){
+        b.removeEvent('down', this.buttonChanged);
+        b.setActive = null;
+      },this);
+      this.activeButton = null;
+      this.buttons = null;
+      this.parent();
+    },
 
     /**
      * APIMethod: add
