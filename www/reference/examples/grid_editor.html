@@ -425,12 +425,12 @@ function drawToolbar() {
     };
     //create grid
     var grid = new Jx.Grid(options);
-
     editorOptions = {
       validate   : true,
-      blurDelay  : 250,
+      blurDelay  : Browser.Engine.webkit ? false : 250,
       popup      : {
-        use: true
+        use: true,
+        useButtons : false
       },
       fieldOptions : [
         {
@@ -456,8 +456,8 @@ function drawToolbar() {
           type    : 'Select',
           options : {
             comboOpts: [
-              { value: 'true',  text: MooTools.lang.get('Jx','formatter.boolean')['true']  },
-              { value: 'false', text: MooTools.lang.get('Jx','formatter.boolean')['false'] }
+              { value: 'true',  text: {set:'Jx',key:'formatter.boolean',value:'true'} },
+              { value: 'false', text: {set:'Jx',key:'formatter.boolean',value:'false'} }
             ]
           }
         },

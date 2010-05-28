@@ -20,13 +20,13 @@
         var mainTabs = new Jx.TabBox({
           parent: mainSplitter.elements[1]
         }).add(new Jx.Tab({
-          label       : {set:'Examples',key:'navigation',value:'About'},
-          contentURL  : 'about.html'
+            label       : {set:'Examples',key:'navigation',value:'About'},
+            contentURL  : 'about.html'
         }));
 
         // open last open example from cookie ?
         var lastExample = Cookie.read('JxExamples.CurrentExample');
-            lastExample = lastExample.contains(",") ? lastExample.split(",") : false;
+            lastExample = lastExample && lastExample.contains(",") ? lastExample.split(",") : false;
         if(lastExample) {
           /*
           var lastTab = new Jx.Tab({

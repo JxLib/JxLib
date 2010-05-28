@@ -1,3 +1,7 @@
+MooTools.lang.set('de-DE', 'Date', {
+  // need to overwrite 'M&auml;rz' to 'März' for jx.select fields
+  months: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
+});
 
 MooTools.lang.set('de-DE', 'Jx', {
 
