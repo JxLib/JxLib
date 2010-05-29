@@ -1,6 +1,6 @@
 var refTree;
 var panelContent;
-var homeTab, refTab, examplesTab, testsTab;
+var homeTab, refTab, examplesTab, examplesTabNew, testsTab;
 
 window.addEvent('load', function() {
     var defaultTab = Cookie.read('JxHomePage.CurrentTab') || 'homeTab';
@@ -32,6 +32,17 @@ window.addEvent('load', function() {
             (function() {
                 window.top.main.location.href = 'reference/examples';
                 Cookie.write('JxHomePage.CurrentTab', 'examplesTab');                
+            }).delay(10);
+        }
+    });
+    examplesTabNew = new Jx.Tab({
+        label: 'Examples (Beta)',
+        content: 'exampleListNew',
+        cacheContent: true,
+        onDown: function() {
+            (function() {
+                window.top.main.location.href = 'reference/examples/index-new.html';
+                Cookie.write('JxHomePage.CurrentTab', 'examplesTabNew');
             }).delay(10);
         }
     });
@@ -81,8 +92,8 @@ window.addEvent('load', function() {
             }).delay();
         }
     });
-    new Jx.TabSet('tabset').add(homeTab, refTab, examplesTab, testsTab, codeTab, groupTab, downloadTab);
-    toolbar.add(homeTab, examplesTab, refTab, codeTab, groupTab, downloadTab);
+    new Jx.TabSet('tabset').add(homeTab, refTab, examplesTab, examplesTabNew, testsTab, codeTab, groupTab, downloadTab);
+    toolbar.add(homeTab, examplesTab, examplesTabNew, refTab, codeTab, groupTab, downloadTab);
     
     switch(defaultTab) {
         case 'homeTab':
@@ -93,6 +104,9 @@ window.addEvent('load', function() {
             break;
         case 'examplesTab':
             examplesTab.setActive(true);
+            break;
+        case 'examplesTabNew':
+            examplesTabNew.setActive(true);
             break;
         case 'testsTab':
             testsTab.setActive(true);

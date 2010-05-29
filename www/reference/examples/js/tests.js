@@ -117,10 +117,6 @@ window.addEvent('load', function() {
         }
     });
 
-    window.addEvent('langChange', function(ev) {
-      console.log(ev);
-    });
-
     new Jx.Toolbar({parent:'pageBar', scroll: false}).add(
         // show and hide the background grid
         new Jx.Button({
@@ -128,11 +124,22 @@ window.addEvent('load', function() {
             toggle: true,
             active: defaultGrid == 'on',
             onDown: function() {
-                $(document.body).addClass('pageGrid');
+                  if($$('.tabContentExample').length > 0) {
+                    $$('.tabContentExample').each(function(tab) {
+                      tab.addClass('pageGrid');
+                    });
+                  }else{
+                    $(document.body).addClass('pageGrid');
+                  }
                 Cookie.write('jxtests.pagebackground', 'on');
             },
             onUp: function() {
                 $(document.body).removeClass('pageGrid');
+                if($$('.tabContentExample').length > 0) {
+                  $$('.tabContentExample').each(function(tab) {
+                    tab.removeClass('pageGrid');
+                  });
+                }
                 Cookie.write('jxtests.pagebackground', 'off');
             }
         }),
@@ -160,18 +167,21 @@ window.addEvent('load', function() {
               lang += (lang == 'ru-RU') ? '-unicode' : '';
               Cookie.write('jxtests.language', lang);
               Jx.setLanguage(lang);
+              var langObj;
               switch(lang) {
                 case 'en-US':
-                  this.setLabel({set:'Examples',key:'mainToolbar',value:'langEn'});
+                  langObj = {set:'Examples',key:'mainToolbar',value:'langEn'};
                   break;
                 case 'de-DE':
-                  this.setLabel({set:'Examples',key:'mainToolbar',value:'langDe'});
+                  langObj = {set:'Examples',key:'mainToolbar',value:'langDe'};
                   break;
                 case 'ru-RU':
                 case 'ru-RU-unicode':
-                  this.setLabel({set:'Examples',key:'mainToolbar',value:'langRu'});
+                  langObj = {set:'Examples',key:'mainToolbar',value:'langRu'};
                   break;
               }
+              this.setLabel(langObj);
+              log(this.getText({set:'Examples',key:'mainToolbar',value:'langChange'}) + ": " + this.getText(langObj));
               if(window.top && window.top.frames && window.top.frames.list) {
                 window.top.frames.list.Jx.setLanguage(lang);
               }

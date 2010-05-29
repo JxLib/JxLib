@@ -6,6 +6,7 @@ MooTools.lang.set('en-US', 'Examples', {
     btnClearLog : 'clear log',
     labelLang   : 'Language',
     labelTheme  : 'Theme',
+    langChange  : 'Changing language to',
     langEn      : 'English (en-US)',
     langDe      : 'Deutsch (de-DE)',
     langRu      : 'Русский (ru-RU)'
@@ -185,6 +186,7 @@ MooTools.lang.set('de-DE', 'Examples', {
     btnClearLog : 'Log leeren',
     labelLang   : 'Sprache',
     labelTheme  : 'Design',
+    langChange  : 'Sprache gewechselt zu',
     langEn      : 'English (en-US)',
     langDe      : 'Deutsch (de-DE)',
     langRu      : 'Русский (ru-RU)'
@@ -363,6 +365,7 @@ MooTools.lang.set('ru-RU-unicode', 'Examples', {
     btnClearLog : 'очистить журнал',
     labelLang   : 'Язык',
     labelTheme  : 'Тема',
+    langChange  : 'Changing language to',
     langEn      : 'English (en-US)',
     langDe      : 'Deutsch (de-DE)',
     langRu      : 'Русский (ru-RU)'

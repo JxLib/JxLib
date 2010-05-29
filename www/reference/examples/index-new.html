@@ -20,8 +20,10 @@
         var mainTabs = new Jx.TabBox({
           parent: mainSplitter.elements[1]
         }).add(new Jx.Tab({
-            label       : {set:'Examples',key:'navigation',value:'About'},
-            contentURL  : 'about.html'
+            label           : {set:'Examples',key:'navigation',value:'About'},
+            // adding custom class 'tabContentExample' to add/remove the background grid on every tab opened
+            contentTemplate : '<div class="tabContent tabContentExample"></div>',
+            contentURL      : 'about.html'
         }));
 
         // open last open example from cookie ?
@@ -153,12 +155,14 @@
                           if(!tabExists) {
                             openExamples.push(v);
                             var newTab = new Jx.Tab({
-                                            label       : {set:'Examples',key:'navigation',value:i},
-                                            contentURL  : v,
-                                            activeTabClass : 'tabContentActive tabContentActiveExamples',
-                                            close       : true,
-                                            active      : true,
-                                            cacheContent: true
+                                            label           : {set:'Examples',key:'navigation',value:i},
+                                            contentURL      : v,
+                                            activeTabClass  : 'tabContentActive tabContentActiveExamples',
+                                            // adding custom class 'tabContentExample' to add/remove the background grid on every tab opened
+                                            contentTemplate : '<div class="tabContent tabContentExample"></div>',
+                                            close           : true,
+                                            active          : true,
+                                            cacheContent    : true
                                           });
                             // event on content loaded to load the scripts
                             newTab.addEvents({
@@ -182,7 +186,6 @@
                               },
                               'down': function() {
                                 Cookie.write('JxExamples.CurrentExample', [v,i]);
-                                window.console ? console.log("index", $(document).getElements('.tabContentActiveExamples')) : false;
                               }
                             });
                             mainTabs.tabSet.addEvents({
@@ -204,7 +207,6 @@
                       new Jx.Menu.Item({
                         label : {set:'Examples',key:'navigation',value:'new-window'},
                         onClick : function(ev) {
-                          //console.log(this, item)
                           window.open(item.options.contentURL, "_blank");
                         }
                       })

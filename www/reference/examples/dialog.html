@@ -115,7 +115,7 @@ function drawPositionedDialog() {
     }).addTo('positionedDialogButton');
 }
 </script>
-<script id="toolbarDialogScript">
+<script type="text/javascript" id="toolbarDialogScript">
 function drawToolbarDialog() {   
     /* A dialog with a toolbar that loads its content from a URL
      * and does something with the content after it is loaded.
@@ -123,8 +123,8 @@ function drawToolbarDialog() {
       This dialog is positioned relative to the right and bottom
      * of the page.
      */
-    var toolbar = new Jx.Toolbar({position:'top'});
-    toolbar.add(
+    var toolbarDialog = new Jx.Toolbar({position:'top'});
+    toolbarDialog.add(
         new Jx.Button({
             label: 'button 1', 
             onClick: function() {
@@ -138,7 +138,6 @@ function drawToolbarDialog() {
             }
         })
     );
-    
     d3 = new Jx.Dialog({
         label: {set:'Examples',key:'dialog',value:'dialogDynamic'},
         image: 'images/page_white_world.png',
@@ -155,9 +154,8 @@ function drawToolbarDialog() {
                 el.set('html', 'Content Updated!');
             }
         },
-        toolbars: [toolbar]
+        toolbars: [toolbarDialog]
     });
-    
     new Jx.Button({
         image: 'images/page_white_world.png', 
         label: {set:'Examples',key:'dialog',value:'btnDynamic'},
@@ -165,7 +163,7 @@ function drawToolbarDialog() {
     }).addTo('toolbarDialogButton');
 }
 </script>
-<script id="ajaxFailedDialogScript">
+<script type="text/javascript" id="ajaxFailedDialogScript">
 function drawAjaxFailedDialog() {
     /* a dialog that fails to load some content so we can test the
      * content events
@@ -200,7 +198,7 @@ function drawAjaxFailedDialog() {
     }).addTo('ajaxFailedDialogButton');
 }
 </script>
-<script id="confirmDialogScript">
+<script type="text/javascript" id="confirmDialogScript">
 function drawConfirmDialog() {
 
     /**
@@ -251,7 +249,7 @@ function drawConfirmDialog() {
     }).addTo('confirmDialogButton');
 }
 </script>
-<script id="promptDialogScript">
+<script type="text/javascript" id="promptDialogScript">
 function drawPromptDialog() {
     /**
      * Prompt Dialog in default state with a Jx.Field.Text and an email validator
