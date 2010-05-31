@@ -18,7 +18,6 @@
         drawConfirmDialog();
         drawPromptDialog();
     });
-   window.console ? console.log("dialog",$(document).getElements('.tabContentActiveExamples')) : false;
    if($(document).getElements('.tabContentActiveExamples').length > 0) {
       $(document).getElements('.tabContentActiveExamples')[0].addEvent('loadAjax', function() {
         drawBasicDialog();

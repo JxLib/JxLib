@@ -169,8 +169,20 @@
                               'contentLoaded': function() {
                                 newTab.content.fireEvent('loadAjax');
                                 item.setBusy(false);
-                                // <script> tags are ignored and cannot be addressed with the current way
-                                //beautifyDemoScripts('.tabContentActive h2')
+                                var tagsTmp   = this.req.response.text.getTags('script', true),
+                                    tags      = [],
+                                    headlines = newTab.content.getElements('h2');
+
+                                tagsTmp.each(function(t) {
+                                  // COMMENT: any other better 'regex' test for the script ? :)
+                                  if(t.test('id=')) {
+                                    t = t.split("\n");
+                                    t.pop();    // clear first <script> line with id
+                                    t.shift();  // clear last </script>
+                                    tags.push(t.join("\n"));
+                                  }
+                                });
+                                beautifyDemoScripts(headlines, tags);
                                 //makeLinksForApi('.tabContentActive a');
                               },
                               // anything we can do when the content load fails? shouldn't happen on the examples page ;)

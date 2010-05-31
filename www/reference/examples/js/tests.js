@@ -41,11 +41,14 @@ var logDialog;
 
 // build 'show source' buttons from each descriptive paragraph that
 // has a similarly named script tag
-var beautifyDemoScripts = function(elements) {
+var beautifyDemoScripts = function(elements, eS) {
   elements = elements || 'h2';
-  $$(elements).each(function(p){
+  // eS = exampleScripts
+  eS = eS || false;
+  var s;
+  $$(elements).each(function(p,i){
       if (p.id) {
-          var s = $(p.id+'Script');
+          s =  eS ? eS : $(p.id+'Script');
           if (!s) return;
           var d = new Element('div', {'class':'sourceButton'});
           new Jx.Toolbar({scroll:false}).add(
@@ -53,7 +56,7 @@ var beautifyDemoScripts = function(elements) {
                   tooltip: {set:'Examples',key:'mainToolbar',value:'showSource'},
                   image: 'images/script.png',
                   onOpen: function() {prettyPrint();},
-                  content: '<pre class="prettyprint lang-js">'+s.innerHTML+'</pre>',
+                  content: '<pre class="prettyprint lang-js">'+(eS ? eS[i] : s.innerHTML)+'</pre>',
                   contentClass: 'exampleScript'
               })
           ).addTo(d);
