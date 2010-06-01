@@ -177,8 +177,8 @@
                                   // COMMENT: any other better 'regex' test for the script ? :)
                                   if(t.test('id=')) {
                                     t = t.split("\n");
-                                    t.pop();    // clear first <script> line with id
-                                    t.shift();  // clear last </script>
+                                    t.pop();    // clear first script line with id
+                                    t.shift();  // clear last script line
                                     tags.push(t.join("\n"));
                                   }
                                 });
