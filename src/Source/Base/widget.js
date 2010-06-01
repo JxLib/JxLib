@@ -818,13 +818,17 @@ Jx.Widget = new Class({
      * set the busy state of the widget
      *
      * Parameters:
-     * busy - {Boolean} true to set the widget as busy, false to set it as
-     *    idle.
+     * busy         - {Boolean} true to set the widget as busy, false to set it as idle.
+     * message      - {String||Jx Localized Object} (Optional) set a custom message directly
+     *                next to the loading icon. Default is {set:'Jx',key:'widget',value:'busyMessage'}
+     * forceMessage - {Boolean} force displaying a message for larger areas than 60px of height
      */
-    setBusy: function(state) {
+    setBusy: function(state, message, forceMessage) {
       if (this.busy == state) {
         return;
       }
+      message       = $defined(message) ? message : {set:'Jx',key:'widget',value:'busyMessage'};
+      forceMessage  = $defined(forceMessage) ? forceMessage : false;
       this.busy = state;
       this.fireEvent('busy', this.busy);
       if (this.busy) {
@@ -843,12 +847,12 @@ Jx.Widget = new Class({
            * 60 pixels high
            */
           var size = this.domObj.getBorderBoxSize();
-          if (size.height < 60) {
+          if (size.height < 60 || forceMessage) {
             opts['class'] = 'jxSpinner jxSpinnerSmall';
             opts.img = null;
             opts.message = new Element('p',{
               'class':'jxSpinnerMessage',
-              html: '<span class="jxSpinnerImage"></span>'+this.getText({set:'Jx',key:'widget',value:'busyMessage'})
+              html: '<span class="jxSpinnerImage"></span>'+this.getText(message)
             });
           }
           opts = $merge(this.options.busyMask, opts);
