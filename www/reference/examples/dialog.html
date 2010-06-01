@@ -160,6 +160,22 @@ function drawToolbarDialog() {
         label: {set:'Examples',key:'dialog',value:'btnDynamic'},
         onClick: d3.open.bind(d3)
     }).addTo('toolbarDialogButton');
+    new Jx.Button({
+        image: 'images/page_white_world.png',
+        label: 'busy dialog',
+        toggle: true,
+        onDown: function() {
+          if(d3.open) {
+            // set dialog busy with custom (localized) message
+            d3.setBusy(true, {set:'Examples',key:'dialog',value:'btnBusy'}, true);
+          }
+        },
+        onUp: function() {
+          if(d3.open) {
+            d3.setBusy(false);
+          }
+        }
+    }).addTo('toolbarDialogButton');
 }
 </script>
 <script type="text/javascript" id="ajaxFailedDialogScript">
@@ -175,6 +191,7 @@ function drawAjaxFailedDialog() {
         height: 400,
         /* test failure to load content */
         contentURL: 'invalid_content_url.html',
+        loadOnDemand: false,
         onContentLoaded: function() {
           log('Loaded content when it shouldn\'t have');
           this.content.innerHTML = "<h3>Fail!</h3>" +

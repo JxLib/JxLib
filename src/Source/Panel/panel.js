@@ -269,7 +269,9 @@ Jx.Panel = new Class({
         new Jx.Layout(this.contentContainer);
         new Jx.Layout(this.content);
 
-        this.loadContent(this.content);
+        if(this.shouldLoadContent()) {
+          this.loadContent(this.content);
+        }
 
         this.toggleCollapse(this.options.closed);
 
@@ -544,5 +546,12 @@ Jx.Panel = new Class({
       // TODO: is this the right method to call?
       // if toolbars left/right are used and localized, they may change their size..
       this.layoutContent();
+    },
+
+    /**
+     * Method to be able to allow loadingOnDemand in subclasses but not here
+     */
+    shouldLoadContent: function() {
+      return true;
     }
 });

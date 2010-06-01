@@ -509,6 +509,7 @@ Jx.Dialog = new Class({
         if (url) {
             this.options.contentURL = url;
             this.options.content = null;  //force Url loading
+            this.setBusy();
             this.loadContent(this.content);
             this.addEvent('contentLoaded', this.openOnLoaded);
         } else {
@@ -526,6 +527,11 @@ Jx.Dialog = new Class({
     open: function() {
         if (!this.isOpening) {
             this.isOpening = true;
+        }
+        // COMMENT: this works only for onDemand -> NOT for cacheContent = false..
+        // for this loading an URL everytime, use this.openURL(url) 
+        if(!this.contentIsLoaded && this.options.loadOnDemand) {
+          this.loadContent(this.content);
         }
         if (this.contentIsLoaded) {
             this.removeEvent('contentLoaded', this.openOnLoaded);
@@ -616,6 +622,13 @@ Jx.Dialog = new Class({
         }
       }
       return this.keyboardEvents;
+    },
+
+    /**
+     * gets called by parent class Jx.Panel and decides whether to load content or not
+     */
+    shouldLoadContent: function() {
+      return !this.options.loadOnDemand;
     }
 });
 

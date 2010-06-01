@@ -183,7 +183,7 @@
                                   }
                                 });
                                 beautifyDemoScripts(headlines, tags);
-                                //makeLinksForApi('.tabContentActive a');
+                                makeLinksForApi(newTab.content.getElements('a'));
                               },
                               // anything we can do when the content load fails? shouldn't happen on the examples page ;)
                               'contentLoadFailed': function() {

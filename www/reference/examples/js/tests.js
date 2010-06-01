@@ -71,7 +71,11 @@ var makeLinksForApi = function(elements) {
   $$(elements).each(function(a) {
      if (a.id) {
          a.addEvent('click', function() {
+           if(top.main) {
             top.main.location.href='../api/#'+a.id;
+           }else{
+             window.open('../api/#'+a.id, "_blank");
+           }
          });
      }
   });
