@@ -279,8 +279,14 @@ $Id$
 	<copy todir="${deploy.home}/builder/assets/themes/">
   		<fileset dir="${build.home}/lib/themes/" />
   	</copy>
+
+    <!-- Copy all theme files to the builder/src directory -->
+
   	<copy file="${build.home}/images/a_pixel.png" todir="${deploy.home}/builder/assets" />
-  	
+  	<copy todir="${deploy.home}/builder/src/jxlib/themes/">
+  		<fileset dir="${build.home}/themes/" />
+  	</copy>
+      
 	<!-- Place JSON files -->
   	<move file="${build.home}/lib/deps.json" todir="${deploy.home}/builder/work/" />
   	<move file="${build.home}/lib/jxlib.json" todir="${deploy.home}/builder" />
