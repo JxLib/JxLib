@@ -64,12 +64,6 @@
             "desc":  "Default translations of text strings used in JX for Russia (Russia) (ru-RU)",
             "css": [],
             "images": []
-        },
-        "locale.russian.unicode": {
-            "deps": ["Lang"],
-            "desc":  "Default translations of text strings used in JX for Russia (Russia) (ru-RU-unicode)",
-            "css": [],
-            "images": []
         }
     },
     "Data": {
