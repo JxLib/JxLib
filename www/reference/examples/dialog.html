@@ -133,8 +133,9 @@ function drawToolbarDialog() {
             }
         }),
         new Jx.Button({
-            label: 'button 2', 
+            label: 'reload content',
             onClick: function() {
+                d3.openURL(d3.options.contentURL);
                 log('button 2 inside dialog clicked');
             }
         })
@@ -167,13 +168,13 @@ function drawToolbarDialog() {
         label: 'busy dialog',
         toggle: true,
         onDown: function() {
-          if(d3.open) {
+          if(d3.domObj.getStyle('display') == 'block') {
             // set dialog busy with custom (localized) message
             d3.setBusy(true, {set:'Examples',key:'dialog',value:'btnBusy'}, true);
           }
         },
         onUp: function() {
-          if(d3.open) {
+          if(d3.domObj.getStyle('display') == 'block') {
             d3.setBusy(false);
           }
         }

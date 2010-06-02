@@ -210,32 +210,8 @@ Jx.Dialog = new Class({
         /* the dialog is moveable by its title bar */
         if (this.options.move && typeof Drag != 'undefined') {
             this.title.addClass('jxDialogMoveable');
-            
-            // check drag limit if it is an container or string for an element and use dimensions
-            var limitType = Jx.type(this.options.limit);
-            if(this.options.limit && limitType != 'object') {
-              var coords = false;
-              switch(limitType) {
-                case 'string':
-                  if(document.id(this.options.limit)) {
-                    coords = document.id(this.options.limit).getCoordinates();
-                  }
-                  break;
-                case 'element':
-                case 'document':
-                case 'window':
-                  coords = this.options.limit.getCoordinates();
-                  break;
-              }
-              if(coords) {
-                this.options.limit = {
-                  x : [coords.left, coords.right],
-                  y : [coords.top, coords.bottom]
-                }
-              }else{
-                this.options.limit = false;
-              }
-            }
+
+            this.options.limit = this.setDragLimit(this.options.limit);
             // local reference to use Drag instance variables inside onDrag()
             var self = this;
             // COMMENT: any reason why the drag instance isn't referenced to the dialog?
@@ -245,13 +221,16 @@ Jx.Dialog = new Class({
                 onBeforeStart: (function(){
                     this.stack();
                 }).bind(this),
-                onStart: (function() {
-                    if (!this.options.modal && this.options.parent.mask) {
-                      this.options.parent.mask(this.options.eventMaskOptions);
+                onStart: function() {
+                    if (!self.options.modal && self.options.parent.mask) {
+                      self.options.parent.mask(self.options.eventMaskOptions);
                     }
-                    this.contentContainer.setStyle('visibility','hidden');
-                    this.chrome.addClass('jxChromeDrag');
-                }).bind(this),
+                    self.contentContainer.setStyle('visibility','hidden');
+                    self.chrome.addClass('jxChromeDrag');
+                    if(self.options.limit) {
+                      this.options.limit = self.setDragLimit(self.options.limitOrig);
+                    }
+                }, // COMMENT: removed bind(this) for setting the limit to the drag instance
                 onDrag: function() {
                   if(this.options.limit) {
                     // find out if the right border of the dragged element is out of range
@@ -676,6 +655,38 @@ Jx.Dialog = new Class({
         }
       }
       return this.keyboardEvents;
+    },
+
+    setDragLimit : function(reference) {
+      if($defined(reference)) this.options.limit = reference;
+      
+      // check drag limit if it is an container or string for an element and use dimensions
+      var limitType = Jx.type(this.options.limit);
+      if(this.options.limit && limitType != 'object') {
+        var coords = false;
+        switch(limitType) {
+          case 'string':
+            if(document.id(this.options.limit)) {
+              coords = document.id(this.options.limit).getCoordinates();
+            }
+            break;
+          case 'element':
+          case 'document':
+          case 'window':
+            coords = this.options.limit.getCoordinates();
+            break;
+        }
+        if(coords) {
+          this.options.limitOrig = this.options.limit;
+          this.options.limit = {
+            x : [coords.left, coords.right],
+            y : [coords.top, coords.bottom]
+          }
+        }else{
+          this.options.limit = false;
+        }
+      }
+      return this.options.limit;
     },
 
     /**

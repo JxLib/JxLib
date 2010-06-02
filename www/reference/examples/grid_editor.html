@@ -65,7 +65,7 @@ if($(document).getElements('.tabContentActiveExamples').length > 0) {
   });
 }
 </script>
-<script id="toolbarScript" type="text/javascript">
+<script id="toolbarEditorScript" type="text/javascript">
 function drawToolbar() {
     /* this sets up some options for controlling the grid via
      * a menu and then creates a panel to host the grid in
@@ -268,7 +268,7 @@ function drawToolbar() {
 
 }
 </script>
-<script id="gridScript" type="text/javascript">
+<script id="gridEditorScript" type="text/javascript">
   function drawGrid() {
     var model = ([
         {'id':1,'name':'Yay Super','dob':'12/4/1974','active':'true','duesLeft':2,'url':'http://www.google.com','phone':'16753780987'},
@@ -542,9 +542,9 @@ function drawToolbar() {
 
     <p>API Reference: <a id="grid-js" href="javascript:void();" title="link to API Reference">Jx.Grid</a></p>
     <p>This example demonstrates some basic and advanced ways of using Jx.Grid including the Inline Editor Plugin.</p>
-    <h2 id="toolbar">Grid Options</h2>
+    <h2 id="toolbarEditor">Grid Options</h2>
     <p>There are a number of options for configuring a grid, try them out by using the menus to turn various options on and off.</p>
-    <h2 id="grid">The Grid</h2>
+    <h2 id="gridEditor">The Grid</h2>
     <p>The grid itself has a lot of options when you first construct it, for this example most of the options are turned off so we can use the menus to demonstrate the effect of turning them on and off.</p>
     <p>The grid component uses an architecture that requires a separate object to provide the data to the grid through a specific api.  This object is called the model for the grid.  The grid allows the model to be changed at any time and the grid will redraw itself with the new model's data.</p>
 
