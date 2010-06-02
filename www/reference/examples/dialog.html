@@ -87,6 +87,8 @@ function drawPositionedDialog() {
         resize: true,
         maximize: true,
         useKeyboard: true,
+        //limit: {x:[0,window.getCoordinates().right], y:[0,window.getCoordinates().bottom]},
+        limit: document,
         // example how to add custom keyboard shortcuts, this also works with subclasses
         keys : {
           'alt+enter' : 'maximizeDialog',
@@ -222,6 +224,7 @@ function drawConfirmDialog() {
      */
     d5 = new Jx.Dialog.Confirm({
         image: 'images/help.png',
+        limit: document,
         question: {set:'Examples',key:'dialog',value:'dialogConfirm'},
         onClose : function(dialog, value) {
           log("You clicked "+ value);
@@ -238,6 +241,8 @@ function drawConfirmDialog() {
      */
     d6 = new Jx.Dialog.Message({
         image   : 'images/world.png',
+        // set the moving limit of a dialog to the id of a DOM element
+        limit: 'confirmDialog',
         message : {set:'Examples',key:'dialog',value:'dialogMessage'}
     });
 
@@ -272,6 +277,8 @@ function drawPromptDialog() {
      */
     d8 = new Jx.Dialog.Prompt({
         image: 'images/help.png',
+        // set limit any DOM element reference: here the currently active Tab content
+        limit: $('basicDialog').getParent('div.tabContentActiveExamples'),
         prompt: {set:'Examples',key:'dialog',value:'dialogPrompt'},
         fieldOptions: {
           validatorOptions: {

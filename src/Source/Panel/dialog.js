@@ -115,6 +115,16 @@ Jx.Dialog = new Class({
          * moveable by the user or not.  Default is true.
          */
         move: true,
+        /*
+         * Option: limit
+         * (optional) {Object} || false
+         * passed to the Drag instance of this dialog to limit the movement
+         * see. {Object} must have x&y coordinates with a range,
+         * like {x:[0,500],y:[0,500]}. Set an id or a reference of a DOM Element
+         * (ie 'document', 'myContainerWithId', $('myContainer'), $('domID').getParent())
+         * to use these dimensions as boundaries. Default is false.
+         */
+        limit : false,
         /* Option: close
          * (optional) {Boolean} determines whether the dialog is
          * closeable by the user or not.  Default is true.
@@ -200,8 +210,38 @@ Jx.Dialog = new Class({
         /* the dialog is moveable by its title bar */
         if (this.options.move && typeof Drag != 'undefined') {
             this.title.addClass('jxDialogMoveable');
+            
+            // check drag limit if it is an container or string for an element and use dimensions
+            var limitType = Jx.type(this.options.limit);
+            if(this.options.limit && limitType != 'object') {
+              var coords = false;
+              switch(limitType) {
+                case 'string':
+                  if(document.id(this.options.limit)) {
+                    coords = document.id(this.options.limit).getCoordinates();
+                  }
+                  break;
+                case 'element':
+                case 'document':
+                case 'window':
+                  coords = this.options.limit.getCoordinates();
+                  break;
+              }
+              if(coords) {
+                this.options.limit = {
+                  x : [coords.left, coords.right],
+                  y : [coords.top, coords.bottom]
+                }
+              }else{
+                this.options.limit = false;
+              }
+            }
+            // local reference to use Drag instance variables inside onDrag()
+            var self = this;
+            // COMMENT: any reason why the drag instance isn't referenced to the dialog?
             new Drag(this.domObj, {
                 handle: this.title,
+                limit: this.options.limit,
                 onBeforeStart: (function(){
                     this.stack();
                 }).bind(this),
@@ -212,6 +252,20 @@ Jx.Dialog = new Class({
                     this.contentContainer.setStyle('visibility','hidden');
                     this.chrome.addClass('jxChromeDrag');
                 }).bind(this),
+                onDrag: function() {
+                  if(this.options.limit) {
+                    // find out if the right border of the dragged element is out of range
+                    if(this.value.now.x+self.options.width >= this.options.limit.x[1]) {
+                      this.value.now.x = this.options.limit.x[1] - self.options.width;
+                      this.element.setStyle('left',this.value.now.x);
+                    }
+                    // find out if the bottom border of the dragged element is out of range
+                    if(this.value.now.y+self.options.height >= this.options.limit.y[1]) {
+                      this.value.now.y = this.options.limit.y[1] - self.options.height;
+                      this.element.setStyle('top',this.value.now.y);
+                    }
+                  }
+                },
                 onComplete: (function() {
                     if (!this.options.modal && this.options.parent.unmask) {
                       this.options.parent.unmask();
