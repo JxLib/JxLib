@@ -223,10 +223,10 @@ foreach ($themes as $theme) {
     mkdir($theme_dir . DS . $theme);
     mkdir($theme_dir . DS . $theme . DS . 'images');
     //save the two css files...
-    $name = $theme_dir . DS . $theme . DS . 'jxlib.css';
+    $name = $theme_dir . DS . $theme . DS . 'jxtheme.css';
     file_put_contents($name,$cssFiles[$theme]['compressed']);
     $filesToArchive[] = $name;
-    $name = $theme_dir . DS . $theme . DS . 'jxlib.uncompressed.css';
+    $name = $theme_dir . DS . $theme . DS . 'jxtheme.uncompressed.css';
     file_put_contents($name,$cssFiles[$theme]['uncompressed']);
     $filesToArchive[] = $name;
 

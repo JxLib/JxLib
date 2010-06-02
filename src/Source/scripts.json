@@ -211,7 +211,7 @@
             "images": []
         },
         "multi": {
-            "deps": ["button","menu","set"],
+            "deps": ["button","menu.item","set"],
             "desc": "Multi buttons are used to contain multiple buttons in a drop down list where only one button is actually visible and clickable in the interface.",
             "css": [],
             "images": ["button_multi.png","button_multi_disclose.png"]
