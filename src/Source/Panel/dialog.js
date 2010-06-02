@@ -119,10 +119,10 @@ Jx.Dialog = new Class({
          * Option: limit
          * (optional) {Object} || false
          * passed to the Drag instance of this dialog to limit the movement
-         * see. {Object} must have x&y coordinates with a range,
-         * like {x:[0,500],y:[0,500]}. Set an id or a reference of a DOM Element
-         * (ie 'document', 'myContainerWithId', $('myContainer'), $('domID').getParent())
-         * to use these dimensions as boundaries. Default is false.
+         * {Object} must have x&y coordinates with a range, like {x:[0,500],y:[0,500]}.
+         * Set an id or a reference of a DOM Element (ie 'document', 'myContainerWithId', 
+         * $('myContainer'), $('domID').getParent()) to use these dimensions
+         * as boundaries. Default is false.
          */
         limit : false,
         /* Option: close
