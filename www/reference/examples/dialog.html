@@ -278,8 +278,8 @@ function drawPromptDialog() {
      */
     d8 = new Jx.Dialog.Prompt({
         image: 'images/help.png',
-        // set limit any DOM element reference: here the currently active Tab content
-        limit: $('basicDialog').getParent('div.tabContentActiveExamples'),
+        // set limit any DOM element reference: here the tab's panel content'
+        limit: $('basicDialog').getParent('div.jxPanelContentContainer'),
         prompt: {set:'Examples',key:'dialog',value:'dialogPrompt'},
         fieldOptions: {
           validatorOptions: {
