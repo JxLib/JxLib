@@ -672,7 +672,7 @@ Jx.Dialog = new Class({
       if($defined(reference)) this.options.limit = reference;
       
       // check drag limit if it is an container or string for an element and use dimensions
-      var limitType = Jx.type(this.options.limit);
+      var limitType = this.options.limit != null ? Jx.type(this.options.limit) : false;
       if(this.options.limit && limitType != 'object') {
         var coords = false;
         switch(limitType) {
