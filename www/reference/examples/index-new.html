@@ -219,7 +219,7 @@
                       new Jx.Menu.Item({
                         label : {set:'Examples',key:'navigation',value:'new-window'},
                         onClick : function(ev) {
-                          window.open(item.options.contentURL, "_blank");
+                          window.open(item.options.contentURL, item.getText(item.options.label));
                         }
                       })
                     );

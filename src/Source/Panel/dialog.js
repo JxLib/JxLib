@@ -228,6 +228,10 @@ Jx.Dialog = new Class({
                     self.contentContainer.setStyle('visibility','hidden');
                     self.chrome.addClass('jxChromeDrag');
                     if(self.options.limit) {
+                      var coords = self.options.limitOrig.getCoordinates();
+                      for(var i in coords) {
+                        window.console ? console.log(i, coords[i]) : false;
+                      }
                       this.options.limit = self.setDragLimit(self.options.limitOrig);
                     }
                 }, // COMMENT: removed bind(this) for setting the limit to the drag instance
@@ -657,6 +661,13 @@ Jx.Dialog = new Class({
       return this.keyboardEvents;
     },
 
+    /**
+     * Method: setDragLimit
+     * calculates the drag-dimensions of an given element to drag
+     *
+     * Parameters:
+     * - reference {Object} (optional) the element|elementId|object to set the limits
+     */
     setDragLimit : function(reference) {
       if($defined(reference)) this.options.limit = reference;
       
