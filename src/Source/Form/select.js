@@ -111,7 +111,7 @@ Jx.Field.Select = new Class({
                 group.options.each(function(option){
                     var opt = new Element('option', {
                         'value': option.value,
-                        'html': option.text
+                        'html': this.getText(option.text)
                     });
                     if ($defined(option.selected) && option.selected) {
                         opt.set("selected", "selected");
@@ -139,7 +139,7 @@ Jx.Field.Select = new Class({
     addOption: function (item, position) {
         var opt = new Element('option', {
             'value': item.value,
-            'html': item.text
+            'html': this.getText(item.text)
         });
         if ($defined(item.selected) && item.selected) {
             opt.set("selected", "selected");

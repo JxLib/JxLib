@@ -13,8 +13,8 @@ window.addEvent('load', function() {
     drawBasicPanel();
     drawToolbarPanel();
 }); 
-if(document.getElementsByClassName('tabContentActive').length > 0) {
-  document.getElementsByClassName('tabContentActive')[0].addEvent('loadAjax', function() {
+if($(document).getElements('.tabContentActiveExamples').length > 0) {
+  $(document).getElements('.tabContentActiveExamples')[0].addEvent('loadAjax', function() {
     drawBasicPanel();
     drawToolbarPanel();
   });
@@ -46,6 +46,7 @@ function drawBasicPanel() {
         image: 'images/page_white_world.png',
         label: { set: 'Examples', key: 'panel', value: 'basic2' },
         contentURL: 'panel_content.html',
+        loadOnDemand: true,   // this option is ignored in panels
         menu: true,
         height: 200
     }).addTo('panelBasic');
@@ -81,7 +82,7 @@ function drawToolbarPanel() {
 <body>
 
 <h1>Jx.Panel Examples</h1>
-<p>API Reference: <a id="panel-js" href="javascript:void();" title="link to API Reference">Jx.Panel</a> See Also: <a id="toolbar-js" href="javascript:void();" title="link to API Reference">Jx.Toolbar</a></p>
+<p>API Reference: <a id="panel-js" href="javascript:void(0);" title="link to API Reference">Jx.Panel</a> See Also: <a id="toolbar-js" href="javascript:void(0);" title="link to API Reference">Jx.Toolbar</a></p>
 
 <h2 id="basicPanel">A Panel with content</h2>
 <p>A panel is a container that wraps around existing content using the Jx.ContentLoader API and adds a few extras such as an optional title bar and managed toolbars.  Panels are the basic building block of dialogs and tab boxes, but can be used by themselves.</p>

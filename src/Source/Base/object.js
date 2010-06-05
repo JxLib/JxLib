@@ -251,10 +251,9 @@ Jx.Object = new Class({
                 } else {
                     index = numArgs;
                 }
-                options = {};
                 for (var i = 0; i < index; i++) {
                     if (this.parameters[i] === 'options') {
-                        options = $merge(options, arguments[i]);
+                        $extend(options, arguments[i]);
                     } else {
                         options[this.parameters[i]] = arguments[i];
                     }

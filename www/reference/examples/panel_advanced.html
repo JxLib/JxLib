@@ -15,8 +15,9 @@ window.addEvent('load', function() {
     drawTabPanel();
     drawSplitPanel();
 });
-if(document.getElementsByClassName('tabContentActive').length > 0) {
-  document.getElementsByClassName('tabContentActive')[0].addEvent('loadAjax', function() {
+
+if($(document).getElements('.tabContentActiveExamples').length > 0) {
+  $(document).getElements('.tabContentActiveExamples')[0].addEvent('loadAjax', function() {
     drawPanelSet();
     drawTabPanel();
     drawSplitPanel();
@@ -24,11 +25,11 @@ if(document.getElementsByClassName('tabContentActive').length > 0) {
 }
 </script>
 
-<script id="drawPanelSetScript" type='text/javascript'>
+<script id="drawPanelSetScript" type="text/javascript">
 function drawPanelSet() {
     // A Panel with a Panel Set for content.
     //Toolbar definition
-    var toolbar1 = new Jx.Toolbar().add(
+    var toolbarPanel1 = new Jx.Toolbar().add(
         new Jx.Button({
             label:'b1'
         }),
@@ -47,7 +48,7 @@ function drawPanelSet() {
         new Jx.Panel({
             contentURL: 'panel_content.html',
             label: 'Panel 2',
-            toolbars: [toolbar1],
+            toolbars: [toolbarPanel1],
             maximize: true,
             collapse: false
         })
@@ -63,7 +64,7 @@ function drawPanelSet() {
 }
 </script>
 
-<script id="drawTabPanelScript" type='text/javascript'>
+<script id="drawTabPanelScript" type="text/javascript">
 function drawTabPanel() {
     // A Panel with a Tab Box for content.
     // Tab Box definition
@@ -88,11 +89,11 @@ function drawTabPanel() {
 }
 </script>
 
-<script id="drawSplitPanelScript" type='text/javascript'>
+<script id="drawSplitPanelScript" type="text/javascript">
 function drawSplitPanel() {
     // A Split Panel for content.
     
-    var toolbar = new Jx.Toolbar().add(
+    var toolbarPanel2 = new Jx.Toolbar().add(
         new Jx.Button({
             label:'b1'
         }),
@@ -104,7 +105,7 @@ function drawSplitPanel() {
     var panel3 = new Jx.Panel({
         label: 'Panel with Splitter', 
         height: 200,
-        toolbars: [toolbar],
+        toolbars: [toolbarPanel2],
         parent: 'splitPanelBox'
     });
 
@@ -122,7 +123,7 @@ function drawSplitPanel() {
             content: 'tab4'
         })
     );
-};
+}
 </script>
 
 </head>

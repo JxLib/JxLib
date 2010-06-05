@@ -25,8 +25,9 @@ provides: [Jx.Adaptor.Tree]
  */
 Jx.Adaptor.Tree = new Class({
     
-    Family: 'Jx.Adaptor.Tree',
+
     Extends: Jx.Adaptor,
+    Family: 'Jx.Adaptor.Tree',
     
     Binds: ['fill','checkFolder'],
     

@@ -15,8 +15,8 @@ window.addEvent('load', function() {
     embeddedFlyout();
     disabledFlyout();
 });
-if(document.getElementsByClassName('tabContentActive').length > 0) {
-  document.getElementsByClassName('tabContentActive')[0].addEvent('loadAjax', function() {
+if($(document).getElements('.tabContentActiveExamples').length > 0) {
+  $(document).getElements('.tabContentActiveExamples')[0].addEvent('loadAjax', function() {
     inlineFlyout();
     ajaxFlyout();
     embeddedFlyout();
@@ -45,7 +45,23 @@ function ajaxFlyout() {
       label: 'Asynchronous Content',
       image: 'images/page_white_world.png',
       contentURL: 'button_content.html',
-      //loadOnDemand: true,
+      onOpen: function() {log('flyout open event');},
+      onClose: function() {log('flyout close event');}
+    }).addTo('flyoutAjax');
+    new Jx.Button.Flyout({
+      label: 'Ajax (load on 1st click)',
+      image: 'images/page_white_world.png',
+      contentURL: 'button_content.html',
+      loadOnDemand: true,
+      onOpen: function() {log('flyout open event');},
+      onClose: function() {log('flyout close event');}
+    }).addTo('flyoutAjax');
+    new Jx.Button.Flyout({
+      label: 'Ajax (load everytime)',
+      image: 'images/page_white_world.png',
+      contentURL: 'button_content.html',
+      loadOnDemand: true,
+      cacheContent: false,
       onOpen: function() {log('flyout open event');},
       onClose: function() {log('flyout close event');}
     }).addTo('flyoutAjax');

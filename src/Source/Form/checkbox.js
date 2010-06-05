@@ -10,7 +10,7 @@ license: MIT-style license.
 requires:
  - Jx.Field
 
-provides: [Jx.Field.Check]
+provides: [Jx.Field.Checkbox]
 
 ...
  */

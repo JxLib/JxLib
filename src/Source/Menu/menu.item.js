@@ -44,6 +44,7 @@ images:
 Jx.Menu.Item = new Class({
     Family: 'Jx.Menu.Item',
     Extends: Jx.Button,
+    // Binds: ['onMouseOver'],
     /**
      * Property: owner
      * {<Jx.SubMenu> or <Jx.Menu>} the menu that contains the menu item.
@@ -110,7 +111,7 @@ Jx.Menu.Item = new Class({
      * Method: hide
      * Hide the menu item.
      */
-    hide: function() {this.blur();},
+    hide: function() {this.blur.delay(1,this);},
     /**
      * Method: show
      * Show the menu item
@@ -128,22 +129,26 @@ Jx.Menu.Item = new Class({
     clicked: function(obj) {
         if (this.options.enabled) {
             if (this.options.toggle) {
-                this.setActive(!this.options.active);
+                this.setActive.delay(1,this,!this.options.active);
             }
-            this.fireEvent('click', this);
+            this.fireEvent.delay(1, this, ['click', {obj: this}]);
+            this.blur();
             if (this.owner && this.owner.deactivate) {
-                this.owner.deactivate(obj.event);
+                this.owner.deactivate.delay(1, this.owner, obj.event);
             }
         }
+        return false;
     },
     /**
      * Method: onmouseover
      * handle the mouse moving over the menu item
      */
-    onMouseOver: function() {
+    onMouseOver: function(e) {
+        e.stop();
         if (this.owner && this.owner.setVisibleItem) {
             this.owner.setVisibleItem(this);
         }
+        return false;
     },
     
     /**

@@ -21,6 +21,7 @@ requires:
 
 provides: [Drag]
 
+...
 */
 
 var Drag = new Class({

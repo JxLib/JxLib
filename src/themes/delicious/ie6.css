@@ -55,6 +55,7 @@ ul.jxToolbar .jxButton:active,
   outline: expression(hideFocus='true');
 }
 
+ul.jxToolbar .jxButton:active span.jxButtonContent,
 .jxButton:active span.jxButtonContent {
   background-position: right -96px;
 }
@@ -65,6 +66,7 @@ ul.jxToolbar .jxButtonActive:active,
   background-position: left -144px;
 }
 
+ul.jxToolbar .jxButtonActive:active span.jxButtonContent,
 .jxButtonActive:active span.jxButtonContent {
   background-position: right -144px;
 }
@@ -75,6 +77,7 @@ ul.jxToolbar .jxButtonPressed:active,
   background-position: left -120px;
 }
 
+ul.jxToolbar .jxButtonPressed:active span.jxButtonContent,
 .jxButtonPressed:active span.jxButtonContent {
   background-position: right -120px;
 }

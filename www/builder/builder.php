@@ -11,6 +11,7 @@ $basedir = 'src';
 $libs = array();
 $src = 'Source';
 $profile = array();
+$themes = array('crispin','delicious');
 
 if ($_REQUEST['mootools-core'] == 'on'){
 	$libs[] = 'core';
@@ -40,6 +41,12 @@ function removeBOM($str=""){
 //get files, concatenate them into a long string for each one
 //first core
 $srcString = array();
+$cssSrc = array();
+$imageList = array();
+foreach ($themes as $theme) {
+    $cssSrc[$theme] = '';
+}
+
 foreach ($libs as $lib){
 	$srcString[$lib] = '';
 	
@@ -49,6 +56,36 @@ foreach ($libs as $lib){
 	     	$file !== 'desc' ) {
 			$path = 'src'.DS.$lib.DS.'Source'.DS.$arr['fname'];
 			$srcString[$lib] .= removeBOM(file_get_contents($path));
+
+            //get css file if there is one... one for each theme
+            if ($lib == 'jxlib' && array_key_exists('css',$arr) && !empty($arr['css'])) {
+                //echo "<br>checking for css and images...";
+                foreach ($themes as $theme) {
+                    //echo "<br>theme: $theme";
+                    $path = dirname(__FILE__). DS .'src'.DS.'jxlib'.DS.'themes' . DS .$theme. DS .'css'.DS;
+                    $pathAlt = dirname(__FILE__). DS .'src'.DS.'jxlib'.DS. 'themes' . DS . $theme.DS;
+                    foreach ($arr['css'] as $file) {
+                        $p = $path . $file . '.css';
+                        //echo "<br>checking main path $p";
+                        if (!file_exists($p)) {
+                            $p = $pathAlt . $file . '.css';
+                            //echo "<br>checking alternate path $p";
+                            if (!file_exists($p)) {
+                                continue;
+                            }
+                        }
+                        //echo "<br>including css file $p";
+                        $cssSrc[$theme] .= removeBOM(file_get_contents($p));
+                    }
+
+                    if (array_key_exists('images',$arr) && !empty($arr['images'])) {
+                        //we'll need to move files to where they belong per theme... but for now,
+                        //just get the names of all the images we need
+                        $imageList = array_merge($imageList,$arr['images']);
+                    }
+
+                }
+            }
 		}
 	}
 }
@@ -117,6 +154,16 @@ switch ($_REQUEST['j-compress']){
 		}
 		break;
 }
+
+//compress CSS files...
+require_once 'includes/minify_css.php';
+$cssFiles = array();
+foreach ($cssSrc as $key => $src) {
+    $cssFiles[$key] = array();
+    $cssFiles[$key]['uncompressed'] = $src;
+    $cssFiles[$key]['compressed'] = Minify_CSS_Compressor::process($src);
+}
+
 $licenseFile['jxlib'] = removeBOM(file_get_contents('src'.DS.'jxlib'.DS.'Source'.DS.'license.js'));
 $licenseFile['core'] = '/*'.removeBOM(file_get_contents('src'.DS.'core'.DS.'Source'.DS.'license.txt')).'*/';
 
@@ -168,6 +215,47 @@ foreach ($strFiles as $key => $f){
 	$filesToArchive[] = $name;
 }
 
+$includedPic = false;
+//place the theme css files...
+$theme_dir = $work_dir.$archiveDir.DS.'themes';
+mkdir($theme_dir);
+foreach ($themes as $theme) {
+    mkdir($theme_dir . DS . $theme);
+    mkdir($theme_dir . DS . $theme . DS . 'images');
+    //save the two css files...
+    $name = $theme_dir . DS . $theme . DS . 'jxtheme.css';
+    file_put_contents($name,$cssFiles[$theme]['compressed']);
+    $filesToArchive[] = $name;
+    $name = $theme_dir . DS . $theme . DS . 'jxtheme.uncompressed.css';
+    file_put_contents($name,$cssFiles[$theme]['uncompressed']);
+    $filesToArchive[] = $name;
+
+    //copy the two ie files
+    $name = $theme_dir.DS.$theme . DS . 'ie6.css';
+    copy('src'.DS.'jxlib'.DS.'themes'.DS.$theme.DS.'ie6.css',$name);
+    $filesToArchive[] = $name;
+
+    $name = $theme_dir.DS.$theme . DS . 'ie7.css';
+    copy('src'.DS.'jxlib'.DS.'themes'.DS.$theme.DS.'ie7.css',$name);
+    $filesToArchive[] = $name;
+
+    //now the images for the theme
+    foreach ($imageList as $file) {
+        $isPic = (strpos($file,'a_pixel.png') !== false)?true:false;
+        //echo "<br>file $file is a_pixel.png = ";var_dump($isPic);
+
+        if ($isPic && !$includedPic) {
+            $includedPic = true;
+            $name = $work_dir.$archiveDir.DS.$file;
+            copy('src'.DS.'jxlib'.DS.'themes'.DS.$theme.DS.'images'.DS.$file, $name);
+            $filesToArchive[] = $name;
+        }
+        $name = $theme_dir.DS.$theme . DS . 'images' .DS . $file;
+        copy('src'.DS.'jxlib'.DS.'themes'.DS.$theme.DS.'images'.DS.$file, $name);
+        $filesToArchive[] = $name;
+    }
+}
+
 //create JSON profile file
 $profile['files'] = $_REQUEST['files'];
 $profile['opt-deps'] = isset($_REQUEST['opt_deps'])?true:false;
@@ -178,6 +266,9 @@ file_put_contents($file,json_encode($profile));
 $filesToArchive[] = $file;
 
 
+
+
+/*
 //add theme and image assets to the file list
 $iterator = new RecursiveDirectoryIterator('assets');
 $it = new RecursiveIteratorIterator($iterator);
@@ -187,6 +278,7 @@ while($it->valid()){
 	}
 	$it->next();
 }
+*/
 
 $archiveName = '';
 $fileName = '';
@@ -194,6 +286,7 @@ $archiveSubPath = $archiveDir;
 //need zlib and bzip2 compression libraries for this part to work.
 switch ($_REQUEST['f-compress']){
 	case 'zip':
+        //echo "<br><br>creating zip file...";
 		$fileName = "jxlib.zip";
 		$archiveSubPath .= DS.$fileName;
 		$archiveName = $work_dir.$archiveSubPath;
@@ -201,16 +294,16 @@ switch ($_REQUEST['f-compress']){
 		$archive->open($archiveName, ZIPARCHIVE::CREATE);
 		$includedPic = false;
 		foreach ($filesToArchive as $file){
+            //echo "<br>adding File: $file";
 			$sections = explode(DS,$file);
 			$isPic = (strpos($file,'a_pixel.png') > 0)?true:false;
-			if ($sections[0] == 'work' || ($isPic && !$includedPic)) {
-			    if ($isPic) {
-                    $includedPic = true;
-                }
-				$archive->addFile($file,'jxlib'.DS.$sections[count($sections)-1]);		
-			} else if (!$isPic) {
-				$archive->addFile($file, 'jxlib'.DS.$file);
-			}
+			if ($sections[0] == 'work') {
+                array_shift($sections);
+                array_shift($sections);
+
+                //echo "<br>adding to zip file at: jxlib".DS.implode(DS,$sections);
+				$archive->addFile($file,'jxlib'.DS.implode(DS,$sections));		
+            }
 		}
 		$archive->close();
 		break;
@@ -223,14 +316,9 @@ switch ($_REQUEST['f-compress']){
 		$includedPic = false;
 		foreach ($filesToArchive as $file){
 			$sections = explode(DS,$file);
-			$isPic = (strpos($file,'a_pixel.png') > 0)?true:false;
-			if ($sections[0] == 'work' || ($isPic && !$includedPic)) {
-			    if ($isPic) {
-			        $includedPic = true;
-			    }
-				$tar->addString('jxlib'.DS.$sections[count($sections)-1],file_get_contents($file));
-			} else if (!$isPic){
-				$tar->addString('jxlib'.DS.$file, file_get_contents($file));
+			if ($sections[0] == 'work' ) {
+
+				$tar->addString('jxlib'.DS.implode(DS,$sections),file_get_contents($file));
 			}
 		}
 		break;
@@ -243,19 +331,14 @@ switch ($_REQUEST['f-compress']){
 		$includedPic = false;
 		foreach ($filesToArchive as $file){
 			$sections = explode(DS,$file);
-			$isPic = (strpos($file,'a_pixel.png') > 0)?true:false;
-			if ($sections[0] == 'work' || ($isPic && !$includedPic)) {
-			    if ($isPic) {
-                    $includedPic = true;
-                }
-				$tar->addString('jxlib'.DS.$sections[count($sections)-1],file_get_contents($file));
-			} else if (!$isPic){
-				$tar->addString('jxlib'.DS.$file, file_get_contents($file));
-			}
+			if ($sections[0] == 'work') {
+				$tar->addString('jxlib'.DS.implode(DS,$sections),file_get_contents($file));
+			} 
 		}
 		break;
 }
 
+/**
 //remove the files from the server
 foreach ($filesToArchive as $file){
 	$sections = explode(DS,$file);
@@ -263,6 +346,8 @@ foreach ($filesToArchive as $file){
 		unlink($file);
 	}
 }
+*/
+
 
 //setup the return object to send via JSON
 $obj = new stdClass();

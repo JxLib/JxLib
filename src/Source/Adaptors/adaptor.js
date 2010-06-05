@@ -33,9 +33,10 @@ provides: [Jx.Adaptor]
  */
 Jx.Adaptor = new Class({
 	
-	Family: 'Jx.Adaptor',
+
 	Extends: Jx.Plugin,
-	
+	Family: 'Jx.Adaptor',
+    
 	name: 'Jx.Adaptor',
 
 	options: {

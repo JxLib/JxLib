@@ -45,7 +45,7 @@ images:
 Jx.Menu = new Class({
     Family: 'Jx.Menu',
     Extends: Jx.Widget,
-    Binds: ['onMouseEnter','onMouseLeave','hide','keypressHandler'],
+    // Binds: ['onMouseEnter','onMouseLeave','hide','keypressHandler'],
     /**
      * Property: button
      * {<Jx.Button>} The button that represents this menu in a toolbar and
@@ -92,6 +92,17 @@ Jx.Menu = new Class({
         contentContainer: 'jxMenuContainer',
         subDomObj: 'jxMenu'
     }),
+    
+    init: function() {
+        this.bound.stop = function(e){e.stop();};
+        this.bound.remove = function(item) {item.setOwner(null);};
+        this.bound.show = this.show.bind(this);
+        this.bound.mouseenter = this.onMouseEnter.bind(this);
+        this.bound.mouseleave = this.onMouseLeave.bind(this);
+        this.bound.keypress = this.keypressHandler.bind(this);
+        this.bound.hide = this.hide.bind(this);
+        this.parent();
+    },
 
     /**
      * APIMethod: render
@@ -103,9 +114,6 @@ Jx.Menu = new Class({
             Jx.Menu.Menus = [];
         }
 
-        this.bound.stop = function(e){e.stop();};
-        this.bound.remove = function(item) {item.setOwner(null);};
-        this.bound.show = this.show.bind(this);
         
         this.contentContainer.addEvent('contextmenu', this.bound.stop);
         this.list = new Jx.List(this.subDomObj, {
@@ -120,15 +128,15 @@ Jx.Menu = new Class({
                 onClick:this.bound.show
             }));
 
-            this.button.domA.addEvent('mouseenter', this.onMouseEnter);
-            this.button.domA.addEvent('mouseleave', this.onMouseLeave);
+            this.button.domA.addEvent('mouseenter', this.bound.mouseenter);
+            this.button.domA.addEvent('mouseleave', this.bound.mouseleave);
 
             this.domObj = this.button.domObj;
             this.domObj.store('jxMenu', this);
         }
         
-        this.subDomObj.addEvent('mouseenter', this.onMouseEnter);
-        this.subDomObj.addEvent('mouseleave', this.onMouseLeave);
+        this.subDomObj.addEvent('mouseenter', this.bound.mouseenter);
+        this.subDomObj.addEvent('mouseleave', this.bound.mouseleave);
 
         if (this.options.parent) {
             this.addTo(this.options.parent);
@@ -143,24 +151,28 @@ Jx.Menu = new Class({
         this.domObj = null;
         this.button.removeEvent('click', this.bound.show);
         this.button.domA.removeEvents({
-          mouseenter: this.onMouseEnter,
-          mouseleave: this.onMouseLeave
+          mouseenter: this.bound.mouseenter,
+          mouseleave: this.bound.mouseleave
         });
         
         this.button.destroy();
         this.button = null;
       }
       this.subDomObj.removeEvents({
-        mouseenter: this.onMouseEnter,
-        mouseleave: this.onMouseLeave
+        mouseenter: this.bound.mouseenter,
+        mouseleave: this.bound.mouseleave
       });
       this.subDomObj.removeEvents();
       this.contentContainer.removeEvent('contextmenu', this.bound.stop);
       this.subDomObj.destroy();
       this.contentContainer.destroy();
-      this.bound.onRemove = null;
+      this.bound.remove = null;
       this.bound.show = null;
       this.bound.stop = null;
+      this.bound.mouseenter = null;
+      this.bound.mouseleave = null;
+      this.bound.keypress = null;
+      this.bound.hide = null;
       this.parent();
     },
     /**
@@ -239,12 +251,12 @@ Jx.Menu = new Class({
           this.hideTimer = null;
         }
         if (Jx.Menu.Menus[0] && Jx.Menu.Menus[0] != this) {
-            this.show({event:e});
+            this.show.delay(1,this);
         } else if (this.options.exposeOnHover) {
           if (Jx.Menu.Menus[0] && Jx.Menu.Menus[0] == this) {
             Jx.Menu.Menus[0] = null;
           }
-          this.show({event:e});
+          this.show.delay(1,this);
         }
     },
     /**
@@ -299,16 +311,6 @@ Jx.Menu = new Class({
             }
             return false;
         }
-
-        /*
-        this.list.items().some(
-            function(item) {
-                var menuItem = item.retrieve('jxMenuItem');
-                return menuItem instanceof Jx.Menu.SubMenu &&
-                       menuItem.eventInMenu(e);
-            }
-        );
-        */
     },
 
     /**
@@ -335,8 +337,8 @@ Jx.Menu = new Class({
             this.button.domA.removeClass(this.button.options.activeClass);
         }
         this.list.each(function(item){item.retrieve('jxMenuItem').hide(e);});
-        document.removeEvent('mousedown', this.hide);
-        document.removeEvent('keydown', this.keypressHandler);
+        document.removeEvent('mousedown', this.bound.hide);
+        document.removeEvent('keydown', this.bound.keypress);
         this.unstack(this.contentContainer);
         this.contentContainer.dispose();
         this.visibleItem = null;
@@ -391,9 +393,11 @@ Jx.Menu = new Class({
             this.button.domA.addClass(this.button.options.activeClass);
         }
 
-        /* fix bug in IE that closes the menu as it opens because of bubbling */
-        document.addEvent('mousedown', this.hide);
-        document.addEvent('keydown', this.keypressHandler);
+        /* fix bug in IE that closes the menu as it opens 
+         * because of bubbling (I think)
+         */
+        document.addEvent('mousedown', this.bound.hide);
+        document.addEvent('keydown', this.bound.keypress);
         this.fireEvent('show', this);
     },
     /**
@@ -428,7 +432,7 @@ Jx.Menu = new Class({
      * {Boolean} whether the menu is enabled or not
      */
     isEnabled: function() {
-        return this.button.isEnabled;
+        return this.button ? this.button.isEnabled() : this.options.enabled ;
     },
 
     /**
@@ -439,7 +443,7 @@ Jx.Menu = new Class({
      * enabled - {Boolean} the new enabled state of the menu
      */
     setEnabled: function(enabled) {
-        return this.button.setEnabled(enabled);
+        return this.button ? this.button.setEnabled(enabled) : this.options.enable;
     },
     /**
      * APIMethod: isActive
@@ -449,7 +453,7 @@ Jx.Menu = new Class({
      * {Boolean} the active state of the menu
      */
     isActive: function() {
-        return this.button.isActive();
+        return this.button ? this.button.isActive() : this.options.active;
     },
     /**
      * APIMethod: setActive
@@ -459,7 +463,9 @@ Jx.Menu = new Class({
      * active - {Boolean} the new active state of the menu
      */
     setActive: function(active) {
-        this.button.setActive(active);
+        if (this.button) {
+          this.button.setActive(active);
+        }
     },
     /**
      * APIMethod: setImage
@@ -469,7 +475,9 @@ Jx.Menu = new Class({
      * path - {String} the new url to use as the image for this menu
      */
     setImage: function(path) {
-        this.button.setImage(path);
+        if (this.button) {
+          this.button.setImage(path);
+        }
     },
     /**
      * APIMethod: setLabel
@@ -481,7 +489,9 @@ Jx.Menu = new Class({
      * label - {String} the new label for the menu
      */
     setLabel: function(label) {
-        this.button.setLabel(label);
+        if (this.button) {
+          this.button.setLabel(label);
+        }
     },
     /**
      * APIMethod: getLabel
@@ -489,7 +499,7 @@ Jx.Menu = new Class({
      * returns the text of the menu.
      */
     getLabel: function() {
-        return this.button.getLabel();
+        return this.button ? this.button.getLabel() : '';
     },
     /**
      * APIMethod: setTooltip
@@ -499,21 +509,27 @@ Jx.Menu = new Class({
      * tooltip - {String} the new tooltip
      */
     setTooltip: function(tooltip) {
-        this.button.setTooltip(tooltip);
+        if (this.button) {
+          this.button.setTooltip(tooltip);
+        }
     },
     /**
      * APIMethod: focus
      * capture the keyboard focus on this menu
      */
     focus: function() {
-        this.button.focus();
+        if (this.button) {
+          this.button.focus();
+        }
     },
     /**
      * APIMethod: blur
      * remove the keyboard focus from this menu
      */
     blur: function() {
-        this.button.blur();
+        if (this.button) {
+          this.button.blur();
+        }
     }
 });
 

@@ -164,6 +164,10 @@ Jx.Tab = new Class({
           if(this.options.active) {
             this.clicked();
           }
+        }else{
+          this.addEvent('contentLoaded', function(ev) {
+            this.setActive(true);
+          }.bind(this));
         }
         this.addEvent('down', function(){
             this.content.addClass(this.options.activeTabClass);
@@ -207,10 +211,6 @@ Jx.Tab = new Class({
         // load on demand or reload content if caching is disabled
         }else if(this.options.loadOnDemand || !this.options.cacheContent){
           this.loadContent(this.content);
-          this.addEvent('contentLoaded', function(ev) {
-            //this.setBusy(false);
-            this.setActive(true);
-          }.bind(this));
         }else{
           this.setActive(true);
         }

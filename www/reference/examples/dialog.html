@@ -18,8 +18,8 @@
         drawConfirmDialog();
         drawPromptDialog();
     });
-    if(document.getElementsByClassName('tabContentActive').length > 0) {
-      document.getElementsByClassName('tabContentActive')[0].addEvent('loadAjax', function() {
+   if($(document).getElements('.tabContentActiveExamples').length > 0) {
+      $(document).getElements('.tabContentActiveExamples')[0].addEvent('loadAjax', function() {
         drawBasicDialog();
         drawPositionedDialog();
         drawToolbarDialog();
@@ -37,7 +37,7 @@
      * dialog but it is functional if you resize the dialog
      */
     window.addEvent('stylesheetChanged', function() {
-        [d1,d2,d3,d4,d5].each(function(d) {
+        [d1,d2,d3,d4,d5,d6,d7,d8,d9].each(function(d) {
             if (d && d.chrome) {
                 d.close();
                 d.chrome.dispose();
@@ -87,6 +87,8 @@ function drawPositionedDialog() {
         resize: true,
         maximize: true,
         useKeyboard: true,
+        //limit: {x:[0,window.getCoordinates().right], y:[0,window.getCoordinates().bottom]},
+        limit: document,
         // example how to add custom keyboard shortcuts, this also works with subclasses
         keys : {
           'alt+enter' : 'maximizeDialog',
@@ -114,7 +116,7 @@ function drawPositionedDialog() {
     }).addTo('positionedDialogButton');
 }
 </script>
-<script id="toolbarDialogScript">
+<script type="text/javascript" id="toolbarDialogScript">
 function drawToolbarDialog() {   
     /* A dialog with a toolbar that loads its content from a URL
      * and does something with the content after it is loaded.
@@ -122,8 +124,8 @@ function drawToolbarDialog() {
       This dialog is positioned relative to the right and bottom
      * of the page.
      */
-    var toolbar = new Jx.Toolbar({position:'top'});
-    toolbar.add(
+    var toolbarDialog = new Jx.Toolbar({position:'top'});
+    toolbarDialog.add(
         new Jx.Button({
             label: 'button 1', 
             onClick: function() {
@@ -131,13 +133,13 @@ function drawToolbarDialog() {
             }
         }),
         new Jx.Button({
-            label: 'button 2', 
+            label: 'reload content',
             onClick: function() {
+                d3.openURL(d3.options.contentURL);
                 log('button 2 inside dialog clicked');
             }
         })
     );
-    
     d3 = new Jx.Dialog({
         label: {set:'Examples',key:'dialog',value:'dialogDynamic'},
         image: 'images/page_white_world.png',
@@ -154,17 +156,32 @@ function drawToolbarDialog() {
                 el.set('html', 'Content Updated!');
             }
         },
-        toolbars: [toolbar]
+        toolbars: [toolbarDialog]
     });
-    
     new Jx.Button({
         image: 'images/page_white_world.png', 
         label: {set:'Examples',key:'dialog',value:'btnDynamic'},
         onClick: d3.open.bind(d3)
     }).addTo('toolbarDialogButton');
+    new Jx.Button({
+        image: 'images/page_white_world.png',
+        label: 'busy dialog',
+        toggle: true,
+        onDown: function() {
+          if(d3.domObj.getStyle('display') == 'block') {
+            // set dialog busy with custom (localized) message
+            d3.setBusy(true, {set:'Examples',key:'dialog',value:'btnBusy'}, true);
+          }
+        },
+        onUp: function() {
+          if(d3.domObj.getStyle('display') == 'block') {
+            d3.setBusy(false);
+          }
+        }
+    }).addTo('toolbarDialogButton');
 }
 </script>
-<script id="ajaxFailedDialogScript">
+<script type="text/javascript" id="ajaxFailedDialogScript">
 function drawAjaxFailedDialog() {
     /* a dialog that fails to load some content so we can test the
      * content events
@@ -177,6 +194,7 @@ function drawAjaxFailedDialog() {
         height: 400,
         /* test failure to load content */
         contentURL: 'invalid_content_url.html',
+        loadOnDemand: false,
         onContentLoaded: function() {
           log('Loaded content when it shouldn\'t have');
           this.content.innerHTML = "<h3>Fail!</h3>" +
@@ -199,7 +217,7 @@ function drawAjaxFailedDialog() {
     }).addTo('ajaxFailedDialogButton');
 }
 </script>
-<script id="confirmDialogScript">
+<script type="text/javascript" id="confirmDialogScript">
 function drawConfirmDialog() {
 
     /**
@@ -207,6 +225,7 @@ function drawConfirmDialog() {
      */
     d5 = new Jx.Dialog.Confirm({
         image: 'images/help.png',
+        limit: document,
         question: {set:'Examples',key:'dialog',value:'dialogConfirm'},
         onClose : function(dialog, value) {
           log("You clicked "+ value);
@@ -223,6 +242,8 @@ function drawConfirmDialog() {
      */
     d6 = new Jx.Dialog.Message({
         image   : 'images/world.png',
+        // set the moving limit of a dialog to the id of a DOM element
+        limit: 'confirmDialog',
         message : {set:'Examples',key:'dialog',value:'dialogMessage'}
     });
 
@@ -250,13 +271,15 @@ function drawConfirmDialog() {
     }).addTo('confirmDialogButton');
 }
 </script>
-<script id="promptDialogScript">
+<script type="text/javascript" id="promptDialogScript">
 function drawPromptDialog() {
     /**
      * Prompt Dialog in default state with a Jx.Field.Text and an email validator
      */
     d8 = new Jx.Dialog.Prompt({
         image: 'images/help.png',
+        // set limit any DOM element reference: here the tab's panel content'
+        limit: $('basicDialog').getParent('div.jxPanelContentContainer'),
         prompt: {set:'Examples',key:'dialog',value:'dialogPrompt'},
         fieldOptions: {
           validatorOptions: {
@@ -364,7 +387,7 @@ function drawPromptDialog() {
 <p>Some examples of a custom window.prompt() dialog that can be configured in many ways.</p>
 <div id="promptDialogButton" class="buttonBox"></div>
 
-<div id='inlineContent'>
+<div id="inlineContent">
   <h3>Inline Content</h3>
   <p>This content is loaded by specifying the id of the element to use in the dialog.  The dialog should be modal and start at a specific location (200 pixels from left of modal background, 100 pixels from top).  The content background is white because the content itself has a background color style.</p>
 </div>

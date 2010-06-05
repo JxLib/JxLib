@@ -35,8 +35,9 @@ provides: [Jx.Adaptor.Tree.Parent]
  */
 Jx.Adaptor.Tree.Parent = new Class({
     
-    Family: 'Jx.Adaptor.Tree.Parent',
+
     Extends: Jx.Adaptor.Tree,
+    Family: 'Jx.Adaptor.Tree.Parent',
     
     options: {
         parentColumn: 'parent',

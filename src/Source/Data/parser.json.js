@@ -8,7 +8,7 @@ description: Parser for reading and writting JSON formatted data.
 license: MIT-style license.
 
 requires:
- - Jx.Parser
+ - Jx.Store.Parser
  - Core/JSON
 
 provides: [Jx.Store.Parser.JSON]

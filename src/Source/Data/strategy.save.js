@@ -64,9 +64,9 @@ Jx.Store.Strategy.Save = new Class({
      * initialize this strategy
      */
     init: function () {
+        this.bound.save = this.saveRecord.bind(this);
+        this.bound.completed = this.onComplete.bind(this);
         this.parent();
-        this.bound.saveRecord = this.saveRecord.bind(this);
-        this.bound.onComplete = this.onComplete.bind(this);
     },
     
     /**

@@ -44,7 +44,7 @@ Jx.Toolbar.Item = new Class( {
         domObj: 'jxToolItem'
     }),
 
-    parameters: ['jxThing'],
+    parameters: ['jxThing', 'options'],
 
     /**
      * APIMethod: render

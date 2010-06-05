@@ -141,6 +141,16 @@ Jx.Dialog = new Class({
          * moveable by the user or not.  Default is true.
          */
         move: true,
+        /*
+         * Option: limit
+         * (optional) {Object} || false
+         * passed to the Drag instance of this dialog to limit the movement
+         * {Object} must have x&y coordinates with a range, like {x:[0,500],y:[0,500]}.
+         * Set an id or a reference of a DOM Element (ie 'document', 'myContainerWithId', 
+         * $('myContainer'), $('domID').getParent()) to use these dimensions
+         * as boundaries. Default is false.
+         */
+        limit : false,
         /* Option: close
          * (optional) {Boolean} determines whether the dialog is
          * closeable by the user or not.  Default is true.
@@ -226,18 +236,45 @@ Jx.Dialog = new Class({
         /* the dialog is moveable by its title bar */
         if (this.options.move && typeof Drag != 'undefined') {
             this.title.addClass('jxDialogMoveable');
+
+            this.options.limit = this.setDragLimit(this.options.limit);
+            // local reference to use Drag instance variables inside onDrag()
+            var self = this;
+            // COMMENT: any reason why the drag instance isn't referenced to the dialog?
             new Drag(this.domObj, {
                 handle: this.title,
+                limit: this.options.limit,
                 onBeforeStart: (function(){
                     this.stack();
                 }).bind(this),
-                onStart: (function() {
-                    if (!this.options.modal && this.options.parent.mask) {
-                      this.options.parent.mask(this.options.eventMaskOptions);
+                onStart: function() {
+                    if (!self.options.modal && self.options.parent.mask) {
+                      self.options.parent.mask(self.options.eventMaskOptions);
                     }
-                    this.contentContainer.setStyle('visibility','hidden');
-                    this.chrome.addClass('jxChromeDrag');
-                }).bind(this),
+                    self.contentContainer.setStyle('visibility','hidden');
+                    self.chrome.addClass('jxChromeDrag');
+                    if(self.options.limit) {
+                      var coords = self.options.limitOrig.getCoordinates();
+                      for(var i in coords) {
+                        window.console ? console.log(i, coords[i]) : false;
+                      }
+                      this.options.limit = self.setDragLimit(self.options.limitOrig);
+                    }
+                }, // COMMENT: removed bind(this) for setting the limit to the drag instance
+                onDrag: function() {
+                  if(this.options.limit) {
+                    // find out if the right border of the dragged element is out of range
+                    if(this.value.now.x+self.options.width >= this.options.limit.x[1]) {
+                      this.value.now.x = this.options.limit.x[1] - self.options.width;
+                      this.element.setStyle('left',this.value.now.x);
+                    }
+                    // find out if the bottom border of the dragged element is out of range
+                    if(this.value.now.y+self.options.height >= this.options.limit.y[1]) {
+                      this.value.now.y = this.options.limit.y[1] - self.options.height;
+                      this.element.setStyle('top',this.value.now.y);
+                    }
+                  }
+                },
                 onComplete: (function() {
                     if (!this.options.modal && this.options.parent.unmask) {
                       this.options.parent.unmask();
@@ -535,6 +572,7 @@ Jx.Dialog = new Class({
         if (url) {
             this.options.contentURL = url;
             this.options.content = null;  //force Url loading
+            this.setBusy();
             this.loadContent(this.content);
             this.addEvent('contentLoaded', this.openOnLoaded);
         } else {
@@ -552,6 +590,11 @@ Jx.Dialog = new Class({
     open: function() {
         if (!this.isOpening) {
             this.isOpening = true;
+        }
+        // COMMENT: this works only for onDemand -> NOT for cacheContent = false..
+        // for this loading an URL everytime, use this.openURL(url) 
+        if(!this.contentIsLoaded && this.options.loadOnDemand) {
+          this.loadContent(this.content);
         }
         if (this.contentIsLoaded) {
             this.removeEvent('contentLoaded', this.openOnLoaded);
@@ -642,6 +685,52 @@ Jx.Dialog = new Class({
         }
       }
       return this.keyboardEvents;
+    },
+
+    /**
+     * Method: setDragLimit
+     * calculates the drag-dimensions of an given element to drag
+     *
+     * Parameters:
+     * - reference {Object} (optional) the element|elementId|object to set the limits
+     */
+    setDragLimit : function(reference) {
+      if($defined(reference)) this.options.limit = reference;
+      
+      // check drag limit if it is an container or string for an element and use dimensions
+      var limitType = this.options.limit != null ? Jx.type(this.options.limit) : false;
+      if(this.options.limit && limitType != 'object') {
+        var coords = false;
+        switch(limitType) {
+          case 'string':
+            if(document.id(this.options.limit)) {
+              coords = document.id(this.options.limit).getCoordinates();
+            }
+            break;
+          case 'element':
+          case 'document':
+          case 'window':
+            coords = this.options.limit.getCoordinates();
+            break;
+        }
+        if(coords) {
+          this.options.limitOrig = this.options.limit;
+          this.options.limit = {
+            x : [coords.left, coords.right],
+            y : [coords.top, coords.bottom]
+          }
+        }else{
+          this.options.limit = false;
+        }
+      }
+      return this.options.limit;
+    },
+
+    /**
+     * gets called by parent class Jx.Panel and decides whether to load content or not
+     */
+    shouldLoadContent: function() {
+      return !this.options.loadOnDemand;
     }
 });
 

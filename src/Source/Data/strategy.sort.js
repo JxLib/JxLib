@@ -9,7 +9,7 @@ license: MIT-style license.
 
 requires:
  - Jx.Store.Strategy
- - Jx.Sort
+ - Jx.Sort.Mergesort
  - Jx.Compare
 
 provides: [Jx.Store.Strategy.Sort]

@@ -82,6 +82,7 @@ function() {
     }
 });
 
+
 // add mutator that sets jxFamily when creating a class so we can check
 // its type
 Class.Mutators.Family = function(self, name) {
@@ -120,6 +121,33 @@ function $unlink(object) {
     }
     return unlinked;
 }
+
+/**
+ * Override of mootools-core 1.3's typeOf operator to prevent infinite recursion
+ * when doing typeOf on JxLib objects.
+ *
+var typeOf = this.typeOf = function(item){
+    if (item == null) return 'null';
+    if (item.jxFamily) return item.jxFamily;
+    if (item.$family) return item.$family();
+
+    if (item.nodeName){
+        if (item.nodeType == 1) return 'element';
+        if (item.nodeType == 3) return (/\S/).test(item.nodeValue) ? 'textnode' : 'whitespace';
+    } else if (typeof item.length == 'number'){
+        if (item.callee) return 'arguments';
+        if ('item' in item) return 'collection';
+    }
+
+    return typeof item;
+};
+
+this.$type = function(object){
+    var type = typeOf(object);
+    if (type == 'elements') return 'array';
+    return (type == 'null') ? false : type;
+};
+*/
 
 /* Setup global namespace.  It is possible to set the global namespace
  * prior to including jxlib.  This would typically be required only if

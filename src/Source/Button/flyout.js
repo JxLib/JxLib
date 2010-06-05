@@ -135,6 +135,10 @@ Jx.Button.Flyout = new Class({
         this.content.store('jxFlyout', this);
         if(!this.options.loadOnDemand || this.options.active) {
           this.loadContent(this.content);
+        }else{
+          this.addEvent('contentLoaded', function(ev) {
+            this.show(ev);
+          }.bind(this));
         }
     },
     cleanup: function() {
@@ -157,10 +161,24 @@ Jx.Button.Flyout = new Class({
         if (!this.options.enabled) {
             return;
         }
-        if(this.options.loadOnDemand || !this.options.cacheContent) {
+        if(this.contentIsLoaded && this.options.cacheContent) {
+          this.show(e);
+        // load on demand or reload content if caching is disabled
+        }else if(this.options.loadOnDemand || !this.options.cacheContent){
           this.loadContent(this.content);
+        }else{
+          this.show(e);
         }
-        /* find out what we are contained by if we don't already know */
+    },
+   /**
+    * Private Method: show
+    * Shows the Flyout after the content is loaded asynchronously
+    *
+    * Parameters:
+    * e - {Event} - the user or contentLoaded event
+    */
+    show: function(e) {
+       /* find out what we are contained by if we don't already know */
         if (!this.owner) {
             this.owner = document.body;
             var node = document.id(this.domObj.parentNode);
@@ -231,6 +249,7 @@ Jx.Button.Flyout = new Class({
         document.addEvent('click', this.clickHandler);
         this.fireEvent('open', this);
     },
+
     /**
      * APIMethod: hide
      * Closes the flyout if open

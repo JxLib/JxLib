@@ -12,6 +12,7 @@
     <script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript">
       window.addEvent('load', function() {
+
         var mainSplitter = new Jx.Splitter('splitMain', {
           containerOptions: [{resizeWithWindow: true,width: 200},{resizeWithWindow: true}]
         });
@@ -19,9 +20,46 @@
         var mainTabs = new Jx.TabBox({
           parent: mainSplitter.elements[1]
         }).add(new Jx.Tab({
-          label       : {set:'Examples',key:'navigation',value:'About'},
-          contentURL  : 'about.html'
+            label           : {set:'Examples',key:'navigation',value:'About'},
+            // adding custom class 'tabContentExample' to add/remove the background grid on every tab opened
+            contentTemplate : '<div class="tabContent tabContentExample"></div>',
+            contentURL      : 'about.html'
         }));
+
+        // open last open example from cookie ?
+        var lastExample = Cookie.read('JxExamples.CurrentExample');
+            lastExample = lastExample && lastExample.contains(",") ? lastExample.split(",") : false;
+        if(lastExample) {
+          /*
+          var lastTab = new Jx.Tab({
+                          label       : {set:'Examples',key:'navigation',value:lastExample[1]},
+                          contentURL  : lastExample[0],
+                          activeTabClass : 'tabContentActive tabContentActiveExamples',
+                          close       : true,
+                          // setting this to active slows down the page load a bit...
+                          active      : false,
+                          cacheContent: true,
+                          loadOnDemand: true
+                        });
+          // event on content loaded to load the scripts
+          lastTab.addEvents({
+            'contentLoaded': function() {
+              // COMMENT:
+              // somehow the custom event is fired too soon so the examples don't find a tabContentActiveExamples class..
+              this.content.fireEvent('loadAjax');
+            },
+            'down': function() {
+              Cookie.write('JxExamples.CurrentExample', [this.options.contentURL,this.options.label.value]);
+            },
+            'close': function() {
+              if(this.tabSet.tabs.length == 1) {
+                Cookie.write('JxExamples.CurrentExample', false);
+              }
+            }
+          });
+          mainTabs.add(lastTab);
+          */
+        }
 
         // custom function to find out if a tab is already loaded
         mainTabs.hasTabByURL = function(url) {
@@ -36,7 +74,6 @@
         }
 
         var mainTree = new Jx.Tree({parent: mainSplitter.elements[0]});
-
         var items = {
             'Jx-Examples': [
                 {'About':'about.html'},
@@ -95,6 +132,7 @@
             ]
         };
 
+        var openExamples = [];
         var makeTreeItem = function(o, tree) {
             for (var i in o) {
                 var v = o[i];
@@ -107,30 +145,45 @@
                 } else {
                     var item = new Jx.TreeItem({
                         label: {set:'Examples',key:'navigation',value:i},
+                        contentURL : v,
+                        active : lastExample[0] == v ? true : false,
                         onClick: function() {
                           this.setBusy(true);
-                          /*
-                          requestMain.options.url = v;
-                          requestMain.options.example = {set:'Examples',key:'navigation',value:i};
-                          requestMain.send();
-                          */
+
                           var tabExists = mainTabs.hasTabByURL(v);
+
                           if(!tabExists) {
+                            openExamples.push(v);
                             var newTab = new Jx.Tab({
-                                            label       : {set:'Examples',key:'navigation',value:i},
-                                            contentURL  : v,
-                                            close       : true,
-                                            active      : true,
-                                            cacheContent: true
+                                            label           : {set:'Examples',key:'navigation',value:i},
+                                            contentURL      : v,
+                                            activeTabClass  : 'tabContentActive tabContentActiveExamples',
+                                            // adding custom class 'tabContentExample' to add/remove the background grid on every tab opened
+                                            contentTemplate : '<div class="tabContent tabContentExample"></div>',
+                                            close           : true,
+                                            active          : true,
+                                            cacheContent    : true
                                           });
                             // event on content loaded to load the scripts
                             newTab.addEvents({
                               'contentLoaded': function() {
                                 newTab.content.fireEvent('loadAjax');
                                 item.setBusy(false);
-                                // <script> tags are ignored and cannot be addressed with the current way
-                                //beautifyDemoScripts('.tabContentActive h2')
-                                //makeLinksForApi('.tabContentActive a');
+                                var tagsTmp   = this.req.response.text.getTags('script', true),
+                                    tags      = [],
+                                    headlines = newTab.content.getElements('h2');
+
+                                tagsTmp.each(function(t) {
+                                  // COMMENT: any other better 'regex' test for the script ? :)
+                                  if(t.test('id=')) {
+                                    t = t.split("\n");
+                                    t.pop();    // clear first script line with id
+                                    t.shift();  // clear last script line
+                                    tags.push(t.join("\n"));
+                                  }
+                                });
+                                beautifyDemoScripts(headlines, tags);
+                                makeLinksForApi(newTab.content.getElements('a'));
                               },
                               // anything we can do when the content load fails? shouldn't happen on the examples page ;)
                               'contentLoadFailed': function() {
@@ -139,30 +192,56 @@
                               // if a script error occurs, the waiting icon won't stop, here we stop it when the tab is closed
                               'close': function() {
                                 item.setBusy(false)
+                                if(this.tabSet.tabs.length == 1) {
+                                  Cookie.write('JxExamples.CurrentExample', false);
+                                }
+                              },
+                              'down': function() {
+                                Cookie.write('JxExamples.CurrentExample', [v,i]);
                               }
                             });
                             mainTabs.tabSet.addEvents({
                               'tabChange':function(tabSet, tab) {
                                 // select the element on the tree to the left when the tab is activated? :)
-                                window.console ? console.log(mainTree.findChild([tab.options.label])) : false;
+                                //window.console ? console.log(mainTree.findChild([tab.options.label])) : false;
                               }
                             });
                             mainTabs.add(newTab);
                             log(i + " loaded");
                           }else{
-                            //mainTabs.tabSet.setActiveTab(tabExists);
                             tabExists.clicked();
                             item.setBusy(false);
                           }
-                          Cookie.write('JxExamples.CurrentExample', v);
+                          Cookie.write('JxExamples.CurrentExample', [v,i]);
                         }
                     });
+                    item.options.contextMenu = new Jx.Menu.Context(item.domA, {reference:item}).add(
+                      new Jx.Menu.Item({
+                        label : {set:'Examples',key:'navigation',value:'new-window'},
+                        onClick : function(ev) {
+                          window.open(item.options.contentURL, item.getText(item.options.label));
+                        }
+                      })
+                    );
                     tree.add(item);
                 }
             }
         };
         makeTreeItem(items, mainTree);
-        console.log(mainTree);
+
+
+        //console.log(mainTree);
+        /*
+        var mainContextMenu = new Jx.Menu.Context(mainTree);
+        mainContextMenu.add(
+          new Jx.Menu.Item({
+            label : {set:'Examples',key:'navigation',value:'new-window'},
+            onClick : function(a,b,c) {
+              console.log(a,b,c)
+            }
+          })
+        );
+        */
 
         if (Browser.Engine.trident4) {
             new Asset.css('../../lib/themes/crispin/ie6.css', { rel: 'stylesheet' });

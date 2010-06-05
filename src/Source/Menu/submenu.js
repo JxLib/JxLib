@@ -109,7 +109,7 @@ Jx.Menu.SubMenu = new Class({
         }
         this.menu.show();
         this.open = true;
-        this.setActive(true);
+        // this.setActive(true);
     },
 
     eventInMenu: function(e) {
