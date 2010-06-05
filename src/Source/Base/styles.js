@@ -51,7 +51,7 @@ Jx.Styles = new(new Class({
             if (i == -1) {
                 rule = this.insertCssRule(selector, '', styleSheetName);
             } else {
-                if (Browser.Engine.name === 'trident') {
+                if (Browser.Engine.trident) {
                     rule = ss.sheet.rules[i];
                 } else {
                     rule = ss.sheet.cssRules[i];
@@ -83,7 +83,7 @@ Jx.Styles = new(new Class({
 
         var rule;
         var text = selector + " {" + declaration + "}";
-        if (Browser.Engine.name === 'trident') {
+        if (Browser.Engine.trident) {
             if (declaration == '') {
                 //IE requires SOME text for the declaration. Passing '{}' will
                 //create an empty rule.
@@ -114,7 +114,7 @@ Jx.Styles = new(new Class({
         var ss = this.getDynamicStyleSheet(styleSheetName);
         var i = ss.indicies.indexOf(selector);
         ss.indicies.splice(i, 1);
-        if (Browser.Engine.name === 'trident') {
+        if (Browser.Engine.trident) {
             ss.removeRule(i);
             return true;
         } else {
