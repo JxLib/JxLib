@@ -1,3 +1,22 @@
+/*
+---
+
+name: Jx.Menu.Separator
+
+description: Convenience class to create a visual separator in a menu.
+
+license: MIT-style license.
+
+requires:
+ - Jx.Menu
+
+provides: [Jx.Menu.Separator]
+
+images:
+ - toolbar_separator_v.png
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Menu.Separator

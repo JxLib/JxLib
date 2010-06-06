@@ -8,11 +8,11 @@ description: Date messages for Persian.
 license: MIT-style license
 
 authors:
-- Amir Hossein Hodjaty Pour
+ - Amir Hossein Hodjaty Pour
 
 requires:
-- /Lang
-- /Form.Validator
+ - /Lang
+ - /Form.Validator
 
 provides: [Form.Validator.Persian]
 

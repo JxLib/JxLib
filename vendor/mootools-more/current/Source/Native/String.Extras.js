@@ -8,13 +8,13 @@ description: Extends the String native object to include methods useful in manag
 license: MIT-style license
 
 authors:
-- Aaron Newton
-- Guillermo Rauch
+ - Aaron Newton
+ - Guillermo Rauch
 
 requires:
-- core:1.2.4/String
-- core:1.2.4/$util
-- core:1.2.4/Array
+ - core:1.2.4/String
+ - core:1.2.4/$util
+ - core:1.2.4/Array
 
 provides: [String.Extras]
 

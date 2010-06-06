@@ -1,3 +1,19 @@
+/*
+---
+
+name: Jx.Store.Response
+
+description: The object used to return response information to strategies.
+
+license: MIT-style license.
+
+requires:
+ - Jx.Store
+
+provides: [Jx.Store.Response]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Store.Response

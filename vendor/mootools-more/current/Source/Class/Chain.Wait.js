@@ -8,13 +8,13 @@ description: value, Adds a method to inject pauses between chained events.
 license: MIT-style license.
 
 authors:
-- Aaron Newton
+ - Aaron Newton
 
 requires: 
-- core:1.2.4/Chain 
-- core:1.2.4/Element
-- core:1.2.4/Fx
-- /MooTools.More
+ - core:1.2.4/Chain
+ - core:1.2.4/Element
+ - core:1.2.4/Fx
+ - /MooTools.More
 
 provides: [Chain.Wait]
 

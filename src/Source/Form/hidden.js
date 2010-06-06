@@ -1,3 +1,19 @@
+/*
+---
+
+name: Jx.Field.Hidden
+
+description: Represents a hidden input
+
+license: MIT-style license.
+
+requires:
+ - Jx.Field
+
+provides: [Jx.Field.Hidden]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Field.Hidden

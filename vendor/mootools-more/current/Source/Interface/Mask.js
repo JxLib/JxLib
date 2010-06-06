@@ -8,15 +8,15 @@ description: Creates a mask element to cover another.
 license: MIT-style license
 
 authors:
-- Aaron Newton
+ - Aaron Newton
 
 requires:
-- core:1.2.4/Options
-- core:1.2.4/Events
-- core:1.2.4/Element.Event
-- /Class.Binds
-- /Element.Position
-- /IframeShim
+ - core:1.2.4/Options
+ - core:1.2.4/Events
+ - core:1.2.4/Element.Event
+ - /Class.Binds
+ - /Element.Position
+ - /IframeShim
 
 provides: [Mask]
 

@@ -8,11 +8,11 @@ description: Form.Validator messages in Arabic.
 license: MIT-style license
 
 authors:
-- Chafik Barbar
+ - Chafik Barbar
 
 requires:
-- /Lang
-- /Form.Validator
+ - /Lang
+ - /Form.Validator
 
 provides: [Form.Validator.Arabic]
 

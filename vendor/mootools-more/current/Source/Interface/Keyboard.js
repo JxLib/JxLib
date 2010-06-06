@@ -8,15 +8,15 @@ description: KeyboardEvents used to intercept events on a class for keyboard and
 license: MIT-style license
 
 authors:
-- Perrin Westrich
-- Aaron Newton
-- Scott Kyle
+ - Perrin Westrich
+ - Aaron Newton
+ - Scott Kyle
 
 requires:
-- core:1.2.4/Events
-- core:1.2.4/Options
-- core:1.2.4/Element.Event
-- /Log
+ - core:1.2.4/Events
+ - core:1.2.4/Options
+ - core:1.2.4/Element.Event
+ - /Log
 
 provides: [Keyboard]
 

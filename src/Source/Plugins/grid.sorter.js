@@ -1,6 +1,24 @@
+/*
+---
+
+name: Jx.Plugin.Grid.Sorter
+
+description: Enables column sorting in grids
+
+license: MIT-style license.
+
+requires:
+ - Jx.Plugin.Grid
+
+provides: [Jx.Plugin.Grid.Sorter]
+
+images:
+ - emblems.png
+...
+ */
 // $Id$
 /**
- * Class: Jx.Plugin.Sorter
+ * Class: Jx.Plugin.Grid.Sorter
  *
  * Extends: <Jx.Plugin>
  *

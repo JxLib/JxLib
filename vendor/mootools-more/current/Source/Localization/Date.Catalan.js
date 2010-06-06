@@ -8,11 +8,11 @@ description: Date messages for Catalan.
 license: MIT-style license
 
 authors:
-- Alfons Sanchez
+ - Alfons Sanchez
 
 requires:
-- /Lang
-- /Date
+ - /Lang
+ - /Date
 
 provides: [Date.Catalan]
 

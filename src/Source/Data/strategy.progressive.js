@@ -1,3 +1,19 @@
+/*
+---
+
+name: Jx.Store.Strategy.Progressive
+
+description: Strategy based on Strategy.Paginate but loads data progressively without removing old or curent data from the store.
+
+license: MIT-style license.
+
+requires:
+ - Jx.Store.Strategy.Paginate
+
+provides: [Jx.Store.Strategy.Progressive]
+
+...
+ */
 /**
  * Class: Jx.Store.Strategy.Progressive
  *

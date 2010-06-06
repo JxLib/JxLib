@@ -8,11 +8,11 @@ description: Date messages for US English.
 license: MIT-style license
 
 authors:
-- Aaron Newton
+ - Aaron Newton
 
 requires:
-- /Lang
-- /Date
+ - /Lang
+ - /Date
 
 provides: [Date.English.US]
 

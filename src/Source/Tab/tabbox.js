@@ -1,3 +1,27 @@
+/*
+---
+
+name: Jx.TabBox
+
+description: A convenience class to handle the common case of a single toolbar directly attached to the content area of the tabs.
+
+license: MIT-style license.
+
+requires:
+ - Jx.Toolbar
+ - Jx.Panel
+ - Jx.TabSet
+
+provides: [Jx.TabBox]
+
+images:
+ - tabbar.png
+ - tabbar_bottom.png
+ - tabbar_left.png
+ - tabbar_right.png
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.TabBox

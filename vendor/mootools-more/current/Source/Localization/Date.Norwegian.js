@@ -8,11 +8,11 @@ description: Date messages in Norwegian.
 license: MIT-style license
 
 authors:
-- Espen 'Rexxars' Hovlandsdal
+ - Espen 'Rexxars' Hovlandsdal
 
 requires:
-- /Lang
-- /Date
+ - /Lang
+ - /Date
 
 provides: [Date.Norwegian]
 

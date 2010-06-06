@@ -8,14 +8,14 @@ description: Defines IframeShim, a class for obscuring select lists and flash ob
 license: MIT-style license
 
 authors:
-- Aaron Newton
+ - Aaron Newton
 
 requires:
-- core:1.2.4/Element.Event
-- core:1.2.4/Element.Style
-- core:1.2.4/Options Events
-- /Element.Position
-- /Class.Occlude
+ - core:1.2.4/Element.Event
+ - core:1.2.4/Element.Style
+ - core:1.2.4/Options Events
+ - /Element.Position
+ - /Class.Occlude
 
 provides: [IframeShim]
 

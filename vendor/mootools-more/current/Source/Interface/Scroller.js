@@ -8,13 +8,13 @@ description: Class which scrolls the contents of any Element (including the wind
 license: MIT-style license
 
 authors:
-- Valerio Proietti
+ - Valerio Proietti
 
 requires:
-- core:1.2.4/Events
-- core:1.2.4/Options
-- core:1.2.4/Element.Event
-- core:1.2.4/Element.Dimensions
+ - core:1.2.4/Events
+ - core:1.2.4/Options
+ - core:1.2.4/Element.Event
+ - core:1.2.4/Element.Dimensions
 
 provides: [Scroller]
 

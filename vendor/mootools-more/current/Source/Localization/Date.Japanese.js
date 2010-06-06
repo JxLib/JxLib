@@ -6,11 +6,11 @@ description: Date messages for Japanese.
 license: MIT-style license
 
 authors:
-- Noritaka Horio
+ - Noritaka Horio
 
 requires:
-- /Lang
-- /Date
+ - /Lang
+ - /Date
 
 provides: [Date.Japanese]
 

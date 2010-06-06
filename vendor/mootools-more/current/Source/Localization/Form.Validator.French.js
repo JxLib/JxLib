@@ -8,12 +8,12 @@ description: Form.Validator messages in French.
 license: MIT-style license
 
 authors: 
-- Miquel Hudin
-- Nicolas Sorosac <nicolas <dot> sorosac <at> gmail <dot> com>
+ - Miquel Hudin
+ - Nicolas Sorosac <nicolas <dot> sorosac <at> gmail <dot> com>
 
 requires:
-- /Lang
-- /Form.Validator
+ - /Lang
+ - /Form.Validator
 
 provides: [Form.Validator.French]
 

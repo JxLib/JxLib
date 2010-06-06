@@ -8,11 +8,11 @@ description: Date messages for Swedish.
 license: MIT-style license
 
 authors:
-- Martin Lundgren
+ - Martin Lundgren
 
 requires:
-- /Lang
-- /Form.Validator
+ - /Lang
+ - /Form.Validator
 
 provides: [Form.Validator.Swedish]
 

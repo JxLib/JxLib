@@ -1,3 +1,19 @@
+/*
+---
+
+name: Jx.Styles
+
+description: A singleton object useful for dynamically creating and manipulating CSS styles
+
+license: MIT-style license.
+
+requires:
+ - Jx
+
+provides: [Jx.Styles]
+
+...
+ */
 /**
  * Class: Jx.Styles
  * Dynamic stylesheet class. Used for creating and manipulating dynamic 

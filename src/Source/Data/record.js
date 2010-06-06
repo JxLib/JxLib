@@ -1,3 +1,19 @@
+/*
+---
+
+name: Jx.Record
+
+description: The basic record implementation. A store uses records to handle and manipulate data.
+
+license: MIT-style license.
+
+requires:
+ - Jx.Object
+
+provides: [Jx.Record]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Record

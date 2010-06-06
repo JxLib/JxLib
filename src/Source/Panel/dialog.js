@@ -1,3 +1,29 @@
+/*
+---
+
+name: Jx.Dialog
+
+description: A Jx.Panel that implements a floating dialog.
+
+license: MIT-style license.
+
+requires:
+ - Jx.Panel
+
+optional:
+ - More/Drag
+
+provides: [Jx.Dialog]
+
+css:
+ - dialog
+
+images:
+ - dialog_chrome.png
+ - dialog_resize.png
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Dialog

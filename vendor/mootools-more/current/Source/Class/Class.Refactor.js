@@ -8,11 +8,11 @@ description: Extends a class onto itself with new property, preserving any items
 license: MIT-style license
 
 authors:
-- Aaron Newton
+ - Aaron Newton
 
 requires:
-- core:1.2.4/Class
-- /MooTools.More
+ - core:1.2.4/Class
+ - /MooTools.More
 
 provides: [Class.refactor]
 

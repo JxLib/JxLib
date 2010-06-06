@@ -8,11 +8,11 @@ description: Extends the Hash native object to include getFromPath which allows 
 license: MIT-style license
 
 authors:
-- Aaron Newton
+ - Aaron Newton
 
 requires:
-- core:1.2.4/Hash.base
-- /MooTools.More
+ - core:1.2.4/Hash.base
+ - /MooTools.More
 
 provides: [Hash.Extras]
 

@@ -8,11 +8,11 @@ description: Form.Validator messages in Portuguese.
 license: MIT-style license
 
 authors:
-- Miquel Hudin
+ - Miquel Hudin
 
 requires:
-- /Lang
-- /Form.Validator
+ - /Lang
+ - /Form.Validator
 
 provides: [Form.Validator.Portuguese]
 

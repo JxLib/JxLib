@@ -1,3 +1,20 @@
+/*
+---
+
+name: Jx.Formatter.Phone
+
+description: Formats phone numbers in US format including area code
+
+license: MIT-style license.
+
+requires:
+ - Jx.Formatter
+
+
+provides: [Jx.Formatter.Phone]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Formatter.Phone

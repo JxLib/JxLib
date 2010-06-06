@@ -1,3 +1,30 @@
+/*
+---
+
+name: Jx.Tab
+
+description: A single tab in a tab set.
+
+license: MIT-style license.
+
+requires:
+ - Jx.Button
+ - Jx.Layout
+
+provides: [Jx.Tab]
+
+css:
+ - tab
+
+images:
+ - tab_top.png
+ - tab_bottom.png
+ - tab_left.png
+ - tab_right.png
+ - tab_close.png
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Tab
@@ -74,7 +101,7 @@ Jx.Tab = new Class({
         /* Option: template
          * the HTML template for a tab
          */
-        template: '<span class="jxTabContainer"><a class="jxTab"><span class="jxTabContent"><img class="jxTabIcon" src="'+Jx.aPixel.src+'"><span class="jxTabLabel"></span></span></a><a class="jxTabClose"></span>',
+        template: '<span class="jxTabContainer"><a class="jxTab"><span class="jxTabContent"><img class="jxTabIcon" src="'+Jx.aPixel.src+'"><span class="jxTabLabel"></span></span></a><a class="jxTabClose"></a></span>',
         /* Option: contentTemplate
          * the HTML template for a tab's content area
          */

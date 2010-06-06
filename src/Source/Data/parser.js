@@ -1,3 +1,19 @@
+/*
+---
+
+name: Jx.Store.Parser
+
+description: Base class for all data parsers. Parsers are used by protocols to get data received or sent in the proper formats.
+
+license: MIT-style license.
+
+requires:
+ - Jx.Store
+
+provides: [Jx.Store.Parser]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Store.Parser

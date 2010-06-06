@@ -1,3 +1,21 @@
+/*
+---
+
+name: Jx.Menu.Item
+
+description: A menu item is a single entry in a menu.
+
+license: MIT-style license.
+
+requires:
+ - Jx.Menu
+
+provides: [Jx.Menu.Item]
+
+images:
+ - menuitem.png
+...
+ */
 // $Id$
 /**
  * Class: Jx.Menu.Item

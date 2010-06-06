@@ -1,3 +1,19 @@
+/*
+---
+
+name: Jx.Store.Protocol.Local
+
+description: Store protocol used to load data that is already present in a page as an object.
+
+license: MIT-style license.
+
+requires:
+ - Jx.Store.Protocol
+
+provides: [Jx.Store.Protocol.Local]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Store.Protocol.Local

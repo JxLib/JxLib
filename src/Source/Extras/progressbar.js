@@ -1,4 +1,26 @@
+/*
+---
 
+name: Jx.Progressbar
+
+description: A css-based progress bar.
+
+license: MIT-style license.
+
+requires:
+ - Jx.Widget
+ - Core/Fx.Tween
+
+provides: [Jx.Progressbar]
+
+css:
+ - progressbar
+
+images:
+ - progressbar.png
+
+...
+ */
 /**
  * Class: Jx.Progressbar
  *

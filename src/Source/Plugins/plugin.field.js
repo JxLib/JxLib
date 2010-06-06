@@ -1,3 +1,19 @@
+/*
+---
+
+name: Jx.Plugin.Field
+
+description: Namespace for Jx.Field plugins
+
+license: MIT-style license.
+
+requires:
+ - Jx.Plugin
+
+provides: [Jx.Plugin.Field]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Plugin.Field

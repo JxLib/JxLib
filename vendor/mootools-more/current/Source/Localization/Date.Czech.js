@@ -8,11 +8,11 @@ description: Date messages for Czech.
 license: MIT-style license
 
 authors:
-- Jan Černý chemiX
+ - Jan Černý chemiX
 
 requires:
-- /Lang
-- /Date
+ - /Lang
+ - /Date
 
 provides: [Date.Czech]
 

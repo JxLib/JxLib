@@ -1,3 +1,19 @@
+/*
+---
+
+name: Jx.Grid.Renderer
+
+description: Base class for all renderers. Used to create the contents of column.
+
+license: MIT-style license.
+
+requires:
+ - Jx.Grid
+
+provides: [Jx.Grid.Renderer]
+
+...
+ */
 /**
  * Class: Jx.Grid.Renderer
  * This is the base class and namespace for all grid renderers.

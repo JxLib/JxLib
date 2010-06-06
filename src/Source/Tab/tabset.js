@@ -1,3 +1,19 @@
+/*
+---
+
+name: Jx.TabSet
+
+description: A TabSet manages a set of Jx.Tab content areas by ensuring that only one of the content areas is visible (i.e. the active tab).
+
+license: MIT-style license.
+
+requires:
+ - Jx.Tab
+
+provides: [Jx.TabSet]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.TabSet

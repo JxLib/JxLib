@@ -8,10 +8,10 @@ description: Extends the Array native object to include useful methods to work w
 license: MIT-style license
 
 authors:
-- Christoph Pojer
+ - Christoph Pojer
 
 requires:
-- core:1.2.4/Array
+ - core:1.2.4/Array
 
 provides: [Array.Extras]
 

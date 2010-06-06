@@ -1,3 +1,24 @@
+/*
+---
+
+name: Jx.Dialog.Confirm
+
+description: A subclass of Jx.dialog for asking a yes/no type question of the user.
+
+license: MIT-style license.
+
+requires:
+ - Jx.Dialog
+ - Jx.Button
+ - Jx.Toolbar.Item
+
+provides: [Jx.Dialog.Confirm]
+
+css:
+ - confirm
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Dialog.Confirm

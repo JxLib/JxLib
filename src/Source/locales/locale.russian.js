@@ -1,3 +1,19 @@
+/*
+---
+
+name: Locale.Russian
+
+description: Default translations of text strings used in JX for Russia (Russia) (ru-RU)
+
+license: MIT-style license.
+
+requires:
+ - More/Lang
+
+provides: [Locale.Russian]
+
+...
+ */
 MooTools.lang.set('ru-RU-unicode', 'Jx', {
 	
 	'widget': {

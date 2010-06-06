@@ -1,3 +1,20 @@
+/*
+---
+
+name: Jx.ButtonSet
+
+description: A ButtonSet manages a set of Jx.Button instances by ensuring that only one of the buttons is active.
+
+license: MIT-style license.
+
+requires:
+ - Jx.Object
+
+provides: [Jx.ButtonSet]
+
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.ButtonSet

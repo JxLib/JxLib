@@ -1,3 +1,20 @@
+/*
+---
+
+name: Jx.List
+
+description: A class that is used to manage lists of DOM elements
+
+license: MIT-style license.
+
+requires:
+ - Jx.Object
+ - Jx.Selection
+
+provides: [Jx.List]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.List

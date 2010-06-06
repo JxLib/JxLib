@@ -1,3 +1,19 @@
+/*
+---
+
+name: Jx.Toolbar.Item
+
+description: A helper class to provide a container for something to go into a Jx.Toolbar.
+
+license: MIT-style license.
+
+requires:
+ - Jx.Toolbar
+
+provides: [Jx.Toolbar.Item]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Toolbar.Item

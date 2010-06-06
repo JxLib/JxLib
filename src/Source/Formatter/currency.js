@@ -1,3 +1,19 @@
+/*
+---
+
+name: Jx.Formatter.Currency
+
+description: Formats input as currency. Currently only US currency is supported
+
+license: MIT-style license.
+
+requires:
+ - Jx.Formatter.Number
+
+provides: [Jx.Formatter.Currency]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Formatter.Currency

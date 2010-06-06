@@ -1,3 +1,19 @@
+/*
+---
+
+name: Jx.Stack
+
+description: A singleton object for managing a global z-index stack for widgets that need to order themselves in the z-index of the page relative to other such widgets.
+
+license: MIT-style license.
+
+requires:
+ - Jx
+
+provides: [Jx.Stack]
+
+...
+ */
 /**
  * Class: Jx.Stack
  * Manage the zIndex of widgets

@@ -1,3 +1,22 @@
+/*
+---
+
+name: Jx.Scrollbar
+
+description: An implementation of a custom CSS-styled scrollbar.
+
+license: MIT-style license.
+
+requires:
+ - Jx.Slider
+
+provides: [Jx.Scrollbar]
+
+css:
+ - scrollbar
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Scrollbar

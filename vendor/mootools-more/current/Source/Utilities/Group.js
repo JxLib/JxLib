@@ -8,11 +8,11 @@ description: Class for monitoring collections of events
 license: MIT-style license
 
 authors:
-- Valerio Proietti
+ - Valerio Proietti
 
 requires:
-- core:1.2.4/Events
-- /MooTools.More
+ - core:1.2.4/Events
+ - /MooTools.More
 
 provides: [Group]
 

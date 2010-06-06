@@ -1,3 +1,20 @@
+/*
+---
+
+name: Jx.Store.Strategy
+
+description: Base class for all store strategies.
+
+license: MIT-style license.
+
+requires:
+ - Jx.Store
+
+provides: [Jx.Store.Strategy]
+
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Store.Strategy

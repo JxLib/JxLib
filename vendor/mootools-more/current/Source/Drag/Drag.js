@@ -8,19 +8,20 @@ description: The base Drag Class. Can be used to drag and resize Elements using 
 license: MIT-style license
 
 authors:
-- Valerio Proietti
-- Tom Occhinno
-- Jan Kassens
+ - Valerio Proietti
+ - Tom Occhinno
+ - Jan Kassens
 
 requires:
-- core:1.2.4/Events
-- core:1.2.4/Options
-- core:1.2.4/Element.Event
-- core:1.2.4/Element.Style
-- /MooTools.More
+ - core:1.2.4/Events
+ - core:1.2.4/Options
+ - core:1.2.4/Element.Event
+ - core:1.2.4/Element.Style
+ - /MooTools.More
 
 provides: [Drag]
 
+...
 */
 
 var Drag = new Class({

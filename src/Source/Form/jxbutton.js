@@ -1,3 +1,20 @@
+/*
+---
+
+name: Jx.Field.Button
+
+description: Represents a button input
+
+license: MIT-style license.
+
+requires:
+ - Jx.Field
+ - Jx.Button
+
+provides: [Jx.Field.Button]
+
+...
+ */
 /**
  * Class: Jx.Field.Button
  *

@@ -1,4 +1,19 @@
+/*
+---
 
+name: Locale.English.US
+
+description: Default translations of text strings used in JX for US english (en-US)
+
+license: MIT-style license.
+
+requires:
+ - More/Lang
+
+provides: [Locale.English.US]
+
+...
+ */
 MooTools.lang.set('en-US', 'Jx', {
 	
 	'widget': {

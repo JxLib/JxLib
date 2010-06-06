@@ -1,3 +1,30 @@
+/*
+---
+
+name: Jx.Widget
+
+description: Base class for all widgets (visual classes) in the JxLib Framework.
+
+license: MIT-style license.
+
+requires:
+ - Jx.Object
+ - Locale.English.US
+
+provides: [Jx.Widget]
+
+css:
+ - chrome
+
+images:
+ - spinner_16.gif
+ - spinner_24.gif
+
+optional:
+ - More/Spinner
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Widget

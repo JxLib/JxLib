@@ -1,4 +1,19 @@
+/*
+---
 
+name: Jx.Adaptor
+
+description: Base class for all Adaptors.
+
+license: MIT-style license.
+
+requires:
+ - Jx.Plugin
+
+provides: [Jx.Adaptor]
+
+...
+ */
 /**
  * Class: Jx.Adaptor
  * Base class for all adaptor implementations. Provides a place to locate all
@@ -18,9 +33,10 @@
  */
 Jx.Adaptor = new Class({
 	
-	Family: 'Jx.Adaptor',
+
 	Extends: Jx.Plugin,
-	
+	Family: 'Jx.Adaptor',
+    
 	name: 'Jx.Adaptor',
 
 	options: {

@@ -1,3 +1,20 @@
+/*
+---
+
+name: Jx.Button.Color
+
+description:
+
+license: MIT-style license.
+
+requires:
+ - Jx.Button.Flyout
+ - Jx.ColorPalette
+
+provides: [Jx.Button.Color]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Button.Color

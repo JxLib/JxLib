@@ -1,3 +1,20 @@
+/*
+---
+
+name: Jx.Adaptor.Tree.Parent
+
+description: Fills a Jx.Tree instance from a standard parent/child/folder style data table.
+
+license: MIT-style license.
+
+requires:
+ - Jx.Adaptor.Tree
+
+provides: [Jx.Adaptor.Tree.Parent]
+
+
+...
+ */
 /**
  * Class: Jx.Adapter.Tree.Parent
  * This class adapts a table adhering to the classic Parent-style "tree table".
@@ -18,8 +35,9 @@
  */
 Jx.Adaptor.Tree.Parent = new Class({
     
-    Family: 'Jx.Adaptor.Tree.Parent',
+
     Extends: Jx.Adaptor.Tree,
+    Family: 'Jx.Adaptor.Tree.Parent',
     
     options: {
         parentColumn: 'parent',

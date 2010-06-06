@@ -8,11 +8,11 @@ description: Effect to slide an element in and out of view.
 license: MIT-style license
 
 authors:
-- Valerio Proietti
+ - Valerio Proietti
 
 requires:
-- core:1.2.4/Fx Element.Style
-- /MooTools.More
+ - core:1.2.4/Fx Element.Style
+ - /MooTools.More
 
 provides: [Fx.Slide]
 

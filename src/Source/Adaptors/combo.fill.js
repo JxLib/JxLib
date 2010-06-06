@@ -1,4 +1,19 @@
+/*
+---
 
+name: Jx.Adaptor.Combo.Fill
+
+description: Loads data into a Jx.Combo instance from designated column(s) of a data source.
+
+license: MIT-style license.
+
+requires:
+ - Jx.Adaptor.Combo
+
+provides: [Jx.Adaptor.Combo.Fill]
+
+...
+ */
 Jx.Adaptor.Combo.Fill = new Class({
 
     Family: 'Jx.Adaptor.Combo.Fill',

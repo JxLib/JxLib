@@ -1,3 +1,19 @@
+/*
+---
+
+name: Jx.Object
+
+description: Base class for all other object in the JxLib framework.
+
+license: MIT-style license.
+
+requires:
+ - Jx
+
+provides: [Jx.Object]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Object
@@ -235,10 +251,9 @@ Jx.Object = new Class({
                 } else {
                     index = numArgs;
                 }
-                options = {};
                 for (var i = 0; i < index; i++) {
                     if (this.parameters[i] === 'options') {
-                        options = $merge(options, arguments[i]);
+                        $extend(options, arguments[i]);
                     } else {
                         options[this.parameters[i]] = arguments[i];
                     }

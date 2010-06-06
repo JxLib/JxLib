@@ -8,16 +8,16 @@ description: Class for creating nice tips that follow the mouse cursor when hove
 license: MIT-style license
 
 authors:
-- Valerio Proietti
-- Christoph Pojer
+ - Valerio Proietti
+ - Christoph Pojer
 
 requires:
-- core:1.2.4/Options
-- core:1.2.4/Events
-- core:1.2.4/Element.Event
-- core:1.2.4/Element.Style
-- core:1.2.4/Element.Dimensions
-- /MooTools.More
+ - core:1.2.4/Options
+ - core:1.2.4/Events
+ - core:1.2.4/Element.Event
+ - core:1.2.4/Element.Style
+ - core:1.2.4/Element.Dimensions
+ - /MooTools.More
 
 provides: [Tips]
 

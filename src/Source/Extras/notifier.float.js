@@ -1,6 +1,22 @@
+/*
+---
+
+name: Jx.Notifier.Float
+
+description: A notification area that floats in a container above other content.
+
+license: MIT-style license.
+
+requires:
+ - Jx.Notifier
+
+provides: [Jx.Notifier.Float]
+
+...
+ */
 // $Id$
 /**
- * Class: Jx.Notice.Float
+ * Class: Jx.Notifier.Float
  * A floating notice area for displaying notices, notices get chrome if
  * the notifier has chrome
  *

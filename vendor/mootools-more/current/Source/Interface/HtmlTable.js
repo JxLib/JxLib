@@ -8,12 +8,12 @@ description: Builds table elements with methods to add rows.
 license: MIT-style license
 
 authors:
-- Aaron Newton
+ - Aaron Newton
 
 requires:
-- core:1.2.4/Options
-- core:1.2.4/Events
-- /Class.Occlude
+ - core:1.2.4/Options
+ - core:1.2.4/Events
+ - /Class.Occlude
 
 provides: [HtmlTable]
 

@@ -8,12 +8,12 @@ description: MooTools More
 license: MIT-style license
 
 authors:
-- Guillermo Rauch
-- Thomas Aylott
-- Scott Kyle
+ - Guillermo Rauch
+ - Thomas Aylott
+ - Scott Kyle
 
 requires:
-- core:1.2.4/MooTools
+ - core:1.2.4/MooTools
 
 provides: [MooTools.More]
 

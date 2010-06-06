@@ -1,3 +1,25 @@
+/*
+---
+
+name: Jx.Splitter
+
+description: A Jx.Splitter creates two or more containers within a parent container and provides user control over the size of the containers.
+
+license: MIT-style license.
+
+requires:
+ - Jx.Layout
+
+optional:
+ - More/Drag
+
+provides: [Jx.Splitter]
+
+css:
+ - splitter
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Splitter

@@ -8,13 +8,13 @@ description: A stand alone dependency loader for the MooTools library.
 license: MIT-style license
 
 authors:
-- Aaron Newton
+ - Aaron Newton
 
 requires:
-- core:1.2.4/Element.Events
-- core:1.2.4/Request.JSON
-- /MooTools.More
-- /Log
+ - core:1.2.4/Element.Events
+ - core:1.2.4/Request.JSON
+ - /MooTools.More
+ - /Log
 
 provides: Depender
 

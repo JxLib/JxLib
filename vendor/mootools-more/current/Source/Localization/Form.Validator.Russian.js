@@ -8,11 +8,11 @@ description: Form.Validator messages in Russian (utf-8 and cp1251).
 license: MIT-style license
 
 authors:
-- Chernodarov Egor
+ - Chernodarov Egor
 
 requires:
-- /Lang
-- /Form.Validator
+ - /Lang
+ - /Form.Validator
 
 provides: [Form.Validator.Russian]
 

@@ -8,11 +8,11 @@ description: Form.Validator messages in Norwegian.
 license: MIT-style license
 
 authors:
-- Espen 'Rexxars' Hovlandsdal
+ - Espen 'Rexxars' Hovlandsdal
 
 requires:
-- /Lang
-- /Form.Validator
+ - /Lang
+ - /Form.Validator
 
 provides: [Form.Validator.Norwegian]
 

@@ -1,6 +1,24 @@
+/*
+---
+
+name: Jx.Sort
+
+description: Base class for the sort algorithm implementations
+
+license: MIT-style license.
+
+requires:
+ - Jx.Object
+ - Jx.Compare
+
+provides: [Jx.Sort]
+
+...
+ */
 // $Id$
 /**
- * Class: Jx.Sort Base class for all of the sorting algorithm classes.
+ * Class: Jx.Sort
+ * Base class for all of the sorting algorithm classes.
  *
  * Extends: <Jx.Object>
  *

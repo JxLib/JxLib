@@ -1,3 +1,26 @@
+/*
+---
+
+name: Jx.Toolbar.Container
+
+description: A toolbar container contains toolbars.  This has an optional dependency on Fx.Tween that, if included, will allow toolbars that contain more elements than can be displayed to be smoothly scrolled left and right.  Without this optional dependency, the toolbar will jump in fixed increments rather than smoothly scrolling.
+
+license: MIT-style license.
+
+requires:
+ - Jx.Toolbar
+ - Jx.Button
+
+optional:
+ - Core/Fx.Tween
+
+provides: [Jx.Toolbar.Container]
+
+images:
+ - emblems.png
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Toolbar.Container
@@ -95,16 +118,7 @@ Jx.Toolbar.Container = new Class({
             this.domObj.grab(this.controls);
             this.domObj.addEvent('sizeChange', this.update);
         }
-        // make sure that align is valid
-        if (!["left","center","right"].contains(this.options.align)) {
-          this.options.align = 'left';
-        }
-        // align the toolbar appropriately
-        this.domObj.addClass('jxToolbarAlign' + this.options.align.capitalize());
-        
-        // scrolling is only available if it is left aligned.
-        this.options.scroll = this.options.align == 'left' &&
-                              this.options.scroll;
+
         if (!['center', 'right'].contains(this.options.align) && this.options.scroll) {
             this.processElements(this.options.scrollerTemplate, this.classes);
             this.domObj.grab(this.scroller, 'top');

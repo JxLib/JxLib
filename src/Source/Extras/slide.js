@@ -1,3 +1,20 @@
+/*
+---
+
+name: Jx.Slide
+
+description: A class that shows and hides elements using a slide effect. Does not use a wrapper element or require a fixed width or height.
+
+license: MIT-style license.
+
+requires:
+ - Jx.Object
+ - Core/Fx.Tween
+
+provides: [Jx.Slide]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Slide

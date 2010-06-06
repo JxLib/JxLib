@@ -1,3 +1,21 @@
+/*
+---
+
+name: Jx.Formatter.URI
+
+description: Formats uris using the mootools-more URI extensions
+
+license: MIT-style license.
+
+requires:
+ - More/String.Extras
+ - Jx.Formatter
+ - More/URI
+
+provides: [Jx.Formatter.URI]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Formatter.URI

@@ -1,3 +1,19 @@
+/*
+---
+
+name: Jx.Fieldset
+
+description: Used to create fieldsets in Forms
+
+license: MIT-style license.
+
+requires:
+ - Jx.Widget
+
+provides: [Jx.Fieldset]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Fieldset

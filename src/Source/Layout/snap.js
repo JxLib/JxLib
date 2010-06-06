@@ -1,3 +1,19 @@
+/*
+---
+
+name: Jx.Splitter.Snap
+
+description: A helper class to create an element that can snap a split panel open or closed.
+
+license: MIT-style license.
+
+requires:
+ - Jx.Splitter
+
+provides: [Jx.Splitter.Snap]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Splitter.Snap

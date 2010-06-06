@@ -1,3 +1,19 @@
+/*
+---
+
+name: Jx.Row
+
+description: Holds information related to display of rows in the grid.
+
+license: MIT-style license.
+
+requires:
+ - Jx.Object
+
+provides: [Jx.Row]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Row

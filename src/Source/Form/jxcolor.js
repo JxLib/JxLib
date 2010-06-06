@@ -1,3 +1,22 @@
+/*
+---
+
+name: Jx.Field.Color
+
+description: Represents an input field with a jx.button.color
+
+license: MIT-style license.
+
+requires:
+ - Jx.Text
+ - Jx.Button.Color
+ - Jx.Form
+ - Jx.Plugin.Field.Validator
+
+provides: [Jx.Field.Color]
+
+...
+ */
 /**
  * Class: Jx.Field.Color
  *

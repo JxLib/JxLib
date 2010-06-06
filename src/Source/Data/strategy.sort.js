@@ -1,3 +1,20 @@
+/*
+---
+
+name: Jx.Store.Strategy.Sort
+
+description: Strategy used for sorting results in a store after they are loaded.
+
+license: MIT-style license.
+
+requires:
+ - Jx.Store.Strategy
+ - Jx.Sort.Mergesort
+ - Jx.Compare
+
+provides: [Jx.Store.Strategy.Sort]
+...
+ */
 // $Id$
 /**
  * Class: Jx.Store.Strategy.Sort

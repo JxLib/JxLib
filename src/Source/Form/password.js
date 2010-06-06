@@ -1,3 +1,19 @@
+/*
+---
+
+name: Jx.Field.Password
+
+description: Represents a password input
+
+license: MIT-style license.
+
+requires:
+ - Jx.Field.Text
+
+provides: [Jx.Field.Password]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Field.Password

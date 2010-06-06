@@ -1,6 +1,25 @@
+/*
+---
+
+name: Jx.Plugin.Grid.Editor
+
+description: Enables inline editing in grids
+
+license: MIT-style license.
+
+requires:
+ - Jx.Plugin.Grid
+ - More/Keyboard
+
+provides: [Jx.Plugin.Grid.Editor]
+
+images:
+ - icons.png
+...
+ */
 // $Id$
 /**
- * Class: Jx.Plugin.Editor
+ * Class: Jx.Plugin.Grid.Editor
  *
  * Extends: <Jx.Plugin>
  *

@@ -1,3 +1,18 @@
+/*
+name: Locale.German
+
+description: Default translations of text strings used in JX for German (Germany) (de-DE)
+
+license: MIT-style license.
+
+requires:
+ - More/Lang
+
+provides: [Locale.German]
+
+...
+ */
+
 MooTools.lang.set('de-DE', 'Date', {
   // need to overwrite 'M&auml;rz' to 'März' for jx.select fields
   months: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember']

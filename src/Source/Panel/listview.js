@@ -1,3 +1,25 @@
+/*
+---
+
+name: Jx.ListView
+
+description: A widget that displays items in a list format.
+
+license: MIT-style license.
+
+requires:
+ - Jx.List
+ - Jx.ListItem
+
+provides: [Jx.ListView]
+
+css:
+ - list
+
+images:
+ - listitem.png
+...
+ */
 // $Id$
 /**
  * Class: Jx.ListView

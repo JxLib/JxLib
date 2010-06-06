@@ -1,3 +1,19 @@
+/*
+---
+
+name: Jx.Field.Check
+
+description: Represents a checkbox input
+
+license: MIT-style license.
+
+requires:
+ - Jx.Field
+
+provides: [Jx.Field.Checkbox]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Field.Check

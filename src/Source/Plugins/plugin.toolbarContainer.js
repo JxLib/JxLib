@@ -1,3 +1,19 @@
+/*
+---
+
+name: Jx.Plugin.ToolbarContainer
+
+description: Namespace for Jx.Toolbar.Container
+
+license: MIT-style license.
+
+requires:
+ - Jx.Plugin
+
+provides: [Jx.Plugin.ToolbarContainer]
+
+...
+ */
 /**
  * Class: Jx.Plugin.Toolbar
  * Toolbar plugin namespace

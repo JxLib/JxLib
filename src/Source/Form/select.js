@@ -1,3 +1,19 @@
+/*
+---
+
+name: Jx.Field.Select
+
+description: Represents a select, or drop down, input
+
+license: MIT-style license.
+
+requires:
+ - Jx.Field
+
+provides: [Jx.Field.Select]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Field.Select

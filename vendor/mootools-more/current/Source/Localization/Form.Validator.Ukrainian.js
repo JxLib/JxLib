@@ -8,11 +8,11 @@ description: Form.Validator messages in Ukrainian (utf-8).
 license: MIT-style license
 
 authors:
-- Slik
+ - Slik
 
 requires:
-- /Lang
-- /Form.Validator
+ - /Lang
+ - /Form.Validator
 
 provides: [Form.Validator.Ukrainian]
 

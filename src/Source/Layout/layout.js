@@ -1,3 +1,23 @@
+/*
+---
+
+name: Jx.Layout
+
+description: Jx.Layout is used to provide more flexible layout options for applications
+
+license: MIT-style license.
+
+requires:
+ - Jx.Object
+
+
+provides: [Jx.Layout]
+
+css:
+ - layout
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Layout

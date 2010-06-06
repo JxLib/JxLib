@@ -1,3 +1,19 @@
+/*
+---
+
+name: Jx.Column
+
+description: A representation of a single grid column
+
+license: MIT-style license.
+
+requires:
+ - Jx.Widget
+
+provides: [Jx.Column]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Column

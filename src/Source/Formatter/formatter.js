@@ -1,3 +1,19 @@
+/*
+---
+
+name: Jx.Formatter
+
+description: Base formatter object
+
+license: MIT-style license.
+
+requires:
+ - Jx.Object
+
+provides: [Jx.Formatter]
+
+...
+ */
  // $Id$
 /**
  * Class: Jx.Formatter

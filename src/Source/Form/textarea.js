@@ -1,3 +1,19 @@
+/*
+---
+
+name: Jx.Field.Textarea
+
+description: Represents a textarea input
+
+license: MIT-style license.
+
+requires:
+ - Jx.Field
+
+provides: [Jx.Field.Textarea]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Field.Textarea

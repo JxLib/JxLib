@@ -1,3 +1,19 @@
+/*
+---
+
+name: Jx.Store.Protocol
+
+description: Base class for all store protocols.
+
+license: MIT-style license.
+
+requires:
+ - Jx.Store.Response
+
+provides: [Jx.Store.Protocol]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Store.Protocol

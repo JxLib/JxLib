@@ -1,3 +1,19 @@
+/*
+---
+
+name: Jx.Formatter.Number
+
+description: Formats numbers including negative and floats
+
+license: MIT-style license.
+
+requires:
+ - Jx.Formatter
+
+provides: [Jx.Formatter.Number]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Formatter.Number

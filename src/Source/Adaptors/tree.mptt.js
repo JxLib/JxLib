@@ -1,3 +1,19 @@
+/*
+---
+
+name: Jx.Adaptor.Tree.Mptt
+
+description: Fills a Jx.Tree instance from a remote table that represents an MPTT (Modified Preorder Table Traversal) data source.
+
+license: MIT-style license.
+
+requires:
+ - Jx.Adaptor.Tree
+
+provides: [Jx.Adaptor.Tree.Mptt]
+
+...
+ */
 /**
  * Class: Jx.Adaptor.Tree.Mptt
  * This class adapts a table adhering to the classic Parent-style "tree table".

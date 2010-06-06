@@ -1,3 +1,25 @@
+/*
+---
+
+name: Jx.Notifier
+
+description: Base class for notification areas that can hold temporary notices.
+
+license: MIT-style license.
+
+requires:
+ - Jx.ListView
+ - Jx.Notice
+ - Core/Fx.Tween
+
+provides: [Jx.Notifier]
+
+css:
+ - notification
+
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Notifier

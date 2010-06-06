@@ -1,3 +1,26 @@
+/*
+---
+
+name: Jx.Menu
+
+description: A main menu as opposed to a sub menu that lives inside the menu.
+
+license: MIT-style license.
+
+requires:
+ - Jx.Button
+ - Jx.List
+
+provides: [Jx.Menu]
+
+css:
+ - menu
+
+images:
+ - flyout_chrome.png
+ - emblems.png
+...
+ */
 // $Id$
 /**
  * Class: Jx.Menu

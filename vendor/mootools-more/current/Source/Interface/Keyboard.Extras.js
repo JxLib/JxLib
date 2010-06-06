@@ -8,11 +8,11 @@ description: Enhances Keyboard by adding the ability to name and describe keyboa
 license: MIT-style license
 
 authors:
-- Perrin Westrich
+ - Perrin Westrich
 
 requires:
-- core:1.2.4/Function
-- /Keyboard.Extras
+ - core:1.2.4/Function
+ - /Keyboard.Extras
 
 provides: [Keyboard.Extras]
 

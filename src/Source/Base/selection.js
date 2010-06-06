@@ -1,3 +1,19 @@
+/*
+---
+
+name: Jx.Selection
+
+description: A class to manage selection across multiple list objects
+
+license: MIT-style license.
+
+requires:
+ - Jx.Object
+
+provides: [Jx.Selection]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Selection

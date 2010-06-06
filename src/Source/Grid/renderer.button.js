@@ -1,3 +1,21 @@
+/*
+---
+
+name: Jx.Grid.Renderer.Button
+
+description: "Renders one or more buttons in a single column.
+
+license: MIT-style license.
+
+requires:
+ - Jx.Grid.Renderer
+ - Jx.Button
+
+
+provides: [Jx.Grid.Renderer.Button]
+
+...
+ */
 /**
  * Class: Jx.Grid.Renderer.Button
  * Renders a <Jx.Button> into the cell. You can add s many buttons as you'd like per column by passing button configs

@@ -1,6 +1,22 @@
+/*
+---
+
+name: Jx.Plugin.Grid.Resize
+
+description: Enables column resizing in grids
+
+license: MIT-style license.
+
+requires:
+ - Jx.Plugin.Grid
+
+provides: [Jx.Plugin.Grid.Resize]
+
+...
+ */
 // $Id$
 /**
- * Class: Jx.Plugin.Resize
+ * Class: Jx.Plugin.Grid.Resize
  *
  * Extends: <Jx.Plugin>
  *

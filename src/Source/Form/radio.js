@@ -1,3 +1,19 @@
+/*
+---
+
+name: Jx.Field.Radio
+
+description: Represents a radio button input
+
+license: MIT-style license.
+
+requires:
+ - Jx.Field
+
+provides: [Jx.Field.Radio]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Field.Radio

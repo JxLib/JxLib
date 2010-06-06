@@ -1,3 +1,23 @@
+/*
+---
+
+name: Jx.Slider
+
+description: A wrapper for mootools' slider class to make it more Jx Friendly.
+
+license: MIT-style license.
+
+requires:
+ - Jx.Widget
+ - More/Slider
+
+provides: [Jx.Slider]
+
+css:
+ - slider
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Slider

@@ -8,11 +8,11 @@ description: Provides methods to dynamically load JavaScript, CSS, and Image fil
 license: MIT-style license
 
 authors:
-- Valerio Proietti
+ - Valerio Proietti
 
 requires:
-- core:1.2.4/Element.Event
-- /MooTools.More
+ - core:1.2.4/Element.Event
+ - /MooTools.More
 
 provides: [Assets]
 

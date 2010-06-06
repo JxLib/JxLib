@@ -1,3 +1,19 @@
+/*
+---
+
+name: Jx.Sort.Quicksort
+
+description: An implementation of the quick sort algorithm.
+
+license: MIT-style license.
+
+requires:
+ - Jx.Sort
+
+provides: [Jx.Sort.Quicksort]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Sort.Quicksort

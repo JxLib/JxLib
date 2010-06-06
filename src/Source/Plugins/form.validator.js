@@ -1,3 +1,20 @@
+/*
+---
+
+name: Jx.Plugin.Form.Validator
+
+description: Provides validation services for Jx.Form
+
+license: MIT-style license.
+
+requires:
+ - Jx.Plugin.Form
+ - Jx.Plugin.Field.Validator
+
+provides: [Jx.Plugin.Form.Validator]
+
+...
+ */
 // $Id$
 /**
  * Class: Jx.Plugin.Form.Validator
