@@ -144,6 +144,10 @@ Jx.Button = new Class({
          * Default is javascript:void(0) and use onClick.
          */
         href: 'javascript:void(0);',
+        /* Option: target
+         * for buttons that have an href, allow setting the target
+         */
+        target: '',
         /* Option: template
          * the HTML structure of the button.  As a minimum, there must be a
          * containing element with a class of jxButtonContainer and an
@@ -183,6 +187,7 @@ Jx.Button = new Class({
             var hasFocus;
             var mouseDown;
             this.domA.set({
+                target: this.options.target,
                 href: this.options.href,
                 title: this.getText(this.options.tooltip),
                 alt: this.getText(this.options.tooltip)
