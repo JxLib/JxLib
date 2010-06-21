@@ -77,11 +77,8 @@ Jx.Store.Protocol.Ajax = new Class({
         resp.requestType = 'read';
         resp.requestParams = arguments;
         
-        var req = new Request({
-            onSuccess: this.handleResponse.bind(this, resp)
-        });
         
-        resp.request = req;
+        // set up options
         var temp = {};
         if (this.options.rest) {
             temp.url = this.options.urls.rest;
@@ -89,10 +86,12 @@ Jx.Store.Protocol.Ajax = new Class({
             temp.url = this.options.urls.read;
         }
         
-        //set up options
         var opts = $merge(this.options.requestOptions, temp, options);
-        
-        req.send(opts);
+            opts.onSuccess = this.handleResponse.bind(this,resp);
+
+        var req = new Request(opts);
+        resp.request = req;
+        req.send();
         
         resp.code = Jx.Store.Response.WAITING;
         
@@ -214,17 +213,15 @@ Jx.Store.Protocol.Ajax = new Class({
         resp.requestType = method;
         resp.requestParams = [record, options, method];
         
-        var req = new Request({
-            onSuccess: this.handleResponse.bind(this, resp)
-        });
-        
         //set up options
         var opts = $merge(this.options.requestOptions, options);
-        
-        req.send(opts);
+            opts.onSuccess = this.handleResponse.bind(this,resp);
+
+        var req = new Request(opts);
+        resp.request = req;
+        req.send();
         
         resp.code = Jx.Store.Response.WAITING;
-        resp.request = req;
         
         return resp;
     }

@@ -80,12 +80,12 @@ Group: Jx  {
 
       Group: Plugins  {
 
-         File: Editor  (Plugins/grid.editor.js)
          File: Grid  (Plugins/plugin.grid.js)
-         File: Prelighter  (Plugins/grid.prelighter.js)
-         File: Resize  (Plugins/grid.resize.js)
-         File: Selector  (Plugins/grid.selector.js)
-         File: Sorter  (Plugins/grid.sorter.js)
+         File: Grid.Editor  (Plugins/grid.editor.js)
+         File: Grid.Prelighter  (Plugins/grid.prelighter.js)
+         File: Grid.Resize  (Plugins/grid.resize.js)
+         File: Grid.Selector  (Plugins/grid.selector.js)
+         File: Grid.Sorter  (Plugins/grid.sorter.js)
          File: Toolbar  (Plugins/plugin.toolbarContainer.js)
          File: ToolbarContainer.TabMenu  (Plugins/toolbarContainer.tabMenu.js)
          }  # Group: Plugins
@@ -96,8 +96,8 @@ Group: Jx  {
 
       File: ColorPalette  (Extras/colorpalette.js)
       File: Notice  (Extras/notice.js)
-      File: Notice.Float  (Extras/notifier.float.js)
       File: Notifier  (Extras/notifier.js)
+      File: Notifier.Float  (Extras/notifier.float.js)
       File: Progressbar  (Extras/progressbar.js)
       File: Scrollbar  (Extras/scrollbar.js)
       File: Slide  (Extras/slide.js)
@@ -190,7 +190,7 @@ Group: Jx  {
 
       File: Compare  (Data/compare.js)
       File: Record  (Data/record.js)
-      File: Sort Base class for all of the sorting algorithm classes.  (Data/sort.js)
+      File: Sort  (Data/sort.js)
       File: Sort.Heapsort  (Data/heapsort.js)
       File: Sort.Mergesort  (Data/mergesort.js)
       File: Sort.Nativesort  (Data/nativesort.js)
