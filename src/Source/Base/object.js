@@ -407,7 +407,7 @@ Jx.Object = new Class({
      * val - <String> || <Function> || <Object> = { set: '', key: ''[, value: ''] } for a MooTools.lang object
      */
     getText: function(val) {
-      if (Jx.type(val) == 'string') {
+      if (Jx.type(val) == 'string' || Jx.type(val) == 'number') {
         return val;
       } else if (Jx.type(val) == 'function') {
         return val();
