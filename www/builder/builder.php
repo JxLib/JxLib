@@ -58,24 +58,26 @@ foreach ($libs as $lib){
 			$srcString[$lib] .= removeBOM(file_get_contents($path));
 
             //get css file if there is one... one for each theme
-            if ($lib == 'jxlib' && array_key_exists('css',$arr) && !empty($arr['css'])) {
+            if ($lib == 'jxlib') {
                 //echo "<br>checking for css and images...";
                 foreach ($themes as $theme) {
                     //echo "<br>theme: $theme";
                     $path = dirname(__FILE__). DS .'src'.DS.'jxlib'.DS.'themes' . DS .$theme. DS .'css'.DS;
                     $pathAlt = dirname(__FILE__). DS .'src'.DS.'jxlib'.DS. 'themes' . DS . $theme.DS;
-                    foreach ($arr['css'] as $file) {
-                        $p = $path . $file . '.css';
-                        //echo "<br>checking main path $p";
-                        if (!file_exists($p)) {
-                            $p = $pathAlt . $file . '.css';
-                            //echo "<br>checking alternate path $p";
+                    if (array_key_exists('css',$arr) && !empty($arr['css'])) {
+                        foreach ($arr['css'] as $file) {
+                            $p = $path . $file . '.css';
+                            //echo "<br>checking main path $p";
                             if (!file_exists($p)) {
-                                continue;
+                                $p = $pathAlt . $file . '.css';
+                                //echo "<br>checking alternate path $p";
+                                if (!file_exists($p)) {
+                                    continue;
+                                }
                             }
+                            //echo "<br>including css file $p";
+                            $cssSrc[$theme] .= removeBOM(file_get_contents($p));
                         }
-                        //echo "<br>including css file $p";
-                        $cssSrc[$theme] .= removeBOM(file_get_contents($p));
                     }
 
                     if (array_key_exists('images',$arr) && !empty($arr['images'])) {
