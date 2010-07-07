@@ -338,7 +338,7 @@ Jx.Tree = new Class({
             return false;
         }
         //path has more than one thing in it, find a folder and descend into it
-        var name = path.shift();
+        var name = path[0];
         var result = false;
         this.list.items().some(function(item) {
             var treeItem = item.retrieve('jxTreeItem');
@@ -346,7 +346,7 @@ Jx.Tree = new Class({
                 if (path.length > 0) {
                     var folder = item.retrieve('jxTreeFolder');
                     if (folder) {
-                        result = folder.findChild(path);
+                        result = folder.findChild(path.slice(1, path.length));
                     }
                 } else {
                     result = treeItem;
@@ -356,6 +356,7 @@ Jx.Tree = new Class({
         });
         return result;
     },
+    
     /**
      * APIMethod: setSelection
      * sets the <Jx.Selection> object to be used by this tree.  Used primarily
