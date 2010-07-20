@@ -87,6 +87,9 @@ Jx.Menu.Item = new Class({
         if (this.options.image && this.options.image != Jx.aPixel.src) {
             this.domObj.removeClass(this.options.toggleClass);
         }
+        if (this.options.target) {
+          this.domA.set('target', this.options.target);
+        }
         this.domObj.addEvent('mouseover', this.bound.mouseover);
         this.domObj.store('jxMenuItem', this);
     },
@@ -127,17 +130,20 @@ Jx.Menu.Item = new Class({
      * event.
      */
     clicked: function(obj) {
+        var href = this.options.href && this.options.href.indexOf('javascript:') != 0;
         if (this.options.enabled) {
+          if (!href) {
             if (this.options.toggle) {
                 this.setActive.delay(1,this,!this.options.active);
             }
             this.fireEvent.delay(1, this, ['click', {obj: this}]);
             this.blur();
-            if (this.owner && this.owner.deactivate) {
-                this.owner.deactivate.delay(1, this.owner, obj.event);
-            }
+          }
+          if (this.owner && this.owner.deactivate) {
+              this.owner.deactivate.delay(1, this.owner, obj.event);
+          }
         }
-        return false;
+        return href ? true : false;
     },
     /**
      * Method: onmouseover
