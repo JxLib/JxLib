@@ -142,13 +142,20 @@ Jx.Field.File = new Class({
         //create the iframe
         //we use the same iFrame for each so we don't have to recreate it each time
         this.setupIframe = true;
-        this.iframe = new IFrame(null, {
-            styles: {
-                'display':'none',
-                'visibility':'hidden'
-            },
-            name : this.generateId()
+        this.iframe = new Element('iframe', {
+          name: this.generateId(),
+          styles: {
+            'display':'none',
+            'visibility':'hidden'
+          }
         });
+        // this.iframe = new IFrame(null, {
+        //     styles: {
+        //         'display':'none',
+        //         'visibility':'hidden'
+        //     },
+        //     name : this.generateId()
+        // });
         this.iframe.inject(document.body);
         this.iframe.addEvent('load', this.processIFrameUpload.bind(this));
 
@@ -373,7 +380,12 @@ Jx.Field.File = new Class({
         //the body text should be a JSON structure
         //get the body
         if (!this.setupIframe) {
-            var iframeBody = this.iframe.contentDocument.defaultView.document.body.innerHTML;
+            if (this.iframe.contentDocument  && this.iframe.contentDocument.defaultView) {
+              var iframeBody = this.iframe.contentDocument.defaultView.document.body.innerHTML;
+            } else {
+              // seems to be needed for ie7
+              var iframeBody = this.iframe.contentWindow.document.body.innerHTML;
+            }
 
             var data = JSON.decode(iframeBody);
             if ($defined(data.success) && data.success) {
