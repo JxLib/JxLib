@@ -114,8 +114,7 @@ Jx.Menu = new Class({
             Jx.Menu.Menus = [];
         }
 
-        
-        this.contentContainer.addEvent('contextmenu', this.bound.stop);
+        this.contentClone = this.contentContainer.clone();
         this.list = new Jx.List(this.subDomObj, {
             onRemove: this.bound.remove
         });
@@ -143,6 +142,9 @@ Jx.Menu = new Class({
         }
     },
     cleanup: function() {
+      if (this.hideTimer) {
+        window.clearTimeout(this.hideTimer);
+      }
       this.list.removeEvent('remove', this.bound.remove);
       this.list.destroy();
       this.list = null;
@@ -166,6 +168,7 @@ Jx.Menu = new Class({
       this.contentContainer.removeEvent('contextmenu', this.bound.stop);
       this.subDomObj.destroy();
       this.contentContainer.destroy();
+      this.contentClone.destroy();
       this.bound.remove = null;
       this.bound.show = null;
       this.bound.stop = null;
@@ -246,18 +249,18 @@ Jx.Menu = new Class({
      * e - {Event} the mouse event
      */
     onMouseEnter: function(e) {
-        if (this.hideTimer) {
-          $clear(this.hideTimer);
-          this.hideTimer = null;
-        }
-        if (Jx.Menu.Menus[0] && Jx.Menu.Menus[0] != this) {
-            this.show.delay(1,this);
-        } else if (this.options.exposeOnHover) {
-          if (Jx.Menu.Menus[0] && Jx.Menu.Menus[0] == this) {
-            Jx.Menu.Menus[0] = null;
-          }
+      if (this.hideTimer) {
+        window.clearTimeout(this.hideTimer);
+        this.hideTimer = null;
+      }
+      if (Jx.Menu.Menus[0] && Jx.Menu.Menus[0] != this) {
           this.show.delay(1,this);
+      } else if (this.options.exposeOnHover) {
+        if (Jx.Menu.Menus[0] && Jx.Menu.Menus[0] == this) {
+          Jx.Menu.Menus[0] = null;
         }
+        this.show.delay(1,this);
+      }
     },
     /**
      * Method: onMouseLeave
@@ -336,6 +339,9 @@ Jx.Menu = new Class({
         if (this.button && this.button.domA) {
             this.button.domA.removeClass(this.button.options.activeClass);
         }
+        if (this.hideTimer) {
+          window.clearTimeout(this.hideTimer);
+        }
         this.list.each(function(item){item.retrieve('jxMenuItem').hide(e);});
         document.removeEvent('mousedown', this.bound.hide);
         document.removeEvent('keydown', this.bound.keypress);
@@ -365,21 +371,21 @@ Jx.Menu = new Class({
                 return;
             }
         }
+        if (this.hideTimer) {
+          window.clearTimeout(this.hideTimer);
+        }
+
+        this.subDomObj.dispose();
+        this.contentContainer.destroy();
+        this.contentContainer = this.contentClone.clone();
+        this.contentContainer.empty().adopt(this.subDomObj);
+        this.contentContainer.addEvent('contextmenu', this.bound.stop);
         this.contentContainer.setStyle('display','none');
         document.id(document.body).adopt(this.contentContainer);
         this.contentContainer.setStyles({
             visibility: 'hidden',
             display: 'block'
         });
-
-        /* we have to size the container for IE to render the chrome correctly
-         * but just in the menu/sub menu case - there is some horrible 
-         * peekaboo bug in IE related to ULs that we just couldn't figure out
-         */
-         this.contentContainer.setStyles({
-           width: null,
-           height: null
-         });
         this.contentContainer.setContentBoxSize(this.subDomObj.getMarginBoxSize());
         this.showChrome(this.contentContainer);
 
@@ -408,6 +414,9 @@ Jx.Menu = new Class({
      * obj- {<Jx.SubMenu>} the sub menu that just became visible
      */
     setVisibleItem: function(obj) {
+        if (this.hideTimer) {
+          window.clearTimeout(this.hideTimer);
+        }
         if (this.visibleItem != obj) {
             if (this.visibleItem && this.visibleItem.hide) {
                 this.visibleItem.hide();
