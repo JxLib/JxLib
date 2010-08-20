@@ -46,7 +46,9 @@ Jx.Field = new Class({
     options : {
         /**
          * Option: id
-         * The ID of the field.
+         * The ID assigned to the container of the Jx.Field element, this is
+         * not the id of the input element (which is internally computed to be
+         * unique)
          */
         id : null,
         /**
@@ -163,7 +165,7 @@ Jx.Field = new Class({
     tag : null,
     /**
      * Property: id
-     * The name of this field.
+     * A computed, unique id attached to the input element of this field.
      */
     id : null,
     /**
@@ -196,8 +198,7 @@ Jx.Field = new Class({
         this.options.template = this.options.template.substitute({name:name});
         this.parent();
 
-        this.id = ($defined(this.options.id)) ? this.options.id : this
-                .generateId();
+        this.id = this.generateId();
         this.name = this.options.name;
 
         if ($defined(this.type)) {
