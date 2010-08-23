@@ -38,6 +38,7 @@ Jx.Plugin.Form.Validator = new Class({
         /**
          * Option: fields
          * This will be key/value pairs for each of the fields as shown here:
+         * (code)
          * {
          *     fieldID: {
          *          ... options for Field.Validator plugin ...
@@ -45,16 +46,35 @@ Jx.Plugin.Form.Validator = new Class({
          *     fieldID: {...
          *     }
          * }
+         * (end)
          */
         fields: null,
-
+        /**
+         * Option: fieldDefaults
+         * {Object} contains named defaults for field validators to be
+         * triggered on blur or change.  Default is:
+         * (code)
+         * {
+         *    validateOnBlur: true
+         *    validateOnChange: false
+         * }
+         * (end)
+         */
         fieldDefaults: {
             validateOnBlur: true,
             validateOnChange: true
         },
-
+        /**
+         * Option: validateOnSubmit
+         * {Boolean} default true.  Trigger validation on submission of
+         * form if true.
+         */
         validateOnSubmit: true,
-
+        /**
+         * Option: suspendSubmit
+         * {Boolean} default false.  Stop form submission when validator is
+         * attached.
+         */
         suspendSubmit: false
     },
     /**
@@ -82,15 +102,16 @@ Jx.Plugin.Form.Validator = new Class({
             return;
         }
         this.form = form;
-        var plugin = this;
+        var plugin = this,
+            options = this.options;
         //override the isValid function in the form
-        this.form.isValid = function () {
+        form.isValid = function () {
             return plugin.isValid();
         };
 
-        if (this.options.validateOnSubmit && !this.options.suspendSubmit) {
+        if (options.validateOnSubmit && !options.suspendSubmit) {
             document.id(this.form).addEvent('submit', this.bound.validate);
-        } else if (this.options.suspendSubmit) {
+        } else if (options.suspendSubmit) {
             document.id(this.form).addEvent('submit', function (ev) {
                 ev.stop();
             });
@@ -99,15 +120,17 @@ Jx.Plugin.Form.Validator = new Class({
         this.plugins = $H();
 
         //setup the fields
-        $H(this.options.fields).each(function (val, key) {
-            var opts = $merge(this.options.fieldDefaults, val);
-            var field = this.form.getField(key);
-            var p = new Jx.Plugin.Field.Validator(opts);
-            this.plugins.set(key, p);
-            p.attach(field);
-            p.addEvent('fieldValidationFailed', this.bound.failed);
-            p.addEvent('fieldValidationPassed', this.bound.passed);
-
+        $H(options.fields).each(function (val, key) {
+            var opts = $merge(this.options.fieldDefaults, val),
+                fields = this.form.getFieldsByName(key).
+                p;
+            if (fields && fields.length) {
+                p = new Jx.Plugin.Field.Validator(opts);
+                this.plugins.set(key, p);
+                p.attach(fields[0]);
+                p.addEvent('fieldValidationFailed', this.bound.failed);
+                p.addEvent('fieldValidationPassed', this.bound.passed);
+            }
         }, this);
 
     },
