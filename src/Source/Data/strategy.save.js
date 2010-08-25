@@ -65,6 +65,7 @@ Jx.Store.Strategy.Save = new Class({
      */
     init: function () {
         this.bound.save = this.saveRecord.bind(this);
+        this.bound.update = this.updateRecord.bind(this);
         this.bound.completed = this.onComplete.bind(this);
         this.parent();
     },
@@ -79,7 +80,7 @@ Jx.Store.Strategy.Save = new Class({
             this.periodicalId = this.save.periodical(this.options.autoSave, this);
         } else if (this.options.autoSave) {
             this.store.addEvent('storeRecordAdded', this.bound.save);
-            this.store.addEvent('storeColumnChanged', this.bound.save);
+            this.store.addEvent('storeColumnChanged', this.bound.update);
             this.store.addEvent('storeRecordDeleted', this.bound.save);
         }
         
@@ -95,16 +96,29 @@ Jx.Store.Strategy.Save = new Class({
             $clear(this.periodicalId);
         } else if (this.options.autoSave) {
             this.store.removeEvent('storeRecordAdded', this.bound.save);
-            this.store.removeEvent('storeColumnChanged', this.bound.save);
+            this.store.removeEvent('storeColumnChanged', this.bound.update);
             this.store.removeEvent('storeRecordDeleted', this.bound.save);
         }
         
     },
     
     /**
+     * APIMethod: updateRecord
+     * called by event handlers when store data is updated
+     *
+     * Parameters:
+     * index - {Integer} the row that was affected
+     * column - {String} the column that was affected
+     * oldValue - {Mixed} the previous value
+     * newValue - {Mixed} the new value
+     */
+    updateRecord: function(index, column, oldValue, newValue) {
+      this.saveRecord(this.store, this.store.getRecord(index));
+    },
+    /**
      * APIMethod: saveRecord
-     * Called by event handlers when store data is changed, updated, or
-     * deleted. If deleted, the record will be removed from the deleted array.
+     * Called by event handlers when a store record is added, or deleted. 
+     * If deleted, the record will be removed from the deleted array.
      * 
      * Parameters:
      * record - The Jx.Record instance that was changed
