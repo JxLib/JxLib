@@ -704,6 +704,12 @@
             "desc": "Formats phone numbers in US format including area code",
             "css": [],
             "images": []
+        },
+        "formatter.text": {
+            "deps": ["formatter"],
+            "desc": "Formats strings to an optional maximum length",
+            "css": [],
+            "images": []
         }
     },
     "Form": {
