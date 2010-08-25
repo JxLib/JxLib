@@ -55,7 +55,7 @@ Jx.Formatter.Text = new Class({
   format : function (value) {
     var text = '' + value,
         max = this.options.length,
-        ellpsis = this.options.ellipsis;
+        ellipsis = this.options.ellipsis;
 
     if (max && text.length > max) {
       text = text.substr(0,max-ellipsis.length) + ellipsis;
