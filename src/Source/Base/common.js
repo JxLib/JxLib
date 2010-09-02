@@ -42,16 +42,15 @@ images:
  * a reference to the object, or null if not defined.
  */
 function $jx(id) {
+  var widget = null;
   id = document.id(id);
   if (id) {
-    var widget = id.retrieve('jxWidget');
+    widget = id.retrieve('jxWidget');
     if (!widget && id != document.body) {
-      return $jx(id.getParent());
-    } else {
-      return widget;
+      widget = $jx(id.getParent());
     }
   }
-  return null;
+  return widget;
 }
 
 /**
@@ -62,9 +61,9 @@ function $jx(id) {
  * global variables, if you discover that it does then please report
  * it as a bug
  *
- * License: 
+ * License:
  * Copyright (c) 2008, DM Solutions Group Inc.
- * 
+ *
  * This file is licensed under an MIT style license
  */
 
@@ -73,10 +72,11 @@ window.addEvent('load',
 function() {
     if (! ("console" in window)) {
         var names = ["log", "debug", "info", "warn", "error", "assert", "dir", "dirxml",
-        "group", "groupEnd", "time", "timeEnd", "count", "trace", "profile", "profileEnd"];
+        "group", "groupEnd", "time", "timeEnd", "count", "trace", "profile", "profileEnd"],
+            i;
 
         window.console = {};
-        for (var i = 0; i < names.length; ++i) {
+        for (i = 0; i < names.length; ++i) {
             window.console[names[i]] = function() {};
         }
     }
@@ -103,18 +103,18 @@ function $unlink(object) {
     if (object && object.jxFamily) {
         return object;
     }
-    var unlinked;
+    var unlinked, p, i, l;
     switch ($type(object)) {
     case 'object':
         unlinked = {};
-        for (var p in object) unlinked[p] = $unlink(object[p]);
+        for (p in object) unlinked[p] = $unlink(object[p]);
         break;
     case 'hash':
         unlinked = new Hash(object);
         break;
     case 'array':
         unlinked = [];
-        for (var i = 0, l = object.length; i < l; i++) unlinked[i] = $unlink(object[i]);
+        for (i = 0, l = object.length; i < l; i++) unlinked[i] = $unlink(object[i]);
         break;
     default:
         return object;
@@ -165,7 +165,7 @@ if (typeof Jx === 'undefined') {
 
 /**
  * APIProperty: {String} baseURL
- * This is the URL that Jx was loaded from, it is 
+ * This is the URL that Jx was loaded from, it is
  * automatically calculated from the script tag
  * src property that included Jx.
  *
@@ -185,11 +185,12 @@ if (typeof Jx === 'undefined') {
  */
 if (!$defined(Jx.baseURL)) {
   (function() {
-    var aScripts = document.getElementsByTagName('SCRIPT');
-    for (var i = 0; i < aScripts.length; i++) {
-      var s = aScripts[i].src;
-      var n = s.lastIndexOf('/');
-      var file = s.slice(n+1,s.length-1);
+    var aScripts = document.getElementsByTagName('SCRIPT'),
+        i, s, n, file;
+    for (i = 0; i < aScripts.length; i++) {
+      s = aScripts[i].src;
+      n = s.lastIndexOf('/');
+      file = s.slice(n+1,s.length-1);
       if (file.contains('jxlib')) {
         Jx.baseURL = s.slice(0,n);
         break;
@@ -197,7 +198,7 @@ if (!$defined(Jx.baseURL)) {
     }
   })();
 }
-/** 
+/**
  * APIProperty: {Image} aPixel
  * aPixel is a single transparent pixel and is the only image we actually
  * use directly in JxLib code.  If you want to use your own transparent pixel
@@ -223,7 +224,7 @@ if (!$defined(Jx.aPixel)) {
   });
 }
 
-/** 
+/**
  * APIProperty: {Boolean} isAir
  * indicates if JxLib is running in an Adobe Air environment.  This is
  * normally auto-detected but you can manually set it by declaring the Jx
@@ -235,18 +236,18 @@ if (!$defined(Jx.aPixel)) {
  * (end)
  */
 if (!$defined(Jx.isAir)) {
-	(function() {
-		/**
-		 * Determine if we're running in Adobe AIR.
-		 */
-		var aScripts = document.getElementsByTagName('SCRIPT');
-		var src = aScripts[0].src;
-		if (src.contains('app:')) {
-			Jx.isAir = true;
-		} else {
-			Jx.isAir = false;
-		}
-	})();
+  (function() {
+    /**
+     * Determine if we're running in Adobe AIR.
+     */
+    var aScripts = document.getElementsByTagName('SCRIPT'),
+        src = aScripts[0].src;
+    if (src.contains('app:')) {
+      Jx.isAir = true;
+    } else {
+      Jx.isAir = false;
+    }
+  })();
 }
 
 /**
@@ -259,16 +260,16 @@ if (!$defined(Jx.isAir)) {
  * {String} language identifier, the language to set.
  */
 Jx.setLanguage = function(lang) {
-	Jx.lang = lang;
-	MooTools.lang.setLanguage(Jx.lang);
+  Jx.lang = lang;
+  MooTools.lang.setLanguage(Jx.lang);
 };
 
 /**
  * APIProperty: {String} lang
  * Checks to see if Jx.lang is already set. If not, it sets it to the default
- * 'en-US'. We will then set the Motools.lang language to this setting 
+ * 'en-US'. We will then set the Motools.lang language to this setting
  * automatically.
- * 
+ *
  * The language can be changed on the fly at anytime by calling
  * Jx.setLanguage().
  * By default all Jx.Widget subclasses will listen for the langChange event of
@@ -277,7 +278,7 @@ Jx.setLanguage = function(lang) {
  * these changes by setting the Jx.Widget option useLang to false.
  */
 if (!$defined(Jx.lang)) {
-	Jx.lang = 'en-US';
+  Jx.lang = 'en-US';
 }
 
 Jx.setLanguage(Jx.lang);
@@ -300,9 +301,10 @@ Jx.setLanguage(Jx.lang);
  * object {Object} the object (img) to which the filter needs to be applied.
  */
 Jx.applyPNGFilter = function(o) {
-    var t = Jx.aPixel.src;
+    var t = Jx.aPixel.src, 
+        s;
     if (o.src != t) {
-        var s = o.src;
+        s = o.src;
         o.src = t;
         o.runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + s + "',sizingMethod='scale')";
     }
@@ -320,7 +322,7 @@ Jx.imagesLoading = 0;
 //counter for number of concurrent image loads
 /**
  * APIMethod: addToImgQueue
- * Request that an image be set to a DOM IMG element src attribute.  This puts 
+ * Request that an image be set to a DOM IMG element src attribute.  This puts
  * the image into a queue and there are private methods to manage that queue
  * and limit image loading to 2 at a time.
  *
@@ -375,10 +377,10 @@ Jx.loadNextImg = function() {
 
 /**
  * APIMethod: getNumber
- * safely parse a number and return its integer value.  A NaN value 
+ * safely parse a number and return its integer value.  A NaN value
  * returns 0.  CSS size values are also parsed correctly.
  *
- * Parameters: 
+ * Parameters:
  * n - {Mixed} the string or object to parse.
  *
  * Returns:
@@ -394,7 +396,7 @@ Jx.getNumber = function(n, def) {
  * return the dimensions of the browser client area.
  *
  * Returns:
- * {Object} an object containing a width and height property 
+ * {Object} an object containing a width and height property
  * that represent the width and height of the browser client area.
  */
 Jx.getPageDimensions = function() {
@@ -409,14 +411,11 @@ Jx.getPageDimensions = function() {
  * safely return the type of an object using the mootools type system
  *
  * Returns:
- * {Object} an object containing a width and height property 
+ * {Object} an object containing a width and height property
  * that represent the width and height of the browser client area.
  */
 Jx.type = function(obj) {
-    if (typeof obj == 'undefined') {
-        return false;
-    }
-    return obj.jxFamily || $type(obj);
+  return typeof obj == 'undefined' ? false : obj.jxFamily || $type(obj);
 };
 
 (function($) {
@@ -435,26 +434,28 @@ Jx.type = function(obj) {
      * these things.
      * Ultimately, it would be nice to eliminate most or all of these and find
      * the MooTools equivalent or convince MooTools to add them.
-     * 
-     * NOTE: Many of these methods can be replaced with mootools-more's 
+     *
+     * NOTE: Many of these methods can be replaced with mootools-more's
      * Element.Measure
      */
     Element.implement({
         /**
          * APIMethod: getBoxSizing
-         * return the box sizing of an element, one of 'content-box' or 
+         * return the box sizing of an element, one of 'content-box' or
          *'border-box'.
          *
-         * Parameters: 
+         * Parameters:
          * elem - {Object} the element to get the box sizing of.
          *
          * Returns:
          * {String} the box sizing of the element.
          */
         getBoxSizing: function() {
-            var result = 'content-box';
+            var result = 'content-box',
+                cm,
+                sizing;
             if (Browser.Engine.trident || Browser.Engine.presto) {
-                var cm = document["compatMode"];
+                cm = document["compatMode"];
                 if (cm == "BackCompat" || cm == "QuirksMode") {
                     result = 'border-box';
                 } else {
@@ -464,7 +465,7 @@ Jx.type = function(obj) {
                 if (arguments.length === 0) {
                     node = document.documentElement;
                 }
-                var sizing = this.getStyle("-moz-box-sizing");
+                sizing = this.getStyle("-moz-box-sizing");
                 if (!sizing) {
                     sizing = this.getStyle("box-sizing");
                 }
@@ -477,7 +478,7 @@ Jx.type = function(obj) {
          * return the size of the content area of an element.  This is the
          * size of the element less margins, padding, and borders.
          *
-         * Parameters: 
+         * Parameters:
          * elem - {Object} the element to get the content size of.
          *
          * Returns:
@@ -485,14 +486,10 @@ Jx.type = function(obj) {
          * are the size of the content area of the measured element.
          */
         getContentBoxSize: function() {
-            var w = this.offsetWidth;
-            var h = this.offsetHeight;
             var s = this.getSizes(['padding', 'border']);
-            w = w - s.padding.left - s.padding.right - s.border.left - s.border.right;
-            h = h - s.padding.bottom - s.padding.top - s.border.bottom - s.border.top;
             return {
-                width: w,
-                height: h
+                width: this.offsetWidth - s.padding.left - s.padding.right - s.border.left - s.border.right,
+                height: this.offsetHeight - s.padding.bottom - s.padding.top - s.border.bottom - s.border.top
             };
         },
         /**
@@ -500,7 +497,7 @@ Jx.type = function(obj) {
          * return the size of the border area of an element.  This is the size
          * of the element less margins.
          *
-         * Parameters: 
+         * Parameters:
          * elem - {Object} the element to get the border sizing of.
          *
          * Returns:
@@ -508,11 +505,9 @@ Jx.type = function(obj) {
          * are the size of the border area of the measured element.
          */
         getBorderBoxSize: function() {
-            var w = this.offsetWidth;
-            var h = this.offsetHeight;
             return {
-                width: w,
-                height: h
+                width: this.offsetWidth,
+                height: this.offsetHeight
             };
         },
 
@@ -521,7 +516,7 @@ Jx.type = function(obj) {
          * return the size of the margin area of an element.  This is the size
          * of the element plus margins.
          *
-         * Parameters: 
+         * Parameters:
          * elem - {Object} the element to get the margin sizing of.
          *
          * Returns:
@@ -530,11 +525,9 @@ Jx.type = function(obj) {
          */
         getMarginBoxSize: function() {
             var s = this.getSizes(['margin']);
-            var w = this.offsetWidth + s.margin.left + s.margin.right;
-            var h = this.offsetHeight + s.margin.top + s.margin.bottom;
             return {
-                width: w,
-                height: h
+                width: this.offsetWidth + s.margin.left + s.margin.right,
+                height: this.offsetHeight + s.margin.top + s.margin.bottom
             };
         },
         /**
@@ -558,12 +551,14 @@ Jx.type = function(obj) {
         getSizes: function(which, edges) {
             which = which || ['padding', 'border', 'margin'];
             edges = edges || ['left', 'top', 'right', 'bottom'];
-            var result = {};
+            var result = {},
+                e,
+                n;
             which.each(function(style) {
                 result[style] = {};
                 edges.each(function(edge) {
-                    var e = (style == 'border') ? edge + '-width': edge;
-                    var n = this.getStyle(style + '-' + e);
+                    e = (style == 'border') ? edge + '-width': edge;
+                    n = this.getStyle(style + '-' + e);
                     result[style][edge] = n === null || isNaN(parseInt(n, 10)) ? 0: parseInt(n, 10);
                 },
                 this);
@@ -579,36 +574,39 @@ Jx.type = function(obj) {
          * size of the element may be larger depending on padding and
          * borders.
          *
-         * Parameters: 
+         * Parameters:
          * elem - {Object} the element to set the content area of.
          * size - {Object} an object with a width and/or height property that
          * is the size to set the content area of the element to.
          */
         setContentBoxSize: function(size) {
+            var m,
+                width,
+                height;
             if (this.getBoxSizing() == 'border-box') {
-                var m = this.measure(function() {
+                m = this.measure(function() {
                     return this.getSizes(['padding', 'border']);
                 });
                 if ($defined(size.width)) {
-                    var width = size.width + m.padding.left + m.padding.right + m.border.left + m.border.right;
+                    width = size.width + m.padding.left + m.padding.right + m.border.left + m.border.right;
                     if (width < 0) {
                         width = 0;
                     }
-                    this.style.width = width + 'px';
+                    this.setStyle('width', width);
                 }
                 if ($defined(size.height)) {
-                    var height = size.height + m.padding.top + m.padding.bottom + m.border.top + m.border.bottom;
+                    height = size.height + m.padding.top + m.padding.bottom + m.border.top + m.border.bottom;
                     if (height < 0) {
                         height = 0;
                     }
-                    this.style.height = height + 'px';
+                    this.setStyle('height', height);
                 }
             } else {
                 if ($defined(size.width) && size.width >= 0) {
-                    this.style.width = size.width + 'px';
+                  this.setStyle('width', width);
                 }
                 if ($defined(size.height) && size.height >= 0) {
-                    this.style.height = size.height + 'px';
+                  this.setStyle('height', height);
                 }
             }
         },
@@ -620,37 +618,40 @@ Jx.type = function(obj) {
          * content areaof the element may be larger depending on padding and
          * borders.
          *
-         * Parameters: 
+         * Parameters:
          * elem - {Object} the element to set the border size of.
          * size - {Object} an object with a width and/or height property that
          * is the size to set the content area of the element to.
          */
         setBorderBoxSize: function(size) {
+            var m, 
+                width, 
+                height;
             if (this.getBoxSizing() == 'content-box') {
-                var m = this.measure(function() {
+                m = this.measure(function() {
                     return this.getSizes();
                 });
 
                 if ($defined(size.width)) {
-                    var width = size.width - m.padding.left - m.padding.right - m.border.left - m.border.right - m.margin.left - m.margin.right;
+                    width = size.width - m.padding.left - m.padding.right - m.border.left - m.border.right - m.margin.left - m.margin.right;
                     if (width < 0) {
                         width = 0;
                     }
-                    this.style.width = width + 'px';
+                    this.setStyle('width', width);
                 }
                 if ($defined(size.height)) {
-                    var height = size.height - m.padding.top - m.padding.bottom - m.border.top - m.border.bottom - m.margin.top - m.margin.bottom;
+                    height = size.height - m.padding.top - m.padding.bottom - m.border.top - m.border.bottom - m.margin.top - m.margin.bottom;
                     if (height < 0) {
                         height = 0;
                     }
-                    this.style.height = height + 'px';
+                    this.setStyle('height', height);
                 }
             } else {
                 if ($defined(size.width) && size.width >= 0) {
-                    this.style.width = size.width + 'px';
+                  this.setStyle('width', width);
                 }
                 if ($defined(size.height) && size.height >= 0) {
-                    this.style.height = size.height + 'px';
+                  this.setStyle('height', height);
                 }
             }
         },
@@ -686,8 +687,8 @@ Jx.type = function(obj) {
          * requested tag name or false if none are found.
          */
         findElement: function(type) {
-            var o = this;
-            var tagName = o.tagName;
+            var o = this,
+                tagName = o.tagName;
             while (o.tagName != type && o && o.parentNode && o.parentNode != o) {
                 o = document.id(o.parentNode);
             }
@@ -702,7 +703,7 @@ Jx.type = function(obj) {
         /**
          * APIMethod: swap
          * swaps 2 elements of an array
-         * 
+         *
          * Parameters:
          * a - the first position to swap
          * b - the second position to swap

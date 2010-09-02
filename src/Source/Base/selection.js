@@ -137,25 +137,27 @@ Jx.Selection = new Class({
      * item - {DOMElement} a DOM element or an element ID.
      */
     select: function (item) {
+        var options = this.options,
+            selection = this.selection;
         item = document.id(item);
-        if (this.options.selectMode === 'multiple') {
-            if (this.selection.contains(item)) {
+        if (options.selectMode === 'multiple') {
+            if (selection.contains(item)) {
                 this.unselect(item);
             } else {
-                document.id(item).addClass(this.options.selectClass);
-                this.selection.push(item);
-                this.fireEvent(this.options.eventToFire.select, item);
+                document.id(item).addClass(options.selectClass);
+                selection.push(item);
+                this.fireEvent(options.eventToFire.select, item);
             }
-        } else if (this.options.selectMode == 'single') {
+        } else if (options.selectMode == 'single') {
             if (!this.selection.contains(item)) {
-                document.id(item).addClass(this.options.selectClass);
-                this.selection.push(item);
-                if (this.selection.length > 1) {
-                    this.unselect(this.selection[0]);
+                document.id(item).addClass(options.selectClass);
+                selection.push(item);
+                if (selection.length > 1) {
+                    this.unselect(selection[0]);
                 }
-                this.fireEvent(this.options.eventToFire.select, item);
+                this.fireEvent(options.eventToFire.select, item);
             } else {
-                if (this.options.selectToggle) {
+                if (options.selectToggle) {
                   this.unselect(item);
                 }
             }
@@ -171,11 +173,13 @@ Jx.Selection = new Class({
      * item - {DOMElement} a DOM element or an element ID.
      */
     unselect: function (item) {
-        if (this.selection.contains(item) &&
-            this.selection.length > this.options.minimumSelection) {
-            document.id(item).removeClass(this.options.selectClass);
-            this.selection.erase(item);
-            this.fireEvent(this.options.eventToFire.unselect, [item, this]);
+        var selection = this.selection,
+            options = this.options;
+        if (selection.contains(item) &&
+            selection.length > options.minimumSelection) {
+            document.id(item).removeClass(options.selectClass);
+            selection.erase(item);
+            this.fireEvent(options.eventToFire.unselect, [item, this]);
         }
     },
 

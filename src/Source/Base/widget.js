@@ -64,9 +64,9 @@ optional:
  * appropriate corners of the chrome image are displayed in those locations.
  *
  * Busy States:
- * 
+ *
  * Any widget can be set as temporarily busy by calling the setBusy(true)
- * method and then as idle by calling setBusy(false).  By default, busy 
+ * method and then as idle by calling setBusy(false).  By default, busy
  * widgets display an event mask that prevents them from being clicked and
  * a spinner image with a message.  By default, there are two configurations
  * for the spinner image and message, one for 'small' widgets like buttons
@@ -94,14 +94,14 @@ optional:
  * contentLoadFailed - called if content can not be loaded for some reason
  * addTo - called when a widget is added to another element or widget
  * busy - called just before the busy mask is rendered/removed
- * 
+ *
  * MooTools.Lang Keys:
  * widget.busyMessage - sets the message of the waiter component when used
  */
 Jx.Widget = new Class({
     Family: "Jx.Widget",
     Extends: Jx.Object,
-    
+
     options: {
         /* Option: id
          * (optional) {String} an HTML ID to assign to the widget
@@ -181,7 +181,7 @@ Jx.Widget = new Class({
     classes: new Hash({
         domObj: 'jxWidget'
     }),
-    
+
     /**
      * Property: busy
      * {Boolean} is the widget currently busy?  This should be considered
@@ -248,33 +248,35 @@ Jx.Widget = new Class({
      *     useful when using the contentURL method of loading content.
      */
     loadContent: function(element) {
+        var c,
+            options = this.options,
+            timeout;
         element = document.id(element);
-        if (this.options.content) {
-            var c;
-            if (this.options.content.domObj) {
-                c = document.id(this.options.content.domObj);
+        if (options.content) {
+            if (options.content.domObj) {
+                c = document.id(options.content.domObj);
             } else {
-                c = document.id(this.options.content);
+                c = document.id(options.content);
             }
             if (c) {
-                if (this.options.content.addTo) {
-                    this.options.content.addTo(element);
+                if (options.content.addTo) {
+                    options.content.addTo(element);
                 } else {
                     element.appendChild(c);
                 }
                 this.contentIsLoaded = true;
             } else {
-                element.innerHTML = this.options.content;
+                element.innerHTML = options.content;
                 this.contentIsLoaded = true;
             }
-        } else if (this.options.contentURL) {
+        } else if (options.contentURL) {
             this.contentIsLoaded = false;
             this.req = new Request({
-                url: this.options.contentURL,
+                url: options.contentURL,
                 method:'get',
                 evalScripts:true,
                 onRequest:(function() {
-                  if(this.options.loadOnDemand) {
+                  if(options.loadOnDemand) {
                       this.setBusy(true);
                   }
                 }).bind(this),
@@ -296,13 +298,13 @@ Jx.Widget = new Class({
             });
             this.req.send();
             if (Jx.isAir) {
-                var timeout = $defined(this.options.timeout) ? this.options.timeout : 10000;
+                timeout = $defined(options.timeout) ? options.timeout : 10000;
                 this.reqTimeout = this.checkRequest.delay(timeout, this);
             }
         } else {
             this.contentIsLoaded = true;
         }
-        if (this.options.contentId) {
+        if (options.contentId) {
             element.id = this.options.contentId;
         }
         if (this.contentIsLoaded) {
@@ -368,12 +370,19 @@ Jx.Widget = new Class({
     position: function(element, relative, options) {
         element = document.id(element);
         relative = document.id(relative);
-        var hor = $splat(options.horizontal || ['center center']);
-        var ver = $splat(options.vertical || ['center center']);
-        var offsets = $merge({top:0,right:0,bottom:0,left:0}, options.offsets || {});
-
-        var coords = relative.getCoordinates(); //top, left, width, height
-        var page, scroll;
+        var hor = $splat(options.horizontal || ['center center']),
+            ver = $splat(options.vertical || ['center center']),
+            offsets = $merge({top:0,right:0,bottom:0,left:0}, options.offsets || {}),
+            coords = relative.getCoordinates(), //top, left, width, height,
+            page, 
+            scroll,
+            size,
+            left,
+            rigbht,
+            top,
+            bottom,
+            n,
+            parts;
         if (!document.id(element.parentNode) || element.parentNode ==  document.body) {
             page = Jx.getPageDimensions();
             scroll = document.id(document.body).getScroll();
@@ -393,10 +402,9 @@ Jx.Widget = new Class({
             coords.left = 0;
             coords.top = 0;
         }
-        var size = element.getMarginBoxSize(); //width, height
-        var left, right, top, bottom, n;
+        size = element.getMarginBoxSize(); //width, height
         if (!hor.some(function(opt) {
-            var parts = opt.split(' ');
+            parts = opt.split(' ');
             if (parts.length != 2) {
                 return false;
             }
@@ -465,7 +473,7 @@ Jx.Widget = new Class({
         element.setStyle('left', left);
 
         if (!ver.some(function(opt) {
-          var parts = opt.split(' ');
+          parts = opt.split(' ');
           if (parts.length != 2) {
             return false;
           }
@@ -543,11 +551,12 @@ Jx.Widget = new Class({
      */
     makeChrome: function(element) {
         var c = new Element('div', {
-            'class':'jxChrome',
-            events: {
-                contextmenu: function(e) { e.stop(); }
-            }
-        });
+                'class':'jxChrome',
+                events: {
+                  contextmenu: function(e) { e.stop(); }
+                }
+              }),
+            src;
 
         /* add to element so we can get the background image style */
         element.adopt(c);
@@ -563,7 +572,7 @@ Jx.Widget = new Class({
 
         /* get the chrome image from the background image of the element */
         /* the app: protocol check is for adobe air support */
-        var src = c.getStyle('backgroundImage');
+        src = c.getStyle('backgroundImage');
         if (src != null) {
           if (!(src.contains('http://') || src.contains('https://') || src.contains('file://') || src.contains('app:/'))) {
               src = null;
@@ -641,8 +650,8 @@ Jx.Widget = new Class({
      */
     hideChrome: function() {
         if (this.chrome) {
-            if (this.shim) { 
-              this.shim.hide(); 
+            if (this.shim) {
+              this.shim.hide();
             }
             this.chrome.parentNode.removeClass('jxHasChrome');
             this.chrome.dispose();
@@ -726,15 +735,16 @@ Jx.Widget = new Class({
      * names
      */
     processTemplate: function(template,classes,container){
-        var h = new Hash();
-        var element;
+        var h = new Hash(),
+            element,
+            el;
         if ($defined(container)){
             element = container.set('html',template);
         } else {
             element = new Element('div',{html:template});
         }
         classes.each(function(klass){
-            var el = element.getElement('.'+klass);
+            el = element.getElement('.'+klass);
             if ($defined(el)){
                 h.set(klass,el);
             }
@@ -828,7 +838,7 @@ Jx.Widget = new Class({
         }, this);
         return elements;
     },
-    
+
     /**
      * APIMethod: isBusy
      * indicate if the widget is currently busy or not
@@ -839,7 +849,7 @@ Jx.Widget = new Class({
     isBusy: function() {
       return this.busy;
     },
-    
+
     /**
      * APIMethod: setBusy
      * set the busy state of the widget
@@ -854,18 +864,27 @@ Jx.Widget = new Class({
       if (this.busy == state) {
         return;
       }
-      message       = $defined(message) ? message : {set:'Jx',key:'widget',value:'busyMessage'};
-      forceMessage  = $defined(forceMessage) ? forceMessage : false;
+      var options = this.options,
+          z,
+          size,
+          opts,
+          domObj = this.domObj;
+      message = $defined(message) ? message : {
+        set:'Jx',
+        key:'widget',
+        value:'busyMessage'
+      };
+      forceMessage = $defined(forceMessage) ? forceMessage : false;
       this.busy = state;
-      this.fireEvent('busy', this.busy);
-      if (this.busy) {
-        if (this.options.busyClass) {
-          this.domObj.addClass(this.options.busyClass);
+      this.fireEvent('busy', state);
+      if (state) {
+        if (options.busyClass) {
+          domObj.addClass(options.busyClass);
         }
-        if (this.options.busyMask && this.domObj.spin) {
+        if (options.busyMask && domObj.spin) {
           /* put the spinner above the element in the z-index */
-          var z = Jx.getNumber(this.domObj.getStyle('z-index'));
-          var opts = {
+          z = Jx.getNumber(domObj.getStyle('z-index'));
+          opts = {
             style: {
               'z-index': z+1
             }
@@ -873,7 +892,7 @@ Jx.Widget = new Class({
           /* switch to the small size if the element is less than
            * 60 pixels high
            */
-          var size = this.domObj.getBorderBoxSize();
+          size = domObj.getBorderBoxSize();
           if (size.height < 60 || forceMessage) {
             opts['class'] = 'jxSpinner jxSpinnerSmall';
             opts.img = null;
@@ -882,29 +901,26 @@ Jx.Widget = new Class({
               html: '<span class="jxSpinnerImage"></span>'+this.getText(message)
             });
           }
-          opts = $merge(this.options.busyMask, opts);
-          
-          this.domObj.get('spinner', opts).show(!this.options.busyMask.fx);
-  		
+          opts = $merge(options.busyMask, opts);
+          domObj.get('spinner', opts).show(!options.busyMask.fx);
         }
       } else {
-        if (this.options.busyClass) {
-          this.domObj.removeClass(this.options.busyClass);
+        if (options.busyClass) {
+          domObj.removeClass(options.busyClass);
         }
-        if (this.options.busyMask && this.domObj.unspin) {
-          this.domObj.get('spinner').hide(!this.options.busyMask.fx);
-    	
+        if (options.busyMask && this.domObj.unspin) {
+          domObj.get('spinner').hide(!options.busyMask.fx);
         }
       }
     },
-    
+
     /**
      * APIMethod: changeText
      * This method should be overridden by subclasses. It should be used
      * to change any language specific default text that is used by the widget.
-     * 
+     *
      * Parameters:
-     * lang - {string} the language being changed to or that had it's data set of 
+     * lang - {string} the language being changed to or that had it's data set of
      *    translations changed.
      */
     changeText: function (lang) {
@@ -915,7 +931,7 @@ Jx.Widget = new Class({
             this.setBusy(true);
         }
     },
-    
+
     /**
      * APIMethod: stack
      * stack this widget in the z-index of the DOM relative to other stacked
@@ -927,10 +943,9 @@ Jx.Widget = new Class({
      * is typically this.domObj unless the method has been overloaded.
      */
     stack: function(el) {
-      el = el || document.id(this);
-      Jx.Stack.stack(el);
+      Jx.Stack.stack(el || document.id(this));
     },
-    
+
     /**
      * APIMethod: unstack
      * remove this widget from the stack.
@@ -941,8 +956,7 @@ Jx.Widget = new Class({
      * is typically this.domObj unless the method has been overloaded.
      */
     unstack: function(el) {
-      el = el || document.id(this);
-      Jx.Stack.unstack(el);
+      Jx.Stack.unstack(el = el || document.id(this));
     }
 });
 

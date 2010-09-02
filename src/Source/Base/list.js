@@ -137,37 +137,38 @@ Jx.List = new Class({
         this.container = document.id(this.options.container);
         this.container.store('jxList', this);
 
-        var target = this;
-        var isEnabled = function(el) {
-            var item = el.retrieve('jxListTargetItem') || el;
-            return !item.hasClass('jxDisabled');
-        };
-        var isSelectable = function(el) {
-            var item = el.retrieve('jxListTargetItem') || el;
-            return !item.hasClass('jxUnselectable');
-        };
+        var target = this,
+            options = this.options,
+            isEnabled = function(el) {
+                var item = el.retrieve('jxListTargetItem') || el;
+                return !item.hasClass('jxDisabled');
+            },
+            isSelectable = function(el) {
+                var item = el.retrieve('jxListTargetItem') || el;
+                return !item.hasClass('jxUnselectable');
+            };
         this.bound = $merge(this.bound, {
             mousedown: function() {
                 if (isEnabled(this)) {
-                    this.addClass(target.options.pressClass);
+                    this.addClass(options.pressClass);
                     target.fireEvent('mousedown', this, target);
                 }
             },
             mouseup: function() {
                 if (isEnabled(this)) {
-                    this.removeClass(target.options.pressClass);
+                    this.removeClass(options.pressClass);
                     target.fireEvent('mouseup', this, target);
                 }
             },
             mouseenter: function() {
                 if (isEnabled(this)) {
-                    this.addClass(target.options.hoverClass);
+                    this.addClass(options.hoverClass);
                     target.fireEvent('mouseenter', this, target);
                 }
             },
             mouseleave: function() {
                 if (isEnabled(this)) {
-                    this.removeClass(target.options.hoverClass);
+                    this.removeClass(options.hoverClass);
                     target.fireEvent('mouseleave', this, target);
                 }
             },
@@ -187,6 +188,7 @@ Jx.List = new Class({
                     isSelectable(this)) {
                     target.selection.select(this, target);
                 }
+                target.fireEvent('click', this, target);
             },
             select: function(item) {
                 if (isEnabled(item)) {
@@ -204,22 +206,22 @@ Jx.List = new Class({
               var cm = this.retrieve('jxContextMenu');
               if (cm) {
                 cm.show(e);
-                this.removeClass(target.options.pressClass);
+                this.removeClass(options.pressClass);
               }
               e.stop();
             }
         });
 
-        if (this.options.selection) {
-            this.setSelection(this.options.selection);
-            this.options.select = true;
-        } else if (this.options.select) {
-            this.selection = new Jx.Selection(this.options);
+        if (options.selection) {
+            this.setSelection(options.selection);
+            options.select = true;
+        } else if (options.select) {
+            this.selection = new Jx.Selection(options);
             this.ownsSelection = true;
         }
 
-        if ($defined(this.options.items)) {
-            this.add(this.options.items);
+        if ($defined(options.items)) {
+            this.add(options.items);
         }
     },
 
@@ -237,16 +239,17 @@ Jx.List = new Class({
         }
         this.setSelection(null);
         this.container.eliminate('jxList');
-        this.bound.mousedown=null;
-        this.bound.mouseup=null;
-        this.bound.mouseenter=null;
-        this.bound.mouseleave=null;
-        this.bound.keydown=null;
-        this.bound.keyup=null;
-        this.bound.click=null;
-        this.bound.select=null;
-        this.bound.unselect=null;
-        this.bound.contextmenu=null;
+        var bound = this.bound;
+        bound.mousedown=null;
+        bound.mouseup=null;
+        bound.mouseenter=null;
+        bound.mouseleave=null;
+        bound.keydown=null;
+        bound.keyup=null;
+        bound.click=null;
+        bound.select=null;
+        bound.unselect=null;
+        bound.contextmenu=null;
         this.parent();
     },
 
@@ -271,45 +274,48 @@ Jx.List = new Class({
             return;
         }
         /* the element being wrapped */
-        var el = document.id(item);
-        var target = el.retrieve('jxListTarget') || el;
+        var el = document.id(item),
+            target = el.retrieve('jxListTarget') || el,
+            bound = this.bound,
+            options = this.options,
+            container = this.container;
         if (target) {
             target.store('jxListTargetItem', el);
             target.addEvents({
               contextmenu: this.bound.contextmenu
             });
-            if (this.options.press && this.options.pressClass) {
+            if (options.press && options.pressClass) {
                 target.addEvents({
-                    mousedown: this.bound.mousedown,
-                    mouseup: this.bound.mouseup,
-                    keyup: this.bound.keyup,
-                    keydown: this.bound.keydown
+                    mousedown: bound.mousedown,
+                    mouseup: bound.mouseup,
+                    keyup: bound.keyup,
+                    keydown: bound.keydown
                 });
             }
-            if (this.options.hover && this.options.hoverClass) {
+            if (options.hover && options.hoverClass) {
                 target.addEvents({
-                    mouseenter: this.bound.mouseenter,
-                    mouseleave: this.bound.mouseleave
+                    mouseenter: bound.mouseenter,
+                    mouseleave: bound.mouseleave
                 });
             }
             if (this.selection) {
                 target.addEvents({
-                    click: this.bound.click
+                    click: bound.click
                 });
             }
             if ($defined(position)) {
                 if ($type(position) == 'number') {
-                    if (position < this.container.childNodes.length) {
-                        el.inject(this.container.childNodes[position],'before');
+                    if (position < container.childNodes.length) {
+                        el.inject(container.childNodes[position],'before');
                     } else {
-                        el.inject(this.container, 'bottom');
+                        el.inject(container, 'bottom');
                     }
-                } else if (this.container.hasChild(position)) {
+                } else if (container.hasChild(position)) {
                     el.inject(position,'after');
                 }
                 this.fireEvent('add', item, this);
             } else {
-                el.inject(this.container, 'bottom');
+                el.inject(container, 'bottom');
                 this.fireEvent('add', item, this);
             }
             if (this.selection) {
@@ -330,11 +336,12 @@ Jx.List = new Class({
      * of this list.
      */
     remove: function(item) {
-        var el = document.id(item);
+        var el = document.id(item),
+            target;
         if (el && this.container.hasChild(el)) {
             this.unselect(el, true);
             el.dispose();
-            var target = el.retrieve('jxListTarget') || el;
+            target = el.retrieve('jxListTarget') || el;
             target.removeEvents(this.bound);
             this.fireEvent('remove', item, this);
             return item;
@@ -458,19 +465,20 @@ Jx.List = new Class({
      * {<Jx.Selection>} the selection object, or null to remove it.
      */
     setSelection: function(selection) {
-        if (this.selection == selection) return;
+        var sel = this.selection;
+        if (sel == selection) return;
 
-        if (this.selection) {
-            this.selection.removeEvents(this.bound);
+        if (sel) {
+            sel.removeEvents(this.bound);
             if (this.ownsSelection) {
-                this.selection.destroy();
+                sel.destroy();
                 this.ownsSelection = false;
             }
         }
 
         this.selection = selection;
-        if (this.selection) {
-            this.selection.addEvents({
+        if (selection) {
+            selection.addEvents({
                 select: this.bound.select,
                 unselect: this.bound.unselect
             });

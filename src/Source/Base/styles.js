@@ -16,7 +16,7 @@ provides: [Jx.Styles]
  */
 /**
  * Class: Jx.Styles
- * Dynamic stylesheet class. Used for creating and manipulating dynamic 
+ * Dynamic stylesheet class. Used for creating and manipulating dynamic
  * stylesheets.
  *
  * TBD: should we handle the case of putting the same selector in a stylesheet
@@ -34,7 +34,7 @@ provides: [Jx.Styles]
  * License:
  * Copyright (c) 2009, Jon Bomgardner.
  * Additional code by Paul Spencer
- * 
+ *
  * This file is licensed under an MIT style license
  *
  * Inspired by dojox.html.styles, VisitSpy by nwhite,
@@ -60,10 +60,11 @@ Jx.Styles = new(new Class({
      * <CSSRule> - the requested rule
      */
     getCssRule: function(selector, styleSheetName) {
-        var ss = this.getDynamicStyleSheet(styleSheetName);
-        var rule = null;
+        var ss = this.getDynamicStyleSheet(styleSheetName),
+            rule = null,
+            i;
         if (ss.indicies) {
-            var i = ss.indicies.indexOf(selector);
+            i = ss.indicies.indexOf(selector);
             if (i == -1) {
                 rule = this.insertCssRule(selector, '', styleSheetName);
             } else {
@@ -86,7 +87,7 @@ Jx.Styles = new(new Class({
      * declaration - <String> CSS-formatted rules to include.  May be empty,
      * in which case you may want to use the returned rule object to
      * manipulate styles
-     * styleSheetName - <String> the name of the sheet to place the rules in, 
+     * styleSheetName - <String> the name of the sheet to place the rules in,
      * or empty to put them in a default sheet.
      *
      * Returns:
@@ -95,17 +96,17 @@ Jx.Styles = new(new Class({
      * properties in the same way that you would set them on a DOM object.
      */
     insertCssRule: function (selector, declaration, styleSheetName) {
-        var ss = this.getDynamicStyleSheet(styleSheetName);
-
-        var rule;
-        var text = selector + " {" + declaration + "}";
+        var ss = this.getDynamicStyleSheet(styleSheetName),
+            rule,
+            text = selector + " {" + declaration + "}",
+            index;
         if (Browser.Engine.trident) {
             if (declaration == '') {
                 //IE requires SOME text for the declaration. Passing '{}' will
                 //create an empty rule.
                 declaration = '{}';
             }
-            var index = ss.styleSheet.addRule(selector,declaration);
+            index = ss.styleSheet.addRule(selector,declaration);
             rule = ss.styleSheet.rules[index];
         } else {
             ss.sheet.insertRule(text, ss.indicies.length);
@@ -127,17 +128,18 @@ Jx.Styles = new(new Class({
      * <Boolean> true if the rule was removed, false if it was not.
      */
     removeCssRule: function (selector, styleSheetName) {
-        var ss = this.getDynamicStyleSheet(styleSheetName);
-        var i = ss.indicies.indexOf(selector);
+        var ss = this.getDynamicStyleSheet(styleSheetName),
+            i = ss.indicies.indexOf(selector),
+            result = false;
         ss.indicies.splice(i, 1);
         if (Browser.Engine.trident) {
             ss.removeRule(i);
-            return true;
+            result = true;
         } else {
             ss.sheet.deleteRule(i);
-            return true;
+            result = true;
         }
-        return false;
+        return result;
     },
     /**
      * APIMethod: getDynamicStyleSheet
@@ -147,7 +149,7 @@ Jx.Styles = new(new Class({
      * Parameter:
      * name - <String> the title of the stylesheet to create or obtain
      *
-     * Returns: 
+     * Returns:
      * <StyleSheet> a StyleSheet object with browser dependent capabilities.
      */
     getDynamicStyleSheet: function (name) {
@@ -182,7 +184,7 @@ Jx.Styles = new(new Class({
     /**
      * APIMethod: removeStyleSheet
      * Removes a style sheet
-     * 
+     *
      * Parameters:
      * name = <String> the title of the stylesheet to remove
      */
@@ -194,7 +196,7 @@ Jx.Styles = new(new Class({
     /**
      * APIMethod: isStyleSheetDefined
      * Determined if the passed in name is a defined dynamic style sheet.
-     * 
+     *
      * Parameters:
      * name = <String> the title of the stylesheet to remove
      */

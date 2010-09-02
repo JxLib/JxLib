@@ -32,15 +32,15 @@ provides: [Jx.Object]
  * The basic initialization pipeline for a Jx.Object is to parse the
  * parameters provided to initialize(), separate out options from other formal
  * parameters based on the parameters property of the class, call init() and
- * initialize plugins.  
+ * initialize plugins.
  *
  * Parsing Parameters:
  * Because each sub-class no longer has an initialize method, it no longer has
- * direct access to parameters passed to the constructor.  Instead, a 
+ * direct access to parameters passed to the constructor.  Instead, a
  * sub-class is expected to provide a parameters attribute with an array of
- * parameter names in the order expected.  Jx.Object will enumerate the 
+ * parameter names in the order expected.  Jx.Object will enumerate the
  * attributes passed to its initialize method and automatically place them
- * in the options object under the appropriate key (the value from the 
+ * in the options object under the appropriate key (the value from the
  * array).  Parameters not found will not be present or will be null.
  *
  * The default parameters are a single options object which is merged with
@@ -51,25 +51,25 @@ provides: [Jx.Object]
  * calls the init() method, then fires the 'postInit' event.  It is expected
  * that most sub-class specific initialization will happen in the init()
  * method.  A sub-class may hook preInit and postInit events to perform tasks
- * in one of two ways. 
- * 
+ * in one of two ways.
+ *
  * First, simply send onPreInit and onPostInit functions via the options
  * object as follows (they could be standalone functions or functions of
  * another object setup using .bind())
- * 
+ *
  * (code)
  * var preInit = function () {}
  * var postInit = function () {}
- * 
+ *
  * var options = {
  *   onPreInit: preInit,
  *   onPostInit: postInit,
  *   ...other options...
  * };
- * 
+ *
  * var dialog = new Jx.Dialog(options);
  * (end)
- * 
+ *
  * The second method you can use is to override the initialize method
  *
  * (code)
@@ -92,13 +92,13 @@ provides: [Jx.Object]
  *   }
  * });
  * (end)
- * 
+ *
  * When the object finishes initializing itself (including the plugin
  * initialization) it will fire off the initializeDone event. You can hook
  * into this event in the same way as the events mentioned above.
  *
  * Plugins:
- * Plugins provide pieces of additional, optional, functionality. They are not 
+ * Plugins provide pieces of additional, optional, functionality. They are not
  * necessary for the proper function of an object. All plugins should be
  * located in the Jx.Plugin namespace and they should be further segregated by
  * applicable object. While all objects can support plugins, not all of them
@@ -106,39 +106,39 @@ provides: [Jx.Object]
  * to turn this feature on for an object you need to set the pluginNamespace
  * property of the object. The following is an example of setting the
  * property:
- * 
+ *
  * (code)
  * var MyClass = new Class({
  *   Extends: Jx.Object,
  *   pluginNamespace: 'MyClass'
  * };
  * (end)
- * 
- * The absence of this property does not mean you cannot attach a plugin to an 
+ *
+ * The absence of this property does not mean you cannot attach a plugin to an
  * object. It simply means that you can't have Jx.Object create the
  * plugin for you.
- * 
+ *
  * There are four ways to attach a plugin to an object. First, simply
  * instantiate the plugin yourself and call its attach() method (other class
  * options left out for the sake of simplicity):
- * 
+ *
  * (code)
  * var MyGrid = new Jx.Grid();
  * var APlugin = new Jx.Plugin.Grid.Selector();
  * APlugin.attach(MyGrid);
  * (end)
- * 
+ *
  * Second, you can instantiate the plugin first and pass it to the object
  * through the plugins array in the options object.
- * 
+ *
  * (code)
  * var APlugin = new Jx.Plugin.Grid.Selector();
  * var MyGrid = new Jx.Grid({plugins: [APlugin]});
  * (end)
- * 
+ *
  * The third way is to pass the information needed to instantiate the plugin
  * in the plugins array of the options object:
- * 
+ *
  * (code)
  * var MyGrid = new Jx.Grid({
  *   plugins: [{
@@ -150,22 +150,22 @@ provides: [Jx.Object]
  *   }]
  * });
  * (end)
- * 
+ *
  * The final way, if the plugin has no options, is to pass the name of the
  * plugin as a simple string in the plugins array.
- * 
+ *
  * (code)
  * var MyGrid = new Jx.Grid({
  *   plugins: ['Selector','Sorter']
  * });
  * (end)
- * 
+ *
  * Part of the process of initializing plugins is to call prePluginInit() and
- * postPluginInit(). These events provide you access to the object just before 
+ * postPluginInit(). These events provide you access to the object just before
  * and after the plugins are initialized and/or attached to the object using
  * methods 2 and 3 above. You can hook into these in the same way that you
- * hook into the preInit() and postInit() events.  
- * 
+ * hook into the preInit() and postInit() events.
+ *
  * Destroying Jx.Object Instances:
  * Jx.Object provides a destroy method that cleans up potential memory leaks
  * when you no longer need an object.  Sub-classes are expected to implement
@@ -173,7 +173,7 @@ provides: [Jx.Object]
  * sub-class.  Remember to call this.parent() when providing a cleanup()
  * method. Destroy will also fire off 2 events: preDestroy and postDestroy.
  * You can hook into these methods in the same way as the init or plugin
- * events. 
+ * events.
  *
  * The Family Attribute:
  * the Family attribute of a class is used internally by JxLib to identify Jx
@@ -211,14 +211,14 @@ Jx.Object = new Class({
      * options - {Object} optional parameters for creating an object.
      */
     parameters: ['options'],
-    
+
     options: {
       /**
        * Option: useLang
        * Turns on this widget's ability to react to changes in
        * the default language. Handy for changing text out on the fly.
-       * 
-       * TODO: Should this be enabled or disabled by default? 
+       *
+       * TODO: Should this be enabled or disabled by default?
        */
       useLang: true,
       /**
@@ -227,40 +227,43 @@ Jx.Object = new Class({
        */
       plugins: null
     },
-    
+
     bound: null,
 
     initialize: function(){
         this.plugins = new Hash();
         this.bound = {};
         //normalize arguments
-        var numArgs = arguments.length;
-        var options = {};
+        var numArgs = arguments.length,
+            options = {},
+            parameters = this.parameters,
+            numParams,
+            index;
 
         if (numArgs > 0) {
             if (numArgs === 1
                     && (Jx.type(arguments[0])==='object' || Jx.type(arguments[0])==='Hash')
-                    && this.parameters.length === 1
-                    && this.parameters[0] === 'options') {
+                    && parameters.length === 1
+                    && parameters[0] === 'options') {
                 options = arguments[0];
             } else {
-                var numParams = this.parameters.length;
-                var index;
+                numParams = parameters.length;
+                index;
                 if (numParams <= numArgs) {
                     index = numParams;
                 } else {
                     index = numArgs;
                 }
                 for (var i = 0; i < index; i++) {
-                    if (this.parameters[i] === 'options') {
+                    if (parameters[i] === 'options') {
                         $extend(options, arguments[i]);
                     } else {
-                        options[this.parameters[i]] = arguments[i];
+                        options[parameters[i]] = arguments[i];
                     }
                 }
             }
         }
-        
+
         this.setOptions(options);
 
         this.bound.changeText = this.changeText.bind(this);
@@ -282,6 +285,7 @@ Jx.Object = new Class({
      * internal function to initialize plugins on object creation
      */
     initPlugins: function () {
+        var p;
         // pluginNamespace must be defined in order to pass plugins to the
         // object
         if ($defined(this.pluginNamespace)) {
@@ -297,21 +301,19 @@ Jx.Object = new Class({
                         // that is used for locating the plugins. The default
                         // namespace is 'Other' for
                         // now until we come up with a better idea
-                    	var p;
-                    	if ($defined(Jx.Plugin[this.pluginNamespace][plugin.name.capitalize()])) {
-                    		p = new Jx.Plugin[this.pluginNamespace][plugin.name.capitalize()](plugin.options);
-                    	} else {
-                    		p = new Jx.Adaptor[this.pluginNamespace][plugin.name.capitalize()](plugin.options);
-                    	}
+                      if ($defined(Jx.Plugin[this.pluginNamespace][plugin.name.capitalize()])) {
+                        p = new Jx.Plugin[this.pluginNamespace][plugin.name.capitalize()](plugin.options);
+                      } else {
+                        p = new Jx.Adaptor[this.pluginNamespace][plugin.name.capitalize()](plugin.options);
+                      }
                         p.attach(this);
                     } else if (Jx.type(plugin) === 'string') {
                         //this is a name for a plugin.
-                    	var p;
-                    	if ($defined(Jx.Plugin[this.pluginNamespace][plugin.capitalize()])) {
-                    		p = new Jx.Plugin[this.pluginNamespace][plugin.capitalize()]();
-                    	} else {
-                    		p = new Jx.Adaptor[this.pluginNamespace][plugin.capitalize()]();
-                    	}
+                      if ($defined(Jx.Plugin[this.pluginNamespace][plugin.capitalize()])) {
+                        p = new Jx.Plugin[this.pluginNamespace][plugin.capitalize()]();
+                      } else {
+                        p = new Jx.Adaptor[this.pluginNamespace][plugin.capitalize()]();
+                      }
                         p.attach(this);
                     }
                 }, this);
@@ -336,7 +338,7 @@ Jx.Object = new Class({
     /**
      * Method: cleanup
      * to be implemented by subclasses to do the actual work of destroying
-     * an object. 
+     * an object.
      */
     cleanup: function () {
         //detach plugins
@@ -356,12 +358,12 @@ Jx.Object = new Class({
      * virtual initialization method to be implemented by sub-classes
      */
     init: $empty,
-    
+
     /**
      * APIMethod: registerPlugin
      * This method is called by a plugin that has its attach method
      * called.
-     * 
+     *
      * Parameters:
      * plugin - the plugin to register with this object
      */
@@ -374,7 +376,7 @@ Jx.Object = new Class({
      * APIMethod: deregisterPlugin
      * his method is called by a plugin that has its detach method
      * called.
-     * 
+     *
      * Parameters:
      * plugin - the plugin to deregister.
      */
@@ -383,12 +385,12 @@ Jx.Object = new Class({
             this.plugins.erase(plugin.name);
         }
     },
-    
+
     /**
      * APIMethod: getPlugin
      * Allows a developer to get a reference to a plugin with only the
      * name of the plugin.
-     * 
+     *
      * Parameters:
      * name - the name of the plugin as defined in the plugin's name property
      */
@@ -400,27 +402,28 @@ Jx.Object = new Class({
 
     /**
      * APIMethod: getText
-     * 
-     * returns the text for a jx.widget used in a label. 
-     * 
+     *
+     * returns the text for a jx.widget used in a label.
+     *
      * Parameters:
      * val - <String> || <Function> || <Object> = { set: '', key: ''[, value: ''] } for a MooTools.lang object
      */
     getText: function(val) {
+      var result = '';
       if (Jx.type(val) == 'string' || Jx.type(val) == 'number') {
-        return val;
+        result = val;
       } else if (Jx.type(val) == 'function') {
-        return val();
+        result = val();
       } else if (Jx.type(val) == 'object' && $defined(val.set) && $defined(val.key)) {
         // COMMENT: just an idea how a localization object could be stored to the instance if needed somewhere else and options change?
         this.i18n = val;
         if($defined(val.value)) {
-          return MooTools.lang.get(val.set, val.key)[val.value];
+          result = MooTools.lang.get(val.set, val.key)[val.value];
         }else{
-          return MooTools.lang.get(val.set, val.key);
+          result = MooTools.lang.get(val.set, val.key);
         }
       }
-      return '';
+      return result;
     },
 
     /**

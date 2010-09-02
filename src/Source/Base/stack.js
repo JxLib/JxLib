@@ -25,7 +25,7 @@ provides: [Jx.Stack]
  *
  * License:
  * Copyright (c) 2010 Paul Spencer
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.Stack = new(new Class({
@@ -34,20 +34,20 @@ Jx.Stack = new(new Class({
    * {Array} the elements in the stack
    */
   els: [],
-  
+
   /**
    * Property: base
    * {Integer} the base z-index value of the first element in the stack
    */
   base: 1000,
-  
+
   /**
    * Property: increment
    * {Integer} the amount to increment the z-index between elements of the
    * stack
    */
   increment: 100,
-  
+
   /**
    * APIMethod: stack
    * push an element onto the stack and set its z-index appropriately
@@ -70,12 +70,13 @@ Jx.Stack = new(new Class({
    * el - {DOMElement} the DOM element to pull off the stack
    */
   unstack: function(el) {
-    if (this.els.contains(el)) {
+    var elements = this.els;
+    if (elements.contains(el)) {
       el.setStyle('z-index', '');
-      var idx = this.els.indexOf(el);
-      this.els.erase(el);
-      for (var i=idx; i<this.els.length; i++) {
-        this.setZIndex(this.els[i], i);
+      var idx = elements.indexOf(el);
+      elements.erase(el);
+      for (var i=idx; i<elements.length; i++) {
+        this.setZIndex(elements[i], i);
       }
     }
   },
@@ -94,5 +95,5 @@ Jx.Stack = new(new Class({
       document.id(obj).setStyle('z-index', this.base + (idx*this.increment));
     }
   }
-  
+
 }))();
