@@ -19,18 +19,18 @@ provides: [Jx.Adaptor.Tree]
  * This base class is used to change a store (a flat list of records) into the
  * data structure needed for a Jx.Tree. It will have 2 subclasses:
  * <Jx.Adapter.Tree.Mptt> and <Jx.Adapter.Tree.Parent>.
- * 
+ *
  * Copyright 2010 by Jonathan Bomgardner
  * License: mit-style
  */
 Jx.Adaptor.Tree = new Class({
-    
+
 
     Extends: Jx.Adaptor,
     Family: 'Jx.Adaptor.Tree',
-    
+
     Binds: ['fill','checkFolder'],
-    
+
     options: {
         /**
          * Option: monitorFolders
@@ -81,12 +81,12 @@ Jx.Adaptor.Tree = new Class({
      */
     attach: function (tree) {
         this.parent(tree);
-        
+
         this.tree = tree;
-        
+
         if (this.options.monitorFolders) {
             this.strategy = this.store.getStrategy('progressive');
-        
+
             if (!$defined(this.strategy)) {
                 this.strategy = new Jx.Store.Strategy.Progressive({
                     dropRecords: false,
@@ -97,71 +97,76 @@ Jx.Adaptor.Tree = new Class({
                 this.strategy.options.dropRecords = false;
                 this.strategy.options.getPaginationParams = function () { return {}; };
             }
-            
+
         }
-        
+
         this.store.addEvent('storeDataLoaded', this.fill);
-        
-        
+
+
     },
     /**
      * APIMethod: detach
      * removes this adaptor from the current tree.
      */
     detach: function () {
-    	this.parent();
-    	this.store.removeEvent('storeDataLoaded', this.fill);
+      this.parent();
+      this.store.removeEvent('storeDataLoaded', this.fill);
     },
     /**
      * APIMethod: firstLoad
      * Method used to start the first store load.
      */
     firstLoad: function () {
-    	//initial store load
-    	this.busy = 'tree';
-    	this.tree.setBusy(true);
+      //initial store load
+      this.busy = 'tree';
+      this.tree.setBusy(true);
         this.store.load({
             node: this.options.startingNodeKey
         });
     },
-    
+
     /**
      * APIMethod: fill
      * This function will start at this.currentRecord and add the remaining
-     * items to the tree. 
+     * items to the tree.
      */
     fill: function () {
-    	if (this.busy == 'tree') {
-    		this.tree.setBusy(false);
-    		this.busy = 'none';
-    	} else if (this.busy == 'folder') {
-    		this.busyFolder.setBusy(false);
-    		this.busy = 'none';
-    	}
-        var l = this.store.count() - 1;
-        for (var i = this.currentRecord + 1; i <= l; i++) {
-            var template = this.store.fillTemplate(i,this.options.template,this.columnsNeeded);
+      var i,
+          template,
+          item,
+          p,
+          folder,
+          options = this.option;
 
-            var item;
+      if (this.busy == 'tree') {
+        this.tree.setBusy(false);
+        this.busy = 'none';
+      } else if (this.busy == 'folder') {
+        this.busyFolder.setBusy(false);
+        this.busy = 'none';
+      }
+        var l = this.store.count() - 1;
+        for (i = this.currentRecord + 1; i <= l; i++) {
+            template = this.store.fillTemplate(i,options.template,this.columnsNeeded);
+
             if (this.hasChildren(i)) {
                 //add as folder
-                var item = new Jx.TreeFolder($merge(this.options.folderOptions, {
+                item = new Jx.TreeFolder($merge(options.folderOptions, {
                     label: template
                 }));
-                
-                if (this.options.monitorFolders) {
-                	item.addEvent('disclosed', this.checkFolder);
+
+                if (options.monitorFolders) {
+                  item.addEvent('disclosed', this.checkFolder);
                 }
-                
+
                 this.folders.set(i,item);
             } else {
                 //add as item
-                var item = new Jx.TreeItem($merge(this.options.itemOptions, {
+                item = new Jx.TreeItem($merge(options.itemOptions, {
                     label: template
                 }));
             }
-            document.id(item).store('index', i);
-            document.id(item).store('jxAdaptor', this);
+            document.id(item).store('index', i).store('jxAdaptor', this);
             //check for a parent
             if (this.hasParent(i)) {
                 //add as child of parent
@@ -181,14 +186,16 @@ Jx.Adaptor.Tree = new Class({
      * request additional items for a branch of the tree.
      */
     checkFolder: function (folder) {
-        var items = folder.items();
+        var items = folder.items(),
+            index,
+            node;
         if (!$defined(items) || items.length === 0) {
             //get items via the store
-        	var index = document.id(folder).retrieve('index');
-        	var node = this.store.get('primaryKey', index);
-        	this.busyFolder = folder;
-        	this.busyFolder.setBusy(true);
-        	this.busy = 'folder';
+          index = document.id(folder).retrieve('index');
+          node = this.store.get('primaryKey', index);
+          this.busyFolder = folder;
+          this.busyFolder.setBusy(true);
+          this.busy = 'folder';
             this.store.load({
                 node: node
             });
@@ -212,7 +219,4 @@ Jx.Adaptor.Tree = new Class({
      * of the parent node.
      */
     getParentIndex: $empty
-    
-    
-    
 });

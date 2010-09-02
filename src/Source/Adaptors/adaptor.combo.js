@@ -18,4 +18,4 @@ provides: [Jx.Adaptor.Combo]
  * Class: Jx.Adaptor.Combo
  * The namespace for all combo adaptors
  */
-Jx.Adaptor.Combo = {}
+Jx.Adaptor.Combo = {};

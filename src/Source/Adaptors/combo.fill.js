@@ -80,28 +80,34 @@ Jx.Adaptor.Combo.Fill = new Class({
     },
 
     fill: function () {
+        var template,
+            items=[],
+            selected,
+            obj,
+            options = this.options,
+            noRepeat = this.options.noRepeat;
         //empty the combo
         this.widget.empty();
         //reset the store and cycle through creating the objects
         //to pass to combo.add()
         this.store.first();
-        var items = [];
+        items = [];
         this.store.each(function(record){
-            var template = this.store.fillTemplate(record,this.options.template,this.columnsNeeded);
-            if (!this.options.noRepeat || (this.options.noRepeat && !this.labels.contains(template))) {
-                var selected = false;
-                if ($type(this.options.selectedFn) == 'function') {
-                    selected = this.options.selectedFn.run(record);
+            template = this.store.fillTemplate(record,options.template,this.columnsNeeded);
+            if (!noRepeat || (noRepeat && !this.labels.contains(template))) {
+                selected = false;
+                if ($type(options.selectedFn) == 'function') {
+                    selected = options.selectedFn.run(record);
                 }
-                var obj = {
+                obj = {
                     label: template,
-                    image: record.get(this.options.imagePathColumn),
-                    imageClass: record.get(this.options.imageClassColumn),
+                    image: record.get(options.imagePathColumn),
+                    imageClass: record.get(options.imageClassColumn),
                     selected: selected
-                }
+                };
                 items.push(obj);
 
-                if (this.options.noRepeat) {
+                if (noRepeat) {
                     this.labels.push(template);
                 }
             }
