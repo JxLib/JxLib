@@ -128,8 +128,8 @@ Jx.Compare = new Class({
      * b - another date value
      */
     date: function (a, b) {
-        var x = new Date().parse(a);
-        var y = new Date().parse(b);
+        var x = new Date().parse(a),
+            y = new Date().parse(b);
         return (x < y) ? -1 : (x > y) ? 1 : 0;
     },
     /**

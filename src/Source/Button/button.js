@@ -176,51 +176,51 @@ Jx.Button = new Class({
      */
     render: function() {
         this.parent();
-
+        var options = this.options,
+            hasFocus,
+            mouseDown;
         /* is the button toggle-able? */
-        if (this.options.toggle) {
-            this.domObj.addClass(this.options.toggleClass);
+        if (options.toggle) {
+            this.domObj.addClass(options.toggleClass);
         }
 
         // the clickable part of the button
         if (this.domA) {
-            var hasFocus;
-            var mouseDown;
             this.domA.set({
-                target: this.options.target,
-                href: this.options.href,
-                title: this.getText(this.options.tooltip),
-                alt: this.getText(this.options.tooltip)
+                target: options.target,
+                href: options.href,
+                title: this.getText(options.tooltip),
+                alt: this.getText(options.tooltip)
             });
             this.domA.addEvents({
                 click: this.clicked.bindWithEvent(this),
                 drag: (function(e) {e.stop();}).bindWithEvent(this),
                 mousedown: (function(e) {
-                    this.domA.addClass(this.options.pressedClass);
+                    this.domA.addClass(options.pressedClass);
                     hasFocus = true;
                     mouseDown = true;
                     this.focus();
                 }).bindWithEvent(this),
                 mouseup: (function(e) {
-                    this.domA.removeClass(this.options.pressedClass);
+                    this.domA.removeClass(options.pressedClass);
                     mouseDown = false;
                 }).bindWithEvent(this),
                 mouseleave: (function(e) {
-                    this.domA.removeClass(this.options.pressedClass);
+                    this.domA.removeClass(options.pressedClass);
                 }).bindWithEvent(this),
                 mouseenter: (function(e) {
                     if (hasFocus && mouseDown) {
-                        this.domA.addClass(this.options.pressedClass);
+                        this.domA.addClass(options.pressedClass);
                     }
                 }).bindWithEvent(this),
                 keydown: (function(e) {
                     if (e.key == 'enter') {
-                        this.domA.addClass(this.options.pressedClass);
+                        this.domA.addClass(options.pressedClass);
                     }
                 }).bindWithEvent(this),
                 keyup: (function(e) {
                     if (e.key == 'enter') {
-                        this.domA.removeClass(this.options.pressedClass);
+                        this.domA.removeClass(options.pressedClass);
                     }
                 }).bindWithEvent(this),
                 blur: function() { hasFocus = false; }
@@ -234,16 +234,16 @@ Jx.Button = new Class({
         }
 
         if (this.domImg) {
-            if (this.options.image || !this.options.label) {
+            if (options.image || !options.label) {
                 this.domImg.set({
-                    title: this.getText(this.options.tooltip),
-                    alt: this.getText(this.options.tooltip)
+                    title: this.getText(options.tooltip),
+                    alt: this.getText(options.tooltip)
                 });
-                if (this.options.image && this.options.image.indexOf(Jx.aPixel.src) == -1) {
-                    this.domImg.setStyle('backgroundImage',"url("+this.options.image+")");
+                if (options.image && options.image.indexOf(Jx.aPixel.src) == -1) {
+                    this.domImg.setStyle('backgroundImage',"url("+options.image+")");
                 }
-                if (this.options.imageClass) {
-                    this.domImg.addClass(this.options.imageClass);
+                if (options.imageClass) {
+                    this.domImg.addClass(options.imageClass);
                 }
             } else {
                 //remove the image if we don't need it
@@ -252,24 +252,24 @@ Jx.Button = new Class({
         }
 
         if (this.domLabel) {
-            if (this.options.label || this.domA.hasClass('jxDiscloser')) {
-                this.setLabel(this.options.label);
+            if (options.label || this.domA.hasClass('jxDiscloser')) {
+                this.setLabel(options.label);
             } else {
                 //this.domLabel.removeClass('jx'+this.type+'Label');
                 this.domLabel.setStyle('display','none');
             }
         }
 
-        if (this.options.id) {
-            this.domObj.set('id', this.options.id);
+        if (options.id) {
+            this.domObj.set('id', options.id);
         }
 
         //update the enabled state
-        this.setEnabled(this.options.enabled);
+        this.setEnabled(options.enabled);
 
         //update the active state if necessary
-        if (this.options.active) {
-            this.options.active = false;
+        if (options.active) {
+            options.active = false;
             this.setActive(true);
         }
     },
@@ -282,9 +282,10 @@ Jx.Button = new Class({
      * evt - {Event} the user click event
      */
     clicked : function(evt) {
-        if (this.options.enabled && !this.isBusy()) {
-            if (this.options.toggle) {
-                this.setActive(!this.options.active);
+        var options = this.options;
+        if (options.enabled && !this.isBusy()) {
+            if (options.toggle) {
+                this.setActive(!options.active);
             } else {
                 this.fireEvent('click', {obj: this, event: evt});
             }
@@ -311,7 +312,7 @@ Jx.Button = new Class({
      */
     setEnabled: function(enabled) {
         this.options.enabled = enabled;
-        if (this.options.enabled) {
+        if (enabled) {
             this.domObj.removeClass('jxDisabled');
         } else {
             this.domObj.addClass('jxDisabled');
@@ -336,16 +337,17 @@ Jx.Button = new Class({
      * active - {Boolean} the new active state of the button
      */
     setActive: function(active) {
-        if (this.options.enabled && !this.isBusy()) {
-          if (this.options.active == active) {
+        var options = this.options;
+        if (options.enabled && !this.isBusy()) {
+          if (options.active == active) {
               return;
           }
-          this.options.active = active;
+          options.active = active;
           if (this.domA) {
-              if (this.options.active) {
-                  this.domA.addClass(this.options.activeClass);
+              if (options.active) {
+                  this.domA.addClass(options.activeClass);
               } else {
-                  this.domA.removeClass(this.options.activeClass);
+                  this.domA.removeClass(options.activeClass);
               }
           }
           this.fireEvent(active ? 'down':'up', this);
@@ -362,7 +364,7 @@ Jx.Button = new Class({
         this.options.image = path;
         if (this.domImg) {
             this.domImg.setStyle('backgroundImage',
-                                 "url("+this.options.image+")");
+                                 "url("+path+")");
             this.domImg.setStyle('display', path ? null : 'none');
         }
     },

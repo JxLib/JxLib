@@ -113,7 +113,11 @@ Jx.Store.Strategy.Save = new Class({
      * newValue - {Mixed} the new value
      */
     updateRecord: function(index, column, oldValue, newValue) {
-      this.saveRecord(this.store, this.store.getRecord(index));
+      var resp = this.saveRecord(this.store, this.store.getRecord(index));
+      // no response if updating or record state not set
+      if (resp) {
+        resp.index = index;
+      }
     },
     /**
      * APIMethod: saveRecord
@@ -197,12 +201,16 @@ Jx.Store.Strategy.Save = new Class({
             if (response.requestType === 'delete') {
                 this.store.deleted.erase(record);
             } else { 
-                if (response.requestType === 'insert') {
+                if (response.requestType === 'insert' || response.requestType == 'update') {
                     if ($defined(response.data)) {
                         this.updating = true;
                         $H(response.data).each(function (val, key) {
-                            record.set(key, val);
-                        }, this);
+                            var d = record.set(key, val);
+                            if (d[1] != val && $defined(response.index)) {
+                              d.unshift(response.index);
+                              record.store.fireEvent('storeColumnChanged', d);
+                            }
+                        });
                         this.updating = false;
                     }
                 }

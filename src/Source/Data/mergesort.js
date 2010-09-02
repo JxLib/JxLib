@@ -67,12 +67,13 @@ Jx.Sort.Mergesort = new Class({
             return arr;
         }
 
-        var middle = (arr.length) / 2;
-        var left = arr.slice(0, middle);
-        var right = arr.slice(middle);
+        var middle = (arr.length) / 2,
+            left = arr.slice(0, middle),
+            right = arr.slice(middle),
+            result;
         left = this.mergeSort(left);
         right = this.mergeSort(right);
-        var result = this.merge(left, right);
+        result = this.merge(left, right);
         return result;
     },
 

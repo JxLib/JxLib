@@ -60,27 +60,31 @@ Jx.Store.Protocol.Local = new Class({
      * options - options to use in processing the request.
      */
     read: function (options) {
-        var resp = new Jx.Store.Response();
+        var resp = new Jx.Store.Response(),
+            page = options.data.page,
+            itemsPerPage = options.data.itemsPerPage,
+            start,
+            end,
+            data = this.data;
+
         resp.requestType = 'read';
         resp.requestParams = arguments;
         
-        var page = options.data.page;
-        var itemsPerPage = options.data.itemsPerPage;
         
-        if ($defined(this.data)) {
+        if ($defined(data)) {
             if (page <= 1 && itemsPerPage === -1) {
                 //send them all
-                resp.data = this.data;
-                resp.meta = { count: this.data.length };
+                resp.data = data;
+                resp.meta = { count: data.length };
             } else {
-                var start = (page - 1) * itemsPerPage;
-                var end = start + itemsPerPage;
-                resp.data = this.data.slice(start, end);
+                start = (page - 1) * itemsPerPage;
+                end = start + itemsPerPage;
+                resp.data = data.slice(start, end);
                 resp.meta = { 
                     page: page, 
                     itemsPerPage: itemsPerPage,
-                    totalItems: this.data.length,
-                    totalPages: Math.ceil(this.data.length/itemsPerPage)
+                    totalItems: data.length,
+                    totalPages: Math.ceil(data.length/itemsPerPage)
                 };
             }
             resp.code = Jx.Store.Response.SUCCESS;

@@ -133,7 +133,7 @@ Jx.Button.Multi = new Class({
         if (this.domDisclose) {
             var button = this;
             var hasFocus;
-            
+
             this.bound.disclose = {
               click: function(e) {
                   if (this.list.count() === 0) {
@@ -232,52 +232,54 @@ Jx.Button.Multi = new Class({
         }
     },
     cleanup: function() {
+      var self = this,
+          bound = this.bound;
       // clean up the discloser
-      if (this.domDisclose) {
-        this.domDisclose.removeEvents({
-          click: this.bound.disclose.click,
-          mouseenter: this.bound.disclose.mouseenter,
-          mouseleave: this.bound.disclose.mouseleave,
-          mousedown: this.bound.disclose.mousedown,
-          mouseup: this.bound.disclose.mouseup,
-          keydown: this.bound.disclose.keydown,
-          keyup: this.bound.disclose.keyup,
-          blur: this.bound.disclose.blur
+      if (self.domDisclose) {
+        self.domDisclose.removeEvents({
+          click: bound.disclose.click,
+          mouseenter: bound.disclose.mouseenter,
+          mouseleave: bound.disclose.mouseleave,
+          mousedown: bound.disclose.mousedown,
+          mouseup: bound.disclose.mouseup,
+          keydown: bound.disclose.keydown,
+          keyup: bound.disclose.keyup,
+          blur: bound.disclose.blur
         });
       }
-      
+
       // clean up the button set
-      this.buttonSet.destroy();
-      this.buttonSet = null;
-      
+      self.buttonSet.destroy();
+      self.buttonSet = null;
+
       // clean up the buttons array
-      this.buttons.each(function(b){
+      self.buttons.each(function(b){
         b.removeEvents();
-        this.menu.remove(b.multiButton);
+        self.menu.remove(b.multiButton);
         b.multiButton.destroy();
         b.multiButton = null;
         b.destroy();
-      },this);
-      this.buttons.empty();
-      this.buttons = null;
-      
+      });
+      self.buttons.empty();
+      self.buttons = null;
+
       // clean up the menu object
-      this.menu.removeEvents({
-        'show': this.bound.show,
-        'hide': this.bound.hide
+      self.menu.removeEvents({
+        'show': bound.show,
+        'hide': bound.hide
       });
       // unset the menu button because it references this object
-      this.menu.button = null;
-      this.menu.destroy();
-      this.menu = null;
-      
+      self.menu.button = null;
+      self.menu.destroy();
+      self.menu = null;
+
       // clean up binds and call parent to finish
-      this.bound.show = null;
-      this.bound.hide = null;
-      this.bound.clicked = null;
-      this.bound.disclose = null;
-      this.activeButton = null;
-      this.parent();
+      self.bound.show = null;
+      self.bound.hide = null;
+      self.bound.clicked = null;
+      self.bound.disclose = null;
+      self.activeButton = null;
+      self.parent();
     },
     /**
      * APIMethod: add
@@ -291,14 +293,17 @@ Jx.Button.Multi = new Class({
      */
     add: function() {
         $A(arguments).flatten().each(function(theButton){
+          var f,
+              opts,
+              button;
             if (!theButton instanceof Jx.Button) {
                 return;
             }
             theButton.domA.addClass('jxDiscloser');
             theButton.setLabel(theButton.options.label);
             this.buttons.push(theButton);
-            var f = this.setButton.bind(this, theButton);
-            var opts = {
+            f = this.setButton.bind(this, theButton);
+            opts = {
                 image: theButton.options.image,
                 imageClass: theButton.options.imageClass,
                 label: theButton.options.label || '&nbsp;',
@@ -310,7 +315,7 @@ Jx.Button.Multi = new Class({
             if (!opts.image || opts.image.indexOf('a_pixel') != -1) {
                 delete opts.image;
             }
-            var button = new Jx.Menu.Item(opts);
+            button = new Jx.Menu.Item(opts);
             this.buttonSet.add(button);
             this.menu.add(button);
             theButton.multiButton = button;

@@ -48,7 +48,8 @@ Jx.Sort.Heapsort = new Class({
     sort : function () {
         this.fireEvent('start');
 
-        var count = this.data.length;
+        var count = this.data.length,
+            end;
 
         if (count === 1) {
             return this.data;
@@ -57,7 +58,7 @@ Jx.Sort.Heapsort = new Class({
         if (count > 2) {
             this.heapify(count);
 
-            var end = count - 1;
+            end = count - 1;
             while (end > 1) {
                 this.data.swap(end, 0);
                 end = end - 1;
@@ -97,10 +98,11 @@ Jx.Sort.Heapsort = new Class({
      * sort range
      */
     siftDown : function (start, end) {
-        var root = start;
+        var root = start,
+            child;
 
         while (root * 2 <= end) {
-            var child = root * 2;
+            child = root * 2;
             if ((child + 1 < end) && (this.comparator((this.data[child]).get(this.col),
                             (this.data[child + 1]).get(this.col)) < 0)) {
                 child = child + 1;

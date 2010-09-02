@@ -25,13 +25,13 @@ images:
  * Extends: <Jx.Button>
  *
  * Flyout buttons expose a panel when the user clicks the button.  The
- * panel can have arbitrary content.  You must provide any necessary 
+ * panel can have arbitrary content.  You must provide any necessary
  * code to hook up elements in the panel to your application.
  *
  * When the panel is opened, the 'open' event is fired.  When the panel is
  * closed, the 'close' event is fired.  You can register functions to handle
  * these events in the options passed to the constructor (onOpen, onClose).
- * 
+ *
  * The user can close the flyout panel by clicking the button again, by
  * clicking anywhere outside the panel and other buttons, or by pressing the
  * 'esc' key.
@@ -69,9 +69,9 @@ images:
  * open - this event is triggered when the flyout is opened.
  * close - this event is triggered when the flyout is closed.
  *
- * License: 
+ * License:
  * Copyright (c) 2008, DM Solutions Group Inc.
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.Button.Flyout = new Class({
@@ -102,7 +102,7 @@ Jx.Button.Flyout = new Class({
          */
         positionElement: null
     },
-    
+
     /**
      * Property: contentClasses
      * the classes array for processing the contentTemplate
@@ -111,7 +111,7 @@ Jx.Button.Flyout = new Class({
         contentContainer: 'jxFlyout',
         content: 'jxFlyoutContent'
     }),
-    
+
     /**
      * Property: content
      * the HTML element that contains the flyout content
@@ -119,21 +119,22 @@ Jx.Button.Flyout = new Class({
     content: null,
     /**
      * Method: render
-     * construct a new instance of a flyout button.  
+     * construct a new instance of a flyout button.
      */
     render: function() {
+        var options = this.options;
         if (!Jx.Button.Flyout.Stack) {
             Jx.Button.Flyout.Stack = [];
         }
         this.parent();
-        this.processElements(this.options.contentTemplate, this.contentClasses);
-        
-        if (this.options.contentClass) {
-            this.content.addClass(this.options.contentClass);
+        this.processElements(options.contentTemplate, this.contentClasses);
+
+        if (options.contentClass) {
+            this.content.addClass(options.contentClass);
         }
-        
+
         this.content.store('jxFlyout', this);
-        if(!this.options.loadOnDemand || this.options.active) {
+        if(!options.loadOnDemand || options.active) {
           this.loadContent(this.content);
         }else{
           this.addEvent('contentLoaded', function(ev) {
@@ -156,17 +157,18 @@ Jx.Button.Flyout = new Class({
      *
      * Parameters:
      * e - {Event} the user event
-     */ 
+     */
     clicked: function(e) {
-        if (!this.options.enabled) {
+        var options = this.options;
+        if (!options.enabled) {
             return;
         }
-        if(this.contentIsLoaded && this.options.cacheContent) {
+        if (this.contentIsLoaded && options.cacheContent) {
           this.show(e);
         // load on demand or reload content if caching is disabled
-        }else if(this.options.loadOnDemand || !this.options.cacheContent){
+        } else if (options.loadOnDemand || !options.cacheContent) {
           this.loadContent(this.content);
-        }else{
+        } else {
           this.show(e);
         }
     },
@@ -178,61 +180,66 @@ Jx.Button.Flyout = new Class({
     * e - {Event} - the user or contentLoaded event
     */
     show: function(e) {
+        var node,
+            flyout,
+            owner = this.owner,
+            stack = Jx.Button.Flyout.Stack,
+            options = this.options;
        /* find out what we are contained by if we don't already know */
-        if (!this.owner) {
-            this.owner = document.body;
+        if (!owner) {
+            this.owner = owner = document.body;
             var node = document.id(this.domObj.parentNode);
-            while (node != document.body && this.owner == document.body) {
+            while (node != document.body && owner == document.body) {
                 var flyout = node.retrieve('jxFlyout');
                 if (flyout) {
-                    this.owner = flyout;
+                    this.owner = owner = flyout;
                     break;
                 } else {
                     node = document.id(node.parentNode);
                 }
             }
         }
-        if (Jx.Button.Flyout.Stack[Jx.Button.Flyout.Stack.length - 1] == this) {
+        if (stack[stack.length - 1] == this) {
             this.hide();
             return;
-        } else if (this.owner != document.body) {
+        } else if (owner != document.body) {
             /* if we are part of another flyout, close any open flyouts
              * inside the parent and register this as the current flyout
              */
-            if (this.owner.currentFlyout == this) {
+            if (owner.currentFlyout == this) {
                 /* if the flyout to close is this flyout,
                  * hide this and return */
                 this.hide();
                 return;
-            } else if (this.owner.currentFlyout) {
-                this.owner.currentFlyout.hide();
+            } else if (owner.currentFlyout) {
+                owner.currentFlyout.hide();
             }
-            this.owner.currentFlyout = this;                
+            owner.currentFlyout = this;
         } else {
             /* if we are at the top level, close the entire stack before
              * we open
              */
-            while (Jx.Button.Flyout.Stack.length) {
-                Jx.Button.Flyout.Stack[Jx.Button.Flyout.Stack.length - 1].hide();
+            while (stack.length) {
+                stack[stack.length - 1].hide();
             }
         }
         // now we go on the stack.
-        Jx.Button.Flyout.Stack.push(this);
+        stack.push(this);
         this.fireEvent('beforeOpen');
 
-        this.options.active = true;
-        this.domA.addClass(this.options.activeClass);
+        options.active = true;
+        this.domA.addClass(options.activeClass);
         this.contentContainer.setStyle('visibility','hidden');
         document.id(document.body).adopt(this.contentContainer);
         this.content.getChildren().each(function(child) {
-            if (child.resize) { 
-                child.resize(); 
+            if (child.resize) {
+                child.resize();
             }
         });
         this.showChrome(this.contentContainer);
-        
-        var rel = this.options.positionElement || this.domObj;
-        var pos = $merge(this.options.position, {
+
+        var rel = options.positionElement || this.domObj;
+        var pos = $merge(options.position, {
           offsets: this.chromeOffsets
         });
         this.position(this.contentContainer, rel, pos);
@@ -241,7 +248,7 @@ Jx.Button.Flyout = new Class({
          * there is some horrible peekaboo bug in IE 6
          */
         this.contentContainer.setContentBoxSize(document.id(this.content).getMarginBoxSize());
-        
+
         this.stack(this.contentContainer);
         this.contentContainer.setStyle('visibility','');
 
@@ -256,24 +263,24 @@ Jx.Button.Flyout = new Class({
      */
     hide: function() {
         if (this.owner != document.body) {
-            this.owner.currentFlyout = null;            
+            this.owner.currentFlyout = null;
         }
         Jx.Button.Flyout.Stack.pop();
         this.setActive(false);
         this.contentContainer.dispose();
         this.unstack(this.contentContainer);
-        document.removeEvent('keydown', this.keypressHandler);    
+        document.removeEvent('keydown', this.keypressHandler);
         document.removeEvent('click', this.clickHandler);
         this.fireEvent('close', this);
     },
     /**
      * Method: clickHandler
-     * hide flyout if the user clicks outside of the flyout 
+     * hide flyout if the user clicks outside of the flyout
      */
     clickHandler: function(e) {
         e = new Event(e);
-        var elm = document.id(e.target);
-        var flyout = Jx.Button.Flyout.Stack[Jx.Button.Flyout.Stack.length - 1];
+        var elm = document.id(e.target),
+            flyout = Jx.Button.Flyout.Stack[Jx.Button.Flyout.Stack.length - 1];
         if (!elm.descendantOf(flyout.content) &&
             !elm.descendantOf(flyout.domObj)) {
             flyout.hide();
@@ -281,7 +288,7 @@ Jx.Button.Flyout = new Class({
     },
     /**
      * Method: keypressHandler
-     * hide flyout if the user presses the ESC key 
+     * hide flyout if the user presses the ESC key
      */
     keypressHandler: function(e) {
         e = new Event(e);

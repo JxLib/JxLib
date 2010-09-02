@@ -17,23 +17,23 @@ provides: [Jx.Record]
 // $Id$
 /**
  * Class: Jx.Record
- * 
+ *
  * Extends: <Jx.Object>
- * 
+ *
  * This class is used as a representation (or container) for a single row
- * of data in a <Jx.Store>. It is not usually directly instantiated by the 
+ * of data in a <Jx.Store>. It is not usually directly instantiated by the
  * developer but rather by the store itself.
  *
- * License: 
+ * License:
  * Copyright (c) 2009, Jon Bomgardner.
- * 
+ *
  * This file is licensed under an MIT style license
  */
 Jx.Record = new Class({
-    
+
     Extends: Jx.Object,
     Family: 'Jx.Record',
-    
+
     options: {
         /**
          * Option: separator
@@ -41,7 +41,7 @@ Jx.Record = new Class({
          * constructor (<Jx.Compare>) - defaults to '.'
          */
         separator : '.',
-        
+
         primaryKey: null
     },
     /**
@@ -51,9 +51,9 @@ Jx.Record = new Class({
     data: null,
     /**
      * Property: state
-     * used to determine the state of this record. When not null (meaning no 
+     * used to determine the state of this record. When not null (meaning no
      * changes were made) this should be one of
-     * 
+     *
      * - Jx.Record.UPDATE
      * - Jx.Record.DELETE
      * - Jx.Record.INSERT
@@ -64,7 +64,7 @@ Jx.Record = new Class({
      * Holds a reference to the columns for this record. These are usually
      * passed to the record from the store. This should be an array of objects
      * where the objects represent the columns. The object should take the form:
-     * 
+     *
      * (code)
      * {
      *     name: <column name>,
@@ -72,37 +72,37 @@ Jx.Record = new Class({
      *     ..additional options required by the record implementation...
      * }
      * (end)
-     * 
-     * The type of the column should be one of alphanumeric, numeric, date, 
+     *
+     * The type of the column should be one of alphanumeric, numeric, date,
      * boolean, or currency.
      */
     columns: null,
-    
+
     parameters: ['store', 'columns', 'data', 'options'],
-    
+
     init: function () {
         this.parent();
         if ($defined(this.options.columns)) {
             this.columns = this.options.columns;
         }
-        
+
         if ($defined(this.options.data)) {
             this.processData(this.options.data);
         } else {
             this.data = new Hash();
         }
-        
+
         if ($defined(this.options.store)) {
             this.store = this.options.store;
         }
-            
+
     },
     /**
      * APIMethod: get
      * returns the value of the requested column. Can be programmed to handle
      * pseudo-columns (such as the primaryKey column implemented in this base
      * record).
-     * 
+     *
      * Parameters:
      * column - the string, index, or object of the requested column
      */
@@ -123,37 +123,38 @@ Jx.Record = new Class({
     },
     /**
      * APIMethod: set
-     * Sets a given value into the requested column. 
-     * 
+     * Sets a given value into the requested column.
+     *
      *  Parameters:
      *  column - the object, index, or string name of the target column
      *  data - the data to add to the column
      */
     set: function (column, data) {
-        var type = Jx.type(column);
+        var type = Jx.type(column),
+            oldValue;
         if (type !== 'object') {
             column = this.resolveCol(column);
         }
-        
+
         if (!$defined(this.data)) {
             this.data = new Hash();
         }
-        
-        var oldValue = this.get(column);
+
+        oldValue = this.get(column);
         this.data.set(column.name, data);
         this.state = Jx.Record.UPDATE;
         return [column.name, oldValue, data];
         //this.store.fireEvent('storeColumnChanged', [this, column.name, oldValue, data]);
-            
+
     },
     /**
      * APIMethod: equals
      * Compares the value of a particular column with a given value
-     * 
+     *
      * Parameters:
      * column - the column to compare with (either column name or index)
      * value - the value to compare to.
-     * 
+     *
      * Returns:
      * True | False depending on the outcome of the comparison.
      */
@@ -177,26 +178,26 @@ Jx.Record = new Class({
     },
     /**
      * Method: processData
-     * This method takes the data passed in and puts it into the form the 
+     * This method takes the data passed in and puts it into the form the
      * record needs it in. This default implementation does nothing but
      * assign the data to the data property but it can be overridden in
      * subclasses to massge the data in any way needed.
-     * 
+     *
      * Parameters:
      * data - the data to process
      */
     processData: function (data) {
         this.data = $H(data);
     },
-    
+
     /**
-     * Method: resolveCol 
+     * Method: resolveCol
      * Determines which column is being asked for and returns it.
-     * 
-     * Parameters: 
+     *
+     * Parameters:
      * col - a number referencing a column in the store
-     * 
-     * Returns: 
+     *
+     * Returns:
      * the column object referred to
      */
     resolveCol : function (col) {

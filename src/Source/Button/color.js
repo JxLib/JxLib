@@ -125,23 +125,24 @@ Jx.Button.Color = new Class({
      * override <Jx.Button.Flyout> to use a singleton color palette.
      */
     clicked: function() {
-        if (Jx.Button.Color.ColorPalette.currentButton) {
-            Jx.Button.Color.ColorPalette.currentButton.hide();
+        var cp = Jx.Button.Color.ColorPalette;
+        if (cp.currentButton) {
+            cp.currentButton.hide();
         }
-        Jx.Button.Color.ColorPalette.currentButton = this;
-        Jx.Button.Color.ColorPalette.addEvent('change', this.bound.changed);
-        Jx.Button.Color.ColorPalette.addEvent('click', this.bound.hide);
-        this.content.appendChild(Jx.Button.Color.ColorPalette.domObj);
-        Jx.Button.Color.ColorPalette.domObj.setStyle('display', 'block');
+        cp.currentButton = this;
+        cp.addEvent('change', this.bound.changed);
+        cp.addEvent('click', this.bound.hide);
+        this.content.appendChild(cp.domObj);
+        cp.domObj.setStyle('display', 'block');
         Jx.Button.Flyout.prototype.clicked.apply(this, arguments);
         /* setting these before causes an update problem when clicking on
          * a second color button when another one is open - the color
          * wasn't updating properly
          */
 
-        Jx.Button.Color.ColorPalette.options.color = this.options.color;
-        Jx.Button.Color.ColorPalette.options.alpha = this.options.alpha/100;
-        Jx.Button.Color.ColorPalette.updateSelected();
+        cp.options.color = this.options.color;
+        cp.options.alpha = this.options.alpha/100;
+        cp.updateSelected();
 },
 
     /**
@@ -149,11 +150,12 @@ Jx.Button.Color = new Class({
      * hide the color panel
      */
     hide: function() {
+        var cp = Jx.Button.Color.ColorPalette;
         this.setActive(false);
-        Jx.Button.Color.ColorPalette.removeEvent('change', this.bound.changed);
-        Jx.Button.Color.ColorPalette.removeEvent('click', this.bound.hide);
+        cp.removeEvent('change', this.bound.changed);
+        cp.removeEvent('click', this.bound.hide);
         Jx.Button.Flyout.prototype.hide.apply(this, arguments);
-        Jx.Button.Color.ColorPalette.currentButton = null;
+        cp.currentButton = null;
     },
 
     /**
