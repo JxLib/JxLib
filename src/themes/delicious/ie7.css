@@ -35,6 +35,14 @@ iframe.jxIframeShim {filter:Alpha(opacity:0);}
   outline: expression(hideFocus='true');
 }
 
+.jxTree,
+.jxTreeRoot,
+.jxTreeNest,
+li.jxTreeContainer {
+ /* zoom needed to fix alignment/sizing issues in IE 7 */
+ zoom: 1;
+}
+
 /* IE versions 7 and below do not recognize the focus pseudo-class, but instead
  * use the active pseudo-class.  Other browsers use the active-pseudo-class
  * while something is being pressed so IE specific definitions are needed. */
