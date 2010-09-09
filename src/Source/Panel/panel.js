@@ -168,6 +168,11 @@ Jx.Panel = new Class({
 
         //var b, item;
         if (this.options.collapse) {
+            if (this.title) {
+              this.title.addEvent('dblclick', function() {
+                that.toggleCollapse();
+              });
+            }
             this.colB = new Jx.Button({
                 template: this.options.controlButtonTemplate,
                 image: Jx.aPixel.src,
@@ -263,10 +268,6 @@ Jx.Panel = new Class({
             }
 
         }
-
-        this.title.addEvent('dblclick', function() {
-            that.toggleCollapse();
-        });
 
         if (this.options.id) {
             this.domObj.id = this.options.id;
