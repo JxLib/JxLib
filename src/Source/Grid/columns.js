@@ -59,11 +59,20 @@ Jx.Columns = new Class({
      * an array holding the actual instantiated column objects
      */
     columns : [],
+    
+    /**
+     * Property: rowTemplate
+     * a string holding a template for a single row of cells to be populated
+     * when rendering the store into a grid.  The template is constructed from
+     * the individual column templates once the store has been loaded.
+     */
+    rowTemplate: null,
 
     parameters: ['options','grid'],
     /**
      * Property: hasExpandable
-     * 
+     * boolean indicates whether any of the columns are expandable or not,
+     * which affects some calculations for column widths
      */
     hasExpandable: null,
 
@@ -74,8 +83,9 @@ Jx.Columns = new Class({
     init : function () {
         this.parent();
 
-        if ($defined(this.options.grid) && this.options.grid instanceof Jx.Grid) {
-            this.grid = this.options.grid;
+        if ($defined(this.options.grid) && 
+            this.options.grid instanceof Jx.Grid) {
+          this.grid = this.options.grid;
         }
 
         this.hasExpandable = false;
@@ -88,18 +98,59 @@ Jx.Columns = new Class({
                 this.columns.push(new Jx.Column(col,this.grid));
             }
             var c = this.columns[this.columns.length - 1 ];
-            if (c.options.renderMode === 'expand') {
-                this.hasExpandable = true;
-            }
-
         }, this);
+        
+        this.buildTemplates();
+    },
+    
+    /**
+     * APIMethod: addColumns
+     * add new columns to the columns object after construction.  Causes
+     * the template to change.
+     * 
+     * Parameters:
+     * columns - {Array} an array of columns to add
+     */
+    addColumns: function(columns) {
+      this.columns.extend(columns);
+      this.buildTemplates();
+    },
+    
+    /**
+     * Method: buildTemplates
+     * create the row template based on the current columns
+     */
+    buildTemplates: function() {
+      var rowTemplate = '',
+          hasExpandable = false,
+          grid = this.grid,
+          row = grid.row,
+          rhc = grid.row.useHeaders() ? this.getByName(row.options.headerColumn) : null,
+          colTemplate;
+      
+      this.columns.each(function(col, idx) {
+        var colTemplate = '';
+        if (!col.isHidden() && col != rhc) {
+          hasExpandable |= col.options.renderMode == 'expand';
+          if (!col.options.renderer || !col.options.renderer.domInsert) {
+            colTemplate = col.getTemplate(idx);
+          }
+          rowTemplate += "<td class='jxGridCell jxGridCol"+idx+" jxGridCol"+col.options.name+"'>" + colTemplate + "</td>";
+        }
+      });
+      if (!hasExpandable) {
+        rowTemplate += "<td><span class='jxGridCellUnattached'></span></td>";
+      }
+      this.rowTemplate = rowTemplate;
+      this.hasExpandable = hasExpandable;
     },
     /**
      * APIMethod: getHeaderHeight
      * returns the height of the column header row
      *
      * Parameters:
-     * recalculate - determines if we should recalculate the height. Currently does nothing.
+     * recalculate - determines if we should recalculate the height. Currently
+     * does nothing.
      */
     getHeaderHeight : function (recalculate) {
         if (!$defined(this.height) || recalculate) {
@@ -156,7 +207,8 @@ Jx.Columns = new Class({
      * Used to get a column when all you know is the cell index in the grid
      *
      * Parameters:
-     * index - an integer denoting the placement of the column in the grid (zero-based)
+     * index - an integer denoting the placement of the column in the grid
+     * (zero-based)
      */
     getByGridIndex : function (index) {
         var headers = this.options.useHeaders ? 
@@ -165,7 +217,7 @@ Jx.Columns = new Class({
         var cell = headers[index];
           var hClasses = cell.get('class').split(' ').filter(function (cls) {
             if(this.options.useHeaders)
-              return cls.test('jxColHead-')
+              return cls.test('jxColHead-');
             else
               return cls.test('jxCol-');
           }.bind(this));
@@ -180,112 +232,104 @@ Jx.Columns = new Class({
      * Parameters:
      * row - the row to add the headers to.
      */
-    getHeaders : function (list) {
-        var r = this.grid.row.useHeaders();
-        var hf = this.grid.row.getRowHeaderColumn();
-        this.columns.each(function (col, idx) {
-            if (r && hf === col.options.name) {
-                //do nothing
-            } else if (!col.isHidden()) {
-                var th = new Element('th', {
-                    'class' : 'jxGridColHead jxGridCol'+idx
-                });
-                th.adopt(col.getHeaderHTML());
-                // th.setStyle('width', col.getWidth());
-                th.addClass('jxColHead-' + col.name);
-                //add other styles for different attributes
-                if (col.isEditable()) {
-                    th.addClass('jxColEditable');
-                }
-                if (col.isResizable()) {
-                    th.addClass('jxColResizable');
-                }
-                if (col.isSortable()) {
-                    th.addClass('jxColSortable');
-                }
-                list.add(th);
-                th.store('jxCellData', {
-                   column: col,
-                   colHeader: true,
-                   index: idx
-                });
-            }
-        }, this);
-        return list;
-    },
-    /**
-     * APIMethod: getColumnCells
-     * Appends the cells from each column for a specific row
-     *
-     * Parameters:
-     * list - the Jx.List instance to add the cells to.
-     */
-    getColumnCells : function (list) {
-        var r = this.grid.row;
-        var f = r.getRowHeaderColumn();
-        var h = r.useHeaders();
-        this.columns.each(function (col, idx) {
-            if (h && col.name !== f && !col.isHidden()) {
-                list.add(this.getColumnCell(col, idx));
-            } else if (!h && !col.isHidden()) {
-                list.add(this.getColumnCell(col, idx));
-            }
-        }, this);
+    getHeaders : function (tr) {
+      var grid = this.grid,
+          row = grid.row,
+          rhc = grid.row.useHeaders() ? this.getByName(row.options.headerColumn) : null;
+      if (this.useHeaders()) {
+        this.columns.each(function(col, idx) {
+          if (!col.isHidden() && col != rhc) {
+            var classes = ['jxGridColHead', 'jxGridCol'+idx, 'jxGridCol'+col.options.name],
+                th;
+            if (col.isEditable()) { classes.push('jxColEditable'); }
+            if (col.isResizable()) { classes.push('jxColResizable'); }
+            if (col.isSortable()) { classes.push('jxColSortable'); }
+            th = new Element('th', {
+              'class': classes.join(' ')
+            });
+            th.store('jxCellData', {
+              column: col,
+              colHeader: true,
+              index: idx
+            });
+            th.adopt(col.getHeaderHTML());
+            th.inject(tr);
+          }
+        });
         if (!this.hasExpandable) {
-            list.add(new Element('td',{
-                'class': 'jxGridCellUnattached'
-            }));
+          new Element('th', {
+            'class': 'jxGridColHead jxGridCellUnattached'
+          }).inject(tr);
         }
-    },
-    /**
-     * APIMethod: getColumnCell
-     * Returns the cell (td) for a particular column.
-     *
-     * Paremeters:
-     * col - the column to get a cell for.
-     */
-    getColumnCell : function (col, idx) {
-
-        var td = new Element('td', {
-            'class' : 'jxGridCell'
-        });
-        td.adopt(col.getHTML());
-        td.addClass('jxCol-' + col.name);
-        td.addClass('jxGridCol'+idx);
-        //add other styles for different attributes
-        if (col.isEditable()) {
-            td.addClass('jxColEditable');
-        }
-        if (col.isResizable()) {
-            td.addClass('jxColResizable');
-        }
-        if (col.isSortable()) {
-            td.addClass('jxColSortable');
-        }
-        if (!col.isAttached()) {
-            td.addClass('jxGridCellUnattached');
-        }
-
-        td.store('jxCellData',{
-            col: col,
-            index: idx, //This is the position of the column
-            row: this.grid.model.getPosition()
-        });
-
-        return td;
+      }
     },
     
+    /**
+     * Method: getRow
+     * create a single row in the grid for a single record and populate
+     * the DOM elements for it.
+     *
+     * Parameters:
+     * tr - {DOMElement} the TR element to insert the row into
+     * record - {<Jx.Record>} the record to create the row for
+     */
+    getRow: function(tr, record) {
+      var data = {},
+          grid = this.grid,
+          store = grid.store,
+          row = grid.row,
+          rhc = grid.row.useHeaders() ? 
+                     this.getByName(row.options.headerColumn) : null,
+          domInserts = [],
+          i;
+      this.columns.each(function(column, index) {
+        if (!column.isHidden() && column != rhc) {
+          if (column.options.renderer && column.options.renderer.domInsert) {
+            domInserts.push({column: column, index: i});
+          } else {
+            var renderer = column.options.renderer,
+                formatter = renderer.options.formatter,
+                text = '';
+            if (renderer.options.textTemplate) {
+              text = store.fillTemplate(null, renderer.options.textTemplate, renderer.columnsNeeded);
+            } else {
+              text = record.data.get(column.name);
+            }
+            if (formatter) {
+              text = formatter.format(text);
+            }
+            data['col'+index] = text;
+          }
+          i++;
+        }
+      });
+      tr.set('html', this.rowTemplate.substitute(data));
+      domInserts.each(function(obj) {
+        tr.childNodes[obj.index].adopt(obj.column.getHTML());
+      });
+    },
+
+    /**
+     * APIMethod: calculateWidths
+     * force calculation of column widths.  For columns with 'fit' this will
+     * cause the column to test every value in the store to compute the
+     * optimal width of the column.  Columns marked as 'expand' will get
+     * any extra space left over between the column widths and the width
+     * of the grid container (if any).
+     */
     calculateWidths: function () {
       //to calculate widths we loop through each column
-      var expand = null;
-      var totalWidth = 0;
-      var rowHeaderWidth = 0;
+      var expand = null,
+          totalWidth = 0,
+          rowHeaderWidth = 0,
+          gridSize = this.grid.contentContainer.getContentBoxSize(),
+          leftOverSpace = 0;
       this.columns.each(function(col,idx){
         //are we checking the rowheader?
         var rowHeader = false;
-        if (col.name == this.grid.row.options.headerColumn) {
-          rowHeader = true;
-        }
+        // if (col.name == this.grid.row.options.headerColumn) {
+        //   rowHeader = true;
+        // }
         //if it's fixed, set the width to the passed in width
         if (col.options.renderMode == 'fixed') {
           col.calculateWidth(); //col.setWidth(col.options.width);
@@ -302,7 +346,7 @@ Jx.Columns = new Class({
             col.calculateWidth(rowHeader);
           }
         }
-        if (!col.isHidden() && !(col.name == this.grid.row.options.headerColumn)) {
+        if (!col.isHidden() /* && !(col.name == this.grid.row.options.headerColumn) */) {
             totalWidth += Jx.getNumber(col.getCellWidth());
             if (rowHeader) {
                 rowHeaderWidth = col.getWidth();
@@ -311,13 +355,11 @@ Jx.Columns = new Class({
       },this);
       
       // width of the container
-      //var containerWidth = this.grid.gridObj.getContentBoxSize();
-      var gridSize = this.grid.gridObj.getContentBoxSize();
       if (gridSize.width > totalWidth) {
         //now figure the expand column
         if ($defined(expand)) {
           // var leftOverSpace = gridSize.width - totalWidth + rowHeaderWidth;
-          var leftOverSpace = gridSize.width - totalWidth
+          leftOverSpace = gridSize.width - totalWidth;
           //account for right borders in firefox...
           if (Browser.Engine.gecko) {
             leftOverSpace -= this.getColumnCount(true);
@@ -337,28 +379,31 @@ Jx.Columns = new Class({
             expand.setWidth(expand.options.width);
           }
         }
-      } //else {
-      this.grid.gridTable.setContentBoxSize({'width': totalWidth});
-      this.grid.colTable.setContentBoxSize({'width': totalWidth});
-      // }
+      }
+      this.grid.gridObj.setContentBoxSize({'width': totalWidth});
+      this.grid.colObj.setContentBoxSize({'width': totalWidth});
     },
 
+    /**
+     * Method: createRules
+     * create CSS rules for the current grid object
+     */
     createRules: function(styleSheet, scope) {
-        this.columns.each(function(col, idx) {
-            var selector = scope+' .jxGridCol'+idx
-            var dec = '';
-            if (col.options.renderMode === 'fixed' || col.options.renderMode === 'expand') {
-              //set the white-space to 'normal !important'
-              dec = 'white-space: normal !important';
-            }
-            col.cellRule = Jx.Styles.insertCssRule(selector, dec, styleSheet);
-            col.cellRule.style.width = col.getCellWidth() + "px";
+      var autoRowHeight = this.grid.row.options.rowHeight == 'auto';
+      this.columns.each(function(col, idx) {
+        var selector = scope+' .jxGridCol'+idx,
+            dec = '';
+        if (autoRowHeight) {
+          //set the white-space to 'normal !important'
+          dec = 'white-space: normal !important';
+        }
+        col.cellRule = Jx.Styles.insertCssRule(selector, dec, styleSheet);
+        col.cellRule.style.width = col.getCellWidth() + "px";
 
-            var selector = scope+" .jxGridCol" + idx + " .jxGridCellContent";
-            col.rule = Jx.Styles.insertCssRule(selector, dec, styleSheet);
-            col.rule.style.width = col.getWidth() + "px";
-
-        }, this);
+        selector = scope+" .jxGridCol" + idx + " .jxGridCellContent";
+        col.rule = Jx.Styles.insertCssRule(selector, dec, styleSheet);
+        col.rule.style.width = col.getWidth() + "px";
+      }, this);
     },
 
     updateRule: function(column) {
@@ -396,10 +441,10 @@ Jx.Columns = new Class({
     getIndexFromGrid : function (name) {
         var headers = this.options.useHeaders ? 
                         this.grid.colTableBody.getFirst().getChildren() :
-                        this.grid.gridTableBody.getFirst().getChildren();
-        var c;
-        var i = -1;
-        var self = this;
+                        this.grid.gridTableBody.getFirst().getChildren(),
+            c,
+            i = -1,
+            self = this;
         headers.each(function (h) {
             i++;
             var hClasses = h.get('class').split(' ').filter(function (cls) {

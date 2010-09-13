@@ -255,7 +255,7 @@ Jx.Store = new Class({
      * Returns: true | false
      */
     valid : function () {
-        return ($defined(this.data[this.index]));
+        return ($defined(this.data) && $defined(this.data[this.index]));
     },
 
     /**
@@ -465,7 +465,7 @@ Jx.Store = new Class({
 
         position = $defined(position)? position : 'bottom';
 
-        var record = data;;
+        var record = data;
         if (!(data instanceof Jx.Record)) {
             record = new (this.record)(this, this.options.columns, data, this.options.recordOptions);
         }

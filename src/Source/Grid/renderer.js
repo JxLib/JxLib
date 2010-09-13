@@ -44,6 +44,14 @@ Jx.Grid.Renderer = new Class({
      * the store.
      */
   attached: null,
+  
+  /**
+   * Property: domInsert
+   * boolean, indicates if the renderer needs to insert a DOM element
+   * instead of just outputing some templated HTML.  Renderers that
+   * do use domInsert will be slower.
+   */
+  domInsert: false,
 
   classes: $H({
     domObj: 'jxGridCellContent'

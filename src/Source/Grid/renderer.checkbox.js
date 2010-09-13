@@ -40,6 +40,8 @@ Jx.Grid.Renderer.Checkbox = new Class({
     }
   },
   
+  domInsert: true,
+  
   init: function () {
     this.parent();
   },
@@ -65,7 +67,7 @@ Jx.Grid.Renderer.Checkbox = new Class({
     this.column = column;
     
     if (this.options.useStore) {
-      this.store = this.column.grid.getModel();
+      this.store = this.column.grid.getStore();
       this.attached = true;
     }
   },
@@ -81,7 +83,7 @@ Jx.Grid.Renderer.Checkbox = new Class({
     if (this.options.updateStore) {
       this.updateStore(field);
     }
-    this.column.grid.fireEvent('checkBlur',[this.column, field]);
+    this.fireEvent('change',[this.column, field]);
   },
   
   updateStore: function (field) {

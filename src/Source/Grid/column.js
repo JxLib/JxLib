@@ -33,33 +33,34 @@ provides: [Jx.Column]
  */
 Jx.Column = new Class({
 
-	Family: 'Jx.Column',
+    Family: 'Jx.Column',
     Extends: Jx.Widget,
 
     options: {
         /**
          * Option: renderMode
-         * The mode to use in rendering this column to determine its width. 
+         * The mode to use in rendering this column to determine its width.
          * Valid options include
-         * 
-         * fit - auto calculates the width for the best fit to the text. This 
-         * 			is the default.
-         * fixed - uses the value passed in the width option, doesn't 
-         * 			auto calculate.
-         * expand - uses the value in the width option as a minimum width and 
-         * 			allows this column to expand and take up any leftover space. 
-         * 			NOTE: there can be only 1 expand column in a grid. The 
-         * 			Jx.Columns object will only take the first column with this 
-         * 			option as the expanding column. All remaining columns marked 
-         * 			"expand" will be treated as "fixed".
+         *
+         * fit - auto calculates the width for the best fit to the text. This
+         *      is the default.
+         * fixed - uses the value passed in the width option, doesn't
+         *      auto calculate.
+         * expand - uses the value in the width option as a minimum width and
+         *      allows this column to expand and take up any leftover space.
+         *      NOTE: there can be only 1 expand column in a grid. The
+         *      Jx.Columns object will only take the first column with this
+         *      option as the expanding column. All remaining columns marked
+         *      "expand" will be treated as "fixed".
          */
-        renderMode: 'fit',
+        renderMode: 'fixed',
         /**
          * Option: width
          * Determines the width of the column when using 'fixed' rendering mode
          * or acts as a minimum width when using 'expand' mode.
          */
-        width: null,
+        width: 100,
+
         /**
          * Option: isEditable
          * allows/disallows editing of the column contents
@@ -85,6 +86,7 @@ Jx.Column = new Class({
          * The name given to this column
          */
         name: '',
+
         /**
          * Option: template
          */
@@ -102,15 +104,16 @@ Jx.Column = new Class({
          */
         renderer: null
     },
-    
+
     classes: $H({
-    	domObj: 'jxGridCellContent'
+      domObj: 'jxGridCellContent'
     }),
+
     /**
-     * Property: model
-     * holds a reference to the model (an instance of <Jx.Store> or subclass)
+     * Property: grid
+     * holds a reference to the grid (an instance of <Jx.Grid>)
      */
-    model: null,
+    grid: null,
 
     parameters: ['options','grid'],
 
@@ -155,20 +158,21 @@ Jx.Column = new Class({
         }
 
         this.options.renderer.setColumn(this);
-
-        this.sortImg = new Element('img', {
-            src: Jx.aPixel.src
-        });
-
     },
-    	
+
+    getTemplate: function(idx) {
+      return "<span class='jxGridCellContent' title='{col"+idx+"}'>{col"+idx+"}</span>";
+    },
+
     /**
      * APIMethod: getHeaderHTML
      */
     getHeaderHTML : function () {
-    	if (this.isSortable()) {
-    		this.sortImg.inject(this.domObj);	
-    	}
+      if (this.isSortable()) {
+        new Element('img', {
+            src: Jx.aPixel.src
+        }).inject(this.domObj);
+      }
       return this.domObj;
     },
 
@@ -177,9 +181,9 @@ Jx.Column = new Class({
 
         var delta = this.cellWidth - this.width;
         if (!asCellWidth) {
-    	    this.width = parseInt(newWidth,10);
-    	    this.cellWidth = this.width + delta;
-    	    this.options.width = newWidth;
+          this.width = parseInt(newWidth,10);
+          this.cellWidth = this.width + delta;
+          this.options.width = newWidth;
         } else {
             this.width = parseInt(newWidth,10) - delta;
             this.cellWidth = newWidth;
@@ -192,15 +196,23 @@ Jx.Column = new Class({
           this.cellRule.style.width = parseInt(this.cellWidth,10) + "px";
       }
     },
-    
+
+    /**
+     * APIMethod: getWidth
+     * return the width of the column
+     */
     getWidth: function () {
-    	return this.width;
+      return this.width;
     },
-    
+
+    /**
+     * APIMethod: getCellWidth
+     * return the cellWidth of the column
+     */
     getCellWidth: function() {
       return this.cellWidth;
     },
-    
+
     /**
      * APIMethod: calculateWidth
      * returns the width of the column.
@@ -210,80 +222,84 @@ Jx.Column = new Class({
      */
     calculateWidth : function (rowHeader) {
         //if this gets called then we assume that we want to calculate the width
-    	rowHeader = $defined(rowHeader) ? rowHeader : false;
-        var maxWidth;
-        var maxCellWidth;
-        
-        var model = this.grid.getModel();
-        model.first();
-        if ((this.options.renderMode == 'fixed' || 
-             this.options.renderMode == 'expand') && 
-            model.valid) {
-          var t = new Element('span', {
-            'class': 'jxGridCellContent',
-            html: 'a',
-            styles: {
-              width: this.options.width
-            }
-          });
-          var s = this.measure(t,'jxGridCell');
-          maxWidth = s.content.width;
-          maxCellWidth = s.cell.width;
-        } else {
-            //calculate the width
-            var oldPos = model.getPosition();
-            maxWidth = maxCellWidth = 0;
-            while (model.valid()) {
-                //check size by placing text into a TD and measuring it.
-                this.options.renderer.render();
-                var text = document.id(this.options.renderer);
-                var klass = 'jxGridCell';
-                if (this.grid.row.useHeaders()
-                        && this.options.name === this.grid.row
-                        .getRowHeaderColumn()) {
-                    klass = 'jxGridRowHead';
-                }
-                var s = this.measure(text, klass, rowHeader, model.getPosition());
-                if (s.content.width > maxWidth) {
-                    maxWidth = s.content.width;
-                }
-                if (s.cell.width > maxCellWidth) {
-                  maxCellWidth = s.cell.width
-                }
-                if (model.hasNext()) {
-                    model.next();
-                } else {
-                    break;
-                }
-            }
+      rowHeader = $defined(rowHeader) ? rowHeader : false;
+      var maxWidth,
+          maxCellWidth,
+          store = this.grid.getStore(),
+          t,
+          s,
+          oldPos,
+          text,
+          klass;
+      store.first();
+      if ((this.options.renderMode == 'fixed' ||
+           this.options.renderMode == 'expand') &&
+          store.valid()) {
+        t = new Element('span', {
+          'class': 'jxGridCellContent',
+          html: 'a',
+          styles: {
+            width: this.options.width
+          }
+        });
+        s = this.measure(t,'jxGridCell');
+        maxWidth = s.content.width;
+        maxCellWidth = s.cell.width;
+      } else {
+          //calculate the width
+          oldPos = store.getPosition();
+          maxWidth = maxCellWidth = 0;
+          while (store.valid()) {
+              //check size by placing text into a TD and measuring it.
+              this.options.renderer.render();
+              text = document.id(this.options.renderer);
+              klass = 'jxGridCell';
+              if (this.grid.row.useHeaders()
+                      && this.options.name === this.grid.row
+                      .getRowHeaderColumn()) {
+                  klass = 'jxGridRowHead';
+              }
+              s = this.measure(text, klass, rowHeader, store.getPosition());
+              if (s.content.width > maxWidth) {
+                  maxWidth = s.content.width;
+              }
+              if (s.cell.width > maxCellWidth) {
+                maxCellWidth = s.cell.width;
+              }
+              if (store.hasNext()) {
+                  store.next();
+              } else {
+                  break;
+              }
+          }
 
-            //check the column header as well (unless this is the row header)
-            if (!(this.grid.row.useHeaders() && 
-                this.options.name === this.grid.row.getRowHeaderColumn())) {
-                klass = 'jxGridColHead';
-                if (this.isEditable()) {
-                    klass += ' jxColEditable';
-                }
-                if (this.isResizable()) {
-                    klass += ' jxColResizable';
-                }
-                if (this.isSortable()) {
-                    klass += ' jxColSortable';
-                }
-                s = this.measure(this.domObj.clone(), klass);
-                if (s.content.width > maxWidth) {
-                    maxWidth = s.content.width;
-                }
-                if (s.cell.width > maxCellWidth) {
-                  maxCellWidth = s.cell.width
-                }
-            }
-        }
-        
-        this.width = maxWidth;
-        this.cellWidth = maxCellWidth;
-        model.moveTo(oldPos);
-        return this.width;
+          //check the column header as well (unless this is the row header)
+          if (!(this.grid.row.useHeaders() &&
+              this.options.name === this.grid.row.getRowHeaderColumn())) {
+              klass = 'jxGridColHead';
+              if (this.isEditable()) {
+                  klass += ' jxColEditable';
+              }
+              if (this.isResizable()) {
+                  klass += ' jxColResizable';
+              }
+              if (this.isSortable()) {
+                  klass += ' jxColSortable';
+              }
+              s = this.measure(this.domObj.clone(), klass);
+              if (s.content.width > maxWidth) {
+                  maxWidth = s.content.width;
+              }
+              if (s.cell.width > maxCellWidth) {
+                maxCellWidth = s.cell.width;
+              }
+          }
+      }
+
+      this.width = maxWidth;
+      this.cellWidth = maxCellWidth;
+      store.moveTo(oldPos);
+      return this.width;
     },
     /**
      * Method: measure
@@ -293,34 +309,32 @@ Jx.Column = new Class({
      * text - the text to measure
      * klass - a string indicating and extra classes to add so that
      *          css classes can be taken into account.
-     * rowHeader - 
-     * row - 
+     * rowHeader -
+     * row -
      */
     measure : function (text, klass, rowHeader, row) {
         var d = new Element('span', {
             'class' : klass
-        });
+        }),
+        s;
         text.inject(d);
         //d.setStyle('height', this.grid.row.getHeight(row));
         d.setStyles({
             'visibility' : 'hidden',
             'width' : 'auto'
         });
-        
+
         d.inject(document.body, 'bottom');
-        var s = d.measure(function () {
+        s = d.measure(function () {
+            var el = this;
             //if not rowHeader, get size of innner span
             if (!rowHeader) {
-                return {
-                  content: this.getFirst().getContentBoxSize(),
-                  cell: this.getFirst().getMarginBoxSize()
-                }
-            } else {
-                return {
-                  content: this.getMarginBoxSize(),
-                  cell: this.getMarginBoxSize()
-                }
+                el = el.getFirst();
             }
+            return {
+              content: el.getMarginBoxSize(),
+              cell: el.getMarginBoxSize()
+            };
         });
         d.destroy();
         return s;

@@ -16,7 +16,6 @@ requires:
  - Jx.Plugin.Grid
  - Jx.Store
  - Jx.List
- - Jx.Selection
 
 provides: [Jx.Grid]
 
@@ -35,33 +34,40 @@ images:
  *
  * Extends: <Jx.Widget>
  *
- * A tabular control that has fixed, optional, scrolling headers on the rows and
- * columns like a spreadsheet.
+ * A tabular control that has fixed, optional, scrolling headers on the rows
+ * and columns like a spreadsheet.
  *
  * Jx.Grid is a tabular control with convenient controls for resizing columns,
- * sorting, and inline editing.  It is created inside another element, typically
- * a div.  If the div is resizable (for instance it fills the page or there is a
- * user control allowing it to be resized), you must call the resize() method
- * of the grid to let it know that its container has been resized.
+ * sorting, and inline editing.  It is created inside another element,
+ * typically a div.  If the div is resizable (for instance it fills the page
+ * or there is a user control allowing it to be resized), you must call the
+ * resize() method of the grid to let it know that its container has been
+ * resized.
  *
- * When creating a new Jx.Grid, you can specify a number of options for the grid
- * that control its appearance and functionality. You can also specify plugins
- * to load for additional functionality. Currently Jx provides the following
- * plugins
+ * When creating a new Jx.Grid, you can specify a number of options for the
+ * grid that control its appearance and functionality. You can also specify
+ * plugins to load for additional functionality. Currently Jx provides the
+ * following plugins
  *
  * Prelighter - prelights rows, columns, and cells
  * Selector - selects rows, columns, and cells
  * Sorter - sorts rows by specific column
+ * Editor - allows editing of cells if the column permits editing
  *
  * Jx.Grid renders data that comes from an external source.  This external
- * source, called the model, must be a Jx.Store or extended from it.
+ * source, called the store, must be a Jx.Store or extended from it.
  *
  * Events:
  * gridCellEnter(cell, list) - called when the mouse enters a cell
  * gridCellLeave(cell, list) - called when the mouse leaves a cell
- * gridCellSelect(cell) - called when a cell is clicked
+ * gridCellClick(cell) - called when a cell is clicked
+ * gridRowEnter(cell, list) - called when the mouse enters a row header
+ * gridRowLeave(cell, list) - called when the mouse leaves a row header
+ * gridRowClick(cell) - called when a row header is clicked
+ * gridColumnEnter(cell, list) - called when the mouse enters a column header
+ * gridColumnLeave(cell, list) - called when the mouse leaves a column header
+ * gridColumnClick(cell) - called when a column header is clicked
  * gridMouseLeave() - called when the mouse leaves the grid at any point.
- *
  *
  * License:
  * Copyright (c) 2008, DM Solutions Group Inc.
@@ -70,578 +76,749 @@ images:
  * This file is licensed under an MIT style license
  */
 Jx.Grid = new Class({
+  Family : 'Jx.Grid',
+  Extends: Jx.Widget,
+  Binds: ['storeLoaded', 'clickColumnHeader', 'moveColumnHeader', 'clickRowHeader', 'moveRowHeader', 'clickCell', 'moveCell', 'leaveGrid', 'resize', 'drawStore', 'scroll', 'addRow', 'removeRow', 'removeRows', 'updateRow'],
 
-    Family : 'Jx.Grid',
-    Extends : Jx.Widget,
-
-    Binds: ['modelChanged','render','addRow','removeRow','removeRows',
-            'onSelect', 'onUnselect','onMouseEnter','onMouseLeave'],
+  /**
+   * Property: pluginNamespace
+   * the required variable for plugins
+   */
+  pluginNamespace: 'Grid',
+  
+  options: {
+    /**
+     * Option: parent
+     * the HTML element to create the grid inside. The grid will resize
+     * to fill the domObj.
+     */
+    parent: null,
     
-    options : {
-        /**
-         * Option: parent
-         * the HTML element to create the grid inside. The grid will resize
-         * to fill the domObj.
-         */
-        parent : null,
-
-        /**
-         * Options: columns
-         * an object consisting of a columns array that defines the individuals
-         * columns as well as containing any options for Jx.Grid.Columns or
-         * a Jx.Grid.Columns object itself.
-         */
-        columns : {
-            columns : []
-        },
-
-        /**
-         * Option: row
-         * Either a Jx.Grid.Row object or a json object defining options for
-         * the class
-         */
-        row : null,
-
-        /**
-         * Option: plugins
-         * an array containing Jx.Grid.Plugin subclasses or an object
-         * that indicates the name of a predefined plugin and its options.
-         */
-        plugins : [],
-
-        /**
-         * Option: model
-         * An instance of Jx.Store
-         */
-        model : null,
-
-        deferRender: true
-
-    },
+    template: "<div class='jxWidget'><div class='jxGridContainer jxGridRowCol'></div><div class='jxGridContainer jxGridColumnsContainer'><table class='jxGridTable jxGridHeader jxGridColumns'><thead class='jxGridColumnHead'></thead></table></div><div class='jxGridContainer jxGridHeader jxGridRowContainer'><table class='jxGridTable jxGridRows'><thead class='jxGridRowBody'></thead></table></div><div class='jxGridContainer jxGridContentContainer'><table class='jxGridTable jxGridContent'><tbody class='jxGridTableBody'></tbody></table></div></div>",
+    
     /**
-     * Property: model
-     * holds a reference to the <Jx.Store> that is the model for this
-     * grid
+     * Options: columns
+     * an object consisting of a columns array that defines the individuals
+     * columns as well as containing any options for Jx.Grid.Columns or
+     * a Jx.Grid.Columns object itself.
      */
-    model : null,
+    columns: null,
+    
     /**
-     * Property: columns
-     * holds a reference to the columns object
-     */
-    columns : null,
-    /**
-     * Property: row
-     * Holds a reference to the row object
+     * Option: row
+     * Either a Jx.Grid.Row object or a json object defining options for
+     * the class
      */
     row : null,
-    /**
-     * Property: styleSheet
-     * the name of the dynamic style sheet to use for manipulating styles
-     */
-    styleSheet: 'JxGridStyles',
-    /**
-     * Property: pluginNamespace
-     * the required variable for plugins
-     */
-    pluginNamespace: 'Grid',
-    /**
-     * Property: selection
-     * holds the Jx.Selection instance used by the cell lists
-     */
-    selection: null,
-    /**
-     * Property: lists
-     * An array of Jx.List instances, one per row. All of them use the same
-     * Jx.Selection instance
-     */
-    lists: [],
 
     /**
-     * Constructor: Jx.Grid
+     * Option: store
+     * An instance of Jx.Store
      */
-    init : function () {
-        this.uniqueId = this.generateId('jxGrid_');
-        
-        var opts;
-        if ($defined(this.options.model)
-                && this.options.model instanceof Jx.Store) {
-            this.model = this.options.model;
-            this.model.addEvent('storeColumnChanged', this.modelChanged);
-            this.model.addEvent('storeSortFinished', this.render);
-            this.model.addEvent('storeRecordAdded', this.addRow);
-            this.model.addEvent('storeRecordRemoved', this.removeRow);
-            this.model.addEvent('storeMultipleRecordsRemoved', this.removeRows);
-        }
+    store: null
+  },
+   
+  classes: $H({
+    domObj: 'jxWidget',
+    columnContainer: 'jxGridColumnsContainer',
+    colObj: 'jxGridColumns',
+    colTableBody: 'jxGridColumnHead',
+    rowContainer: 'jxGridRowContainer',
+    rowObj: 'jxGridRows',
+    rowColContainer: 'jxGridRowCol',
+    rowTableBody: 'jxGridRowBody',
+    contentContainer: 'jxGridContentContainer',
+    gridObj: 'jxGridContent',
+    gridTableBody: 'jxGridTableBody'
+  }),
+  
+  /**
+   * Property: columns
+   * holds a reference to the columns object
+   */
+  columns: null,
+  
+  /**
+   * Property: row
+   * Holds a reference to the row object
+   */
+  row: null,
+  
+  parameters: ['store', 'options'],
+  
+  /**
+   * Property: store
+   * holds a reference to the <Jx.Store> that is the store for this
+   * grid
+   */
+  store: null,
+  
+  /**
+   * Property: styleSheet
+   * the name of the dynamic style sheet to use for manipulating styles
+   */
+  styleSheet: 'JxGridStyles',
+  
+  /**
+   * Property: hooks
+   * a {Hash} of event names for tracking which events have actually been attached
+   * to the grid.
+   */
+  hooks: null,
+  
+  /**
+   * Property: uniqueId
+   * an auto-generated id that is assigned as a class name to the grid's
+   * container for scoping generated CSS rules to just this grid
+   */
+  uniqueId: null,
+  
+  /**
+   * Constructor: Jx.Grid
+   */
+  init: function() {
+    this.uniqueId = this.generateId('jxGrid_');
+    this.store = this.options.store;
+    var options = this.options,
+        opts;
 
-        if ($defined(this.options.columns)) {
-            if (this.options.columns instanceof Jx.Columns) {
-                this.columns = this.options.columns;
-            } else if (Jx.type(this.options.columns) === 'object') {
-                opts = this.options.columns;
-                opts.grid = this;
-                this.columns = new Jx.Columns(opts);
-            }
-        }
-
-        //check for row
-        if ($defined(this.options.row)) {
-            if (this.options.row instanceof Jx.Row) {
-                this.row = this.options.row;
-            } else if (Jx.type(this.options.row) === "object") {
-                opts = this.options.row;
-                opts.grid = this;
-                this.row = new Jx.Row(opts);
-            }
-        } else {
-            this.row = new Jx.Row({grid: this});
-        }
-
-        //initialize the grid
-        this.domObj = new Element('div', {'class':this.uniqueId});
-        var l = new Jx.Layout(this.domObj, {
-            onSizeChange : this.resize.bind(this)
-        });
-        
-        //we need to know if the mouse leaves the grid so we can turn off prelighters and the such
-        this.domObj.addEvent('mouseleave',function(){
-            this.fireEvent('gridMouseLeave');
-        }.bind(this));
-
-        if (this.options.parent) {
-            this.addTo(this.options.parent);
-        }
-
-        //top left corner
-        this.rowColObj = new Element('div', {
-            'class' : 'jxGridContainer'
-        });
-
-        //holds the column headers
-        this.colObj = new Element('div', {
-            'class' : 'jxGridContainer'
-        });
-        this.colTable = new Element('table', {
-            'class' : 'jxGridTable jxGridHeader'
-        });
-        this.colTableBody = new Element('thead');
-        this.colTable.appendChild(this.colTableBody);
-        this.colObj.appendChild(this.colTable);
-
-        //hold the row headers
-        this.rowObj = new Element('div', {
-            'class' : 'jxGridContainer jxGridHeader'
-        });
-        this.rowTable = new Element('table', {
-            'class' : 'jxGridTable'
-        });
-        this.rowTableHead = new Element('thead');
-        this.rowTable.appendChild(this.rowTableHead);
-        this.rowObj.appendChild(this.rowTable);
-
-        //The actual body of the grid
-        this.gridObj = new Element('div', {
-            'class' : 'jxGridContainer',
-            styles : {
-                overflow : 'auto'
-            }
-        });
-        this.gridTable = new Element('table', {
-            'class' : 'jxGridTable jxGridContent'
-        });
-        this.gridTableBody = new Element('tbody');
-        this.gridTable.appendChild(this.gridTableBody);
-        this.gridObj.appendChild(this.gridTable);
-
-        var target = this;
-
-        this.domObj.appendChild(this.rowColObj);
-        this.domObj.appendChild(this.rowObj);
-        this.domObj.appendChild(this.colObj);
-        this.domObj.appendChild(this.gridObj);
-
-        this.gridObj.addEvent('scroll', this.onScroll.bind(this));
-
-        //setup the selection
-        this.selection = new Jx.Selection();
-        this.selection.addEvents({
-            select: this.onSelect,
-            unselect: this.onUnselect
-        });
-        this.parent();
-
-        this.domObj.store('grid', this);
-    },
-
-    /**
-     * Method: onScroll
-     * handle the grid scrolling by updating the position of the headers
-     */
-    onScroll : function () {
-        this.colObj.scrollLeft = this.gridObj.scrollLeft;
-        this.rowObj.scrollTop = this.gridObj.scrollTop;
-    },
-
-
-    /**
-     * APIMethod: resize
-     * resize the grid to fit inside its container.  This involves knowing something
-     * about the model it is displaying (the height of the column header and the
-     * width of the row header) so nothing happens if no model is set
-     */
-    resize : function () {
-        if (!this.model) {
-            return;
-        }
-
-        var colHeight = this.columns.useHeaders() ? this.columns
-                .getHeaderHeight() : 1;
-        var rowWidth = this.row.useHeaders() ? this.row
-                .getRowHeaderWidth() : 1;
-
-        var size = this.domObj.getContentBoxSize();
-
-
-        
-        /* -1 because of the right/bottom borders */
-        this.rowColObj.setStyles({
-            width : rowWidth - 1,
-            height : colHeight - 1
-        });
-        this.rowObj.setStyles({
-            top : colHeight,
-            left : 0,
-            width : rowWidth - 1,
-            height : size.height - colHeight - 1
-        });
-
-        this.colObj.setStyles({
-            top : 0,
-            left : rowWidth,
-            width : size.width - rowWidth - 1,
-            height : colHeight - 1
-        });
-
-        this.gridObj.setStyles({
-            top : colHeight,
-            left : rowWidth,
-            width : size.width - rowWidth - 1,
-            height : size.height - colHeight - 1
-        });
-
-    },
-
-    resizeRowsCols: function (mode) {
-        mode = $defined(mode) ? mode : 'all';
-
-        if (mode === 'all' || mode === 'columns') {
-            Jx.Styles.removeStyleSheet(this.styleSheet + "Columns");
-            Jx.Styles.enableStyleSheet(this.styleSheet + "Columns");
-            this.columns.calculateWidths();
-            this.columns.createRules(this.styleSheet + "Columns", "."+this.uniqueId);
-        }
-        
-        if (mode === 'all' || mode === 'rows') {
-            Jx.Styles.removeStyleSheet(this.styleSheet + "Rows");
-            Jx.Styles.enableStyleSheet(this.styleSheet + "Rows");
-            this.row.calculateHeights();
-            this.row.createRules(this.styleSheet + "Rows", "."+this.uniqueId);
-        }
-
-    },
-
-    /**
-     * APIMethod: setModel
-     * set the model for the grid to display.  If a model is attached to the grid
-     * it is removed and the new model is displayed. However, It needs to have
-     * the same columns
-     *
-     * Parameters:
-     * model - {Object} the model to use for this grid
-     */
-    setModel : function (model) {
-        this.model = model;
-        if (this.model) {
-            this.render();
-            this.domObj.resize();
-        } else {
-            this.destroyGrid();
-        }
-    },
-
-    /**
-     * APIMethod: getModel
-     * gets the model set for this grid.
-     */
-    getModel : function () {
-        return this.model;
-    },
-
-    /**
-     * APIMethod: destroyGrid
-     * destroy the contents of the grid safely
-     */
-    destroyGrid : function () {
-
-        var n = this.colTableBody.cloneNode(false);
-        this.colTable.replaceChild(n, this.colTableBody);
-        this.colTableBody = n;
-
-        n = this.rowTableHead.cloneNode(false);
-        this.rowTable.replaceChild(n, this.rowTableHead);
-        this.rowTableHead = n;
-
-        n = this.gridTableBody.cloneNode(false);
-        this.gridTable.replaceChild(n, this.gridTableBody);
-        this.gridTableBody = n;
-
-        document.id(this.rowColObj).empty();
-        
-        if (Jx.Styles.isStyleSheetDefined(this.styleSheet)) {
-        	Jx.Styles.removeStyleSheet(this.styleSheet);
-        }
-
-    },
-
-    /**
-     * APIMethod: render
-     * Create the grid for the current model
-     */
-    render : function () {
-        this.destroyGrid();
-
-        this.fireEvent('beginCreateGrid', this);
-
-        if (this.model && this.model.loaded) {
-            var model = this.model;
-            var nColumns = this.columns.getColumnCount();
-            var nRows = model.count();
-            var th;
-
-            /* create header if necessary */
-            if (this.columns.useHeaders()) {
-                this.colTableBody.setStyle('visibility', 'visible');
-                var colHeight = this.columns.getHeaderHeight();
-                var trBody = new Element('tr', {
-                    styles : {
-                        height : colHeight
-                    }
-                });
-                this.colTableBody.appendChild(trBody);
-
-                var headerList = this.makeList(trBody);
-
-                this.columns.getHeaders(headerList);
-
-                /* one extra column at the end for filler */
-                th = new Element('th', {
-                    'class':'jxGridColHead',
-                    styles: {
-                      width: 1000,
-                      height: colHeight - 1
-                    }
-                }).inject(trBody);
-            } else {
-                //hide the headers
-                this.colTableBody.setStyle('visibility', 'hidden');
-            }
-
-            //This section actually adds the rows
-            this.model.first();
-            while (this.model.valid()) {
-                tr = this.row.getGridRowElement(this.model.getPosition());
-                var rl = this.makeList(tr);
-                this.gridTableBody.appendChild(tr);
-                //this.rowList.add(rl.container);
-
-                //Actually add the columns
-                this.columns.getColumnCells(rl);
-
-                if (this.model.hasNext()) {
-                    this.model.next();
-                } else {
-                    break;
-                }
-
-            }
-            
-            
-            //Moved rowheaders after other columns so we can figure the heights
-            //of each row (after render)
-            if (this.row.useHeaders()) {
-                this.rowTableHead.setStyle('visibility', 'visible');
-
-                //loop through all rows and add header
-                this.model.first();
-                while (this.model.valid()) {
-                    var tr = new Element('tr',{
-                    	'class': 'jxGridRow'+this.model.getPosition()
-                    });
-                    tr.store('jxRowData', {row:this.model.getPosition()});
-                    var rowHeaderList = this.makeList(tr);
-                    this.row.getRowHeader(rowHeaderList);
-                    this.rowTableHead.appendChild(tr);
-                    if (this.model.hasNext()) {
-                        this.model.next();
-                    } else {
-                        break;
-                    }
-                }
-                /* one extra row at the end for filler */
-                tr = new Element('tr').inject(this.rowTableHead);
-                th = new Element('th', {
-                    'class' : 'jxGridRowHead',
-                    styles : {
-                        width : this.row.getRowHeaderWidth(),
-                        height : 1000
-                    }
-                }).inject(tr);
-            } else {
-                //hide row headers
-                this.rowTableHead.setStyle('visibility', 'hidden');
-            }
-            
-            this.domObj.resize();
-            this.resizeRowsCols();
-            this.resize();
-
-            this.fireEvent('doneCreateGrid', this);
-        } else {
-            this.model.load();
-        }
-        
-    },
-
-    /**
-     * Method: modelChanged
-     * Event listener that is fired when the model changes in some way
-     */
-    modelChanged : function (row, col) {
-        //grab new TD
-        var column = this.columns.getIndexFromGrid(col);
-        var td = document.id(this.gridObj.childNodes[0].childNodes[0].childNodes[row].childNodes[column]);
-
-        var currentRow = this.model.getPosition();
-        this.model.moveTo(row);
-        // need to find out whether the header is used or not, to have the right reference back
-        var colIndex = this.options.row.useHeaders ? column+1 : column;
-        var newTD = this.columns.getColumnCell(this.columns.getByName(col),colIndex);
-        //get parent list
-        var list = td.getParent().retrieve('jxList');
-        list.replace(td, newTD);
-        this.columns.updateRule(col);
-        this.model.moveTo(currentRow);
-    },
-    
-    /**
-     * APIMethod: addRow
-     * Adds a row to the table. Can add to either the beginning or the end 
-     * based on passed flag
-     */
-    addRow: function (store, record, position) {
-        if (this.model.loaded) {
-            if (position === 'bottom') {
-                this.model.last();
-            } else {
-                this.model.first();
-                this.renumberGrid(0, 1);
-            }
-            
-            //row header
-            if (this.row.useHeaders()) {
-                var rowHeight = this.row.getHeight();
-                var tr = new Element('tr', {
-                    styles : {
-                        height : rowHeight
-                    }
-                });
-                var rowHeaderList = this.makeList(tr);
-                this.row.getRowHeader(rowHeaderList);
-                if (position === 'top') {
-                    tr.inject(this.rowTableHead, position);
-                } else {
-                    var lastTr = this.rowTableHead.children[this.rowTableHead.children.length - 1];
-                    tr.inject(lastTr, 'before');
-                }
-            }
-            tr = this.row.getGridRowElement();
-            tr.store('jxRowData', {row: this.model.getPosition()});
-            var rl = this.makeList(tr);
-            this.columns.getColumnCells(rl);
-            tr.inject(this.gridTableBody, position);
-        }
-    },
-    
-    renumberGrid: function (offset, increment) {
-        var l = this.gridTable.rows.length;
-        for (var i = offset; i < l; i++) {
-            var r = document.id(this.gridTable.rows[i]);
-            var d = r.retrieve('jxRowData');
-            d.row += increment;
-            r.store('jxRowData', d);
-            $A(r.children).each(function(cell){
-                var d = cell.retrieve('jxCellData');
-                d.row += increment;
-                cell.store('jxCellData', d);
-            },this);
-        }
-    },
-    
-    removeRow: function (store, index) {
-        this.gridTable.deleteRow(index);
-        this.rowTable.deleteRow(index);
-        this.renumberGrid(index, -1);
-    },
-    
-    removeRows: function (store, first, last) {
-      for (var i = first; i <= last; i++) {
-          this.removeRow(first);
+    if ($defined(options.row)) {
+      if (options.row instanceof Jx.Row) {
+        this.row = options.row;
+        this.row.grid = this;
+      } else if (Jx.type(options.row) == 'object') {
+        this.row = new Jx.Row($extend({grid: this}, options.row));
       }
-    },
-    
-    /**
-     * Method: makeList
-     * utility method used to make row lists
-     *
-     * Parameters:
-     * container - the row to use as the Jx.List container
-     */
-    makeList: function (container) {
-        var l = new Jx.List(container, {
-            hover: true,
-            select: true
-        }, this.selection);
-        var target = this;
-        l.addEvents({
-            mouseenter: this.onMouseEnter,
-            mouseleave: this.onMouseLeave
-        });
-        this.lists.push(l);
-        return l;
-    },
-
-    onSelect: function (cell, select) {
-        this.fireEvent('gridCellSelect', [cell,select,this]);
-    },
-
-    onUnselect: function (cell, select) {
-        this.fireEvent('gridCellUnselect', [cell,select,this]);
-    },
-
-    onMouseEnter: function (cell, list) {
-        this.fireEvent('gridCellEnter', [cell,list,this]);
-    },
-
-    onMouseLeave: function (cell, list) {
-        this.fireEvent('gridCellLeave', [cell,list,this]);
-    },
-
-    changeText : function(lang) {
-        this.parent();
-        /*
-        this.resize();
-        this.resizeRowsCols();
-        */
-        this.render();
+    } else {
+      this.row = new Jx.Row({grid: this});
     }
 
+    if ($defined(options.columns)) {
+        if (options.columns instanceof Jx.Columns) {
+            this.columns = options.columns;
+            this.columns.grid = this;
+        } else if (Jx.type(options.columns) === 'object') {
+            this.columns = new Jx.Columns($extend({grid:this}, options.columns));
+        }
+    } else {
+      this.columns = new Jx.Columns({grid: this});
+    }
+    
+    this.hooks = $H({
+      'gridScroll': false,
+      'gridColumnEnter': false,
+      'gridColumnLeave': false,
+      'gridColumnClick': false,
+      'gridRowEnter': false,
+      'gridRowLeave': false,
+      'gridRowClick': false,
+      'gridCellClick': false,
+      'gridCellEnter': false,
+      'gridCellLeave': false,
+      'gridMouseLeave': false
+    });
+    
+    if (options.parent) {
+      this.addTo(options.parent);
+    }
+    
+    this.parent();
+  },
+  
+  wantEvent: function(eventName) {
+    console.log('wantEvent ' + eventName);
+    var hook = this.hooks.get(eventName);
+    if (hook === false) {
+      console.log('hooking event ' + eventName);
+      switch(eventName) {
+        case 'gridColumnEnter':
+        case 'gridColumnLeave':
+          this.colObj.addEvent('mousemove', this.moveColumnHeader);
+          this.hooks.set({
+            'gridColumnEnter': true,
+            'gridColumnLeave': true
+          });
+          break;
+        case 'gridColumnClick':
+          this.colObj.addEvent('click', this.clickColumnHeader);
+          this.hooks.set({
+            'gridColumnClick': true
+          });
+          break;
+        case 'gridRowEnter':
+        case 'gridRowLeave':
+          this.rowObj.addEvent('mousemove', this.moveRowHeader);
+          this.hooks.set({
+            'gridRowEnter': true,
+            'gridRowLeave': true
+          });
+          break;
+        case 'gridRowClick':
+          this.rowObj.addEvent('click', this.clickRowHeader);
+          this.hooks.set({
+            'gridRowClick': true
+          });
+          break;
+        case 'gridCellEnter':
+        case 'gridCellLeave':
+          this.gridObj.addEvent('mousemove', this.moveCell);
+          this.hooks.set({
+            'gridCellEnter': true,
+            'gridCellLeave': true
+          });
+          break;
+        case 'gridCellClick':
+          this.gridObj.addEvent('click', this.clickCell);
+          this.hooks.set('gridCellClick', true);
+          break;
+        case 'gridMouseLeave':
+          this.rowObj.addEvent('mouseleave', this.leaveGrid);
+          this.colObj.addEvent('mouseleave', this.leaveGrid);
+          this.gridObj.addEvent('mouseleave', this.leaveGrid);
+          this.hooks.set('gridMouseLeave', true);
+          break;
+        case 'gridScroll':
+          this.contentContainer.addEvent('scroll', this.scroll);
+        default:
+          break;
+      }
+    } else {
+      console.log('event is already hooked');
+    }
+  },
+  
+  /**
+   * Method: scroll
+   * handle the grid scrolling by updating the position of the headers
+   */
+  scroll : function () {
+      this.columnContainer.scrollLeft = this.contentContainer.scrollLeft;
+      this.rowContainer.scrollTop = this.contentContainer.scrollTop;
+  },
+  
+  /**
+   * APIMethod: render
+   * Create the grid for the current model
+   */
+  render: function() {
+    this.parent();
+    var store = this.store;
+    
+    this.domObj.addClass(this.uniqueId);
+    new Jx.Layout(this.domObj, {
+      onSizeChange: this.resize
+    });
+    
+    if (store instanceof Jx.Store) {
+      store.addEvent('storeDataLoaded', this.storeLoaded);
+      store.addEvent('storeSortFinished', this.drawStore);
+      store.addEvent('storeRecordAdded', this.addRow);
+      store.addEvent('storeColumnChanged', this.updateRow);
+      store.addEvent('storeRecordRemoved', this.removeRow);
+      store.addEvent('storeMultipleRecordsRemoved', this.removeRows);
+      if (this.store.loaded) {
+        this.storeLoaded();
+      }
+    }
+    if (!this.columns.useHeaders()) {
+      this.columnContainer.dispose();
+    } else {
+      this.wantEvent('gridScroll');
+    }
+    
+    if (!this.row.useHeaders()) {
+      this.rowContainer.dispose();
+    } else {
+      this.wantEvent('gridScroll');
+    }
+
+    this.contentContainer.setStyle('overflow', 'auto');
+    
+    // todo: very hacky!  can plugins 'wantEvent' between init and render?
+    this.hooks.each(function(value, key) {
+      if (value) {
+        this.hooks.set(key, false);
+        this.wantEvent(key);
+      }
+    }, this);
+  },
+  
+  /**
+   * APIMethod: resize
+   * resize the grid to fit inside its container.  This involves knowing
+   * something about the model it is displaying (the height of the column
+   * header and the width of the row header) so nothing happens if no model is
+   * set
+   */
+  resize: function() {
+    var p = this.domObj.getParent(),
+        parentSize = p.getSize(),
+        colHeaderHeight = 0,
+        rowHeaderWidth = 0;
+    
+    if (this.columns.useHeaders()) {
+      colHeaderHeight = this.columns.getHeaderHeight();
+    }
+    
+    if (this.row.useHeaders()) {
+      rowHeaderWidth = this.row.getRowHeaderWidth();
+    }
+    
+    this.rowColContainer.setBorderBoxSize({
+        width : rowHeaderWidth,
+        height : colHeaderHeight
+    });
+    
+    this.columnContainer.setStyles({
+      top: 0,
+      left: rowHeaderWidth
+    }).setBorderBoxSize({
+      width: parentSize.x - rowHeaderWidth,
+      height: colHeaderHeight
+    });
+
+    this.rowContainer.setStyles({
+      top: colHeaderHeight,
+      left: 0
+    }).setBorderBoxSize({
+      width: rowHeaderWidth,
+      height: parentSize.y - colHeaderHeight
+    });
+
+    this.contentContainer.setStyles({
+      top: colHeaderHeight,
+      left: rowHeaderWidth
+    }).setBorderBoxSize({
+      width: parentSize.x - rowHeaderWidth,
+      height: parentSize.y - colHeaderHeight
+    });
+  },
+  
+  /**
+   * APIMethod: setStore
+   * set the store for the grid to display.  If a store is attached to the
+   * grid it is removed and the new store is displayed.
+   *
+   * Parameters:
+   * store - {Object} the store to use for this grid
+   */
+  setStore: function(store) {
+    if (store instanceof Jx.Store) {
+      this.store = store;
+      this.render();
+      this.domObj.resize();
+    } else {
+      this.destroyGrid();
+    }
+  },
+  
+  /**
+   * APIMethod: getStore
+   * gets the store set for this grid.
+   */
+  getStore: function() { 
+    return this.store;
+  },
+  
+  storeLoaded: function(store, response) {
+    var template = '',
+        tr,
+        columns = [],
+        useRowHeaders = this.row.useHeaders();
+    this.fireEvent('beginCreateGrid');
+    
+    this.gridObj.getElement('tbody').empty();
+    
+    // TODO: consider moving whole thing into Jx.Columns ??
+    // create a suitable column representation for everything
+    // in the store that doesn't already have a representation
+    store.options.columns.each(function(col, index) {
+      if (!this.columns.getByName(col.name)) {
+        var renderer = new Jx.Grid.Renderer.Text(),
+            format = $defined(col.format) ? col.format : null,
+            template = "<span class='jxGridCellContent'>"+ ($defined(col.label) ? col.label : col.name).capitalize() + "</span>",
+            column;
+        if ($defined(col.renderer)) {
+          if ($type(col.renderer) == 'string') {
+            if (Jx.Grid.Renderer[col.renderer.capitalize()]) {
+              renderer = new Jx.Grid.Renderer[col.renderer.capitalize()]();
+            }
+          } else if ($type(col.renderer) == 'object' && 
+                     $defined(col.renderer.type) && 
+                     Jx.Grid.Renderer[col.renderer.type.capitalize()]) {
+            renderer = new Jx.Grid.Renderer[col.renderer.type.capitalize()](col.renderer);
+          }
+        }
+        if (format) {
+          if ($type(format) == 'string' && 
+              $defined(Jx.Formatter[format.capitalize()])) {
+            renderer.options.formatter = new Jx.Formatter[format.capitalize()]();
+          } else if ($type(format) == 'object' && 
+                     $defined(format.type) && 
+                     $defined(Jx.Formatter[format.type.capitalize()])) {
+             renderer.options.formatter = new Jx.Formatter[format.type.capitalize()](format);
+          }
+        }
+        column = new Jx.Column({
+          grid: this,
+          template: template,
+          renderMode: $defined(col.renderMode) ? col.renderMode : $defined(col.width) ? 'fixed' : 'fit',
+          width: $defined(col.width) ? col.width : null,
+          isEditable: $defined(col.editable) ? col.editable : false,
+          isSortable: $defined(col.sortable) ? col.sortable : false,
+          isResizable: $defined(col.resizable) ? col.resizable : false,
+          isHidden: $defined(col.hidden) ? col.hidden : false,
+          name: col.name || '',
+          renderer: renderer 
+        });
+        columns.push(column);
+      }
+    }, this);
+    this.columns.addColumns(columns);
+    if (this.columns.useHeaders()) {
+      tr = new Element('tr');
+      this.columns.getHeaders(tr);
+      this.colObj.getElement('thead').empty().adopt(tr);
+    }
+    this.columns.calculateWidths();
+    this.columns.createRules(this.styleSheet+'Columns', '.'+this.uniqueId);
+    this.fireEvent('doneCreateGrid');
+    this.drawStore();
+  },
+  
+  /**
+   * APIMethod: addRow
+   * Adds a row to the table. Can add to either the beginning or the end 
+   * based on passed flag
+   */
+  addRow: function (store, record, position) {
+    if (this.store.loaded) {
+      if (position === 'bottom') {
+        this.store.last();
+      } else {
+        this.store.first();
+      }
+      this.drawRow(record, this.store.index, position);
+    }
+  },
+  
+  /**
+   * APIMethod: updateRow
+   * update a single row in the grid
+   *
+   * Parameters:
+   * index - the row to update
+   */
+  updateRow: function(index) {
+    var record = this.store.getRecord(index);
+    this.drawRow(record, index, 'replace');
+  },
+  
+  /**
+   * APIMethod: removeRow
+   * remove a single row from the grid
+   *
+   * Parameters:
+   * store
+   * index
+   */
+  removeRow: function (store, index) {
+    this.gridObj.deleteRow(index);
+    this.rowObj.deleteRow(index);
+  },
+  
+  /**
+   * APIMethod: removeRows
+   * removes multiple rows from the grid
+   *
+   * Parameters:
+   * store
+   * index
+   */
+  removeRows: function (store, first, last) {
+    for (var i = first; i <= last; i++) {
+        this.removeRow(store, first);
+    }
+  },
+  
+  /**
+   * APIMethod: setColumnWidth
+   * set the width of a column in pixels
+   *
+   * Parameters:
+   * column
+   * width
+   */
+  setColumnWidth: function(column, width) {
+    if (column) {
+      column.width = width;
+      if (column.rule) {
+        column.rule.style.width = width + 'px';
+      }
+      if (column.cellRule) {
+        column.cellRule.style.width = width + 'px';
+      }
+    }
+  },
+  
+  /**
+   * Method: drawStore
+   * clears the grid and redraws the store.  Does not draw the column headers,
+   * that is handled by the render() method
+   */
+  drawStore: function() {
+    console.profile();
+    this.domObj.resize();
+    this.gridTableBody.empty();
+    if (this.row.useHeaders()) {
+      this.rowTableBody.empty();
+    }
+    this.store.each(function(record,index) {
+      this.drawRow(record, index);
+    }, this);
+    console.profileEnd();
+  },
+  
+  /**
+   * Method: drawRow
+   * this method does the heavy lifting of drawing a single record into the
+   * grid
+   *
+   * Parameters:
+   * record - {Jx.Record} the record to render
+   * index - {Integer} the row index of the record in the store
+   * position - {String} 'top' or 'bottom' (default 'bottom') position to put
+   *     the new row in the grid.
+   */
+  drawRow: function(record, index, position) {
+    var columns = this.columns,
+        body = this.gridTableBody,
+        row = this.row,
+        rowHeaders = row.useHeaders(),
+        autoRowHeight = row.options.rowHeight == 'auto',
+        rowBody = this.rowTableBody,
+        rowHeaderColumn,
+        rowHeaderColumnIndex,
+        renderer,
+        formatter, 
+        getData,
+        tr,
+        th,
+        text = index + 1,
+        rh;
+    if (!$defined(position) || !['top','bottom','replace'].contains(position)) {
+      position = 'bottom';
+    }
+    tr = row.getGridRowElement(index, '');
+    columns.getRow(tr, record);
+    if (position == 'replace' && index < body.childNodes.length) {
+      tr.inject(body.childNodes[index], 'after');
+      body.childNodes[index].dispose();
+    } else {
+      tr.inject(body, position);
+    }
+    if (rowHeaders) {
+      if (row.options.headerColumn) {
+        rowHeaderColumn = columns.getByName(row.options.headerColumn);
+        renderer = rowHeaderColumn.options.renderer;
+        if (!renderer.domInsert) {
+          formatter = rowHeaderColumn.options.formatter;
+          rowHeaderColumnIndex = columns.columns.indexOf(rowHeaderColumn);
+          getData = function(record) {
+            var data = {},
+                text = '';
+            if (renderer.options.textTemplate) {
+              text = store.fillTemplate(null, renderer.options.textTemplate, renderer.columnsNeeded);
+            } else {
+              text = record.data.get(rowHeaderColumn.name);
+            }
+            data['col'+rowHeaderColumnIndex] = text;
+            return data;
+          };
+          text = rowHeaderColumn.getTemplate(rowHeaderColumnIndex).substitute(getData(record));
+        } else {
+          text = '';
+        }
+      }
+      th = row.getRowHeaderCell(text);
+      if (row.options.headerColumn && renderer.domInsert) {
+        th.adopt(rowHeaderColumn.getHTML());
+      }
+      if (autoRowHeight) {
+        th.setStyle('height', tr.childNodes[0].getContentBoxSize().height);
+      }
+      rh = new Element('tr').adopt(th);
+      if (position == 'replace' && index < rowBody.childNodes.length) {
+        rh.inject(rowBody.childNodes[index], 'after');
+        rowBody.childNodes[index].dispose();
+      } else {
+        rh.inject(rowBody, position);
+      }
+    }
+  },
+  
+  /**
+   * Method: clickColumnHeader
+   * handle clicks on the column header
+   */
+  clickColumnHeader: function(e) {
+    var target = e.target;
+    if (target.getParent('thead')) {
+      target = target.tagName == 'TH' ? target : target.getParent('th');
+      this.fireEvent('gridColumnClick', target);
+    }
+  },
+  
+  /**
+   * Method: moveColumnHeader
+   * handle the mouse moving over the column header
+   */
+  moveColumnHeader: function(e) {
+    var target = e.target;
+    target = target.tagName == 'TH' ? target : target.getParent('th.jxGridColHead');
+    if (target) {
+      if (this.hoverColumn != target) {
+        if (this.hoverColumn) {
+          this.fireEvent('gridColumnLeave', this.hoverColumn);
+        }
+        if (!target.hasClass('jxGridColHead')) {
+          this.leaveGrid(e);
+        } else {
+          this.hoverColumn = target;
+          this.fireEvent('gridColumnEnter', target);
+        }
+      }
+    }
+  },
+
+  /**
+   * Method: clickRowHeader
+   * handle clicks on the row header
+   */
+  clickRowHeader: function(e) {
+    var target = e.target;
+    if (target.getParent('tbody')) {
+      target = target.tagName == 'TH' ? target : target.getParent('th');
+      this.fireEvent('gridRowClick', target);
+    }
+  },
+  
+  /**
+   * Method: moveRowHeader
+   * handle the mouse moving over the row header
+   */
+  moveRowHeader: function(e) {
+    var target = e.target;
+    target = target.tagName == 'TH' ? target : target.getParent('th.jxGridRowHead');
+    if (target) {
+      if (this.hoverRow != target) {
+        if (this.hoverRow) {
+          this.fireEvent('gridRowLeave', this.hoverRow);
+        }
+        if (!target.hasClass('jxGridRowHead')) {
+          this.leaveGrid(e);
+        } else {
+          this.hoverRow = target;
+          this.fireEvent('gridRowEnter', target);
+        }
+      }
+    }
+  },
+  
+  /**
+   * Method: clickCell
+   * handle clicks on cells in the grid
+   */
+  clickCell: function(e) {
+    var target = e.target;
+    if (target.getParent('tbody')) {
+      target = target.tagName == 'TD' ? target : target.getParent('td');
+      this.fireEvent('gridCellClick', target);
+    }
+  },
+  
+  /**
+   * Method: moveCell
+   * handle the mouse moving over cells in the grid
+   */
+  moveCell: function(e) {
+    var target = e.target,
+        data,
+        body,
+        row,
+        index,
+        column;
+    target = target.tagName == 'TD' ? target : target.getParent('td.jxGridCell');
+    if (target) {
+      if (this.hoverCell != target) {
+        if (this.hoverCell) {
+          this.fireEvent('gridCellLeave', this.hoverCell);
+        }
+        if (!target.hasClass('jxGridCell')) {
+          this.leaveGrid(e);
+        } else {
+          this.hoverCell = target;
+          this.getCellData(target);
+          this.fireEvent('gridCellEnter', target);
+        }
+      }
+    }
+  },
+  
+  getCellData: function(cell) {
+    var data = null,
+        index,
+        column,
+        row;
+    if (!cell.hasClass('jxGridCell')) {
+      cell = cell.getParent('td.jxGridCell');
+    }
+    if (cell) {
+      body = this.gridTableBody;
+      row = body.getChildren().indexOf(cell.getParent('tr'));
+      this.columns.columns.some(function(col,idx){
+        if (cell.hasClass('jxGridCol'+idx)) {
+          index = idx;
+          column = col;
+          return true;
+        }
+        return false;
+      });
+      data = {
+        row: row,
+        column: column,
+        index: index
+      };
+      cell.store('jxCellData', data);
+    }
+    return data;
+  },
+  
+  /**
+   * Method: leaveGrid
+   * handle the mouse leaving the grid
+   */
+  leaveGrid: function(e) {
+    this.hoverCell = null;
+    this.fireEvent('gridMouseLeave');
+  },
+  
+  /**
+   * Method: changeText
+   * rerender the grid when the language changes
+   */
+  changeText : function(lang) {
+      this.parent();
+      this.render();
+  },
+  
+  /**
+   * Method: addEvent
+   * override default addEvent to also trigger wanting the event
+   * which will then cause the underlying events to be registered
+   */
+  addEvent: function(name, fn) {
+    this.wantEvent(name);
+    this.parent(name, fn);
+  }
 });

@@ -33,7 +33,9 @@ provides: [Jx.Plugin.Grid.Prelighter]
 Jx.Plugin.Grid.Prelighter = new Class({
 
     Extends : Jx.Plugin,
-
+    
+    name: 'Prelighter',
+    
     options : {
         /**
          * Option: cell
@@ -85,9 +87,22 @@ Jx.Plugin.Grid.Prelighter = new Class({
         if (!$defined(grid) && !(grid instanceof Jx.Grid)) {
             return;
         }
+        this.parent(grid);
         this.grid = grid;
+        // this.grid.wantEvent('gridCellEnter');
+        // this.grid.wantEvent('gridCellLeave');
+        // this.grid.wantEvent('gridRowEnter');
+        // this.grid.wantEvent('gridRowLeave');
+        // this.grid.wantEvent('gridColumnEnter');
+        // this.grid.wantEvent('gridColumnLeave');
+        // this.grid.wantEvent('gridMouseLeave');
+        
         this.grid.addEvent('gridCellEnter', this.bound.lighton);
         this.grid.addEvent('gridCellLeave', this.bound.lightoff);
+        this.grid.addEvent('gridRowEnter', this.bound.lighton);
+        this.grid.addEvent('gridRowLeave', this.bound.lightoff);
+        this.grid.addEvent('gridColumnEnter', this.bound.lighton);
+        this.grid.addEvent('gridColumnLeave', this.bound.lightoff);
         this.grid.addEvent('gridMouseLeave', this.bound.mouseleave);
     },
     /**
@@ -97,6 +112,10 @@ Jx.Plugin.Grid.Prelighter = new Class({
         if (this.grid) {
             this.grid.removeEvent('gridCellEnter', this.bound.lighton);
             this.grid.removeEvent('gridCellLeave', this.bound.lightoff);
+            this.grid.removeEvent('gridRowEnter', this.bound.lighton);
+            this.grid.removeEvent('gridRowLeave', this.bound.lightoff);
+            this.grid.removeEvent('gridColumnEnter', this.bound.lighton);
+            this.grid.removeEvent('gridColumnLeave', this.bound.lightoff);
             this.grid.removeEvent('gridMouseLeave', this.bound.mouseleave);
         }
         this.grid = null;
@@ -124,42 +143,40 @@ Jx.Plugin.Grid.Prelighter = new Class({
     /**
      * Method: lighton
      */
-    lighton : function (cell, list, grid) {
-        this.light(cell, list, grid, true);
+    lighton : function (cell) {
+        this.light(cell, true);
 
     },
     /**
      * Method: lightoff
      */
-    lightoff : function (cell, list, grid) {
-        this.light(cell, list, grid, false);
+    lightoff : function (cell) {
+        this.light(cell, false);
 
     },
     /**
      * Method: light
      * dispatches the event to the various prelight methods.
      */
-    light: function (cell, list, grid, on) {
-        var data = cell.retrieve('jxCellData');
+    light: function (cell, on) {
+        var parent = cell.getParent(),
+            rowIndex = parent.getParent().getChildren().indexOf(parent),
+            colIndex = cell.getParent().getChildren().indexOf(cell);
 
         if (this.options.cell) {
             this.prelightCell(cell, on);
         }
         if (this.options.row) {
-            this.prelightRow(data.row, on);
+            this.prelightRow(rowIndex, on);
         }
         if (this.options.column) {
-            if (this.grid.row.useHeaders()) {
-                this.prelightColumn(data.index - 1, on);
-            } else {
-                this.prelightColumn(data.index, on);
-            }
+            this.prelightColumn(colIndex, on);
         }
         if (this.options.rowHeader) {
-            this.prelightRowHeader(data.row, on);
+            this.prelightRowHeader(rowIndex, on);
         }
         if (this.options.columnHeader) {
-            this.prelightColumnHeader(data.index - 1, on);
+            this.prelightColumnHeader(colIndex, on);
         }
     },
 
@@ -175,7 +192,7 @@ Jx.Plugin.Grid.Prelighter = new Class({
         if ($defined(this.prelitRowHeader) && !on) {
             this.prelitRowHeader.removeClass('jxGridRowHeaderPrelight');
         } else if (on) {
-            this.prelitRowHeader = (row >= 0 && row < this.grid.rowTableHead.rows.length) ? this.grid.rowTableHead.rows[row].cells[0] : null;
+            this.prelitRowHeader = (row >= 0 && row < this.grid.rowTableBody.rows.length) ? this.grid.rowTableBody.rows[row].cells[0] : null;
             if (this.prelitRowHeader) {
                 this.prelitRowHeader.addClass('jxGridRowHeaderPrelight');
             }
@@ -235,15 +252,15 @@ Jx.Plugin.Grid.Prelighter = new Class({
      * on - flag to tell if we're lighting on or off
      */
     prelightColumn : function (col, on) {
-        if (col >= 0 && col < this.grid.gridTable.rows[0].cells.length) {
+        if (col >= 0 && col < this.grid.gridTableBody.rows[0].cells.length) {
             if ($defined(this.prelitColumn) && !on) {
-                for (var i = 0; i < this.grid.gridTable.rows.length; i++) {
-                    this.grid.gridTable.rows[i].cells[this.prelitColumn].removeClass('jxGridColumnPrelight');
+                for (var i = 0; i < this.grid.gridTableBody.rows.length; i++) {
+                    this.grid.gridTableBody.rows[i].cells[this.prelitColumn].removeClass('jxGridColumnPrelight');
                 }
             } else if (on) {
                 this.prelitColumn = col;
-                for (i = 0; i < this.grid.gridTable.rows.length; i++) {
-                    this.grid.gridTable.rows[i].cells[col].addClass('jxGridColumnPrelight');
+                for (i = 0; i < this.grid.gridTableBody.rows.length; i++) {
+                    this.grid.gridTableBody.rows[i].cells[col].addClass('jxGridColumnPrelight');
                 }
             }
             this.prelightColumnHeader(col, on);
@@ -275,8 +292,8 @@ Jx.Plugin.Grid.Prelighter = new Class({
             this.prelitCell.removeClass('jxGridCellPrelight');
         }
         if ($defined(this.prelitColumn)) {
-            for (var i = 0; i < this.grid.gridTable.rows.length; i++) {
-                this.grid.gridTable.rows[i].cells[this.prelitColumn].removeClass('jxGridColumnPrelight');
+            for (var i = 0; i < this.grid.gridTableBody.rows.length; i++) {
+                this.grid.gridTableBody.rows[i].cells[this.prelitColumn].removeClass('jxGridColumnPrelight');
             }
         }
         if ($defined(this.prelitRow)) {

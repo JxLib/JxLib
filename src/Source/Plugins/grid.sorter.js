@@ -29,94 +29,107 @@ images:
  *
  * This file is licensed under an MIT style license
  */
-Jx.Plugin.Grid.Sorter = new Class({
+ Jx.Plugin.Grid.Sorter = new Class({
+   Family: 'Jx.Plugin.Grid.Sorter',
+   Extends: Jx.Plugin,
+   name: 'Prelighter',
+   
+   Binds: ['sort', 'modifyHeaders'],
 
-    Family: 'Jx.Plugin.Grid.Sorter',
-    Extends : Jx.Plugin,
-    Binds: ['sort', 'addHeaderClass'],
+   /**
+    * Property: current
+    * refernce to the currently sorted column
+    */
+   current: null,
 
-    /**
-     * Property: current
-     * refernce to the currently sorted column
-     */
-    current : null,
-    /**
-     * Property: direction
-     * tell us what direction the sort is in (either 'asc' or 'desc')
-     */
-    direction : null,
-    /**
-     * Property: currentGridIndex
-     * Holds the index of the column in the grid
-     */
-    currentGridIndex : null,
-    /**
-     * APIMethod: attach
-     * Sets up the plugin and attaches the plugin to the grid events it
-     * will be monitoring
-     */
-    attach: function (grid) {
-        if (!$defined(grid) && !(grid instanceof Jx.Grid)) {
-            return;
-        }
+   /**
+    * Property: direction
+    * tell us what direction the sort is in (either 'asc' or 'desc')
+    */
+   direction: null,
 
-        this.grid = grid;
+   options: {
+     sortableClass: 'jxColSortable',
+     ascendingClass: 'jxGridColumnSortedAsc',
+     descendingClass: 'jxGridColumnSortedDesc'
+   },
 
-        this.grid.addEvent('gridCellSelect', this.sort);
-    },
-    /**
-     * APIMethod: detach
-     */
-    detach: function() {
-        if (this.grid) {
-            this.grid.removeEvent('gridCellSelect', this.sort);
-        }
-        this.grid = null;
-    },
-    /**
-     * Method: sort
-     * called when a grid header is clicked.
-     *
-     * Parameters:
-     * cell - The cell clicked
-     */
-    sort : function (cell) {
-        var data = cell.retrieve('jxCellData');
-        if (data.colHeader) {
-            var column = data.column;
-            if (column.isSortable()) {
-                if (column === this.current) {
-                    //reverse sort order
-                    this.direction = (this.direction === 'asc') ? 'desc' : 'asc';
-                } else {
-                    this.current = column;
-                    this.direction = 'asc';
-                    this.currentGridIndex = data.index - 1;
-                }
+   /**
+    * APIMethod: attach
+    * Sets up the plugin and attaches the plugin to the grid events it
+    * will be monitoring
+    */
+   attach: function(grid) {
+     if (!$defined(grid) && !(grid instanceof Jx.Grid)) {
+         return;
+     }
+     this.parent(grid);
 
-                // The grid should be listening for the sortFinished event and
-                // will re-render the grid we will listen for the grid's
-                // doneCreateGrid event to add the header
-                this.grid.addEvent('doneCreateGrid', this.addHeaderClass);
-                //sort the store
-                var strategy = this.grid.getModel().getStrategy('sort');
-                if (strategy) {
-                  strategy.sort(this.current.name, null, this.direction);
-                }
-            }
+     this.grid = grid;
 
-        }
-    },
-    /**
-     * Method: addHeaderClass
-     * Event listener that adds the proper sorted column class to the
-     * column we sorted by so that the sort arrow shows
-     */
-    addHeaderClass : function () {
-        this.grid.removeEvent('doneCreateGrid', this.addHeaderClass);
+     // this.grid.wantEvent('gridColumnClick');
+     this.grid.addEvent('gridColumnClick', this.sort);
+     this.grid.addEvent('doneCreateGrid', this.modifyHeaders);
+   },
 
-        //get header TD
-        var th = this.grid.colTable.rows[0].cells[this.currentGridIndex];
-        th.addClass('jxGridColumnSorted' + this.direction.capitalize());
-    }
-});
+   /**
+    * APIMethod: detach
+    */
+   detach: function() {
+     if (this.grid) {
+         this.grid.removeEvent('gridColumnClick', this.sort);
+     }
+     this.grid = null;
+   },
+
+   /**
+    * Method: modifyHeaders
+    */
+   modifyHeaders: function() {
+     var grid = this.grid,
+         columnTable = grid.colObj,
+         store = grid.store,
+         c = this.options.sortableClass;
+     if (grid.columns.useHeaders()) {
+       grid.columns.columns.each(function(col, index) {
+         if (!col.isHidden() && col.isSortable()) {
+           var th = columnTable.getElement('.jxGridCol'+index);
+           th.addClass(c);
+         }
+       });
+     }
+   },
+
+   /**
+    * Method: sort
+    * called when a grid header is clicked.
+    *
+    * Parameters:
+    * cell - The cell clicked
+    */
+   sort: function(el) {
+     var current = this.current,
+         store = this.grid.store,
+         sorter = store.getStrategy('sort'),
+         data = el.retrieve('jxCellData'),
+         dir = 'asc',
+         opt = this.options;
+
+     if (sorter && $defined(data.column) && data.column.isSortable()) {
+       if (el.hasClass(opt.ascendingClass)) {
+         el.removeClass(opt.ascendingClass).addClass(opt.descendingClass);
+         dir = 'desc';
+       } else if (el.hasClass(opt.descendingClass)) {
+         el.removeClass(opt.descendingClass).addClass(opt.ascendingClass);
+       } else {
+         el.addClass(opt.ascendingClass);
+       }
+       if (current && el != current) {
+         current.removeClass(opt.ascendingClass).removeClass(opt.descendingClass);
+       }
+       this.current = el;
+       sorter.sort(data.column.name, null, dir);
+     }
+   }
+ });
+

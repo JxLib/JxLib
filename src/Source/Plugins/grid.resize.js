@@ -31,6 +31,9 @@ provides: [Jx.Plugin.Grid.Resize]
 Jx.Plugin.Grid.Resize = new Class({
 
     Extends : Jx.Plugin,
+    
+    name: 'Resize',
+    
     Binds: ['createHandles','removeHandles'],
     options: {
         /**
@@ -73,32 +76,44 @@ Jx.Plugin.Grid.Resize = new Class({
      * Sets up the plugin and connects it to the grid
      */
     attach: function (grid) {
-        if (!$defined(grid) && !(grid instanceof Jx.Grid)) {
-            return;
-        }
-        this.grid = grid;
+      if (!$defined(grid) && !(grid instanceof Jx.Grid)) {
+          return;
+      }
+      this.parent(grid);
+      this.grid = grid;
+      if (grid.columns.useHeaders()) {
         this.grid.addEvent('doneCreateGrid', this.createHandles);
         this.grid.addEvent('beginCreateGrid', this.removeHandles);
         this.createHandles();
+      }
     },
     /**
      * APIMethod: detach
      */
     detach: function() {
-        if (this.grid) {
-            this.grid.removeEvent('doneCreateGrid', this.createHandles);
-            this.grid.removeEvent('beginCreateGrid', this.removeHandles);
-        }
-        this.grid = null;
+      this.parent();
+      if (this.grid) {
+          this.grid.removeEvent('doneCreateGrid', this.createHandles);
+          this.grid.removeEvent('beginCreateGrid', this.removeHandles);
+      }
+      this.grid = null;
     },
 
+    /**
+     * APIMethod: activate
+     */
     activate: function(option) {
         if ($defined(this.options[option])) {
           this.options[option] = true;
         }
-        this.createHandles();
+        if (this.grid.columns.useHeaders()) {
+          this.createHandles();
+        }
     },
-    
+
+    /**
+     * APIMethod: deactivate
+     */
     deactivate: function(option) {
         if ($defined(this.options[option])) {
           this.options[option] = false;
@@ -122,60 +137,53 @@ Jx.Plugin.Grid.Resize = new Class({
      * create handles that let the user drag to resize columns and rows
      */
     createHandles: function() {
-        this.removeHandles();
-        if (this.options.column && this.grid.columns.useHeaders()) {
-            var hf = this.grid.row.getRowHeaderColumn();
-            this.grid.columns.columns.each(function(col, idx) {
-                if (col.options.name != hf && 
-                    col.isResizable() && 
-                    col.domObj) {
-                    var el = new Element('div', {
-                        'class':'jxGridColumnResize',
-                        title: this.options.tooltip == '' ? this.getText({set:'Jx',key:'plugin.resize',value:'tooltip'}) : this.getText(this.options.tooltip),
-                        events: {
-                            dblclick: function() {
-                                col.options.renderMode = 'fit';
-                                col.options.width = 'auto';
-                                col.setWidth(col.getWidth(true));
-                            }
-                        }
-                    }).inject(col.domObj);
-                    el.store('col', col);
-                    this.els.column.push(el);
-                    this.drags.column.push(new Drag(el, {
-                        limit: {y:[0,0]},
-                        snap: 2,
-                        onBeforeStart: function(el) {
-                          var l = el.getPosition(el.parentNode).x.toInt();
-                          el.setStyles({
-                            left: l,
-                            right: null
-                          });
-                          
-                        },
-                        onStart: function(el) {
-                          var l = el.getPosition(el.parentNode).x.toInt();
-                          el.setStyles({
-                            left: l,
-                            right: null
-                          });
-                        },
-                        onDrag: function(el) {
-                            var col = el.retrieve('col');
-                            col.options.renderMode = 'fixed';
-                            var w = el.getPosition(el.parentNode).x.toInt();
-                            col.setWidth(w);
-                        },
-                        onComplete: function(el) {
-                          el.setStyle('left', null);
-                          col.grid.resizeRowsCols("rows");
-                        }
-                    }));
+      var grid = this.grid,
+          store = grid.store;
+      this.removeHandles();
+      if (this.options.column) {
+        grid.columns.columns.each(function(col, idx) {
+          if (col.isResizable() && !col.isHidden()) {
+            var colEl = grid.colObj.getElement('.jxGridCol'+idx+ ' .jxGridCellContent');
+            var el = new Element('div', {
+              'class':'jxGridColumnResize',
+              title: this.options.tooltip == '' ? this.getText({set:'Jx',key:'plugin.resize',value:'tooltip'}) : this.getText(this.options.tooltip),
+              events: {
+                dblclick: function() {
+                  // size to fit?
                 }
-            }, this);
-        }
+              }
+            }).inject(colEl);
+            this.els.column.push(el);
+            this.drags.column.push(new Drag(el, {
+                limit: {y:[0,0]},
+                snap: 2,
+                onBeforeStart: function(el) {
+                  var l = el.getPosition(el.parentNode).x.toInt();
+                  el.setStyles({
+                    left: l,
+                    right: null
+                  });
 
-        //if (this.options.row && this.grid.row.useHeaders()) {}
+                },
+                onStart: function(el) {
+                  var l = el.getPosition(el.parentNode).x.toInt();
+                  el.setStyles({
+                    left: l,
+                    right: null
+                  });
+                },
+                onDrag: function(el) {
+                    var w = el.getPosition(el.parentNode).x.toInt();
+                    col.setWidth(w);
+                },
+                onComplete: function(el) {
+                  el.setStyle('left', null);
+                }
+            }));
+          }
+        }, this);
+      }
+      //if (this.options.row && this.grid.row.useHeaders()) {}
     },
     /**
      * Method: createText
