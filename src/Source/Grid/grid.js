@@ -293,6 +293,10 @@ Jx.Grid = new Class({
    * Create the grid for the current model
    */
   render: function() {
+    if (this.domObj) {
+      this.redraw();
+      return;
+    }
     this.parent();
     var store = this.store;
     
@@ -418,7 +422,12 @@ Jx.Grid = new Class({
   },
   
   storeLoaded: function(store) {
-    var template = '',
+    this.redraw();
+  },
+  
+  redraw: function() {
+    var store = this.store,
+        template = '',
         tr,
         columns = [],
         useRowHeaders = this.row.useHeaders();
