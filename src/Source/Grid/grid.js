@@ -475,6 +475,13 @@ Jx.Grid = new Class({
     if (this.columns.useHeaders()) {
       tr = new Element('tr');
       this.columns.getHeaders(tr);
+      tr.adopt(new Element('th', {
+        'class': 'jxGridColHead',
+        'html': '&nbsp',
+        styles: {
+          width: 1000
+        }
+      }))
       this.colObj.getElement('thead').empty().adopt(tr);
     }
     this.columns.calculateWidths();
@@ -564,15 +571,27 @@ Jx.Grid = new Class({
    * that is handled by the render() method
    */
   drawStore: function() {
+    var useHeaders = this.row.useHeaders(), 
+        blank;
     this.domObj.resize();
     this.gridTableBody.empty();
-    if (this.row.useHeaders()) {
+    if (useHeaders) {
       this.rowTableBody.empty();
     }
     this.store.each(function(record,index) {
       this.store.index = index;
       this.drawRow(record, index);
     }, this);
+    if (useHeaders) {
+      blank = new Element('tr', {
+        styles: { height: 1000 }
+      });
+      blank.adopt(new Element('th', {
+        'class':'jxGridRowHead', 
+        html: '&nbsp'
+      }));
+      this.rowTableBody.adopt(blank);
+    }
   },
   
   /**
@@ -641,15 +660,16 @@ Jx.Grid = new Class({
       if (row.options.headerColumn && renderer.domInsert) {
         th.adopt(rowHeaderColumn.getHTML());
       }
-      if (autoRowHeight) {
-        th.setStyle('height', tr.childNodes[0].getContentBoxSize().height);
-      }
       rh = new Element('tr').adopt(th);
       if (position == 'replace' && index < rowBody.childNodes.length) {
         rh.inject(rowBody.childNodes[index], 'after');
         rowBody.childNodes[index].dispose();
       } else {
         rh.inject(rowBody, position);
+      }
+      if (autoRowHeight) {
+        // th.setBorderBoxSize({height: tr.childNodes[0].getBorderBoxSize().height});
+        rh.setBorderBoxSize({height: tr.getBorderBoxSize().height});
       }
     }
   },

@@ -150,7 +150,8 @@ Jx.Row = new Class({
      * determines and returns the height of a row
      */
     getHeight : function (row) {
-      var h = this.options.rowHeight;
+      var h = this.options.rowHeight,
+          rowEl;
       //this should eventually compute a height, however, we would need
       //a fixed width to do so reliably. For right now, we use a fixed height
       //for all rows.
@@ -160,6 +161,10 @@ Jx.Row = new Class({
         if (this.options.rowHeight == 'auto') {
           // this.calculateHeight(row);
           h = 20; // TODO calculate?
+          rowEl = this.grid.gridTableBody.rows[row]
+          if (rowEl) {
+            h = rowEl.getContentBoxSize().height; 
+          }
         } else if (Jx.type(this.options.rowHeight) !== 'number') {
           h = 20; // TODO calculate?
         }
