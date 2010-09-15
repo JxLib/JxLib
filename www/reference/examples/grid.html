@@ -378,11 +378,10 @@ function drawGrid() {
               }
           }
          ]
-      },
-      model: store
+      }
   };
   //create grid
-  grid = new Jx.Grid(options);
+  grid = new Jx.Grid(store, options);
   store.addEvent('storeDataLoaded', function () {
       grid.render();
       prelighter.attach(grid);
