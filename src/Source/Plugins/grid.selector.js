@@ -238,7 +238,7 @@ Jx.Plugin.Grid.Selector = new Class({
      * opt - the option to turn off. One of 'cell', 'column', or 'row'
      */
     deactivate: function (opt) {
-        var gridTableRows = this.grid.gridTable.rows,
+        var gridTableRows = this.grid.gridTableBody.rows,
             selected = this.selected,
             i;
         this.options[opt] = false;
@@ -452,7 +452,7 @@ Jx.Plugin.Grid.Selector = new Class({
      * col - {Integer} the column to select
      */
     selectColumn: function (col) {
-        var gridTable = this.grid.gridTable,
+        var gridTable = this.grid.gridTableBody,
             cols = this.selected.get('columns'),
             m = '',
             i;
