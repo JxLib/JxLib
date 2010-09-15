@@ -129,13 +129,13 @@ function drawToolbar() {
         selector.detach();
         selector.activate('checkAsHeader');
         selector.attach(grid);
-        grid.render();
+        grid.redraw();
       },
       onUp: function() {
         selector.detach();
         selector.deactivate('checkAsHeader');
         selector.attach(grid);
-        grid.render();
+        grid.redraw();
       }});
   
   m.addTo('buttons').add([
@@ -146,13 +146,13 @@ function drawToolbar() {
           selector.detach();
           selector.activate('multiple');
           selector.attach(grid);
-          grid.render();
+          grid.redraw();
       },
       onUp: function() {
           selector.detach();
           selector.deactivate('multiple');
           selector.attach(grid);
-          grid.render();
+          grid.redraw();
       }
     }),
     new Jx.Menu.Item({
@@ -162,14 +162,14 @@ function drawToolbar() {
         selector.detach(); 
         selector.activate('useCheckColumn'); 
         selector.attach(grid); 
-        grid.render(); 
+        grid.redraw(); 
         b.setEnabled(true); 
       },
       onUp: function() { 
         selector.detach(); 
         selector.deactivate('useCheckColumn'); 
         selector.attach(grid); 
-        grid.render(); 
+        grid.redraw(); 
         b.setEnabled(false);
       }
      }), b]);
@@ -383,7 +383,6 @@ function drawGrid() {
   //create grid
   grid = new Jx.Grid(store, options);
   store.addEvent('storeDataLoaded', function () {
-      grid.render();
       prelighter.attach(grid);
       selector.attach(grid);
       sorter.attach(grid);
