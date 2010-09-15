@@ -218,10 +218,6 @@ Jx.Grid = new Class({
       'gridMouseLeave': false
     });
     
-    if (options.parent) {
-      this.addTo(options.parent);
-    }
-    
     this.parent();
   },
   
@@ -340,6 +336,7 @@ Jx.Grid = new Class({
     
     if (document.id(this.options.parent)) {
       this.addTo(this.options.parent);
+      this.resize();
     }
   },
   
