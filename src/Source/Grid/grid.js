@@ -610,13 +610,13 @@ Jx.Grid = new Class({
       position = 'bottom';
     }
     tr = row.getGridRowElement(index, '');
-    columns.getRow(tr, record);
     if (position == 'replace' && index < body.childNodes.length) {
       tr.inject(body.childNodes[index], 'after');
       body.childNodes[index].dispose();
     } else {
       tr.inject(body, position);
     }
+    columns.getRow(tr, record);
     if (rowHeaders) {
       if (row.options.headerColumn) {
         rowHeaderColumn = columns.getByName(row.options.headerColumn);
