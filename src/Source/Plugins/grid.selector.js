@@ -70,7 +70,12 @@ Jx.Plugin.Grid.Selector = new Class({
          * Option: checkAsHeader
          * Determines if the check column is the header of the rows
          */
-        checkAsHeader: false
+        checkAsHeader: false,
+        /**
+         * Option: sortableColumn
+         * Determines if the check column is sortable
+         */
+        sortableColumn: false
     },
     
     domInsert: true,
@@ -129,7 +134,8 @@ Jx.Plugin.Grid.Selector = new Class({
             renderMode: 'fixed',
             width: 20,
             renderer: null,
-            name: 'selection'
+            name: 'selection',
+            isSortable: this.options.sortableColumn || false
           }, grid);
           this.checkColumn.options.renderer = this;
           grid.columns.columns.reverse();

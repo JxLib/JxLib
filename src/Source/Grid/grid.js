@@ -226,10 +226,8 @@ Jx.Grid = new Class({
   },
   
   wantEvent: function(eventName) {
-    console.log('wantEvent ' + eventName);
     var hook = this.hooks.get(eventName);
     if (hook === false) {
-      console.log('hooking event ' + eventName);
       switch(eventName) {
         case 'gridColumnEnter':
         case 'gridColumnLeave':
@@ -282,8 +280,6 @@ Jx.Grid = new Class({
         default:
           break;
       }
-    } else {
-      console.log('event is already hooked');
     }
   },
   
@@ -311,13 +307,13 @@ Jx.Grid = new Class({
     
     if (store instanceof Jx.Store) {
       store.addEvent('storeDataLoaded', this.storeLoaded);
-      store.addEvent('storeSortFinished', this.drawStore);
+      // store.addEvent('storeSortFinished', this.drawStore);
       store.addEvent('storeRecordAdded', this.addRow);
       store.addEvent('storeColumnChanged', this.updateRow);
       store.addEvent('storeRecordRemoved', this.removeRow);
       store.addEvent('storeMultipleRecordsRemoved', this.removeRows);
-      if (this.store.loaded) {
-        this.storeLoaded();
+      if (store.loaded) {
+        this.storeLoaded(store);
       }
     }
     if (!this.columns.useHeaders()) {
@@ -341,6 +337,10 @@ Jx.Grid = new Class({
         this.wantEvent(key);
       }
     }, this);
+    
+    if (document.id(this.options.parent)) {
+      this.addTo(this.options.parent);
+    }
   },
   
   /**
@@ -420,7 +420,7 @@ Jx.Grid = new Class({
     return this.store;
   },
   
-  storeLoaded: function(store, response) {
+  storeLoaded: function(store) {
     var template = '',
         tr,
         columns = [],
@@ -567,16 +567,15 @@ Jx.Grid = new Class({
    * that is handled by the render() method
    */
   drawStore: function() {
-    console.profile();
     this.domObj.resize();
     this.gridTableBody.empty();
     if (this.row.useHeaders()) {
       this.rowTableBody.empty();
     }
     this.store.each(function(record,index) {
+      this.store.index = index;
       this.drawRow(record, index);
     }, this);
-    console.profileEnd();
   },
   
   /**
@@ -594,6 +593,7 @@ Jx.Grid = new Class({
     var columns = this.columns,
         body = this.gridTableBody,
         row = this.row,
+        store = this.store,
         rowHeaders = row.useHeaders(),
         autoRowHeight = row.options.rowHeight == 'auto',
         rowBody = this.rowTableBody,

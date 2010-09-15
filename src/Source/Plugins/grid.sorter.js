@@ -29,107 +29,139 @@ images:
  *
  * This file is licensed under an MIT style license
  */
- Jx.Plugin.Grid.Sorter = new Class({
-   Family: 'Jx.Plugin.Grid.Sorter',
-   Extends: Jx.Plugin,
-   name: 'Prelighter',
-   
-   Binds: ['sort', 'modifyHeaders'],
+Jx.Plugin.Grid.Sorter = new Class({
+  Family: 'Jx.Plugin.Grid.Sorter',
+  Extends: Jx.Plugin,
+  name: 'Prelighter',
 
-   /**
-    * Property: current
-    * refernce to the currently sorted column
-    */
-   current: null,
+  Binds: ['sort', 'modifyHeaders'],
 
-   /**
-    * Property: direction
-    * tell us what direction the sort is in (either 'asc' or 'desc')
-    */
-   direction: null,
+  /**
+   * Property: current
+   * refernce to the currently sorted column
+   */
+  current: null,
 
-   options: {
-     sortableClass: 'jxColSortable',
-     ascendingClass: 'jxGridColumnSortedAsc',
-     descendingClass: 'jxGridColumnSortedDesc'
-   },
+  /**
+   * Property: direction
+   * tell us what direction the sort is in (either 'asc' or 'desc')
+   */
+  direction: null,
 
-   /**
-    * APIMethod: attach
-    * Sets up the plugin and attaches the plugin to the grid events it
-    * will be monitoring
-    */
-   attach: function(grid) {
-     if (!$defined(grid) && !(grid instanceof Jx.Grid)) {
-         return;
-     }
-     this.parent(grid);
+  options: {
+    sortableClass: 'jxColSortable',
+    ascendingClass: 'jxGridColumnSortedAsc',
+    descendingClass: 'jxGridColumnSortedDesc'
+  },
 
-     this.grid = grid;
+  /**
+   * APIMethod: attach
+   * Sets up the plugin and attaches the plugin to the grid events it
+   * will be monitoring
+   */
+  attach: function(grid) {
+    if (!$defined(grid) && !(grid instanceof Jx.Grid)) {
+        return;
+    }
+    this.parent(grid);
 
-     // this.grid.wantEvent('gridColumnClick');
-     this.grid.addEvent('gridColumnClick', this.sort);
-     this.grid.addEvent('doneCreateGrid', this.modifyHeaders);
-   },
+    this.grid = grid;
 
-   /**
-    * APIMethod: detach
-    */
-   detach: function() {
-     if (this.grid) {
-         this.grid.removeEvent('gridColumnClick', this.sort);
-     }
-     this.grid = null;
-   },
+    // this.grid.wantEvent('gridColumnClick');
+    this.grid.addEvent('gridColumnClick', this.sort);
+    this.grid.addEvent('doneCreateGrid', this.modifyHeaders);
+  },
 
-   /**
-    * Method: modifyHeaders
-    */
-   modifyHeaders: function() {
-     var grid = this.grid,
-         columnTable = grid.colObj,
-         store = grid.store,
-         c = this.options.sortableClass;
-     if (grid.columns.useHeaders()) {
-       grid.columns.columns.each(function(col, index) {
-         if (!col.isHidden() && col.isSortable()) {
-           var th = columnTable.getElement('.jxGridCol'+index);
-           th.addClass(c);
-         }
-       });
-     }
-   },
+  /**
+   * APIMethod: detach
+   */
+  detach: function() {
+    if (this.grid) {
+        this.grid.removeEvent('gridColumnClick', this.sort);
+    }
+    this.grid = null;
+  },
 
-   /**
-    * Method: sort
-    * called when a grid header is clicked.
-    *
-    * Parameters:
-    * cell - The cell clicked
-    */
-   sort: function(el) {
-     var current = this.current,
-         store = this.grid.store,
-         sorter = store.getStrategy('sort'),
-         data = el.retrieve('jxCellData'),
-         dir = 'asc',
-         opt = this.options;
+  /**
+   * Method: modifyHeaders
+   */
+  modifyHeaders: function() {
+    var grid = this.grid,
+        columnTable = grid.colObj,
+        store = grid.store,
+        c = this.options.sortableClass;
+    if (grid.columns.useHeaders()) {
+      grid.columns.columns.each(function(col, index) {
+        if (!col.isHidden() && col.isSortable()) {
+          var th = columnTable.getElement('.jxGridCol'+index);
+          th.addClass(c);
+        }
+      });
+    }
+  },
 
-     if (sorter && $defined(data.column) && data.column.isSortable()) {
-       if (el.hasClass(opt.ascendingClass)) {
-         el.removeClass(opt.ascendingClass).addClass(opt.descendingClass);
-         dir = 'desc';
-       } else if (el.hasClass(opt.descendingClass)) {
-         el.removeClass(opt.descendingClass).addClass(opt.ascendingClass);
-       } else {
-         el.addClass(opt.ascendingClass);
-       }
-       if (current && el != current) {
-         current.removeClass(opt.ascendingClass).removeClass(opt.descendingClass);
-       }
-       this.current = el;
-       sorter.sort(data.column.name, null, dir);
-     }
-   }
- });
+  /**
+   * Method: sort
+   * called when a grid header is clicked.
+   *
+   * Parameters:
+   * cell - The cell clicked
+   */
+  sort: function(el) {
+    var current = this.current,
+        grid = this.grid,
+        gridTableBody = grid.gridTableBody,
+        gridParent = gridTableBody.getParent(),
+        rowTableBody = grid.rowTableBody,
+        rowParent = rowTableBody.getParent(),
+        useHeaders = grid.row.useHeaders(),
+        store = grid.store,
+        sorter = store.getStrategy('sort'),
+        data = el.retrieve('jxCellData'),
+        dir = 'asc',
+        opt = this.options;
 
+    if (sorter && $defined(data.column) && data.column.isSortable()) {
+      if (el.hasClass(opt.ascendingClass)) {
+        el.removeClass(opt.ascendingClass).addClass(opt.descendingClass);
+        dir = 'desc';
+      } else if (el.hasClass(opt.descendingClass)) {
+        el.removeClass(opt.descendingClass).addClass(opt.ascendingClass);
+      } else {
+        el.addClass(opt.ascendingClass);
+      }
+      if (current && el != current) {
+        current.removeClass(opt.ascendingClass).removeClass(opt.descendingClass);
+      }
+      this.current = el;
+      gridTableBody.dispose();
+      if (useHeaders) {
+        rowTableBody.dispose();
+      }
+      store.each(function(record, index) {
+        record.dom = {
+          cell: gridTableBody.childNodes[index],
+          row: useHeaders ? rowTableBody.childNodes[index] : null
+        };
+      });
+      
+      // store.removeEvent('storeSortFinished', grid.drawStore);
+      sorter.sort(data.column.name, null, dir);
+      // store.addEvent('storeSortFinished', grid.drawStore);
+      
+      store.each(function(record, index) {
+        record.dom.cell.inject(gridTableBody);
+        if (useHeaders) {
+          record.dom.row.inject(rowTableBody);
+        }
+      });
+      
+      if (gridParent) {
+        gridParent.adopt(gridTableBody);
+      }
+      if (useHeaders && rowParent) {
+        rowParent.adopt(rowTableBody);
+      }
+    }
+  }
+});

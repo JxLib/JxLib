@@ -239,7 +239,7 @@ Jx.Columns = new Class({
       if (this.useHeaders()) {
         this.columns.each(function(col, idx) {
           if (!col.isHidden() && col != rhc) {
-            var classes = ['jxGridColHead', 'jxGridCol'+idx, 'jxGridCol'+col.options.name],
+            var classes = ['jxGridColHead', 'jxGridCol'+idx, 'jxCol-'+col.options.name, 'jxColHead-'+col.options.name],
                 th;
             if (col.isEditable()) { classes.push('jxColEditable'); }
             if (col.isResizable()) { classes.push('jxColResizable'); }
@@ -281,7 +281,7 @@ Jx.Columns = new Class({
           rhc = grid.row.useHeaders() ? 
                      this.getByName(row.options.headerColumn) : null,
           domInserts = [],
-          i;
+          i = 0;
       this.columns.each(function(column, index) {
         if (!column.isHidden() && column != rhc) {
           if (column.options.renderer && column.options.renderer.domInsert) {
