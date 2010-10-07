@@ -140,7 +140,7 @@ Jx.Plugin.Grid.Resize = new Class({
       var grid = this.grid,
           store = grid.store;
       this.removeHandles();
-      if (this.options.column) {
+      if (this.options.column && grid.columns.useHeaders()) {
         grid.columns.columns.each(function(col, idx) {
           if (col.isResizable() && !col.isHidden()) {
             var colEl = grid.colObj.getElement('.jxGridCol'+idx+ ' .jxGridCellContent');

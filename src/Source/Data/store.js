@@ -390,15 +390,17 @@ Jx.Store = new Class({
      *                  marked as deleted.
      */
     each: function (fn, bind, ignoreDeleted) {
-        var data;
-        if (ignoreDeleted) {
-            data = this.data.filter(function (record) {
-                return record.state !== Jx.Record.DELETE;
-            }, this);
-        } else {
-            data = this.data;
+        if ($defined(this.data)) {
+          var data;
+          if (ignoreDeleted) {
+              data = this.data.filter(function (record) {
+                  return record.state !== Jx.Record.DELETE;
+              }, this);
+          } else {
+              data = this.data;
+          }
+          data.each(fn, bind);
         }
-        data.each(fn, bind);
     },
     /**
      * APIMethod: get

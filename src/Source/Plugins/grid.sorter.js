@@ -120,8 +120,8 @@ Jx.Plugin.Grid.Sorter = new Class({
         data = el.retrieve('jxCellData'),
         dir = 'asc',
         opt = this.options;
-
-    if (sorter && $defined(data.column) && data.column.isSortable()) {
+    
+    if ($defined(data.column) && data.column.isSortable()){
       if (el.hasClass(opt.ascendingClass)) {
         el.removeClass(opt.ascendingClass).addClass(opt.descendingClass);
         dir = 'desc';
@@ -134,33 +134,39 @@ Jx.Plugin.Grid.Sorter = new Class({
         current.removeClass(opt.ascendingClass).removeClass(opt.descendingClass);
       }
       this.current = el;
-      gridTableBody.dispose();
-      if (useHeaders) {
-        rowTableBody.dispose();
-      }
-      store.each(function(record, index) {
-        record.dom = {
-          cell: gridTableBody.childNodes[index],
-          row: useHeaders ? rowTableBody.childNodes[index] : null
-        };
-      });
-      
-      // store.removeEvent('storeSortFinished', grid.drawStore);
-      sorter.sort(data.column.name, null, dir);
-      // store.addEvent('storeSortFinished', grid.drawStore);
-      
-      store.each(function(record, index) {
-        record.dom.cell.inject(gridTableBody);
-        if (useHeaders) {
-          record.dom.row.inject(rowTableBody);
+      if ($defined(data.column.options.sort) && Jx.type(data.column.options.sort) == 'function') {
+        data.column.options.sort(dir);
+      } else {
+        if (sorter) {
+          gridTableBody.dispose();
+          if (useHeaders) {
+            rowTableBody.dispose();
+          }
+          store.each(function(record, index) {
+            record.dom = {
+              cell: gridTableBody.childNodes[index],
+              row: useHeaders ? rowTableBody.childNodes[index] : null
+            };
+          });
+    
+          // store.removeEvent('storeSortFinished', grid.drawStore);
+          sorter.sort(data.column.name, null, dir);
+          // store.addEvent('storeSortFinished', grid.drawStore);
+    
+          store.each(function(record, index) {
+            record.dom.cell.inject(gridTableBody);
+            if (useHeaders) {
+              record.dom.row.inject(rowTableBody);
+            }
+          });
+    
+          if (gridParent) {
+            gridParent.adopt(gridTableBody);
+          }
+          if (useHeaders && rowParent) {
+            rowParent.adopt(rowTableBody);
+          }
         }
-      });
-      
-      if (gridParent) {
-        gridParent.adopt(gridTableBody);
-      }
-      if (useHeaders && rowParent) {
-        rowParent.adopt(rowTableBody);
       }
     }
   }

@@ -121,6 +121,9 @@ Jx.Columns = new Class({
      * create the row template based on the current columns
      */
     buildTemplates: function() {
+      if (!this.grid) {
+        return;
+      }
       var rowTemplate = '',
           hasExpandable = false,
           grid = this.grid,

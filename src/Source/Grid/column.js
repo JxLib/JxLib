@@ -168,10 +168,16 @@ Jx.Column = new Class({
      * APIMethod: getHeaderHTML
      */
     getHeaderHTML : function () {
-      if (this.isSortable()) {
-        new Element('img', {
+      if (this.isSortable() && !this.sortImage) {
+        this.sortImage = new Element('img', {
             src: Jx.aPixel.src
-        }).inject(this.domObj);
+        });
+        this.sortImage.inject(this.domObj);
+      } else {
+        if (!this.isSortable() && this.sortImage) {
+          this.sortImage.dispose();
+          this.sortImage = null;
+        }
       }
       return this.domObj;
     },

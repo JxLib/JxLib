@@ -78,7 +78,7 @@ images:
 Jx.Grid = new Class({
   Family : 'Jx.Grid',
   Extends: Jx.Widget,
-  Binds: ['storeLoaded', 'clickColumnHeader', 'moveColumnHeader', 'clickRowHeader', 'moveRowHeader', 'clickCell', 'moveCell', 'leaveGrid', 'resize', 'drawStore', 'scroll', 'addRow', 'removeRow', 'removeRows', 'updateRow'],
+  Binds: ['storeLoaded', 'clickColumnHeader', 'moveColumnHeader', 'clickRowHeader', 'moveRowHeader', 'clickCell', 'dblclickCell', 'moveCell', 'leaveGrid', 'resize', 'drawStore', 'scroll', 'addRow', 'removeRow', 'removeRows', 'updateRow'],
 
   /**
    * Property: pluginNamespace
@@ -213,10 +213,21 @@ Jx.Grid = new Class({
       'gridRowLeave': false,
       'gridRowClick': false,
       'gridCellClick': false,
+      'gridCellDblClick': false,
       'gridCellEnter': false,
       'gridCellLeave': false,
       'gridMouseLeave': false
     });
+    
+    this.storeEvents = {
+      'storeDataLoaded': this.storeLoaded,
+      // 'storeSortFinished': this.drawStore,
+      'storeRecordAdded': this.addRow,
+      'storeColumnChanged': this.updateRow,
+      'storeRecordRemoved': this.removeRow,
+      'storeMultipleRecordsRemoved': this.removeRows
+    };
+    
     
     this.parent();
   },
@@ -265,6 +276,10 @@ Jx.Grid = new Class({
           this.gridObj.addEvent('click', this.clickCell);
           this.hooks.set('gridCellClick', true);
           break;
+        case 'gridCellDblClick':
+          this.gridObj.addEvent('dblclick', this.dblclickCell);
+          this.hooks.set('gridCellDblClick', true);
+          break;
         case 'gridMouseLeave':
           this.rowObj.addEvent('mouseleave', this.leaveGrid);
           this.colObj.addEvent('mouseleave', this.leaveGrid);
@@ -306,12 +321,7 @@ Jx.Grid = new Class({
     });
     
     if (store instanceof Jx.Store) {
-      store.addEvent('storeDataLoaded', this.storeLoaded);
-      // store.addEvent('storeSortFinished', this.drawStore);
-      store.addEvent('storeRecordAdded', this.addRow);
-      store.addEvent('storeColumnChanged', this.updateRow);
-      store.addEvent('storeRecordRemoved', this.removeRow);
-      store.addEvent('storeMultipleRecordsRemoved', this.removeRows);
+      store.addEvents(this.storeEvents);
       if (store.loaded) {
         this.storeLoaded(store);
       }
@@ -404,8 +414,15 @@ Jx.Grid = new Class({
    * store - {Object} the store to use for this grid
    */
   setStore: function(store) {
+    if (this.store) {
+      this.store.removeEvents(this.storeEvents);
+    }
     if (store instanceof Jx.Store) {
       this.store = store;
+      store.addEvents(this.storeEvents);
+      if (store.loaded) {
+        this.storeLoaded(store);
+      }
       this.render();
       this.domObj.resize();
     } else {
@@ -434,6 +451,8 @@ Jx.Grid = new Class({
     this.fireEvent('beginCreateGrid');
     
     this.gridObj.getElement('tbody').empty();
+    
+    this.hoverColumn = this.hoverRow = this.hoverCell = null;
     
     // TODO: consider moving whole thing into Jx.Columns ??
     // create a suitable column representation for everything
@@ -495,8 +514,8 @@ Jx.Grid = new Class({
     }
     this.columns.calculateWidths();
     this.columns.createRules(this.styleSheet+'Columns', '.'+this.uniqueId);
-    this.fireEvent('doneCreateGrid');
     this.drawStore();
+    this.fireEvent('doneCreateGrid');
   },
   
   /**
@@ -681,6 +700,7 @@ Jx.Grid = new Class({
         rh.setBorderBoxSize({height: tr.getBorderBoxSize().height});
       }
     }
+    this.fireEvent('gridDrawRow', [index, record]);
   },
   
   /**
@@ -760,6 +780,18 @@ Jx.Grid = new Class({
     if (target.getParent('tbody')) {
       target = target.tagName == 'TD' ? target : target.getParent('td');
       this.fireEvent('gridCellClick', target);
+    }
+  },
+  
+  /**
+   * Method: dblclickCell
+   * handle doubleclicks on cells in the grid
+   */
+  dblclickCell: function(e) {
+    var target = e.target;
+    if (target.getParent('tbody')) {
+      target = target.tagName == 'TD' ? target : target.getParent('td');
+      this.fireEvent('gridCellDblClick', target);
     }
   },
   
