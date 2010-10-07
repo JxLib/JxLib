@@ -199,7 +199,18 @@ Jx.Plugin.Grid.Selector = new Class({
      * record - {<Jx.Record>} the record that was rendered into that row
      */
     updateCheckColumn: function(index, record) {
-      this.setCheckField(index, this.selected.get('rows').contains(index));
+      var state = this.selected.get('rows').contains(index),
+          r = this.grid.gridTableBody.rows,
+          tr = document.id((index >= 0 && index < r.length) ? r[index] : null);
+      
+      if (tr) {
+        if (state) {
+          tr.addClass('jxGridRowSelected');
+        } else {
+          tr.removeClass('jxGridRowSelected');
+        }
+        this.setCheckField(index, state);
+      }
     },
 
     /**
