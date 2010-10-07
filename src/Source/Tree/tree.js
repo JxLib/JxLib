@@ -345,8 +345,10 @@ Jx.Tree = new Class({
             if (treeItem && treeItem.getLabel() == name) {
                 if (path.length > 0) {
                     var folder = item.retrieve('jxTreeFolder');
-                    if (folder) {
+                    if (folder && path.length > 1) {
                         result = folder.findChild(path.slice(1, path.length));
+                    } else {
+                      result = treeItem;
                     }
                 } else {
                     result = treeItem;
