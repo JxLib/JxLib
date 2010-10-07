@@ -133,10 +133,6 @@ Jx.Field.Combo = new Class({
                 //this.setActive(false);
             }).bind(this)
         });
-        
-        this.addEvent('change', function(){
-          window.console ? console.log('on change detected') : false;
-        })
     },
     
     setLabel: function(label) {
@@ -254,5 +250,16 @@ Jx.Field.Combo = new Class({
       this.buttonSet.empty();
       this.setLabel('');
       this.setImage(Jx.aPixel.src);
+    },
+    
+    enable: function() {
+      this.parent();
+      this.menu.setEnabled(true);
+    },
+    
+    disable: function() {
+      this.parent();
+      this.menu.setEnabled(false);
     }
+    
 });
