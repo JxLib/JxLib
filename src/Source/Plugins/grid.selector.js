@@ -204,6 +204,7 @@ Jx.Plugin.Grid.Selector = new Class({
           tr = document.id((index >= 0 && index < r.length) ? r[index] : null);
       
       if (tr) {
+        tr.store('jxRowData', {row: index});
         if (state) {
           tr.addClass('jxGridRowSelected');
         } else {

@@ -118,6 +118,12 @@ Jx.Store = new Class({
      * Used to determine if the store is completely initialized.
      */
     ready: false,
+    
+    /**
+     * Property: deleted
+     * track deleted records before they are purged
+     */
+    deleted: null,
 
     /**
      * Method: init
@@ -126,6 +132,8 @@ Jx.Store = new Class({
     init: function () {
         this.parent();
 
+        this.deleted = [];
+        
         if ($defined(this.options.id)) {
             this.id = this.options.id;
         }
@@ -586,9 +594,11 @@ Jx.Store = new Class({
         // Set to Null or slice it out and compact the array???
         //this.data[index] = null;
         this.data.splice(index,1);
-        if (!$defined(this.deleted)) {
-            this.deleted = [];
-        }
+        // TODO: I moved this to a property that is always an array so I don't
+        // get an error in the save strategy.
+        // if (!$defined(this.deleted)) {
+        //     this.deleted = [];
+        // }
         this.deleted.push(record);
         this.fireEvent('storeRecordDeleted', [this, record]);
     },

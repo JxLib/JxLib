@@ -59,10 +59,29 @@ Jx.Store.Protocol.Ajax = new Class({
             read: null,
             update: null,
             'delete': null
+        },
+        /**
+         * Option: queue
+         * an object containing options suitable for <Request.Queue>.
+         * By default, autoAdvance is set to true and concurrent is set to 1.
+         */
+        queue: {
+          autoAdvance: true,
+          concurrent: 1
         }
     },
+    
+    queue: null,
 
     init: function() {
+        if (!$defined(Jx.Store.Protocol.Ajax.UniqueId)) {
+          Jx.Store.Protocol.Ajax.UniqueId = 1;
+        }
+      
+        this.queue = new Request.Queue({
+          autoAdvance: this.options.queue.autoAdvance,
+          concurrent: this.options.queue.concurrent
+        });
         this.parent();
     },
     /**
@@ -76,7 +95,8 @@ Jx.Store.Protocol.Ajax = new Class({
         var resp = new Jx.Store.Response(),
             temp = {},
             opts,
-            req;
+            req,
+            uniqueId = Jx.Store.Protocol.Ajax.UniqueId();
         resp.requestType = 'read';
         resp.requestParams = arguments;
 
@@ -93,6 +113,8 @@ Jx.Store.Protocol.Ajax = new Class({
 
         req = new Request(opts);
         resp.request = req;
+        
+        this.queue.addRequest(uniqueId, req);
         req.send();
 
         resp.code = Jx.Store.Response.WAITING;
@@ -207,10 +229,27 @@ Jx.Store.Protocol.Ajax = new Class({
     run: function (record, options, method) {
         var resp = new Jx.Store.Response(),
             opts,
-            req;
+            req,
+            data,
+            uniqueId = Jx.Store.Protocol.Ajax.UniqueId();
         
+        if (Jx.type(record) == 'array') {
+          if (!this.combineRequests(method)) {
+            record.each(function(r) {
+              this.run(r, options, method);
+            }, this);
+          } else {
+            data = [];
+            record.each(function(r) {
+              data.push(this.parser.encode(r));
+            }, this);
+          }
+        } else {
+          data = this.parser.encode(record);
+        }
+
         this.options.requestOptions.data = $merge(this.options.requestOptions.data, {
-          data: this.parser.encode(record)
+          data: data
         });
 
         resp.requestType = method;
@@ -219,14 +258,24 @@ Jx.Store.Protocol.Ajax = new Class({
         //set up options
         opts = $merge(this.options.requestOptions, options);
         opts.onSuccess = this.handleResponse.bind(this,resp);
-
         req = new Request(opts);
         resp.request = req;
+        this.queue.addRequest(uniqueId, req);
         req.send();
 
         resp.code = Jx.Store.Response.WAITING;
 
         return resp;
-    }
-
+    },
+    
 });
+/**
+ * Method: uniqueId
+ * returns a unique identifier to be used with queued requests
+ */
+Jx.Store.Protocol.Ajax.UniqueId = (function() {
+  var uniqueId = 1;
+  return function() {
+    return 'req-'+(uniqueId++);
+  };
+})();

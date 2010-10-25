@@ -36,7 +36,13 @@ Jx.Store.Protocol = new Class({
 
     parser: null,
 
-    options: {},
+    options: {
+      combine: {
+        insert: false,
+        update: false,
+        'delete': false
+      }
+    },
 
     init: function () {
         this.parent();
@@ -96,5 +102,17 @@ Jx.Store.Protocol = new Class({
      * used to abort any of the above methods (where practical). Abstract method
      * that subclasses should implement.
      */
-    abort: $empty
+    abort: $empty,
+    /**
+     * APIMethod: combineRequests
+     * tests whether the protocol supports combining multiple records for a given operation
+     * 
+     * Parameter:
+     * operation - {String} the operation to test for multiple record support
+     * 
+     * Returns {Boolean} true if the operation supports it, false otherwise
+     */
+    combineRequests: function(op) {
+      return $defined(this.options.combine[op]) ? this.options.combine[op] : false;
+    }
 });

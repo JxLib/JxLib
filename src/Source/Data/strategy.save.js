@@ -132,20 +132,22 @@ Jx.Store.Strategy.Save = new Class({
         //determine the status and route based on that
         if (!this.updating && $defined(record.state)) {
             if (this.totalChanges === 0) {
-                this.store.protocol.addEvent('dataLoaded', this.bound.completed);
+                store.protocol.addEvent('dataLoaded', this.bound.completed);
             }
             this.totalChanges++;
             var ret;
             switch (record.state) {
                 case Jx.Record.UPDATE:
-                    ret = this.store.protocol.update(record);
+                    ret = store.protocol.update(record);
                     break;
                 case Jx.Record.DELETE:
-                    ret = this.store.protocol['delete'](record);
+                    ret = store.protocol['delete'](record);
                     break;
                 case Jx.Record.INSERT:
-                    ret = this.store.protocol.insert(record);
+                    ret = store.protocol.insert(record);
                     break;
+                default:
+                  break;
             }
             return ret;
         }
@@ -170,9 +172,27 @@ Jx.Store.Strategy.Save = new Class({
             }, this);
             records[Jx.Record.DELETE] = this.store.deleted;
             
-            records.flatten().each(function (record) {
-                this.saveRecord(null, record);
-            }, this);
+            if (!this.updating) {
+              if (this.totalChanges === 0) {
+                  store.protocol.addEvent('dataLoaded', this.bound.completed);
+              }
+              this.totalChanges += records[Jx.Record.UPDATE].length + 
+                                   records[Jx.Record.INSERT].length +
+                                   records[Jx.Record.DELETE].length;
+              if (records[Jx.Record.UPDATE].length) {
+                this.store.protocol.update(records[Jx.Record.UPDATE]);
+              }
+              if (records[Jx.Record.INSERT].length) {
+                this.store.protocol.insert(records[Jx.Record.INSERT]);
+              }
+              if (records[Jx.Record.DELETE].length) {
+                this.store.protocol['delete'](records[Jx.Record.DELETE]);
+              }
+            }
+            
+            // records.flatten().each(function (record) {
+            //     this.saveRecord(this.store, record);
+            // }, this);
         }
         
     },
@@ -197,28 +217,31 @@ Jx.Store.Strategy.Save = new Class({
             this.failedChanges.push(response);
         } else {
             //process the response
-            var record = response.requestParams[0];
-            if (response.requestType === 'delete') {
-                this.store.deleted.erase(record);
-            } else { 
-                if (response.requestType === 'insert' || response.requestType == 'update') {
-                    if ($defined(response.data)) {
-                        this.updating = true;
-                        $H(response.data).each(function (val, key) {
-                            var d = record.set(key, val);
-                            if (d[1] != val && $defined(response.index)) {
-                              d.unshift(response.index);
-                              record.store.fireEvent('storeColumnChanged', d);
-                            }
-                        });
-                        this.updating = false;
-                    }
-                }
-                record.state = null;
-            } 
-            this.successfulChanges.push(response);
+            var records = [response.requestParams[0]].flatten(),
+                responseData = $defined(response.data) ? [response.data].flatten() : null;
+            records.each(function(record, index) {
+              if (response.requestType === 'delete') {
+                  this.store.deleted.erase(record);
+              } else { 
+                  if (response.requestType === 'insert' || response.requestType == 'update') {
+                      if (responseData && $defined(responseData[index])) {
+                          this.updating = true;
+                          $H(responseData[index]).each(function (val, key) {
+                              var d = record.set(key, val);
+                              if (d[1] != val) {
+                                d.unshift(index);
+                                record.store.fireEvent('storeColumnChanged', d);
+                              }
+                          });
+                          this.updating = false;
+                      }
+                  }
+                  record.state = null;
+              } 
+              this.totalChanges--;
+          }, this);
+          this.successfulChanges.push(response);
         }
-        this.totalChanges--;
         if (this.totalChanges === 0) {
             this.store.protocol.removeEvent('dataLoaded', this.bound.completed);
             this.store.fireEvent('storeChangesCompleted', {

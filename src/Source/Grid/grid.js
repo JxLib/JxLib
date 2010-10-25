@@ -78,7 +78,7 @@ images:
 Jx.Grid = new Class({
   Family : 'Jx.Grid',
   Extends: Jx.Widget,
-  Binds: ['storeLoaded', 'clickColumnHeader', 'moveColumnHeader', 'clickRowHeader', 'moveRowHeader', 'clickCell', 'dblclickCell', 'moveCell', 'leaveGrid', 'resize', 'drawStore', 'scroll', 'addRow', 'removeRow', 'removeRows', 'updateRow'],
+  Binds: ['storeLoaded', 'clickColumnHeader', 'moveColumnHeader', 'clickRowHeader', 'moveRowHeader', 'clickCell', 'dblclickCell', 'moveCell', 'leaveGrid', 'resize', 'drawStore', 'scroll', 'addRow', 'removeRow', 'removeRows', 'updateRow', 'storeChangesCompleted'],
 
   /**
    * Property: pluginNamespace
@@ -225,7 +225,8 @@ Jx.Grid = new Class({
       'storeRecordAdded': this.addRow,
       'storeColumnChanged': this.updateRow,
       'storeRecordRemoved': this.removeRow,
-      'storeMultipleRecordsRemoved': this.removeRows
+      'storeMultipleRecordsRemoved': this.removeRows,
+      'storeChangesCompleted': this.storeChangesCompleted
     };
     
     
@@ -440,6 +441,14 @@ Jx.Grid = new Class({
   
   storeLoaded: function(store) {
     this.redraw();
+  },
+  
+  /**
+   */
+  storeChangesCompleted: function(results) {
+    if (results && results.successful) {
+      
+    }
   },
   
   redraw: function() {
