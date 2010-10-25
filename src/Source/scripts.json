@@ -129,7 +129,7 @@
            "images": []
         },
         "protocol.ajax": {
-           "deps": ["protocol"],
+           "deps": ["protocol", "Request.Queue"],
            "desc": "Store protocol used to load data from a remote data source via Ajax.",
            "css": [],
            "images": []
