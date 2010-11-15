@@ -30,6 +30,13 @@ css:
  * values or set them using this class. It also handles validation of fields
  * through the use of a plugin (Jx.Plugin.Form.Validator).
  *
+ * Jx.Form has the ability to submit itself via normal HTTP submit as well as
+ * via AJAX. To submit normally you simply call the submit() function. To submit by
+ * AJAX, call ajaxSubmit().  If the form contains Jx.Field.File instances it will
+ * either submit all of the files individually and then the data, or it will submit
+ * data with the last File instance it finds. This behavior is dependant on the
+ * uploadFilesFirst option (which defaults to false).
+ *
  * Example:
  * (code)
  * (end)
@@ -73,6 +80,13 @@ Jx.Form = new Class({
          * the character encoding to be used. Defaults to utf-8.
          */
         acceptCharset: 'utf-8',
+        /**
+         * Option: uploadFilesFirst
+         * Whether to upload all of the files in the form before
+         * uploading the rest of the form. If set to false the form will
+         * upload the data with the last file that it finds,
+         */
+        uploadFilesFirst: false,
 
         template: '<form class="jxForm"></form>'
     },
@@ -105,6 +119,7 @@ Jx.Form = new Class({
     init: function() {
       this.parent();
       this.fields = new Hash();
+      this.data = {};
     },
     /**
      * APIMethod: render
@@ -281,5 +296,67 @@ Jx.Form = new Class({
       this.fields.each(function(field) {
         field.setBusy(state, true);
       });
+    },
+
+    submit: function() {
+        this.domObj.submit();
+    },
+
+    ajaxSubmit: function() {
+        var opts = this.options;
+        if (opts.fileUpload) {
+            var files = this.findFiles();
+            this.files = files.length;
+            this.completed = 0;
+            files.each(function(file, index){
+                file.addEvent('onFileUploadComplete',this.fileUploadComplete.bind(this));
+                if (index==(this.files - 1) && !opts.uploadFilesFirst) {
+                    file.upload(this);
+                } else {
+                    file.upload();
+                }
+            },this);
+        } else {
+            this.submitForm();
+        }
+    },
+
+    submitForm: function() {
+        //otherwise if no file field(s) present, just get the values and
+        //submit to the action via the method
+        var data = this.getValues();
+        var req = new Request.JSON({
+            url: this.action,
+            method: this.method,
+            data: data,
+            urlEncoded: true,
+            onSuccess: function(responseJSON, responseText) {
+                this.fileUploadComplete(responseJSON, true);
+            }.bind(this)
+        });
+        req.send();
+    },
+
+    findFiles: function() {
+        var files = [];
+        this.fields.each(function(field){
+            if (field instanceof Jx.Field.File) {
+                files.push(field);
+            }
+        },this);
+        return files;
+    },
+
+    fileUploadComplete: function(data){
+        this.completed++;
+        $each(data,function(value,key){
+            this.data[key] = value;
+        },this);
+        if (this.completed == this.files && this.options.uploadFilesFirst) {
+            this.submitForm();
+        } else {
+            this.fireEvent('formSubmitComplete',[this.data]);
+        }
     }
+
 });

@@ -11,10 +11,12 @@
 <script  type="text/javascript">
 window.addEvent('load', function() {
     drawBasicForm();
+    drawFileForm();
 }); 
 if($(document).getElements('.tabContentActiveExamples').length > 0) {
   $(document).getElements('.tabContentActiveExamples')[0].addEvent('loadAjax', function() {
     drawBasicForm();
+    drawFileForm();
   });
 }
 </script>
@@ -289,9 +291,163 @@ function drawBasicForm() {
     rows: 6,
     columns: 40
   }).addTo(fieldSet3);
-
-
   
+}
+</script>
+
+<script id="fileFormScript" type="text/javascript" charset="utf-8">
+var form2;
+function drawFileForm() {
+  form2 = new Jx.Form({
+    name: 'testFileForm',
+    formClass: 'jxFormInline',
+    fileUpload: true,
+    action: 'upload.php',
+    method: 'post',
+    onFormSubmitComplete: function(data){
+        console.log(data);
+    }
+  }).addTo('formFile');
+
+// First Fieldset
+
+  var fieldSet4 = new Jx.Fieldset({
+    legend: 'Form w/File',
+    id: 'FieldSet4',
+    fieldsetClass: 'jxFormInlineblock'
+  }).addTo(form2);
+
+  new Jx.Field.Text({
+    id: 'Text41',
+    name: 'Text41',
+    label: 'Text One',
+    value: 'Initial Value',
+    tag: 'a tag',
+    required: true
+  }).addTo(fieldSet4);
+
+  var c1 = new Jx.Field.Combo({
+    id: 'Select41',
+    name: 'Select41',
+    label: 'Combo Test',
+    readonly: true,
+    tag: 'another tag',
+    items: [
+        {image: 'images/swatches.png', imageClass: 'comboRed', label: 'red'},
+        {image: 'images/swatches.png', imageClass: 'comboMagenta', label: 'magenta'},
+        {image: 'images/swatches.png', imageClass: 'comboBlue'},
+        {label: 'cyan'},
+        {image: 'images/swatches.png', imageClass: 'comboGreen'},
+        {image: 'images/swatches.png', imageClass: 'comboYellow'}
+      ]
+  }).addTo(fieldSet4);
+
+  new Jx.Field.Select({
+    id: 'Select42',
+    name: 'Select42',
+    label: 'Select One',
+    tag: 'another tag',
+    comboOpts: [{
+        value: 'opt11',
+        text: 'Option #1',
+        selected: false
+    },{
+        value: 'opt12',
+        text: 'Option #2',
+        selected: true
+    },{
+        value: 'opt13',
+        text: 'Option #3',
+        selected: false
+    }]
+  }).addTo(fieldSet4);
+
+  new Jx.Field.Select({
+    id: 'Select43',
+    name: 'Select43',
+    label: 'Select One',
+    tag: 'another tag',
+    size: 5,
+    multiple: true,
+    comboOpts: [{
+        value: 'opt121',
+        text: 'Option #1',
+        selected: false
+    },{
+        value: 'opt122',
+        text: 'Option #2',
+        selected: true
+    },{
+        value: 'opt123',
+        text: 'Option #3',
+        selected: true
+    }]
+  }).addTo(fieldSet4);
+
+  new Jx.Field.Textarea({
+    id: 'TextArea41',
+    name: 'TextArea41',
+    label: 'TextArea One',
+    rows: 6,
+    columns: 40,
+    tag: 'textarea tag'
+  }).addTo(fieldSet4);
+
+  var radioSet2 = new Jx.Fieldset({
+    legend: 'Radio Group',
+    fieldsetClass: 'jxInputGroup',
+    template: '<fieldset class="jxFieldset"><legend><span class="jxFieldsetLegend"></span></legend></fieldset>'
+  }).addTo(fieldSet4);
+
+  new Jx.Field.Radio({
+    id: 'radio41',
+    name: 'InputGroup4',
+    value: 'radio11',
+    label: 'Radio 1',
+    labelSeparator: ''
+  }).addTo(radioSet2);
+
+  new Jx.Field.Radio({
+    id: 'radio42',
+    name: 'InputGroup1',
+    value: 'radio12',
+    label: 'Radio 2',
+    checked: true,
+    labelSeparator: ''
+  }).addTo(radioSet2);
+
+  new Jx.Field.Button({
+    buttonClass: Jx.Button.Color,
+    buttonOptions:{label: 'Foreground', color: '#f0f', alpha: 50},
+    label: 'Choose a Color'
+  }).addTo(fieldSet4);
+
+  new Jx.Field.Color({
+    label: 'Choose a Color',
+    buttonOptions: {
+      color: '#f00'
+    }
+  }).addTo(fieldSet4);
+
+  new Jx.Field.File({
+      handlerUrl: 'upload.php',
+      label: 'Choose a File',
+      id: 'file41',
+      name: 'file-upload-test',
+      debug: false
+  }).addTo(fieldSet4);
+
+  new Jx.Field.Button({
+    buttonOptions:{
+      label: 'Go',
+      onClick: function() {
+        console.log('Go!');
+        form2.ajaxSubmit(form2);
+      }
+    },
+    defaultAction: true
+  }).addTo(fieldSet4);
+
 }
 </script>
 </head>
@@ -303,6 +459,10 @@ function drawBasicForm() {
 <h2 id="basicForm">A Form with Inline-Block Class</h2>
 <p>A programmatically created form with several fieldsets of fields oriented in various ways.</p>
 <div id="formBasic" class="formBox"></div>
+
+<h2 id="fileForm">A Form containing a Jx.File field</h2>
+<p>A form with a Jx.File field. The form is submitted by ajax and the other form elements are added to the file fom for upload.</p>
+<div id="formFile" class="formBox"></div>
 
 </body>
 </html>

@@ -113,15 +113,7 @@ Jx.Field.File = new Class({
          * to be used when the control is outside of the Upload Panel (unless the user designs
          * their own upload panel around it).
          */
-        mode: 'single',
-        /**
-         * Events
-         */
-        onFileUploadBegin: $empty,
-        onFileUploadComplete: $empty,
-        onFileUploadProgress: $empty,
-        onFileUploadError: $empty,
-        onFileSelected: $empty
+        mode: 'single'
 
     },
     /**
@@ -141,7 +133,7 @@ Jx.Field.File = new Class({
         this.forms = new Hash();
         //create the iframe
         //we use the same iFrame for each so we don't have to recreate it each time
-        this.setupIframe = true;
+        this.isIFrameSetup = true;
         this.iframe = new Element('iframe', {
           name: this.generateId(),
           styles: {
@@ -205,6 +197,7 @@ Jx.Field.File = new Class({
         if (this.options.mode=='single' && this.field.value !== '' && (this.text.field.value !== this.field.value)) {
             this.text.field.value = this.field.value;
             this.fireEvent('fileSelected', this);
+            this.forms.set(this.field.value, this.prepForm());
             if (this.options.autoUpload) {
                 this.uploadSingle();
             }
@@ -260,13 +253,21 @@ Jx.Field.File = new Class({
         return form;
     },
 
-    upload: function () {
+    upload: function (externalForm) {
         //do we have files to upload?
         if (this.forms.getLength() > 0) {
             var keys = this.forms.getKeys();
             this.currentKey = keys[0];
             var form = this.forms.get(this.currentKey);
             this.forms.erase(this.currentKey);
+            if ($defined(externalForm) && this.forms.getLength() == 0) {
+                var fields = externalForm.fields;
+                fields.each(function(field){
+                    if (!(field instanceof Jx.Field.File)) {
+                        document.id(field).clone().inject(form);
+                    }
+                },this);
+            }
             this.uploadSingle(form);
         } else {
             //fire finished event...
@@ -379,7 +380,7 @@ Jx.Field.File = new Class({
     processIFrameUpload: function () {
         //the body text should be a JSON structure
         //get the body
-        if (!this.setupIframe) {
+        if (this.isIFrameSetup) {
             if (this.iframe.contentDocument  && this.iframe.contentDocument.defaultView) {
               var iframeBody = this.iframe.contentDocument.defaultView.document.body.innerHTML;
             } else {
@@ -402,8 +403,6 @@ Jx.Field.File = new Class({
             } else {
                 this.fireEvent('allUploadsComplete', this);
             }
-        } else {
-            this.setupIframe = false;
         }
     },
     /**
@@ -414,9 +413,6 @@ Jx.Field.File = new Class({
     uploadCleanUp: function () {
         if (!this.options.debug) {
             this.form.destroy();
-            if (this.options.mode == 'single') {
-                this.iframe.destroy();
-            }
         }
     },
     /**
