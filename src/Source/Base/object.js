@@ -349,7 +349,9 @@ Jx.Object = new Class({
             }, this);
         }
         this.plugins.empty();
-        MooTools.lang.removeEvent('langChange', this.bound.changeText);
+        if (this.options.useLang && $defined(this.bound.changeText)) {
+            MooTools.lang.removeEvent('langChange', this.bound.changeText);
+        }
         this.bound = null;
     },
 
