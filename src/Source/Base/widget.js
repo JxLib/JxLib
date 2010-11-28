@@ -9,6 +9,7 @@ license: MIT-style license.
 
 requires:
  - Jx.Object
+ - Jx.Stack
  - Locale.English.US
 
 provides: [Jx.Widget]

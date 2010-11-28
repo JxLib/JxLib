@@ -19,7 +19,8 @@ requires:
  - Core/Element.Event
  - Core/Element.Dimensions
  - More/Element.Measure
- - More/Mootools.Lang
+ - More/Lang
+ - Core/Selectors
  - Core/Slick.Finder
  - Core/Slick.Parser
 
