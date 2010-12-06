@@ -424,7 +424,7 @@ Jx.Toolbar.Container = new Class({
     scrollIntoView: function(item) {
         var currentButton = this.scroller.retrieve('buttonPointer');
         // if (!$defined(currentButton)) return;
-        if (item instanceof Jx.Widget) {
+        if ($defined(item.domObj)) {
             item = item.domObj;
             while (!item.hasClass('jxToolItem')) {
                 item = item.getParent();

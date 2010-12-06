@@ -754,17 +754,6 @@ Jx.Widget = new Class({
     },
 
     /**
-     * Method: generateId
-     * Used to generate a unique ID for Jx Widgets.
-     */
-    generateId: function(prefix){
-        prefix = (prefix) ? prefix : 'jx-';
-        var uid = $uid(this);
-        delete this.uid;
-        return prefix + uid;
-    },
-
-    /**
      * APIMethod: dispose
      * remove the widget from the DOM
      */

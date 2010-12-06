@@ -437,5 +437,16 @@ Jx.Object = new Class({
      * lang - the language being changed to or that had it's data set of
      *    translations changed.
      */
-    changeText : $empty
+    changeText : $empty,
+
+    /**
+     * Method: generateId
+     * Used to generate a unique ID for Jx Objects.
+     */
+    generateId: function(prefix){
+        prefix = (prefix) ? prefix : 'jx-';
+        var uid = $uid(this);
+        delete this.uid;
+        return prefix + uid;
+    }
 });

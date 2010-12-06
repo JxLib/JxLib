@@ -389,7 +389,7 @@ Jx.Field.File = new Class({
             }
 
             var data = JSON.decode(iframeBody);
-            if ($defined(data.success) && data.success) {
+            if ($defined(data) && $defined(data.success) && data.success) {
                 this.done = true;
                 this.doneData = data;
                 this.uploadCleanUp();

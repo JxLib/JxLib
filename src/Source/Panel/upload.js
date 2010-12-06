@@ -138,14 +138,16 @@ Jx.Panel.FileUpload = new Class({
             
         }).addTo(this.domObjA);
 
-        //this is the upload button at the bottom of the panel.
-        this.uploadBtn = new Jx.Button({
-            label : this.getText({set:'Jx',key:'upload',value:'buttonText'}),
-            onClick: this.upload.bind(this)
-        });
-        var tlb = new Jx.Toolbar({position: 'bottom', scroll: false}).add(this.uploadBtn);
-        this.uploadBtn.setEnabled(false);
-        this.options.toolbars = [tlb];
+        if (!this.options.file.autoUpload) {
+            //this is the upload button at the bottom of the panel.
+            this.uploadBtn = new Jx.Button({
+                label : this.getText({set:'Jx',key:'upload',value:'buttonText'}),
+                onClick: this.upload.bind(this)
+            });
+            var tlb = new Jx.Toolbar({position: 'bottom', scroll: false}).add(this.uploadBtn);
+            this.uploadBtn.setEnabled(false);
+            this.options.toolbars = [tlb];
+        }
         //then pass it on to the Panel constructor
         this.options.content = this.domObjA;
         this.parent(this.options);
