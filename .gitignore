@@ -1,0 +1,50 @@
+
+# /
+/build
+/.idea
+
+# /tests/interactive/UserTests/assets/
+/tests/interactive/UserTests/assets/themes
+/tests/interactive/UserTests/assets/a_pixel.png
+
+# /www/
+/www/tests
+
+# /www/builder/
+/www/builder/src
+/www/builder/assets
+/www/builder/more.json
+/www/builder/jxlib.json
+/www/builder/core.json
+
+# /www/builder/work/
+/www/builder/work/deps.json
+
+# /www/lib/
+/www/lib/jxlib.standalone.js
+/www/lib/themes
+/www/lib/jxlib.standalone.uncompressed.js
+/www/lib/jxlib.js
+/www/lib/a_pixel.png
+/www/lib/jxlib.uncompressed.js
+/www/lib/mootools-core.js
+/www/lib/mootools-more.js
+/www/lib/more.json
+/www/lib/jxlib.json
+/www/lib/deps.json
+/www/lib/core.json
+
+# /www/reference/api/
+/www/reference/api/files
+/www/reference/api/index
+/www/reference/api/javascript
+/www/reference/api/menu.html
+/www/reference/api/search
+/www/reference/api/index.html
+/www/reference/api/styles
+
+# /www/reference/examples/
+/www/reference/examples/lib
+
+# /www/reference/tutorials/
+/www/reference/tutorials/lib
