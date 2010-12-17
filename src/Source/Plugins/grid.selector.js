@@ -37,7 +37,7 @@ Jx.Plugin.Grid.Selector = new Class({
     
     name: 'Selector',
 
-    Binds: ['select','checkSelection','checkAll','afterGridRender','onCellClick', 'sort', 'updateCheckColumn'],
+    Binds: ['select','checkSelection','checkAll','afterGridRender','onCellClick', 'sort', 'updateCheckColumn', 'updateSelectedRows'],
 
     options : {
         /**
@@ -118,7 +118,8 @@ Jx.Plugin.Grid.Selector = new Class({
             template;
         this.grid = grid;
         
-
+        this.grid.addEvent('gridSortFinished', this.updateSelectedRows);
+        
         //setup check column if needed
         if (options.useCheckColumn) {
           grid.addEvent('gridDrawRow', this.updateCheckColumn);
@@ -241,12 +242,15 @@ Jx.Plugin.Grid.Selector = new Class({
                 this.checkColumn.destroy();
                 this.checkColumn = null;
             }
-        }
-        if (options.useCheckColumn) {
-            if (options.checkAsHeader) {
-                grid.row.options.headerColumn = this.oldHeaderColumn;
+            if (options.useCheckColumn) {
+                grid.removeEvent('gridDrawRow', this.updateCheckColumn);
+                if (options.checkAsHeader) {
+                    grid.row.options.headerColumn = this.oldHeaderColumn;
+                }
             }
         }
+        this.grid.removeEvent('gridSortFinished', this.updateSelectedRows);
+        
         this.grid = null;
     },
     /**
@@ -278,8 +282,10 @@ Jx.Plugin.Grid.Selector = new Class({
             selected.set('cells',[]);
         } else if (opt === 'row') {
           this.getSelectedRows().each(function(row){
+            idx = row.retrieve('jxRowData').row;
             row.removeClass('jxGridRowSelected');
-          });
+            this.setCheckField(idx,false);
+          }, this);
           selected.set('rows',[]);
           selected.get('rowHeads').each(function(rowHead){
             rowHead.removeClass('jxGridRowHeaderSelected');
@@ -355,6 +361,20 @@ Jx.Plugin.Grid.Selector = new Class({
           cells.push(cell);
           this.fireEvent('selectCell', cell);
         }
+    },
+    
+    updateSelectedRows: function() {
+      if (!this.options.row) { return; }
+      var options = this.options,
+          r = this.grid.gridTableBody.rows,
+          rows = [];
+          
+      for (var i=0; i<r.length; i++) {
+        if (r[i].hasClass('jxGridRowSelected')) {
+          rows.push(i);
+        }
+      }
+      this.selected.set('rows', rows);
     },
     
     /**
