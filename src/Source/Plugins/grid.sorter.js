@@ -32,7 +32,7 @@ images:
 Jx.Plugin.Grid.Sorter = new Class({
   Family: 'Jx.Plugin.Grid.Sorter',
   Extends: Jx.Plugin,
-  name: 'Prelighter',
+  name: 'Sorter',
 
   Binds: ['sort', 'modifyHeaders'],
 
