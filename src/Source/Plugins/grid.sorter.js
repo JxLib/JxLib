@@ -134,6 +134,9 @@ Jx.Plugin.Grid.Sorter = new Class({
         current.removeClass(opt.ascendingClass).removeClass(opt.descendingClass);
       }
       this.current = el;
+      
+      this.grid.fireEvent('gridSortStarting');
+      
       if ($defined(data.column.options.sort) && Jx.type(data.column.options.sort) == 'function') {
         data.column.options.sort(dir);
       } else {
@@ -149,9 +152,7 @@ Jx.Plugin.Grid.Sorter = new Class({
             };
           });
     
-          // store.removeEvent('storeSortFinished', grid.drawStore);
           sorter.sort(data.column.name, null, dir);
-          // store.addEvent('storeSortFinished', grid.drawStore);
     
           store.each(function(record, index) {
             record.dom.cell.inject(gridTableBody);
@@ -168,6 +169,7 @@ Jx.Plugin.Grid.Sorter = new Class({
           }
         }
       }
+      this.grid.fireEvent('gridSortFinished');
     }
   }
 });
