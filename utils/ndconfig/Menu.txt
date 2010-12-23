@@ -183,6 +183,7 @@ Group: Jx  {
       File: Formatter.Date  (Formatter/date.js)
       File: Formatter.Number  (Formatter/number.js)
       File: Formatter.Phone  (Formatter/phone.js)
+      File: Formatter.Text  (Formatter/formatter.text.js)
       File: Formatter.URI  (Formatter/uri.js)
       }  # Group: Formatter
 
