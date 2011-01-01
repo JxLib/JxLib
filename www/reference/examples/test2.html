@@ -2,6 +2,9 @@
 <html>
 <head>
 <title>Jx.Toolbar Examples</title>
+
+    <link type="text/css" rel="stylesheet" href="../../lib/themes/crispin/jxtheme.uncompressed.css">
+
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <script type="text/javascript" src="../../lib/mootools-core.js"></script>
 <script type="text/javascript" src="../../lib/mootools-more.js"></script>
@@ -19,14 +22,16 @@ function testFn() {
 
     var container = $('container');
     new Jx.Layout(container, {width: null}).resize();
-    
-    var splitter = new Jx.Splitter(container,{
+
+    var p = new Jx.Panel({parent: container});
+
+    var splitter = new Jx.Splitter(p.content,{
         layout: 'horizontal',
         useChildren: false,
         containerOptions: [{width: null},{width: 300}],
         barOptions: [{snap: 'after'}]
     });
-/*
+
     var splitV = new Jx.Splitter(splitter.elements[0],{
         layout: 'vertical',
         useChildren: false,
@@ -37,7 +42,7 @@ function testFn() {
     var splitH = new Jx.Splitter(splitV.elements[1],{
         layout: 'horizontal'
     });
-*/
+
     container.resize();
 
 };
