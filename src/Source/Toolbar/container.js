@@ -123,6 +123,10 @@ Jx.Toolbar.Container = new Class({
             this.processElements(this.options.scrollerTemplate, this.classes);
             this.domObj.grab(this.scroller, 'top');
         }
+        
+        //add the alignment option... not sure why this keeps getting removed??
+        this.domObj.addClass('jxToolbarAlign' + 
+                this.options.align.capitalize());
 
         /* this allows toolbars to add themselves to this bar container
          * once it already exists without requiring an explicit reference
@@ -423,7 +427,9 @@ Jx.Toolbar.Container = new Class({
      */
     scrollIntoView: function(item) {
         var currentButton = this.scroller.retrieve('buttonPointer');
-        // if (!$defined(currentButton)) return;
+
+        if (!$defined(currentButton)) return;
+
         if ($defined(item.domObj)) {
             item = item.domObj;
             while (!item.hasClass('jxToolItem')) {

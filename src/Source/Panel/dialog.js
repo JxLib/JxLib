@@ -9,6 +9,7 @@ license: MIT-style license.
 
 requires:
  - Jx.Panel
+ - more/Keyboard
 
 optional:
  - More/Drag

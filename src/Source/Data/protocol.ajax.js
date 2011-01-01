@@ -9,6 +9,7 @@ license: MIT-style license.
 
 requires:
  - Jx.Store.Protocol
+ - more/Request.Queue
 
 provides: [Jx.Store.Protocol.Ajax]
 
@@ -266,7 +267,7 @@ Jx.Store.Protocol.Ajax = new Class({
         resp.code = Jx.Store.Response.WAITING;
 
         return resp;
-    },
+    }
     
 });
 /**
