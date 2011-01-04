@@ -442,5 +442,21 @@ Jx.Field.File = new Class({
     	if ($defined(this.browseButton)) {
     		this.browseButton.setLabel( this.getText({set:'Jx',key:'file',value:'browseLabel'}) );
     	}
+    },
+    
+    /**
+     * APIMethod: getFileInputs
+     * Used to get an array of all of the basic file inputs. This is mainly 
+     * here for use by Jx.Form to be able to suck in the file inputs
+     * before a standard submit.
+     * 
+     */
+    getFileInputs: function () {
+        var inputs = [];
+        this.forms.each(function(form){
+            var input = document.id(form).getElement('input[type=file]');
+            inputs.push(input);
+        },this);
+        return inputs;
     }
 });

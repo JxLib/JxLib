@@ -17,4 +17,6 @@ if (is_uploaded_file($tempFile)) {
     $obj->file = $_FILES;
 }
 
-echo json_encode($obj);
+echo "<pre>";
+var_dump($obj);
+echo "</pre>";

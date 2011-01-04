@@ -299,6 +299,23 @@ Jx.Form = new Class({
     },
 
     submit: function() {
+        //are there any files in this form?
+        var opts = this.options;
+        if (opts.fileUpload) {
+            //grab all of the files and pull them into the main domObj
+            var files = this.findFiles();
+            files.each(function(file){
+                var inputs = file.getFileInputs();
+                if (inputs.length > 1) {
+                    //we need to make these an array...
+                    inputs.each(function(input){
+                        input.set('name',input.get('name') + '[]');
+                    },this);
+                }
+                file.destroy();
+                this.domObj.adopt(inputs);
+            },this);
+        }
         this.domObj.submit();
     },
 
