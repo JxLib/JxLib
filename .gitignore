@@ -48,3 +48,8 @@
 
 # /www/reference/tutorials/
 /www/reference/tutorials/lib
+
+# /utils/ndconfig/Data
+/utils/ndconfig/Data/
+
+.settings.xml
