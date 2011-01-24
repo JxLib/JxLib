@@ -190,7 +190,7 @@ Jx.TreeFolder = new Class({
         /* avoid update if not attached to tree yet */
         if (!this.domObj.parentNode) return;
         
-        if (this.tree.dirty) {
+        if (this.tree.dirty || (this.owner && this.owner.dirty)) {
           if (!$defined(isLast)) {
               isLast = this.domObj.hasClass('jxTreeBranchLastOpen') ||
                        this.domObj.hasClass('jxTreeBranchLastClosed');
@@ -288,5 +288,13 @@ Jx.TreeFolder = new Class({
     setSelection: function(selection) {
         this.tree.setSelection(selection);
         return this;
-    }
+    },
+    
+    setDirty: function(state) {
+      this.parent(state);
+      if (this.tree) {
+        this.tree.setDirty(true);
+      }
+    },
+    
 });
