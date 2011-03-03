@@ -136,7 +136,8 @@ Jx.Menu = new Class({
         
         this.subDomObj.addEvent('mouseenter', this.bound.mouseenter);
         this.subDomObj.addEvent('mouseleave', this.bound.mouseleave);
-
+        this.subDomObj.store('jxSubMenu', this);
+        
         if (this.options.parent) {
             this.addTo(this.options.parent);
         }
@@ -299,10 +300,13 @@ Jx.Menu = new Class({
             target.descendantOf(this.subDomObj)) {
             return true;
         } else {
-            var ul = target.findElement('ul');
+            var ul = target.getParent('ul');
             if (ul) {
                 var sm = ul.retrieve('jxSubMenu');
                 if (sm) {
+                    if (sm.eventInMenu(e)) {
+                      return true;
+                    }
                     var owner = sm.owner;
                     while (owner) {
                         if (owner == this) {

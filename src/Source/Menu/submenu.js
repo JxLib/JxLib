@@ -98,6 +98,7 @@ Jx.Menu.SubMenu = new Class({
      */
     setOwner: function(obj) {
         this.owner = obj;
+        this.menu.owner = obj;
     },
     /**
      * Method: show
