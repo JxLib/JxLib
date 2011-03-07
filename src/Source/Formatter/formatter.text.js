@@ -43,7 +43,7 @@ Jx.Formatter.Text = new Class({
      * 0 then the value will be truncated to length characters and
      * the remaining characters will be replaced by an ellipsis (...)
      */
-    length: null,
+    maxLength: null,
     /**
      * Option: ellipsis
      * {String} the text to use as the ellipsis when truncating a string
@@ -54,7 +54,7 @@ Jx.Formatter.Text = new Class({
 
   format : function (value) {
     var text = '' + value,
-        max = this.options.length,
+        max = this.options.maxLength,
         ellipsis = this.options.ellipsis;
 
     if (max && text.length > max) {
