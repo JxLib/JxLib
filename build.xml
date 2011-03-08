@@ -425,10 +425,19 @@ $Id$
 
 -->
 
-  <target description="Delete old build and dist directories" name="clean">
+  <target description="clean up areas that we copy files to including dist and build directories" name="clean">
     <echo message="Removing build directories"/>
     <delete dir="${build.home}"/>
     <delete dir="${dist.home}"/>
+    <delete dir="${docs.home}/api" />
+    <delete dir="${basedir}/tests/interactive/UserTests/assets/themes" />
+    <delete dir="${deploy.home}/tests" />
+    <delete dir="${deploy.home}/builder/src" />
+  	<delete dir="${deploy.home}/builder/assets" />
+    <delete dir="${deploy.home}/reference/tutorials/lib" />
+    <delete dir="${deploy.home}/reference/examples/lib" />
+    <delete dir="${deploy.home}/lib" />
+
   </target>
 
 </project>
