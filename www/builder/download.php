@@ -35,9 +35,9 @@ $iterator = new RecursiveDirectoryIterator(dirname(__FILE__).DS.'work'.DS.$secti
 foreach (new RecursiveIteratorIterator($iterator, RecursiveIteratorIterator::CHILD_FIRST) as $filename => $file) {
     if ($file->isFile()) {
          //echo "<br>checking $filename";
-        unlink($file->getRealPath());
+       unlink($file->getRealPath());
     } else {
-        rmdir($file->getRealPath());
+       rmdir($file->getRealPath());
     }
 }
 
