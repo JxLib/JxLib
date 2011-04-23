@@ -1,4 +1,5 @@
 /*
+---
 name: Locale.German
 
 description: Default translations of text strings used in JX for German (Germany) (de-DE)
