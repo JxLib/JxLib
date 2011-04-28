@@ -35,8 +35,8 @@ var builder = new Class({
 				slider.slide('out');
 			},this);
 		
-		$('mootools-core').addEvent('click',this.showSelector.bind(this, ["core-selector","mootools-core","core-deps"]));
-		$('mootools-more').addEvent('click',this.showSelector.bind(this, ["more-selector","mootools-more","more-deps"]));
+		$('mootools-core').addEvent('click',this.showSelector.bind(this, [$("core-selector"),$("mootools-core"),$("core-deps")]));
+		$('mootools-more').addEvent('click',this.showSelector.bind(this, [$("more-selector"),$("mootools-more"),$("more-deps")]));
 		$('more-deps').addEvent('click',this.showFiles.bind(this,"more-files"));
 		$('core-deps').addEvent('click',this.showFiles.bind(this,"core-files"));
 		$('core-full').addEvent('click',this.hideFiles.bind(this,"core-files"));
@@ -166,7 +166,7 @@ var builder = new Class({
 		//go through the profile obj and set all of the appropriate stuff
 		if (profile.has('mootools-core')){
 			$('mootools-core').set('checked',profile.get('mootools-core'));
-			this.showSelector("core-selector","mootools-core","core-deps");
+			this.showSelector([$("core-selector"),$("mootools-core"),$("core-deps")]);
 			if (profile.has('core')){
 				switch (profile.get('core')) {
 					case 'full':
@@ -181,7 +181,7 @@ var builder = new Class({
 		}
 		if (profile.has('mootools-more')){
 			$('mootools-more').set('checked',profile.get('mootools-more'));
-			this.showSelector("more-selector","mootools-more","more-deps");
+			this.showSelector([$("more-selector"),$("mootools-more"),$("more-deps")]);
 			if (profile.has('more')){
 				switch (profile.get('more')) {
 					case 'full':
@@ -266,11 +266,12 @@ var builder = new Class({
 		},this);
 	},
 	
-	showSelector: function(el,origin,selector){
-		el = $(el);
-		selector = $(selector);
+	showSelector: function(arr) {
+        var el = arr[0],
+            origin = arr[1],
+            selector = arr[2];
 		var files;
-		if ($(origin).get('checked')){
+		if (origin.get('checked')){
 			el.retrieve('slider').slide('in');
 			if (selector.get('checked')){
 				files = el.getNext();
