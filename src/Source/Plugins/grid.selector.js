@@ -457,7 +457,7 @@ Jx.Plugin.Grid.Selector = new Class({
               col = grid.columns.getIndexFromGrid(this.checkColumn.name);
               cell = document.id(grid.gridTableBody.rows[row].cells[col]);
             }
-            check = cell.getElement('.jxGridSelector')
+            check = cell.getElement('.jxGridSelector');
             check.set('checked', checked);
         }
     },
