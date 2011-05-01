@@ -16,6 +16,9 @@ provides: [Jx.Form]
 
 css:
  - form
+ 
+images:
+ - emblems.png
 
 ...
  */
