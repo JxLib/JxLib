@@ -437,6 +437,8 @@ $Id$
     <delete dir="${deploy.home}/reference/tutorials/lib" />
     <delete dir="${deploy.home}/reference/examples/lib" />
     <delete dir="${deploy.home}/lib" />
+    <mkdir dir="${deploy.home}/lib" />
+    <copy file="${basedir}/tests/empty.html" todir="${deploy.home}/lib" />
     <delete dir="${jxlib.home}/utils/ndconfig/Data" />
 
   </target>
