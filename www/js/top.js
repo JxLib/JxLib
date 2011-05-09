@@ -1,6 +1,6 @@
 var refTree;
 var panelContent;
-var homeTab, refTab, examplesTab, examplesTabNew, testsTab;
+var homeTab, refTab, examplesTab, examplesTabNew, testsTab, codeTab, issuesTab, downloadTab;
 
 window.addEvent('load', function() {
     var defaultTab = Cookie.read('JxHomePage.CurrentTab') || 'homeTab';
@@ -25,6 +25,7 @@ window.addEvent('load', function() {
             }).delay(10);
         }
     });
+    /**
     examplesTab = new Jx.Tab({
         label: 'Examples', 
         content: 'exampleList',
@@ -35,14 +36,15 @@ window.addEvent('load', function() {
             }).delay(10);
         }
     });
-    examplesTabNew = new Jx.Tab({
-        label: 'Examples (Beta)',
+    */
+    examplesTab = new Jx.Tab({
+        label: 'Examples',
         content: 'exampleListNew',
         cacheContent: true,
         onDown: function() {
             (function() {
                 window.top.main.location.href = 'reference/examples/index-new.html';
-                Cookie.write('JxHomePage.CurrentTab', 'examplesTabNew');
+                Cookie.write('JxHomePage.CurrentTab', 'examplesTab');
             }).delay(10);
         }
     });
@@ -61,6 +63,7 @@ window.addEvent('load', function() {
         content: 'testList',
         onDown: function() {
             (function(){
+                window.top.main.location.href = 'tests';
                 Cookie.write('JxHomePage.CurrentTab', 'testsTab');
             }).delay();
         }
@@ -69,8 +72,17 @@ window.addEvent('load', function() {
         label: 'Code', 
         onDown: function() {
             (function(){
-                window.top.main.location.href = 'http://code.google.com/p/jxlib/';
+                window.top.main.location.href = 'https://github.com/JxLib/JxLib';
                 Cookie.write('JxHomePage.CurrentTab', 'codeTab');
+            }).delay();
+        }
+    });
+    issuesTab = new Jx.Tab({
+        label: 'Issues', 
+        onDown: function() {
+            (function(){
+                window.top.main.location.href = 'http://jxlib.lighthouseapp.com/dashboard';
+                Cookie.write('JxHomePage.CurrentTab', 'issuesTab');
             }).delay();
         }
     });
@@ -78,7 +90,7 @@ window.addEvent('load', function() {
         label: 'Group', 
         onDown: function() {
             (function(){
-                window.top.main.location.href = 'http://groups.google.com/group/jxlib';
+                window.top.main.location.href = 'group.html';
                 Cookie.write('JxHomePage.CurrentTab', 'groupTab');
             }).delay();
         }
@@ -92,8 +104,8 @@ window.addEvent('load', function() {
             }).delay();
         }
     });
-    new Jx.TabSet('tabset').add(homeTab, refTab, examplesTab, examplesTabNew, testsTab, codeTab, groupTab, downloadTab);
-    toolbar.add(homeTab, examplesTab, examplesTabNew, refTab, codeTab, groupTab, downloadTab);
+    new Jx.TabSet('tabset').add(homeTab, refTab, examplesTab, testsTab, codeTab, issuesTab, groupTab, downloadTab);
+    toolbar.add(homeTab, examplesTab, refTab, testsTab, codeTab, issuesTab,  groupTab, downloadTab);
     
     switch(defaultTab) {
         case 'homeTab':
@@ -102,11 +114,11 @@ window.addEvent('load', function() {
         case 'refTab':
             refTab.setActive(true);
             break;
+        case 'issuesTab':
+            issuesTab.setActive(true);
+            break;
         case 'examplesTab':
             examplesTab.setActive(true);
-            break;
-        case 'examplesTabNew':
-            examplesTabNew.setActive(true);
             break;
         case 'testsTab':
             testsTab.setActive(true);
