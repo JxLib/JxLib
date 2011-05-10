@@ -492,7 +492,7 @@
             "images": ["menuitem.png"]
         },
         "menu": {
-            "deps": ["button","list"],
+            "deps": ["button","list","stack"],
             "desc": "A main menu as opposed to a sub menu that lives inside the menu.",
             "css": ["menu"],
             "images": ["flyout_chrome.png","emblems.png"]
