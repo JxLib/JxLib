@@ -12,13 +12,13 @@
 window.addEvent('load', function() {
     setupTreeAdaptorParent()
 	setupTreeAdaptorMptt()
-    setupTreeAdaptorParentAjax();
+   //setupTreeAdaptorParentAjax();
 });
 if($(document).getElements('.tabContentActiveExamples').length > 0) {
   $(document).getElements('.tabContentActiveExamples')[0].addEvent('loadAjax', function() {
     setupTreeAdaptorParent()
     setupTreeAdaptorMptt()
-    setupTreeAdaptorParentAjax();
+    //setupTreeAdaptorParentAjax();
   });
 }
 </script>
@@ -290,6 +290,9 @@ function setupTreeAdaptorMpttAjax(){
     <div id="tree-noajax-mptt" class="treeContainer"></div>
     
     <h2 id="setupTreeAdaptorParentAjax">Jx.Adaptor.Tree.Parent - Advanced example</h2>
+    <p>This example os offline for now. The code still works we're just moving 
+    the backend to a different format. We'll remove this notice when it's working again.
+    </p>
 	<p>
 		This example simulates a file tree. It uses ajax to load the data from 
 		the server (via the Progresssive strategy) and monitors the folders for

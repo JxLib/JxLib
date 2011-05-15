@@ -104,8 +104,8 @@ window.addEvent('load', function() {
             }).delay();
         }
     });
-    new Jx.TabSet('tabset').add(homeTab, refTab, examplesTab, testsTab, codeTab, issuesTab, groupTab, downloadTab);
-    toolbar.add(homeTab, examplesTab, refTab, testsTab, codeTab, issuesTab,  groupTab, downloadTab);
+    new Jx.TabSet('tabset').add(homeTab, refTab, examplesTab, testsTab, codeTab, issuesTab, groupTab);
+    toolbar.add(homeTab, examplesTab, refTab, testsTab, codeTab, issuesTab,  groupTab);
     
     switch(defaultTab) {
         case 'homeTab':
