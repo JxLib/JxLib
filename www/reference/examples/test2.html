@@ -19,32 +19,33 @@ window.addEvent('load', function() {
 
 <script id="hToolbarScript" type="text/javascript">
 function testFn() {
-
-    var container = $('container');
-    new Jx.Layout(container, {width: null}).resize();
-
-    var p = new Jx.Panel({parent: container});
-
-    var splitter = new Jx.Splitter(p.content,{
-        layout: 'horizontal',
-        useChildren: false,
-        containerOptions: [{width: null},{width: 300}],
-        barOptions: [{snap: 'after'}]
-    });
-
-    var splitV = new Jx.Splitter(splitter.elements[0],{
-        layout: 'vertical',
-        useChildren: false,
-        containerOptions: [{height: 100},{height: null}]
-    });
-
-    //split the bottom using a splitter
-    var splitH = new Jx.Splitter(splitV.elements[1],{
-        layout: 'horizontal'
-    });
-
-    container.resize();
-
+  var c1 = new Jx.Field.Combo({
+    id: 'Select11',
+    name: 'Select11',
+    label: 'Combo Test',
+    readonly: true,
+    tag: 'another tag',
+    items: [
+        {image: 'images/swatches.png', imageClass: 'comboRed', label: 'red'},
+        {image: 'images/swatches.png', imageClass: 'comboMagenta', label: 'magenta'},
+        {image: 'images/swatches.png', imageClass: 'comboBlue'},
+        {label: 'cyan'},
+        {image: 'images/swatches.png', imageClass: 'comboGreen'},
+        {image: 'images/swatches.png', imageClass: 'comboYellow'}
+      ]
+  }).addTo('container');
+  
+  new Jx.Field.Button({
+    buttonOptions:{
+      label: 'Go',
+      onClick: function() {
+        console.log('emptying');
+        c1.empty();
+      }
+    },
+    defaultAction: true
+  }).addTo('container');
+   
 };
 </script>
 
