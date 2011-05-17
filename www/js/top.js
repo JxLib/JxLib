@@ -72,8 +72,8 @@ window.addEvent('load', function() {
         label: 'Code', 
         onDown: function() {
             (function(){
-                window.top.main.location.href = 'https://github.com/JxLib/JxLib';
-                Cookie.write('JxHomePage.CurrentTab', 'codeTab');
+                window.open('https://github.com/JxLib/JxLib','github');
+                Cookie.write('JxHomePage.CurrentTab', 'homeTab');
             }).delay();
         }
     });
@@ -81,8 +81,8 @@ window.addEvent('load', function() {
         label: 'Issues', 
         onDown: function() {
             (function(){
-                window.top.main.location.href = 'http://jxlib.lighthouseapp.com/dashboard';
-                Cookie.write('JxHomePage.CurrentTab', 'issuesTab');
+                window.open('http://jxlib.lighthouseapp.com/dashboard','issues');
+                Cookie.write('JxHomePage.CurrentTab', 'homeTab');
             }).delay();
         }
     });
@@ -90,8 +90,8 @@ window.addEvent('load', function() {
         label: 'Group', 
         onDown: function() {
             (function(){
-                window.top.main.location.href = 'group.html';
-                Cookie.write('JxHomePage.CurrentTab', 'groupTab');
+                window.open('http://groups.google.com/group/jxlib','group');
+                Cookie.write('JxHomePage.CurrentTab', 'homeTab');
             }).delay();
         }
     });
@@ -104,8 +104,8 @@ window.addEvent('load', function() {
             }).delay();
         }
     });
-    new Jx.TabSet('tabset').add(homeTab, refTab, examplesTab, testsTab, codeTab, issuesTab, groupTab);
-    toolbar.add(homeTab, examplesTab, refTab, testsTab, codeTab, issuesTab,  groupTab);
+    new Jx.TabSet('tabset').add(homeTab, refTab, examplesTab, codeTab, issuesTab, groupTab);
+    toolbar.add(homeTab, examplesTab, refTab, codeTab, issuesTab,  groupTab);
     
     switch(defaultTab) {
         case 'homeTab':
