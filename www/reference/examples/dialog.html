@@ -9,7 +9,7 @@
 <script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/locale.js" type="text/javascript" charset="utf-8"></script>
 <script  type="text/javascript">
-    var d1, d2, d3, d4, d5, d6, d7, d8, d9;
+    var d1, d2, d3, d4, d5, d6, d7, d8, d9, d10;
     window.addEvent('load', function() {
         drawBasicDialog();
         drawPositionedDialog();
@@ -17,6 +17,7 @@
         drawAjaxFailedDialog();
         drawConfirmDialog();
         drawPromptDialog();
+        drawDestroyDialog();
     });
    if($(document).getElements('.tabContentActiveExamples').length > 0) {
       $(document).getElements('.tabContentActiveExamples')[0].addEvent('loadAjax', function() {
@@ -26,6 +27,7 @@
         drawAjaxFailedDialog();
         drawConfirmDialog();
         drawPromptDialog();
+        drawDestroyDialog();
       });
     }
     
@@ -37,7 +39,7 @@
      * dialog but it is functional if you resize the dialog
      */
     window.addEvent('stylesheetChanged', function() {
-        [d1,d2,d3,d4,d5,d6,d7,d8,d9].each(function(d) {
+        [d1,d2,d3,d4,d5,d6,d7,d8,d9,d10].each(function(d) {
             if (d && d.chrome) {
                 d.close();
                 d.chrome.dispose();
@@ -66,6 +68,32 @@ function drawBasicDialog() {
         label: {set:'Examples',key:'dialog',value:'btnStatic'},
         onClick: d1.open.bind(d1)
     }).addTo('basicDialogButton'); 
+    
+    
+}
+</script>
+<script id="destroyDialogScript" type='text/javascript'>
+function drawDestroyDialog() {
+    /* a simple dialog with HTML content, not moveable.
+     */
+    new Jx.Button({
+        image: 'images/page_white_text.png', 
+        label: {set:'Examples',key:'dialog',value:'btnDestroy'},
+        onClick: function(){
+            d10 = new Jx.Dialog({
+                label: 'static',
+                image: 'images/page_white_text.png',
+                modal: false, 
+                resize: false,
+                move: false,
+                destroyOnClose: true,
+                content: "<h3>Content from HTML String</h3>"+
+                    "<p>This dialog cannot be moved or resized, but it can be collapsed.</p>"+
+                    "<p>It will be destroyed when you close it. Check in the console to be sure.</p>"
+            });
+            d10.open();
+        }
+    }).addTo('destroyDialogButton'); 
     
     
 }
@@ -386,6 +414,10 @@ function drawPromptDialog() {
 <h2 id="promptDialog">Prompt Dialog</h2>
 <p>Some examples of a custom window.prompt() dialog that can be configured in many ways.</p>
 <div id="promptDialogButton" class="buttonBox"></div>
+
+<h2 id="destroyDialog">Destroy Dialog</h2>
+<p>Standard static dialog that will be destroyed when closed.</p>
+<div id="destroyDialogButton" class="buttonBox"></div>
 
 <div id="inlineContent">
   <h3>Inline Content</h3>
