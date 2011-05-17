@@ -158,6 +158,12 @@ Jx.Dialog = new Class({
          */
         close: true,
         /**
+         * Option: destroyOnClose
+         * (optional) {Boolean} determines whether closing the dialog also
+         * destrpys it completely. Default is false
+         */
+        destroyOnClose: false,
+        /**
          * Option: useKeyboard
          * (optional) {Boolean} determines whether the Dialog listens to keyboard events globally
          * Default is false
@@ -617,6 +623,13 @@ Jx.Dialog = new Class({
     close: function() {
         this.isOpening = false;
         this.hide();
+        if (this.options.destroyOnClose) {
+            if(this.blanket) {
+                this.blanket.dispose();
+            }
+            this.domObj.dispose();
+            Jx.Dialog.Stack.erase(this);
+        }
         this.fireEvent('close');
     },
 
