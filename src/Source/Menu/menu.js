@@ -95,7 +95,7 @@ Jx.Menu = new Class({
     
     init: function() {
         this.bound.stop = function(e){e.stop();};
-        this.bound.remove = function(item) {item.setOwner(null);};
+        this.bound.remove = function(item) {if (item.setOwner) item.setOwner(null);};
         this.bound.show = this.show.bind(this);
         this.bound.mouseenter = this.onMouseEnter.bind(this);
         this.bound.mouseleave = this.onMouseLeave.bind(this);
@@ -192,10 +192,14 @@ Jx.Menu = new Class({
     add: function(item, position, owner) {
         if (Jx.type(item) == 'array') {
             item.each(function(i){
-                i.setOwner(owner||this);
+                if (i.setOwner) {
+                    i.setOwner(owner||this);
+                }
             }, this);
         } else {
-            item.setOwner(owner||this);
+            if (item.setOwner) {
+                item.setOwner(owner||this);
+            }
         }
         this.list.add(item, position);
         return this;
@@ -232,7 +236,9 @@ Jx.Menu = new Class({
         if (item.empty) {
           item.empty();
         }
-        item.setOwner(null);
+        if (item.setOwner) {
+            item.setOwner(null);
+        }
       }, this);
       this.list.empty();
     },
