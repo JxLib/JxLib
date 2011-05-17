@@ -628,7 +628,7 @@ Jx.Dialog = new Class({
                 this.blanket.dispose();
             }
             this.domObj.dispose();
-            Jx.Dialog.Stack.erase(this);
+            this.unstack();
         }
         this.fireEvent('close');
     },
