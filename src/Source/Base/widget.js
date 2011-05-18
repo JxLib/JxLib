@@ -294,8 +294,7 @@ Jx.Widget = new Class({
                     this.contentIsLoaded = true;
                     this.fireEvent('contentLoadFailed', this);
                     this.setBusy(false);
-                }).bind(this),
-                headers: {'If-Modified-Since': 'Sat, 1 Jan 2000 00:00:00 GMT'}
+                }).bind(this)
             });
             this.req.send();
             if (Jx.isAir) {
