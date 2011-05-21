@@ -136,7 +136,7 @@ Jx.Adaptor.Tree = new Class({
           item,
           p,
           folder,
-          options = this.option;
+          options = this.options;
 
       if (this.busy == 'tree') {
         this.tree.setBusy(false);
