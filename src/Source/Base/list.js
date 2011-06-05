@@ -220,7 +220,7 @@ Jx.List = new Class({
             this.ownsSelection = true;
         }
 
-        if ($defined(options.items)) {
+        if (options.items != undefined) {
             this.add(options.items);
         }
     },
@@ -303,7 +303,7 @@ Jx.List = new Class({
                     click: bound.click
                 });
             }
-            if ($defined(position)) {
+            if (position != undefined) {
                 if ($type(position) == 'number') {
                     if (position < container.childNodes.length) {
                         el.inject(container.childNodes[position],'before');

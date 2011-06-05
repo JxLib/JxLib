@@ -141,7 +141,7 @@ Jx.Panel = new Class({
 
         this.toolbars = this.options ? this.options.toolbars || [] : [];
 
-        this.options.position = ($defined(this.options.height) && !$defined(this.options.position)) ? 'relative' : 'absolute';
+        this.options.position = (this.options.height != undefined && this.options.position == undefined) ? 'relative' : 'absolute';
 
         if (this.options.image && this.domImg) {
             this.domImg.setStyle('backgroundImage', 'url('+this.options.image+')');
@@ -509,7 +509,7 @@ Jx.Panel = new Class({
      * otherwise the state is toggled.
      */
     toggleCollapse: function(state) {
-        if ($defined(state)) {
+        if (state != undefined) {
             this.options.closed = state;
         } else {
             this.options.closed = !this.options.closed;
@@ -549,19 +549,19 @@ Jx.Panel = new Class({
     
     changeText: function (lang) {
     	this.parent();	//TODO: change this class so that we can access these properties without too much voodoo...
-    	if($defined(this.closeB)) {
+    	if(this.closeB != undefined) {
     		this.closeB.setTooltip({set:'Jx',key:'panel',value:'closeTooltip'});
     	}
-    	if ($defined(this.closeM)) {
+    	if (this.closeM != undefined) {
     		this.closeM.setLabel({set:'Jx',key:'panel',value:'closeLabel'});
     	}
-    	if ($defined(this.maxB)) {
+    	if (this.maxB != undefined) {
     		this.maxB.setTooltip({set:'Jx',key:'panel',value:'maximizeTooltip'});
     	}
-    	if ($defined(this.colB)) {
+    	if (this.colB != undefined) {
     		this.colB.setTooltip({set:'Jx',key:'panel',value:'collapseTooltip'});
     	}
-    	if ($defined(this.colM)) {
+    	if (this.colM != undefined) {
 	    	if (this.options.closed == true) {
 	    		this.colM.setLabel({set:'Jx',key:'panel',value:'expandLabel'});
 	    	} else {

@@ -126,17 +126,17 @@ Jx.Column = new Class({
         this.name = this.options.name;
 
         //adjust header for column
-        if (!$defined(this.options.template)) {
+        if (this.options.template == undefined) {
             this.options.template = '<span class="jxGridCellContent">' + this.name.capitalize() + '</span>';
         }
 
         this.parent();
-        if ($defined(this.options.grid) && this.options.grid instanceof Jx.Grid) {
+        if (this.options.grid != undefiend && this.options.grid instanceof Jx.Grid) {
             this.grid = this.options.grid;
         }
 
         //check renderer
-        if (!$defined(this.options.renderer)) {
+        if (this.options.renderer == undefined) {
             //set a default renderer
             this.options.renderer = new Jx.Grid.Renderer.Text({
                 textTemplate: '{' + this.name + '}'
@@ -145,10 +145,10 @@ Jx.Column = new Class({
             if (!(this.options.renderer instanceof Jx.Grid.Renderer)) {
                 var t = Jx.type(this.options.renderer);
                 if (t === 'object') {
-                    if(!$defined(this.options.renderer.options.textTemplate)) {
+                    if(this.options.renderer.options.textTemplate == undefined) {
                       this.options.renderer.options.textTemplate = '{' + this.name + '}';
                     }
-                    if(!$defined(this.options.renderer.name)) {
+                    if(this.options.renderer.name == undefined) {
                       this.options.renderer.name = 'Text';
                     }
                     this.options.renderer = new Jx.Grid.Renderer[this.options.renderer.name.capitalize()](
@@ -183,7 +183,7 @@ Jx.Column = new Class({
     },
 
     setWidth: function(newWidth, asCellWidth) {
-        asCellWidth = $defined(asCellWidth) ? asCellWidth : false;
+        asCellWidth = asCellWidth != undefined ? asCellWidth : false;
 
         var delta = this.cellWidth - this.width;
         if (!asCellWidth) {
@@ -228,7 +228,7 @@ Jx.Column = new Class({
      */
     calculateWidth : function (rowHeader) {
         //if this gets called then we assume that we want to calculate the width
-      rowHeader = $defined(rowHeader) ? rowHeader : false;
+      rowHeader = rowHeader != undefined ? rowHeader : false;
       var maxWidth,
           maxCellWidth,
           store = this.grid.getStore(),

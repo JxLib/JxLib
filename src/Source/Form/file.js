@@ -161,7 +161,7 @@ Jx.Field.File = new Class({
         this.parent();
 
         //add a unique ID if no id is defined
-        if (!$defined(this.options.id)) {
+        if (this.options.id == undefined) {
             this.field.set('id', this.generateId());
         }
 
@@ -260,7 +260,7 @@ Jx.Field.File = new Class({
             this.currentKey = keys[0];
             var form = this.forms.get(this.currentKey);
             this.forms.erase(this.currentKey);
-            if ($defined(externalForm) && this.forms.getLength() == 0) {
+            if (externalForm != undefined && this.forms.getLength() == 0) {
                 var fields = externalForm.fields;
                 fields.each(function(field){
                     if (!(field instanceof Jx.Field.File)) {
@@ -279,7 +279,7 @@ Jx.Field.File = new Class({
      * Call this to upload the file to the server
      */
     uploadSingle: function (form) {
-        this.form = $defined(form) ? form : this.prepForm();
+        this.form = form != undefined ? form : this.prepForm();
 
         this.fireEvent('fileUploadBegin', [this.currentKey, this]);
 
@@ -313,7 +313,7 @@ Jx.Field.File = new Class({
      */
     submitUpload: function (data) {
         //check for ID in data
-        if ($defined(data) && data.success && $defined(data.id)) {
+        if (data != undefined && data.success && data.id != undefined) {
             this.progressID = data.id;
             //if have id, create hidden progress field
             var id = new Jx.Field.Hidden({
@@ -327,7 +327,7 @@ Jx.Field.File = new Class({
         //submit the form
         document.id(this.form).submit();
         //begin polling if needed
-        if (this.options.progress && $defined(this.progressID)) {
+        if (this.options.progress && this.progressID != undefined) {
             this.pollUpload();
         }
     },
@@ -355,7 +355,7 @@ Jx.Field.File = new Class({
      * data - The data from the request as an object.
      */
     processProgress: function (data) {
-        if ($defined(data)) {
+        if (data != undefined) {
             this.fireEvent('fileUploadProgress', [data, this.currentKey, this]);
             if (data.current < data.total) {
                 this.polling = true;
@@ -389,7 +389,7 @@ Jx.Field.File = new Class({
             }
 
             var data = JSON.decode(iframeBody);
-            if ($defined(data) && $defined(data.success) && data.success) {
+            if (data != undefined && data.success != undefined && data.success) {
                 this.done = true;
                 this.doneData = data;
                 this.uploadCleanUp();
@@ -439,7 +439,7 @@ Jx.Field.File = new Class({
      */
     changeText: function (lang) {
     	this.parent();
-    	if ($defined(this.browseButton)) {
+    	if (this.browseButton != undefined) {
     		this.browseButton.setLabel( this.getText({set:'Jx',key:'file',value:'browseLabel'}) );
     	}
     },

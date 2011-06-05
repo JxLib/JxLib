@@ -244,7 +244,7 @@ Jx.Toolbar.Container = new Class({
      * the scroller object
      */
     findFirstVisible: function() {
-        if ($defined(this.scroller.retrieve('buttonPointer'))) {
+        if (this.scroller.retrieve('buttonPointer') != undefined) {
             return;
         };
 
@@ -256,7 +256,7 @@ Jx.Toolbar.Container = new Class({
                 if (buttons.length > 1) {
                     buttons.each(function(button) {
                         var pos = button.getCoordinates(this.scroller);
-                        if (pos.left >= 0 && !$defined(this.scroller.retrieve('buttonPointer'))) {
+                        if (pos.left >= 0 && this.scroller.retrieve('buttonPointer') == undefined) {
                             //this is the first visible button
                             this.scroller.store('buttonPointer', button);
                         }
@@ -390,7 +390,7 @@ Jx.Toolbar.Container = new Class({
     afterTweenLeft: function(previousButton) {
         this.scroller.store('buttonPointer', previousButton);
         var pp = this.getPreviousButton(previousButton);
-        if ($defined(pp)) {
+        if (pp != undefined) {
             this.scroller.store('previousPointer', pp);
         } else {
             this.scroller.eliminate('previousPointer');
@@ -428,9 +428,9 @@ Jx.Toolbar.Container = new Class({
     scrollIntoView: function(item) {
         var currentButton = this.scroller.retrieve('buttonPointer');
 
-        if (!$defined(currentButton)) return;
+        if (currentButton == undefined) return;
 
-        if ($defined(item.domObj)) {
+        if (item.domObj != undefined) {
             item = item.domObj;
             while (!item.hasClass('jxToolItem')) {
                 item = item.getParent();
@@ -453,7 +453,7 @@ Jx.Toolbar.Container = new Class({
             var ml = this.wrapper.getStyle('margin-left').toInt();
             var w = currentButton.getMarginBoxSize().width;
             var np;
-            while (w < diff && $defined(currentButton)) {
+            while (w < diff && currentButton != undefined) {
                 np = this.getNextButton(currentButton);
                 if (np) {
                     w += np.getMarginBoxSize().width;
@@ -504,7 +504,7 @@ Jx.Toolbar.Container = new Class({
      */
     getPreviousButton: function(currentButton) {
         pp = currentButton.getPrevious();
-        if (!$defined(pp)) {
+        if (pp == undefined) {
             //check for a new toolbar
             pp = currentButton.getParent().getPrevious();
             if (pp) {

@@ -136,13 +136,13 @@ Jx.Field.Combo = new Class({
     },
     
     setLabel: function(label) {
-      if ($defined(this.field)) {
+      if (this.field != undefined) {
         this.field.value = this.getText(label);
       }
     },
     
     setImage: function(url, imageClass) {
-      if ($defined(this.icon)) {
+      if (this.icon != undefined) {
         this.icon.setStyle('background-image', 'url('+url+')');
         this.icon.setStyle('background-repeat', 'no-repeat');
 

@@ -113,7 +113,7 @@ Jx.Panel.FileUpload = new Class({
         this.domObjA = new Element('div', {'class' : 'jxFileUploadPanel'});
 
 
-        if ($defined(this.options.prompt)) {
+        if (this.options.prompt != undefined) {
             var desc;
             if (Jx.type(this.options.prompt === 'string')) {
                 desc = new Element('p', {
@@ -225,7 +225,7 @@ Jx.Panel.FileUpload = new Class({
      * filename - the filename of the file we're tracking
      */
     fileUploadComplete: function (data, file) {
-        if ($defined(data.success) && data.success ){
+        if (data.success != undefined && data.success ){
             this.removeUploadedFile(file);
         } else {
             this.fileUploadError(data, file);
@@ -252,7 +252,7 @@ Jx.Panel.FileUpload = new Class({
         } else {
             icon.addClass('jxUploadFileError');
         }
-        if ($defined(data.error) && $defined(data.error.message)) {
+        if (data.error != undefined && data.error.message != undefined) {
             var tt = new Jx.Tooltip(icon, data.error.message, {
                 cssClass : 'jxUploadFileErrorTip'
             });
@@ -309,7 +309,7 @@ Jx.Panel.FileUpload = new Class({
      */
     changeText: function (lang) {
       this.parent();
-      if ($defined(this.uploadBtn)) {
+      if (this.uploadBtn != undefined) {
         this.uploadBtn.setLabel({set:'Jx',key:'upload',value:'buttonText'});
       }
     }

@@ -87,11 +87,11 @@ function() {
 // add mutator that sets jxFamily when creating a class so we can check
 // its type
 Class.Mutators.Family = function(self, name) {
-    if ($defined(name)) {
+    if (name != undefined) {
         self.jxFamily = name;
         return self;
     }
-    else if(!$defined(this.prototype.jxFamily)) {
+    else if(this.prototype.jxFamily == undefined) {
         this.implement({
             'jxFamily': self
         });
@@ -184,7 +184,7 @@ if (typeof Jx === 'undefined') {
  * }
  * (end)
  */
-if (!$defined(Jx.baseURL)) {
+if (Jx.baseURL == undefined) {
   (function() {
     var aScripts = document.getElementsByTagName('SCRIPT'),
         i, s, n, file;
@@ -217,7 +217,7 @@ if (!$defined(Jx.baseURL)) {
  * }
  * (end)
  */
-if (!$defined(Jx.aPixel)) {
+if (Jx.aPixel == undefined) {
   Jx.aPixel = new Element('img', {
     alt:'',
     title:'',
@@ -236,7 +236,7 @@ if (!$defined(Jx.aPixel)) {
  * }
  * (end)
  */
-if (!$defined(Jx.isAir)) {
+if (Jx.isAir == undefined) {
   (function() {
     /**
      * Determine if we're running in Adobe AIR.
@@ -278,7 +278,7 @@ Jx.setLanguage = function(lang) {
  * exists on the particular widget. You will be able to disable listening for
  * these changes by setting the Jx.Widget option useLang to false.
  */
-if (!$defined(Jx.lang)) {
+if (Jx.lang == undefined) {
   Jx.lang = 'en-US';
 }
 
@@ -588,14 +588,14 @@ Jx.type = function(obj) {
                 m = this.measure(function() {
                     return this.getSizes(['padding', 'border']);
                 });
-                if ($defined(size.width)) {
+                if (size.width != undefined) {
                     width = size.width + m.padding.left + m.padding.right + m.border.left + m.border.right;
                     if (width < 0) {
                         width = 0;
                     }
                     this.setStyle('width', width);
                 }
-                if ($defined(size.height)) {
+                if (size.height != undefined) {
                     height = size.height + m.padding.top + m.padding.bottom + m.border.top + m.border.bottom;
                     if (height < 0) {
                         height = 0;
@@ -603,10 +603,10 @@ Jx.type = function(obj) {
                     this.setStyle('height', height);
                 }
             } else {
-                if ($defined(size.width) && size.width >= 0) {
+                if (size.width != undefined && size.width >= 0) {
                   this.setStyle('width', width);
                 }
-                if ($defined(size.height) && size.height >= 0) {
+                if (size.height != undefined && size.height >= 0) {
                   this.setStyle('height', height);
                 }
             }
@@ -633,14 +633,14 @@ Jx.type = function(obj) {
                     return this.getSizes();
                 });
 
-                if ($defined(size.width)) {
+                if (size.width != undefined) {
                     width = size.width - m.padding.left - m.padding.right - m.border.left - m.border.right - m.margin.left - m.margin.right;
                     if (width < 0) {
                         width = 0;
                     }
                     this.setStyle('width', width);
                 }
-                if ($defined(size.height)) {
+                if (size.height != undefined) {
                     height = size.height - m.padding.top - m.padding.bottom - m.border.top - m.border.bottom - m.margin.top - m.margin.bottom;
                     if (height < 0) {
                         height = 0;
@@ -648,10 +648,10 @@ Jx.type = function(obj) {
                     this.setStyle('height', height);
                 }
             } else {
-                if ($defined(size.width) && size.width >= 0) {
+                if (size.width != undefined && size.width >= 0) {
                   this.setStyle('width', width);
                 }
-                if ($defined(size.height) && size.height >= 0) {
+                if (size.height != undefined && size.height >= 0) {
                   this.setStyle('height', height);
                 }
             }

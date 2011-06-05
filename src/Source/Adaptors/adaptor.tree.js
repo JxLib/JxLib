@@ -87,7 +87,7 @@ Jx.Adaptor.Tree = new Class({
         if (this.options.monitorFolders) {
             this.strategy = this.store.getStrategy('progressive');
 
-            if (!$defined(this.strategy)) {
+            if (this.strategy == undefined) {
                 this.strategy = new Jx.Store.Strategy.Progressive({
                     dropRecords: false,
                     getPaginationParams: function () { return {}; }
@@ -189,7 +189,7 @@ Jx.Adaptor.Tree = new Class({
         var items = folder.items(),
             index,
             node;
-        if (!$defined(items) || items.length === 0) {
+        if (items == undefined || items.length === 0) {
             //get items via the store
           index = document.id(folder).retrieve('index');
           node = this.store.get('primaryKey', index);

@@ -92,25 +92,25 @@ Jx.Fieldset = new Class({
 
         this.id = this.options.id;
 
-        if ($defined(this.options.form)
+        if (this.options.form != undefined
                 && this.options.form instanceof Jx.Form) {
             this.form = this.options.form;
         }
 
         //FIELDSET
         if (this.domObj) {
-            if ($defined(this.options.id)) {
+            if (this.options.id != undefined) {
                 this.domObj.set('id', this.options.id);
             }
-            if ($defined(this.options.fieldsetClass)) {
+            if (this.options.fieldsetClass != undefined) {
                 this.domObj.addClass(this.options.fieldsetClass);
             }
         }
 
         if (this.legend) {
-            if ($defined(this.options.legend)) {
+            if (this.options.legend != undefined) {
                 this.legend.set('html', this.getText(this.options.legend));
-                if ($defined(this.options.legendClass)) {
+                if (this.options.legendClass != undefined) {
                     this.legend.addClass(this.options.legendClass);
                 }
             } else {
@@ -131,7 +131,7 @@ Jx.Fieldset = new Class({
         for (var x = 0; x < arguments.length; x++) {
             field = arguments[x];
             //add form to the field and field to the form if not already there
-            if ($defined(field.jxFamily) && !$defined(field.form) && $defined(this.form)) {
+            if (field.jxFamily != undefined && field.form == undefined && this.form != undefined) {
                 field.form = this.form;
                 this.form.addField(field);
             }

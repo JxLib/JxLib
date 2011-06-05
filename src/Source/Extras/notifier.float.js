@@ -69,7 +69,7 @@ Jx.Notifier.Float = new Class({
     render: function () {
         this.parent();
         this.domObj.setStyle('position','absolute');
-        if ($defined(this.options.width)) {
+        if (this.options.width != undefined) {
             this.domObj.setStyle('width',this.options.width);
         }
         this.position(this.domObj, 

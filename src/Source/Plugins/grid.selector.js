@@ -110,7 +110,7 @@ Jx.Plugin.Grid.Selector = new Class({
      * grid - The instance of Jx.Grid to attach to
      */
     attach: function (grid) {
-        if (!$defined(grid) && !(grid instanceof Jx.Grid)) {
+        if (grid == undefined || !(grid instanceof Jx.Grid)) {
             return;
         }
         this.parent(grid);
@@ -325,15 +325,15 @@ Jx.Plugin.Grid.Selector = new Class({
             options = this.options,
             col;
 
-        if (options.cell && $defined(data.row) && $defined(data.index)) {
+        if (options.cell && data.row != undefined && data.index != undefined) {
           this.selectCell(cell);
         }
         
-        if (options.row && $defined(data.row)) {
+        if (options.row && data.row != undefined) {
             this.selectRow(data.row);
         }
 
-        if (options.column && $defined(data.index)) {
+        if (options.column && data.index != undefined) {
             if (this.grid.row.useHeaders()) {
                 this.selectColumn(data.index - 1);
             } else {
@@ -390,7 +390,7 @@ Jx.Plugin.Grid.Selector = new Class({
             r = this.grid.gridTableBody.rows,
             tr = document.id((row >= 0 && row < r.length) ? r[row] : null),
             rows = this.selected.get('rows'),
-            silently = $defined(silently) ? silently : false;
+            silently = silently != undefined ? silently : false;
         if (tr) {
             if (tr.hasClass('jxGridRowSelected')) {
                 tr.removeClass('jxGridRowSelected');
@@ -626,7 +626,7 @@ Jx.Plugin.Grid.Selector = new Class({
 
         $A(rows).each(function(row, idx) {
             var check = row.cells[col].getElement('input');
-            if ($defined(check)) {
+            if (check != undefined) {
                 var rowChecked = check.get('checked');
                 if (rowChecked !== checked) {
                     this.selectRow(idx, true);

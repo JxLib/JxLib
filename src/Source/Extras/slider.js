@@ -137,7 +137,7 @@ Jx.Slider = new Class({
      * it up and position the slider at the startAt poisition.
      */
     start: function () {
-        if (!$defined(this.slider)) {
+        if (this.slider == undefined) {
             this.slider = new Slider(this.domObj, this.knob, this.sliderOpts);
         }
         this.slider.set(this.options.startAt);

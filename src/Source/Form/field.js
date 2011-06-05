@@ -194,23 +194,23 @@ Jx.Field = new Class({
      */
     render : function () {
         this.classes.set('field', 'jxInput'+this.type);
-        var name = $defined(this.options.name) ? this.options.name : '';
+        var name = this.options.name != undefined ? this.options.name : '';
         this.options.template = this.options.template.substitute({name:name});
         this.parent();
 
         this.id = this.generateId();
         this.name = this.options.name;
 
-        if ($defined(this.type)) {
+        if (this.type != undefined) {
             this.domObj.addClass('jxInputContainer'+this.type);
         }
 
-        if ($defined(this.options.containerClass)) {
+        if (this.options.containerClass != undefined) {
             this.domObj.addClass(this.options.containerClass);
         }
-        if ($defined(this.options.required) && this.options.required) {
+        if (this.options.required != undefined && this.options.required) {
             this.domObj.addClass('jxFieldRequired');
-            if ($defined(this.options.validatorClasses)) {
+            if (this.options.validatorClasses != undefined) {
                 this.options.validatorClasses = 'required ' + this.options.validatorClasses;
             } else {
                 this.options.validatorClasses = 'required';
@@ -220,23 +220,23 @@ Jx.Field = new Class({
 
         // FIELD
         if (this.field) {
-            if ($defined(this.options.fieldClass)) {
+            if (this.options.fieldClass != undefined) {
                 this.field.addClass(this.options.fieldClass);
             }
 
-            if ($defined(this.options.value)) {
+            if (this.options.value != undefined) {
                 this.field.set('value', this.options.value);
             }
 
             this.field.set('id', this.id);
 
-            if ($defined(this.options.readonly)
+            if (this.options.readonly != undefined
                     && this.options.readonly) {
                 this.field.set("readonly", "readonly");
                 this.field.addClass('jxFieldReadonly');
             }
 
-            if ($defined(this.options.disabled)
+            if (this.options.disabled != undefined
                     && this.options.disabled) {
                 this.field.set("disabled", "disabled");
                 this.field.addClass('jxFieldDisabled');
@@ -261,10 +261,10 @@ Jx.Field = new Class({
         }
         // LABEL
         if (this.label) {
-            if ($defined(this.options.labelClass)) {
+            if (this.options.labelClass != undefined) {
                 this.label.addClass(this.options.labelClass);
             }
-            if ($defined(this.options.label)) {
+            if (this.options.label != undefined) {
                 this.label.set('html', this.getText(this.options.label)
                         + this.options.labelSeparator);
             }
@@ -283,15 +283,15 @@ Jx.Field = new Class({
 
         // TAG
         if (this.tag) {
-            if ($defined(this.options.tagClass)) {
+            if (this.options.tagClass != undefined) {
                 this.tag.addClass(this.options.tagClass);
             }
-            if ($defined(this.options.tag)) {
+            if (this.options.tag != undefined) {
                 this.tag.set('html', this.options.tag);
             }
         }
 
-        if ($defined(this.options.form)
+        if (this.options.form != undefined
                 && this.options.form instanceof Jx.Form) {
             this.form = this.options.form;
             this.form.addField(this);
@@ -377,7 +377,7 @@ Jx.Field = new Class({
      */
     changeText: function (lang) {
         this.parent();
-        if ($defined(this.options.label) && this.label) {
+        if (this.options.label != undefined && this.label) {
           this.label.set('html', this.getText(this.options.label) + this.options.labelSeparator);
         }
         if(this.options.required) {
@@ -387,7 +387,7 @@ Jx.Field = new Class({
           });
           this.requiredText.inject(this.label);
         }
-        if ($defined(this.requiredText)) {
+        if (this.requiredText != undefined) {
           this.requiredText.set('html',this.getText({set:'Jx',key:'field',value:'requiredText'}));
         }
     }, 

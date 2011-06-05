@@ -205,7 +205,7 @@ Jx.Splitter = new Class({
         }
 
         //making dragging dependent on mootools Drag class
-        if ($defined(Drag)) {
+        if (Drag != undefined) {
             this.establishConstraints();
         }
 

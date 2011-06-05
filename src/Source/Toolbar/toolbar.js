@@ -134,7 +134,7 @@ Jx.Toolbar = new Class({
     render: function() {
         this.parent();
         this.domObj.store('jxToolbar', this);
-        if ($defined(this.options.id)) {
+        if (this.options.id != undefined) {
             this.domObj.id = this.options.id;
         }
 

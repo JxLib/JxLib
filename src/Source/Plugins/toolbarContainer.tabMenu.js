@@ -93,7 +93,7 @@ Jx.Plugin.ToolbarContainer.TabMenu = new Class({
 
 
         var l = tab.getLabel();
-        if (!$defined(l)) {
+        if (l == undefined) {
             l = '';
         }
         var mi = new Jx.Menu.Item({

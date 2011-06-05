@@ -182,7 +182,7 @@ Jx.Grid = new Class({
     var options = this.options,
         opts;
 
-    if ($defined(options.row)) {
+    if (options.row != undefined) {
       if (options.row instanceof Jx.Row) {
         this.row = options.row;
         this.row.grid = this;
@@ -193,7 +193,7 @@ Jx.Grid = new Class({
       this.row = new Jx.Row({grid: this});
     }
 
-    if ($defined(options.columns)) {
+    if (options.columns != undefined) {
         if (options.columns instanceof Jx.Columns) {
             this.columns = options.columns;
             this.columns.grid = this;
@@ -469,39 +469,39 @@ Jx.Grid = new Class({
     store.options.columns.each(function(col, index) {
       if (!this.columns.getByName(col.name)) {
         var renderer = new Jx.Grid.Renderer.Text(),
-            format = $defined(col.format) ? col.format : null,
-            template = "<span class='jxGridCellContent'>"+ ($defined(col.label) ? col.label : col.name).capitalize() + "</span>",
+            format = col.format != undefined ? col.format : null,
+            template = "<span class='jxGridCellContent'>"+ (col.label != undefined ? col.label : col.name).capitalize() + "</span>",
             column;
-        if ($defined(col.renderer)) {
+        if (col.renderer != undefined) {
           if ($type(col.renderer) == 'string') {
             if (Jx.Grid.Renderer[col.renderer.capitalize()]) {
               renderer = new Jx.Grid.Renderer[col.renderer.capitalize()]();
             }
           } else if ($type(col.renderer) == 'object' && 
-                     $defined(col.renderer.type) && 
+                     col.renderer.type != undefined && 
                      Jx.Grid.Renderer[col.renderer.type.capitalize()]) {
             renderer = new Jx.Grid.Renderer[col.renderer.type.capitalize()](col.renderer);
           }
         }
         if (format) {
           if ($type(format) == 'string' && 
-              $defined(Jx.Formatter[format.capitalize()])) {
+              Jx.Formatter[format.capitalize()] != undefined) {
             renderer.options.formatter = new Jx.Formatter[format.capitalize()]();
           } else if ($type(format) == 'object' && 
-                     $defined(format.type) && 
-                     $defined(Jx.Formatter[format.type.capitalize()])) {
+                     format.type != undefined && 
+                     Jx.Formatter[format.type.capitalize()] != undefined) {
              renderer.options.formatter = new Jx.Formatter[format.type.capitalize()](format);
           }
         }
         column = new Jx.Column({
           grid: this,
           template: template,
-          renderMode: $defined(col.renderMode) ? col.renderMode : $defined(col.width) ? 'fixed' : 'fit',
-          width: $defined(col.width) ? col.width : null,
-          isEditable: $defined(col.editable) ? col.editable : false,
-          isSortable: $defined(col.sortable) ? col.sortable : false,
-          isResizable: $defined(col.resizable) ? col.resizable : false,
-          isHidden: $defined(col.hidden) ? col.hidden : false,
+          renderMode: col.renderMode != undefined ? col.renderMode : $defined(col.width) ? 'fixed' : 'fit',
+          width: col.width != undefined ? col.width : null,
+          isEditable: col.editable != undefined ? col.editable : false,
+          isSortable: col.sortable != undefined ? col.sortable : false,
+          isResizable: col.resizable != undefined ? col.resizable : false,
+          isHidden: col.hidden != undefined ? col.hidden : false,
           name: col.name || '',
           renderer: renderer 
         });
@@ -659,7 +659,7 @@ Jx.Grid = new Class({
         th,
         text = index + 1,
         rh;
-    if (!$defined(position) || !['top','bottom','replace'].contains(position)) {
+    if (position == undefined || !['top','bottom','replace'].contains(position)) {
       position = 'bottom';
     }
     tr = row.getGridRowElement(index, '');

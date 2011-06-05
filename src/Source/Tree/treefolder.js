@@ -191,7 +191,7 @@ Jx.TreeFolder = new Class({
         if (!this.domObj.parentNode) return;
         
         if (this.tree.dirty || (this.owner && this.owner.dirty)) {
-          if (!$defined(isLast)) {
+          if (isLast == undefined) {
               isLast = this.domObj.hasClass('jxTreeBranchLastOpen') ||
                        this.domObj.hasClass('jxTreeBranchLastClosed');
           }

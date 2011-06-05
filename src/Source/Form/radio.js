@@ -62,7 +62,7 @@ Jx.Field.Radio = new Class({
     render: function () {
         this.parent();
 
-        if ($defined(this.options.checked) && this.options.checked) {
+        if (this.options.checked != undefined && this.options.checked) {
             if (Browser.Engine.trident) {
                 var parent = this.field.getParent();
                 var sibling;

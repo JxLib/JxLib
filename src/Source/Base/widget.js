@@ -298,7 +298,7 @@ Jx.Widget = new Class({
             });
             this.req.send();
             if (Jx.isAir) {
-                timeout = $defined(options.timeout) ? options.timeout : 10000;
+                timeout = options.timeout != undefined ? options.timeout : 10000;
                 this.reqTimeout = this.checkRequest.delay(timeout, this);
             }
         } else {
@@ -604,7 +604,7 @@ Jx.Widget = new Class({
           }
         }
         /* create a shim so selects don't show through the chrome */
-        if ($defined(window.IframeShim)) {
+        if (window.IframeShim != undefined) {
           this.shim = new IframeShim(c, {className: 'jxIframeShim'});
         }
 
@@ -694,7 +694,7 @@ Jx.Widget = new Class({
     addTo: function(reference, where) {
         var el = document.id(this.addable) || document.id(this.domObj);
         if (el) {
-            if (reference instanceof Jx.Widget && $defined(reference.add)) {
+            if (reference instanceof Jx.Widget && reference.add != undefined) {
                 reference.add(el);
             } else {
                 ref = document.id(reference);
@@ -738,14 +738,14 @@ Jx.Widget = new Class({
         var h = new Hash(),
             element,
             el;
-        if ($defined(container)){
+        if (container != undefined){
             element = container.set('html',template);
         } else {
             element = new Element('div',{html:template});
         }
         classes.each(function(klass){
             el = element.getElement('.'+klass);
-            if ($defined(el)){
+            if (el != undefined){
                 h.set(klass,el);
             }
         });
@@ -768,17 +768,17 @@ Jx.Widget = new Class({
      * destroy the widget and clean up any potential memory leaks
      */
     cleanup: function(){
-        if ($defined(this.domObj)) {
+        if (this.domObj != undefined) {
             this.domObj.eliminate('jxWidget');
             this.domObj.destroy();
         }
-        if ($defined(this.addable)) {
+        if (this.addable != undefined) {
             this.addable.destroy();
         }
-        if ($defined(this.domA)) {
+        if (this.domA != undefined) {
             this.domA.destroy();
         }
-        if ($defined(this.classes)) {
+        if (this.classes != undefined) {
           this.classes.each(function(v, k) {
             this[k] = null;
           }, this);
@@ -795,8 +795,8 @@ Jx.Widget = new Class({
     render: function() {
         this.elements = this.processElements(this.options.template,
             this.classes);
-        if ($defined(this.domObj)) {
-          if ( $defined(this.options.id)) {
+        if (this.domObj != undefined) {
+          if ( this.options.id != undefined) {
             this.domObj.set('id', this.options.id);
           }
           //TODO: Should we autogenerate an id when one is not provided? like so...
@@ -858,12 +858,12 @@ Jx.Widget = new Class({
           size,
           opts,
           domObj = this.domObj;
-      message = $defined(message) ? message : {
+      message = message != undefined ? message : {
         set:'Jx',
         key:'widget',
         value:'busyMessage'
       };
-      forceMessage = $defined(forceMessage) ? forceMessage : false;
+      forceMessage = forceMessage != undefined ? forceMessage : false;
       this.busy = state;
       this.fireEvent('busy', state);
       if (state) {

@@ -288,8 +288,8 @@ Jx.Object = new Class({
         var p;
         // pluginNamespace must be defined in order to pass plugins to the
         // object
-        if ($defined(this.pluginNamespace)) {
-            if ($defined(this.options.plugins)
+        if (this.pluginNamespace != undefined) {
+            if (this.options.plugins != undefined
                     && Jx.type(this.options.plugins) === 'array') {
                 this.options.plugins.each(function (plugin) {
                     if (plugin instanceof Jx.Plugin) {
@@ -301,7 +301,7 @@ Jx.Object = new Class({
                         // that is used for locating the plugins. The default
                         // namespace is 'Other' for
                         // now until we come up with a better idea
-                      if ($defined(Jx.Plugin[this.pluginNamespace][plugin.name.capitalize()])) {
+                      if (Jx.Plugin[this.pluginNamespace][plugin.name.capitalize()] != undefined) {
                         p = new Jx.Plugin[this.pluginNamespace][plugin.name.capitalize()](plugin.options);
                       } else {
                         p = new Jx.Adaptor[this.pluginNamespace][plugin.name.capitalize()](plugin.options);
@@ -309,7 +309,7 @@ Jx.Object = new Class({
                         p.attach(this);
                     } else if (Jx.type(plugin) === 'string') {
                         //this is a name for a plugin.
-                      if ($defined(Jx.Plugin[this.pluginNamespace][plugin.capitalize()])) {
+                      if (Jx.Plugin[this.pluginNamespace][plugin.capitalize()] != undefined) {
                         p = new Jx.Plugin[this.pluginNamespace][plugin.capitalize()]();
                       } else {
                         p = new Jx.Adaptor[this.pluginNamespace][plugin.capitalize()]();
@@ -349,7 +349,7 @@ Jx.Object = new Class({
             }, this);
         }
         this.plugins.empty();
-        if (this.options.useLang && $defined(this.bound.changeText)) {
+        if (this.options.useLang && this.bound.changeText != undefined) {
             MooTools.lang.removeEvent('langChange', this.bound.changeText);
         }
         this.bound = null;
@@ -416,10 +416,10 @@ Jx.Object = new Class({
         result = val;
       } else if (Jx.type(val) == 'function') {
         result = val();
-      } else if (Jx.type(val) == 'object' && $defined(val.set) && $defined(val.key)) {
+      } else if (Jx.type(val) == 'object' && val.set != undefined && val.key != undefined) {
         // COMMENT: just an idea how a localization object could be stored to the instance if needed somewhere else and options change?
         this.i18n = val;
-        if($defined(val.value)) {
+        if(val.value != undefined) {
           result = MooTools.lang.get(val.set, val.key)[val.value];
         }else{
           result = MooTools.lang.get(val.set, val.key);
