@@ -370,8 +370,8 @@ Jx.Widget = new Class({
     position: function(element, relative, options) {
         element = document.id(element);
         relative = document.id(relative);
-        var hor = $splat(options.horizontal || ['center center']),
-            ver = $splat(options.vertical || ['center center']),
+        var hor = Array.from(options.horizontal || ['center center']),
+            ver = Array.from(options.vertical || ['center center']),
             offsets = $merge({top:0,right:0,bottom:0,left:0}, options.offsets || {}),
             coords = relative.getCoordinates(), //top, left, width, height,
             page, 
