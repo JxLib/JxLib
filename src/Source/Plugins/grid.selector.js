@@ -624,7 +624,7 @@ Jx.Plugin.Grid.Selector = new Class({
             rows = grid.gridTableBody.rows;
         }
 
-        $A(rows).each(function(row, idx) {
+        Array.from(rows).each(function(row, idx) {
             var check = row.cells[col].getElement('input');
             if (check != undefined) {
                 var rowChecked = check.get('checked');

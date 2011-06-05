@@ -378,7 +378,7 @@ Jx.List = new Class({
      * {integer} the position of the item or -1 if not found
      */
     indexOf: function(item) {
-        return $A(this.container.childNodes).indexOf(item);
+        return Array.from(this.container.childNodes).indexOf(item);
     },
     /**
      * APIMethod: count
@@ -392,7 +392,7 @@ Jx.List = new Class({
      * returns an array of the items in the list
      */
     items: function() {
-        return $A(this.container.childNodes);
+        return Array.from(this.container.childNodes);
     },
     /**
      * APIMethod: each
@@ -405,7 +405,7 @@ Jx.List = new Class({
      * default.
      */
     each: function(f, context) {
-        $A(this.container.childNodes).each(f, context);
+        Array.from(this.container.childNodes).each(f, context);
     },
     /**
      * APIMethod: select

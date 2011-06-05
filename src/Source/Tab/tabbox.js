@@ -151,7 +151,7 @@ Jx.TabBox = new Class({
     add : function() {
         this.tabBar.add.apply(this.tabBar, arguments);
         this.tabSet.add.apply(this.tabSet, arguments);
-        $A(arguments).flatten().each(function(tab){
+        Array.from(arguments).flatten().each(function(tab){
             tab.addEvents({
                 close: (function(){
                     this.tabBar.remove(tab);

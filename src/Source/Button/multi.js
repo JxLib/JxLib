@@ -292,7 +292,7 @@ Jx.Button.Multi = new Class({
      * button - {<Jx.Button>} a <Jx.Button> instance, may be repeated in the parameter list
      */
     add: function() {
-        $A(arguments).flatten().each(function(theButton){
+        Array.from(arguments).flatten().each(function(theButton){
           var f,
               opts,
               button;

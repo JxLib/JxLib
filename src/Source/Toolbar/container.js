@@ -277,7 +277,7 @@ Jx.Toolbar.Container = new Class({
      *    can be added by passing multiple arguments.
      */
     add: function() {
-        $A(arguments).flatten().each(function(thing) {
+        Array.from(arguments).flatten().each(function(thing) {
             if (this.options.scroll) {
                 /* we potentially need to show or hide scroller buttons
                  * when the toolbar contents change

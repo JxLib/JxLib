@@ -441,7 +441,7 @@ Jx.Layout = new Class({
         if (this.options.propagate) {
             // propogate changes to children
             var o = {forceResize: options ? options.forceResize : false};
-            $A(this.domObj.childNodes).each(function(child){
+            Array.from(this.domObj.childNodes).each(function(child){
                 if (child.resize && child.getStyle('display') != 'none') {
                     child.resize.delay(0,child,o);
                 }

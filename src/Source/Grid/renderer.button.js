@@ -53,7 +53,7 @@ Jx.Grid.Renderer.Button = new Class({
     render: function () {
         this.parent();
 
-        $A(this.options.buttonOptions).each(function(opts){
+        Array.from(this.options.buttonOptions).each(function(opts){
             var button = new Jx.Button(opts);
             this.domObj.grab(document.id(button));
         },this);

@@ -76,7 +76,7 @@ Jx.ButtonSet = new Class({
      * this method.
      */
     add : function() {
-        $A(arguments).each(function(button) {
+        Array.from(arguments).each(function(button) {
             if (button.domObj.hasClass(button.options.toggleClass)) {
                 button.domObj.removeClass(button.options.toggleClass);
                 button.domObj.addClass(button.options.toggleClass+'Set');

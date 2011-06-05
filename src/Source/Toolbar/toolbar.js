@@ -191,7 +191,7 @@ Jx.Toolbar = new Class({
      * by passing multiple arguments.
      */
     add: function( ) {
-        $A(arguments).flatten().each(function(thing) {
+        Array.from(arguments).flatten().each(function(thing) {
             var item = thing;
             if (item.domObj) {
                 item = item.domObj;

@@ -209,7 +209,7 @@ Jx.Field.Select = new Class({
      */
     empty: function () {
         if (this.field.options != undefined) {
-            $A(this.field.options).each(function (option) {
+            Array.from(this.field.options).each(function (option) {
                 this.field.remove(option);
             }, this);
         }
