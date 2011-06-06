@@ -114,7 +114,7 @@ Jx.Grid.Renderer.Text = new Class({
     this.domObj.set('html',text);
 
     if (this.options.css != undefined && Jx.type(this.options.css) === 'function') {
-      this.domObj.addClass(this.options.css.run(text));
+      this.domObj.addClass(this.options.css.apply(this, Array.from(text)));
     } else if (this.options.css != undefined && Jx.type(this.options.css) === 'string'){
       this.domObj.addClass(this.options.css);
     }

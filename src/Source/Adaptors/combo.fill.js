@@ -97,7 +97,7 @@ Jx.Adaptor.Combo.Fill = new Class({
             if (!noRepeat || (noRepeat && !this.labels.contains(template))) {
                 selected = false;
                 if (Jx.type(options.selectedFn) == 'function') {
-                    selected = options.selectedFn.run(record);
+                    selected = options.selectedFn.apply(ths,Array.from(record));
                 }
                 obj = {
                     label: template,
