@@ -158,7 +158,7 @@ var builder = new Class({
 	},
 	
 	setProfile: function(profile){
-		if (!$defined(profile)) { return; }
+		if (profile == undefined) { return; }
 		
 		if ($type(profile) !== 'hash') {
 			profile = new Hash(profile);
@@ -250,7 +250,7 @@ var builder = new Class({
 	},
 	
 	select: function(ev,el,flag){
-		if ($defined(ev)){
+		if (ev != undefined){
 			ev.stopPropagation();
 		}
 		el = $(el);
@@ -310,10 +310,10 @@ var builder = new Class({
 	
 	check: function(e,el){
 		var dep;
-		if ($defined(e)){
+		if (e != undefined){
 			e.stopPropagation();
 			el = $(e.target);
-		} else if ($defined(el)){
+		} else if (el != undefined){
 			el = $(el);
 		} else {
 			return;
@@ -344,7 +344,7 @@ var builder = new Class({
 				this.checkSection(dep);
 				var d = this.deps.get(dep);
 				var newDeps = d.deps;
-				if (this.includeOpts && $defined(d.opt)){
+				if (this.includeOpts && d.opt != undefined){
 					this.addDeps(d.opt);
 				}
 				if (newDeps[0].toLowerCase() !== 'none' && dep.toLowerCase() !== 'core'){
@@ -371,9 +371,9 @@ var builder = new Class({
 	},
 	
 	optsCheck: function(e,el){
-		if ($defined(e)){
+		if (e != undefined){
 			el = $(e.target);
-		} else if ($defined(el)){
+		} else if (el != undefined){
 			el = $(el);
 		} else {
 			return;
@@ -385,7 +385,7 @@ var builder = new Class({
 			//if they aren't already checked
 			this.checked.each(function(dep){
 				var d = this.deps.get(dep);
-				if ($defined(d.opt)){
+				if (d.opt != undefined){
 					this.addOpts(d.opt);
 				} 
 			},this);

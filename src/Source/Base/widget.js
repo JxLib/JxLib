@@ -285,7 +285,7 @@ Jx.Widget = new Class({
                     element.innerHTML = html;
                     this.contentIsLoaded = true;
                     if (Jx.isAir){
-                        $clear(this.reqTimeout);
+                        window.clearTimeout(this.reqTimeout);
                     }
                     this.setBusy(false);
                     this.fireEvent('contentLoaded', this);
@@ -972,7 +972,7 @@ if (Jx.isAir){
             if (this.req.xhr.readyState === 1) {
                 //we still haven't gotten the file. Cancel and fire the
                 //failure
-                $clear(this.reqTimeout);
+                window.clearTimeout(this.reqTimeout);
                 this.req.cancel();
                 this.contentIsLoaded = true;
                 this.fireEvent('contentLoadFailed', this);

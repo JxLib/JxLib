@@ -65,7 +65,7 @@ function complexListView() {
    {'class':'comboGreen', label: 'Green'},
    {'class':'comboYellow', label: 'Yellow'}].each(function(o) {
       var theTemplate = new String(linkTempl).substitute(o);
-      enabled = $defined(o.enabled) ? o.enabled : true;
+      enabled = o.enabled  != undefined ? o.enabled : true;
       var item = new Jx.ListItem({template:theTemplate, enabled: enabled});
       $(item).getElement('.itemTools').addEvent('click', function(){
         listView.remove(item);

@@ -134,11 +134,11 @@ Jx.Store = new Class({
 
         this.deleted = [];
         
-        if ($defined(this.options.id)) {
+        if (this.options.id != undefined) {
             this.id = this.options.id;
         }
 
-        if (!$defined(this.options.protocol)) {
+        if (this.options.protocol == undefined) {
             this.ready = false;
             return;
         } else {
@@ -147,7 +147,7 @@ Jx.Store = new Class({
 
         this.strategies = new Hash();
 
-        if ($defined(this.options.strategies)) {
+        if (this.options.strategies != undefined) {
             this.options.strategies.each(function(strategy){
                 this.addStrategy(strategy);
             },this);
@@ -156,7 +156,7 @@ Jx.Store = new Class({
             this.addStrategy(strategy);
         }
 
-        if ($defined(this.options.record)) {
+        if (this.options.record != undefined) {
             this.record = this.options.record;
         } else {
             this.record = Jx.Record;
@@ -222,7 +222,7 @@ Jx.Store = new Class({
      * Clears the store of data
      */
     empty: function () {
-        if ($defined(this.data)) {
+        if (this.data != undefined) {
             this.data.empty();
         }
     },
@@ -235,7 +235,7 @@ Jx.Store = new Class({
      * Returns: true | false (Null if there's a problem)
      */
     hasNext : function () {
-        if ($defined(this.data)) {
+        if (this.data != undefined) {
             return this.index < this.data.length - 1;
         }
         return null;
@@ -249,7 +249,7 @@ Jx.Store = new Class({
      * Returns: true | false
      */
     hasPrevious : function () {
-        if ($defined(this.data)) {
+        if (this.data != undefined) {
             return this.index > 0;
         }
         return null;
@@ -263,7 +263,7 @@ Jx.Store = new Class({
      * Returns: true | false
      */
     valid : function () {
-        return ($defined(this.data) && $defined(this.data[this.index]));
+        return (this.data != undefined && this.data[this.index] != undefined);
     },
 
     /**
@@ -273,7 +273,7 @@ Jx.Store = new Class({
      * Returns: nothing | null if error
      */
     next : function () {
-        if ($defined(this.data)) {
+        if (this.data != undefined) {
             this.index++;
             if (this.index === this.data.length) {
                 this.index = this.data.length - 1;
@@ -293,7 +293,7 @@ Jx.Store = new Class({
      *
      */
     previous : function () {
-        if ($defined(this.data)) {
+        if (this.data != undefined) {
             this.index--;
             if (this.index < 0) {
                 this.index = 0;
@@ -313,7 +313,7 @@ Jx.Store = new Class({
      *
      */
     first : function () {
-        if ($defined(this.data)) {
+        if (this.data != undefined) {
             this.index = 0;
             this.fireEvent('storeMove', this);
             return true;
@@ -329,7 +329,7 @@ Jx.Store = new Class({
      * Returns: nothing | null if error
      */
     last : function () {
-        if ($defined(this.data)) {
+        if (this.data != undefined) {
             this.index = this.data.length - 1;
             this.fireEvent('storeMove', this);
             return true;
@@ -346,7 +346,7 @@ Jx.Store = new Class({
      * if there's an error
      */
     count : function () {
-        if ($defined(this.data)) {
+        if (this.data != undefined) {
             return this.data.length;
         }
         return null;
@@ -360,7 +360,7 @@ Jx.Store = new Class({
      * there's an error
      */
     getPosition : function () {
-        if ($defined(this.data)) {
+        if (this.data != undefined) {
             return this.index;
         }
         return null;
@@ -376,11 +376,11 @@ Jx.Store = new Class({
      * Returns: true - if successful false - if not successful null - on error
      */
     moveTo : function (index) {
-        if ($defined(this.data) && index >= 0 && index < this.data.length) {
+        if (this.data != undefined && index >= 0 && index < this.data.length) {
             this.index = index;
             this.fireEvent('storeMove', this);
             return true;
-        } else if (!$defined(this.data)) {
+        } else if (this.data == undefined) {
             return null;
         } else {
             return false;
@@ -398,7 +398,7 @@ Jx.Store = new Class({
      *                  marked as deleted.
      */
     each: function (fn, bind, ignoreDeleted) {
-        if ($defined(this.data)) {
+        if (this.data != undefined) {
           var data;
           if (ignoreDeleted) {
               data = this.data.filter(function (record) {
@@ -422,7 +422,7 @@ Jx.Store = new Class({
      *          defaults to the current index.
      */
     get: function (column, index) {
-        if (!$defined(index)) {
+        if (index == undefined) {
             index = this.index;
         }
         return this.data[index].get(column);
@@ -440,7 +440,7 @@ Jx.Store = new Class({
      *          defaults to the current index.
      */
     set: function (column, data, index) {
-        if (!$defined(index)) {
+        if (index == undefined) {
             index = this.index;
         }
         var ret = this.data[index].set(column, data);
@@ -469,11 +469,11 @@ Jx.Store = new Class({
      * insert - flag whether this is an "insert"
      */
     addRecord: function (data, position, insert) {
-        if (!$defined(this.data)) {
+        if (this.data == undefined) {
             this.data = [];
         }
 
-        position = $defined(position)? position : 'bottom';
+        position = position != undefined ? position : 'bottom';
 
         var record = data;
         if (!(data instanceof Jx.Record)) {
@@ -503,7 +503,7 @@ Jx.Store = new Class({
      * the bottom of the store
      */
     addRecords: function (data, position) {
-        var def = $defined(data),
+        var def = data != undefined,
             type = Jx.type(data);
         if (def && type === 'array') {
             this.fireEvent('storeBeginAddRecords', this);
@@ -530,12 +530,12 @@ Jx.Store = new Class({
      * to the current store index
      */
     getRecord: function (index) {
-        if (!$defined(index)) {
+        if (index == undefined) {
             index = this.index;
         }
 
         if (Jx.type(index) === 'number') {
-            if ($defined(this.data) && $defined(this.data[index])) {
+            if (this.data != undefined && this.data[index] != undefined) {
                 return this.data[index];
             }
         } else {
@@ -563,8 +563,8 @@ Jx.Store = new Class({
      *          defaults to the current store index.
      */
     replace: function(data, index) {
-        if ($defined(data)) {
-            if (!$defined(index)) {
+        if (data != undefined) {
+            if (index == undefined) {
                 index = this.index;
             }
             var record = new this.record(this.options.columns,data),
@@ -586,7 +586,7 @@ Jx.Store = new Class({
      *          defaults to the current store index.
      */
     deleteRecord: function(index) {
-        if (!$defined(index)) {
+        if (index == undefined) {
             index = this.index;
         }
         var record = this.data[index];
@@ -596,7 +596,7 @@ Jx.Store = new Class({
         this.data.splice(index,1);
         // TODO: I moved this to a property that is always an array so I don't
         // get an error in the save strategy.
-        // if (!$defined(this.deleted)) {
+        // if (this.deleted  == undefined) {
         //     this.deleted = [];
         // }
         this.deleted.push(record);
@@ -664,7 +664,7 @@ Jx.Store = new Class({
      * index - Optional. The store index of the record to remove.
      */
     removeRecord: function (index) {
-        if (!$defined(index)) {
+        if (index == undefined) {
             index = this.index;
         }
         this.data.splice(index,1);
@@ -725,7 +725,7 @@ Jx.Store = new Class({
   fillTemplate: function (index, template, columnsNeeded, obj) {
       var record = null,
           itemObj;
-      if ($defined(index)) {
+      if (index != undefined) {
           if (index instanceof Jx.Record) {
               record = index;
           } else {
@@ -736,7 +736,7 @@ Jx.Store = new Class({
         }
 
       //create the item
-      itemObj = $defined(obj) ? obj : {};
+      itemObj = obj != undefined ? obj : {};
       columnsNeeded.each(function (col) {
           itemObj[col] = record.get(col);
       }, this);

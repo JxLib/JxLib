@@ -154,7 +154,7 @@ Jx.Store.Strategy.Paginate = new Class({
     loadStore: function (resp) {
         this.store.protocol.removeEvent('dataLoaded', this.bound.loadStore);
         if (resp.success()) {
-            if ($defined(resp.meta)) {
+            if (resp.meta != undefined) {
                 this.parseMetaData(resp.meta);
             }
             this.data.set(this.page,resp.data);
@@ -192,16 +192,16 @@ Jx.Store.Strategy.Paginate = new Class({
      * meta - the meta data object returned from the protocol.
      */
     parseMetaData: function (meta) {
-        if ($defined(meta.columns)) {
+        if (meta.columns != undefined) {
             this.store.options.columns = meta.columns;
         }
-        if ($defined(meta.totalItems)) {
+        if (meta.totalItems != undefiend) {
             this.totalItems = meta.totalItems;
         }
-        if ($defined(meta.totalPages)) {
+        if (meta.totalPages != undefined) {
             this.totalPages = meta.totalPages;
         }
-        if ($defined(meta.primaryKey)) {
+        if (meta.primaryKey != undefined) {
             this.store.options.recordOptions.primaryKey = meta.primaryKey;
         }
             
@@ -251,7 +251,7 @@ Jx.Store.Strategy.Paginate = new Class({
             this.page = page;
         }
         if (this.cacheTimer.has(this.page)) {
-            $clear(this.cacheTimer.get(this.page));
+            window.clearTimeout(this.cacheTimer.get(this.page));
             this.cacheTimer.erase(this.page);
         }
         if (this.data.has(this.page)){
@@ -284,7 +284,7 @@ Jx.Store.Strategy.Paginate = new Class({
         this.itemsPerPage = size;
         //invalidate all pages cached and reload the current one only
         this.cacheTimer.each(function(val){
-            $clear(val);
+            window.clearTimeout(val);
         },this);
         this.cacheTimer.empty();
         this.data.empty();

@@ -182,7 +182,7 @@ Jx.Tab = new Class({
                 this.domObj.addClass('jxTabClose');
                 this.domClose.addEvent('click', (function(){
                   var shouldClose = true;
-                  if ($defined(this.options.shouldClose)) {
+                  if (this.options.shouldClose != undefined) {
                     if (typeof this.options.shouldClose == 'function') {
                       shouldClose = this.options.shouldClose();
                     } else {

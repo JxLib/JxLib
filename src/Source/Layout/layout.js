@@ -167,7 +167,7 @@ Jx.Layout = new Class({
      windowResize: function() {
          this.resize();
          if (this.resizeTimer) {
-             $clear(this.resizeTimer);
+             window.clearTimeout(this.resizeTimer);
              this.resizeTimer = null;
          }
          this.resizeTimer = this.resize.delay(50, this);

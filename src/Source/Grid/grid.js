@@ -496,7 +496,7 @@ Jx.Grid = new Class({
         column = new Jx.Column({
           grid: this,
           template: template,
-          renderMode: col.renderMode != undefined ? col.renderMode : $defined(col.width) ? 'fixed' : 'fit',
+          renderMode: col.renderMode != undefined ? col.renderMode : col.width != undefined ? 'fixed' : 'fit',
           width: col.width != undefined ? col.width : null,
           isEditable: col.editable != undefined ? col.editable : false,
           isSortable: col.sortable != undefined ? col.sortable : false,

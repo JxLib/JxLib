@@ -92,8 +92,8 @@ Jx.Store.Strategy.Save = new Class({
      */
     deactivate: function () {
         this.parent();
-        if ($defined(this.periodicalId)) {
-            $clear(this.periodicalId);
+        if (this.periodicalId != undefined) {
+            window.clearInterval(this.periodicalId);
         } else if (this.options.autoSave) {
             this.store.removeEvent('storeRecordAdded', this.bound.save);
             this.store.removeEvent('storeColumnChanged', this.bound.update);
@@ -130,7 +130,7 @@ Jx.Store.Strategy.Save = new Class({
      */
     saveRecord: function (store, record) {
         //determine the status and route based on that
-        if (!this.updating && $defined(record.state)) {
+        if (!this.updating && record.state  != undefined) {
             if (this.totalChanges === 0) {
                 store.protocol.addEvent('dataLoaded', this.bound.completed);
             }
@@ -166,7 +166,7 @@ Jx.Store.Strategy.Save = new Class({
             records[Jx.Record.INSERT] = [];
             
             this.store.data.each(function (record) {
-                if ($defined(record) && $defined(record.state)) {
+                if (record != undefined && record.state != undefined) {
                     records[record.state].push(record);
                 }
             }, this);
@@ -213,18 +213,18 @@ Jx.Store.Strategy.Save = new Class({
      * response - the response returned from the protocol
      */
     onComplete: function (response) {
-        if (!response.success() || ($defined(response.meta) && !response.meta.success)) {
+        if (!response.success() || (response.meta != undefined && !response.meta.success)) {
             this.failedChanges.push(response);
         } else {
             //process the response
             var records = [response.requestParams[0]].flatten(),
-                responseData = $defined(response.data) ? [response.data].flatten() : null;
+                responseData = response.data != undefined ? [response.data].flatten() : null;
             records.each(function(record, index) {
               if (response.requestType === 'delete') {
                   this.store.deleted.erase(record);
               } else { 
                   if (response.requestType === 'insert' || response.requestType == 'update') {
-                      if (responseData && $defined(responseData[index])) {
+                      if (responseData && responseData[index] != undefined) {
                           this.updating = true;
                           $H(responseData[index]).each(function (val, key) {
                               var d = record.set(key, val);

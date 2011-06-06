@@ -107,7 +107,7 @@ Jx.Tooltip = new Class({
         }
 
         this.domObj.addClass('jxTooltip');
-        if ($defined(this.options.cssClass)) {
+        if (this.options.cssClass != undefined) {
             this.domObj.addClass(this.options.cssClass);
         }
 
@@ -127,7 +127,7 @@ Jx.Tooltip = new Class({
      * event - the event object
      */
     enter : function (event) {
-        this.timer = $clear(this.timer);
+        this.timer = window.clearTimeout(this.timer);
         this.timer = (function () {
             this.domObj.setStyle('visibility', 'visible');
             this.position(event);
@@ -141,7 +141,7 @@ Jx.Tooltip = new Class({
      * event - the event object
      */
     leave : function (event) {
-        this.timer = $clear(this.timer);
+        this.timer = window.clearTimeout(this.timer);
         this.timer = (function () {
             this.domObj.setStyle('visibility', 'hidden');
         }).delay(this.options.delay, this);

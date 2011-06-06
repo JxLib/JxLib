@@ -108,7 +108,7 @@ Jx.Progressbar = new Class({
     render: function () {
         this.parent();
         
-        if ($defined(this.options.parent)) {
+        if (this.options.parent != undefined) {
             this.domObj.inject(document.id(this.options.parent));
         }
         
@@ -119,7 +119,7 @@ Jx.Progressbar = new Class({
         
         //Message
         if (this.message) {
-            if ($defined(MooTools.lang.get('Jx','progressbar').messageText)) {
+            if (MooTools.lang.get('Jx','progressbar').messageText != undefined) {
                 this.message.set('html', this.getText({set:'Jx',key:'progressbar',value:'messageText'}));
             } else {
                 this.message.destroy();

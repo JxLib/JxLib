@@ -140,7 +140,7 @@ Jx.Plugin.Field.Validator = new Class({
     },
 
     validate: function () {
-        $clear(this.timer);
+        window.clearTimeout(this.timer);
         this.timer = this.validateField.delay(50, this);
     },
 

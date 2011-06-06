@@ -141,7 +141,7 @@ Jx.Scrollbar = new Class({
                         }.periodical(1000, this);
                     }.bind(this),
                     mouseup: function () {
-                        $clear(this.pid);
+                        window.clearInterval(this.pid);
                     }.bind(this)
                 });
                 this.scrollRight.addEvents({
@@ -152,7 +152,7 @@ Jx.Scrollbar = new Class({
                         }.periodical(1000, this);
                     }.bind(this),
                     mouseup: function () {
-                        $clear(this.pid);
+                        window.clearInterval(this.pid);
                     }.bind(this)
                 });
                 //set size of the sliderHolder

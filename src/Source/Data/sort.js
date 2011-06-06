@@ -125,7 +125,7 @@ Jx.Sort = new Class({
      * data - the data to sort
      */
     setData : function (data) {
-        if ($defined(data)) {
+        if (data != defined) {
             this.data = data;
         }
     },
@@ -138,7 +138,7 @@ Jx.Sort = new Class({
      * col - the column to sort by
      */
     setColumn : function (col) {
-        if ($defined(col)) {
+        if (col != undefined) {
             this.col = col;
         }
     },
