@@ -369,7 +369,7 @@ Jx.Form = new Class({
 
     fileUploadComplete: function(data){
         this.completed++;
-        $each(data,function(value,key){
+        Object.each(data,function(value,key){
             this.data[key] = value;
         },this);
         if (this.completed == this.files && this.options.uploadFilesFirst) {
