@@ -89,14 +89,14 @@ Jx.Toolbar.Container = new Class({
         template: "<div class='jxBarContainer'><div class='jxBarControls'></div></div>",
         scrollerTemplate: "<div class='jxBarScroller'><div class='jxBarWrapper'></div></div>"
     },
-    classes: new Hash({
+    classes: {
         domObj: 'jxBarContainer',
         scroller: 'jxBarScroller',
         //used to hide the overflow of the wrapper
         wrapper: 'jxBarWrapper',
         controls: 'jxBarControls'
         //used to allow multiple toolbars to float next to each other
-    }),
+    },
 
     updating: false,
 
@@ -111,9 +111,9 @@ Jx.Toolbar.Container = new Class({
          */
         if (document.id(this.options.parent)) {
             this.domObj = document.id(this.options.parent);
-            this.elements = new Hash({
+            this.elements = {
                 'jxBarContainer': this.domObj
-            });
+            };
             this.domObj.addClass('jxBarContainer');
             this.domObj.grab(this.controls);
             this.domObj.addEvent('sizeChange', this.update);

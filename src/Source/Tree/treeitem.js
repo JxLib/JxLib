@@ -95,13 +95,13 @@ Jx.TreeItem = new Class ({
           message: null
         }
     },
-    classes: new Hash({
+    classes: {
         domObj: 'jxTreeContainer',
         domA: 'jxTreeItem',
         domImg: 'jxTreeImage',
         domIcon: 'jxTreeIcon',
         domLabel: 'jxTreeLabel'
-    }),
+    },
 
     /**
      * APIMethod: render

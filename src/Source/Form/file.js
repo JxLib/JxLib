@@ -130,7 +130,7 @@ Jx.Field.File = new Class({
     init: function () {
         this.parent();
 
-        this.forms = new Hash();
+        this.forms = {};
         //create the iframe
         //we use the same iFrame for each so we don't have to recreate it each time
         this.isIFrameSetup = true;
@@ -197,14 +197,14 @@ Jx.Field.File = new Class({
         if (this.options.mode=='single' && this.field.value !== '' && (this.text.field.value !== this.field.value)) {
             this.text.field.value = this.field.value;
             this.fireEvent('fileSelected', this);
-            this.forms.set(this.field.value, this.prepForm());
+            this.forms[this.field.value] = this.prepForm();
             if (this.options.autoUpload) {
                 this.uploadSingle();
             }
         } else if (this.options.mode=='multiple') {
             var filename = this.field.value;
             var form = this.prepForm();
-            this.forms.set(filename, form);
+            this.forms[filename] = form;
             this.text.setValue('');
             //fire the selected event.
             this.fireEvent('fileSelected', filename);
@@ -256,10 +256,10 @@ Jx.Field.File = new Class({
     upload: function (externalForm) {
         //do we have files to upload?
         if (this.forms.getLength() > 0) {
-            var keys = this.forms.getKeys();
+            var keys = Object.keys(this.forms);
             this.currentKey = keys[0];
-            var form = this.forms.get(this.currentKey);
-            this.forms.erase(this.currentKey);
+            var form = this.forms[this.currentKey];
+            delete this.forms[this.currentKey];
             if (externalForm != undefined && this.forms.getLength() == 0) {
                 var fields = externalForm.fields;
                 fields.each(function(field){
@@ -423,8 +423,8 @@ Jx.Field.File = new Class({
      * filename - the filename indicating which file to remove.
      */
     remove: function (filename) {
-        if (this.forms.has(filename)) {
-            this.forms.erase(filename);
+        if (Object.keys(this.forms).contains(filename)) {
+            delete this.forms[filename];
         }
     },
     
@@ -453,7 +453,7 @@ Jx.Field.File = new Class({
      */
     getFileInputs: function () {
         var inputs = [];
-        this.forms.each(function(form){
+        Object.each(this.forms, function(form){
             var input = document.id(form).getElement('input[type=file]');
             inputs.push(input);
         },this);

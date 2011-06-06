@@ -42,9 +42,9 @@ Jx.Grid.Renderer.Button = new Class({
     
     domInsert: true,
 
-    classes:  $H({
+    classes:  {
         domObj: 'buttons'
-    }),
+    },
 
     init: function () {
         this.parent();

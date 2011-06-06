@@ -105,9 +105,9 @@ Jx.Column = new Class({
         renderer: null
     },
 
-    classes: $H({
+    classes: {
       domObj: 'jxGridCellContent'
-    }),
+    },
 
     /**
      * Property: grid

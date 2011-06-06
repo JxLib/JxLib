@@ -115,13 +115,13 @@ Jx.Form = new Class({
      */
     pluginNamespace: 'Form',
 
-    classes: $H({
+    classes: {
         domObj: 'jxForm'
-    }),
+    },
     
     init: function() {
       this.parent();
-      this.fields = new Hash();
+      this.fields = {};
       this.data = {};
     },
     /**
@@ -168,7 +168,7 @@ Jx.Form = new Class({
      * field - <Jx.Field> to add
      */
     addField : function (field) {
-        this.fields.set(field.id, field);
+        this.fields[field.id] = field;
         if (field.options.defaultAction) {
             this.defaultAction = field;
         }
@@ -212,11 +212,8 @@ Jx.Form = new Class({
      * values - A Hash of values to set keyed by field name.
      */
     setValues : function (values) {
-        if (Jx.type(values) === 'object') {
-            values = new Hash(values);
-        }
-        this.fields.each(function (item) {
-            item.setValue(values.get(item.name));
+        Object.each(this.fields, function (item) {
+            item.setValue(values[item.name]);
         }, this);
     },
 
@@ -249,7 +246,7 @@ Jx.Form = new Class({
      * Resets all fields back to their original value
      */
     reset : function () {
-        this.fields.each(function (field, name) {
+        Object.each(this.fields, function (field, name) {
             field.reset();
         }, this);
         this.fireEvent('reset',this);
@@ -264,7 +261,7 @@ Jx.Form = new Class({
      */
     getFieldsByName: function (name) {
         var fields = [];
-        this.fields.each(function(val, id){
+        Object.each(this.fields, function(val, id){
             if (val.name === name) {
                 fields.push(val);
             }
@@ -279,8 +276,8 @@ Jx.Form = new Class({
      * id - {string} the id of the field to find.
      */
     getField: function (id) {
-        if (this.fields.has(id)) {
-            return this.fields.get(id);
+        if (Object.keys(this.fields).contains(id)) {
+            return this.fields[id];
         } 
         return null;
     },
@@ -296,7 +293,7 @@ Jx.Form = new Class({
         return;
       }
       this.parent(state);
-      this.fields.each(function(field) {
+      Object.each(this.fields, function(field) {
         field.setBusy(state, true);
       });
     },
@@ -359,7 +356,7 @@ Jx.Form = new Class({
 
     findFiles: function() {
         var files = [];
-        this.fields.each(function(field){
+        Object.each(this.fields, function(field){
             if (field instanceof Jx.Field.File) {
                 files.push(field);
             }

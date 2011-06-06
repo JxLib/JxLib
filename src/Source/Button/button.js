@@ -163,7 +163,7 @@ Jx.Button = new Class({
      * used to auto-populate this object with element references when
      * processing templates
      */
-    classes: new Hash({
+    classes: {
         domObj: 'jxButtonContainer',
         domA: 'jxButton',
         domImg: 'jxButtonIcon',

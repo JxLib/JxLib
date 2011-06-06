@@ -53,9 +53,9 @@ Jx.Grid.Renderer = new Class({
    */
   domInsert: false,
 
-  classes: $H({
+  classes: {
     domObj: 'jxGridCellContent'
-  }),
+  },
 
   column: null,
 

@@ -107,10 +107,10 @@ Jx.Button.Flyout = new Class({
      * Property: contentClasses
      * the classes array for processing the contentTemplate
      */
-    contentClasses: new Hash({
+    contentClasses: {
         contentContainer: 'jxFlyout',
         content: 'jxFlyoutContent'
-    }),
+    },
 
     /**
      * Property: content
@@ -145,7 +145,7 @@ Jx.Button.Flyout = new Class({
     cleanup: function() {
       this.content.eliminate('jxFlyout');
       this.content.destroy();
-      this.contentClasses.each(function(v,k){
+      Object.each(this.contentClasses, function(v,k){
         this[k] = null;
       }, this);
       this.parent();

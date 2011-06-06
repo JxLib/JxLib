@@ -93,13 +93,13 @@ Jx.Plugin.Grid.Selector = new Class({
      */
     init: function() {
         this.parent();
-        this.selected = $H({
+        this.selected = {
             cells: [],
             columns: [],
             rows: [],
             rowHeads: [],
             columnHeads: []
-        });
+        };
     },
     /**
      * APIMethod: attach
@@ -200,7 +200,7 @@ Jx.Plugin.Grid.Selector = new Class({
      * record - {<Jx.Record>} the record that was rendered into that row
      */
     updateCheckColumn: function(index, record) {
-      var state = this.selected.get('rows').contains(index),
+      var state = this.selected.rows.contains(index),
           r = this.grid.gridTableBody.rows,
           tr = document.id((index >= 0 && index < r.length) ? r[index] : null);
       
@@ -276,33 +276,33 @@ Jx.Plugin.Grid.Selector = new Class({
             i;
         this.options[opt] = false;
         if (opt === 'cell') {
-            selected.get('cells').each(function(cell) {
+            selected.cells.each(function(cell) {
               cell.removeClass('jxGridCellSelected');
             });
-            selected.set('cells',[]);
+            selected.cells = [];
         } else if (opt === 'row') {
           this.getSelectedRows().each(function(row){
             idx = row.retrieve('jxRowData').row;
             row.removeClass('jxGridRowSelected');
             this.setCheckField(idx,false);
           }, this);
-          selected.set('rows',[]);
-          selected.get('rowHeads').each(function(rowHead){
+          selected.rows = [];
+          selected.rowHeads.each(function(rowHead){
             rowHead.removeClass('jxGridRowHeaderSelected');
           });
-          selected.set('rowHeads',[]);
+          selected.rowHeads = [];
         } else {
-            selected.get('columns').each(function(column){
+            selected.columns.each(function(column){
                 for (i = 0; i < gridTableRows.length; i++) {
                     gridTableRows[i].cells[column].removeClass('jxGridColumnSelected');
                 }
             });
-            selected.set('columns',[]);
+            selected.columns = [];
 
-            selected.get('columnHeads').each(function(rowHead){
-            rowHead.removeClass('jxGridColumnHeaderSelected');
-          },this);
-          selected.set('columnHeads',[]);
+            selected.columnHeads.each(function(rowHead){
+                rowHead.removeClass('jxGridColumnHeaderSelected');
+            },this);
+            selected.columnHeads = [];
         }
     },
     
@@ -351,7 +351,7 @@ Jx.Plugin.Grid.Selector = new Class({
      */
     selectCell: function(cell) {
         if (!this.options.cell) { return; }
-        var cells = this.selected.get('cells');
+        var cells = this.selected.cells;
         if (cell.hasClass('jxGridCellSelected')) {
           cell.removeClass('jxGridCellSelected');
           cells.erase(cell);
@@ -374,7 +374,7 @@ Jx.Plugin.Grid.Selector = new Class({
           rows.push(i);
         }
       }
-      this.selected.set('rows', rows);
+      this.selected.rows = rows;
     },
     
     /**
@@ -389,7 +389,7 @@ Jx.Plugin.Grid.Selector = new Class({
         var options = this.options,
             r = this.grid.gridTableBody.rows,
             tr = document.id((row >= 0 && row < r.length) ? r[row] : null),
-            rows = this.selected.get('rows'),
+            rows = this.selected.rows,
             silently = silently != undefined ? silently : false;
         if (tr) {
             if (tr.hasClass('jxGridRowSelected')) {
@@ -481,7 +481,7 @@ Jx.Plugin.Grid.Selector = new Class({
         if (!cell) {
             return;
         }
-        cells = this.selected.get('rowHeads');
+        cells = this.selected.rowHeads;
         if (cells.contains(cell)) {
             cell.removeClass('jxGridRowHeaderSelected');
             cells.erase(cell);
@@ -510,7 +510,7 @@ Jx.Plugin.Grid.Selector = new Class({
      */
     selectColumn: function (col) {
         var gridTable = this.grid.gridTableBody,
-            cols = this.selected.get('columns'),
+            cols = this.selected.columns,
             m = '',
             i;
         if (col >= 0 && col < gridTable.rows[0].cells.length) {
@@ -565,7 +565,7 @@ Jx.Plugin.Grid.Selector = new Class({
         }
 
         cell = document.id(cell);
-        cells = this.selected.get('columnHeads');
+        cells = this.selected.columnHeads;
 
         if (cells.contains(cell)) {
             cell.removeClass('jxGridColumnHeaderSelected');
@@ -697,7 +697,7 @@ Jx.Plugin.Grid.Selector = new Class({
     
     getSelectedRows: function() {
       var rows = [],
-          selected = this.selected.get('rows'),
+          selected = this.selected.rows,
           r = this.grid.gridTableBody.rows;
       selected.each(function(row) {
         var tr = document.id((row >= 0 && row < r.length) ? r[row] : null);

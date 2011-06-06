@@ -84,11 +84,11 @@ Jx.Tree = new Class({
     },
     /**
      * APIProperty: classes
-     * {Hash} a hash of property to CSS class names for extracting references
+     * {Object} anobject of property to CSS class names for extracting references
      * to DOM elements from the supplied templates.  Requires
      * domObj element, anything else is optional.
      */
-    classes: new Hash({domObj: 'jxTreeRoot'}),
+    classes: {domObj: 'jxTreeRoot'},
     
     frozen: false,
     

@@ -73,12 +73,12 @@ Jx.Notice = new Class({
         klass: ''
     },
 
-    classes: new Hash({
+    classes: {
         domObj: 'jxNoticeItemContainer',
         domItem: 'jxNoticeItem',
         domContent: 'jxNotice',
         domClose: 'jxNoticeClose'
-    }),
+    },
 
     /**
      * Method: render

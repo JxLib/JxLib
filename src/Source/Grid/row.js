@@ -87,7 +87,7 @@ Jx.Row = new Class({
      * Property: rules
      * A hash that will hold all of the CSS rules for the rows.
      */
-    rules: $H(),
+    rules: {},
 
     parameters: ['options','grid'],
 

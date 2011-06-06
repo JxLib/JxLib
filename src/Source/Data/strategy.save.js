@@ -226,7 +226,7 @@ Jx.Store.Strategy.Save = new Class({
                   if (response.requestType === 'insert' || response.requestType == 'update') {
                       if (responseData && responseData[index] != undefined) {
                           this.updating = true;
-                          $H(responseData[index]).each(function (val, key) {
+                          Object.each(responseData[index], function (val, key) {
                               var d = record.set(key, val);
                               if (d[1] != val) {
                                 d.unshift(index);

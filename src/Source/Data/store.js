@@ -145,7 +145,7 @@ Jx.Store = new Class({
             this.protocol = this.options.protocol;
         }
 
-        this.strategies = new Hash();
+        this.strategies = {};
 
         if (this.options.strategies != undefined) {
             this.options.strategies.each(function(strategy){
@@ -171,7 +171,7 @@ Jx.Store = new Class({
      * by sub-classes if overridden
      */
     cleanup: function () {
-        this.strategies.each(function(strategy){
+        Object.each(this.strategies, function(strategy){
             strategy.destroy();
         },this);
         this.strategies = null;
@@ -187,8 +187,8 @@ Jx.Store = new Class({
      * name - the name of the strategy we're looking for
      */
     getStrategy: function (name) {
-        if (this.strategies.has(name)) {
-            return this.strategies.get(name);
+        if (Object.keys(this.strategies).contains(name)) {
+            return this.strategies[name];
         }
         return null;
     },
@@ -201,7 +201,7 @@ Jx.Store = new Class({
      * strategy - the strategy to add to the store
      */
     addStrategy: function (strategy) {
-        this.strategies.set(strategy.name, strategy);
+        this.strategies[strategy.name] = strategy;
         strategy.setStore(this);
         strategy.activate();
     },

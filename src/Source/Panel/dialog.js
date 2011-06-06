@@ -204,7 +204,7 @@ Jx.Dialog = new Class({
         type: 'dialog',
         template: '<div class="jxDialog"><div class="jxDialogTitle"><img class="jxDialogIcon" src="'+Jx.aPixel.src+'" alt="" title=""/><span class="jxDialogLabel"></span><div class="jxDialogControls"></div></div><div class="jxDialogContentContainer"><div class="jxDialogContent"></div></div></div>'
     },
-    classes: new Hash({
+    classes: {
         domObj: 'jxDialog',
         title: 'jxDialogTitle',
         domImg: 'jxDialogIcon',
@@ -212,7 +212,7 @@ Jx.Dialog = new Class({
         domControls: 'jxDialogControls',
         contentContainer: 'jxDialogContentContainer',
         content: 'jxDialogContent'
-    }),
+    },
     /**
      * MooTools Keyboard class for Events (mostly used in Dialog.Confirm, Prompt or Message)
      * But also optional here with esc to close

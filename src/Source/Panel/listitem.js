@@ -36,10 +36,10 @@ Jx.ListItem = new Class({
         template: '<li class="jxListItemContainer jxListItem"></li>'
     },
 
-    classes: new Hash({
+    classes: {
         domObj: 'jxListItemContainer',
         domContent: 'jxListItem'
-    }),
+    },
 
     /**
      * APIMethod: render

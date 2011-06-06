@@ -124,9 +124,9 @@ Jx.Toolbar = new Class({
         scroll: true,
         template: '<ul class="jxToolbar"></ul>'
     },
-    classes: new Hash({
+    classes: {
         domObj: 'jxToolbar'
-    }),
+    },
     /**
      * APIMethod: render
      * Create a new instance of Jx.Toolbar.

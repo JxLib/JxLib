@@ -81,10 +81,10 @@ Jx.Slider = new Class({
         onChange: function(){},
         onComplete: function(){}
     },
-    classes: new Hash({
+    classes: {
         domObj: 'jxSliderContainer',
         knob: 'jxSliderKnob'
-    }),
+    },
     slider: null,
     knob: null,
     sliderOpts: null,

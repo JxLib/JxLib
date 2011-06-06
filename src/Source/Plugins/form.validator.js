@@ -117,16 +117,16 @@ Jx.Plugin.Form.Validator = new Class({
             });
         }
 
-        this.plugins = $H();
+        this.plugins = {};
 
         //setup the fields
-        $H(options.fields).each(function (val, key) {
+        Object.each(options.fields, function (val, key) {
             var opts = Object.merge({},this.options.fieldDefaults, val),
                 fields = this.form.getFieldsByName(key).
                 p;
             if (fields && fields.length) {
                 p = new Jx.Plugin.Field.Validator(opts);
-                this.plugins.set(key, p);
+                this.plugins[key] = p;
                 p.attach(fields[0]);
                 p.addEvent('fieldValidationFailed', this.bound.failed);
                 p.addEvent('fieldValidationPassed', this.bound.passed);
@@ -142,7 +142,7 @@ Jx.Plugin.Form.Validator = new Class({
             document.id(this.form).removeEvent('submit');
         }
         this.form = null;
-        this.plugins.each(function(plugin){
+        Object.each(this.plugins, function(plugin){
             plugin.detach();
             plugin = null;
         },this);
@@ -161,11 +161,11 @@ Jx.Plugin.Form.Validator = new Class({
      */
     validate: function () {
         var valid = true;
-        this.errors = $H();
-        this.plugins.each(function(plugin){
+        this.errors = {};
+        Object.each(this.plugins, function(plugin){
             if (!plugin.isValid()) {
                 valid = false;
-                this.errors.set(plugin.field.id,plugin.getErrors());
+                this.errors[plugin.field.id] = plugin.getErrors();
             }
         }, this);
         if (valid) {

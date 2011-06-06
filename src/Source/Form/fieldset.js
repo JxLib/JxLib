@@ -72,10 +72,10 @@ Jx.Fieldset = new Class({
         form : null
     },
 
-    classes: new Hash({
+    classes: {
         domObj: 'jxFieldset',
         legend: 'jxFieldsetLegend'
-    }),
+    },
 
     /**
      * Property: legend

@@ -101,8 +101,8 @@ Jx.Store.Strategy.Paginate = new Class({
      */
     init: function () {
         this.parent();
-        this.data = new Hash();
-        this.cacheTimer = new Hash();
+        this.data = {};
+        this.cacheTimer = {};
         //set up bindings that we need here
         this.bound.load = this.load.bind(this);
         this.bound.loadStore = this.loadStore.bind(this);
@@ -157,7 +157,7 @@ Jx.Store.Strategy.Paginate = new Class({
             if (resp.meta != undefined) {
                 this.parseMetaData(resp.meta);
             }
-            this.data.set(this.page,resp.data);
+            this.data[this.page] = resp.data;
             this.loadData(resp.data);
         } else {
             this.store.fireEvent('storeDataLoadFailed', this.store);
@@ -177,7 +177,7 @@ Jx.Store.Strategy.Paginate = new Class({
         this.store.loaded = false;
         if (!this.options.ignoreExpiration) {
             var id = this.expirePage.delay(this.options.expirationInterval, this, this.page);
-            this.cacheTimer.set(this.page,id);
+            this.cacheTimer[this.page]  = id;
         }
         this.store.addRecords(data);
         this.store.loaded = true;
@@ -216,8 +216,8 @@ Jx.Store.Strategy.Paginate = new Class({
      * page - the page number to expire.
      */
     expirePage: function (page) {
-        this.data.erase(page);
-        this.cacheTimer.erase(page);
+        delete this.data[page];
+        delete this.cacheTimer[page];
     },
     /**
      * APIMethod: setPage
@@ -250,12 +250,12 @@ Jx.Store.Strategy.Paginate = new Class({
         } else {
             this.page = page;
         }
-        if (this.cacheTimer.has(this.page)) {
+        if (Object.keys(this.cacheTimer).contains(this.page)) {
             window.clearTimeout(this.cacheTimer.get(this.page));
-            this.cacheTimer.erase(this.page);
+            delete this.cacheTimer[this.page];
         }
-        if (this.data.has(this.page)){
-            this.loadData(this.data.get(this.page));
+        if (Object.keys(this.data).contains(this.page)){
+            this.loadData(this.data[this.page]);
         } else {
             this.load(this.params);
         }
@@ -283,11 +283,11 @@ Jx.Store.Strategy.Paginate = new Class({
         //set the page size 
         this.itemsPerPage = size;
         //invalidate all pages cached and reload the current one only
-        this.cacheTimer.each(function(val){
+        Object.each(this.cacheTimer, function(val){
             window.clearTimeout(val);
         },this);
-        this.cacheTimer.empty();
-        this.data.empty();
+        this.cacheTimer = {};
+        this.data = {};
         this.load();
     },
     /**

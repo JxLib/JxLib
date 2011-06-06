@@ -65,12 +65,12 @@ Jx.Menu.Item = new Class({
          */
         template: '<li class="jxMenuItemContainer"><a class="jxMenuItem"><span class="jxMenuItemContent"><img class="jxMenuItemIcon" src="'+Jx.aPixel.src+'"><span class="jxMenuItemLabel"></span></span></a></li>'
     },
-    classes: new Hash({
+    classes: {
         domObj:'jxMenuItemContainer',
         domA: 'jxMenuItem',
         domImg: 'jxMenuItemIcon',
         domLabel: 'jxMenuItemLabel'
-    }),
+    },
     init: function() {
       this.bound.mouseover = this.onMouseOver.bind(this);
       this.parent();

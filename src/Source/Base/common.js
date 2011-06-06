@@ -98,8 +98,11 @@ Class.Mutators.Family = function(self, name) {
     }
 };
 
+
 // this replaces the mootools $unlink method with our own version that
 // avoids infinite recursion on Jx objects.
+/**
+ * test without this function
 function $unlink(object) {
     if (object && object.jxFamily) {
         return object;
@@ -122,7 +125,7 @@ function $unlink(object) {
     }
     return unlinked;
 }
-
+*/
 /**
  * Override of mootools-core 1.3's typeOf operator to prevent infinite recursion
  * when doing typeOf on JxLib objects.

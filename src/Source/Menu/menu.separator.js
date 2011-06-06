@@ -51,9 +51,9 @@ Jx.Menu.Separator = new Class({
     options: {
         template: "<li class='jxMenuItemContainer jxMenuItem'><span class='jxMenuSeparator'>&nbsp;</span></li>"
     },
-    classes: new Hash({
+    classes: {
         domObj: 'jxMenuItem'
-    }),
+    },
     /**
      * APIMethod: render
      * Create a new instance of a menu separator

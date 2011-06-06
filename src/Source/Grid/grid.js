@@ -118,7 +118,7 @@ Jx.Grid = new Class({
     store: null
   },
    
-  classes: $H({
+  classes: {
     domObj: 'jxWidget',
     columnContainer: 'jxGridColumnsContainer',
     colObj: 'jxGridColumns',
@@ -130,7 +130,7 @@ Jx.Grid = new Class({
     contentContainer: 'jxGridContentContainer',
     gridObj: 'jxGridContent',
     gridTableBody: 'jxGridTableBody'
-  }),
+  },
   
   /**
    * Property: columns
@@ -161,7 +161,7 @@ Jx.Grid = new Class({
   
   /**
    * Property: hooks
-   * a {Hash} of event names for tracking which events have actually been attached
+   * an Object of event names for tracking which events have actually been attached
    * to the grid.
    */
   hooks: null,
@@ -204,7 +204,7 @@ Jx.Grid = new Class({
       this.columns = new Jx.Columns({grid: this});
     }
     
-    this.hooks = $H({
+    this.hooks = {
       'gridScroll': false,
       'gridColumnEnter': false,
       'gridColumnLeave': false,
@@ -217,7 +217,7 @@ Jx.Grid = new Class({
       'gridCellEnter': false,
       'gridCellLeave': false,
       'gridMouseLeave': false
-    });
+    };
     
     this.storeEvents = {
       'storeDataLoaded': this.storeLoaded,
@@ -234,58 +234,54 @@ Jx.Grid = new Class({
   },
   
   wantEvent: function(eventName) {
-    var hook = this.hooks.get(eventName);
+    var hook = this.hooks[eventName];
     if (hook === false) {
       switch(eventName) {
         case 'gridColumnEnter':
         case 'gridColumnLeave':
           this.colObj.addEvent('mousemove', this.moveColumnHeader);
-          this.hooks.set({
+          this.hooks = Object.merge(this.hooks,{
             'gridColumnEnter': true,
             'gridColumnLeave': true
           });
           break;
         case 'gridColumnClick':
           this.colObj.addEvent('click', this.clickColumnHeader);
-          this.hooks.set({
-            'gridColumnClick': true
-          });
+          this.hooks.gridColumnClick = true;
           break;
         case 'gridRowEnter':
         case 'gridRowLeave':
           this.rowObj.addEvent('mousemove', this.moveRowHeader);
-          this.hooks.set({
+          this.hooks = Object.merge(this.hooks,{
             'gridRowEnter': true,
             'gridRowLeave': true
           });
           break;
         case 'gridRowClick':
           this.rowObj.addEvent('click', this.clickRowHeader);
-          this.hooks.set({
-            'gridRowClick': true
-          });
+          this.hooks.gridRowClick = true;
           break;
         case 'gridCellEnter':
         case 'gridCellLeave':
           this.gridObj.addEvent('mousemove', this.moveCell);
-          this.hooks.set({
+          this.hooks = Object.merge(this.hooks, {
             'gridCellEnter': true,
             'gridCellLeave': true
           });
           break;
         case 'gridCellClick':
           this.gridObj.addEvent('click', this.clickCell);
-          this.hooks.set('gridCellClick', true);
+          this.hooks.gridCellClick = true;
           break;
         case 'gridCellDblClick':
           this.gridObj.addEvent('dblclick', this.dblclickCell);
-          this.hooks.set('gridCellDblClick', true);
+          this.hooks.gridCellDblClick = true;
           break;
         case 'gridMouseLeave':
           this.rowObj.addEvent('mouseleave', this.leaveGrid);
           this.colObj.addEvent('mouseleave', this.leaveGrid);
           this.gridObj.addEvent('mouseleave', this.leaveGrid);
-          this.hooks.set('gridMouseLeave', true);
+          this.hooks.gridMouseLeave = true;
           break;
         case 'gridScroll':
           this.contentContainer.addEvent('scroll', this.scroll);
@@ -342,9 +338,9 @@ Jx.Grid = new Class({
     this.contentContainer.setStyle('overflow', 'auto');
     
     // todo: very hacky!  can plugins 'wantEvent' between init and render?
-    this.hooks.each(function(value, key) {
+    Object.each(this.hooks, function(value, key) {
       if (value) {
-        this.hooks.set(key, false);
+        this.hooks[key] = false;
         this.wantEvent(key);
       }
     }, this);

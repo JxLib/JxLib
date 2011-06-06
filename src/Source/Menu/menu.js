@@ -88,10 +88,10 @@ Jx.Menu = new Class({
         }
     },
 
-    classes: new Hash({
+    classes: {
         contentContainer: 'jxMenuContainer',
         subDomObj: 'jxMenu'
-    }),
+    },
     
     init: function() {
         this.bound.stop = function(e){e.stop();};

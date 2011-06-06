@@ -52,14 +52,14 @@ Jx.TreeFolder = new Class({
         select: false,
         template: '<li class="jxTreeContainer jxTreeBranch"><img class="jxTreeImage" src="'+Jx.aPixel.src+'" alt="" title=""><a class="jxTreeItem" href="javascript:void(0);"><img class="jxTreeIcon" src="'+Jx.aPixel.src+'" alt="" title=""><span class="jxTreeLabel"></span></a><ul class="jxTree"></ul></li>'
     },
-    classes: new Hash({
+    classes: {
         domObj: 'jxTreeContainer',
         domA: 'jxTreeItem',
         domImg: 'jxTreeImage',
         domIcon: 'jxTreeIcon',
         domLabel: 'jxTreeLabel',
         domTree: 'jxTree'
-    }),
+    },
     /**
      * APIMethod: render
      * Create a new instance of Jx.TreeFolder

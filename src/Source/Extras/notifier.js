@@ -59,10 +59,10 @@ Jx.Notifier = new Class({
         listOptions: { }
     },
 
-    classes: new Hash({
+    classes: {
         domObj: 'jxNoticeListContainer',
         listObj: 'jxNoticeList'
-    }),
+    },
     
     /**
      * Method: render

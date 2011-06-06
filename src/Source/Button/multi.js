@@ -108,13 +108,13 @@ Jx.Button.Multi = new Class({
      * processing a widget template.  This allows developers to provide custom
      * HTML structures without affecting the functionality of widgets.
      */
-    classes: new Hash({
+    classes: {
         domObj: 'jxButtonContainer',
         domA: 'jxButton',
         domImg: 'jxButtonIcon',
         domLabel: 'jxButtonLabel',
         domDisclose: 'jxButtonDisclose'
-    }),
+    },
 
     /**
      * Method: render

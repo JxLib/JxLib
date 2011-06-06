@@ -82,14 +82,14 @@ Jx.Progressbar = new Class({
      * Property: classes
      * The classes used in the template
      */
-    classes: new Hash({
+    classes: {
         domObj: 'jxProgressBar-container',
         message: 'jxProgressBar-message', 
         container: 'jxProgressBar',
         outline: 'jxProgressBar-outline',
         fill: 'jxProgressBar-fill',
         text: 'jxProgressBar-text'
-    }),
+    },
     /**
      * Property: bar
      * the bar that is filled

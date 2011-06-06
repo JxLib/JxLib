@@ -122,7 +122,7 @@ Jx.Panel = new Class({
         template: '<div class="jxPanel"><div class="jxPanelTitle"><img class="jxPanelIcon" src="'+Jx.aPixel.src+'" alt="" title=""/><span class="jxPanelLabel"></span><div class="jxPanelControls"></div></div><div class="jxPanelContentContainer"><div class="jxPanelContent"></div></div></div>',
         controlButtonTemplate: '<a class="jxButtonContainer jxButton"><img class="jxButtonIcon" src="'+Jx.aPixel.src+'"></a>'
     },
-    classes: new Hash({
+    classes: {
         domObj: 'jxPanel',
         title: 'jxPanelTitle',
         domImg: 'jxPanelIcon',
@@ -130,7 +130,7 @@ Jx.Panel = new Class({
         domControls: 'jxPanelControls',
         contentContainer: 'jxPanelContentContainer',
         content: 'jxPanelContent'
-    }),
+    },
 
     /**
      * APIMethod: render

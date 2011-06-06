@@ -52,10 +52,10 @@ Jx.ListView = new Class({
         }
     },
 
-    classes: new Hash({
+    classes: {
         domObj: 'jxListView',
         listObj: 'jxList'
-    }),
+    },
 
     /**
      * APIMethod: render

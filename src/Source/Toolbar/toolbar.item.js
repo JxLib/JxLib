@@ -40,9 +40,9 @@ Jx.Toolbar.Item = new Class( {
         active: true,
         template: '<li class="jxToolItem"></li>'
     },
-    classes: new Hash({
+    classes: {
         domObj: 'jxToolItem'
-    }),
+    },
 
     parameters: ['jxThing', 'options'],
 

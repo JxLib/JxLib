@@ -88,7 +88,7 @@ Jx.Button.Color = new Class({
      * processing a widget template.  This allows developers to provide custom
      * HTML structures without affecting the functionality of widgets.
      */
-    classes: new Hash({
+    classes: {
         domObj: 'jxButtonContainer',
         domA: 'jxButton',
         swatch: 'jxButtonSwatchColor',

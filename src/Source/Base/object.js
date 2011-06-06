@@ -231,7 +231,7 @@ Jx.Object = new Class({
     bound: null,
 
     initialize: function(){
-        this.plugins = new Hash();
+        this.plugins = {};
         this.bound = {};
         //normalize arguments
         var numArgs = arguments.length,
@@ -242,7 +242,7 @@ Jx.Object = new Class({
 
         if (numArgs > 0) {
             if (numArgs === 1
-                    && (Jx.type(arguments[0])==='object' || Jx.type(arguments[0])==='Hash')
+                    && (Jx.type(arguments[0])==='object')
                     && parameters.length === 1
                     && parameters[0] === 'options') {
                 options = arguments[0];
@@ -294,7 +294,7 @@ Jx.Object = new Class({
                 this.options.plugins.each(function (plugin) {
                     if (plugin instanceof Jx.Plugin) {
                         plugin.attach(this);
-                        this.plugins.set(plugin.name, plugin);
+                        this.plugins[plugin.name] = plugin;
                     } else if (Jx.type(plugin) === 'object') {
                         // All plugin-enabled objects should define a
                         // pluginNamespace member variable
@@ -343,12 +343,12 @@ Jx.Object = new Class({
     cleanup: function () {
         //detach plugins
         if (this.plugins.getLength > 0) {
-            this.plugins.each(function (plugin) {
+            Object.each(this.plugins, function (plugin) {
                 plugin.detach();
                 plugin.destroy();
             }, this);
         }
-        this.plugins.empty();
+        this.plugins = {};
         if (this.options.useLang && this.bound.changeText != undefined) {
             MooTools.lang.removeEvent('langChange', this.bound.changeText);
         }
@@ -370,8 +370,8 @@ Jx.Object = new Class({
      * plugin - the plugin to register with this object
      */
     registerPlugin: function (plugin) {
-        if (!this.plugins.has(plugin.name)) {
-            this.plugins.set(plugin.name,  plugin);
+        if (!Object.keys(this.plugins).contains(plugin.name)) {
+            this.plugins[plugin.name] = plugin;
         }
     },
     /**
@@ -383,8 +383,8 @@ Jx.Object = new Class({
      * plugin - the plugin to deregister.
      */
     deregisterPlugin: function (plugin) {
-        if (this.plugins.has(plugin.name)) {
-            this.plugins.erase(plugin.name);
+        if (Object.keys(this.plugins).contains(plugin.name)) {
+            delete this.plugins[plugin.name];
         }
     },
 
@@ -397,8 +397,8 @@ Jx.Object = new Class({
      * name - the name of the plugin as defined in the plugin's name property
      */
     getPlugin: function (name) {
-        if (this.plugins.has(name)) {
-            return this.plugins.get(name);
+        if (Object.keys(this.plugins).contains(name)) {
+            return this.plugins[name];
         }
     },
 

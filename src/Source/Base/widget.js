@@ -174,14 +174,14 @@ Jx.Widget = new Class({
 
     /**
      * Property: classes
-     * {<Hash>} a hash of object properties to CSS class names used to
+     * {Object} object properties to CSS class names used to
      * automatically extract references to important DOM elements when
      * processing a widget template.  This allows developers to provide custom
      * HTML structures without affecting the functionality of widgets.
      */
-    classes: new Hash({
+    classes: {
         domObj: 'jxWidget'
-    }),
+    },
 
     /**
      * Property: busy
@@ -735,7 +735,7 @@ Jx.Widget = new Class({
      * names
      */
     processTemplate: function(template,classes,container){
-        var h = new Hash(),
+        var h = {},
             element,
             el;
         if (container != undefined){
@@ -743,10 +743,10 @@ Jx.Widget = new Class({
         } else {
             element = new Element('div',{html:template});
         }
-        classes.each(function(klass){
+        Object.each(classes, function(klass){
             el = element.getElement('.'+klass);
             if (el != undefined){
-                h.set(klass,el);
+                h[klass] = el;
             }
         });
         return h;
@@ -779,7 +779,7 @@ Jx.Widget = new Class({
             this.domA.destroy();
         }
         if (this.classes != undefined) {
-          this.classes.each(function(v, k) {
+          Object.each(this.classes, function(v, k) {
             this[k] = null;
           }, this);
         }
@@ -818,9 +818,9 @@ Jx.Widget = new Class({
      * hash.
      */
     processElements: function(template, classes) {
-        var keys = classes.getValues();
+        var keys = classes.values();
         elements = this.processTemplate(template, keys);
-        classes.each(function(value, key) {
+        Object.each(classes, function(value, key) {
             if (key != 'elements' && elements.get(value)) {
                 this[key] = elements.get(value);
             }

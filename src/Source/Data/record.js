@@ -89,7 +89,7 @@ Jx.Record = new Class({
         if (this.options.data != undefined) {
             this.processData(this.options.data);
         } else {
-            this.data = new Hash();
+            this.data = {};
         }
 
         if (this.options.store != undefined) {
@@ -115,8 +115,8 @@ Jx.Record = new Class({
                 column = this.resolveCol(column);
             }
         }
-        if (this.data.has(column.name)) {
-            return this.data.get(column.name);
+        if (Object.keys(this.data).contains(column.name)) {
+            return this.data[column.name];
         } else {
             return null;
         }
@@ -137,11 +137,11 @@ Jx.Record = new Class({
         }
 
         if (this.data == undefined) {
-            this.data = new Hash();
+            this.data = {};
         }
 
         oldValue = this.get(column);
-        this.data.set(column.name, data);
+        this.data[column.name] = data;
         this.state = Jx.Record.UPDATE;
         return [column.name, oldValue, data];
         //this.store.fireEvent('storeColumnChanged', [this, column.name, oldValue, data]);
@@ -164,7 +164,7 @@ Jx.Record = new Class({
         } else {
             column = this.resolveCol(column);
         }
-        if (!this.data.has(column.name)) {
+        if (!Object.keys(this.data).contains(column.name)) {
             return null;
         } else {
             if (this.comparator == undefined) {
@@ -187,7 +187,7 @@ Jx.Record = new Class({
      * data - the data to process
      */
     processData: function (data) {
-        this.data = $H(data);
+        this.data = data;
     },
 
     /**

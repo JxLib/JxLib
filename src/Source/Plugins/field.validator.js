@@ -90,7 +90,7 @@ Jx.Plugin.Field.Validator = new Class({
     init: function () {
         this.parent();
         this.errors = [];
-        this.validators = new Hash();
+        this.validators = {};
         this.bound.validate = this.validate.bind(this);
         this.bound.reset = this.reset.bind(this);
     },
@@ -114,7 +114,7 @@ Jx.Plugin.Field.Validator = new Class({
             if (t === 'string') {
                 this.field.field.addClass(v);
             } else if (t === 'object') {
-                this.validators.set(v.validator.name, new InputValidator(v.validator.name, v.validator.options));
+                this.validators[v.validator.name] = new InputValidator(v.validator.name, v.validator.options);
                 this.field.field.addClass(v.validatorClass);
             }
         }, this);
@@ -149,7 +149,7 @@ Jx.Plugin.Field.Validator = new Class({
         this.valid = true;
         this.errors = [];
         this.options.validators.each(function (v) {
-            var val = (Jx.type(v) === 'string') ? Form.Validator.getValidator(v) : this.validators.get(v.validator.name);
+            var val = (Jx.type(v) === 'string') ? Form.Validator.getValidator(v) : this.validators[v.validator.name];
             if (val) {
                 if (!val.test(this.field.field)) {
                     this.valid = false;

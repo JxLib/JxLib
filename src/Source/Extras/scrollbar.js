@@ -68,12 +68,12 @@ Jx.Scrollbar = new Class({
         template: '<div class="jxScrollbarContainer"><div class="jxScrollLeft"></div><div class="jxSlider"></div><div class="jxScrollRight"></div></div>'
     },
     
-    classes: new Hash({
+    classes: {
         domObj: 'jxScrollbarContainer',
         scrollLeft: 'jxScrollLeft',
         scrollRight: 'jxScrollRight',
         sliderHolder: 'jxSlider'
-    }),
+    },
     
     el: null,
     //element is the element we want to scroll. 

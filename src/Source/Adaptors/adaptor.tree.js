@@ -69,7 +69,7 @@ Jx.Adaptor.Tree = new Class({
      */
     currentRecord: -1,
     init: function() {
-      this.folders = new Hash();
+      this.folders = {};
       this.parent();
     },
     /**

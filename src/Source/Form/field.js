@@ -183,11 +183,11 @@ Jx.Field = new Class({
      * The classes to search for in the template. Not
      * required, but we look for them.
      */
-    classes : new Hash({
+    classes : {
         domObj: 'jxInputContainer',
         label: 'jxInputLabel',
         tag: 'jxInputTag'
-    }),
+    },
 
     /**
      * APIMethod: render
