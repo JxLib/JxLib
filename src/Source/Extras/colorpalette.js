@@ -137,8 +137,8 @@ Jx.ColorPalette = new Class({
 
         this.domObj.adopt(top);
 
-        var swatchClick = this.swatchClick.bindWithEvent(this);
-        var swatchOver = this.swatchOver.bindWithEvent(this);
+        var swatchClick = this.swatchClick.bind(this);
+        var swatchOver = this.swatchOver.bind(this);
 
         var table = new Element('table', {'class':'jxColorGrid'});
         var tbody = new Element('tbody');

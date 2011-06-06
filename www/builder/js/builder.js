@@ -51,9 +51,11 @@ var builder = new Class({
 		
 		//setup the dependency checking
 		$$('.dep').each(function(dep){
-			$(dep).addEvent('click',this.check.bindWithEvent(this,dep));
+			$(dep).addEvent('click',function(event){
+                this.check(event,dep)
+            }.bind(this);
 		},this);
-		$('opt-deps').addEvent('click',this.optsCheck.bindWithEvent(this));
+		$('opt-deps').addEvent('click',this.optsCheck.bind(this));
 		
 		//add hover and click for files
 		$$('.file').each(function(el){
@@ -93,10 +95,14 @@ var builder = new Class({
 		
 		//select all/select none links
 		$$('.all').each(function(el){
-			$(el).addEvent('click',this.select.bindWithEvent(this,[el,true]));
+			$(el).addEvent('click',function(event){
+                this.select(event,el,true);
+			}.bind(this));
 		},this);
 		$$('.none').each(function(el){
-			$(el).addEvent('click',this.select.bindWithEvent(this,[el,false]));
+			$(el).addEvent('click',function(event){
+                this.select(event,el,true);
+    		}.bind(this));
 		},this);
 		
 		//options radio buttons
@@ -128,7 +134,7 @@ var builder = new Class({
 			var el = $(ev.target);
 			this.setBuildChoices(el,true);
 			this.setBuildText();
-		}).bindWithEvent(this));
+		}).bind(this));
 		
 		$('build-default').addEvent('click',(function(ev){
 			var el = $(ev.target);
@@ -138,13 +144,13 @@ var builder = new Class({
 			this.buildChoice.set('jxlib',true);
 			this.buildChoice.set('jxlib.compressed',true);
 			this.setBuildText();
-		}).bindWithEvent(this));
+		}).bind(this));
 		
 		$('build-none').addEvent('click',(function(ev){
 			var el = $(ev.target);
 			this.setBuildChoices(el,false);
 			this.setBuildText();
-		}).bindWithEvent(this));
+		}).bind(this));
 		
 		//add download button
 		this.button = new Jx.Button({

@@ -26,7 +26,7 @@ Jx.Slider = new Class({
 		
 		if (this.options.trigger != undefined){
 			this.trigger = $(this.options.trigger);
-			this.trigger.addEvent('click',this.handleClick.bindWithEvent(this));
+			this.trigger.addEvent('click',this.handleClick.bind(this));
 		}
 		
 		this.elem.store('slider',this);

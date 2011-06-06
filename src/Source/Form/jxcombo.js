@@ -123,7 +123,7 @@ Jx.Field.Combo = new Class({
             document.addEvent('keyup', this.bound.keypress);
 
             this.fireEvent('show', this);
-        }.bindWithEvent(this.menu));
+        }.bind(this.menu));
 
         this.menu.addEvents({
             'show': (function() {

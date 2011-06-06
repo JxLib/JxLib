@@ -153,7 +153,7 @@ Jx.Layout = new Class({
         this.domObj.store('jxLayout', this);
 
         if (this.options.resizeWithWindow || document.body == this.domObj.parentNode) {
-            window.addEvent('resize', this.windowResize.bindWithEvent(this));
+            window.addEvent('resize', this.windowResize.bind(this));
             window.addEvent('load', this.windowResize.bind(this));
         }
         //this.resize();

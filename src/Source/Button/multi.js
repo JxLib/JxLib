@@ -166,7 +166,7 @@ Jx.Button.Multi = new Class({
                   document.addEvent('keyup', this.bound.keypress);
 
                   this.fireEvent('show', this);
-              }.bindWithEvent(this.menu),
+              }.bind(this.menu),
               mouseenter:function(){
                   document.id(this.domObj.firstChild).addClass('jxButtonHover');
                   if (hasFocus) {
@@ -181,20 +181,20 @@ Jx.Button.Multi = new Class({
                   this.domDisclose.addClass(this.options.pressedClass);
                   hasFocus = true;
                   this.focus();
-              }.bindWithEvent(this),
+              }.bind(this),
               mouseup: function(e) {
                   this.domDisclose.removeClass(this.options.pressedClass);
-              }.bindWithEvent(this),
+              }.bind(this),
               keydown: function(e) {
                   if (e.key == 'enter') {
                       this.domDisclose.addClass(this.options.pressedClass);
                   }
-              }.bindWithEvent(this),
+              }.bind(this),
               keyup: function(e) {
                   if (e.key == 'enter') {
                       this.domDisclose.removeClass(this.options.pressedClass);
                   }
-              }.bindWithEvent(this),
+              }.bind(this),
               blur: function() { hasFocus = false; }
             };
 

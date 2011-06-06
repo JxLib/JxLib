@@ -150,7 +150,7 @@ Jx.Toolbar = new Class({
         if (this.options.parent) {
             this.addTo(this.options.parent);
         }
-        this.deactivateWatcher = this.deactivate.bindWithEvent(this);
+        this.deactivateWatcher = this.deactivate.bind(this);
         if (this.options.items) {
             this.add(this.options.items);
         }

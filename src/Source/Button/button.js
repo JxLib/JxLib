@@ -193,36 +193,36 @@ Jx.Button = new Class({
                 alt: this.getText(options.tooltip)
             });
             this.domA.addEvents({
-                click: this.clicked.bindWithEvent(this),
-                drag: (function(e) {e.stop();}).bindWithEvent(this),
+                click: this.clicked.bind(this),
+                drag: (function(e) {e.stop();}).bind(this),
                 mousedown: (function(e) {
                     this.domA.addClass(options.pressedClass);
                     hasFocus = true;
                     mouseDown = true;
                     this.focus();
-                }).bindWithEvent(this),
+                }).bind(this),
                 mouseup: (function(e) {
                     this.domA.removeClass(options.pressedClass);
                     mouseDown = false;
-                }).bindWithEvent(this),
+                }).bind(this),
                 mouseleave: (function(e) {
                     this.domA.removeClass(options.pressedClass);
-                }).bindWithEvent(this),
+                }).bind(this),
                 mouseenter: (function(e) {
                     if (hasFocus && mouseDown) {
                         this.domA.addClass(options.pressedClass);
                     }
-                }).bindWithEvent(this),
+                }).bind(this),
                 keydown: (function(e) {
                     if (e.key == 'enter') {
                         this.domA.addClass(options.pressedClass);
                     }
-                }).bindWithEvent(this),
+                }).bind(this),
                 keyup: (function(e) {
                     if (e.key == 'enter') {
                         this.domA.removeClass(options.pressedClass);
                     }
-                }).bindWithEvent(this),
+                }).bind(this),
                 blur: function() { hasFocus = false; }
             });
 
