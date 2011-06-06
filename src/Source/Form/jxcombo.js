@@ -205,7 +205,7 @@ Jx.Field.Combo = new Class({
      */
     add: function() {
         Array.from(arguments).flatten().each(function(opt) {
-            var button = new Jx.Menu.Item($merge(opt,{
+            var button = new Jx.Menu.Item(Object.merge({},opt,{
                 toggle: true
             }));
             this.menu.add(button);

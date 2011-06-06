@@ -147,7 +147,7 @@ Jx.List = new Class({
                 var item = el.retrieve('jxListTargetItem') || el;
                 return !item.hasClass('jxUnselectable');
             };
-        this.bound = $merge(this.bound, {
+        this.bound = Object.merge({},this.bound, {
             mousedown: function() {
                 if (isEnabled(this)) {
                     this.addClass(options.pressClass);

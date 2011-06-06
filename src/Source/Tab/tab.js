@@ -151,7 +151,7 @@ Jx.Tab = new Class({
      * to create a <Jx.Layout> for the tab content area.
      */
     render : function( ) {
-        this.options = $merge(this.options, {toggle:true});
+        this.options = Object.merge({},this.options, {toggle:true});
         this.parent();
         this.domObj.store('jxTab', this);
         this.processElements(this.options.contentTemplate, this.classes);

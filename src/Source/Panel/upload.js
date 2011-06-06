@@ -203,7 +203,7 @@ Jx.Panel.FileUpload = new Class({
             //setup options
             // TODO: should (at least some of) these options be available to
             // the developer?
-            var options = $merge({},this.options.progressOptions);
+            var options = Object.merge({},this.options.progressOptions);
             options.progressText = options.progressText.substitute({filename: filename});
             options.template = options.template.substitute({id: filename});
             this.pb = new Jx.Progressbar(options);

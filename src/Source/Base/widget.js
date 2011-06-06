@@ -372,7 +372,7 @@ Jx.Widget = new Class({
         relative = document.id(relative);
         var hor = Array.from(options.horizontal || ['center center']),
             ver = Array.from(options.vertical || ['center center']),
-            offsets = $merge({top:0,right:0,bottom:0,left:0}, options.offsets || {}),
+            offsets = Object.merge({},{top:0,right:0,bottom:0,left:0}, options.offsets || {}),
             coords = relative.getCoordinates(), //top, left, width, height,
             page, 
             scroll,
@@ -890,7 +890,7 @@ Jx.Widget = new Class({
               html: '<span class="jxSpinnerImage"></span>'+this.getText(message)
             });
           }
-          opts = $merge(options.busyMask, opts);
+          opts = Object.merge({},options.busyMask, opts);
           domObj.get('spinner', opts).show(!options.busyMask.fx);
         }
       } else {

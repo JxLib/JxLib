@@ -137,7 +137,7 @@ Jx.Store.Strategy.Progressive = new Class({
             }
         }
         this.page = this.startingPage + this.loadedPages + 1;
-        this.load($merge(this.params, params));
+        this.load(Object.merge({},this.params, params));
     },
     /**
      * APIMethod: previousPage
@@ -164,7 +164,7 @@ Jx.Store.Strategy.Progressive = new Class({
                 this.loadedPages--;
             }
             this.page = this.startingPage;
-            this.load($merge(this.params, params));
+            this.load(Object.merge({},this.params, params));
         }
     }
 });

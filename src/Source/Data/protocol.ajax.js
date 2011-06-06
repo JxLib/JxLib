@@ -109,7 +109,7 @@ Jx.Store.Protocol.Ajax = new Class({
             temp.url = this.options.urls.read;
         }
 
-        opts = $merge(this.options.requestOptions, temp, options);
+        opts = Object.merge({},this.options.requestOptions, temp, options);
         opts.onSuccess = this.handleResponse.bind(this,resp);
 
         req = new Request(opts);
@@ -163,9 +163,9 @@ Jx.Store.Protocol.Ajax = new Class({
      */
     insert: function (record, options) {
         if (this.options.rest) {
-            options = $merge({url: this.options.urls.rest},options);
+            options = Object.merge({},{url: this.options.urls.rest},options);
         } else {
-            options = $merge({url: this.options.urls.insert},options);
+            options = Object.merge({},{url: this.options.urls.insert},options);
         }
         this.options.requestOptions.method = 'POST';
         return this.run(record, options, "insert");
@@ -180,10 +180,10 @@ Jx.Store.Protocol.Ajax = new Class({
      */
     update: function (record, options) {
         if (this.options.rest) {
-            options = $merge({url: this.options.urls.rest},options);
+            options = Object.merge({},{url: this.options.urls.rest},options);
             this.options.requestOptions.method = 'PUT';
         } else {
-            options = $merge({url: this.options.urls.update},options);
+            options = Object.merge({},{url: this.options.urls.update},options);
             this.options.requestOptions.method = 'POST';
         }
         return this.run(record, options, "update");
@@ -198,10 +198,10 @@ Jx.Store.Protocol.Ajax = new Class({
      */
     "delete": function (record, options) {
         if (this.options.rest) {
-            options = $merge({url: this.options.urls.rest},options);
+            options = Object.merge({},{url: this.options.urls.rest},options);
             this.options.requestOptions.method = 'DELETE';
         } else {
-            options = $merge({url: this.options.urls['delete']},options);
+            options = Object.merge({},{url: this.options.urls['delete']},options);
             this.options.requestOptions.method = 'POST';
         }
         return this.run(record, options, "delete");
@@ -249,7 +249,7 @@ Jx.Store.Protocol.Ajax = new Class({
           data = this.parser.encode(record);
         }
 
-        this.options.requestOptions.data = $merge(this.options.requestOptions.data, {
+        this.options.requestOptions.data = Object.merge({},this.options.requestOptions.data, {
           data: data
         });
 
@@ -257,7 +257,7 @@ Jx.Store.Protocol.Ajax = new Class({
         resp.requestParams = [record, options, method];
 
         //set up options
-        opts = $merge(this.options.requestOptions, options);
+        opts = Object.merge({},this.options.requestOptions, options);
         opts.onSuccess = this.handleResponse.bind(this,resp);
         req = new Request(opts);
         resp.request = req;

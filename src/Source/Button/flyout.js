@@ -239,7 +239,7 @@ Jx.Button.Flyout = new Class({
         this.showChrome(this.contentContainer);
 
         var rel = options.positionElement || this.domObj;
-        var pos = $merge(options.position, {
+        var pos = Object.merge({},options.position, {
           offsets: this.chromeOffsets
         });
         this.position(this.contentContainer, rel, pos);

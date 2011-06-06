@@ -272,7 +272,7 @@ Jx.Panel = new Class({
         if (this.options.id) {
             this.domObj.id = this.options.id;
         }
-        var jxl = new Jx.Layout(this.domObj, $merge(this.options, {propagate:false}));
+        var jxl = new Jx.Layout(this.domObj, Object.merge({},this.options, {propagate:false}));
         var layoutHandler = this.layoutContent.bind(this);
         jxl.addEvent('sizeChange', layoutHandler);
 

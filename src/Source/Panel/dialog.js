@@ -226,7 +226,7 @@ Jx.Dialog = new Class({
         this.isOpening = false;
         this.firstShow = true;
 
-        this.options = $merge(
+        this.options = Object.merge({},
             {parent:document.body}, // these are defaults that can be overridden
             this.options,
             {position: 'absolute'} // these override anything passed to the options
@@ -484,7 +484,7 @@ Jx.Dialog = new Class({
             this.domObj.addClass('jxDialogMaximized');
             this.fireEvent('maximize');
         } else {
-            this.options = $merge(this.options, this.previousSettings);
+            this.options = Object.merge({},this.options, this.previousSettings);
             this.domObj.resize(this.options);
             this.fireEvent('resize');
             this.resizeChrome(this.domObj);
@@ -511,7 +511,7 @@ Jx.Dialog = new Class({
         
         /* do the modal thing */
         if (this.options.modal && this.options.parent.mask) {
-          var opts = $merge(this.options.maskOptions || {}, {
+          var opts = Object.merge({},this.options.maskOptions || {}, {
             style: {
               'z-index': Jx.getNumber(this.domObj.getStyle('z-index')) - 1
             }

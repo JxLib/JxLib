@@ -139,7 +139,7 @@ Jx.Store.Strategy.Paginate = new Class({
         this.store.protocol.addEvent('dataLoaded', this.bound.loadStore);
         this.params = params;
         var opts = {
-            data: $merge(params, this.options.getPaginationParams.apply(this))
+            data: Object.merge({},params, this.options.getPaginationParams.apply(this))
         };
         this.store.protocol.read(opts);
     },
