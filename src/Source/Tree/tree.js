@@ -173,7 +173,7 @@ Jx.Tree = new Class({
      * {<Jx.Tree>} a reference to this object for chaining calls
      */
     add: function(item, position) {
-        if ($type(item) == 'array') {
+        if (Jx.type(item) == 'array') {
             item.each(function(what){ this.add(what, position); }.bind(this) );
             return;
         }

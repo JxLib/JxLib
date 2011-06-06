@@ -473,21 +473,21 @@ Jx.Grid = new Class({
             template = "<span class='jxGridCellContent'>"+ (col.label != undefined ? col.label : col.name).capitalize() + "</span>",
             column;
         if (col.renderer != undefined) {
-          if ($type(col.renderer) == 'string') {
+          if (Jx.type(col.renderer) == 'string') {
             if (Jx.Grid.Renderer[col.renderer.capitalize()]) {
               renderer = new Jx.Grid.Renderer[col.renderer.capitalize()]();
             }
-          } else if ($type(col.renderer) == 'object' && 
+          } else if (Jx.type(col.renderer) == 'object' && 
                      col.renderer.type != undefined && 
                      Jx.Grid.Renderer[col.renderer.type.capitalize()]) {
             renderer = new Jx.Grid.Renderer[col.renderer.type.capitalize()](col.renderer);
           }
         }
         if (format) {
-          if ($type(format) == 'string' && 
+          if (Jx.type(format) == 'string' && 
               Jx.Formatter[format.capitalize()] != undefined) {
             renderer.options.formatter = new Jx.Formatter[format.capitalize()]();
-          } else if ($type(format) == 'object' && 
+          } else if (Jx.type(format) == 'object' && 
                      format.type != undefined && 
                      Jx.Formatter[format.type.capitalize()] != undefined) {
              renderer.options.formatter = new Jx.Formatter[format.type.capitalize()](format);

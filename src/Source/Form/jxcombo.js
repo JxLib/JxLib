@@ -225,9 +225,9 @@ Jx.Field.Combo = new Class({
      */
     remove: function(idx) {
       var item;
-      if ($type(idx) == 'number' && idx < this.buttonSet.buttons.length) {
+      if (Jx.type(idx) == 'number' && idx < this.buttonSet.buttons.length) {
         item = this.buttonSet.buttons[idx];
-      } else if ($type(idx) == 'string'){
+      } else if (Jx.type(idx) == 'string'){
         this.buttonSet.buttons.some(function(button){
             if (button.options.label === idx) {
                 item = button;

@@ -96,7 +96,7 @@ Jx.Adaptor.Combo.Fill = new Class({
             template = this.store.fillTemplate(record,options.template,this.columnsNeeded);
             if (!noRepeat || (noRepeat && !this.labels.contains(template))) {
                 selected = false;
-                if ($type(options.selectedFn) == 'function') {
+                if (Jx.type(options.selectedFn) == 'function') {
                     selected = options.selectedFn.run(record);
                 }
                 obj = {

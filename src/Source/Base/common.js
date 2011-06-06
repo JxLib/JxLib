@@ -105,7 +105,7 @@ function $unlink(object) {
         return object;
     }
     var unlinked, p, i, l;
-    switch ($type(object)) {
+    switch (Jx.type(object)) {
     case 'object':
         unlinked = {};
         for (p in object) unlinked[p] = $unlink(object[p]);
@@ -410,13 +410,9 @@ Jx.getPageDimensions = function() {
 /**
  * APIMethod: type
  * safely return the type of an object using the mootools type system
- *
- * Returns:
- * {Object} an object containing a width and height property
- * that represent the width and height of the browser client area.
  */
 Jx.type = function(obj) {
-  return typeof obj == 'undefined' ? false : obj.jxFamily || $type(obj);
+  return typeof obj == 'undefined' ? false : obj.jxFamily || typeOf(obj);
 };
 
 (function($) {

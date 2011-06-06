@@ -8,7 +8,7 @@ describe('common tests',{
 		});
 		newC = new c();
         value_of(Jx.type(newC)).should_be('Jx.Widget');
-		value_of($type(newC)).should_be('object');
+		value_of(typeOf(newC)).should_be('object');
 	},
     'Jx.getNumber()':function() {
         value_of(Jx.getNumber()).should_be(0);

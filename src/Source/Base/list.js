@@ -304,7 +304,7 @@ Jx.List = new Class({
                 });
             }
             if (position != undefined) {
-                if ($type(position) == 'number') {
+                if (Jx.type(position) == 'number') {
                     if (position < container.childNodes.length) {
                         el.inject(container.childNodes[position],'before');
                     } else {

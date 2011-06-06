@@ -160,7 +160,7 @@ var builder = new Class({
 	setProfile: function(profile){
 		if (profile == undefined) { return; }
 		
-		if ($type(profile) !== 'hash') {
+		if (Jx.type(profile) !== 'hash') {
 			profile = new Hash(profile);
 		}
 		//go through the profile obj and set all of the appropriate stuff
