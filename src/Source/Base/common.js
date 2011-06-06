@@ -454,7 +454,7 @@ Jx.type = function(obj) {
             var result = 'content-box',
                 cm,
                 sizing;
-            if (Browser.Engine.trident || Browser.Engine.presto) {
+            if (Browser.ie || Browser.opera) {
                 cm = document["compatMode"];
                 if (cm == "BackCompat" || cm == "QuirksMode") {
                     result = 'border-box';

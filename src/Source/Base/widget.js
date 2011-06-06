@@ -666,7 +666,7 @@ Jx.Widget = new Class({
      * element: {DOMElement} the element to resize the chrome for
      */
     resizeChrome: function(o) {
-        if (this.chrome && Browser.Engine.trident4) {
+        if (this.chrome && Browser.ie && Browser.ie4) {
             this.chrome.setContentBoxSize(document.id(o).getBorderBoxSize());
             if (this.shim) {
               this.shim.position();

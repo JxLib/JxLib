@@ -190,7 +190,7 @@ Jx.Row = new Class({
           if (data) {
             var s = row.getContentBoxSize();
             this.heights[data.row] = Math.max(this.heights[data.row],s.height);
-            if (Browser.Engine.webkit) {
+            if (Browser.safari || Browser.chrome) {
                 //for some reason webkit (Safari and Chrome)
                 this.heights[data.row] -= 1;
             }

@@ -64,7 +64,7 @@ Jx.Field.Checkbox = new Class({
         this.parent();
 
         if (this.options.checked != undefined && this.options.checked) {
-            if (Browser.Engine.trident) {
+            if (Browser.ie) {
                 var parent = this.field.getParent();
                 var sibling;
                 if (parent) {

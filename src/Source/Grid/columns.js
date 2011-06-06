@@ -364,7 +364,7 @@ Jx.Columns = new Class({
           // var leftOverSpace = gridSize.width - totalWidth + rowHeaderWidth;
           leftOverSpace = gridSize.width - totalWidth;
           //account for right borders in firefox...
-          if (Browser.Engine.gecko) {
+          if (Browser.firefox) {
             leftOverSpace -= this.getColumnCount(true);
           } else {
             // -2 is for the right hand border on the cell and the table for all other browsers

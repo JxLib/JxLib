@@ -356,7 +356,7 @@ Jx.Panel = new Class({
                     tbc = this.toolbarContainers[position];
                     // IE 6 doesn't seem to want to measure the width of
                     // things correctly
-                    if (Browser.Engine.trident4) {
+                    if (Browser.ie && Browser.ie4) {
                         var oldParent = document.id(tbc.parentNode);
                         tbc.style.visibility = 'hidden';
                         document.id(document.body).adopt(tbc);
@@ -364,7 +364,7 @@ Jx.Panel = new Class({
                     var size = tbc.getBorderBoxSize();
                     // put it back into its real parent now we are done
                     // measuring
-                    if (Browser.Engine.trident4) {
+                    if (Browser.ie && Browser.ie4) {
                         oldParent.adopt(tbc);
                         tbc.style.visibility = '';
                     }

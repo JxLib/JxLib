@@ -427,7 +427,7 @@ function drawToolbar() {
     var grid = new Jx.Grid(options);
     editorOptions = {
       validate   : true,
-      blurDelay  : Browser.Engine.webkit ? false : 250,
+      blurDelay  : (Browser.safari || Browser.chrome) ? false : 250,
       popup      : {
         use: true,
         useButtons : false

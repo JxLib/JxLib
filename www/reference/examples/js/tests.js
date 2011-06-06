@@ -22,10 +22,10 @@ jxSkins.each(function(skin, i) {
         rel: rel,
         title: skin.label
     });
-    if (Browser.Engine.trident4) {
+    if (Browser.ie && Browser.ie4) {
         new Asset.css('../../lib/themes/'+skin.skin+'/ie6.css', {rel: 'stylesheet'});
     }
-    if (Browser.Engine.trident5) {
+    if (Browser.ie && Browser.ie5) {
         new Asset.css('../../lib/themes/'+skin.skin+'/ie7.css', {rel: 'stylesheet'});
     }
 });
