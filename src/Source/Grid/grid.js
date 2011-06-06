@@ -187,7 +187,7 @@ Jx.Grid = new Class({
         this.row = options.row;
         this.row.grid = this;
       } else if (Jx.type(options.row) == 'object') {
-        this.row = new Jx.Row($extend({grid: this}, options.row));
+        this.row = new Jx.Row(Object.append({grid: this}, options.row));
       }
     } else {
       this.row = new Jx.Row({grid: this});
@@ -198,7 +198,7 @@ Jx.Grid = new Class({
             this.columns = options.columns;
             this.columns.grid = this;
         } else if (Jx.type(options.columns) === 'object') {
-            this.columns = new Jx.Columns($extend({grid:this}, options.columns));
+            this.columns = new Jx.Columns(Object.append({grid:this}, options.columns));
         }
     } else {
       this.columns = new Jx.Columns({grid: this});

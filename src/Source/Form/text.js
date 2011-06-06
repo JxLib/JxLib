@@ -66,7 +66,7 @@ Jx.Field.Text = new Class({
 
         //create the overText instance if needed
         if (this.options.overText != undefined) {
-            var opts = $extend({}, this.options.overText);
+            var opts = Object.append({}, this.options.overText);
             this.field.set('alt', this.options.tip);
             this.overText = new OverText(this.field, opts);
             this.overText.show();

@@ -269,7 +269,7 @@ Jx.Panel.DataView = new Class({
      * options - the options for the list
      */
     createList: function(container, options){
-        return new Jx.List(container, $extend({
+        return new Jx.List(container, Object.append({
             onMouseenter: this.enterItem.bind(this),
             onMouseleave: this.leaveItem.bind(this),
             onSelect:  this.selectItem.bind(this),

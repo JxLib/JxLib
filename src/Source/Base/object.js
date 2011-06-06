@@ -256,7 +256,7 @@ Jx.Object = new Class({
                 }
                 for (var i = 0; i < index; i++) {
                     if (parameters[i] === 'options') {
-                        $extend(options, arguments[i]);
+                        Object.append(options, arguments[i]);
                     } else {
                         options[parameters[i]] = arguments[i];
                     }
