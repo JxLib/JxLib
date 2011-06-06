@@ -20,7 +20,6 @@ requires:
  - Core/Element.Dimensions
  - More/Element.Measure
  - More/Lang
- - Core/Selectors
  - Core/Slick.Finder
  - Core/Slick.Parser
 
