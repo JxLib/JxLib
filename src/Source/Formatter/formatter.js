@@ -40,5 +40,5 @@ Jx.Formatter = new Class({
      * Empty method that must be overridden by subclasses to provide
      * the needed formatting functionality.
      */
-    format: $empty
+    format: function(){}
 });

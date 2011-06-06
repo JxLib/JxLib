@@ -359,7 +359,7 @@ Jx.Object = new Class({
      * Method: init
      * virtual initialization method to be implemented by sub-classes
      */
-    init: $empty,
+    init: function(){},
 
     /**
      * APIMethod: registerPlugin
@@ -437,7 +437,7 @@ Jx.Object = new Class({
      * lang - the language being changed to or that had it's data set of
      *    translations changed.
      */
-    changeText : $empty,
+    changeText : function(){},
 
     /**
      * Method: generateId

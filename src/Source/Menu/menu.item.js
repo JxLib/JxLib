@@ -119,7 +119,7 @@ Jx.Menu.Item = new Class({
      * Method: show
      * Show the menu item
      */
-    show: $empty,
+    show: function(){},
     /**
      * Method: clicked
      * Handle the user clicking on the menu item, overriding the <Jx.Button::clicked>

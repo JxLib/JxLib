@@ -73,12 +73,12 @@ Jx.Panel.FileUpload = new Class({
          * Option: onFileComplete
          * An event handler that is called when a file has been uploaded
          */
-        onFileComplete: $empty,
+        onFileComplete: function(){},
         /**
          * Option: onComplete
          * An event handler that is called when all files have been uploaded
          */
-        onComplete: $empty,
+        onComplete: function(){},
         /**
          * Option: prompt
          * The prompt to display at the top of the panel - before the

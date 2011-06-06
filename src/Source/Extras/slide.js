@@ -52,12 +52,12 @@ Jx.Slide = new Class({
          * Option: onSlideOut
          * function called when the target is revealed.
          */
-        onSlideOut: $empty,
+        onSlideOut: function(){},
         /**
          * Option: onSlideIn
          * function called when a panel is hidden.
          */
-        onSlideIn: $empty
+        onSlideIn: function(){}
     },
     /**
      * Method: init

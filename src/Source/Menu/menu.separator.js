@@ -81,10 +81,10 @@ Jx.Menu.Separator = new Class({
      * Method: hide
      * Hide the menu item.
      */
-    hide: $empty,
+    hide: function(){},
     /**
      * Method: show
      * Show the menu item
      */
-    show: $empty
+    show: function(){}
 });

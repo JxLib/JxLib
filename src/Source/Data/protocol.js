@@ -65,7 +65,7 @@ Jx.Store.Protocol = new Class({
      * Parameters:
      * options - optional options for configuring the request
      */
-    read: $empty,
+    read: function(){},
     /**
      * APIMethod: insert
      * Supports inserting data from a location. Abstract method that subclasses
@@ -76,7 +76,7 @@ Jx.Store.Protocol = new Class({
      *        Jx.Store.Record instances
      * options - optional options for configuring the request
      */
-    insert: $empty,
+    insert: function(){},
     /**
      * APIMethod: update
      * Supports updating data at a location. Abstract method that subclasses
@@ -86,7 +86,7 @@ Jx.Store.Protocol = new Class({
      * data - the data to update (one or more Jx.Store.Record objects)
      * options - optional options for configuring the request
      */
-    update: $empty,
+    update: function(){},
     /**
      * APIMethod: delete
      * Supports deleting data from a location. Abstract method that subclasses
@@ -96,13 +96,13 @@ Jx.Store.Protocol = new Class({
      * data - the data to update (one or more Jx.Store.Record objects)
      * options - optional options for configuring the request
      */
-    "delete": $empty,
+    "delete": function(){},
     /**
      * APIMethod: abort
      * used to abort any of the above methods (where practical). Abstract method
      * that subclasses should implement.
      */
-    abort: $empty,
+    abort: function(){},
     /**
      * APIMethod: combineRequests
      * tests whether the protocol supports combining multiple records for a given operation

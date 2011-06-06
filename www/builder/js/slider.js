@@ -12,8 +12,8 @@ Jx.Slider = new Class({
 	options: {
 		elem: null,		//the element that we'll be sliding
 		trigger: null,
-		onSlideOut: $empty,	//called when a panel slides out (shows)
-		onSlideIn: $empty //called when a panel slides in (hides)
+		onSlideOut: function(){},	//called when a panel slides out (shows)
+		onSlideIn: function(){} //called when a panel slides in (hides)
 	},
 	
 	initialize: function(options){

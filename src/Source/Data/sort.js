@@ -50,11 +50,11 @@ Jx.Sort = new Class({
         /**
          * Event: onStart
          */
-        onStart : $empty,
+        onStart : function(){},
         /**
          * Event: onEnd
          */
-        onEnd : $empty
+        onEnd : function(){}
     },
 
     /**
@@ -71,7 +71,7 @@ Jx.Sort = new Class({
      * Property: Comparator
      * The comparator to use in sorting
      */
-    comparator : $empty,
+    comparator : function(){},
     /**
      * Property: col
      * The column to sort by
@@ -98,7 +98,7 @@ Jx.Sort = new Class({
      * APIMethod: sort
      * Actually does the sorting. Must be overridden by subclasses.
      */
-    sort : $empty,
+    sort : function(){},
 
     /**
      * Method: startTimer

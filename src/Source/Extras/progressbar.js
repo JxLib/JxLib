@@ -59,8 +59,8 @@ Jx.Progressbar = new Class({
     Extends: Jx.Widget,
     
     options: {
-        onUpdate: $empty,
-        onComplete: $empty,
+        onUpdate: function(){},
+        onComplete: function(){},
         /**
          * Option: parent
          * The element to put this progressbar into

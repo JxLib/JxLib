@@ -78,8 +78,8 @@ Jx.Slider = new Class({
          *
          */
         offset: 0,
-        onChange: $empty,
-        onComplete: $empty
+        onChange: function(){},
+        onComplete: function(){}
     },
     classes: new Hash({
         domObj: 'jxSliderContainer',

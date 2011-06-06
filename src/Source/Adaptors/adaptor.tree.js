@@ -206,17 +206,17 @@ Jx.Adaptor.Tree = new Class({
      * Virtual method to be overridden by sublcasses. Determines if a specific
      * node has any children.
      */
-    hasChildren: $empty,
+    hasChildren: function(){},
     /**
      * Method: hasParent
      * Virtual method to be overridden by sublcasses. Determines if a specific
      * node has a parent node.
      */
-    hasParent: $empty,
+    hasParent: function(){},
     /**
      * Method: getParentIndex
      * Virtual method to be overridden by sublcasses. Determines the store index
      * of the parent node.
      */
-    getParentIndex: $empty
+    getParentIndex: function(){}
 });
