@@ -168,6 +168,7 @@ provides: [Jx.Field.Color]
     changed: function() {
         var c = Jx.Field.Color.ColorPalette.options.color;
         this.setColor(c);
+        this.fireEvent('change', this);
     },
     hide: function() {
         this.button.setActive(false);
