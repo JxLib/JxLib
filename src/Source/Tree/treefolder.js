@@ -295,6 +295,6 @@ Jx.TreeFolder = new Class({
       if (this.tree) {
         this.tree.setDirty(true);
       }
-    },
+    }
     
 });
