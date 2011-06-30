@@ -4,3 +4,6 @@
 [submodule "vendor/mootools-more"]
 	path = vendor/mootools-more
 	url = https://github.com/mootools/mootools-more.git
+[submodule "utils/node-builder"]
+	path = utils/node-builder
+	url = git://github.com/jonlb/node-build.git
