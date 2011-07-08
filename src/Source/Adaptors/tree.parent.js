@@ -52,7 +52,7 @@ Jx.Adaptor.Tree.Parent = new Class({
      *          primary key).
      */
     hasChildren: function (index) {
-    	return this.store.get(this.options.folderColumn, index);
+        return this.store.get(this.options.folderColumn, index);
     },
     
     /**

@@ -298,7 +298,7 @@ Jx.Widget = new Class({
             });
             this.req.send();
             if (Jx.isAir) {
-                timeout = options.timeout != undefined ? options.timeout : 10000;
+                timeout = options.timeout !== undefined ? options.timeout : 10000;
                 this.reqTimeout = this.checkRequest.delay(timeout, this);
             }
         } else {
@@ -573,7 +573,7 @@ Jx.Widget = new Class({
         /* get the chrome image from the background image of the element */
         /* the app: protocol check is for adobe air support */
         src = c.getStyle('backgroundImage');
-        if (src != null) {
+        if (src !== null) {
           if (!(src.contains('http://') || src.contains('https://') || src.contains('file://') || src.contains('app:/'))) {
               src = null;
           } else {
@@ -604,7 +604,7 @@ Jx.Widget = new Class({
           }
         }
         /* create a shim so selects don't show through the chrome */
-        if (window.IframeShim != undefined) {
+        if (window.IframeShim !== undefined) {
           this.shim = new IframeShim(c, {className: 'jxIframeShim'});
         }
 
@@ -694,7 +694,7 @@ Jx.Widget = new Class({
     addTo: function(reference, where) {
         var el = document.id(this.addable) || document.id(this.domObj);
         if (el) {
-            if (reference instanceof Jx.Widget && reference.add != undefined) {
+            if (reference instanceof Jx.Widget && reference.add !== undefined) {
                 reference.add(el);
             } else {
                 ref = document.id(reference);
@@ -738,14 +738,14 @@ Jx.Widget = new Class({
         var h = {},
             element,
             el;
-        if (container != undefined){
+        if (container !== undefined){
             element = container.set('html',template);
         } else {
             element = new Element('div',{html:template});
         }
         Object.each(classes, function(klass){
             el = element.getElement('.'+klass);
-            if (el != undefined){
+            if (el !== undefined && el !== null){
                 h[klass] = el;
             }
         });
@@ -768,17 +768,17 @@ Jx.Widget = new Class({
      * destroy the widget and clean up any potential memory leaks
      */
     cleanup: function(){
-        if (this.domObj != undefined) {
+        if (this.domObj !== undefined) {
             this.domObj.eliminate('jxWidget');
             this.domObj.destroy();
         }
-        if (this.addable != undefined) {
+        if (this.addable !== undefined) {
             this.addable.destroy();
         }
-        if (this.domA != undefined) {
+        if (this.domA !== undefined) {
             this.domA.destroy();
         }
-        if (this.classes != undefined) {
+        if (this.classes !== undefined) {
           Object.each(this.classes, function(v, k) {
             this[k] = null;
           }, this);
@@ -795,8 +795,8 @@ Jx.Widget = new Class({
     render: function() {
         this.elements = this.processElements(this.options.template,
             this.classes);
-        if (this.domObj != undefined) {
-          if ( this.options.id != undefined) {
+        if (this.domObj !== undefined && this.domObj !== null) {
+          if ( this.options.id !== undefined && this.options.id !== null) {
             this.domObj.set('id', this.options.id);
           }
           //TODO: Should we autogenerate an id when one is not provided? like so...
@@ -818,13 +818,20 @@ Jx.Widget = new Class({
      * hash.
      */
     processElements: function(template, classes) {
-        var keys = classes.values();
-        elements = this.processTemplate(template, keys);
-        Object.each(classes, function(value, key) {
-            if (key != 'elements' && elements.get(value)) {
-                this[key] = elements.get(value);
+        var keys = [],
+            values = [];
+        for (var key in classes){
+            if (key !== undefined) {
+                values.push(classes[key]);
+                keys.push(key);
             }
-        }, this);
+        }
+        elements = this.processTemplate(template, values);
+        keys.each(function(key){
+            if (key != 'elements' && elements[classes[key]] !== undefined) {
+                this[key] =  elements[classes[key]];
+            }
+        },this);
         return elements;
     },
 
@@ -858,12 +865,12 @@ Jx.Widget = new Class({
           size,
           opts,
           domObj = this.domObj;
-      message = message != undefined ? message : {
+      message = message !== undefined ? message : {
         set:'Jx',
         key:'widget',
         value:'busyMessage'
       };
-      forceMessage = forceMessage != undefined ? forceMessage : false;
+      forceMessage = forceMessage !== undefined ? forceMessage : false;
       this.busy = state;
       this.fireEvent('busy', state);
       if (state) {

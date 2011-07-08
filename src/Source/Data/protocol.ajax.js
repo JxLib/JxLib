@@ -75,7 +75,7 @@ Jx.Store.Protocol.Ajax = new Class({
     queue: null,
 
     init: function() {
-        if (Jx.Store.Protocol.Ajax.UniqueId == undefined) {
+        if (Jx.Store.Protocol.Ajax.UniqueId === undefined) {
           Jx.Store.Protocol.Ajax.UniqueId = 1;
         }
       
@@ -135,18 +135,18 @@ Jx.Store.Protocol.Ajax = new Class({
         var req = response.request,
             str = req.xhr.responseText,
             data = this.parser.parse(str);
-        if (data != undefined) {
-            if (data.success != undefined && data.success) {
-                if (data.data != undefined) {
+        if (data !== undefined) {
+            if (data.success !== undefined && data.success) {
+                if (data.data !== undefined) {
                     response.data = data.data;
                 }
-                if (data.meta != undefined) {
+                if (data.meta !== undefined) {
                     response.meta = data.meta;
                 }
                 response.code = Jx.Store.Response.SUCCESS;
             } else {
                 response.code = Jx.Store.Response.FAILURE;
-                response.error = data.error != undefined ? data.error : null;
+                response.error = data.error !== undefined ? data.error : null;
             }
         } else {
             response.code = Jx.Store.Response.FAILURE;

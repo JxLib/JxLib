@@ -62,7 +62,7 @@ Jx.Field.Radio = new Class({
     render: function () {
         this.parent();
 
-        if (this.options.checked != undefined && this.options.checked) {
+        if (this.options.checked !== undefined && this.options.checked) {
             if (Browser.ie) {
                 var parent = this.field.getParent();
                 var sibling;
@@ -137,7 +137,3 @@ Jx.Field.Radio = new Class({
     }
 
 });
-
-
-
-

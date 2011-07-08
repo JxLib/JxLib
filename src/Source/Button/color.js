@@ -93,7 +93,7 @@ Jx.Button.Color = new Class({
         domA: 'jxButton',
         swatch: 'jxButtonSwatchColor',
         domLabel: 'jxButtonLabel'
-    }),
+    },
 
     /**
      * Method: render
@@ -143,7 +143,7 @@ Jx.Button.Color = new Class({
         cp.options.color = this.options.color;
         cp.options.alpha = this.options.alpha/100;
         cp.updateSelected();
-},
+    },
 
     /**
      * APIMethod: hide

@@ -27,7 +27,8 @@ config.dependencies = {
 config.loader = {
     base: {
         'moveImages': false,
-        'rewriteImageUrl': false
+        'rewriteImageUrl': false,
+        debug: false
     },
     repos: {
         'core': {

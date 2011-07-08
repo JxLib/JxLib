@@ -60,7 +60,7 @@ Jx.Formatter.Uri = new Class({
     format: function (value) {
       var uri        = new URI(value),
           uriContent = {},
-          pattern    = new Array(),
+          pattern    = [],
           patternTmp = this.options.format.match(/\\?\{([^{}]+)\}/g);
 
       // remove bracktes

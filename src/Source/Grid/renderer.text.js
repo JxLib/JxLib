@@ -72,12 +72,12 @@ Jx.Grid.Renderer.Text = new Class({
       var options = this.options,
           t;
       //check the formatter
-      if (options.formatter != undefined &&
+      if (options.formatter !== undefined &&
           !(options.formatter instanceof Jx.Formatter)) {
           t = Jx.type(options.formatter);
           if (t === 'object') {
               // allow users to leave the options object blank
-              if(options.formatter.options != undefined) {
+              if(options.formatter.options !== undefined) {
                   options.formatter.options = {};
               }
               options.formatter = new Jx.Formatter[options.formatter.name](
@@ -92,7 +92,7 @@ Jx.Grid.Renderer.Text = new Class({
     this.store = column.grid.getStore();
     this.attached = true;
 
-    if (this.options.textTemplate != undefined) {
+    if (this.options.textTemplate !== undefined) {
       this.columnsNeeded = this.store.parseTemplate(this.options.textTemplate);
     }
   },
@@ -101,21 +101,21 @@ Jx.Grid.Renderer.Text = new Class({
     this.parent();
 
     var text = '';
-    if (this.options.textTemplate != undefined) {
-        if (this.columnsNeeded == undefined || (Jx.type(this.columnsNeeded) === 'array' && this.columnsNeeded.length === 0)) {
+    if (this.options.textTemplate !== undefined) {
+        if (this.columnsNeeded === undefined || (Jx.type(this.columnsNeeded) === 'array' && this.columnsNeeded.length === 0)) {
             this.columnsNeeded = this.store.parseTemplate(this.options.textTemplate);
         }
         text = this.store.fillTemplate(null,this.options.textTemplate,this.columnsNeeded);
     }
-    if (this.options.formatter != undefined) {
+    if (this.options.formatter !== undefined) {
         text = this.options.formatter.format(text);
     }
 
     this.domObj.set('html',text);
 
-    if (this.options.css != undefined && Jx.type(this.options.css) === 'function') {
+    if (this.options.css !== undefined && Jx.type(this.options.css) === 'function') {
       this.domObj.addClass(this.options.css.apply(this, Array.from(text)));
-    } else if (this.options.css != undefined && Jx.type(this.options.css) === 'string'){
+    } else if (this.options.css !== undefined && Jx.type(this.options.css) === 'string'){
       this.domObj.addClass(this.options.css);
     }
 

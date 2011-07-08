@@ -56,7 +56,7 @@ Jx.Field.Combo = new Class({
      * create a new instance of Jx.Field.Combo
      */
     render: function() {
-        this.classes.combine({
+        this.classes = Object.merge(this.classes,{
           wrapper: 'jxInputWrapper',
           revealer: 'jxInputRevealer',
           icon: 'jxInputIcon'
@@ -136,13 +136,13 @@ Jx.Field.Combo = new Class({
     },
     
     setLabel: function(label) {
-      if (this.field != undefined) {
+      if (this.field !== undefined) {
         this.field.value = this.getText(label);
       }
     },
     
     setImage: function(url, imageClass) {
-      if (this.icon != undefined) {
+      if (this.icon !== undefined) {
         this.icon.setStyle('background-image', 'url('+url+')');
         this.icon.setStyle('background-repeat', 'no-repeat');
 

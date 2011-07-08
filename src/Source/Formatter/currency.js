@@ -78,6 +78,6 @@ Jx.Formatter.Currency = new Class({
      * 		translations changed.
      */
     changeText: function (lang) {
-    	this.parent();
+        this.parent();
     }
 });

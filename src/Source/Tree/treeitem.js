@@ -110,7 +110,7 @@ Jx.TreeItem = new Class ({
     render : function() {
         this.parent();
 
-        this.domObj = this.elements.get('jxTreeContainer');
+        this.domObj = this.elements.jxTreeContainer;
         this.domObj.store('jxTreeItem', this);
         this.domA.store('jxTreeItem', this);
         if (this.options.contextMenu) {

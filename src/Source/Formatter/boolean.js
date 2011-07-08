@@ -81,7 +81,7 @@ Jx.Formatter.Boolean = new Class({
      * 		translations changed.
      */
     changeText: function (lang) {
-    	this.parent();
+        this.parent();
     }
 
 });

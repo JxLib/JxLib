@@ -83,7 +83,7 @@ Jx.Columns = new Class({
     init : function () {
         this.parent();
 
-        if (this.options.grid != undefined && 
+        if (this.options.grid !== undefined && 
             this.options.grid instanceof Jx.Grid) {
           this.grid = this.options.grid;
         }
@@ -156,9 +156,9 @@ Jx.Columns = new Class({
      * does nothing.
      */
     getHeaderHeight : function (recalculate) {
-        if (this.height == undefined || recalculate) {
-            if (this.options.headerRowHeight != undefined
-                    && this.options.headerRowHeight !== 'auto') {
+        if (this.height === undefined || recalculate) {
+            if (this.options.headerRowHeight !== undefined &&
+                    this.options.headerRowHeight !== 'auto') {
                 this.height = this.options.headerRowHeight;
             } //else {
                 //figure out a height.
@@ -339,11 +339,11 @@ Jx.Columns = new Class({
           
         } else if (col.options.renderMode == 'fit') {
           col.calculateWidth(rowHeader);
-        } else if (col.options.renderMode == 'expand' && expand == undefined) {
+        } else if (col.options.renderMode == 'expand' && expand === undefined) {
           expand = col;
         } else {
           //treat it as fixed if has width, otherwise as fit
-          if (col.options.width != undefined) {
+          if (col.options.width !== undefined) {
             col.setWidth(col.options.width);
           } else {
             col.calculateWidth(rowHeader);
@@ -360,7 +360,7 @@ Jx.Columns = new Class({
       // width of the container
       if (gridSize.width > totalWidth) {
         //now figure the expand column
-        if (expand != undefined) {
+        if (expand !== undefined && expand !== null) {
           // var leftOverSpace = gridSize.width - totalWidth + rowHeaderWidth;
           leftOverSpace = gridSize.width - totalWidth;
           //account for right borders in firefox...
@@ -423,7 +423,7 @@ Jx.Columns = new Class({
      * returns the number of columns in this model (including hidden).
      */
     getColumnCount : function (noHidden) {
-        noHidden = noHidden != undefined ? false : true;
+        noHidden = noHidden !== undefined ? false : true;
         var total = this.columns.length;
         if (noHidden) {
             this.columns.each(function(col){

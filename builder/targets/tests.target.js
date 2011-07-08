@@ -8,7 +8,7 @@ module.exports = function(config,logger) {
             copyDir: {
                 basedirs: {
                     to: config.project.basedir + "/tests/interactive/UserTests/assets",
-                    from: config.app.build + "lib"
+                    from: config.app.build + "/lib"
                 },
                 copy: [ '/themes']
             }

@@ -168,7 +168,7 @@ Jx.Button = new Class({
         domA: 'jxButton',
         domImg: 'jxButtonIcon',
         domLabel: 'jxButtonLabel'
-    }),
+    },
 
     /**
      * Method: render
@@ -407,7 +407,7 @@ Jx.Button = new Class({
         if (this.domImg) {
             //check if title and alt are set...
             var t = this.domImg.get('title');
-            if (t != undefined) {
+            if (t !== undefined) {
                 //change it...
                 this.domImg.set({
                     'title':this.getText(tooltip),

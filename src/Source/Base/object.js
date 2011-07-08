@@ -241,14 +241,13 @@ Jx.Object = new Class({
             index;
 
         if (numArgs > 0) {
-            if (numArgs === 1
-                    && (Jx.type(arguments[0])==='object')
-                    && parameters.length === 1
-                    && parameters[0] === 'options') {
+            if (numArgs === 1 &&
+                    (Jx.type(arguments[0])==='object') &&
+                    parameters.length === 1 &&
+                    parameters[0] === 'options') {
                 options = arguments[0];
             } else {
                 numParams = parameters.length;
-                index;
                 if (numParams <= numArgs) {
                     index = numParams;
                 } else {
@@ -288,9 +287,9 @@ Jx.Object = new Class({
         var p;
         // pluginNamespace must be defined in order to pass plugins to the
         // object
-        if (this.pluginNamespace != undefined) {
-            if (this.options.plugins != undefined
-                    && Jx.type(this.options.plugins) === 'array') {
+        if (this.pluginNamespace !== undefined) {
+            if (this.options.plugins !== undefined &&
+                    Jx.type(this.options.plugins) === 'array') {
                 this.options.plugins.each(function (plugin) {
                     if (plugin instanceof Jx.Plugin) {
                         plugin.attach(this);
@@ -301,7 +300,7 @@ Jx.Object = new Class({
                         // that is used for locating the plugins. The default
                         // namespace is 'Other' for
                         // now until we come up with a better idea
-                      if (Jx.Plugin[this.pluginNamespace][plugin.name.capitalize()] != undefined) {
+                      if (Jx.Plugin[this.pluginNamespace][plugin.name.capitalize()] !== undefined) {
                         p = new Jx.Plugin[this.pluginNamespace][plugin.name.capitalize()](plugin.options);
                       } else {
                         p = new Jx.Adaptor[this.pluginNamespace][plugin.name.capitalize()](plugin.options);
@@ -309,7 +308,7 @@ Jx.Object = new Class({
                         p.attach(this);
                     } else if (Jx.type(plugin) === 'string') {
                         //this is a name for a plugin.
-                      if (Jx.Plugin[this.pluginNamespace][plugin.capitalize()] != undefined) {
+                      if (Jx.Plugin[this.pluginNamespace][plugin.capitalize()] !== undefined) {
                         p = new Jx.Plugin[this.pluginNamespace][plugin.capitalize()]();
                       } else {
                         p = new Jx.Adaptor[this.pluginNamespace][plugin.capitalize()]();
@@ -349,7 +348,7 @@ Jx.Object = new Class({
             }, this);
         }
         this.plugins = {};
-        if (this.options.useLang && this.bound.changeText != undefined) {
+        if (this.options.useLang && this.bound.changeText !== undefined) {
             MooTools.lang.removeEvent('langChange', this.bound.changeText);
         }
         this.bound = null;
@@ -416,10 +415,10 @@ Jx.Object = new Class({
         result = val;
       } else if (Jx.type(val) == 'function') {
         result = val();
-      } else if (Jx.type(val) == 'object' && val.set != undefined && val.key != undefined) {
+      } else if (Jx.type(val) == 'object' && val.set !== undefined && val.key !== undefined) {
         // COMMENT: just an idea how a localization object could be stored to the instance if needed somewhere else and options change?
         this.i18n = val;
-        if(val.value != undefined) {
+        if(val.value !== undefined) {
           result = MooTools.lang.get(val.set, val.key)[val.value];
         }else{
           result = MooTools.lang.get(val.set, val.key);
@@ -449,4 +448,51 @@ Jx.Object = new Class({
         delete this.uid;
         return prefix + uid;
     }
+});
+
+
+/**
+ * Rewrite Document.id so that we can call toElement on a Jx.Widget instance.
+ * It is placed here as we need Jx.Object defined before we can use it.
+ */
+Document.implement({
+    
+    id: (function(){
+
+        var types = {
+
+    		string: function(id, nocash, doc){
+				id = Slick.find(doc, '#' + id.replace(/(\W)/g, '\\$1'));
+				return (id) ? types.element(id, nocash) : null;
+			},
+
+			element: function(el, nocash){
+				$uid(el);
+				if (!nocash && !el.$family && !(/^(?:object|embed)$/i).test(el.tagName)){
+					Object.append(el, Element.Prototype);
+				}
+				return el;
+			},
+
+			object: function(obj, nocash, doc){
+				if (obj.toElement) return types.element(obj.toElement(doc), nocash);
+				return null;
+			}
+
+		};
+
+		types.textnode = types.whitespace = types.window = types.document = function(zero){
+			return zero;
+		};
+
+		return function(el, nocash, doc){
+			if (el && el.$family && el.uid) return el;
+            if (el instanceof Jx.Object) {
+                return types.element(el.toElement(doc || document), nocash);
+            }
+			var type = typeOf(el);
+			return (types[type]) ? types[type](el, nocash, doc || document) : null;
+		};
+
+	})()
 });

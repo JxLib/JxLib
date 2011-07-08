@@ -82,10 +82,10 @@ Jx.Field.Textarea = new Class({
     render: function () {
         this.parent();
 
-        if (this.options.rows != undefined) {
+        if (this.options.rows !== undefined) {
             this.field.set('rows', this.options.rows);
         }
-        if (this.options.columns != undefined) {
+        if (this.options.columns !== undefined) {
             this.field.set('cols', this.options.columns);
         }
 

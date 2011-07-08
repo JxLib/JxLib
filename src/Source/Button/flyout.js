@@ -188,9 +188,9 @@ Jx.Button.Flyout = new Class({
        /* find out what we are contained by if we don't already know */
         if (!owner) {
             this.owner = owner = document.body;
-            var node = document.id(this.domObj.parentNode);
+            node = document.id(this.domObj.parentNode);
             while (node != document.body && owner == document.body) {
-                var flyout = node.retrieve('jxFlyout');
+                flyout = node.retrieve('jxFlyout');
                 if (flyout) {
                     this.owner = owner = flyout;
                     break;

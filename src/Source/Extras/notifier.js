@@ -71,7 +71,7 @@ Jx.Notifier = new Class({
     render: function () {
         this.parent();
         
-        if (this.options.parent == undefined) {
+        if (this.options.parent === undefined) {
             this.options.parent = document.body;
         }
         document.id(this.options.parent).adopt(this.domObj);

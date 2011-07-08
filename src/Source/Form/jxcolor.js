@@ -68,7 +68,7 @@ provides: [Jx.Field.Color]
     button: null,
     validator: null,
     render: function() {
-        this.classes.combine({
+        this.classes = Object.merge(this.classes,{
           wrapper: 'jxInputWrapper',
           revealer: 'jxInputRevealer',
           icon: 'jxInputIcon'
@@ -107,27 +107,28 @@ provides: [Jx.Field.Color]
         validators: [{
             validatorClass: 'colorHex',
             validator: {
-              name: 'colorValidator',
-              options: {
-                validateOnChange: false,
-                errorMsg: self.options.errorMsg,
-                test: function(field,props) {
-                  try {
-                    var c = field.get('value').hexToRgb(true);
-                    if(c == null) return false;
-                    for(var i = 0; i < 3; i++) {
-                      if(c[i].toString() == 'NaN') {
-                        return false;
-                      }
+                name: 'colorValidator',
+                options: {
+                    validateOnChange: false,
+                    errorMsg: self.options.errorMsg,
+                    test: function(field,props) {
+                        var c;
+                        try {
+                            c = field.get('value').hexToRgb(true);
+                            if(c === null) return false;
+                            for(var i = 0; i < 3; i++) {
+                                if(c[i].toString() == 'NaN') {
+                                    return false;
+                                }
+                            }
+                        } catch (e) {
+                            return false;
+                        }
+                        c = c.rgbToHex().toUpperCase();
+                        self.setColor(c);
+                        return true;
                     }
-                  }catch(e) {
-                    return false;
-                  }
-                  c = c.rgbToHex().toUpperCase();
-                  self.setColor(c);
-                  return true;
                 }
-              }
             }
         }],
         validateOnBlur: true,

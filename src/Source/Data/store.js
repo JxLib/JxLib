@@ -134,11 +134,11 @@ Jx.Store = new Class({
 
         this.deleted = [];
         
-        if (this.options.id != undefined) {
+        if (this.options.id !== undefined && this.options.id !== null) {
             this.id = this.options.id;
         }
 
-        if (this.options.protocol == undefined) {
+        if (this.options.protocol === undefined || this.options.protocol === null) {
             this.ready = false;
             return;
         } else {
@@ -147,7 +147,7 @@ Jx.Store = new Class({
 
         this.strategies = {};
 
-        if (this.options.strategies != undefined) {
+        if (this.options.strategies !== undefined && this.options.strategies !== null) {
             this.options.strategies.each(function(strategy){
                 this.addStrategy(strategy);
             },this);
@@ -156,7 +156,7 @@ Jx.Store = new Class({
             this.addStrategy(strategy);
         }
 
-        if (this.options.record != undefined) {
+        if (this.options.record !== undefined && this.options.record !== null) {
             this.record = this.options.record;
         } else {
             this.record = Jx.Record;
@@ -222,7 +222,7 @@ Jx.Store = new Class({
      * Clears the store of data
      */
     empty: function () {
-        if (this.data != undefined) {
+        if (this.data !== undefined && this.data !== null) {
             this.data.empty();
         }
     },
@@ -235,7 +235,7 @@ Jx.Store = new Class({
      * Returns: true | false (Null if there's a problem)
      */
     hasNext : function () {
-        if (this.data != undefined) {
+        if (this.data !== undefined && this.data !== null) {
             return this.index < this.data.length - 1;
         }
         return null;
@@ -249,7 +249,7 @@ Jx.Store = new Class({
      * Returns: true | false
      */
     hasPrevious : function () {
-        if (this.data != undefined) {
+        if (this.data !== undefined && this.data !== null) {
             return this.index > 0;
         }
         return null;
@@ -263,7 +263,7 @@ Jx.Store = new Class({
      * Returns: true | false
      */
     valid : function () {
-        return (this.data != undefined && this.data[this.index] != undefined);
+        return (this.data !== undefined  && this.data !== null && this.data[this.index] !== undefined);
     },
 
     /**
@@ -273,7 +273,7 @@ Jx.Store = new Class({
      * Returns: nothing | null if error
      */
     next : function () {
-        if (this.data != undefined) {
+        if (this.data !== undefined && this.data !== null) {
             this.index++;
             if (this.index === this.data.length) {
                 this.index = this.data.length - 1;
@@ -293,7 +293,7 @@ Jx.Store = new Class({
      *
      */
     previous : function () {
-        if (this.data != undefined) {
+        if (this.data !== undefined && this.data !== null) {
             this.index--;
             if (this.index < 0) {
                 this.index = 0;
@@ -313,7 +313,7 @@ Jx.Store = new Class({
      *
      */
     first : function () {
-        if (this.data != undefined) {
+        if (this.data !== undefined && this.data !== null) {
             this.index = 0;
             this.fireEvent('storeMove', this);
             return true;
@@ -329,7 +329,7 @@ Jx.Store = new Class({
      * Returns: nothing | null if error
      */
     last : function () {
-        if (this.data != undefined) {
+        if (this.data !== undefined && this.data !== null) {
             this.index = this.data.length - 1;
             this.fireEvent('storeMove', this);
             return true;
@@ -346,7 +346,7 @@ Jx.Store = new Class({
      * if there's an error
      */
     count : function () {
-        if (this.data != undefined) {
+        if (this.data !== undefined && this.data !== null) {
             return this.data.length;
         }
         return null;
@@ -360,7 +360,7 @@ Jx.Store = new Class({
      * there's an error
      */
     getPosition : function () {
-        if (this.data != undefined) {
+        if (this.data !== undefined && this.data !== null) {
             return this.index;
         }
         return null;
@@ -376,11 +376,11 @@ Jx.Store = new Class({
      * Returns: true - if successful false - if not successful null - on error
      */
     moveTo : function (index) {
-        if (this.data != undefined && index >= 0 && index < this.data.length) {
+        if (this.data !== undefined && this.data !== null && index >= 0 && index < this.data.length) {
             this.index = index;
             this.fireEvent('storeMove', this);
             return true;
-        } else if (this.data == undefined) {
+        } else if (this.data === undefined) {
             return null;
         } else {
             return false;
@@ -398,7 +398,7 @@ Jx.Store = new Class({
      *                  marked as deleted.
      */
     each: function (fn, bind, ignoreDeleted) {
-        if (this.data != undefined) {
+        if (this.data !== undefined && this.data !== null) {
           var data;
           if (ignoreDeleted) {
               data = this.data.filter(function (record) {
@@ -422,7 +422,7 @@ Jx.Store = new Class({
      *          defaults to the current index.
      */
     get: function (column, index) {
-        if (index == undefined) {
+        if (index === undefined || index === null) {
             index = this.index;
         }
         return this.data[index].get(column);
@@ -440,7 +440,7 @@ Jx.Store = new Class({
      *          defaults to the current index.
      */
     set: function (column, data, index) {
-        if (index == undefined) {
+        if (index === undefined && this.data !== null) {
             index = this.index;
         }
         var ret = this.data[index].set(column, data);
@@ -469,11 +469,11 @@ Jx.Store = new Class({
      * insert - flag whether this is an "insert"
      */
     addRecord: function (data, position, insert) {
-        if (this.data == undefined) {
+        if (this.data === undefined && this.data !== null) {
             this.data = [];
         }
 
-        position = position != undefined ? position : 'bottom';
+        position = position !== undefined ? position : 'bottom';
 
         var record = data;
         if (!(data instanceof Jx.Record)) {
@@ -503,7 +503,7 @@ Jx.Store = new Class({
      * the bottom of the store
      */
     addRecords: function (data, position) {
-        var def = data != undefined,
+        var def = (data !== undefined  && this.data !== null) ,
             type = Jx.type(data);
         if (def && type === 'array') {
             this.fireEvent('storeBeginAddRecords', this);
@@ -530,18 +530,21 @@ Jx.Store = new Class({
      * to the current store index
      */
     getRecord: function (index) {
-        if (index == undefined) {
+        if (index === undefined && index !== null) {
             index = this.index;
         }
 
         if (Jx.type(index) === 'number') {
-            if (this.data != undefined && this.data[index] != undefined) {
+            if (this.data !== undefined && this.data !== null && this.data[index] !== undefined) {
                 return this.data[index];
             }
         } else {
             //Not sure what the point of this part is. It compares the
             //record to the index directly as if we passed in the record which
             //means we already have the record... huh???
+            //Answer: Most likely I meant this to also be a way of checking if the
+            //record that was passed in is actually contained withing the store. 
+            //Granted, this is probably not the way to do it. I'll ponder it.....
             var r;
             this.data.each(function(record){
                 if (record === index) {
@@ -563,8 +566,8 @@ Jx.Store = new Class({
      *          defaults to the current store index.
      */
     replace: function(data, index) {
-        if (data != undefined) {
-            if (index == undefined) {
+        if (data !== undefined  && this.data !== null) {
+            if (index === undefined  && index !== null) {
                 index = this.index;
             }
             var record = new this.record(this.options.columns,data),
@@ -586,7 +589,7 @@ Jx.Store = new Class({
      *          defaults to the current store index.
      */
     deleteRecord: function(index) {
-        if (index == undefined) {
+        if (index === undefined && this.data !== null) {
             index = this.index;
         }
         var record = this.data[index];
@@ -664,11 +667,11 @@ Jx.Store = new Class({
      * index - Optional. The store index of the record to remove.
      */
     removeRecord: function (index) {
-        if (index == undefined) {
+        if (index === undefined && this.data !== null) {
             index = this.index;
         }
         this.data.splice(index,1);
-        this.fireEvent('storeRecordRemoved', [this, index])
+        this.fireEvent('storeRecordRemoved', [this, index]);
     },
     /**
      * APIMethod: removeRecords
@@ -686,60 +689,60 @@ Jx.Store = new Class({
     },
 
     /**
-   * APIMethod: parseTemplate
-   * parses the provided template to determine which store columns are
-   * required to complete it.
-   *
-   * Parameters:
-   * template - the template to parse
-   */
-  parseTemplate: function (template) {
-      //we parse the template based on the columns in the data store looking
-      //for the pattern {column-name}. If it's in there we add it to the
-      //array of ones to look fo
-      var arr = [],
-          s;
-      this.options.columns.each(function (col) {
-          s = '{' + col.name + '}';
-          if (template.contains(s)) {
-              arr.push(col.name);
-          }
-      }, this);
-      return arr;
-  },
+     * APIMethod: parseTemplate
+     * parses the provided template to determine which store columns are
+     * required to complete it.
+     *
+     * Parameters:
+     * template - the template to parse
+     */
+    parseTemplate: function (template) {
+        //we parse the template based on the columns in the data store looking
+        //for the pattern {column-name}. If it's in there we add it to the
+        //array of ones to look fo
+        var arr = [],
+            s;
+        this.options.columns.each(function (col) {
+            s = '{' + col.name + '}';
+            if (template.contains(s)) {
+                arr.push(col.name);
+            }
+        }, this);
+        return arr;
+    },
 
-  /**
-   * APIMethod: fillTemplate
-   * Actually does the work of getting the data from the store
-   * and creating a single item based on the provided template
-   *
-   * Parameters:
-   * index - the index of the data in the store to use in populating the
-   *          template.
-   * template - the template to fill
-   * columnsNeeded - the array of columns needed by this template. should be
-   *      obtained by calling parseTemplate().
+    /**
+     * APIMethod: fillTemplate
+     * Actually does the work of getting the data from the store
+     * and creating a single item based on the provided template
+     *
+     * Parameters:
+     * index - the index of the data in the store to use in populating the
+     *          template.
+     * template - the template to fill
+     * columnsNeeded - the array of columns needed by this template. should be
+     *      obtained by calling parseTemplate().
      * obj - an object with some prefilled keys to use in substituting.
      *      Ones that are also in the store will be overwritten.
-   */
-  fillTemplate: function (index, template, columnsNeeded, obj) {
-      var record = null,
-          itemObj;
-      if (index != undefined) {
-          if (index instanceof Jx.Record) {
-              record = index;
+     */
+    fillTemplate: function (index, template, columnsNeeded, obj) {
+        var record = null,
+            itemObj;
+        if (index !== undefined  && this.data !== null) {
+            if (index instanceof Jx.Record) {
+                record = index;
+            } else {
+                record = this.getRecord(index);
+            }
           } else {
-              record = this.getRecord(index);
+              record = this.getRecord(this.index);
           }
-        } else {
-            record = this.getRecord(this.index);
-        }
 
-      //create the item
-      itemObj = obj != undefined ? obj : {};
-      columnsNeeded.each(function (col) {
-          itemObj[col] = record.get(col);
-      }, this);
-      return template.substitute(itemObj);
-  }
+        //create the item
+        itemObj = (obj !== undefined  && obj !== null) ? obj : {};
+        columnsNeeded.each(function (col) {
+            itemObj[col] = record.get(col);
+        }, this);
+        return template.substitute(itemObj);
+    }
 });

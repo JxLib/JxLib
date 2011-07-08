@@ -47,10 +47,10 @@ Jx.Sort.Quicksort = new Class({
     sort : function (left, right) {
         this.fireEvent('start');
 
-        if (left == undefined) {
+        if (left === undefined) {
             left = 0;
         }
-        if (right == undefined) {
+        if (right === undefined) {
             right = this.data.length - 1;
         }
 

@@ -63,7 +63,7 @@ Jx.Field.Checkbox = new Class({
     render : function () {
         this.parent();
 
-        if (this.options.checked != undefined && this.options.checked) {
+        if (this.options.checked !== undefined && this.options.checked) {
             if (Browser.ie) {
                 var parent = this.field.getParent();
                 var sibling;
@@ -90,7 +90,7 @@ Jx.Field.Checkbox = new Class({
         // add click event to the label to toggle the checkbox
         if(this.label) {
           this.label.addEvent('click', function(ev) {
-            this.setValue(this.getValue() != null ? false : true)
+            this.setValue(this.getValue() !== null ? false : true);
           }.bind(this));
         }
     },

@@ -101,7 +101,7 @@ Jx.Styles = new(new Class({
             text = selector + " {" + declaration + "}",
             index;
         if (Browser.ie) {
-            if (declaration == '') {
+            if (declaration === '') {
                 //IE requires SOME text for the declaration. Passing '{}' will
                 //create an empty rule.
                 declaration = '{}';
@@ -132,7 +132,7 @@ Jx.Styles = new(new Class({
             i = ss.indicies.indexOf(selector),
             result = false;
         ss.indicies.splice(i, 1);
-        if (Browser.ie {
+        if (Browser.ie) {
             ss.removeRule(i);
             result = true;
         } else {
@@ -154,7 +154,7 @@ Jx.Styles = new(new Class({
      */
     getDynamicStyleSheet: function (name) {
         name = (name) ? name : 'default';
-        if (Object.keys(this.dynamicStyleMap).contains(name)) {
+        if (!Object.keys(this.dynamicStyleMap).contains(name)) {
             var sheet = new Element('style').set('type', 'text/css').inject(document.head);
             sheet.indicies = [];
             this.dynamicStyleMap[name] = sheet;
