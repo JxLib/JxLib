@@ -28,3 +28,7 @@ Creating good, useful documentation is an ongoing challenge, but we think we've 
 ## Discussion Group
 
 You can follow the JxLib discussions at our [Google Group](http://groups.google.com/group/jxlib/) or subscribe to get the discussion via email.
+
+## Issues and Enhacements
+
+Please file all issues and enhancement requests on our [Lighthouse account](http://jxlib.lighthouseapp.com/projects/71243-jxlib/overview).
