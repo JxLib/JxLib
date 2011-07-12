@@ -275,7 +275,7 @@ Jx.Plugin.Grid.Editor = new Class({
      * @var {Object} grid - Instance of Class Jx.Grid
      */
     attach: function (grid) {
-      if (grid == undefined || !(grid instanceof Jx.Grid)) {
+      if (grid === undefined || grid === null || !(grid instanceof Jx.Grid)) {
         return;
       }
       this.parent(grid);
@@ -331,9 +331,11 @@ Jx.Plugin.Grid.Editor = new Class({
 
       var keyboardEvents = {};
       for(var i in this.options.keys) {
-        if(this.keyboardMethods[this.options.keys[i]] != undefined) {
+        if(this.keyboardMethods[this.options.keys[i]] !== undefined &&
+           this.keyboardMethods[this.options.keys[i]] !== null) {
           keyboardEvents[i] = this.keyboardMethods[this.options.keys[i]];
-        }else if(this.options.keyboardMethods[this.options.keys[i]] != undefined){
+        }else if(this.options.keyboardMethods[this.options.keys[i]] !== undefined &&
+                 this.options.keyboardMethods[this.options.keys[i]] !== null){
           keyboardEvents[i] = this.options.keyboardMethods[this.options.keys[i]].bind(self);
         }else if(Jx.type(this.options.keys[i]) == 'function') {
           keyboardEvents[i] = this.options.keys[i].bind(self);
@@ -380,8 +382,8 @@ Jx.Plugin.Grid.Editor = new Class({
      * @return void
      */
     disable : function(close, save) {
-      close = close != undefined ? close : true;
-      save = save != undefined ? save : false;
+      close = (close !== undefined && close !== null) ? close : true;
+      save = (save !== undefined && save !== null) ? save : false;
       if(close && this.activeCell.cell != null) {
         this.deactivate(save);
       }
@@ -425,8 +427,8 @@ Jx.Plugin.Grid.Editor = new Class({
       
       var data  = this.grid.getCellData(cell); //.retrieve('jxCellData');
 
-      if (!data || data.row == undefined || data.column == undefined) {
-        if(console != undefined) {
+      if (!data || data.row === undefined || data.row === null || data.column === undefined || data.column === null) {
+        if(console !== undefined) {
           console.warn('out of grid %o',cell);
           console.warn('data was %o', data);
         }
@@ -470,7 +472,9 @@ Jx.Plugin.Grid.Editor = new Class({
 
       // check if this column has special validation settings - 
       // otherwise use default from this.options.validate
-      if(data.column.options.validate != undefined || typeof(data.column.options.validate) != 'boolean') {
+      if(data.column.options.validate !== undefined || 
+          data.column.options.validate !== null || 
+          typeof(data.column.options.validate) != 'boolean') {
         data.column.options.validate = options.validate;
         cell.store('jxCellData', data);
       }
@@ -521,7 +525,7 @@ Jx.Plugin.Grid.Editor = new Class({
 
       // update the 'oldValue' to the formatted style, to compare the new value with the formatted one instead with the non-formatted-one
       if(options.fieldFormatted && colOptions.renderer.options.formatter != null) {
-        if(colOptions.fieldFormatted == undefined || colOptions.fieldFormatted == true ) {
+        if(colOptions.fieldFormatted === undefined || colOptions.fieldFormatted === null || colOptions.fieldFormatted == true ) {
           jxFieldOptions.value = colOptions.renderer.options.formatter.format(jxFieldOptions.value);
           activeCell.oldValue = jxFieldOptions.value;
         }
@@ -597,7 +601,7 @@ Jx.Plugin.Grid.Editor = new Class({
       clearTimeout(activeCell.timeoutId);
 
       if(activeCell.field !== null) {
-        save = save != undefined ? save : true;
+        save = (save !== undefined && save !== null) ? save : true;
 
 
         // update the value in the column
@@ -641,7 +645,10 @@ Jx.Plugin.Grid.Editor = new Class({
         }
 
         // update reference to activeCell
-        if (activeCell.data.row != undefined && activeCell.data.index != undefined) {
+        if (activeCell.data.row !== undefined && 
+            activeCell.data.row !== null && 
+            activeCell.data.index !== undefined && 
+            activeCell.data.index !== null) {
           var colIndex = grid.row.useHeaders() ? activeCell.data.index-1 : activeCell.data.index;
           this.activeCell.cell = grid.gridTableBody.rows[this.activeCell.data.row].cells[colIndex];
         }
@@ -935,7 +942,7 @@ Jx.Plugin.Grid.Editor = new Class({
      * @return void
      */
     getNextCellInRow: function(save) {
-      save = save != undefined ? save : true;
+      save = (save !== undefined && save !== null) ? save : true;
       var nextCell = true,
           nextRow = true,
           sumCols = this.grid.columns.columns.length,
@@ -984,7 +991,7 @@ Jx.Plugin.Grid.Editor = new Class({
      * @return void
      */
     getPrevCellInRow: function(save) {
-      save = save != undefined ? save : true;
+      save = (save !== undefined && save !== null) ? save : true;
       var prevCell, 
           prevRow, 
           i = 0,
@@ -1039,7 +1046,7 @@ Jx.Plugin.Grid.Editor = new Class({
       var nextRow,
           nextCell,
           activeCell = this.activeCell;
-      save = save != undefined ? save : true;
+      save = (save !== undefined && save !== null) ? save : true;
       if (activeCell.cell != null) {
         nextRow = activeCell.cell.getParent().getNext();
         if (nextRow == null) {
@@ -1064,7 +1071,7 @@ Jx.Plugin.Grid.Editor = new Class({
       var prevRow,
           prevCell,
           activeCell = this.activeCell;
-      save = save != undefined ? save : true;
+      save = (save !== undefined && save !== null) ? save : true;
       if (activeCell.cell != null) {
         prevRow = activeCell.cell.getParent().getPrevious();
         if (prevRow == null) {
@@ -1129,7 +1136,7 @@ Jx.Plugin.Grid.Editor = new Class({
      * @return {Boolean}
      */
     cellIsInGrid: function(row, index) {
-      if(row != undefined && index != undefined) {
+      if(row !== undefined && row !== null && index !== undefined && index !== null) {
         //console.log("Row %i - max Rows: %i, Col %i - max Cols %i", row, this.grid.gridTableBody.rows.length, index, this.grid.gridTableBody.rows[row].cells.length);
         if( row >= 0 && index >= 0 &&
             row <= this.grid.gridTableBody.rows.length &&

@@ -155,7 +155,7 @@ Jx.Form = new Class({
             this.domObj.set('enctype', 'multipart/form-data');
         }
         
-        if (this.options.formClass !== undefined) {
+        if (this.options.formClass !== undefined && this.options.formClass !== null) {
             this.domObj.addClass(this.options.formClass);
         }
     },
@@ -198,7 +198,7 @@ Jx.Form = new Class({
      */
     getValues : function (asQueryString) {
         var queryString = this.domObj.toQueryString();
-        if (asQueryString !== undefined && asQueryString) {
+        if (asQueryString !== undefined && asQueryString !== null && asQueryString) {
             return queryString;
         } else {
             return queryString.parseQueryString();
@@ -229,10 +229,10 @@ Jx.Form = new Class({
         for (var x = 0; x < arguments.length; x++) {
             field = arguments[x];
             //add form to the field and field to the form if not already there
-            if (field instanceof Jx.Field && field.form === undefined) {
+            if (field instanceof Jx.Field && (field.form === undefined || field.form === null)) {
                 field.form = this;
                 this.addField(field);
-            } else if (field instanceof Jx.Fieldset && field.form === undefined) {
+            } else if (field instanceof Jx.Fieldset && (field.form === undefined || field.form === null)) {
                 field.form = this;
             }
             

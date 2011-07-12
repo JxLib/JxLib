@@ -143,7 +143,7 @@ Jx.version = "3.0";
  * }
  * (end)
  */
-if (Jx.baseURL === undefined) {
+if (Jx.baseURL === undefined || Jx.baseURL === null) {
   (function() {
     var aScripts = document.getElementsByTagName('SCRIPT'),
         i, s, n, file;
@@ -176,7 +176,7 @@ if (Jx.baseURL === undefined) {
  * }
  * (end)
  */
-if (Jx.aPixel === undefined) {
+if (Jx.aPixel === undefined || Jx.aPixel === null) {
   Jx.aPixel = new Element('img', {
     alt:'',
     title:'',
@@ -195,7 +195,7 @@ if (Jx.aPixel === undefined) {
  * }
  * (end)
  */
-if (Jx.isAir === undefined) {
+if (Jx.isAir === undefined || Jx.isAir === null) {
   (function() {
     /**
      * Determine if we're running in Adobe AIR.
@@ -237,7 +237,7 @@ Jx.setLanguage = function(lang) {
  * exists on the particular widget. You will be able to disable listening for
  * these changes by setting the Jx.Widget option useLang to false.
  */
-if (Jx.lang === undefined) {
+if (Jx.lang === undefined || Jx.lang === null) {
   Jx.lang = 'en-US';
 }
 
@@ -544,14 +544,14 @@ Jx.type = function(obj) {
                 m = this.measure(function() {
                     return this.getSizes(['padding', 'border']);
                 });
-                if (size.width !== undefined) {
+                if (size.width !== undefined && size.width !== null) {
                     width = size.width + m.padding.left + m.padding.right + m.border.left + m.border.right;
                     if (width < 0) {
                         width = 0;
                     }
                     this.setStyle('width', width);
                 }
-                if (size.height !== undefined) {
+                if (size.height !== undefined && size.height !== null) {
                     height = size.height + m.padding.top + m.padding.bottom + m.border.top + m.border.bottom;
                     if (height < 0) {
                         height = 0;
@@ -559,10 +559,10 @@ Jx.type = function(obj) {
                     this.setStyle('height', height);
                 }
             } else {
-                if (size.width !== undefined && size.width >= 0) {
+                if (size.width !== undefined && size.width !== null && size.width >= 0) {
                   this.setStyle('width', width);
                 }
-                if (size.height !== undefined && size.height >= 0) {
+                if (size.height !== undefined && size.height !== null && size.height >= 0) {
                   this.setStyle('height', height);
                 }
             }
@@ -589,14 +589,14 @@ Jx.type = function(obj) {
                     return this.getSizes();
                 });
 
-                if (size.width !== undefined) {
+                if (size.width !== undefined && size.width !== null) {
                     width = size.width - m.padding.left - m.padding.right - m.border.left - m.border.right - m.margin.left - m.margin.right;
                     if (width < 0) {
                         width = 0;
                     }
                     this.setStyle('width', width);
                 }
-                if (size.height !== undefined) {
+                if (size.height !== undefined && size.height !== null) {
                     height = size.height - m.padding.top - m.padding.bottom - m.border.top - m.border.bottom - m.margin.top - m.margin.bottom;
                     if (height < 0) {
                         height = 0;
@@ -604,10 +604,10 @@ Jx.type = function(obj) {
                     this.setStyle('height', height);
                 }
             } else {
-                if (size.width !== undefined && size.width >= 0) {
+                if (size.width !== undefined && size.width !== null && size.width >= 0) {
                   this.setStyle('width', width);
                 }
-                if (size.height !== undefined && size.height >= 0) {
+                if (size.height !== undefined && size.height !== null && size.height >= 0) {
                   this.setStyle('height', height);
                 }
             }

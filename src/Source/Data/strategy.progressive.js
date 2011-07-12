@@ -89,7 +89,7 @@ Jx.Store.Strategy.Progressive = new Class({
     loadStore: function (resp) {
         this.store.protocol.removeEvent('dataLoaded', this.bound.loadStore);
         if (resp.success()) {
-            if (resp.meta !== undefined) {
+            if (resp.meta !== undefined && resp.meta !== null) {
                 this.parseMetaData(resp.meta);
             }
             this.loadData(resp.data);
@@ -124,7 +124,7 @@ Jx.Store.Strategy.Progressive = new Class({
      * params - a hash of parameters to pass to the request if needed.
      */
     nextPage: function (params) {
-        if (params === undefined) {
+        if (params === undefined || params === null) {
             params = {};
         }
         if (this.options.dropRecords && this.totalPages > this.startingPage + this.loadedPages) {
@@ -152,7 +152,7 @@ Jx.Store.Strategy.Progressive = new Class({
             return;
         }
         
-        if (params === undefined) {
+        if (params === undefined || params === null) {
             params = {};
         }
         if (this.startingPage > 0) {

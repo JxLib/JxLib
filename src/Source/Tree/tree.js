@@ -98,7 +98,8 @@ Jx.Tree = new Class({
      */
     render: function() {
         this.parent();
-        if (this.options.container != undefined &&
+        if (this.options.container !== undefined &&
+            this.options.container !== null &&
             document.id(this.options.container)) {
             this.domObj = this.options.container;
         }
@@ -276,7 +277,7 @@ Jx.Tree = new Class({
         if (!this.list) return;
         if (this.frozen) return;
         
-        if (isLast != undefined) {
+        if (isLast !== undefined && isLast !== null) {
             if (isLast) {
                 this.domObj.removeClass('jxTreeNest');
             } else {

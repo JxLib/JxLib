@@ -83,7 +83,8 @@ Jx.Columns = new Class({
     init : function () {
         this.parent();
 
-        if (this.options.grid !== undefined && 
+        if (this.options.grid !== undefined &&
+            this.options.grid !== null &&
             this.options.grid instanceof Jx.Grid) {
           this.grid = this.options.grid;
         }
@@ -156,8 +157,9 @@ Jx.Columns = new Class({
      * does nothing.
      */
     getHeaderHeight : function (recalculate) {
-        if (this.height === undefined || recalculate) {
+        if (this.height === undefined || this.height === null || recalculate) {
             if (this.options.headerRowHeight !== undefined &&
+                    this.options.headerRowHeight !== null &&
                     this.options.headerRowHeight !== 'auto') {
                 this.height = this.options.headerRowHeight;
             } //else {
@@ -339,11 +341,11 @@ Jx.Columns = new Class({
           
         } else if (col.options.renderMode == 'fit') {
           col.calculateWidth(rowHeader);
-        } else if (col.options.renderMode == 'expand' && expand === undefined) {
+        } else if (col.options.renderMode == 'expand' && (expand === undefined || expand === null)) {
           expand = col;
         } else {
           //treat it as fixed if has width, otherwise as fit
-          if (col.options.width !== undefined) {
+          if (col.options.width !== undefined && col.options.width !== null) {
             col.setWidth(col.options.width);
           } else {
             col.calculateWidth(rowHeader);
@@ -423,7 +425,7 @@ Jx.Columns = new Class({
      * returns the number of columns in this model (including hidden).
      */
     getColumnCount : function (noHidden) {
-        noHidden = noHidden !== undefined ? false : true;
+        noHidden = (noHidden !== undefined && noHidden !== null) ? noHidden : false;
         var total = this.columns.length;
         if (noHidden) {
             this.columns.each(function(col){

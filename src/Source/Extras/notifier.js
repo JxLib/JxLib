@@ -71,10 +71,11 @@ Jx.Notifier = new Class({
     render: function () {
         this.parent();
         
-        if (this.options.parent === undefined) {
+        if (this.options.parent === undefined || this.options.parent === null) {
             this.options.parent = document.body;
         }
-        document.id(this.options.parent).adopt(this.domObj);
+        var parent = document.id(this.options.parent);
+        parent.adopt(this.domObj);
         
         this.addEvent('postRender', function() {
             if (Jx.type(this.options.items) == 'array') {

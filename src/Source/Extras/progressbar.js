@@ -108,7 +108,7 @@ Jx.Progressbar = new Class({
     render: function () {
         this.parent();
         
-        if (this.options.parent !== undefined) {
+        if (this.options.parent !== undefined && this.options.parent !== null) {
             this.domObj.inject(document.id(this.options.parent));
         }
         
@@ -119,7 +119,8 @@ Jx.Progressbar = new Class({
         
         //Message
         if (this.message) {
-            if (MooTools.lang.get('Jx','progressbar').messageText !== undefined) {
+            if (MooTools.lang.get('Jx','progressbar').messageText !== undefined &&
+                MooTools.lang.get('Jx','progressbar').messageText !== null) {
                 this.message.set('html', this.getText({set:'Jx',key:'progressbar',value:'messageText'}));
             } else {
                 this.message.destroy();
@@ -169,7 +170,7 @@ Jx.Progressbar = new Class({
         var newWidth = (progress * this.width) / total;
         
         //update bar width
-        this.text.get('tween', {property:'width', onComplete: function() {
+        this.text.set('tween', {property:'width', onComplete: function() {
             var obj = {};
             var progressText = this.options.progressText === null ?
                                   this.getText({set:'Jx',key:'progressbar',value:'progressText'}) :
@@ -182,9 +183,11 @@ Jx.Progressbar = new Class({
             }
             var t = progressText.substitute(obj);
             this.text.set('text', t);
-        }.bind(this)}).start(newWidth);
+        }.bind(this)});
         
-        this.fill.get('tween', {property: 'width', onComplete: (function () {
+        this.text.get('tween').start(newWidth);
+        
+        this.fill.set('tween', {property: 'width', onComplete: (function () {
             
             if (total === progress) {
                 this.complete = true;
@@ -193,7 +196,9 @@ Jx.Progressbar = new Class({
             } else {
                 this.fireEvent('update');
             }
-        }).bind(this)}).start(newWidth);
+        }).bind(this)});
+        
+        this.fill.get('tween').start(newWidth);
         
     },
     

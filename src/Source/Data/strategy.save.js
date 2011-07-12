@@ -92,7 +92,7 @@ Jx.Store.Strategy.Save = new Class({
      */
     deactivate: function () {
         this.parent();
-        if (this.periodicalId !== undefined) {
+        if (this.periodicalId !== undefined && this.periodicalId !== null) {
             window.clearInterval(this.periodicalId);
         } else if (this.options.autoSave) {
             this.store.removeEvent('storeRecordAdded', this.bound.save);
@@ -130,7 +130,7 @@ Jx.Store.Strategy.Save = new Class({
      */
     saveRecord: function (store, record) {
         //determine the status and route based on that
-        if (!this.updating && record.state  !== undefined) {
+        if (!this.updating && record.state  !== undefined && record.state  !== null) {
             if (this.totalChanges === 0) {
                 store.protocol.addEvent('dataLoaded', this.bound.completed);
             }
@@ -166,7 +166,10 @@ Jx.Store.Strategy.Save = new Class({
             records[Jx.Record.INSERT] = [];
             
             this.store.data.each(function (record) {
-                if (record !== undefined && record.state !== undefined) {
+                if (record !== undefined && 
+                    record !== null && 
+                    record.state !== undefined && 
+                    record.state !== null) {
                     records[record.state].push(record);
                 }
             }, this);
@@ -213,18 +216,20 @@ Jx.Store.Strategy.Save = new Class({
      * response - the response returned from the protocol
      */
     onComplete: function (response) {
-        if (!response.success() || (response.meta !== undefined && !response.meta.success)) {
+        if (!response.success() || 
+            (response.meta !== undefined && response.meta !== null && 
+             !response.meta.success)) {
             this.failedChanges.push(response);
         } else {
             //process the response
             var records = [response.requestParams[0]].flatten(),
-                responseData = response.data !== undefined ? [response.data].flatten() : null;
+                responseData = (response.data !== undefined && response.data !== null) ? [response.data].flatten() : null;
             records.each(function(record, index) {
               if (response.requestType === 'delete') {
                   this.store.deleted.erase(record);
               } else { 
                   if (response.requestType === 'insert' || response.requestType == 'update') {
-                      if (responseData && responseData[index] !== undefined) {
+                      if (responseData && responseData[index] !== undefined && responseData[index] !== null) {
                           this.updating = true;
                           Object.each(responseData[index], function (val, key) {
                               var d = record.set(key, val);

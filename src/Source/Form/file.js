@@ -161,7 +161,7 @@ Jx.Field.File = new Class({
         this.parent();
 
         //add a unique ID if no id is defined
-        if (this.options.id === undefined) {
+        if (this.options.id === undefined || this.options.id === null) {
             this.field.set('id', this.generateId());
         }
 
@@ -255,12 +255,12 @@ Jx.Field.File = new Class({
 
     upload: function (externalForm) {
         //do we have files to upload?
-        if (this.forms.getLength() > 0) {
+        if (Object.getLength(this.forms) > 0) {
             var keys = Object.keys(this.forms);
             this.currentKey = keys[0];
             var form = this.forms[this.currentKey];
             delete this.forms[this.currentKey];
-            if (externalForm !== undefined && this.forms.getLength() === 0) {
+            if (externalForm !== undefined && externalForm !== null && Object.getLength(this.forms) === 0) {
                 var fields = externalForm.fields;
                 fields.each(function(field){
                     if (!(field instanceof Jx.Field.File)) {
@@ -279,7 +279,7 @@ Jx.Field.File = new Class({
      * Call this to upload the file to the server
      */
     uploadSingle: function (form) {
-        this.form = form !== undefined ? form : this.prepForm();
+        this.form = (form !== undefined && form !== null) ? form : this.prepForm();
 
         this.fireEvent('fileUploadBegin', [this.currentKey, this]);
 
@@ -313,7 +313,8 @@ Jx.Field.File = new Class({
      */
     submitUpload: function (data) {
         //check for ID in data
-        if (data !== undefined && data.success && data.id !== undefined) {
+        if (data !== undefined && data !== null && data.success && 
+            data.id !== undefined && data.id !== null) {
             this.progressID = data.id;
             //if have id, create hidden progress field
             var id = new Jx.Field.Hidden({
@@ -327,7 +328,7 @@ Jx.Field.File = new Class({
         //submit the form
         document.id(this.form).submit();
         //begin polling if needed
-        if (this.options.progress && this.progressID !== undefined) {
+        if (this.options.progress && this.progressID !== undefined && this.progressID !== null) {
             this.pollUpload();
         }
     },
@@ -355,7 +356,7 @@ Jx.Field.File = new Class({
      * data - The data from the request as an object.
      */
     processProgress: function (data) {
-        if (data !== undefined) {
+        if (data !== undefined && data !== null) {
             this.fireEvent('fileUploadProgress', [data, this.currentKey, this]);
             if (data.current < data.total) {
                 this.polling = true;
@@ -390,7 +391,9 @@ Jx.Field.File = new Class({
             }
 
             var data = JSON.decode(iframeBody);
-            if (data !== undefined && data.success !== undefined && data.success) {
+            if (data !== undefined && data !== null && 
+                data.success !== undefined && data.success !== null && 
+                data.success) {
                 this.done = true;
                 this.doneData = data;
                 this.uploadCleanUp();
@@ -440,7 +443,7 @@ Jx.Field.File = new Class({
      */
     changeText: function (lang) {
         this.parent();
-        if (this.browseButton !== undefined) {
+        if (this.browseButton !== undefined && this.browseButton !== null) {
             this.browseButton.setLabel( this.getText({set:'Jx',key:'file',value:'browseLabel'}) );
         }
     },

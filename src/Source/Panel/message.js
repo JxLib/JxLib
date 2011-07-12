@@ -135,7 +135,7 @@ Jx.Dialog.Message = new Class({
      */
     setMessage: function(message) {
       this.options.message = message;
-      if (this.question != undefined) {
+      if (this.question != undefined && this.question != null) {
         this.question.set('html',this.getText(message));
       }
     },
@@ -146,7 +146,7 @@ Jx.Dialog.Message = new Class({
      */
     changeText: function (lang) {
       this.parent();
-      if (this.ok != undefined) {
+      if (this.ok != undefined && this.ok != null) {
         this.ok.setLabel({set:'Jx',key:'message',value:'okButton'});
       }
       if(Jx.type(this.options.message) === 'object') {

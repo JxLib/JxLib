@@ -98,7 +98,7 @@ Jx.Plugin.Form.Validator = new Class({
      * Sets up the plugin and connects it to the form
      */
     attach: function (form) {
-        if (form == undefined || !(form instanceof Jx.Form)) {
+        if (form === undefined || form === null || !(form instanceof Jx.Form)) {
             return;
         }
         this.form = form;
@@ -194,7 +194,7 @@ Jx.Plugin.Form.Validator = new Class({
      * Use this method to get all of the errors from all of the fields.
      */
     getErrors: function () {
-        if (this.errors != undefined) {
+        if (this.errors !== undefined && this.errors !== null) {
            this.validate();
         }
         return this.errors;

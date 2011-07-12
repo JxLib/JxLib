@@ -380,7 +380,7 @@ Jx.Store = new Class({
             this.index = index;
             this.fireEvent('storeMove', this);
             return true;
-        } else if (this.data === undefined) {
+        } else if (this.data === undefined && this.data === null) {
             return null;
         } else {
             return false;
@@ -440,7 +440,7 @@ Jx.Store = new Class({
      *          defaults to the current index.
      */
     set: function (column, data, index) {
-        if (index === undefined && this.data !== null) {
+        if (index === undefined && index !== null) {
             index = this.index;
         }
         var ret = this.data[index].set(column, data);
@@ -473,7 +473,7 @@ Jx.Store = new Class({
             this.data = [];
         }
 
-        position = position !== undefined ? position : 'bottom';
+        position = (position !== undefined && position !== null) ? position : 'bottom';
 
         var record = data;
         if (!(data instanceof Jx.Record)) {
@@ -503,8 +503,11 @@ Jx.Store = new Class({
      * the bottom of the store
      */
     addRecords: function (data, position) {
-        var def = (data !== undefined  && this.data !== null) ,
+        var def = (data !== undefined  && data !== null) ,
             type = Jx.type(data);
+        if (this.data === undefined || this.data === null) {
+            this.data = [];
+        }
         if (def && type === 'array') {
             this.fireEvent('storeBeginAddRecords', this);
             //if position is top, reverse the array or we'll add them in the
@@ -538,7 +541,7 @@ Jx.Store = new Class({
             if (this.data !== undefined && this.data !== null && this.data[index] !== undefined) {
                 return this.data[index];
             }
-        } else {
+        } /* else {
             //Not sure what the point of this part is. It compares the
             //record to the index directly as if we passed in the record which
             //means we already have the record... huh???
@@ -553,6 +556,7 @@ Jx.Store = new Class({
             },this);
             return r;
         }
+        */
         return null;
     },
     /**
@@ -589,7 +593,7 @@ Jx.Store = new Class({
      *          defaults to the current store index.
      */
     deleteRecord: function(index) {
-        if (index === undefined && this.data !== null) {
+        if (index === undefined && index !== null) {
             index = this.index;
         }
         var record = this.data[index];
@@ -667,7 +671,7 @@ Jx.Store = new Class({
      * index - Optional. The store index of the record to remove.
      */
     removeRecord: function (index) {
-        if (index === undefined && this.data !== null) {
+        if (index === undefined && index !== null) {
             index = this.index;
         }
         this.data.splice(index,1);
@@ -728,7 +732,7 @@ Jx.Store = new Class({
     fillTemplate: function (index, template, columnsNeeded, obj) {
         var record = null,
             itemObj;
-        if (index !== undefined  && this.data !== null) {
+        if (index !== undefined  && index !== null) {
             if (index instanceof Jx.Record) {
                 record = index;
             } else {

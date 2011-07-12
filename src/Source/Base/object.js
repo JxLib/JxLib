@@ -287,8 +287,9 @@ Jx.Object = new Class({
         var p;
         // pluginNamespace must be defined in order to pass plugins to the
         // object
-        if (this.pluginNamespace !== undefined) {
+        if (this.pluginNamespace !== undefined && this.pluginNamespace !== null) {
             if (this.options.plugins !== undefined &&
+                    this.options.plugins !== null &&
                     Jx.type(this.options.plugins) === 'array') {
                 this.options.plugins.each(function (plugin) {
                     if (plugin instanceof Jx.Plugin) {
@@ -300,7 +301,8 @@ Jx.Object = new Class({
                         // that is used for locating the plugins. The default
                         // namespace is 'Other' for
                         // now until we come up with a better idea
-                      if (Jx.Plugin[this.pluginNamespace][plugin.name.capitalize()] !== undefined) {
+                      if (Jx.Plugin[this.pluginNamespace][plugin.name.capitalize()] !== undefined &&
+                          Jx.Plugin[this.pluginNamespace][plugin.name.capitalize()] !== null) {
                         p = new Jx.Plugin[this.pluginNamespace][plugin.name.capitalize()](plugin.options);
                       } else {
                         p = new Jx.Adaptor[this.pluginNamespace][plugin.name.capitalize()](plugin.options);
@@ -308,7 +310,8 @@ Jx.Object = new Class({
                         p.attach(this);
                     } else if (Jx.type(plugin) === 'string') {
                         //this is a name for a plugin.
-                      if (Jx.Plugin[this.pluginNamespace][plugin.capitalize()] !== undefined) {
+                      if (Jx.Plugin[this.pluginNamespace][plugin.capitalize()] !== undefined &&
+                          Jx.Plugin[this.pluginNamespace][plugin.capitalize()] !== null) {
                         p = new Jx.Plugin[this.pluginNamespace][plugin.capitalize()]();
                       } else {
                         p = new Jx.Adaptor[this.pluginNamespace][plugin.capitalize()]();
@@ -348,7 +351,7 @@ Jx.Object = new Class({
             }, this);
         }
         this.plugins = {};
-        if (this.options.useLang && this.bound.changeText !== undefined) {
+        if (this.options.useLang && this.bound.changeText !== undefined && this.bound.changeText !== null) {
             MooTools.lang.removeEvent('langChange', this.bound.changeText);
         }
         this.bound = null;
@@ -415,7 +418,8 @@ Jx.Object = new Class({
         result = val;
       } else if (Jx.type(val) == 'function') {
         result = val();
-      } else if (Jx.type(val) == 'object' && val.set !== undefined && val.key !== undefined) {
+      } else if (Jx.type(val) == 'object' && val.set !== undefined &&
+                 val.set !== null && val.key !== undefined && val.key !== null) {
         // COMMENT: just an idea how a localization object could be stored to the instance if needed somewhere else and options change?
         this.i18n = val;
         if(val.value !== undefined) {

@@ -69,7 +69,7 @@ Jx.Slide = new Class({
 
         this.target.set('tween', {onComplete: this.setDisplay.bind(this)});
 
-        if (this.options.trigger !== undefined) {
+        if (this.options.trigger !== undefined && this.options.trigger !== null) {
             this.trigger = document.id(this.options.trigger);
             this.trigger.addEvent('click', this.handleClick);
         }

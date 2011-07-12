@@ -47,7 +47,7 @@ Jx.Store.Protocol = new Class({
     init: function () {
         this.parent();
 
-        if (this.options.parser !== undefined) {
+        if (this.options.parser !== undefined && this.options.parser !== null) {
             this.parser = this.options.parser;
         }
     },
@@ -113,6 +113,7 @@ Jx.Store.Protocol = new Class({
      * Returns {Boolean} true if the operation supports it, false otherwise
      */
     combineRequests: function(op) {
-      return this.options.combine[op] !== undefined ? this.options.combine[op] : false;
+      return (this.options.combine[op] !== undefined && 
+              this.options.combine[op] !== null) ? this.options.combine[op] : false;
     }
 });

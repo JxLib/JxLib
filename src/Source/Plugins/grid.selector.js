@@ -110,7 +110,7 @@ Jx.Plugin.Grid.Selector = new Class({
      * grid - The instance of Jx.Grid to attach to
      */
     attach: function (grid) {
-        if (grid == undefined || !(grid instanceof Jx.Grid)) {
+        if (grid === undefined || grid === null || !(grid instanceof Jx.Grid)) {
             return;
         }
         this.parent(grid);
@@ -325,15 +325,19 @@ Jx.Plugin.Grid.Selector = new Class({
             options = this.options,
             col;
 
-        if (options.cell && data.row != undefined && data.index != undefined) {
+        if (options.cell && 
+            data.row !== undefined && 
+            data.row !== null && 
+            data.index !== undefined && 
+            data.index !== null) {
           this.selectCell(cell);
         }
         
-        if (options.row && data.row != undefined) {
+        if (options.row && data.row !== undefined && data.row !== null) {
             this.selectRow(data.row);
         }
 
-        if (options.column && data.index != undefined) {
+        if (options.column && data.index !== undefined && data.index !== null) {
             if (this.grid.row.useHeaders()) {
                 this.selectColumn(data.index - 1);
             } else {
@@ -390,7 +394,7 @@ Jx.Plugin.Grid.Selector = new Class({
             r = this.grid.gridTableBody.rows,
             tr = document.id((row >= 0 && row < r.length) ? r[row] : null),
             rows = this.selected.rows,
-            silently = silently != undefined ? silently : false;
+            silently = (silently !== undefined && silently !== null) ? silently : false;
         if (tr) {
             if (tr.hasClass('jxGridRowSelected')) {
                 tr.removeClass('jxGridRowSelected');
@@ -626,7 +630,7 @@ Jx.Plugin.Grid.Selector = new Class({
 
         Array.from(rows).each(function(row, idx) {
             var check = row.cells[col].getElement('input');
-            if (check != undefined) {
+            if (check !== undefined && check !== null) {
                 var rowChecked = check.get('checked');
                 if (rowChecked !== checked) {
                     this.selectRow(idx, true);

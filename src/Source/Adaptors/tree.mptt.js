@@ -66,7 +66,7 @@ Jx.Adaptor.Tree.Mptt = new Class({
     hasParent: function (index) {
         var i = this.getParentIndex(index),
             result = false;
-        if (i !== undefined) {
+        if (i !== undefined && i !== null) {
             result = true;
         }
         return result;

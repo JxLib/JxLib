@@ -138,7 +138,7 @@ Jx.Sort = new Class({
      * col - the column to sort by
      */
     setColumn : function (col) {
-        if (col !== undefined) {
+        if (col !== undefined && col !== null) {
             this.col = col;
         }
     },

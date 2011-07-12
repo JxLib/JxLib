@@ -107,7 +107,7 @@ Jx.Tooltip = new Class({
         }
 
         this.domObj.addClass('jxTooltip');
-        if (this.options.cssClass !== undefined) {
+        if (this.options.cssClass !== undefined && this.options.cssClass !== null) {
             this.domObj.addClass(this.options.cssClass);
         }
 

@@ -76,7 +76,7 @@ Jx.Store.Strategy.Full = new Class({
         this.store.fireEvent('storeBeginDataLoad', this.store);
         this.store.protocol.addEvent('dataLoaded', this.bound.loadStore);
         var opts = {};
-        if (params !== undefined) {
+        if (params !== undefined && params !== null) {
             opts.data = params;
         } else {
             opts.data = {};
@@ -98,7 +98,7 @@ Jx.Store.Strategy.Full = new Class({
         this.store.protocol.removeEvent('dataLoaded', this.bound.loadStore);
         if (resp.success()) {
             this.store.empty();
-            if (resp.meta !== undefined) {
+            if (resp.meta !== undefined && resp.meta !== null) {
                 this.parseMetaData(resp.meta);
             }
             this.store.addRecords(resp.data);
@@ -118,10 +118,10 @@ Jx.Store.Strategy.Full = new Class({
      * meta - the meta data object from the response.
      */
     parseMetaData: function (meta) {
-        if (meta.columns !== undefined) {
+        if (meta.columns !== undefined && meta.columns !== null) {
             this.store.options.columns = meta.columns;
         }
-        if (meta.primaryKey !== undefined) {
+        if (meta.primaryKey !== undefined && meta.primaryKey !== null) {
             this.store.options.recordOptions.primaryKey = meta.primaryKey;
         }
     }

@@ -130,10 +130,10 @@ Jx.Dialog.Confirm = new Class({
     
     changeText: function (lang) {
     	this.parent();
-    	if (this.ok != undefined) {
+    	if (this.ok != undefined && this.ok != null) {
     		this.ok.setLabel({set:'Jx',key:'confirm',value:'affirmativeLabel'});
     	}
-    	if (this.cancel != undefined) {
+    	if (this.cancel != undefined && this.cancel != null) {
     		this.cancel.setLabel({set:'Jx',key:'confirm',value:'negativeLabel'});
     	}
       if(Jx.type(this.options.question) === 'object') {

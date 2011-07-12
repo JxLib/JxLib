@@ -98,7 +98,7 @@ Jx.Row = new Class({
     init : function () {
         this.parent();
 
-        if (this.options.grid !== undefined && this.options.grid instanceof Jx.Grid) {
+        if (this.options.grid !== undefined && this.options.grid !== null && this.options.grid instanceof Jx.Grid) {
             this.grid = this.options.grid;
         }
     },
@@ -135,10 +135,11 @@ Jx.Row = new Class({
       var col, width;
       if (this.options.headerColumn) {
         col = this.grid.columns.getByName(this.options.headerColumn);
-        if (col.getWidth() === undefined) {
-          col.calculateWidth(true);
-        }
         width = col.getWidth();
+        if (width === undefined && width === null) {
+          col.calculateWidth(true);
+          width = col.getWidth();
+        }
       } else {
         width = this.options.headerWidth;
       }
@@ -155,9 +156,9 @@ Jx.Row = new Class({
       //this should eventually compute a height, however, we would need
       //a fixed width to do so reliably. For right now, we use a fixed height
       //for all rows.
-      if (this.heights[row] !== undefined) {
+      if (this.heights[row] !== undefined && this.heights[row] !== null) {
         h = this.heights[row];
-      } else if (this.options.rowHeight !== undefined) {
+      } else if (this.options.rowHeight !== undefined && this.options.rowHeight !== null) {
         if (this.options.rowHeight == 'auto') {
           // this.calculateHeight(row);
           h = 20; // TODO calculate?
@@ -176,7 +177,8 @@ Jx.Row = new Class({
      */
     calculateHeights : function () {
       if (this.options.rowHeight === 'auto' ||
-          this.options.rowHeight === undefined) {
+          this.options.rowHeight === undefined ||
+          this.options.rowHeight === null) {
         //grab all rows in the grid body
         document.id(this.grid.gridTableBody).getChildren().each(function(row){
           row = document.id(row);

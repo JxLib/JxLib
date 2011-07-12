@@ -182,7 +182,7 @@ Jx.Grid = new Class({
     var options = this.options,
         opts;
 
-    if (options.row !== undefined) {
+    if (options.row !== undefined && options.row !== null) {
       if (options.row instanceof Jx.Row) {
         this.row = options.row;
         this.row.grid = this;
@@ -193,7 +193,7 @@ Jx.Grid = new Class({
       this.row = new Jx.Row({grid: this});
     }
 
-    if (options.columns !== undefined) {
+    if (options.columns !== undefined && options.columns !== undefined) {
         if (options.columns instanceof Jx.Columns) {
             this.columns = options.columns;
             this.columns.grid = this;
@@ -466,8 +466,8 @@ Jx.Grid = new Class({
     store.options.columns.each(function(col, index) {
       if (!this.columns.getByName(col.name)) {
         var renderer = new Jx.Grid.Renderer.Text(),
-            format = col.format !== undefined ? col.format : null,
-            template = "<span class='jxGridCellContent'>"+ (col.label !== undefined ? col.label : col.name).capitalize() + "</span>",
+            format = (col.format !== undefined && col.format !== null) ? col.format : null,
+            template = "<span class='jxGridCellContent'>"+ ((col.label !== undefined && col.label !== null) ? col.label : col.name).capitalize() + "</span>",
             column;
         if (col.renderer !== undefined) {
           if (Jx.type(col.renderer) == 'string') {
@@ -475,30 +475,36 @@ Jx.Grid = new Class({
               renderer = new Jx.Grid.Renderer[col.renderer.capitalize()]();
             }
           } else if (Jx.type(col.renderer) == 'object' && 
-                     col.renderer.type !== undefined && 
+                     col.renderer.type !== undefined &&
+                     col.renderer.type !== null &&
                      Jx.Grid.Renderer[col.renderer.type.capitalize()]) {
             renderer = new Jx.Grid.Renderer[col.renderer.type.capitalize()](col.renderer);
           }
         }
         if (format) {
           if (Jx.type(format) == 'string' && 
-              Jx.Formatter[format.capitalize()] !== undefined) {
+              Jx.Formatter[format.capitalize()] !== undefined &&
+              Jx.Formatter[format.capitalize()] !== null) {
             renderer.options.formatter = new Jx.Formatter[format.capitalize()]();
           } else if (Jx.type(format) == 'object' && 
-                     format.type !== undefined && 
-                     Jx.Formatter[format.type.capitalize()] !== undefined) {
+                     format.type !== undefined &&
+                     format.type !== null &&
+                     Jx.Formatter[format.type.capitalize()] !== undefined &&
+                     Jx.Formatter[format.type.capitalize()] !== null) {
              renderer.options.formatter = new Jx.Formatter[format.type.capitalize()](format);
           }
         }
         column = new Jx.Column({
           grid: this,
           template: template,
-          renderMode: col.renderMode !== undefined ? col.renderMode : col.width !== undefined ? 'fixed' : 'fit',
-          width: col.width !== undefined ? col.width : null,
-          isEditable: col.editable !== undefined ? col.editable : false,
-          isSortable: col.sortable !== undefined ? col.sortable : false,
-          isResizable: col.resizable !== undefined ? col.resizable : false,
-          isHidden: col.hidden !== undefined ? col.hidden : false,
+          renderMode: (col.renderMode !== undefined && col.renderMode !== null) ? 
+                        col.renderMode : 
+                        (col.width !== undefined && col.width !== undefined) ? 'fixed' : 'fit',
+          width: (col.width !== undefined && col.width !== null) ? col.width : null,
+          isEditable: (col.editable !== undefined && col.editable !== null) ? col.editable : false,
+          isSortable: (col.sortable !== undefined && col.sortable !== null) ? col.sortable : false,
+          isResizable: (col.resizable !== undefined && col.resizable !== null) ? col.resizable : false,
+          isHidden: (col.hidden !== undefined && col.hidden !== null) ? col.hidden : false,
           name: col.name || '',
           renderer: renderer 
         });
@@ -656,7 +662,7 @@ Jx.Grid = new Class({
         th,
         text = index + 1,
         rh;
-    if (position === undefined || !['top','bottom','replace'].contains(position)) {
+    if (position === undefined || position === null || !['top','bottom','replace'].contains(position)) {
       position = 'bottom';
     }
     tr = row.getGridRowElement(index, '');

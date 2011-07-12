@@ -405,7 +405,7 @@ Jx.Dialog = new Class({
      * otherwise the state is toggled.
      */
     toggleCollapse: function(state) {
-        if (state != undefined) {
+        if (state != undefined && state != null) {
             this.options.closed = state;
         } else {
             this.options.closed = !this.options.closed;
@@ -646,14 +646,14 @@ Jx.Dialog = new Class({
     
     changeText: function (lang) {
     	this.parent();
-    	if (this.maxM != undefined) {
+    	if (this.maxM != undefined && this.maxM != null) {
 			if (this.maximize) {
 				this.maxM.setLabel(this.getText({set:'Jx',key:'panel',value:'restoreLabel'}));
 	    	} else {
 	    		this.maxM.setLabel(this.getText({set:'Jx',key:'panel',value:'maximizeLabel'}));
 	    	}
     	}
-    	if (this.resizeHandle != undefined) {
+    	if (this.resizeHandle != undefined && this.resizeHandle != null) {
     		this.resizeHandle.set('title', this.getText({set:'Jx',key:'dialog',value:'resizeTooltip'}));
     	}
       this.toggleCollapse(false);
@@ -683,10 +683,12 @@ Jx.Dialog = new Class({
       var self = this;
       for(var i in this.options.keys) {
         // only add a reference once, otherwise keyboard events will be fired twice in subclasses
-        if(this.keyboardEvents[i] == undefined) {
-          if(this.keyboardMethods[this.options.keys[i]] != undefined) {
+        if(this.keyboardEvents[i] === undefined && this.keyboardEvents[i] === null) {
+          if(this.keyboardMethods[this.options.keys[i]] !== undefined &&
+             this.keyboardMethods[this.options.keys[i]] !== null) {
             this.keyboardEvents[i] = this.keyboardMethods[this.options.keys[i]];
-          }else if(this.options.keyboardMethods[this.options.keys[i]] != undefined){
+          }else if(this.options.keyboardMethods[this.options.keys[i]] !== undefined &&
+                   this.options.keyboardMethods[this.options.keys[i]] !== null){
             this.keyboardEvents[i] = this.options.keyboardMethods[this.options.keys[i]].bind(self);
           }else if(Jx.type(this.options.keys[i]) == 'function') {
             this.keyboardEvents[i] = this.options.keys[i].bind(self);
@@ -709,7 +711,7 @@ Jx.Dialog = new Class({
      * - reference {Object} (optional) the element|elementId|object to set the limits
      */
     setDragLimit : function(reference) {
-      if(reference != undefined) this.options.limit = reference;
+      if(reference !== undefined && reference !== null) this.options.limit = reference;
       
       // check drag limit if it is an container or string for an element and use dimensions
       var limitType = this.options.limit != null ? Jx.type(this.options.limit) : false;

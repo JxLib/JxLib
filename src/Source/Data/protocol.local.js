@@ -47,7 +47,7 @@ Jx.Store.Protocol.Local = new Class({
     init: function () {
         this.parent();
         
-        if (this.options.data !== undefined) {
+        if (this.options.data !== undefined && this.options.data !== null) {
             this.data = this.parser.parse(this.options.data);
         }
     },
@@ -71,7 +71,7 @@ Jx.Store.Protocol.Local = new Class({
         resp.requestParams = arguments;
         
         
-        if (data !== undefined) {
+        if (data !== undefined && data !== null) {
             if (page <= 1 && itemsPerPage === -1) {
                 //send them all
                 resp.data = data;

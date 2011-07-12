@@ -87,7 +87,7 @@ Jx.Adaptor.Tree = new Class({
         if (this.options.monitorFolders) {
             this.strategy = this.store.getStrategy('progressive');
 
-            if (this.strategy === undefined) {
+            if (this.strategy === undefined || this.strategy === null) {
                 this.strategy = new Jx.Store.Strategy.Progressive({
                     dropRecords: false,
                     getPaginationParams: function () { return {}; }
@@ -159,7 +159,7 @@ Jx.Adaptor.Tree = new Class({
                   item.addEvent('disclosed', this.checkFolder);
                 }
 
-                this.folders.set(i,item);
+                this.folders[i] = item;
             } else {
                 //add as item
                 item = new Jx.TreeItem(Object.merge({},options.itemOptions, {
@@ -170,8 +170,8 @@ Jx.Adaptor.Tree = new Class({
             //check for a parent
             if (this.hasParent(i)) {
                 //add as child of parent
-                var p = this.getParentIndex(i);
-                var folder = this.folders.get(p);
+                p = this.getParentIndex(i);
+                folder = this.folders[p];
                 folder.add(item);
             } else {
                 //otherwise add to the tree itself
@@ -189,13 +189,13 @@ Jx.Adaptor.Tree = new Class({
         var items = folder.items(),
             index,
             node;
-        if (items === undefined || items.length === 0) {
+        if (items === undefined || items === null || items.length === 0) {
             //get items via the store
-          index = document.id(folder).retrieve('index');
-          node = this.store.get('primaryKey', index);
-          this.busyFolder = folder;
-          this.busyFolder.setBusy(true);
-          this.busy = 'folder';
+            index = document.id(folder).retrieve('index');
+            node = this.store.get('primaryKey', index);
+            this.busyFolder = folder;
+            this.busyFolder.setBusy(true);
+            this.busy = 'folder';
             this.store.load({
                 node: node
             });

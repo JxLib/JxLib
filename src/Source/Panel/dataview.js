@@ -94,7 +94,7 @@ Jx.Panel.DataView = new Class({
      * at the end of the method.
      */
     render: function () {
-        if (this.options.data == undefined) {
+        if (this.options.data === undefined || this.options.data === null) {
             //we can't do anything without data
             return;
         }
@@ -127,7 +127,7 @@ Jx.Panel.DataView = new Class({
      */
     draw: function () {
         var n = this.options.data.count();
-        if (n != undefined && n > 0) {
+        if (n != undefined && n != null && n > 0) {
             for (var i = 0; i < n; i++) {
                 this.options.data.moveTo(i);
 

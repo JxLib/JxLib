@@ -155,7 +155,7 @@ Jx.TreeItem = new Class ({
             }
         }
 
-        if (this.options.enabled != undefined) {
+        if (this.options.enabled !== undefined && this.options.enabled !== null) {
             this.enable(this.options.enabled, true);
         }
     },
@@ -245,12 +245,12 @@ Jx.TreeItem = new Class ({
     },
 
     setImage: function(url, imageClass) {
-        if (this.domIcon && url != undefined ) {
+        if (this.domIcon && url !== undefined && url !== null ) {
             this.options.image = url;
             this.domIcon.setStyle('backgroundImage', 'url('+this.options.image+')');
             this.setDirty(true);
         }
-        if (this.domIcon && imageClass != undefined) {
+        if (this.domIcon && imageClass !== undefined && imageClass !== null) {
             this.domIcon.removeClass(this.options.imageClass);
             this.options.imageClass = imageClass;
             this.domIcon.addClass(imageClass);

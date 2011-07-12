@@ -298,7 +298,7 @@ Jx.Widget = new Class({
             });
             this.req.send();
             if (Jx.isAir) {
-                timeout = options.timeout !== undefined ? options.timeout : 10000;
+                timeout = (options.timeout !== undefined && options.timeout !== null) ? options.timeout : 10000;
                 this.reqTimeout = this.checkRequest.delay(timeout, this);
             }
         } else {
@@ -738,7 +738,7 @@ Jx.Widget = new Class({
         var h = {},
             element,
             el;
-        if (container !== undefined){
+        if (container !== undefined && container !== null){
             element = container.set('html',template);
         } else {
             element = new Element('div',{html:template});
@@ -768,20 +768,20 @@ Jx.Widget = new Class({
      * destroy the widget and clean up any potential memory leaks
      */
     cleanup: function(){
-        if (this.domObj !== undefined) {
+        if (this.domObj !== undefined && this.domObj !== null) {
             this.domObj.eliminate('jxWidget');
             this.domObj.destroy();
         }
-        if (this.addable !== undefined) {
+        if (this.addable !== undefined && this.addable !== null) {
             this.addable.destroy();
         }
-        if (this.domA !== undefined) {
+        if (this.domA !== undefined && this.domA !== null) {
             this.domA.destroy();
         }
-        if (this.classes !== undefined) {
-          Object.each(this.classes, function(v, k) {
-            this[k] = null;
-          }, this);
+        if (this.classes !== undefined && this.classes !== null) {
+            for (var k in this.classes) {
+                this[k] = null;
+            };
         }
         this.elements.empty();
         this.elements = null;
@@ -828,7 +828,7 @@ Jx.Widget = new Class({
         }
         elements = this.processTemplate(template, values);
         keys.each(function(key){
-            if (key != 'elements' && elements[classes[key]] !== undefined) {
+            if (key != 'elements' && elements[classes[key]] !== undefined && elements[classes[key]] !== null) {
                 this[key] =  elements[classes[key]];
             }
         },this);
@@ -865,12 +865,15 @@ Jx.Widget = new Class({
           size,
           opts,
           domObj = this.domObj;
-      message = message !== undefined ? message : {
+          
+        //if domObj is null or undefined we can't do this....
+        if (domObj === null || domObj === undefined) return;
+      message = (message !== undefined && message !== null) ? message : {
         set:'Jx',
         key:'widget',
         value:'busyMessage'
       };
-      forceMessage = forceMessage !== undefined ? forceMessage : false;
+      forceMessage = (forceMessage !== undefined && forceMessage !== null) ? forceMessage : false;
       this.busy = state;
       this.fireEvent('busy', state);
       if (state) {
@@ -898,7 +901,9 @@ Jx.Widget = new Class({
             });
           }
           opts = Object.merge({},options.busyMask, opts);
-          domObj.get('spinner', opts).show(!options.busyMask.fx);
+          domObj.set('spinner',opts);
+          var spinner = domObj.get('spinner');
+          spinner.show(!options.busyMask.fx);
         }
       } else {
         if (options.busyClass) {

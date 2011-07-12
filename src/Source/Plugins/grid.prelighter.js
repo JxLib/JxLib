@@ -84,7 +84,7 @@ Jx.Plugin.Grid.Prelighter = new Class({
      * Sets up the plugin and connects it to the grid
      */
     attach: function (grid) {
-        if (grid == undefined || !(grid instanceof Jx.Grid)) {
+        if (grid === undefined || grid === null || !(grid instanceof Jx.Grid)) {
             return;
         }
         this.parent(grid);
@@ -189,7 +189,7 @@ Jx.Plugin.Grid.Prelighter = new Class({
      * row - {Integer} the row to pre-light the header cell of
      */
     prelightRowHeader : function (row, on) {
-        if (this.prelitRowHeader != undefined && !on) {
+        if (this.prelitRowHeader !== undefined && this.prelitRowHeader !== null && !on) {
             this.prelitRowHeader.removeClass('jxGridRowHeaderPrelight');
         } else if (on) {
             this.prelitRowHeader = (row >= 0 && row < this.grid.rowTableBody.rows.length) ? this.grid.rowTableBody.rows[row].cells[0] : null;
@@ -212,7 +212,7 @@ Jx.Plugin.Grid.Prelighter = new Class({
             return;
         }
 
-        if (this.prelitColumnHeader != undefined && !on) {
+        if (this.prelitColumnHeader !== undefined && this.prelitColumnHeader !== null && !on) {
             this.prelitColumnHeader.removeClass('jxGridColumnHeaderPrelight');
         } else if (on) {
             this.prelitColumnHeader = (col >= 0 && col < this.grid.colTableBody.rows[0].cells.length) ? this.grid.colTableBody.rows[0].cells[col] : null;
@@ -232,7 +232,7 @@ Jx.Plugin.Grid.Prelighter = new Class({
      * on - flag to tell if we're lighting on or off
      */
     prelightRow : function (row, on) {
-       if (this.prelitRow != undefined && !on) {
+       if (this.prelitRow != undefined && this.prelitRow != null && !on) {
             this.prelitRow.removeClass('jxGridRowPrelight');
         } else if (on) {
             this.prelitRow = (row >= 0 && row < this.grid.gridTableBody.rows.length) ? this.grid.gridTableBody.rows[row] : null;
@@ -253,7 +253,7 @@ Jx.Plugin.Grid.Prelighter = new Class({
      */
     prelightColumn : function (col, on) {
         if (col >= 0 && col < this.grid.gridTableBody.rows[0].cells.length) {
-            if (this.prelitColumn != undefined && !on) {
+            if (this.prelitColumn != undefined && this.prelitColumn != null && !on) {
                 for (var i = 0; i < this.grid.gridTableBody.rows.length; i++) {
                     this.grid.gridTableBody.rows[i].cells[this.prelitColumn].removeClass('jxGridColumnPrelight');
                 }
@@ -276,7 +276,7 @@ Jx.Plugin.Grid.Prelighter = new Class({
      * on - flag to tell if we're lighting on or off
      */
     prelightCell : function (cell, on) {
-        if (this.prelitCell != undefined && !on) {
+        if (this.prelitCell !== undefined && this.prelitCell !== null && !on) {
             this.prelitCell.removeClass('jxGridCellPrelight');
         } else if (on) {
             this.prelitCell = cell;
@@ -288,21 +288,21 @@ Jx.Plugin.Grid.Prelighter = new Class({
     
     mouseleave: function() {
         //turn off all prelights when the mouse leaves the grid
-        if (this.prelitCell != undefined) {
+        if (this.prelitCell !== undefined && this.prelitCell !== null) {
             this.prelitCell.removeClass('jxGridCellPrelight');
         }
-        if (this.prelitColumn != undefined) {
+        if (this.prelitColumn !== undefined && this.prelitColumn !== null) {
             for (var i = 0; i < this.grid.gridTableBody.rows.length; i++) {
                 this.grid.gridTableBody.rows[i].cells[this.prelitColumn].removeClass('jxGridColumnPrelight');
             }
         }
-        if (this.prelitRow != undefined) {
+        if (this.prelitRow !== undefined && this.prelitRow !== null) {
             this.prelitRow.removeClass('jxGridRowPrelight');
         }
-        if (this.prelitColumnHeader != undefined) {
+        if (this.prelitColumnHeader !== undefined && this.prelitColumnHeader !== null) {
             this.prelitColumnHeader.removeClass('jxGridColumnHeaderPrelight');
         }
-        if (this.prelitRowHeader != undefined) {
+        if (this.prelitRowHeader !== undefined && this.prelitRowHeader !== null) {
             this.prelitRowHeader.removeClass('jxGridRowHeaderPrelight');
         }
     }

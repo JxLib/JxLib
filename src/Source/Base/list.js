@@ -303,7 +303,7 @@ Jx.List = new Class({
                     click: bound.click
                 });
             }
-            if (position !== undefined) {
+            if (position !== undefined && position !== null) {
                 if (Jx.type(position) == 'number') {
                     if (position < container.childNodes.length) {
                         el.inject(container.childNodes[position],'before');

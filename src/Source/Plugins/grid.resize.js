@@ -76,7 +76,7 @@ Jx.Plugin.Grid.Resize = new Class({
      * Sets up the plugin and connects it to the grid
      */
     attach: function (grid) {
-      if (grid == undefined || !(grid instanceof Jx.Grid)) {
+      if (grid === undefined || grid === null || !(grid instanceof Jx.Grid)) {
           return;
       }
       this.parent(grid);
@@ -103,7 +103,7 @@ Jx.Plugin.Grid.Resize = new Class({
      * APIMethod: activate
      */
     activate: function(option) {
-        if (this.options[option] != undefined) {
+        if (this.options[option] !== undefined && this.options[option] !== null) {
           this.options[option] = true;
         }
         if (this.grid.columns.useHeaders()) {
@@ -115,7 +115,7 @@ Jx.Plugin.Grid.Resize = new Class({
      * APIMethod: deactivate
      */
     deactivate: function(option) {
-        if (this.options[option] != undefined) {
+        if (this.options[option] !== undefined && this.options[option] !== null) {
           this.options[option] = false;
         }
         this.createHandles();

@@ -341,7 +341,7 @@ Jx.ColorPalette = new Class({
     changeText: function (lang) {
         this.parent();
     
-        if (this.alphaLabel !== undefined) {
+        if (this.alphaLabel !== undefined && this.alphaLabel !== null) {
             this.alphaLabel.set('html', this.getText({set:'Jx',key:'colorpalette',value:'alphaLabel'}));
         }
     }

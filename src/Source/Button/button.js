@@ -407,7 +407,7 @@ Jx.Button = new Class({
         if (this.domImg) {
             //check if title and alt are set...
             var t = this.domImg.get('title');
-            if (t !== undefined) {
+            if (t !== undefined && t !== null) {
                 //change it...
                 this.domImg.set({
                     'title':this.getText(tooltip),

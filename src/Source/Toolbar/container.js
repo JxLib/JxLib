@@ -244,7 +244,7 @@ Jx.Toolbar.Container = new Class({
      * the scroller object
      */
     findFirstVisible: function() {
-        if (this.scroller.retrieve('buttonPointer') != undefined) {
+        if (this.scroller.retrieve('buttonPointer') !== undefined && this.scroller.retrieve('buttonPointer') !== null) {
             return;
         };
 
@@ -256,7 +256,7 @@ Jx.Toolbar.Container = new Class({
                 if (buttons.length > 1) {
                     buttons.each(function(button) {
                         var pos = button.getCoordinates(this.scroller);
-                        if (pos.left >= 0 && this.scroller.retrieve('buttonPointer') == undefined) {
+                        if (pos.left >= 0 && (this.scroller.retrieve('buttonPointer') === undefined || this.scroller.retrieve('buttonPointer') === null)) {
                             //this is the first visible button
                             this.scroller.store('buttonPointer', button);
                         }
@@ -328,7 +328,7 @@ Jx.Toolbar.Container = new Class({
                     this.wrapper.get('tween', {
                         property: 'margin-left',
                         onComplete: this.afterTweenLeft.bind(this, previousButton)
-                    }).start(ml);
+                    }).tween.start(ml);
                 } else {
                     //set it
                     this.wrapper.setStyle('margin-left', ml);
@@ -351,7 +351,7 @@ Jx.Toolbar.Container = new Class({
                 this.wrapper.get('tween', {
                     property: 'margin-left',
                     onComplete: this.afterTweenRight.bind(this, currentButton)
-                }).start(ml);
+                }).tween.start(ml);
             } else {
                 //set it
                 this.wrapper.setStyle('margin-left', ml);
@@ -390,7 +390,7 @@ Jx.Toolbar.Container = new Class({
     afterTweenLeft: function(previousButton) {
         this.scroller.store('buttonPointer', previousButton);
         var pp = this.getPreviousButton(previousButton);
-        if (pp != undefined) {
+        if (pp !== undefined && pp !== null) {
             this.scroller.store('previousPointer', pp);
         } else {
             this.scroller.eliminate('previousPointer');
@@ -428,9 +428,9 @@ Jx.Toolbar.Container = new Class({
     scrollIntoView: function(item) {
         var currentButton = this.scroller.retrieve('buttonPointer');
 
-        if (currentButton == undefined) return;
+        if (currentButton === undefined || currentButton === null) return;
 
-        if (item.domObj != undefined) {
+        if (item.domObj !== undefined && item.domObj !== null) {
             item = item.domObj;
             while (!item.hasClass('jxToolItem')) {
                 item = item.getParent();
@@ -453,7 +453,7 @@ Jx.Toolbar.Container = new Class({
             var ml = this.wrapper.getStyle('margin-left').toInt();
             var w = currentButton.getMarginBoxSize().width;
             var np;
-            while (w < diff && currentButton != undefined) {
+            while (w < diff && currentButton !== undefined && currentButton !== null) {
                 np = this.getNextButton(currentButton);
                 if (np) {
                     w += np.getMarginBoxSize().width;
@@ -466,11 +466,15 @@ Jx.Toolbar.Container = new Class({
             ml -= w;
 
             if (typeof Fx != 'undefined' && typeof Fx.Tween != 'undefined') {
-                //scroll it
-                this.wrapper.get('tween', {
-                    property: 'margin-left',
-                    onComplete: this.afterTweenRight.bind(this, currentButton)
-                }).start(ml);
+                //scroll it 
+                var t = this.wrapper.get('tween');
+                if (t === undefined || t === null){
+                    this.wrapper.set('tween', {
+                        onComplete: this.afterTweenRight.bind(this, currentButton)
+                    });
+                    t = this.wrapper.get('tween');;
+                }
+                this.wrapper.tween("margin-left",ml);
             } else {
                 //set it
                 this.wrapper.setStyle('margin-left', ml);
@@ -483,10 +487,14 @@ Jx.Toolbar.Container = new Class({
 
             if (typeof Fx != 'undefined' && typeof Fx.Tween != 'undefined') {
                 //scroll it
-                this.wrapper.get('tween', {
-                    property: 'margin-left',
-                    onComplete: this.afterTweenLeft.bind(this, item)
-                }).start(ml);
+                var t = this.wrapper.get('tween');
+                if (t === undefined || t === null){
+                    this.wrapper.set('tween', {
+                        onComplete: this.afterTweenLeft.bind(this, item)
+                    });
+                }
+                
+                this.wrapper.tween('margin-left',ml);
             } else {
                 //set it
                 this.wrapper.setStyle('margin-left', ml);
@@ -504,7 +512,7 @@ Jx.Toolbar.Container = new Class({
      */
     getPreviousButton: function(currentButton) {
         pp = currentButton.getPrevious();
-        if (pp == undefined) {
+        if (pp === undefined && pp === null) {
             //check for a new toolbar
             pp = currentButton.getParent().getPrevious();
             if (pp) {

@@ -93,24 +93,25 @@ Jx.Fieldset = new Class({
         this.id = this.options.id;
 
         if (this.options.form !== undefined &&
+                this.options.form !== null &&
                 this.options.form instanceof Jx.Form) {
             this.form = this.options.form;
         }
 
         //FIELDSET
         if (this.domObj) {
-            if (this.options.id !== undefined) {
+            if (this.options.id !== undefined && this.options.id !== null) {
                 this.domObj.set('id', this.options.id);
             }
-            if (this.options.fieldsetClass !== undefined) {
+            if (this.options.fieldsetClass !== undefined && this.options.fieldsetClass !== null) {
                 this.domObj.addClass(this.options.fieldsetClass);
             }
         }
 
         if (this.legend) {
-            if (this.options.legend !== undefined) {
+            if (this.options.legend !== undefined && this.options.legend !== null) {
                 this.legend.set('html', this.getText(this.options.legend));
-                if (this.options.legendClass !== undefined) {
+                if (this.options.legendClass !== undefined && this.options.legendClass !== null) {
                     this.legend.addClass(this.options.legendClass);
                 }
             } else {
@@ -131,7 +132,9 @@ Jx.Fieldset = new Class({
         for (var x = 0; x < arguments.length; x++) {
             field = arguments[x];
             //add form to the field and field to the form if not already there
-            if (field.jxFamily !== undefined && field.form === undefined && this.form !== undefined) {
+            if (field instanceof Jx.Field && 
+                (field.form === undefined || field.form === null) &&
+                this.form !== undefined && this.form !== null) {
                 field.form = this.form;
                 this.form.addField(field);
             }
@@ -147,10 +150,14 @@ Jx.Fieldset = new Class({
     addTo: function(what) {
         if (what instanceof Jx.Form) {
             this.form = what;
+            this.form.add(this);
         } else if (what instanceof Jx.Fieldset) {
             this.form = what.form;
+            this.form.add(this);
+        } else {
+            this.parent(what);
         }
-        return this.parent(what);
+        return this;
     }
     
 });

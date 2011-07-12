@@ -106,7 +106,7 @@ Jx.Panel.DataView.Group = new Class({
         var d = this.options.data;
         var n = d.count();
 
-        if (n != undefined && n > 0) {
+        if (n != undefined && n != null && n > 0) {
             var currentGroup = '';
             var itemList = null;
 

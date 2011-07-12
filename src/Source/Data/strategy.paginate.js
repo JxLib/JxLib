@@ -154,7 +154,7 @@ Jx.Store.Strategy.Paginate = new Class({
     loadStore: function (resp) {
         this.store.protocol.removeEvent('dataLoaded', this.bound.loadStore);
         if (resp.success()) {
-            if (resp.meta !== undefined) {
+            if (resp.meta !== undefined && resp.meta !== null) {
                 this.parseMetaData(resp.meta);
             }
             this.data[this.page] = resp.data;
@@ -192,16 +192,16 @@ Jx.Store.Strategy.Paginate = new Class({
      * meta - the meta data object returned from the protocol.
      */
     parseMetaData: function (meta) {
-        if (meta.columns !== undefined) {
+        if (meta.columns !== undefined && meta.columns !== null) {
             this.store.options.columns = meta.columns;
         }
-        if (meta.totalItems !== undefiend) {
+        if (meta.totalItems !== undefined && meta.totalItems !== null) {
             this.totalItems = meta.totalItems;
         }
-        if (meta.totalPages !== undefined) {
+        if (meta.totalPages !== undefined && meta.totalPages !== null) {
             this.totalPages = meta.totalPages;
         }
-        if (meta.primaryKey !== undefined) {
+        if (meta.primaryKey !== undefined && meta.primaryKey !== null) {
             this.store.options.recordOptions.primaryKey = meta.primaryKey;
         }
             

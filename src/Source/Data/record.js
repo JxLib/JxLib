@@ -82,17 +82,20 @@ Jx.Record = new Class({
 
     init: function () {
         this.parent();
-        if (this.options.columns !== undefined) {
+        if (this.options.columns !== undefined &&
+            this.options.columns !== null) {
             this.columns = this.options.columns;
         }
 
-        if (this.options.data !== undefined) {
+        if (this.options.data !== undefined &&
+            this.options.data !== null) {
             this.processData(this.options.data);
         } else {
             this.data = {};
         }
 
-        if (this.options.store !== undefined) {
+        if (this.options.store !== undefined &&
+            this.options.store !== null) {
             this.store = this.options.store;
         }
 
@@ -136,7 +139,7 @@ Jx.Record = new Class({
             column = this.resolveCol(column);
         }
 
-        if (this.data === undefined) {
+        if (this.data === undefined || this.data === null) {
             this.data = {};
         }
 
@@ -167,7 +170,7 @@ Jx.Record = new Class({
         if (!Object.keys(this.data).contains(column.name)) {
             return null;
         } else {
-            if (this.comparator === undefined) {
+            if (this.comparator === undefined || this.comparator === null) {
                 this.comparator = new Jx.Compare({
                     separator : this.options.separator
                 });

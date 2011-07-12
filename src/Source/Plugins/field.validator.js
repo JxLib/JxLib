@@ -99,7 +99,7 @@ Jx.Plugin.Field.Validator = new Class({
      * Sets up the plugin and connects it to the field
      */
     attach: function (field) {
-        if (field == undefined || !(field instanceof Jx.Field)) {
+        if (field === undefined || field === null || !(field instanceof Jx.Field)) {
             return;
         }
         this.field = field;

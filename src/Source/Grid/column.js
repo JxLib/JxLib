@@ -53,7 +53,7 @@ Jx.Column = new Class({
          *      option as the expanding column. All remaining columns marked
          *      "expand" will be treated as "fixed".
          */
-        renderMode: 'fixed',
+        renderMode: 'fit',
         /**
          * Option: width
          * Determines the width of the column when using 'fixed' rendering mode
@@ -148,7 +148,7 @@ Jx.Column = new Class({
                     if(this.options.renderer.options.textTemplate === undefined || this.options.renderer.options.textTemplate === null) {
                       this.options.renderer.options.textTemplate = '{' + this.name + '}';
                     }
-                    if(this.options.renderer.name === undefined) {
+                    if(this.options.renderer.name === undefined || this.options.renderer.name === null) {
                       this.options.renderer.name = 'Text';
                     }
                     this.options.renderer = new Jx.Grid.Renderer[this.options.renderer.name.capitalize()](
@@ -183,7 +183,7 @@ Jx.Column = new Class({
     },
 
     setWidth: function(newWidth, asCellWidth) {
-        asCellWidth = asCellWidth !== undefined ? asCellWidth : false;
+        asCellWidth = (asCellWidth !== undefined && asCellWidth !== null) ? asCellWidth : false;
 
         var delta = this.cellWidth - this.width;
         if (!asCellWidth) {
@@ -228,7 +228,7 @@ Jx.Column = new Class({
      */
     calculateWidth : function (rowHeader) {
         //if this gets called then we assume that we want to calculate the width
-      rowHeader = rowHeader !== undefined ? rowHeader : false;
+      rowHeader = (rowHeader !== undefined && rowHeader !== null) ? rowHeader : false;
       var maxWidth,
           maxCellWidth,
           store = this.grid.getStore(),

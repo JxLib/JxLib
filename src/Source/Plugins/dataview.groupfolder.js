@@ -53,7 +53,7 @@ Jx.Plugin.DataView.GroupFolder = new Class({
      * Attaches this plugin to a dataview
      */
     attach: function (dataView) {
-        if (dataView == undefined || !(dataview instanceof Jx.Panel.DataView)) {
+        if (dataView === undefined || dataView === null || !(dataview instanceof Jx.Panel.DataView)) {
             return;
         }
 

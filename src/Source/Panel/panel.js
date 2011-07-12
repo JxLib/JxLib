@@ -141,7 +141,8 @@ Jx.Panel = new Class({
 
         this.toolbars = this.options ? this.options.toolbars || [] : [];
 
-        this.options.position = (this.options.height != undefined && this.options.position == undefined) ? 'relative' : 'absolute';
+        this.options.position = (this.options.height != undefined && this.options.height != null && 
+               (this.options.position === undefined || this.options.position == null)) ? 'relative' : 'absolute';
 
         if (this.options.image && this.domImg) {
             this.domImg.setStyle('backgroundImage', 'url('+this.options.image+')');
@@ -509,7 +510,7 @@ Jx.Panel = new Class({
      * otherwise the state is toggled.
      */
     toggleCollapse: function(state) {
-        if (state != undefined) {
+        if (state != undefined && state != null) {
             this.options.closed = state;
         } else {
             this.options.closed = !this.options.closed;
@@ -549,19 +550,19 @@ Jx.Panel = new Class({
     
     changeText: function (lang) {
     	this.parent();	//TODO: change this class so that we can access these properties without too much voodoo...
-    	if(this.closeB != undefined) {
+    	if(this.closeB != undefined && this.closeB != null) {
     		this.closeB.setTooltip({set:'Jx',key:'panel',value:'closeTooltip'});
     	}
-    	if (this.closeM != undefined) {
+    	if (this.closeM != undefined && this.closeM != null) {
     		this.closeM.setLabel({set:'Jx',key:'panel',value:'closeLabel'});
     	}
-    	if (this.maxB != undefined) {
+    	if (this.maxB != undefined && this.maxB != null) {
     		this.maxB.setTooltip({set:'Jx',key:'panel',value:'maximizeTooltip'});
     	}
-    	if (this.colB != undefined) {
+    	if (this.colB != undefined && this.colB != null) {
     		this.colB.setTooltip({set:'Jx',key:'panel',value:'collapseTooltip'});
     	}
-    	if (this.colM != undefined) {
+    	if (this.colM != undefined && this.colM != null) {
 	    	if (this.options.closed == true) {
 	    		this.colM.setLabel({set:'Jx',key:'panel',value:'expandLabel'});
 	    	} else {
