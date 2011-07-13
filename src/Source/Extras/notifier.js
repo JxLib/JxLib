@@ -109,7 +109,7 @@ Jx.Notifier = new Class({
      * notice - {<Jx.Notice>} the notice to remove
      */
     remove: function (notice) {
-        if (this.domObj.hasChild(notice)) {
+        if (this.domObj.hasChild(document.id(notice))) {
             notice.removeEvents('close');
             notice.hide();
         }

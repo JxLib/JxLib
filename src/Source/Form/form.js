@@ -50,9 +50,11 @@ images:
  * This file is licensed under an MIT style license
  */
 Jx.Form = new Class({
-    Family: 'Jx.Form',
+    
     Extends: Jx.Widget,
 
+    Family: 'Jx.Form',
+    
     options: {
         /**
          * Option: method

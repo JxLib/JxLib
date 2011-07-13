@@ -89,7 +89,7 @@ Class.Mutators.Family = function(self, name) {
     this.prototype.$family = function(){
         return self;
     };
-    this.jxFamily = self;
+    this.prototype.jxFamily = self;
 };
 
 

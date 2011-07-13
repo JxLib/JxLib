@@ -308,11 +308,13 @@ Jx.Toolbar.Container = new Class({
      */
     scroll: function(direction) {
         if (this.updating) {
-            return
-        };
+            return;
+        }
         this.updating = true;
 
-        var currentButton = this.scroller.retrieve('buttonPointer');
+        var w,
+            ml,
+            currentButton = this.scroller.retrieve('buttonPointer');
         if (direction === 'left') {
             //need to tween the amount of the previous button
             var previousButton = this.scroller.retrieve('previousPointer');
@@ -320,15 +322,16 @@ Jx.Toolbar.Container = new Class({
                 previousButton = this.getPreviousButton(currentButton);
             }
             if (previousButton) {
-                var w = previousButton.getMarginBoxSize().width;
-                var ml = this.wrapper.getStyle('margin-left').toInt();
+                w = previousButton.getMarginBoxSize().width;
+                ml = this.wrapper.getStyle('margin-left').toInt();
                 ml += w;
                 if (typeof Fx != 'undefined' && typeof Fx.Tween != 'undefined') {
                     //scroll it
-                    this.wrapper.get('tween', {
+                    this.wrapper.set('tween', {
                         property: 'margin-left',
                         onComplete: this.afterTweenLeft.bind(this, previousButton)
-                    }).tween.start(ml);
+                    });
+                    this.wrapper.get('tween').start(ml);
                 } else {
                     //set it
                     this.wrapper.setStyle('margin-left', ml);
@@ -339,19 +342,21 @@ Jx.Toolbar.Container = new Class({
             }
         } else {
             //must be right
-            var w = currentButton.getMarginBoxSize().width;
+            w = currentButton.getMarginBoxSize().width;
 
-            var ml = this.wrapper.getStyle('margin-left').toInt();
+            ml = this.wrapper.getStyle('margin-left').toInt();
             ml -= w;
 
             //now, if Fx is defined tween the margin to the left to
             //hide the current button
-            if (typeof Fx != 'undefined' && typeof Fx.Tween != 'undefined') {
+            if (typeof Fx !== 'undefined' && typeof Fx.Tween !== 'undefined') {
                 //scroll it
-                this.wrapper.get('tween', {
+                this.wrapper.set('tween', {
                     property: 'margin-left',
                     onComplete: this.afterTweenRight.bind(this, currentButton)
-                }).tween.start(ml);
+                });
+                
+                this.wrapper.get('tween').start(ml);
             } else {
                 //set it
                 this.wrapper.setStyle('margin-left', ml);

@@ -50,6 +50,8 @@ css:
 Jx.Field.File = new Class({
 
     Extends: Jx.Field,
+    
+    Family: 'Jx.Field.File',
 
     options: {
         /**
@@ -262,11 +264,11 @@ Jx.Field.File = new Class({
             delete this.forms[this.currentKey];
             if (externalForm !== undefined && externalForm !== null && Object.getLength(this.forms) === 0) {
                 var fields = externalForm.fields;
-                fields.each(function(field){
+                Object.each(fields, function(field){
                     if (!(field instanceof Jx.Field.File)) {
                         document.id(field).clone().inject(form);
                     }
-                },this);
+                }.bind(this));
             }
             this.uploadSingle(form);
         } else {

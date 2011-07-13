@@ -33,8 +33,9 @@ provides: [Jx.Fieldset]
  *
  */
 Jx.Fieldset = new Class({
-    Family: 'Jx.Fieldset',
+    
     Extends : Jx.Widget,
+    Family: 'Jx.Fieldset',
 
     options : {
         /**
@@ -153,7 +154,7 @@ Jx.Fieldset = new Class({
             this.form.add(this);
         } else if (what instanceof Jx.Fieldset) {
             this.form = what.form;
-            this.form.add(this);
+            what.add(this);
         } else {
             this.parent(what);
         }

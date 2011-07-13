@@ -277,7 +277,8 @@ Jx.Widget = new Class({
                 method:'get',
                 evalScripts:true,
                 onRequest:(function() {
-                  if(options.loadOnDemand) {
+                  //only use the mask when loading on demand. Jx.Panel is specifically excluded.
+                  if(options.loadOnDemand && typeOf(this) != 'Jx.Panel') {
                       this.setBusy(true);
                   }
                 }).bind(this),
@@ -781,10 +782,11 @@ Jx.Widget = new Class({
         if (this.classes !== undefined && this.classes !== null) {
             for (var k in this.classes) {
                 this[k] = null;
-            };
+            }
         }
-        this.elements.empty();
-        this.elements = null;
+        if (this.elements !== undefined && this.classes !== null){
+            this.elements = null;
+        }
         this.parent();
     },
 

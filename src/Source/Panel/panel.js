@@ -63,9 +63,10 @@ images:
  * This file is licensed under an MIT style license
  */
 Jx.Panel = new Class({
-    Family: 'Jx.Panel',
+    
     Extends: Jx.Widget,
-
+    Family: 'Jx.Panel',
+    
     toolbarContainers: {
         top: null,
         right: null,

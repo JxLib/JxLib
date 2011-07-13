@@ -38,8 +38,9 @@ provides: [Jx.Field]
  * This file is licensed under an MIT style license
  */
 Jx.Field = new Class({
-    Family: 'Jx.Field',
+    
     Extends : Jx.Widget,
+    Family: 'Jx.Field',
     pluginNamespace: 'Field',
     Binds: ['changeText'],
     
