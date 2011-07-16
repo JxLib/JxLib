@@ -41,7 +41,7 @@ Jx.Adaptor.Tree.Parent = new Class({
     
     options: {
         parentColumn: 'parent',
-        folderColumn: 'folder'
+        folderColumn: 'folder' 
     },
         
     /**

@@ -722,7 +722,7 @@ Jx.Store = new Class({
      *
      * Parameters:
      * index - the index of the data in the store to use in populating the
-     *          template.
+     *          template or a Jx.Record instance.
      * template - the template to fill
      * columnsNeeded - the array of columns needed by this template. should be
      *      obtained by calling parseTemplate().

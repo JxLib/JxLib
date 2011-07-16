@@ -77,6 +77,44 @@ Jx.Record = new Class({
      * boolean, or currency.
      */
     columns: null,
+    /**
+     * Property: virtuals
+     * An object that holds all virtual "columns" in this record. You can add
+     * virtuals by implementing them or subclassing Jx.Record.
+     * 
+     * Implement example:
+     * (code)
+     * Jx.Record.implement('virtuals',{
+     *     key: {
+     *       get: function(){},
+     *       set: function(data){}
+     *     }
+     * });
+     * (end)
+     * 
+     * or by subclassing:
+     * (code)
+     * var myRecord = new Class({
+     *     Extends: Jx.Record,
+     *     virtuals: {
+     *       key: {
+     *         get: function(){},
+     *         set: function(data){}
+     *       }
+     *     }
+     * });
+     * (end)
+     * 
+     * You can then just get and set these columns as you would normal columns.
+     */
+    virtuals: {
+        primaryKey: {
+            get: function(){
+                column = this.resolveCol(this.options.primaryKey);
+                return this.data[column.name];
+            }
+        }
+    },
 
     parameters: ['store', 'columns', 'data', 'options'],
 
@@ -110,15 +148,14 @@ Jx.Record = new Class({
      * column - the string, index, or object of the requested column
      */
     get: function (column) {
-        var type = Jx.type(column);
-        if (type !== 'object') {
-            if (column === 'primaryKey') {
-                column = this.resolveCol(this.options.primaryKey);
-            } else {
-                column = this.resolveCol(column);
-            }
+        
+        //first check for a virtual column
+        if (this.virtuals[column] !== undefined && this.virtuals[column].get !== undefined) {
+            return this.virtuals[column].get();
         }
-        if (Object.keys(this.data).contains(column.name)) {
+        //if not virtual then it must be part of the data.
+        column = this.resolveCol(column);
+        if (column !== null && Object.keys(this.data).contains(column.name)) {
             return this.data[column.name];
         } else {
             return null;
@@ -133,21 +170,31 @@ Jx.Record = new Class({
      *  data - the data to add to the column
      */
     set: function (column, data) {
+        
+        //check for virtual setter
+        if (this.virtuals[column] !== undefined && this.virtuals[column].set !== undefined) {
+            //the virtual column needs to set any flags and fire necessary events.
+            return this.virtuals[column].set(data);
+        }
+        
         var type = Jx.type(column),
             oldValue;
         if (type !== 'object') {
             column = this.resolveCol(column);
         }
-
-        if (this.data === undefined || this.data === null) {
-            this.data = {};
+        
+        if (column !== null) {
+            if (this.data === undefined || this.data === null) {
+                this.data = {};
+            }
+    
+            oldValue = this.get(column);
+            this.data[column.name] = data;
+            this.state = Jx.Record.UPDATE;
+            return [column.name, oldValue, data];
+        } else {
+            return null;
         }
-
-        oldValue = this.get(column);
-        this.data[column.name] = data;
-        this.state = Jx.Record.UPDATE;
-        return [column.name, oldValue, data];
-        //this.store.fireEvent('storeColumnChanged', [this, column.name, oldValue, data]);
 
     },
     /**
@@ -204,17 +251,18 @@ Jx.Record = new Class({
      * the column object referred to
      */
     resolveCol : function (col) {
-        var t = Jx.type(col);
+        var t = Jx.type(col),
+            ret = null;
         if (t === 'number') {
-            col = this.columns[col];
+            ret = this.columns[col];
         } else if (t === 'string') {
             this.columns.each(function (column) {
                 if (column.name === col) {
-                    col = column;
+                    ret = column;
                 }
             }, this);
         }
-        return col;
+        return ret;
     },
     /**
      * APIMethod: asHash
@@ -223,6 +271,8 @@ Jx.Record = new Class({
     asHash: function() {
         return this.data;
     }
+    
+    
 });
 
 Jx.Record.UPDATE = 1;
