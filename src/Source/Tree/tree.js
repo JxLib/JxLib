@@ -179,7 +179,7 @@ Jx.Tree = new Class({
             return;
         }
         item.addEvents({
-            //add: function(what) { this.fireEvent('add', what).bind(this); },
+            add: function(what) { this.fireEvent('add', what).bind(this); },
             remove: function(what) { this.fireEvent('remove', what).bind(this); },
             disclose: function(what) { this.fireEvent('disclose', what).bind(this); }
         });
@@ -188,7 +188,7 @@ Jx.Tree = new Class({
         this.list.add(item, position);
         this.setDirty(true);
         this.update(true);
-        this.fireEvent('add',item);
+        //this.fireEvent('add',item);
         return this;
     },
     /**
