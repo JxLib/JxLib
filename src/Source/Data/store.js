@@ -87,9 +87,7 @@ Jx.Store = new Class({
          * Option: recordOptions
          * Options to pass to each record as it's created.
          */
-        recordOptions: {
-            primaryKey: null
-        }
+        recordOptions: {}
     },
 
     /**
