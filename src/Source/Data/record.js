@@ -41,8 +41,12 @@ Jx.Record = new Class({
          * constructor (<Jx.Compare>) - defaults to '.'
          */
         separator : '.',
-
-        primaryKey: null
+        /**
+         * Option: primaryKey
+         * Indicates the column that acts as the primary key for this record.
+         * Defaults to id.
+         */
+        primaryKey: 'id'
     },
     /**
      * Property: data
