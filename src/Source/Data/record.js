@@ -167,7 +167,7 @@ Jx.Record = new Class({
     get: function (column) {
         
         //first check for a virtual column
-        if (this.virtuals[column] !== undefined && this.virtuals[column].get !== undefined) {
+        if (Jx.type(column) == 'string' && this.virtuals[column] !== undefined && this.virtuals[column].get !== undefined) {
             return this.virtuals[column].get();
         }
         //if not virtual then it must be part of the data.
@@ -226,21 +226,17 @@ Jx.Record = new Class({
      * True | False depending on the outcome of the comparison.
      */
     equals: function (column, value) {
-        if (column === 'primaryKey') {
-            column = this.resolveCol(this.options.primaryKey);
-        } else {
-            column = this.resolveCol(column);
-        }
-        if (!Object.keys(this.data).contains(column.name)) {
-            return null;
-        } else {
+        var currentValue = this.get(column);
+        if (currentValue !== null){
             if (this.comparator === undefined || this.comparator === null) {
                 this.comparator = new Jx.Compare({
                     separator : this.options.separator
                 });
             }
             var fn = this.comparator[column.type].bind(this.comparator);
-            return (fn(this.get(column), value) === 0);
+            return (fn(currentValue, value) === 0);
+        } else {
+            return false;
         }
     },
     /**
