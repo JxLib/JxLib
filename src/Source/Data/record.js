@@ -136,11 +136,24 @@ Jx.Record = new Class({
             this.options.store !== null) {
             this.store = this.options.store;
         }
+        
+        //bind the get/set methods of virtuals to the this
+        for (var k in this.virtuals) {
+            var originalGet, originalSet;
+            if (this.virtuals[k].get !== undefined) {
+                originalGet = this.virtuals[k].get;
+                this.virtuals[k].get = originalGet.bind(this);
+            }
+            if (this.virtuals[k].set !== undefined) {
+                originalSet = this.virtuals[k].set;
+                this.virtuals[k].set = originalSet.bind(this);
+            }
+        }
 
     },
     /**
      * APIMethod: get
-     * returns the value of the requested column. Can be programmed to handle
+     * returns the value of the requestehd column. Can be programmed to handle
      * pseudo-columns (such as the primaryKey column implemented in this base
      * record).
      *
