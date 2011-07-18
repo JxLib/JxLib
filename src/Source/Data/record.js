@@ -273,7 +273,7 @@ Jx.Record = new Class({
             ret = this.columns[col];
         } else if (t === 'string') {
             //is it virtual?
-            if (Object.keys(this.virtuals).contains(column)){
+            if (Object.keys(this.virtuals).contains(col)){
                 ret = {
                     name: col,
                     type: this.virtuals[col].type
