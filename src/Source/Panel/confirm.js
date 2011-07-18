@@ -59,7 +59,12 @@ Jx.Dialog.Confirm = new Class({
         height: 150,
         close: false,
         resize: true,
-        collapse: false
+        collapse: false,
+        toolbarOptions: {
+            align: "center",
+            position: 'bottom',
+            scroll: false
+        }
     },
     /**
      * Reference to MooTools keyboards Class for handling keypress events like Enter or ESC
@@ -72,7 +77,7 @@ Jx.Dialog.Confirm = new Class({
     render: function () {
         //create content to be added
         //turn scrolling off as confirm only has 2 buttons.
-        this.buttons = new Jx.Toolbar({position: 'bottom',scroll: false});
+        this.buttons = new Jx.Toolbar(this.options.toolbarOptions);
 
         // COMMENT: returning boolean would be more what people expect instead of a localized label of a button?
         this.ok = new Jx.Button({
