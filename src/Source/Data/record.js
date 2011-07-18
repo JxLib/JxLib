@@ -113,6 +113,7 @@ Jx.Record = new Class({
      */
     virtuals: {
         primaryKey: {
+            type: 'alphanumeric',
             get: function(){
                 column = this.resolveCol(this.options.primaryKey);
                 return this.data[column.name];
@@ -219,21 +220,23 @@ Jx.Record = new Class({
      * Compares the value of a particular column with a given value
      *
      * Parameters:
-     * column - the column to compare with (either column name or index)
+     * column - the column to compare with (either column name, virtual name,
+     *          or index)
      * value - the value to compare to.
      *
      * Returns:
      * True | False depending on the outcome of the comparison.
      */
     equals: function (column, value) {
-        var currentValue = this.get(column);
+        var col = this.resolveCol(column),
+            currentValue = this.get(col.name);
         if (currentValue !== null){
             if (this.comparator === undefined || this.comparator === null) {
                 this.comparator = new Jx.Compare({
                     separator : this.options.separator
                 });
             }
-            var fn = this.comparator[column.type].bind(this.comparator);
+            var fn = this.comparator[col.type].bind(this.comparator);
             return (fn(currentValue, value) === 0);
         } else {
             return false;
@@ -269,11 +272,20 @@ Jx.Record = new Class({
         if (t === 'number') {
             ret = this.columns[col];
         } else if (t === 'string') {
-            this.columns.each(function (column) {
-                if (column.name === col) {
-                    ret = column;
-                }
-            }, this);
+            //is it virtual?
+            if (Object.keys(this.virtual).contains(column)){
+                ret = {
+                    name: col,
+                    type: this.virtuals[col].type
+                };
+            } else {
+                //not virtual so check the actual columns.
+                this.columns.each(function (column) {
+                    if (column.name === col) {
+                        ret = column;
+                    }
+                }, this);
+            }
         }
         return ret;
     },
