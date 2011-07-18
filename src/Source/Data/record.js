@@ -266,14 +266,14 @@ Jx.Record = new Class({
      * Returns:
      * the column object referred to
      */
-    resolveCol : function (col) {
+    resolveCol: function (col) {
         var t = Jx.type(col),
             ret = null;
         if (t === 'number') {
             ret = this.columns[col];
         } else if (t === 'string') {
             //is it virtual?
-            if (Object.keys(this.virtual).contains(column)){
+            if (Object.keys(this.virtuals).contains(column)){
                 ret = {
                     name: col,
                     type: this.virtuals[col].type
