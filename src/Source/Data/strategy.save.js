@@ -253,6 +253,8 @@ Jx.Store.Strategy.Save = new Class({
                 successful: this.successfulChanges,
                 failed: this.failedChanges
             });
+            this.successfulChanges = [];
+            this.failedChanges = [];
         }
     }
 });
