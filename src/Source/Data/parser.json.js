@@ -68,7 +68,7 @@ Jx.Store.Parser.JSON = new Class({
     encode: function (object) {
         var data;
         if (object instanceof Jx.Record) {
-            data = object.asHash();
+            data = object.asObject();
         } else {
             data = object;
         }
