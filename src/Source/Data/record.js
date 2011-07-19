@@ -290,10 +290,10 @@ Jx.Record = new Class({
         return ret;
     },
     /**
-     * APIMethod: asHash
-     * Returns the data for this record as a Hash
+     * APIMethod: asObject
+     * Returns the data for this record as a plain object
      */
-    asHash: function() {
+    asObject: function() {
         return this.data;
     }
     

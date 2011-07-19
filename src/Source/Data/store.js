@@ -534,27 +534,17 @@ Jx.Store = new Class({
         if (index === undefined && index !== null) {
             index = this.index;
         }
+        
+        if (index instanceof Jx.Record) {
+            return index;
+        }
 
         if (Jx.type(index) === 'number') {
             if (this.data !== undefined && this.data !== null && this.data[index] !== undefined) {
                 return this.data[index];
             }
-        } /* else {
-            //Not sure what the point of this part is. It compares the
-            //record to the index directly as if we passed in the record which
-            //means we already have the record... huh???
-            //Answer: Most likely I meant this to also be a way of checking if the
-            //record that was passed in is actually contained withing the store. 
-            //Granted, this is probably not the way to do it. I'll ponder it.....
-            var r;
-            this.data.each(function(record){
-                if (record === index) {
-                    r = record;
-                }
-            },this);
-            return r;
         }
-        */
+        
         return null;
     },
     /**
@@ -746,5 +736,23 @@ Jx.Store = new Class({
             itemObj[col] = record.get(col);
         }, this);
         return template.substitute(itemObj);
+    },
+    
+    /**
+     * APIMethod: equals
+     * Compares to records to see if they are equivalent. Basically compares the
+     * data objects.
+     * 
+     * Parameters:
+     * record - the first record to use in the comparison. Can either be a Jx.Record
+     *          instance, oor an index to pull from the store.
+     * compareTo - the second record to use in the comparison. Same as record.
+     */
+    equals: function(record,compareTo) {
+        record = this.getRecord(record);
+        compareTo = this.getRecord(compareTo);
+        
+        return record.data == compareTo.data;
     }
+    
 });
