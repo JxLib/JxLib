@@ -180,7 +180,7 @@ Jx.Tree = new Class({
         }
         item.addEvents({
             add: function(what) { this.fireEvent('add', what).bind(this); },
-            remove: function(what) { this.fireEvent('remove', what).bind(this); },
+            //remove: function(what) { this.fireEvent('remove', what).bind(this); },
             disclose: function(what) { this.fireEvent('disclose', what).bind(this); }
         });
         item.setSelection(this.selection);
@@ -188,7 +188,6 @@ Jx.Tree = new Class({
         this.list.add(item, position);
         this.setDirty(true);
         this.update(true);
-        //this.fireEvent('add',item);
         return this;
     },
     /**
@@ -340,7 +339,7 @@ Jx.Tree = new Class({
      */
     findChild : function(path) {
         //path is empty - we are asking for this node
-        if (path.length == 0) {
+        if (path.length === 0) {
             return false;
         }
         //path has more than one thing in it, find a folder and descend into it
