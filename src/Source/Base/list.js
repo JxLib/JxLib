@@ -310,7 +310,7 @@ Jx.List = new Class({
                     } else {
                         el.inject(container, 'bottom');
                     }
-                } else if (container.hasChild(position)) {
+                } else if (container.contains(document.id(position))) {
                     el.inject(position,'after');
                 }
                 this.fireEvent('add', item, this);
@@ -338,7 +338,7 @@ Jx.List = new Class({
     remove: function(item) {
         var el = document.id(item),
             target;
-        if (el && this.container.hasChild(el)) {
+        if (el && this.container.contains(el)) {
             this.unselect(el, true);
             el.dispose();
             target = el.retrieve('jxListTarget') || el;
@@ -361,7 +361,7 @@ Jx.List = new Class({
      * {mixed} the item that was removed
      */
     replace: function(item, withItem) {
-        if (this.container.hasChild(item)) {
+        if (this.container.contains(document.id(item))) {
             this.add(withItem, item);
             this.remove(item);
         }
