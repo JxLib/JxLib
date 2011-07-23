@@ -41,8 +41,9 @@ provides: [Jx.Selection]
 
 
 Jx.Selection = new Class({
-    Family: 'Jx.Selection',
+    
     Extends: Jx.Object,
+    Family: 'Jx.Selection',
     options: {
         /**
          * Option: eventToFire
