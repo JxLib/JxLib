@@ -180,7 +180,7 @@ Jx.Widget.List = new Class({
         //all of the bound methods attached to every item in the list. This 
         //allows for fewer events attached and items can be dynamically added 
         //and removed without worrying about attaching or removing events.
-        this.bound = Objet.merge({},this.bound,{
+        this.bound = Object.merge({},this.bound,{
             'mousedown:relay(li)': function(e,el) {
                 if (isEnabled(el)) {
                     el.addClass(options.pressClass);
