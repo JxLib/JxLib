@@ -249,7 +249,7 @@ Jx.Tree.Folder = new Class({
      * {<Jx.TreeFolder>} a reference to this for chaining
      */
     setSelection: function(selection) {
-        this.setSelection(selection);
+        this.parent(selection);
         return this;
     },
     

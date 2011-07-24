@@ -238,7 +238,29 @@ Jx.Widget.List = new Class({
                 el.removeClass(options.pressClass);
                 e.stop();  //only stop it if we have our own context menu
               }
-            }
+            },
+            select: function(item) {
+                if (this.isEnabled(item)) {
+                    var itemTarget;
+                    if (this.returnJx) {
+                        itemTarget = $jx(item);
+                    } else {
+                        itemTarget = item.retrieve('jxListTargetItem') || item;
+                    }
+                    this.fireEvent('select', itemTarget);
+                }
+            }.bind(this),
+            unselect: function(item) {
+                if (this.isEnabled(item)) {
+                    var itemTarget;
+                    if (this.returnJx) {
+                        itemTarget = $jx(item);
+                    } else {
+                        itemTarget = item.retrieve('jxListTargetItem') || item;
+                    }
+                    this.fireEvent('unselect', itemTarget);
+                }
+            }.bind(this)
         });
         
         //add the events to the container.
@@ -513,28 +535,8 @@ Jx.Widget.List = new Class({
         this.selection = selection;
         if (selection) {
             selection.addEvents({
-                select: function(item) {
-                    if (this.isEnabled(item)) {
-                        var itemTarget;
-                        if (this.returnJx) {
-                            itemTarget = $jx(item);
-                        } else {
-                            itemTarget = item.retrieve('jxListTargetItem') || item;
-                        }
-                        this.fireEvent('select', itemTarget);
-                    }
-                }.bind(this),
-                unselect: function(item) {
-                    if (this.isEnabled(item)) {
-                        var itemTarget;
-                        if (this.returnJx) {
-                            itemTarget = $jx(item);
-                        } else {
-                            itemTarget = item.retrieve('jxListTargetItem') || item;
-                        }
-                        this.fireEvent('unselect', itemTarget);
-                    }
-                }.bind(this)
+                select: this.bound.select,
+                unselect: this.bound.unselect
             });
         }
     }
