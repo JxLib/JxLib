@@ -82,6 +82,9 @@ Jx.Tree.Folder = new Class({
         domTree: 'jxTree',
         container: 'jxListContainer'
     },
+    
+    dirty: false,
+    
     /**
      * APIMethod: render
      * Create a new instance of Jx.Tree.Folder
@@ -259,9 +262,9 @@ Jx.Tree.Folder = new Class({
     },
     
     setDirty: function(state) {
-      this.parent(state);
-      if (this.tree) {
-        this.tree.setDirty(true);
+      this.dirty = state;
+      if (this.owner && this.owner.setDirty) {
+          this.owner.setDirty(state);
       }
     },
     

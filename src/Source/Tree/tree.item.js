@@ -160,9 +160,10 @@ Jx.Tree.Item = new Class ({
     },
     
     setDirty: function(state) {
-      if (state && this.owner && this.owner.setDirty) {
-        this.owner.setDirty(state);
-      }
+        this.dirty = state;
+        if (state && this.owner && this.owner.setDirty) {
+            this.owner.setDirty(state);
+        }
     },
     
     /**
