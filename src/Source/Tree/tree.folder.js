@@ -198,7 +198,7 @@ Jx.Tree.Folder = new Class({
      */
     expand : function() {
         this.options.open = true;
-        document.id(this.tree).setStyle('display', 'block');
+        this.container.setStyle('display', 'block');
         this.setDirty(true);
         this.update(true);
         this.fireEvent('disclosed', this);
@@ -213,7 +213,7 @@ Jx.Tree.Folder = new Class({
      */
     collapse : function() {
         this.options.open = false;
-        document.id(this.tree).setStyle('display', 'none');
+        this.container.setStyle('display', 'none');
         this.setDirty(true);
         this.update(true);
         this.fireEvent('disclosed', this);

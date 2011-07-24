@@ -134,9 +134,6 @@ Jx.Tree = new Class({
     
     setDirty: function(state) {
       this.dirty = state;
-      if (state && this.owner && this.owner.setDirty) {
-        this.owner.setDirty(state);
-      }
     },
 
     /**
