@@ -145,6 +145,50 @@ Jx.Widget.List = new Class({
          */
         returnJx: false,
         
+        trackEvents: {
+            mouseenter: {
+                on: true,
+                obj: 'li'
+            },
+            mouseleave: {
+                on: true,
+                obj: 'li'
+            },
+            mousedown: {
+                on: true,
+                obj: 'li'
+            },
+            mouseup: {
+                on: true,
+                obj: 'li'
+            },
+            keydown: {
+                on: true,
+                obj: 'li'
+            },
+            keyup: {
+                on: true,
+                obj: 'li'
+            },
+            click: {
+                on: true,
+                obj: 'li'
+            },
+            dblclick: {
+                on: true,
+                obj: 'li'
+            },
+            contextmenu: {
+                on: true,
+                obj: 'li'
+            },
+            select: {
+                on: true
+            },
+            unselect: {
+                on: true
+            }
+        },
         template: '<div class="jxWidget jxListContainer"></div>'
     },
     
@@ -166,22 +210,15 @@ Jx.Widget.List = new Class({
         }
 
         var target = this,
-            options = this.options,
-            isEnabled = this.isEnabled = function(el) {
-                var item = el.retrieve('jxListTargetItem') || el;
-                return !item.hasClass('jxDisabled');
-            },
-            isSelectable = this.isSelectable = function(el) {
-                var item = el.retrieve('jxListTargetItem') || el;
-                return !item.hasClass('jxUnselectable');
-            };
+            options = this.options;
+            
         
         //We'll be using Element Event delegation from moo-more so we don't need
         //all of the bound methods attached to every item in the list. This 
         //allows for fewer events attached and items can be dynamically added 
         //and removed without worrying about attaching or removing events.
         this.bound = Object.merge({},this.bound,{
-            'mousedown:relay(li)': function(e,el) {
+            'mousedown': function(e,el) {
                 e.stop();
                 el = document.id($jx(el));
                 if (isEnabled(el)) {
@@ -189,7 +226,7 @@ Jx.Widget.List = new Class({
                     target.fireEvent('mousedown', el, target);
                 }
             },
-            'mouseup:relay(li)': function(e,el) {
+            'mouseup': function(e,el) {
                 e.stop();
                 el = document.id($jx(el));
                 if (isEnabled(el)) {
@@ -197,7 +234,7 @@ Jx.Widget.List = new Class({
                     target.fireEvent('mouseup', el, target);
                 }
             },
-            'mouseenter:relay(li)': function(e,el) {
+            'mouseenter': function(e,el) {
                 e.stop();
                 console.log('mouseenter in Widget.List on ',el);
                 el = document.id($jx(el));
@@ -213,7 +250,7 @@ Jx.Widget.List = new Class({
                     target.fireEvent('mouseenter', el, target);
                 }
             },
-            'mouseleave:relay(li)': function(e,el) {
+            'mouseleave': function(e,el) {
                 e.stop();
                 console.log('mouseleave in Widget.List on ',el);
                 el = document.id($jx(el));
@@ -222,21 +259,21 @@ Jx.Widget.List = new Class({
                     target.fireEvent('mouseleave', el, target);
                 }
             },
-            'keydown:relay(li)': function(e,el) {
+            'keydown': function(e,el) {
                 e.stop();
                 el = document.id($jx(el));
                 if (e.key == 'enter' && isEnabled(el)) {
                     el.addClass('jxPressed');
                 }
             },
-            'keyup:relay(li)': function(e,el) {
+            'keyup': function(e,el) {
                 e.stop();
                 el = document.id($jx(el));
                 if (e.key == 'enter' && isEnabled(el)) {
                     el.removeClass('jxPressed');
                 }
             },
-            'click:relay(li)': function (e,el) {
+            'click': function (e,el) {
                 e.stop();
                 el = document.id($jx(el));
                 console.log('click in Widget.List on ',el);
@@ -247,7 +284,7 @@ Jx.Widget.List = new Class({
                 }
                 target.fireEvent('click', el, target);
             },
-            'dblclick:relay(li)': function (e,el) {
+            'dblclick': function (e,el) {
                 e.stop();
                 el = document.id($jx(el));
                 if (target.selection &&
@@ -257,7 +294,7 @@ Jx.Widget.List = new Class({
                 }
                 target.fireEvent('dblclick', el, target);
             },
-            'contextmenu::relay(li)': function(e,el) {
+            'contextmenu': function(e,el) {
               el = document.id($jx(el));
               var cm = el.retrieve('jxContextMenu');
               if (cm) {
@@ -292,9 +329,18 @@ Jx.Widget.List = new Class({
             }.bind(this)
         });
         
-        //add the events to the container.
-        this.container.addEvents(this.bound);
-
+        //activate each event on the container
+        var trackEvents = this.options.trackEvents;
+        for (var key in trackEvents) {
+            if (trackEvents[key].on){
+                if (trackEvents[key].obj !== null && trackEvents[key].obj !== undefined) {
+                    this.container.addEvent(key + ':relay(' + trackEvents[key].obj + ')',this.bound[key]);
+                } else {
+                    this.container.addEvent(key, this.bound[key]);
+                }
+            }
+        }
+        
         if (options.selection) {
             this.setSelection(options.selection);
             options.select = true;
@@ -308,6 +354,16 @@ Jx.Widget.List = new Class({
         }
     },
 
+    isEnabled: function(el) {
+        var item = el.retrieve('jxListTargetItem') || el;
+        return !item.hasClass('jxDisabled');
+    },
+    
+    isSelectable: function(el) {
+        var item = el.retrieve('jxListTargetItem') || el;
+        return !item.hasClass('jxUnselectable');
+    },
+    
     /**
      * Method: cleanup
      * destroy the list and release anything it references

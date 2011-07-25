@@ -80,7 +80,22 @@ Jx.Tree = new Class({
          * Option: template
          * the default HTML template for a tree can be overridden
          */
-        template: '<ul class="jxTreeRoot jxListContainer"></ul>'
+        template: '<ul class="jxTreeRoot jxListContainer"></ul>',
+        
+        trackEvents: {
+            mouseenter: {
+                on: true,
+                obj: 'li > a, li > img'
+            },
+            mouseleave: {
+                on: true,
+                obj: 'li > a, li > img'
+            },
+            click: {
+                on: true,
+                obj: 'li > a, li > img'
+            }
+        }
     },
     /**
      * APIProperty: classes
@@ -91,6 +106,7 @@ Jx.Tree = new Class({
     classes: {domObj: 'jxTreeRoot'},
     
     frozen: false,
+    
     
     /**
      * APIMethod: render
@@ -104,64 +120,12 @@ Jx.Tree = new Class({
         this.bound.toggle = this.toggle.bind(this);
 
         this.addEvents({
-            click: this.bound.toggle
-            //dblclick: this.bound.toggle
+            click: this.bound.toggle,
+            dblclick: this.bound.toggle
             
         });
         
-        //remove mouseenter and leave and adjust to monitor inner dom objects
-        this.container.removeEvents('mouseenter:relay(li)')
-        //, 'mouseleave:relay(li)','click:relay(li)');
         
-        var target = this,
-            options = this.options;
-        this.container.addEvents({
-            'mouseenter:relay(li > img, li > a)':  function(e,el) {
-                e.stop();
-                console.log('mouseenter on ',el);
-                var jx = $jx(el);
-                el = document.id(jx);
-                if (jx.isEnabled(el)) {
-                    //remove class from any other item that has it as
-                    //entering a nested li won't remove the class from 
-                    //a higher level
-                    var el2 = target.container.getElement('.' + options.hoverClass);
-                    if (el2 !== null && el2 !== undefined) {
-                        el2.removeClass(options.hoverClass);
-                    }
-                    el.addClass(options.hoverClass);
-                    target.fireEvent('mouseenter', el, target);
-                }
-            },
-            'mouseleave:relay(li > img, li > a)': function(e,el) {
-                e.stop();
-                console.log('mouseleave on ',el);
-                var jx = $jx(el);
-                el = document.id(jx);
-                if (jx.isEnabled(el)) {
-                    el.removeClass(options.hoverClass);
-                    target.fireEvent('mouseleave', el, target);
-                }
-            },
-            'click:relay(li > img, li > a)': function (e,el) {
-                e.stop();
-                console.log(el);
-                var jx = $jx(el);
-                el = document.id(jx);
-                if (target.selection &&
-                    jx.isEnabled(el) &&
-                    jx.isSelectable(el)) {
-                    target.selection.select(el, target);
-                }
-                target.fireEvent('click', el, target);
-            }
-        });
-        
-        /*
-        this.container.addEvents({
-            'click:relay(.jxTreeImage)': this.bound.toggle
-        });
-        */
 
         if (this.options.parent) {
             this.addTo(this.options.parent);
