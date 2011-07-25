@@ -175,9 +175,11 @@ Jx.Tree = new Class({
                 remove: function(what) { 
                     this.fireEvent('remove', what); 
                 }.bind(this)
+                /*
                 click: function(what) { 
                     this.fireEvent('click', what); 
                 }.bind(this)
+                */
             });
             item.setSelection(this.selection);
             item.stopListening();
