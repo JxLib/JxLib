@@ -116,7 +116,8 @@ Jx.Tree = new Class({
             'click:relay(li)': this.bound['click:relay(li)']
         });
         
-        var target = this;
+        var target = this,
+            options = this.options;
         this.container.addEvents({
             'mouseenter:relay(li > img, li > a)':  function(e,el) {
                 console.log('mouseenter on ',el);
