@@ -152,6 +152,45 @@ Jx.Tree.Folder = new Class({
       this.parent();
     },
     
+        /**
+     * APIMethod: add
+     * add one or more items to the tree at a particular position in the tree
+     *
+     * Parameters:
+     * item - {<Jx.TreeItem>} or an array of items to be added
+     * position - {mixed} optional location to add the items.  By default,
+     * this is 'bottom' meaning the items are added at the end of the list.
+     * See <Jx.Widget.List::add> for options
+     *
+     * Returns:
+     * {<Jx.Tree>} a reference to this object for chaining calls
+     */
+    add: function(item, position) {
+        if (Jx.type(item) == 'array') {
+            item.each(function(what){ this.add(what, position); }.bind(this) );
+            return;
+        }
+        if (item instanceof Jx.Tree.Folder) {
+            item.addEvents({
+                add: function(what) { 
+                    this.fireEvent('add', what); 
+                }.bind(this),
+                remove: function(what) { 
+                    this.fireEvent('remove', what); 
+                }.bind(this),
+                click: function(what) { 
+                    this.fireEvent('click', what); 
+                }.bind(this)
+            });
+            item.setSelection(this.selection);
+        }
+        
+        item.owner = this;
+        this.parent(item,position);
+        this.setDirty(true);
+        this.update(true);
+        return this;
+    },
     
     /**
      * Method: update
