@@ -223,6 +223,8 @@ Jx.Widget.List = new Class({
                 }
             },
             'click:relay(li)': function (e,el) {
+                e.stop();
+                console.log(el);
                 if (target.selection &&
                     isEnabled(el) &&
                     isSelectable(el)) {
