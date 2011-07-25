@@ -118,8 +118,8 @@ Jx.Tree = new Class({
         
         this.container.addEvents({
             'mouseenter:relay(li > img, li > a)': this.bound['mouseenter:relay(li)'],
-            'mouseleave:relay(li > img, li > a)':this.bound['mouseleave:relay(li)']
-            'click:relay((li > img, li > a)': this.bound['click:relay(li)']
+            'mouseleave:relay(li > img, li > a)':this.bound['mouseleave:relay(li)'],
+            'click:relay(li > img, li > a)': this.bound['click:relay(li)']
         });
         
         /*
