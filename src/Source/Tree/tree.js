@@ -331,7 +331,7 @@ Jx.Tree = new Class({
      */
     toggle: function(el, obj) {
         var jx = $jx(el);
-        if (jx instanceof Jx.Tree.Folder && jx.isEnabled()) {
+        if (jx instanceof Jx.Tree.Folder && jx.isEnabled(el)) {
             if (jx.isOpen()) {
                 jx.collapse();
             } else {
