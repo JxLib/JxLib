@@ -331,12 +331,14 @@ Jx.Widget.List = new Class({
         
         //activate each event on the container
         var trackEvents = this.options.trackEvents;
-        for (var key in trackEvents) {
-            if (trackEvents[key].on){
-                if (trackEvents[key].obj !== null && trackEvents[key].obj !== undefined) {
-                    this.container.addEvent(key + ':relay(' + trackEvents[key].obj + ')',this.bound[key]);
-                } else {
-                    this.container.addEvent(key, this.bound[key]);
+        if (trackEvents) {
+            for (var key in trackEvents) {
+                if (trackEvents[key].on){
+                    if (trackEvents[key].obj !== null && trackEvents[key].obj !== undefined) {
+                        this.container.addEvent(key + ':relay(' + trackEvents[key].obj + ')',this.bound[key]);
+                    } else {
+                        this.container.addEvent(key, this.bound[key]);
+                    }
                 }
             }
         }

@@ -71,6 +71,9 @@ Jx.Tree.Folder = new Class({
         open: false,
         /* folders will share a selection with the tree they are in */
         select: false,
+        
+        trackEvents: false,
+        
         template: '<li class="jxTreeContainer jxTreeBranch"><img class="jxTreeImage" src="'+Jx.aPixel.src+'" alt="" title=""><a class="jxTreeItem" href="javascript:void(0);"><img class="jxTreeIcon" src="'+Jx.aPixel.src+'" alt="" title=""><span class="jxTreeLabel"></span></a><ul class="jxTree jxListContainer"></ul></li>'
     },
     classes: {
