@@ -196,6 +196,7 @@ Jx.Widget.List = new Class({
                 }
             },
             'mouseenter:relay(li)': function(e,el) {
+                console.log('mouseenter on ',el);
                 el = document.id($jx(el));
                 if (isEnabled(el)) {
                     //remove class from any other item that has it as
@@ -210,6 +211,7 @@ Jx.Widget.List = new Class({
                 }
             },
             'mouseleave:relay(li)': function(e,el) {
+                console.log('mouseleave on ',el);
                 el = document.id($jx(el));
                 if (isEnabled(el)) {
                     el.removeClass(options.hoverClass);
