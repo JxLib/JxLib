@@ -199,7 +199,9 @@ Jx.Widget.List = new Class({
                     //entering a nested li won't remove the class from 
                     //a higher level
                     var el2 = target.container.getElement(options.hoverClass);
-                    el2.removeClass(options.hoverClass);
+                    if (el2 !== null && el2 !== undefined) {
+                        el2.removeClass(options.hoverClass);
+                    }
                     el.addClass(options.hoverClass);
                     target.fireEvent('mouseenter', el, target);
                 }
