@@ -110,7 +110,8 @@ Jx.Tree = new Class({
         });
         
         //remove mouseenter and leave and adjust to monitor inner dom objects
-        this.container.removeEvents('mouseenter:relay(li)', 'mouseleave:relay(li)','click:relay(li)');
+        this.container.removeEvents('mouseenter:relay(li)')
+        //, 'mouseleave:relay(li)','click:relay(li)');
         
         var target = this,
             options = this.options;
