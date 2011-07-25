@@ -221,7 +221,7 @@ Jx.Widget.List = new Class({
             'mousedown': function(e,el) {
                 e.stop();
                 el = document.id($jx(el));
-                if (isEnabled(el)) {
+                if (target.isEnabled(el)) {
                     el.addClass(options.pressClass);
                     target.fireEvent('mousedown', el, target);
                 }
@@ -229,7 +229,7 @@ Jx.Widget.List = new Class({
             'mouseup': function(e,el) {
                 e.stop();
                 el = document.id($jx(el));
-                if (isEnabled(el)) {
+                if (target.isEnabled(el)) {
                     el.removeClass(options.pressClass);
                     target.fireEvent('mouseup', el, target);
                 }
@@ -238,7 +238,7 @@ Jx.Widget.List = new Class({
                 e.stop();
                 console.log('mouseenter in Widget.List on ',el);
                 el = document.id($jx(el));
-                if (isEnabled(el)) {
+                if (target.isEnabled(el)) {
                     //remove class from any other item that has it as
                     //entering a nested li won't remove the class from 
                     //a higher level
@@ -254,7 +254,7 @@ Jx.Widget.List = new Class({
                 e.stop();
                 console.log('mouseleave in Widget.List on ',el);
                 el = document.id($jx(el));
-                if (isEnabled(el)) {
+                if (target.isEnabled(el)) {
                     el.removeClass(options.hoverClass);
                     target.fireEvent('mouseleave', el, target);
                 }
@@ -262,14 +262,14 @@ Jx.Widget.List = new Class({
             'keydown': function(e,el) {
                 e.stop();
                 el = document.id($jx(el));
-                if (e.key == 'enter' && isEnabled(el)) {
+                if (e.key == 'enter' && target.isEnabled(el)) {
                     el.addClass('jxPressed');
                 }
             },
             'keyup': function(e,el) {
                 e.stop();
                 el = document.id($jx(el));
-                if (e.key == 'enter' && isEnabled(el)) {
+                if (e.key == 'enter' && target.isEnabled(el)) {
                     el.removeClass('jxPressed');
                 }
             },
@@ -278,8 +278,8 @@ Jx.Widget.List = new Class({
                 el = document.id($jx(el));
                 console.log('click in Widget.List on ',el);
                 if (target.selection &&
-                    isEnabled(el) &&
-                    isSelectable(el)) {
+                    target.isEnabled(el) &&
+                    target.isSelectable(el)) {
                     target.selection.select(el, target);
                 }
                 target.fireEvent('click', el, target);
@@ -288,8 +288,8 @@ Jx.Widget.List = new Class({
                 e.stop();
                 el = document.id($jx(el));
                 if (target.selection &&
-                    isEnabled(el) &&
-                    isSelectable(el)) {
+                    target.isEnabled(el) &&
+                    target.isSelectable(el)) {
                     target.selection.select(el, target);
                 }
                 target.fireEvent('dblclick', el, target);
