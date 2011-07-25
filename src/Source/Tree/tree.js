@@ -117,9 +117,39 @@ Jx.Tree = new Class({
         });
         
         this.container.addEvents({
-            'mouseenter:relay(li > img, li > a)': this.bound['mouseenter:relay(li)'],
-            'mouseleave:relay(li > img, li > a)':this.bound['mouseleave:relay(li)'],
-            'click:relay(li > img, li > a)': this.bound['click:relay(li)']
+            'mouseenter:relay(li > img, li > a)':  function(e,el) {
+                console.log('mouseenter on ',el);
+                el = document.id($jx(el));
+                if (isEnabled(el)) {
+                    //remove class from any other item that has it as
+                    //entering a nested li won't remove the class from 
+                    //a higher level
+                    var el2 = target.container.getElement('.' + options.hoverClass);
+                    if (el2 !== null && el2 !== undefined) {
+                        el2.removeClass(options.hoverClass);
+                    }
+                    el.addClass(options.hoverClass);
+                    target.fireEvent('mouseenter', el, target);
+                }
+            },
+            'mouseleave:relay(li > img, li > a)': function(e,el) {
+                console.log('mouseleave on ',el);
+                el = document.id($jx(el));
+                if (isEnabled(el)) {
+                    el.removeClass(options.hoverClass);
+                    target.fireEvent('mouseleave', el, target);
+                }
+            },
+            'click:relay(li > img, li > a)': function (e,el) {
+                el = document.id($jx(el));
+                console.log(el);
+                if (target.selection &&
+                    isEnabled(el) &&
+                    isSelectable(el)) {
+                    target.selection.select(el, target);
+                }
+                target.fireEvent('click', el, target);
+            }
         });
         
         /*
