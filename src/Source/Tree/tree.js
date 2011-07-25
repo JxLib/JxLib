@@ -109,6 +109,19 @@ Jx.Tree = new Class({
             
         });
         
+        //remove mouseenter and leave and adjust to monitor inner dom objects
+        this.container.removeEvents({
+            'mouseenter:relay(li)': this.bound['mouseenter:relay(li)'],
+            'mouseleave:relay(li)': this.bound['mouseleave:relay(li)'],
+            'click:relay(li)': this.bound['click:relay(li)']
+        });
+        
+        this.container.addEvents({
+            'mouseenter:relay(li > img, li > a)': this.bound['mouseenter:relay(li)'],
+            'mouseleave:relay(li > img, li > a)':this.bound['mouseleave:relay(li)']
+            'click:relay((li > img, li > a)': this.bound['click:relay(li)']
+        });
+        
         /*
         this.container.addEvents({
             'click:relay(.jxTreeImage)': this.bound.toggle
