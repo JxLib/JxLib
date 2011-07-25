@@ -219,7 +219,7 @@ Jx.Widget.List = new Class({
         //and removed without worrying about attaching or removing events.
         this.bound = Object.merge({},this.bound,{
             'mousedown': function(e,el) {
-                e.stop();
+                //e.stop();
                 el = document.id($jx(el));
                 if (target.isEnabled(el)) {
                     el.addClass(options.pressClass);
@@ -227,7 +227,7 @@ Jx.Widget.List = new Class({
                 }
             },
             'mouseup': function(e,el) {
-                e.stop();
+                //e.stop();
                 el = document.id($jx(el));
                 if (target.isEnabled(el)) {
                     el.removeClass(options.pressClass);
@@ -235,8 +235,8 @@ Jx.Widget.List = new Class({
                 }
             },
             'mouseenter': function(e,el) {
-                e.stop();
-                console.log('mouseenter in Widget.List on ',el);
+                //e.stop();
+                //console.log('mouseenter in Widget.List on ',el);
                 el = document.id($jx(el));
                 if (target.isEnabled(el)) {
                     //remove class from any other item that has it as
@@ -251,8 +251,8 @@ Jx.Widget.List = new Class({
                 }
             },
             'mouseleave': function(e,el) {
-                e.stop();
-                console.log('mouseleave in Widget.List on ',el);
+                //e.stop();
+                //console.log('mouseleave in Widget.List on ',el);
                 el = document.id($jx(el));
                 if (target.isEnabled(el)) {
                     el.removeClass(options.hoverClass);
@@ -260,23 +260,23 @@ Jx.Widget.List = new Class({
                 }
             },
             'keydown': function(e,el) {
-                e.stop();
+                //e.stop();
                 el = document.id($jx(el));
                 if (e.key == 'enter' && target.isEnabled(el)) {
                     el.addClass('jxPressed');
                 }
             },
             'keyup': function(e,el) {
-                e.stop();
+                //e.stop();
                 el = document.id($jx(el));
                 if (e.key == 'enter' && target.isEnabled(el)) {
                     el.removeClass('jxPressed');
                 }
             },
             'click': function (e,el) {
-                e.stop();
+                //e.stop();
                 el = document.id($jx(el));
-                console.log('click in Widget.List on ',el);
+                //console.log('click in Widget.List on ',el);
                 if (target.selection &&
                     target.isEnabled(el) &&
                     target.isSelectable(el)) {
@@ -285,7 +285,7 @@ Jx.Widget.List = new Class({
                 target.fireEvent('click', el, target);
             },
             'dblclick': function (e,el) {
-                e.stop();
+                //e.stop();
                 el = document.id($jx(el));
                 if (target.selection &&
                     target.isEnabled(el) &&
