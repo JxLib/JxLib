@@ -116,11 +116,13 @@ Jx.Tree = new Class({
             'click:relay(li)': this.bound['click:relay(li)']
         });
         
+        var target = this;
         this.container.addEvents({
             'mouseenter:relay(li > img, li > a)':  function(e,el) {
                 console.log('mouseenter on ',el);
-                el = document.id($jx(el));
-                if (isEnabled(el)) {
+                var jx = $jx(el);
+                el = document.id(jx);
+                if (jx.isEnabled(el)) {
                     //remove class from any other item that has it as
                     //entering a nested li won't remove the class from 
                     //a higher level
@@ -134,18 +136,21 @@ Jx.Tree = new Class({
             },
             'mouseleave:relay(li > img, li > a)': function(e,el) {
                 console.log('mouseleave on ',el);
-                el = document.id($jx(el));
-                if (isEnabled(el)) {
+                var jx = $jx(el);
+                el = document.id(jx);
+                if (jx.isEnabled(el)) {
                     el.removeClass(options.hoverClass);
                     target.fireEvent('mouseleave', el, target);
                 }
             },
             'click:relay(li > img, li > a)': function (e,el) {
-                el = document.id($jx(el));
+                
                 console.log(el);
+                var jx = $jx(el);
+                el = document.id(jx);
                 if (target.selection &&
-                    isEnabled(el) &&
-                    isSelectable(el)) {
+                    jx.isEnabled(el) &&
+                    jx.isSelectable(el)) {
                     target.selection.select(el, target);
                 }
                 target.fireEvent('click', el, target);
