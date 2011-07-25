@@ -195,6 +195,11 @@ Jx.Widget.List = new Class({
             },
             'mouseenter:relay(li)': function(e,el) {
                 if (isEnabled(el)) {
+                    //remove class from any other item that has it as
+                    //entering a nested li won't remove the class from 
+                    //a higher level
+                    var el2 = this.container.getElement(options.hoverClass);
+                    el2.removeClass(options.hoverClass);
                     el.addClass(options.hoverClass);
                     target.fireEvent('mouseenter', el, target);
                 }
