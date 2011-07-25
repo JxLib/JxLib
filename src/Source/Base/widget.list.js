@@ -242,7 +242,7 @@ Jx.Widget.List = new Class({
             select: function(item) {
                 if (this.isEnabled(item)) {
                     var itemTarget;
-                    if (this.returnJx) {
+                    if (this.options.returnJx) {
                         itemTarget = $jx(item);
                     } else {
                         itemTarget = item.retrieve('jxListTargetItem') || item;
@@ -253,7 +253,7 @@ Jx.Widget.List = new Class({
             unselect: function(item) {
                 if (this.isEnabled(item)) {
                     var itemTarget;
-                    if (this.returnJx) {
+                    if (this.options.returnJx) {
                         itemTarget = $jx(item);
                     } else {
                         itemTarget = item.retrieve('jxListTargetItem') || item;
