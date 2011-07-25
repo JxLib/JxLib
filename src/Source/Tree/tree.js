@@ -104,14 +104,16 @@ Jx.Tree = new Class({
         this.bound.toggle = this.toggle.bind(this);
 
         this.addEvents({
-            click: this.bound.toggle,
-            dblclick: this.bound.toggle
+            click: this.bound.toggle
+            //dblclick: this.bound.toggle
             
         });
         
+        /*
         this.container.addEvents({
             'click:relay(.jxTreeImage)': this.bound.toggle
         });
+        */
 
         if (this.options.parent) {
             this.addTo(this.options.parent);
