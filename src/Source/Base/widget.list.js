@@ -182,6 +182,7 @@ Jx.Widget.List = new Class({
         //and removed without worrying about attaching or removing events.
         this.bound = Object.merge({},this.bound,{
             'mousedown:relay(li)': function(e,el) {
+                e.stop();
                 el = document.id($jx(el));
                 if (isEnabled(el)) {
                     el.addClass(options.pressClass);
@@ -189,6 +190,7 @@ Jx.Widget.List = new Class({
                 }
             },
             'mouseup:relay(li)': function(e,el) {
+                e.stop();
                 el = document.id($jx(el));
                 if (isEnabled(el)) {
                     el.removeClass(options.pressClass);
@@ -196,7 +198,8 @@ Jx.Widget.List = new Class({
                 }
             },
             'mouseenter:relay(li)': function(e,el) {
-                console.log('mouseenter on ',el);
+                e.stop();
+                console.log('mouseenter in Widget.List on ',el);
                 el = document.id($jx(el));
                 if (isEnabled(el)) {
                     //remove class from any other item that has it as
@@ -211,7 +214,8 @@ Jx.Widget.List = new Class({
                 }
             },
             'mouseleave:relay(li)': function(e,el) {
-                console.log('mouseleave on ',el);
+                e.stop();
+                console.log('mouseleave in Widget.List on ',el);
                 el = document.id($jx(el));
                 if (isEnabled(el)) {
                     el.removeClass(options.hoverClass);
@@ -219,20 +223,23 @@ Jx.Widget.List = new Class({
                 }
             },
             'keydown:relay(li)': function(e,el) {
+                e.stop();
                 el = document.id($jx(el));
                 if (e.key == 'enter' && isEnabled(el)) {
                     el.addClass('jxPressed');
                 }
             },
             'keyup:relay(li)': function(e,el) {
+                e.stop();
                 el = document.id($jx(el));
                 if (e.key == 'enter' && isEnabled(el)) {
                     el.removeClass('jxPressed');
                 }
             },
             'click:relay(li)': function (e,el) {
+                e.stop();
                 el = document.id($jx(el));
-                console.log(el);
+                console.log('click in Widget.List on ',el);
                 if (target.selection &&
                     isEnabled(el) &&
                     isSelectable(el)) {
@@ -241,6 +248,7 @@ Jx.Widget.List = new Class({
                 target.fireEvent('click', el, target);
             },
             'dblclick:relay(li)': function (e,el) {
+                e.stop();
                 el = document.id($jx(el));
                 if (target.selection &&
                     isEnabled(el) &&

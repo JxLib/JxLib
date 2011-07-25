@@ -120,6 +120,7 @@ Jx.Tree = new Class({
             options = this.options;
         this.container.addEvents({
             'mouseenter:relay(li > img, li > a)':  function(e,el) {
+                e.stop();
                 console.log('mouseenter on ',el);
                 var jx = $jx(el);
                 el = document.id(jx);
@@ -136,6 +137,7 @@ Jx.Tree = new Class({
                 }
             },
             'mouseleave:relay(li > img, li > a)': function(e,el) {
+                e.stop();
                 console.log('mouseleave on ',el);
                 var jx = $jx(el);
                 el = document.id(jx);
@@ -145,7 +147,7 @@ Jx.Tree = new Class({
                 }
             },
             'click:relay(li > img, li > a)': function (e,el) {
-                
+                e.stop();
                 console.log(el);
                 var jx = $jx(el);
                 el = document.id(jx);
