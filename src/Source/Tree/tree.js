@@ -157,13 +157,13 @@ Jx.Tree = new Class({
         if (item instanceof Jx.Tree.Folder) {
             item.addEvents({
                 add: function(what) { 
-                    this.fireEvent('add', what).bind(this); 
+                    this.fireEvent('add', what); 
                 }.bind(this),
                 remove: function(what) { 
-                    this.fireEvent('remove', what).bind(this); 
+                    this.fireEvent('remove', what); 
                 }.bind(this),
                 click: function(what) { 
-                    this.fireEvent('click', what).bind(this); 
+                    this.fireEvent('click', what); 
                 }.bind(this)
             });
             item.setSelection(this.selection);
