@@ -158,13 +158,13 @@ Jx.Tree = new Class({
             item.addEvents({
                 add: function(what) { 
                     this.fireEvent('add', what).bind(this); 
-                },
+                }.bind(this),
                 remove: function(what) { 
                     this.fireEvent('remove', what).bind(this); 
-                },
+                }.bind(this),
                 click: function(what) { 
                     this.fireEvent('click', what).bind(this); 
-                }
+                }.bind(this)
             });
             item.setSelection(this.selection);
         }
