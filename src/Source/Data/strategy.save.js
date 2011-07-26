@@ -177,7 +177,7 @@ Jx.Store.Strategy.Save = new Class({
             
             if (!this.updating) {
               if (this.totalChanges === 0) {
-                  store.protocol.addEvent('dataLoaded', this.bound.completed);
+                  this.store.protocol.addEvent('dataLoaded', this.bound.completed);
               }
               this.totalChanges += records[Jx.Record.UPDATE].length + 
                                    records[Jx.Record.INSERT].length +
@@ -193,9 +193,6 @@ Jx.Store.Strategy.Save = new Class({
               }
             }
             
-            // records.flatten().each(function (record) {
-            //     this.saveRecord(this.store, record);
-            // }, this);
         }
         
     },
