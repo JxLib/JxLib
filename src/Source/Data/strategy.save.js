@@ -157,8 +157,11 @@ Jx.Store.Strategy.Save = new Class({
      * Called manually when the developer wants to save all data changes 
      * in one shot. It will empty the deleted array and reset all other status 
      * flags
+     * 
+     * Parameters:
+     * options - options to adjust the request. Will be passed to all methods.
      */
-    save: function () {
+    save: function (options) {
         //go through all of the data and figure out what needs to be acted on
         if (this.store.loaded) {
             var records = [];
@@ -183,13 +186,13 @@ Jx.Store.Strategy.Save = new Class({
                                    records[Jx.Record.INSERT].length +
                                    records[Jx.Record.DELETE].length;
               if (records[Jx.Record.UPDATE].length) {
-                this.store.protocol.update(records[Jx.Record.UPDATE]);
+                this.store.protocol.update(records[Jx.Record.UPDATE],options);
               }
               if (records[Jx.Record.INSERT].length) {
-                this.store.protocol.insert(records[Jx.Record.INSERT]);
+                this.store.protocol.insert(records[Jx.Record.INSERT],options);
               }
               if (records[Jx.Record.DELETE].length) {
-                this.store.protocol['delete'](records[Jx.Record.DELETE]);
+                this.store.protocol['delete'](records[Jx.Record.DELETE],options);
               }
             }
             

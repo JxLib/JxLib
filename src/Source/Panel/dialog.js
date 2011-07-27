@@ -630,7 +630,7 @@ Jx.Dialog = new Class({
             this.domObj.dispose();
             this.unstack();
         }
-        this.fireEvent('close');
+        this.fireEvent('close',[this]);
     },
 
     cleanup: function() { },
