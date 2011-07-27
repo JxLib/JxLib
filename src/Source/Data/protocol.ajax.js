@@ -240,6 +240,7 @@ Jx.Store.Protocol.Ajax = new Class({
             record.each(function(r) {
               this.run(r, options, method);
             }, this);
+            return; //since everything should be processed now.
           } else {
             data = [];
             record.each(function(r) {
