@@ -443,7 +443,10 @@ Jx.Widget.List = new Class({
                     }
                 } else if (container.contains(document.id(position))) {
                     el.inject(position,'after');
+                } else if (['top','bottom','after','before'].contains(position)) {
+                    el.inject(container,position);   
                 }
+                    
             } else {
                 el.inject(container, 'bottom');
             }
