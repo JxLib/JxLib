@@ -143,7 +143,12 @@ Jx.Store.Protocol.Ajax = new Class({
                 }
                 if (data.meta !== undefined && data.meta !== null) {
                     response.meta = data.meta;
+                    
+                } else {
+                    response.meta = {};
                 }
+                
+                response.meta.success = data.success;
                 response.code = Jx.Store.Response.SUCCESS;
             } else {
                 response.code = Jx.Store.Response.FAILURE;
