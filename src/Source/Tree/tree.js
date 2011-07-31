@@ -347,12 +347,14 @@ Jx.Tree = new Class({
      */
     toggle: function(el, obj) {
         console.log('in toggle method');
-        var jx = $jx(el);
-        if (jx instanceof Jx.Tree.Folder && jx.isEnabled(el)) {
-            if (jx.isOpen()) {
-                jx.collapse();
-            } else {
-                jx.expand();
+        if (!this.holdEvents) {
+            var jx = $jx(el);
+            if (jx instanceof Jx.Tree.Folder && jx.isEnabled(el)) {
+                if (jx.isOpen()) {
+                    jx.collapse();
+                } else {
+                    jx.expand();
+                }
             }
         }
         return this;
