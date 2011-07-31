@@ -86,6 +86,14 @@ Jx.Widget.List = new Class({
      * <Jx.Selection> a selection object if selection is enabled
      */
     selection: null,
+    /**
+     * APIProperty: holdEvents
+     * Tells the event handlers whether they should continue. This allows outside
+     * code to stop default handling of events to prevent them from firing
+     * additional unwanted events in some circumstances.
+     */
+    holdEvents: false,
+    
     options: {
         /**
          * Option: selection
@@ -219,112 +227,126 @@ Jx.Widget.List = new Class({
         //and removed without worrying about attaching or removing events.
         this.bound = Object.merge({},this.bound,{
             'mousedown': function(e,el) {
-                //e.stop();
-                el = document.id($jx(el));
-                if (target.isEnabled(el)) {
-                    el.addClass(options.pressClass);
-                    target.fireEvent('mousedown', el, target);
+                if (!target.holdEvents) {
+                    el = document.id($jx(el));
+                    if (target.isEnabled(el)) {
+                        el.addClass(options.pressClass);
+                        target.fireEvent('mousedown', el, target);
+                    }
                 }
             },
             'mouseup': function(e,el) {
-                //e.stop();
-                el = document.id($jx(el));
-                if (target.isEnabled(el)) {
-                    el.removeClass(options.pressClass);
-                    target.fireEvent('mouseup', el, target);
+                if (!target.holdEvents) {
+                    el = document.id($jx(el));
+                    if (target.isEnabled(el)) {
+                        el.removeClass(options.pressClass);
+                        target.fireEvent('mouseup', el, target);
+                    }
                 }
             },
             'mouseenter': function(e,el) {
-                //e.stop();
-                //console.log('mouseenter in Widget.List on ',el);
-                el = document.id($jx(el));
-                if (target.isEnabled(el)) {
-                    //remove class from any other item that has it as
-                    //entering a nested li won't remove the class from 
-                    //a higher level
-                    var el2 = target.container.getElement('.' + options.hoverClass);
-                    if (el2 !== null && el2 !== undefined) {
-                        el2.removeClass(options.hoverClass);
+                if (!target.holdEvents) {
+                    //console.log('mouseenter in Widget.List on ',el);
+                    el = document.id($jx(el));
+                    if (target.isEnabled(el)) {
+                        //remove class from any other item that has it as
+                        //entering a nested li won't remove the class from 
+                        //a higher level
+                        var el2 = target.container.getElement('.' + options.hoverClass);
+                        if (el2 !== null && el2 !== undefined) {
+                            el2.removeClass(options.hoverClass);
+                        }
+                        el.addClass(options.hoverClass);
+                        target.fireEvent('mouseenter', el, target);
                     }
-                    el.addClass(options.hoverClass);
-                    target.fireEvent('mouseenter', el, target);
                 }
             },
             'mouseleave': function(e,el) {
-                //e.stop();
-                //console.log('mouseleave in Widget.List on ',el);
-                el = document.id($jx(el));
-                if (target.isEnabled(el)) {
-                    el.removeClass(options.hoverClass);
-                    target.fireEvent('mouseleave', el, target);
+                if (!target.holdEvents) {
+                    //console.log('mouseleave in Widget.List on ',el);
+                    el = document.id($jx(el));
+                    if (target.isEnabled(el)) {
+                        el.removeClass(options.hoverClass);
+                        target.fireEvent('mouseleave', el, target);
+                    }
                 }
             },
             'keydown': function(e,el) {
-                //e.stop();
-                el = document.id($jx(el));
-                if (e.key == 'enter' && target.isEnabled(el)) {
-                    el.addClass('jxPressed');
+                if (!target.holdEvents) {
+                    el = document.id($jx(el));
+                    if (e.key == 'enter' && target.isEnabled(el)) {
+                        el.addClass('jxPressed');
+                    }
                 }
             },
             'keyup': function(e,el) {
-                //e.stop();
-                el = document.id($jx(el));
-                if (e.key == 'enter' && target.isEnabled(el)) {
-                    el.removeClass('jxPressed');
+                if (!target.holdEvents) {
+                    el = document.id($jx(el));
+                    if (e.key == 'enter' && target.isEnabled(el)) {
+                        el.removeClass('jxPressed');
+                    }
                 }
             },
             'click': function (e,el) {
-                //e.stop();
-                el = document.id($jx(el));
-                console.log('click in Widget.List on ',el);
-                if (target.selection &&
-                    target.isEnabled(el) &&
-                    target.isSelectable(el)) {
-                    target.selection.select(el, target);
+                if (!target.holdEvents) {
+                    el = document.id($jx(el));
+                    console.log('click in Widget.List on ',el);
+                    if (target.selection &&
+                        target.isEnabled(el) &&
+                        target.isSelectable(el)) {
+                        target.selection.select(el, target);
+                    }
+                    target.fireEvent('click', el, target);
                 }
-                target.fireEvent('click', el, target);
             },
             'dblclick': function (e,el) {
-                //e.stop();
-                el = document.id($jx(el));
-                if (target.selection &&
-                    target.isEnabled(el) &&
-                    target.isSelectable(el)) {
-                    target.selection.select(el, target);
+                if (!target.holdEvents) {
+                    el = document.id($jx(el));
+                    if (target.selection &&
+                        target.isEnabled(el) &&
+                        target.isSelectable(el)) {
+                        target.selection.select(el, target);
+                    }
+                    target.fireEvent('dblclick', el, target);
                 }
-                target.fireEvent('dblclick', el, target);
             },
             'contextmenu': function(e,el) {
-              el = document.id($jx(el));
-              var cm = el.retrieve('jxContextMenu');
-              if (cm) {
-                cm.show(e);
-                el.removeClass(options.pressClass);
-                e.stop();  //only stop it if we have our own context menu
+              if (!target.holdEvents) {
+                  el = document.id($jx(el));
+                  var cm = el.retrieve('jxContextMenu');
+                  if (cm) {
+                    cm.show(e);
+                    el.removeClass(options.pressClass);
+                    e.stop();  //only stop it if we have our own context menu
+                  }
               }
             },
             select: function(item) {
-                item = document.id($jx(item));
-                if (this.isEnabled(item)) {
-                    var itemTarget;
-                    if (this.options.returnJx) {
-                        itemTarget = $jx(item);
-                    } else {
-                        itemTarget = item.retrieve('jxListTargetItem') || item;
+                if (!target.holdEvents) {
+                    item = document.id($jx(item));
+                    if (this.isEnabled(item)) {
+                        var itemTarget;
+                        if (this.options.returnJx) {
+                            itemTarget = $jx(item);
+                        } else {
+                            itemTarget = item.retrieve('jxListTargetItem') || item;
+                        }
+                        this.fireEvent('select', itemTarget);
                     }
-                    this.fireEvent('select', itemTarget);
                 }
             }.bind(this),
             unselect: function(item) {
-                item = document.id($jx(item));
-                if (this.isEnabled(item)) {
-                    var itemTarget;
-                    if (this.options.returnJx) {
-                        itemTarget = $jx(item);
-                    } else {
-                        itemTarget = item.retrieve('jxListTargetItem') || item;
+                if (!target.holdEvents) {
+                    item = document.id($jx(item));
+                    if (this.isEnabled(item)) {
+                        var itemTarget;
+                        if (this.options.returnJx) {
+                            itemTarget = $jx(item);
+                        } else {
+                            itemTarget = item.retrieve('jxListTargetItem') || item;
+                        }
+                        this.fireEvent('unselect', itemTarget);
                     }
-                    this.fireEvent('unselect', itemTarget);
                 }
             }.bind(this)
         });
@@ -364,6 +386,10 @@ Jx.Widget.List = new Class({
     isSelectable: function(el) {
         var item = el.retrieve('jxListTargetItem') || el;
         return !item.hasClass('jxUnselectable');
+    },
+    
+    setHoldEvents: function(state){
+        this.holdEvents = state;
     },
     
     /**
