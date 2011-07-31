@@ -276,7 +276,7 @@ Jx.Widget.List = new Class({
             'click': function (e,el) {
                 //e.stop();
                 el = document.id($jx(el));
-                //console.log('click in Widget.List on ',el);
+                console.log('click in Widget.List on ',el);
                 if (target.selection &&
                     target.isEnabled(el) &&
                     target.isSelectable(el)) {

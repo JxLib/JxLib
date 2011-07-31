@@ -346,6 +346,7 @@ Jx.Tree = new Class({
      * {<Jx.Tree>} a reference to this for chaining
      */
     toggle: function(el, obj) {
+        console.log('in toggle method');
         var jx = $jx(el);
         if (jx instanceof Jx.Tree.Folder && jx.isEnabled(el)) {
             if (jx.isOpen()) {
