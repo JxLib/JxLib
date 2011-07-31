@@ -93,7 +93,7 @@ Jx.Tree = new Class({
             },
             click: {
                 on: true,
-                obj: 'li > a'
+                obj: 'li > a, li > img'
             }
         }
     },
