@@ -85,15 +85,15 @@ Jx.Tree = new Class({
         trackEvents: {
             mouseenter: {
                 on: true,
-                obj: 'li > a, li > img'
+                obj: 'li > a'
             },
             mouseleave: {
                 on: true,
-                obj: 'li > a, li > img'
+                obj: 'li > a'
             },
             click: {
                 on: true,
-                obj: 'li > a, li > img'
+                obj: 'li > a'
             }
         }
     },
