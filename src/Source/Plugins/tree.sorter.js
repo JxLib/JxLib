@@ -72,7 +72,7 @@ Jx.Plugin.Tree.Sorter = new Class({
         this.parent();
     },
     
-    mousedown: function(item, tree) {
+    mousedown: function(item, tree, event) {
         
         //tell the tree to hold firing all events
         this.tree.setHoldEvents(true);
