@@ -48,7 +48,7 @@ Jx.Plugin.Tree.Sorter = new Class({
             mousedown: this.mousedown.bind(this),
             mouseup: this.mouseup.bind(this),
             onLeave: this.onLeave.bind(this),
-            onDrag: this.onDrag.bind(this),
+            onEnter: this.onEnter.bind(this),
             onDrop: this.onDrop.bind(this)
         };
     },
