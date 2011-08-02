@@ -1,7 +1,7 @@
 /*
 ---
 
-name: Jx.Plugin.Tree.Sortable
+name: Jx.Plugin.Tree.Sorter
 
 description: A plugin that will enable drag and drop sorting in a Jx.Tree
 
@@ -10,36 +10,33 @@ license: MIT-style license.
 requires:
  - Jx.Tree
  - Jx.Plugin.Tree
+ - More/Drag.Move
 
-optional:
- - 
 
-provides: [Jx.Plugin.Tree.Sortable]
+provides: [Jx.Plugin.Tree.Sorter]
 
-images:
- - 
+css:
+ - tree.sorter
 
 ...
  */
 /**
- * Class: Jx.Plugin.Tree.Sortable
- * 
+ * Class: Jx.Plugin.Tree.Sorter
+ * Plugin to allow trees to be reorder using drag and drop.
  * 
  * Much of this code has been adapted from 
  * https://raw.github.com/cpojer/mootools-tree/master/Source/Tree.js
  * which is under an MIT-style license
  */
-Jx.Plugin.Tree.Sortable = new Class({
+Jx.Plugin.Tree.Sorter = new Class({
 
     Extends: Jx.Plugin,
-    Family: 'Jx.Plugin.Tree.Sortable',
+    Family: 'Jx.Plugin.Tree.Sorter',
     
     options: {
         indicatorOffset: 0,
         cloneOffset: {x: 16, y: 16},
 		cloneOpacity: 0.8,
-		checkDrag: Function.from(true),
-		checkDrop: Function.from(true),
         precalculate: false
     },
     
@@ -47,13 +44,6 @@ Jx.Plugin.Tree.Sortable = new Class({
     indicator: null,
     
     init: function () {
-        this.indicator = new Element('div.jxTreeIndicator');
-
-		var self = this;
-		this.handler = function(e){
-			self.mousedown(this, e);
-		};
-        
         this.bound = {
             mousedown: this.mousedown.bind(this),
             mouseup: this.mouseup.bind(this),
@@ -83,15 +73,9 @@ Jx.Plugin.Tree.Sortable = new Class({
     },
     
     mousedown: function(item, tree) {
-        element = document.id(item);
         
         //tell the tree to hold firing all events
         this.tree.setHoldEvents(true);
-        
-        this.padding = (this.element.getElement('li ul li') || this.element.getElement('li')).getLeft() - this.element.getLeft() + this.options.indicatorOffset;
-		
-		if(!this.options.checkDrag.call(this, element)) return;
-		//if (this.collapse && Slick.match(event.target, this.collapse.options.selector)) return;
 
 		this.current = element;
 		this.clone = element.clone().setStyles({
