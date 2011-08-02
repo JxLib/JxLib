@@ -80,14 +80,14 @@ Jx.Plugin.Tree.Sorter = new Class({
         //wait .5 second to make sure this wasn't a click event.
         this.timer = function(item, tree, event) {
             //tell the tree to hold firing all events
-            this.tree.setHoldEvents(true);
+            //this.tree.setHoldEvents(true);
     
     		this.current = element = document.id(item);
     		this.clone = element.clone().setStyles({
     			left: event.page.x + this.options.cloneOffset.x,
     			top: event.page.y + this.options.cloneOffset.y,
     			opacity: this.options.cloneOpacity
-    		}).addClass('jxTreeDrag').inject(document.body); //should this be the container instead?
+    		}).addClass('jxTreeDrag').inject(this.tree);
     
     		this.clone.makeDraggable({
     			droppables: this.element.getElements('li a'),
