@@ -63,7 +63,7 @@ Jx.Plugin.Tree.Sorter = new Class({
         
         this.tree.addEvent('mousedown', this.bound.mousedown);
         document.addEvent('mouseup', this.bound.mouseup);
-        this.parent();
+        this.parent(tree);
     },
     
     detach: function () {
