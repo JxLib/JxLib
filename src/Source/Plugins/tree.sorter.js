@@ -41,7 +41,7 @@ Jx.Plugin.Tree.Sorter = new Class({
     },
     
     tree: null,
-    indicator: null,
+    active: false,
     
     init: function () {
         this.bound = {
@@ -61,7 +61,11 @@ Jx.Plugin.Tree.Sorter = new Class({
         this.tree = tree;
         this.element = document.id(this.tree);
         
-        this.tree.addEvent('mousedown', this.bound.mousedown);
+        this.tree.addEvents({
+            mousedown: this.bound.mousedown,
+            mouseup: this.bound.mouseup
+        });
+        
         document.addEvent('mouseup', this.bound.mouseup);
         this.parent(tree);
     },
@@ -73,29 +77,34 @@ Jx.Plugin.Tree.Sorter = new Class({
     },
     
     mousedown: function(item, tree, event) {
-        
-        //tell the tree to hold firing all events
-        this.tree.setHoldEvents(true);
-
-		this.current = element = document.id(item);
-		this.clone = element.clone().setStyles({
-			left: event.page.x + this.options.cloneOffset.x,
-			top: event.page.y + this.options.cloneOffset.y,
-			opacity: this.options.cloneOpacity
-		}).addClass('jxTreeDrag').inject(document.body); //should this be the container instead?
-
-		this.clone.makeDraggable({
-			droppables: this.element.getElements('li a'),
-            container: document.id(this.tree),
-            precalculate: this.options.precalculate,
-			onLeave: this.bound.onLeave,
-			onEnter: this.bound.onEnter,
-			onDrop: this.bound.onDrop
-		}).start(event);
+        //wait .5 second to make sure this wasn't a click event.
+        this.timer = function(item, tree, event) {
+            //tell the tree to hold firing all events
+            this.tree.setHoldEvents(true);
+    
+    		this.current = element = document.id(item);
+    		this.clone = element.clone().setStyles({
+    			left: event.page.x + this.options.cloneOffset.x,
+    			top: event.page.y + this.options.cloneOffset.y,
+    			opacity: this.options.cloneOpacity
+    		}).addClass('jxTreeDrag').inject(document.body); //should this be the container instead?
+    
+    		this.clone.makeDraggable({
+    			droppables: this.element.getElements('li a'),
+                container: document.id(this.tree),
+                precalculate: this.options.precalculate,
+    			onLeave: this.bound.onLeave,
+    			onEnter: this.bound.onEnter,
+    			onDrop: this.bound.onDrop
+    		}).start(event);
+        }.delay(500, this, [item,tree,event]);
     },
     
     mouseup: function() {
-        if (this.clone) this.close.destroy();
+        if (!this.activer) {
+            clearTimeout(this.timer);
+        }
+        if (this.clone) this.clone.destroy();
     },
     
     onEnter: function(el, droppable){
