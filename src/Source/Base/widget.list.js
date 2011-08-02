@@ -231,7 +231,7 @@ Jx.Widget.List = new Class({
                     el = document.id($jx(el));
                     if (target.isEnabled(el)) {
                         el.addClass(options.pressClass);
-                        target.fireEvent('mousedown', el, target, e);
+                        target.fireEvent('mousedown', [el, target, e]);
                     }
                 }
             },
@@ -240,7 +240,7 @@ Jx.Widget.List = new Class({
                     el = document.id($jx(el));
                     if (target.isEnabled(el)) {
                         el.removeClass(options.pressClass);
-                        target.fireEvent('mouseup', el, target, e);
+                        target.fireEvent('mouseup', [el, target, e]);
                     }
                 }
             },
@@ -257,7 +257,7 @@ Jx.Widget.List = new Class({
                             el2.removeClass(options.hoverClass);
                         }
                         el.addClass(options.hoverClass);
-                        target.fireEvent('mouseenter', el, target, e);
+                        target.fireEvent('mouseenter', [el, target, e]);
                     }
                 }
             },
@@ -267,7 +267,7 @@ Jx.Widget.List = new Class({
                     el = document.id($jx(el));
                     if (target.isEnabled(el)) {
                         el.removeClass(options.hoverClass);
-                        target.fireEvent('mouseleave', el, target, e);
+                        target.fireEvent('mouseleave', [el, target, e]);
                     }
                 }
             },
@@ -296,7 +296,7 @@ Jx.Widget.List = new Class({
                         target.isSelectable(el)) {
                         target.selection.select(el, target);
                     }
-                    target.fireEvent('click', el, target, e);
+                    target.fireEvent('click', [el, target, e]);
                 }
             },
             'dblclick': function (e,el) {
@@ -307,7 +307,7 @@ Jx.Widget.List = new Class({
                         target.isSelectable(el)) {
                         target.selection.select(el, target);
                     }
-                    target.fireEvent('dblclick', el, target, e);
+                    target.fireEvent('dblclick', [el, target, e]);
                 }
             },
             'contextmenu': function(e,el) {
