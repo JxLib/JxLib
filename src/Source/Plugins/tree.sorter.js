@@ -91,15 +91,25 @@ Jx.Plugin.Tree.Sorter = new Class({
     
     onComplete: function(element){
         console.log('onComplete fired by sortable');
-        //get the item just above us...
-        var previous = $jx(element.getPrevious('li'));
-        element = $jx(element);
-        //fire an event
-        this.tree.fireEvent('jxTreeSortDone', [element, previous]);
+        //only run this if we were actually sorting (start event fired)
+        if (this.active) {
+            //get the item just above us...
+            var previous = $jx(element.getPrevious('li'));
+            element = $jx(element);
+            //fire an event
+            this.tree.fireEvent('jxTreeSortDone', [element, previous]);
+            //wait a split second then enable the tree events again
+            var fn = function(){
+                this.tree.setHoldEvents(false);
+            }.delay(250,this);
+        }
     },
     
     onStartDrag: function(element,clone) {
         console.log('onStart fired by sortable');
+        //stop events on the tree
+        this.tree.setHoldEvents(true);
+        this.active = true;
         element.removeClass('jxHover');
     }
     
