@@ -83,13 +83,15 @@ Jx.Plugin.Tree.Sorter = new Class({
             //this.tree.setHoldEvents(true);
     
     		this.current = item;
+            /*
     		this.clone = document.id(item).clone().setStyles({
     			left: event.page.x + this.options.cloneOffset.x,
     			top: event.page.y + this.options.cloneOffset.y,
     			opacity: this.options.cloneOpacity
     		}).addClass('jxTreeDrag').inject(this.tree);
-    
-    		this.clone.makeDraggable({
+            */
+            
+    		document.id(item).makeDraggable({
     			droppables: this.element.getElements('li a'),
                 container: document.id(this.tree),
                 precalculate: this.options.precalculate,
