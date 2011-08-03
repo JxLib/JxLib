@@ -64,8 +64,6 @@ Jx.Plugin.Tree.Sorter = new Class({
         this.element = document.id(this.tree);
         
         this.tree.addEvents({
-            //mousedown: this.bound.mousedown,
-            //mouseup: this.bound.mouseup
             add: this.bound.add
         });
         
@@ -75,7 +73,6 @@ Jx.Plugin.Tree.Sorter = new Class({
             onComplete: this.onComplete.bind(this)
         });  
         
-        //document.addEvent('mouseup', this.bound.mouseup);
         this.parent(tree);
     },
     
@@ -98,72 +95,18 @@ Jx.Plugin.Tree.Sorter = new Class({
         item.owner.sortable.addItems(document.id(item));
     },
     
-    mousedown: function(item, tree, event) {
-        //wait .5 second to make sure this wasn't a click event.
-        this.timer = function(item, tree, event) {
-            //tell the tree to hold firing all events
-            //this.tree.setHoldEvents(true);
-    
-    		this.current = item;
-            /*
-    		this.clone = document.id(item).clone().setStyles({
-    			left: event.page.x + this.options.cloneOffset.x,
-    			top: event.page.y + this.options.cloneOffset.y,
-    			opacity: this.options.cloneOpacity
-    		}).addClass('jxTreeDrag').inject(this.tree);
-                        
-    		document.id(item).makeDraggable({
-    			droppables: this.element.getElements('li a'),
-                container: document.id(this.tree),
-                precalculate: this.options.precalculate,
-    			onLeave: this.bound.onLeave,
-    			onEnter: this.bound.onEnter,
-    			onDrop: this.bound.onDrop
-    		}).start(event);
-            */
-            
-            //try just using mootools-more's sortable
-            
-        }.delay(500, this, [item,tree,event]);
-    },
-    
     onComplete: function(element){
         console.log('onComplete fired by sortable');
+        //get the item just above us...
+        var previous = $jx(element.getPrevious('li'));
+        element = $jx(element);
+        //fire an event
+        this.tree.fireEvent('jxTreeSortDone', [element, previous]);
     },
     
     onStartDrag: function(element,clone) {
         console.log('onStart fired by sortable');
-    },
-    
-    mouseup: function() {
-        if (!this.activer) {
-            clearTimeout(this.timer);
-        }
-        if (this.clone) this.clone.destroy();
-    },
-    
-    onEnter: function(el, droppable){
-        document.id($jx(droppable)).addClass('jxTreeDropActive');
-        
-        //wait a second and then open the branch if collapsed
-        
-	},
-
-	onDrop: function(el, droppable, event){
-		//get the jx.widget objects for el and droppable
-        var moved = this.current,
-            previous = $jx(droppable);
-        //kill the clone
-        this.clone.destroy();
-        //move the original from it's current location to this one
-        moved.owner.remove(moved);
-        previous.owner.add(moved,previous);
-        //fire the event [the element we moved, the new previous element (droppable), and the tree instance
-		this.fireEvent('jxTreeSortDrop', [moved, previous, this.tree]);
-	},
-    
-    onLeave: function(el, droppable) {
-        document.id($jx(droppable)).removeClass('jxTreeDropActive');
+        element.removeClass('jxHover');
     }
     
 });
