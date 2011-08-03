@@ -189,6 +189,7 @@ Jx.Tree = new Class({
         this.parent(item,position);
         this.setDirty(true);
         this.update(true);
+        this.fireEvent('add',item);
         return this;
     },
     /**

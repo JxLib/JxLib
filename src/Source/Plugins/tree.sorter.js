@@ -11,6 +11,7 @@ requires:
  - Jx.Tree
  - Jx.Plugin.Tree
  - More/Drag.Move
+ - More/Sortable
 
 
 provides: [Jx.Plugin.Tree.Sorter]
@@ -49,7 +50,8 @@ Jx.Plugin.Tree.Sorter = new Class({
             mouseup: this.mouseup.bind(this),
             onLeave: this.onLeave.bind(this),
             onEnter: this.onEnter.bind(this),
-            onDrop: this.onDrop.bind(this)
+            onDrop: this.onDrop.bind(this),
+            add: this.onFolderAdd.bind(this)
         };
     },
 
@@ -62,11 +64,18 @@ Jx.Plugin.Tree.Sorter = new Class({
         this.element = document.id(this.tree);
         
         this.tree.addEvents({
-            mousedown: this.bound.mousedown,
-            mouseup: this.bound.mouseup
+            //mousedown: this.bound.mousedown,
+            //mouseup: this.bound.mouseup
+            add: this.bound.add
         });
         
-        document.addEvent('mouseup', this.bound.mouseup);
+        this.tree.sortable = new Sortables(this.tree.container,{
+            handle: 'a.jxTreeItem',
+            onStart: this.onStartDrag.bind(this),
+            onComplete: this.onComplete.bind(this)
+        });  
+        
+        //document.addEvent('mouseup', this.bound.mouseup);
         this.parent(tree);
     },
     
@@ -74,6 +83,19 @@ Jx.Plugin.Tree.Sorter = new Class({
         this.tree.removeEvent('mousedown', this.bound.mousedown);
         document.removeEvent('mouseup', this.bound.mouseup);
         this.parent();
+    },
+    
+    onFolderAdd: function(item){
+        if (item instanceof Jx.Tree.Folder) {
+            //allow sorting of the folder's items
+            item.sortable = new Sortables(item.container,{
+                handle: 'a.jxTreeItem',
+                onStart: this.onStartDrag.bind(this),
+                onComplete: this.onComplete.bind(this)
+            });  
+        }
+        //add the item to the sortable instance above it
+        item.owner.sortable.addItems(document.id(item));
     },
     
     mousedown: function(item, tree, event) {
@@ -89,8 +111,7 @@ Jx.Plugin.Tree.Sorter = new Class({
     			top: event.page.y + this.options.cloneOffset.y,
     			opacity: this.options.cloneOpacity
     		}).addClass('jxTreeDrag').inject(this.tree);
-            */
-            
+                        
     		document.id(item).makeDraggable({
     			droppables: this.element.getElements('li a'),
                 container: document.id(this.tree),
@@ -99,7 +120,19 @@ Jx.Plugin.Tree.Sorter = new Class({
     			onEnter: this.bound.onEnter,
     			onDrop: this.bound.onDrop
     		}).start(event);
+            */
+            
+            //try just using mootools-more's sortable
+            
         }.delay(500, this, [item,tree,event]);
+    },
+    
+    onComplete: function(element){
+        console.log('onComplete fired by sortable');
+    },
+    
+    onStartDrag: function(element,clone) {
+        console.log('onStart fired by sortable');
     },
     
     mouseup: function() {
