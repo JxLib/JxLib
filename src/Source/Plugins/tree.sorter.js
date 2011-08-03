@@ -83,7 +83,7 @@ Jx.Plugin.Tree.Sorter = new Class({
             //this.tree.setHoldEvents(true);
     
     		this.current = item;
-    		this.clone = element.clone().setStyles({
+    		this.clone = document.id(item).clone().setStyles({
     			left: event.page.x + this.options.cloneOffset.x,
     			top: event.page.y + this.options.cloneOffset.y,
     			opacity: this.options.cloneOpacity
