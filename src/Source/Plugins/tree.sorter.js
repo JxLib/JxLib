@@ -82,7 +82,7 @@ Jx.Plugin.Tree.Sorter = new Class({
             //tell the tree to hold firing all events
             //this.tree.setHoldEvents(true);
     
-    		this.current = element = document.id(item);
+    		this.current = item;
     		this.clone = element.clone().setStyles({
     			left: event.page.x + this.options.cloneOffset.x,
     			top: event.page.y + this.options.cloneOffset.y,
@@ -108,7 +108,7 @@ Jx.Plugin.Tree.Sorter = new Class({
     },
     
     onEnter: function(el, droppable){
-        droppable.addClass('jxTreeDropActive');
+        document.id($jx(droppable)).addClass('jxTreeDropActive');
         
         //wait a second and then open the branch if collapsed
         
@@ -116,7 +116,7 @@ Jx.Plugin.Tree.Sorter = new Class({
 
 	onDrop: function(el, droppable, event){
 		//get the jx.widget objects for el and droppable
-        var moved = $jx(el),
+        var moved = this.current,
             previous = $jx(droppable);
         //kill the clone
         this.clone.destroy();
@@ -128,7 +128,7 @@ Jx.Plugin.Tree.Sorter = new Class({
 	},
     
     onLeave: function(el, droppable) {
-        droppable.removeClass('jxTreeDropActive');
+        document.id($jx(droppable)).removeClass('jxTreeDropActive');
     }
     
 });
