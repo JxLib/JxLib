@@ -43,6 +43,7 @@ provides: [Jx.Formatter.Number]
 Jx.Formatter.Number = new Class({
 
     Extends: Jx.Formatter,
+    Family: "Jx.Formatter.Number",
 
     options: {
         /**

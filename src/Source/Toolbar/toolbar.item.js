@@ -31,8 +31,8 @@ provides: [Jx.Toolbar.Item]
  * This file is licensed under an MIT style license
  */
 Jx.Toolbar.Item = new Class( {
-    Family: 'Jx.Toolbar.Item',
     Extends: Jx.Widget,
+    Family: 'Jx.Toolbar.Item',
     options: {
         /* Option: active
          * is this item active or not?  Default is true.

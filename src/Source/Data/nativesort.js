@@ -33,8 +33,8 @@ provides: [Jx.Sort.Nativesort]
  * This file is licensed under an MIT style license
  */
 Jx.Sort.Nativesort = new Class({
-    Family: 'Jx.Sort.Nativesort',
     Extends : Jx.Sort,
+    Family: 'Jx.Sort.Nativesort',
 
     name : 'nativesort',
 

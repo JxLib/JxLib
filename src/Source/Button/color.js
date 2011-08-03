@@ -50,8 +50,8 @@ provides: [Jx.Button.Color]
  * This file is licensed under an MIT style license
  */
 Jx.Button.Color = new Class({
-    Family: 'Jx.Button.Color',
     Extends: Jx.Button.Flyout,
+    Family: 'Jx.Button.Color',
 
     /**
      * Property: swatch

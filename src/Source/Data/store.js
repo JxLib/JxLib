@@ -40,8 +40,8 @@ provides: [Jx.Store]
  */
 Jx.Store = new Class({
 
-    Family: 'Jx.Store',
     Extends: Jx.Object,
+    Family: 'Jx.Store',
 
     options: {
         /**

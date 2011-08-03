@@ -31,6 +31,7 @@ provides: [Jx.Store.Strategy.Paginate]
 Jx.Store.Strategy.Paginate = new Class({
     
     Extends: Jx.Store.Strategy,
+    Family: "Jx.Store.Strategy.Paginate",
     
     name: 'paginate',
     

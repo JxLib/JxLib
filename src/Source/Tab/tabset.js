@@ -50,8 +50,8 @@ provides: [Jx.TabSet]
  * This file is licensed under an MIT style license
  */
 Jx.TabSet = new Class({
-    Family: 'Jx.TabSet',
     Extends: Jx.Object,
+    Family: 'Jx.TabSet',
     /**
      * Property: tabs
      * {Array} array of tabs that are managed by this tab set

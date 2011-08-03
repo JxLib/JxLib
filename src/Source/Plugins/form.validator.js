@@ -32,6 +32,7 @@ provides: [Jx.Plugin.Form.Validator]
 Jx.Plugin.Form.Validator = new Class({
 
     Extends : Jx.Plugin,
+    Family: "Jx.Plugin.Form.Validator",
     name: 'Form.Validator',
 
     options: {

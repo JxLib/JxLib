@@ -3,6 +3,6 @@
 }
 
 .jxTreeDropActive {
-    background-color: blue;   
+   border-bottom: 1px black solid;   
 }
 

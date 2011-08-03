@@ -33,6 +33,7 @@ provides: [Jx.Plugin.Grid.Prelighter]
 Jx.Plugin.Grid.Prelighter = new Class({
 
     Extends : Jx.Plugin,
+    Family: "Jx.Plugin.Grid.Prelighter",
     
     name: 'Prelighter',
     

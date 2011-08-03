@@ -27,8 +27,8 @@ css:
  * License: MIT-style
  */
 Jx.Slider = new Class({
-    Family: 'Jx.Slider',
     Extends: Jx.Widget,
+    Family: 'Jx.Slider',
 
     options: {
         /**

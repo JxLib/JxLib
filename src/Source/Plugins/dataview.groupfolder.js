@@ -31,6 +31,7 @@ provides: [Jx.Plugin.DataView.GroupFolder]
 Jx.Plugin.DataView.GroupFolder = new Class({
 
     Extends: Jx.Plugin,
+    Family: "Jx.Plugin.DataView.GroupFolder",
 
     options: {
         /**

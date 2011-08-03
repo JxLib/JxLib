@@ -34,6 +34,7 @@ provides: [Jx.Field.Hidden]
 Jx.Field.Hidden = new Class({
 
     Extends: Jx.Field,
+    Family: "Jx.Field.Hidden",
 
     options: {
         /**

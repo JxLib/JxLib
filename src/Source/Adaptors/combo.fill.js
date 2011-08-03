@@ -16,8 +16,8 @@ provides: [Jx.Adaptor.Combo.Fill]
  */
 Jx.Adaptor.Combo.Fill = new Class({
 
-    Family: 'Jx.Adaptor.Combo.Fill',
     Extends: Jx.Adaptor,
+    Family: 'Jx.Adaptor.Combo.Fill',
     name: 'combo.fill',
     Binds: ['fill'],
 

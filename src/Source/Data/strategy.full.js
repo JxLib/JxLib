@@ -31,6 +31,7 @@ provides: [Jx.Store.Strategy.Full]
 Jx.Store.Strategy.Full = new Class({
     
     Extends: Jx.Store.Strategy,
+    Family: "Jx.Store.Strategy.Full",
     
     name: 'full',
     

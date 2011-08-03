@@ -36,6 +36,7 @@ images:
 Jx.Plugin.Grid.Editor = new Class({
 
     Extends : Jx.Plugin,
+    Family: "Jx.Plugin.Grid.Editor",
     
     name: 'Editor',
     

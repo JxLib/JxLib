@@ -34,6 +34,7 @@ provides: [Jx.Plugin.Field.Validator]
 Jx.Plugin.Field.Validator = new Class({
 
     Extends : Jx.Plugin,
+    Family: "Jx.Plugin.Field.Validator",
     name: 'Field.Validator',
 
     options: {

@@ -55,8 +55,8 @@ images:
  * Licensed under an mit-style license
  */
 Jx.Progressbar = new Class({
-    Family: 'Jx.Progressbar',
     Extends: Jx.Widget,
+    Family: 'Jx.Progressbar',
     
     options: {
         onUpdate: function(){},

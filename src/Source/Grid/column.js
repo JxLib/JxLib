@@ -33,8 +33,8 @@ provides: [Jx.Column]
  */
 Jx.Column = new Class({
 
-    Family: 'Jx.Column',
     Extends: Jx.Widget,
+    Family: 'Jx.Column',
 
     options: {
         /**

@@ -48,8 +48,8 @@ css:
  */
 
 Jx.Layout = new Class({
-    Family: 'Jx.Layout',
     Extends: Jx.Object,
+    Family: 'Jx.Layout',
 
     options: {
         /* Option: resizeWithWindow

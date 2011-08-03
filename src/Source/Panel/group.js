@@ -32,6 +32,7 @@ provides: [Jx.Panel.DataView.Group]
 Jx.Panel.DataView.Group = new Class({
 
     Extends: Jx.Panel.DataView,
+    Family: "Jx.Panel.DataView.Group",
 
     options: {
         /**

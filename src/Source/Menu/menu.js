@@ -43,8 +43,8 @@ images:
  * This file is licensed under an MIT style license
  */
 Jx.Menu = new Class({
-    Family: 'Jx.Menu',
     Extends: Jx.Widget,
+    Family: 'Jx.Menu',
     // Binds: ['onMouseEnter','onMouseLeave','hide','keypressHandler'],
     /**
      * Property: button

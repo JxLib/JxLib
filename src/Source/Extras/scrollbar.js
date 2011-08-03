@@ -31,9 +31,8 @@ css:
  */
 Jx.Scrollbar = new Class({
     
-    Family: 'Jx.Scrollbar',
-    
     Extends: Jx.Widget,
+    Family: 'Jx.Scrollbar',
     
     Binds: ['scrollIt'],
     

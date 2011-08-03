@@ -40,8 +40,8 @@ images:
  */
 Jx.Notice = new Class({
 
-    Family: 'Jx.Notice',
     Extends: Jx.ListItem,
+    Family: 'Jx.Notice',
 
     options: {
         /**

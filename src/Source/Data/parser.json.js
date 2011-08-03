@@ -31,6 +31,7 @@ provides: [Jx.Store.Parser.JSON]
 Jx.Store.Parser.JSON = new Class({
 
     Extends: Jx.Store.Parser,
+    Family: "Jx.Store.Parser.JSON",
 
     options: {
         /**

@@ -30,6 +30,7 @@ provides: [Jx.Store.Strategy.Save]
 Jx.Store.Strategy.Save = new Class({
     
     Extends: Jx.Store.Strategy,
+    Family: 'Jx.Store.Strategy.Save',
     
     name: 'save',
     

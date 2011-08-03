@@ -34,6 +34,7 @@ provides: [Jx.Field.Password]
 Jx.Field.Password = new Class({
 
     Extends: Jx.Field,
+    Family: "Jx.Field.Password",
 
     options: {
         template: '<span class="jxInputContainer"><label class="jxInputLabel" ></label><input class="jxInputPassword" type="password" name="{name}"/><span class="jxInputTag"></span></span>'

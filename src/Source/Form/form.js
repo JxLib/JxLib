@@ -52,7 +52,6 @@ images:
 Jx.Form = new Class({
     
     Extends: Jx.Widget,
-
     Family: 'Jx.Form',
     
     options: {

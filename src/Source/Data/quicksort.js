@@ -33,8 +33,8 @@ provides: [Jx.Sort.Quicksort]
  * This file is licensed under an MIT style license
  */
 Jx.Sort.Quicksort = new Class({
-    Family: 'Jx.Sort.Quicksort',
     Extends : Jx.Sort,
+    Family: 'Jx.Sort.Quicksort',
 
     name : 'quicksort',
 

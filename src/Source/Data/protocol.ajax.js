@@ -32,6 +32,7 @@ provides: [Jx.Store.Protocol.Ajax]
 Jx.Store.Protocol.Ajax = new Class({
 
     Extends: Jx.Store.Protocol,
+    Family: "Jx.Store.Protocol.Ajax",
 
     options: {
         /**

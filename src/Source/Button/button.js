@@ -87,8 +87,8 @@ images:
  * This file is licensed under an MIT style license
  */
 Jx.Button = new Class({
-    Family: 'Jx.Button',
     Extends: Jx.Widget,
+    Family: 'Jx.Button',
 
     options: {
         /* Option: image

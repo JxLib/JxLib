@@ -23,8 +23,8 @@ provides: [Jx.Grid.Renderer]
  */
 Jx.Grid.Renderer = new Class({
   
-  Family: 'Jx.Grid.Renderer',
   Extends: Jx.Widget,
+  Family: 'Jx.Grid.Renderer',
   
   parameters: ['options'],
   

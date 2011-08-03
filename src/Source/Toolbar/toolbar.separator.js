@@ -36,8 +36,8 @@ images:
  * This file is licensed under an MIT style license
  */
 Jx.Toolbar.Separator = new Class({
-    Family: 'Jx.Toolbar.Separator',
     Extends: Jx.Widget,
+    Family: 'Jx.Toolbar.Separator',
     /**
      * APIMethod: render
      * Create a new Jx.Toolbar.Separator

@@ -56,8 +56,8 @@ images:
  * This file is licensed under an MIT style license
  */
 Jx.ColorPalette = new Class({
-    Family: 'Jx.ColorPalette',
     Extends: Jx.Widget,
+    Family: 'Jx.ColorPalette',
     /**
      * Property: {HTMLElement} domObj
      * the HTML element representing the color panel

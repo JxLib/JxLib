@@ -36,6 +36,7 @@ provides: [Jx.Formatter.Date]
 Jx.Formatter.Date = new Class({
 
     Extends: Jx.Formatter,
+    Family: "Jx.Formatter.Date",
 
     options: {
         /**

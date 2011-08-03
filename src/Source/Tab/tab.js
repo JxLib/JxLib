@@ -69,8 +69,8 @@ images:
  * This file is licensed under an MIT style license
  */
 Jx.Tab = new Class({
-    Family: 'Jx.Tab',
     Extends: Jx.Button,
+    Family: 'Jx.Tab',
     /**
      * Property: content
      * {HTMLElement} The content area that is displayed when the tab is

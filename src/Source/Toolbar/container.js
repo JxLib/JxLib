@@ -48,8 +48,8 @@ images:
 
 Jx.Toolbar.Container = new Class({
 
-    Family: 'Jx.Toolbar.Container',
     Extends: Jx.Widget,
+    Family: 'Jx.Toolbar.Container',
     Binds: ['update'],
     pluginNamespace: 'ToolbarContainer',
     /**

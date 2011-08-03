@@ -71,8 +71,8 @@ images:
  * This file is licensed under an MIT style license
  */
 Jx.Dialog = new Class({
-    Family: 'Jx.Dialog',
     Extends: Jx.Panel,
+    Family: 'Jx.Dialog',
 
     options: {
         /* Option: modal

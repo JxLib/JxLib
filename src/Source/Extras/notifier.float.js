@@ -31,8 +31,8 @@ provides: [Jx.Notifier.Float]
  */
 Jx.Notifier.Float = new Class({
     
-    Family: 'Jx.Notifier.Float',
     Extends: Jx.Notifier,
+    Family: 'Jx.Notifier.Float',
     
     options: {
         /**

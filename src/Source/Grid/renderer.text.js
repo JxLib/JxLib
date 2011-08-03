@@ -25,8 +25,8 @@ provides: [Jx.Grid.Renderer.Text]
  */
 Jx.Grid.Renderer.Text = new Class({
 
-  Family: 'Jx.Grid.Renderer.Text',
   Extends: Jx.Grid.Renderer,
+  Family: 'Jx.Grid.Renderer.Text',
 
   options: {
         /**

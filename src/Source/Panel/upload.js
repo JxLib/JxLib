@@ -44,8 +44,8 @@ images:
  */
 Jx.Panel.FileUpload = new Class({
 
-    Family: 'Jx.Panel.FileUpload',
     Extends: Jx.Panel,
+    Family: 'Jx.Panel.FileUpload',
     Binds: ['moveToQueue','fileUploadBegin', 'fileUploadComplete','allUploadsComplete', 'fileUploadProgressError,', 'fileUploadError', 'fileUploadProgress'],
 
     options: {

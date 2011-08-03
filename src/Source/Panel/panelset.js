@@ -52,8 +52,8 @@ provides: [Jx.PanelSet]
  * This file is licensed under an MIT style license
  */
 Jx.PanelSet = new Class({
-    Family: 'Jx.PanelSet',
     Extends: Jx.Widget,
+    Family: 'Jx.PanelSet',
 
     options: {
         /* Option: parent

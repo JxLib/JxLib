@@ -36,10 +36,9 @@ provides: [Jx.Sort]
  * This file is licensed under an MIT style license
  */
 Jx.Sort = new Class({
-
-    Family : 'Jx.Sort',
-
+    
     Extends : Jx.Object,
+    Family : 'Jx.Sort',
 
     options : {
         /**

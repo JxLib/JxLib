@@ -39,8 +39,8 @@ provides: [Jx.Menu.SubMenu]
  * This file is licensed under an MIT style license
  */
 Jx.Menu.SubMenu = new Class({
-    Family: 'Jx.Menu.SubMenu',
     Extends: Jx.Menu.Item,
+    Family: 'Jx.Menu.SubMenu',
     /**
      * Property: subDomObj
      * {HTMLElement} the HTML container for the sub menu.

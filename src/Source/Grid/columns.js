@@ -32,8 +32,8 @@ provides: [Jx.Columns]
  */
 Jx.Columns = new Class({
 
-  Family: 'Jx.Columns',
     Extends : Jx.Object,
+    Family: 'Jx.Columns',
 
     options : {
         /**

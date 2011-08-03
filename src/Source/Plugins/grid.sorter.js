@@ -30,8 +30,8 @@ images:
  * This file is licensed under an MIT style license
  */
 Jx.Plugin.Grid.Sorter = new Class({
-  Family: 'Jx.Plugin.Grid.Sorter',
   Extends: Jx.Plugin,
+  Family: 'Jx.Plugin.Grid.Sorter',
   name: 'Sorter',
 
   Binds: ['sort', 'modifyHeaders'],

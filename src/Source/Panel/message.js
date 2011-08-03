@@ -37,8 +37,8 @@ css:
  * This file is licensed under an MIT style license
  */
 Jx.Dialog.Message = new Class({
-    Family: 'Jx.Dialog.Message',
     Extends: Jx.Dialog,
+    Family: 'Jx.Dialog.Message',
     Binds: ['onOk'],
     options: {
         /**

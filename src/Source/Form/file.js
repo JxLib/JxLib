@@ -50,7 +50,6 @@ css:
 Jx.Field.File = new Class({
 
     Extends: Jx.Field,
-    
     Family: 'Jx.Field.File',
 
     options: {

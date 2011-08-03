@@ -24,8 +24,8 @@ provides: [Jx.Slide]
  * License: MIT-style
  */
 Jx.Slide = new Class({
-    Family: 'Jx.Slide',
     Implements: Jx.Object,
+    Family: 'Jx.Slide',
     Binds: ['handleClick'],
     options: {
         /**

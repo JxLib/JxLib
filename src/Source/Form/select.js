@@ -47,6 +47,7 @@ provides: [Jx.Field.Select]
 Jx.Field.Select = new Class({
 
     Extends: Jx.Field,
+    Family: "Jx.Field.Select",
 
     options: {
         /**

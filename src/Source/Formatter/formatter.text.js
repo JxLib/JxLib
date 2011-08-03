@@ -35,6 +35,7 @@ provides: [Jx.Formatter.Text]
 Jx.Formatter.Text = new Class({
 
   Extends: Jx.Formatter,
+  Family: "Jx.Formatter.Text",
 
   options: {
     /**

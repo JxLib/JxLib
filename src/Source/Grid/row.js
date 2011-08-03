@@ -32,8 +32,8 @@ provides: [Jx.Row]
  */
 Jx.Row = new Class({
 
-    Family: 'Jx.Row',
     Extends : Jx.Object,
+    Family: 'Jx.Row',
 
     options : {
         /**

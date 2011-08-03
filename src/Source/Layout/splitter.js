@@ -48,8 +48,8 @@ css:
  */
 
 Jx.Splitter = new Class({
-    Family: 'Jx.Splitter',
     Extends: Jx.Object,
+    Family: 'Jx.Splitter',
     /**
      * Property: domObj
      * {HTMLElement} the element being split

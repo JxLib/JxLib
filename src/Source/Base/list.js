@@ -57,8 +57,8 @@ provides: [Jx.List]
  * This file is licensed under an MIT style license
  */
 Jx.List = new Class({
-    Family: 'Jx.List',
     Extends: Jx.Object,
+    Family: 'Jx.List',
     /**
      * Constructor: Jx.List
      * create a new instance of Jx.List

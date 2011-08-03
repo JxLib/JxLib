@@ -39,6 +39,7 @@ provides: [Jx.Panel.DataView]
 Jx.Panel.DataView = new Class({
 
     Extends: Jx.Panel,
+    Family: "Jx.Panel.DataView",
 
     options: {
         /**

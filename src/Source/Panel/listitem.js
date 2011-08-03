@@ -28,8 +28,8 @@ provides: [Jx.ListItem]
  * This file is licensed under an MIT style license
  */
 Jx.ListItem = new Class({
-    Family: 'Jx.ListItem',
     Extends: Jx.Widget,
+    Family: 'Jx.ListItem',
 
     options: {
         enabled: true,

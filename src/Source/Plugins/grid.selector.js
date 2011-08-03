@@ -32,8 +32,8 @@ provides: [Jx.Plugin.Grid.Selector]
  */
 Jx.Plugin.Grid.Selector = new Class({
 
-    Family: 'Jx.Plugin.Grid.Selector',
     Extends : Jx.Plugin,
+    Family: 'Jx.Plugin.Grid.Selector',
     
     name: 'Selector',
 

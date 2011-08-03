@@ -37,6 +37,7 @@ provides: [Jx.Field.Text]
 Jx.Field.Text = new Class({
 
     Extends: Jx.Field,
+    Family: "Jx.Field.Text",
 
     options: {
         /**

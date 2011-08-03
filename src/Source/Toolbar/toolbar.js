@@ -73,8 +73,8 @@ images:
  * This file is licensed under an MIT style license
  */
 Jx.Toolbar = new Class({
-    Family: 'Jx.Toolbar',
     Extends: Jx.Widget,
+    Family: 'Jx.Toolbar',
     /**
      * Property: list
      * {<Jx.List>} the list that holds the items in this toolbar

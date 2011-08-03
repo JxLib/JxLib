@@ -40,6 +40,7 @@ css:
 Jx.Dialog.Confirm = new Class({
 
     Extends: Jx.Dialog,
+    Family: "Jx.Dialog.Confirm",
 
     options: {
         /**

@@ -38,6 +38,7 @@ provides: [Jx.Formatter.Boolean]
 Jx.Formatter.Boolean = new Class({
 
     Extends: Jx.Formatter,
+    Family: "Jx.Formatter.Boolean",
 
     options: {},
     /**

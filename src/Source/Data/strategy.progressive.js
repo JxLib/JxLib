@@ -32,6 +32,7 @@ provides: [Jx.Store.Strategy.Progressive]
 Jx.Store.Strategy.Progressive = new Class({
     
     Extends: Jx.Store.Strategy.Paginate,
+    Family: "Jx.Store.Strategy.Progressive",
     
     name: 'progressive',
     

@@ -34,6 +34,7 @@ provides: [Jx.Field.Button]
 Jx.Field.Button = new Class({
 
     Extends: Jx.Field,
+    Family: "Jx.Field.Button",
 
     options: {
         /**

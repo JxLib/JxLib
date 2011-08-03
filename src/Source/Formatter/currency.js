@@ -39,6 +39,7 @@ provides: [Jx.Formatter.Currency]
 Jx.Formatter.Currency = new Class({
 
     Extends: Jx.Formatter.Number,
+    Family: "Jx.Formatter.Currency",
 
     options: {},
     /**

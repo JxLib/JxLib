@@ -38,6 +38,7 @@ provides: [Jx.Dialog.Prompt]
 Jx.Dialog.Prompt = new Class({
 
     Extends: Jx.Dialog,
+    Family: "Jx.Dialog.Prompt",
 
     options: {
         /**

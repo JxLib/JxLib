@@ -36,6 +36,7 @@ provides: [Jx.Store.Protocol.Local]
 Jx.Store.Protocol.Local = new Class({
     
     Extends: Jx.Store.Protocol,
+    Family: "Jx.Store.Protocol.Local",
     
     parameters: ['data', 'options'],
     /**

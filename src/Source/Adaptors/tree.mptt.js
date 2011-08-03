@@ -28,9 +28,8 @@ provides: [Jx.Adaptor.Tree.Mptt]
  */
 Jx.Adaptor.Tree.Mptt = new Class({
 
-
-    Family: 'Jx.Adaptor.Tree.Mptt',
     Extends: Jx.Adaptor.Tree,
+    Family: 'Jx.Adaptor.Tree.Mptt',
 
     name: 'tree.mptt',
 

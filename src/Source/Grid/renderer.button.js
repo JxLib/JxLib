@@ -26,8 +26,8 @@ provides: [Jx.Grid.Renderer.Button]
  */
 Jx.Grid.Renderer.Button = new Class({
 
-    Family: 'Jx.Grid.Renderer.Button',
     Extends: Jx.Grid.Renderer,
+    Family: 'Jx.Grid.Renderer.Button',
 
     Binds: [],
 

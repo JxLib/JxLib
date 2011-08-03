@@ -78,8 +78,8 @@ images:
  * This file is licensed under an MIT style license
  */
 Jx.Button.Multi = new Class({
-    Family: 'Jx.Button.Multi',
     Extends: Jx.Button,
+    Family: 'Jx.Button.Multi',
 
     /**
      * Property: {<Jx.Button>} activeButton

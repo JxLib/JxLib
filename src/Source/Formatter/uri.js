@@ -40,6 +40,7 @@ provides: [Jx.Formatter.URI]
 Jx.Formatter.Uri = new Class({
 
     Extends: Jx.Formatter,
+    Family: "Jx.Formatter.Uri",
 
     options: {
         /**

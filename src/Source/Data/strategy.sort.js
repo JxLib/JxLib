@@ -32,6 +32,7 @@ provides: [Jx.Store.Strategy.Sort]
 Jx.Store.Strategy.Sort = new Class({
     
     Extends: Jx.Store.Strategy,
+    Family: "Jx.Store.Strategy.Sort",
     
     name: 'sort',
     

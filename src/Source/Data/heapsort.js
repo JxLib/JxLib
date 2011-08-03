@@ -34,8 +34,8 @@ provides: [Jx.Sort.Heapsort]
  * This file is licensed under an MIT style license
  */
 Jx.Sort.Heapsort = new Class({
-    Family: 'Jx.Sort.Heapsort',
     Extends : Jx.Sort,
+    Family: 'Jx.Sort.Heapsort',
 
     name : 'heapsort',
 

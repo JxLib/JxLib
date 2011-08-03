@@ -100,8 +100,8 @@ optional:
  * widget.busyMessage - sets the message of the waiter component when used
  */
 Jx.Widget = new Class({
-    Family: "Jx.Widget",
     Extends: Jx.Object,
+    Family: "Jx.Widget",
 
     options: {
         /* Option: id

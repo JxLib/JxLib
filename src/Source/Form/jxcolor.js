@@ -32,6 +32,7 @@ provides: [Jx.Field.Color]
  */
   Jx.Field.Color = new Class({
     Extends: Jx.Field,
+    Family: "Jx.Field.Color",
     Binds: ['changed','hide','keyup','changeText'],
     type: 'Color',
     options: {

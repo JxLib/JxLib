@@ -31,6 +31,7 @@ provides: [Jx.Plugin.Grid.Resize]
 Jx.Plugin.Grid.Resize = new Class({
 
     Extends : Jx.Plugin,
+    Family: "Jx.Plugin.Grid.Resize",
     
     name: 'Resize',
     

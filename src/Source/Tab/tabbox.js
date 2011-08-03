@@ -50,8 +50,8 @@ images:
  * This file is licensed under an MIT style license
  */
 Jx.TabBox = new Class({
-    Family: 'Jx.TabBox',
     Extends: Jx.Widget,
+    Family: 'Jx.TabBox',
     options: {
         /* Option: parent
          * a DOM element to add the tab box to

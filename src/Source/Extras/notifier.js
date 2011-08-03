@@ -35,8 +35,8 @@ css:
  */
 Jx.Notifier = new Class({
     
-    Family: 'Jx.Notifier',
     Extends: Jx.ListView,
+    Family: 'Jx.Notifier',
     
     options: {
         /**

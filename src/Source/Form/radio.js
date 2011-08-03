@@ -34,6 +34,7 @@ provides: [Jx.Field.Radio]
 Jx.Field.Radio = new Class({
 
     Extends: Jx.Field,
+    Family: "Jx.Field.Radio",
 
     options: {
         /**

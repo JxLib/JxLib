@@ -35,6 +35,7 @@ provides: [Jx.Field.Checkbox]
 Jx.Field.Checkbox = new Class({
 
     Extends : Jx.Field,
+    Family: "Jx.Field.Checkbox",
 
     options : {
         /**

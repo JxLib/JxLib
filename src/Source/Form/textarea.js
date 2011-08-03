@@ -46,6 +46,7 @@ provides: [Jx.Field.Textarea]
 Jx.Field.Textarea = new Class({
 
     Extends: Jx.Field,
+    Family: "Jx.Field.Textarea",
 
     options: {
         /**

@@ -76,8 +76,8 @@ images:
  * This file is licensed under an MIT style license
  */
 Jx.Grid = new Class({
-  Family : 'Jx.Grid',
   Extends: Jx.Widget,
+  Family : 'Jx.Grid',
   Binds: ['storeLoaded', 'clickColumnHeader', 'moveColumnHeader', 'clickRowHeader', 'moveRowHeader', 'clickCell', 'dblclickCell', 'moveCell', 'leaveGrid', 'resize', 'drawStore', 'scroll', 'addRow', 'removeRow', 'removeRows', 'updateRow', 'storeChangesCompleted'],
 
   /**

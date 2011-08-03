@@ -40,8 +40,8 @@ css:
  * This file is licensed under an MIT style license
  */
 Jx.Tooltip = new Class({
-    Family: 'Jx.Widget',
     Extends : Jx.Widget,
+    Family: 'Jx.Tooltip',
     Binds: ['enter', 'leave', 'move'],
     options : {
         /**

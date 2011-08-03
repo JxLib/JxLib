@@ -38,8 +38,8 @@ provides: [Jx.Field.Combo]
  * This file is licensed under an MIT style license
  */
 Jx.Field.Combo = new Class({
-    Family: 'Jx.Field.Combo',
     Extends: Jx.Field,
+    Family: 'Jx.Field.Combo',
     pluginNamespace: 'Combo',
 
     options: {

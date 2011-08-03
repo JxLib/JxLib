@@ -47,8 +47,8 @@ provides: [Jx.ButtonSet]
  * This file is licensed under an MIT style license
  */
 Jx.ButtonSet = new Class({
-    Family: 'Jx.ButtonSet',
     Extends: Jx.Object,
+    Family: 'Jx.ButtonSet',
     Binds: ['buttonChanged'],
     /**
      * Property: buttons
