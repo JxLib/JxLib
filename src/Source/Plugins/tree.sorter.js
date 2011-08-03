@@ -46,12 +46,9 @@ Jx.Plugin.Tree.Sorter = new Class({
     
     init: function () {
         this.bound = {
-            mousedown: this.mousedown.bind(this),
-            mouseup: this.mouseup.bind(this),
-            onLeave: this.onLeave.bind(this),
-            onEnter: this.onEnter.bind(this),
-            onDrop: this.onDrop.bind(this),
-            add: this.onFolderAdd.bind(this)
+            add: this.onFolderAdd.bind(this),
+            startDrag: this.onStartDrag.bind(this),
+            complete: this.onComplete.bind(this)
         };
     },
 
@@ -61,7 +58,6 @@ Jx.Plugin.Tree.Sorter = new Class({
         }
         
         this.tree = tree;
-        this.element = document.id(this.tree);
         
         this.tree.addEvents({
             add: this.bound.add
@@ -69,16 +65,14 @@ Jx.Plugin.Tree.Sorter = new Class({
         
         this.tree.sortable = new Sortables(this.tree.container,{
             handle: 'a.jxTreeItem',
-            onStart: this.onStartDrag.bind(this),
-            onComplete: this.onComplete.bind(this)
+            onStart: this.bound.startDrag,
+            onComplete: this.bound.complete
         });  
         
         this.parent(tree);
     },
     
     detach: function () {
-        this.tree.removeEvent('mousedown', this.bound.mousedown);
-        document.removeEvent('mouseup', this.bound.mouseup);
         this.parent();
     },
     
