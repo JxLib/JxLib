@@ -43,6 +43,7 @@ provides: [Jx.Formatter.Number]
 Jx.Formatter.Number = new Class({
 
     Extends: Jx.Formatter,
+    Family: "Jx.Formatter.Number",
 
     options: {
         /**
@@ -96,17 +97,18 @@ Jx.Formatter.Number = new Class({
         }
 
         if (this.options.useThousands) {
-            var l = main.length;
-            var left = l % 3;
-            var j = 0;
+            var l = main.length,
+                left = l % 3,
+                j = 0,
+                ts = this.getText({set:'Jx',key:'formatter.number',value:'thousandsSeparator'});
             for (var i = 0; i < l; i++) {
                 ret = ret + main.charAt(i);
                 if (i === left - 1 && i !== l - 1) {
-                    ret = ret + this.getText({set:'Jx',key:'formatter.number',value:'thousandsSeparator'});
+                    ret = ret + ts;
                 } else if (i >= left) {
                     j++;
                     if (j === 3 && i !== l - 1) {
-                        ret = ret + this.getText({set:'Jx',key:'formatter.number',value:'thousandsSeparator'});
+                        ret = ret + ts;
                         j = 0;
                     }
                 }
@@ -138,6 +140,6 @@ Jx.Formatter.Number = new Class({
      * 		translations changed.
      */
     changeText: function (lang) {
-    	this.parent();
+        this.parent();
     }
 });

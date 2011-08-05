@@ -31,8 +31,8 @@ provides: [Jx.Notifier.Float]
  */
 Jx.Notifier.Float = new Class({
     
-    Family: 'Jx.Notifier.Float',
     Extends: Jx.Notifier,
+    Family: 'Jx.Notifier.Float',
     
     options: {
         /**
@@ -69,7 +69,7 @@ Jx.Notifier.Float = new Class({
     render: function () {
         this.parent();
         this.domObj.setStyle('position','absolute');
-        if ($defined(this.options.width)) {
+        if (this.options.width !== undefined && this.options.width !== null) {
             this.domObj.setStyle('width',this.options.width);
         }
         this.position(this.domObj, 

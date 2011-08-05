@@ -32,8 +32,8 @@ provides: [Jx.Row]
  */
 Jx.Row = new Class({
 
-  Family: 'Jx.Row',
     Extends : Jx.Object,
+    Family: 'Jx.Row',
 
     options : {
         /**
@@ -87,7 +87,7 @@ Jx.Row = new Class({
      * Property: rules
      * A hash that will hold all of the CSS rules for the rows.
      */
-    rules: $H(),
+    rules: {},
 
     parameters: ['options','grid'],
 
@@ -98,7 +98,7 @@ Jx.Row = new Class({
     init : function () {
         this.parent();
 
-        if ($defined(this.options.grid) && this.options.grid instanceof Jx.Grid) {
+        if (this.options.grid !== undefined && this.options.grid !== null && this.options.grid instanceof Jx.Grid) {
             this.grid = this.options.grid;
         }
     },
@@ -135,10 +135,11 @@ Jx.Row = new Class({
       var col, width;
       if (this.options.headerColumn) {
         col = this.grid.columns.getByName(this.options.headerColumn);
-        if (!$defined(col.getWidth())) {
-          col.calculateWidth(true);
-        }
         width = col.getWidth();
+        if (width === undefined && width === null) {
+          col.calculateWidth(true);
+          width = col.getWidth();
+        }
       } else {
         width = this.options.headerWidth;
       }
@@ -155,13 +156,13 @@ Jx.Row = new Class({
       //this should eventually compute a height, however, we would need
       //a fixed width to do so reliably. For right now, we use a fixed height
       //for all rows.
-      if ($defined(this.heights[row])) {
+      if (this.heights[row] !== undefined && this.heights[row] !== null) {
         h = this.heights[row];
-      } else if ($defined(this.options.rowHeight)) {
+      } else if (this.options.rowHeight !== undefined && this.options.rowHeight !== null) {
         if (this.options.rowHeight == 'auto') {
           // this.calculateHeight(row);
           h = 20; // TODO calculate?
-          rowEl = this.grid.gridTableBody.rows[row]
+          rowEl = this.grid.gridTableBody.rows[row];
           if (rowEl) {
             h = rowEl.getContentBoxSize().height; 
           }
@@ -176,7 +177,8 @@ Jx.Row = new Class({
      */
     calculateHeights : function () {
       if (this.options.rowHeight === 'auto' ||
-          !$defined(this.options.rowHeight)) {
+          this.options.rowHeight === undefined ||
+          this.options.rowHeight === null) {
         //grab all rows in the grid body
         document.id(this.grid.gridTableBody).getChildren().each(function(row){
           row = document.id(row);
@@ -190,7 +192,7 @@ Jx.Row = new Class({
           if (data) {
             var s = row.getContentBoxSize();
             this.heights[data.row] = Math.max(this.heights[data.row],s.height);
-            if (Browser.Engine.webkit) {
+            if (Browser.safari || Browser.chrome) {
                 //for some reason webkit (Safari and Chrome)
                 this.heights[data.row] -= 1;
             }

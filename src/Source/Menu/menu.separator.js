@@ -35,8 +35,8 @@ images:
  * This file is licensed under an MIT style license
  */
 Jx.Menu.Separator = new Class({
-    Family: 'Jx.Menu.Separator',
     Extends: Jx.Widget,
+    Family: 'Jx.Menu.Separator',
     /**
      * Property: domObj
      * {HTMLElement} the HTML element that the separator is contained
@@ -51,9 +51,9 @@ Jx.Menu.Separator = new Class({
     options: {
         template: "<li class='jxMenuItemContainer jxMenuItem'><span class='jxMenuSeparator'>&nbsp;</span></li>"
     },
-    classes: new Hash({
+    classes: {
         domObj: 'jxMenuItem'
-    }),
+    },
     /**
      * APIMethod: render
      * Create a new instance of a menu separator
@@ -81,10 +81,10 @@ Jx.Menu.Separator = new Class({
      * Method: hide
      * Hide the menu item.
      */
-    hide: $empty,
+    hide: function(){},
     /**
      * Method: show
      * Show the menu item
      */
-    show: $empty
+    show: function(){}
 });

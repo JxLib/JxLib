@@ -51,9 +51,11 @@ var builder = new Class({
 		
 		//setup the dependency checking
 		$$('.dep').each(function(dep){
-			$(dep).addEvent('click',this.check.bindWithEvent(this,dep));
+			$(dep).addEvent('click',function(event){
+                this.check(event,dep)
+            }.bind(this);
 		},this);
-		$('opt-deps').addEvent('click',this.optsCheck.bindWithEvent(this));
+		$('opt-deps').addEvent('click',this.optsCheck.bind(this));
 		
 		//add hover and click for files
 		$$('.file').each(function(el){
@@ -93,10 +95,14 @@ var builder = new Class({
 		
 		//select all/select none links
 		$$('.all').each(function(el){
-			$(el).addEvent('click',this.select.bindWithEvent(this,[el,true]));
+			$(el).addEvent('click',function(event){
+                this.select(event,el,true);
+			}.bind(this));
 		},this);
 		$$('.none').each(function(el){
-			$(el).addEvent('click',this.select.bindWithEvent(this,[el,false]));
+			$(el).addEvent('click',function(event){
+                this.select(event,el,true);
+    		}.bind(this));
 		},this);
 		
 		//options radio buttons
@@ -128,7 +134,7 @@ var builder = new Class({
 			var el = $(ev.target);
 			this.setBuildChoices(el,true);
 			this.setBuildText();
-		}).bindWithEvent(this));
+		}).bind(this));
 		
 		$('build-default').addEvent('click',(function(ev){
 			var el = $(ev.target);
@@ -138,13 +144,13 @@ var builder = new Class({
 			this.buildChoice.set('jxlib',true);
 			this.buildChoice.set('jxlib.compressed',true);
 			this.setBuildText();
-		}).bindWithEvent(this));
+		}).bind(this));
 		
 		$('build-none').addEvent('click',(function(ev){
 			var el = $(ev.target);
 			this.setBuildChoices(el,false);
 			this.setBuildText();
-		}).bindWithEvent(this));
+		}).bind(this));
 		
 		//add download button
 		this.button = new Jx.Button({
@@ -158,9 +164,9 @@ var builder = new Class({
 	},
 	
 	setProfile: function(profile){
-		if (!$defined(profile)) { return; }
+		if (profile == undefined) { return; }
 		
-		if ($type(profile) !== 'hash') {
+		if (Jx.type(profile) !== 'hash') {
 			profile = new Hash(profile);
 		}
 		//go through the profile obj and set all of the appropriate stuff
@@ -250,7 +256,7 @@ var builder = new Class({
 	},
 	
 	select: function(ev,el,flag){
-		if ($defined(ev)){
+		if (ev != undefined){
 			ev.stopPropagation();
 		}
 		el = $(el);
@@ -310,10 +316,10 @@ var builder = new Class({
 	
 	check: function(e,el){
 		var dep;
-		if ($defined(e)){
+		if (e != undefined){
 			e.stopPropagation();
 			el = $(e.target);
-		} else if ($defined(el)){
+		} else if (el != undefined){
 			el = $(el);
 		} else {
 			return;
@@ -344,7 +350,7 @@ var builder = new Class({
 				this.checkSection(dep);
 				var d = this.deps.get(dep);
 				var newDeps = d.deps;
-				if (this.includeOpts && $defined(d.opt)){
+				if (this.includeOpts && d.opt != undefined){
 					this.addDeps(d.opt);
 				}
 				if (newDeps[0].toLowerCase() !== 'none' && dep.toLowerCase() !== 'core'){
@@ -371,9 +377,9 @@ var builder = new Class({
 	},
 	
 	optsCheck: function(e,el){
-		if ($defined(e)){
+		if (e != undefined){
 			el = $(e.target);
-		} else if ($defined(el)){
+		} else if (el != undefined){
 			el = $(el);
 		} else {
 			return;
@@ -385,7 +391,7 @@ var builder = new Class({
 			//if they aren't already checked
 			this.checked.each(function(dep){
 				var d = this.deps.get(dep);
-				if ($defined(d.opt)){
+				if (d.opt != undefined){
 					this.addOpts(d.opt);
 				} 
 			},this);

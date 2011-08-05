@@ -71,8 +71,8 @@ images:
  * This file is licensed under an MIT style license
  */
 Jx.Dialog = new Class({
-    Family: 'Jx.Dialog',
     Extends: Jx.Panel,
+    Family: 'Jx.Dialog',
 
     options: {
         /* Option: modal
@@ -204,7 +204,7 @@ Jx.Dialog = new Class({
         type: 'dialog',
         template: '<div class="jxDialog"><div class="jxDialogTitle"><img class="jxDialogIcon" src="'+Jx.aPixel.src+'" alt="" title=""/><span class="jxDialogLabel"></span><div class="jxDialogControls"></div></div><div class="jxDialogContentContainer"><div class="jxDialogContent"></div></div></div>'
     },
-    classes: new Hash({
+    classes: {
         domObj: 'jxDialog',
         title: 'jxDialogTitle',
         domImg: 'jxDialogIcon',
@@ -212,7 +212,7 @@ Jx.Dialog = new Class({
         domControls: 'jxDialogControls',
         contentContainer: 'jxDialogContentContainer',
         content: 'jxDialogContent'
-    }),
+    },
     /**
      * MooTools Keyboard class for Events (mostly used in Dialog.Confirm, Prompt or Message)
      * But also optional here with esc to close
@@ -226,7 +226,7 @@ Jx.Dialog = new Class({
         this.isOpening = false;
         this.firstShow = true;
 
-        this.options = $merge(
+        this.options = Object.merge({},
             {parent:document.body}, // these are defaults that can be overridden
             this.options,
             {position: 'absolute'} // these override anything passed to the options
@@ -405,7 +405,7 @@ Jx.Dialog = new Class({
      * otherwise the state is toggled.
      */
     toggleCollapse: function(state) {
-        if ($defined(state)) {
+        if (state != undefined && state != null) {
             this.options.closed = state;
         } else {
             this.options.closed = !this.options.closed;
@@ -484,7 +484,7 @@ Jx.Dialog = new Class({
             this.domObj.addClass('jxDialogMaximized');
             this.fireEvent('maximize');
         } else {
-            this.options = $merge(this.options, this.previousSettings);
+            this.options = Object.merge({},this.options, this.previousSettings);
             this.domObj.resize(this.options);
             this.fireEvent('resize');
             this.resizeChrome(this.domObj);
@@ -511,7 +511,7 @@ Jx.Dialog = new Class({
         
         /* do the modal thing */
         if (this.options.modal && this.options.parent.mask) {
-          var opts = $merge(this.options.maskOptions || {}, {
+          var opts = Object.merge({},this.options.maskOptions || {}, {
             style: {
               'z-index': Jx.getNumber(this.domObj.getStyle('z-index')) - 1
             }
@@ -630,7 +630,7 @@ Jx.Dialog = new Class({
             this.domObj.dispose();
             this.unstack();
         }
-        this.fireEvent('close');
+        this.fireEvent('close',[this]);
     },
 
     cleanup: function() { },
@@ -646,14 +646,14 @@ Jx.Dialog = new Class({
     
     changeText: function (lang) {
     	this.parent();
-    	if ($defined(this.maxM)) {
+    	if (this.maxM != undefined && this.maxM != null) {
 			if (this.maximize) {
 				this.maxM.setLabel(this.getText({set:'Jx',key:'panel',value:'restoreLabel'}));
 	    	} else {
 	    		this.maxM.setLabel(this.getText({set:'Jx',key:'panel',value:'maximizeLabel'}));
 	    	}
     	}
-    	if ($defined(this.resizeHandle)) {
+    	if (this.resizeHandle != undefined && this.resizeHandle != null) {
     		this.resizeHandle.set('title', this.getText({set:'Jx',key:'dialog',value:'resizeTooltip'}));
     	}
       this.toggleCollapse(false);
@@ -683,17 +683,19 @@ Jx.Dialog = new Class({
       var self = this;
       for(var i in this.options.keys) {
         // only add a reference once, otherwise keyboard events will be fired twice in subclasses
-        if(!$defined(this.keyboardEvents[i])) {
-          if($defined(this.keyboardMethods[this.options.keys[i]])) {
+        if(this.keyboardEvents[i] === undefined && this.keyboardEvents[i] === null) {
+          if(this.keyboardMethods[this.options.keys[i]] !== undefined &&
+             this.keyboardMethods[this.options.keys[i]] !== null) {
             this.keyboardEvents[i] = this.keyboardMethods[this.options.keys[i]];
-          }else if($defined(this.options.keyboardMethods[this.options.keys[i]])){
+          }else if(this.options.keyboardMethods[this.options.keys[i]] !== undefined &&
+                   this.options.keyboardMethods[this.options.keys[i]] !== null){
             this.keyboardEvents[i] = this.options.keyboardMethods[this.options.keys[i]].bind(self);
           }else if(Jx.type(this.options.keys[i]) == 'function') {
             this.keyboardEvents[i] = this.options.keys[i].bind(self);
           }else{
             // allow disabling of special keys by setting them to false or null with having a warning
             if(this.options.keyboardMethods[this.options.keys[i]] != false) {
-              $defined(console) ? console.warn("keyboard method %o not defined for %o", this.options.keys[i], this) : false;
+              console != undefined ? console.warn("keyboard method %o not defined for %o", this.options.keys[i], this) : false;
             }
           }
         }
@@ -709,7 +711,7 @@ Jx.Dialog = new Class({
      * - reference {Object} (optional) the element|elementId|object to set the limits
      */
     setDragLimit : function(reference) {
-      if($defined(reference)) this.options.limit = reference;
+      if(reference !== undefined && reference !== null) this.options.limit = reference;
       
       // check drag limit if it is an container or string for an element and use dimensions
       var limitType = this.options.limit != null ? Jx.type(this.options.limit) : false;

@@ -24,8 +24,8 @@ provides: [Jx.Slide]
  * License: MIT-style
  */
 Jx.Slide = new Class({
-    Family: 'Jx.Slide',
     Implements: Jx.Object,
+    Family: 'Jx.Slide',
     Binds: ['handleClick'],
     options: {
         /**
@@ -52,12 +52,12 @@ Jx.Slide = new Class({
          * Option: onSlideOut
          * function called when the target is revealed.
          */
-        onSlideOut: $empty,
+        onSlideOut: function(){},
         /**
          * Option: onSlideIn
          * function called when a panel is hidden.
          */
-        onSlideIn: $empty
+        onSlideIn: function(){}
     },
     /**
      * Method: init
@@ -69,7 +69,7 @@ Jx.Slide = new Class({
 
         this.target.set('tween', {onComplete: this.setDisplay.bind(this)});
 
-        if ($defined(this.options.trigger)) {
+        if (this.options.trigger !== undefined && this.options.trigger !== null) {
             this.trigger = document.id(this.options.trigger);
             this.trigger.addEvent('click', this.handleClick);
         }

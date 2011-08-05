@@ -44,8 +44,8 @@ images:
  */
 Jx.Panel.FileUpload = new Class({
 
-    Family: 'Jx.Panel.FileUpload',
     Extends: Jx.Panel,
+    Family: 'Jx.Panel.FileUpload',
     Binds: ['moveToQueue','fileUploadBegin', 'fileUploadComplete','allUploadsComplete', 'fileUploadProgressError,', 'fileUploadError', 'fileUploadProgress'],
 
     options: {
@@ -73,12 +73,12 @@ Jx.Panel.FileUpload = new Class({
          * Option: onFileComplete
          * An event handler that is called when a file has been uploaded
          */
-        onFileComplete: $empty,
+        onFileComplete: function(){},
         /**
          * Option: onComplete
          * An event handler that is called when all files have been uploaded
          */
-        onComplete: $empty,
+        onComplete: function(){},
         /**
          * Option: prompt
          * The prompt to display at the top of the panel - before the
@@ -113,7 +113,7 @@ Jx.Panel.FileUpload = new Class({
         this.domObjA = new Element('div', {'class' : 'jxFileUploadPanel'});
 
 
-        if ($defined(this.options.prompt)) {
+        if (this.options.prompt != undefined && this.options.prompt != null) {
             var desc;
             if (Jx.type(this.options.prompt === 'string')) {
                 desc = new Element('p', {
@@ -203,7 +203,7 @@ Jx.Panel.FileUpload = new Class({
             //setup options
             // TODO: should (at least some of) these options be available to
             // the developer?
-            var options = $merge({},this.options.progressOptions);
+            var options = Object.merge({},this.options.progressOptions);
             options.progressText = options.progressText.substitute({filename: filename});
             options.template = options.template.substitute({id: filename});
             this.pb = new Jx.Progressbar(options);
@@ -225,7 +225,7 @@ Jx.Panel.FileUpload = new Class({
      * filename - the filename of the file we're tracking
      */
     fileUploadComplete: function (data, file) {
-        if ($defined(data.success) && data.success ){
+        if (data.success != undefined && data.success != null && data.success ){
             this.removeUploadedFile(file);
         } else {
             this.fileUploadError(data, file);
@@ -252,7 +252,7 @@ Jx.Panel.FileUpload = new Class({
         } else {
             icon.addClass('jxUploadFileError');
         }
-        if ($defined(data.error) && $defined(data.error.message)) {
+        if (data.error !== undefined && data.error !== null && data.error.message !== undefined && data.error.message !== null) {
             var tt = new Jx.Tooltip(icon, data.error.message, {
                 cssClass : 'jxUploadFileErrorTip'
             });
@@ -309,7 +309,7 @@ Jx.Panel.FileUpload = new Class({
      */
     changeText: function (lang) {
       this.parent();
-      if ($defined(this.uploadBtn)) {
+      if (this.uploadBtn != undefined && this.uploadBtn != null) {
         this.uploadBtn.setLabel({set:'Jx',key:'upload',value:'buttonText'});
       }
     }

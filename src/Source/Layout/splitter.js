@@ -48,8 +48,8 @@ css:
  */
 
 Jx.Splitter = new Class({
-    Family: 'Jx.Splitter',
     Extends: Jx.Object,
+    Family: 'Jx.Splitter',
     /**
      * Property: domObj
      * {HTMLElement} the element being split
@@ -180,7 +180,7 @@ Jx.Splitter = new Class({
                 new Jx.Layout(this.elements[i], this.options.containerOptions[i]);
             } else {
                 if (this.options.containerOptions[i]) {
-                    jxl.resize($merge(this.options.containerOptions[i],
+                    jxl.resize(Object.merge({},this.options.containerOptions[i],
                         {position:'absolute'}));
                 } else {
                     jxl.resize({position: 'absolute'});
@@ -205,7 +205,7 @@ Jx.Splitter = new Class({
         }
 
         //making dragging dependent on mootools Drag class
-        if ($defined(Drag)) {
+        if (Drag != undefined) {
             this.establishConstraints();
         }
 

@@ -36,6 +36,7 @@ provides: [Jx.Store.Protocol.Local]
 Jx.Store.Protocol.Local = new Class({
     
     Extends: Jx.Store.Protocol,
+    Family: "Jx.Store.Protocol.Local",
     
     parameters: ['data', 'options'],
     /**
@@ -47,7 +48,7 @@ Jx.Store.Protocol.Local = new Class({
     init: function () {
         this.parent();
         
-        if ($defined(this.options.data)) {
+        if (this.options.data !== undefined && this.options.data !== null) {
             this.data = this.parser.parse(this.options.data);
         }
     },
@@ -71,7 +72,7 @@ Jx.Store.Protocol.Local = new Class({
         resp.requestParams = arguments;
         
         
-        if ($defined(data)) {
+        if (data !== undefined && data !== null) {
             if (page <= 1 && itemsPerPage === -1) {
                 //send them all
                 resp.data = data;

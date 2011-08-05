@@ -38,6 +38,7 @@ provides: [Jx.Formatter.Boolean]
 Jx.Formatter.Boolean = new Class({
 
     Extends: Jx.Formatter,
+    Family: "Jx.Formatter.Boolean",
 
     options: {},
     /**
@@ -81,7 +82,7 @@ Jx.Formatter.Boolean = new Class({
      * 		translations changed.
      */
     changeText: function (lang) {
-    	this.parent();
+        this.parent();
     }
 
 });

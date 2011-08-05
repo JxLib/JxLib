@@ -38,8 +38,8 @@ provides: [Jx.Field.Combo]
  * This file is licensed under an MIT style license
  */
 Jx.Field.Combo = new Class({
-    Family: 'Jx.Field.Combo',
     Extends: Jx.Field,
+    Family: 'Jx.Field.Combo',
     pluginNamespace: 'Combo',
 
     options: {
@@ -56,7 +56,7 @@ Jx.Field.Combo = new Class({
      * create a new instance of Jx.Field.Combo
      */
     render: function() {
-        this.classes.combine({
+        this.classes = Object.merge(this.classes,{
           wrapper: 'jxInputWrapper',
           revealer: 'jxInputRevealer',
           icon: 'jxInputIcon'
@@ -123,7 +123,7 @@ Jx.Field.Combo = new Class({
             document.addEvent('keyup', this.bound.keypress);
 
             this.fireEvent('show', this);
-        }.bindWithEvent(this.menu));
+        }.bind(this.menu));
 
         this.menu.addEvents({
             'show': (function() {
@@ -136,13 +136,13 @@ Jx.Field.Combo = new Class({
     },
     
     setLabel: function(label) {
-      if ($defined(this.field)) {
+      if (this.field !== undefined && this.field !== null) {
         this.field.value = this.getText(label);
       }
     },
     
     setImage: function(url, imageClass) {
-      if ($defined(this.icon)) {
+      if (this.icon !== undefined && this.icon !== null) {
         this.icon.setStyle('background-image', 'url('+url+')');
         this.icon.setStyle('background-repeat', 'no-repeat');
 
@@ -204,8 +204,8 @@ Jx.Field.Combo = new Class({
      * passed, comma separated or in an array.
      */
     add: function() {
-        $A(arguments).flatten().each(function(opt) {
-            var button = new Jx.Menu.Item($merge(opt,{
+        Array.from(arguments).flatten().each(function(opt) {
+            var button = new Jx.Menu.Item(Object.merge({},opt,{
                 toggle: true
             }));
             this.menu.add(button);
@@ -225,9 +225,9 @@ Jx.Field.Combo = new Class({
      */
     remove: function(idx) {
       var item;
-      if ($type(idx) == 'number' && idx < this.buttonSet.buttons.length) {
+      if (Jx.type(idx) == 'number' && idx < this.buttonSet.buttons.length) {
         item = this.buttonSet.buttons[idx];
-      } else if ($type(idx) == 'string'){
+      } else if (Jx.type(idx) == 'string'){
         this.buttonSet.buttons.some(function(button){
             if (button.options.label === idx) {
                 item = button;

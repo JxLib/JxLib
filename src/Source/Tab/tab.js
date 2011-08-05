@@ -69,8 +69,8 @@ images:
  * This file is licensed under an MIT style license
  */
 Jx.Tab = new Class({
-    Family: 'Jx.Tab',
     Extends: Jx.Button,
+    Family: 'Jx.Tab',
     /**
      * Property: content
      * {HTMLElement} The content area that is displayed when the tab is
@@ -136,14 +136,14 @@ Jx.Tab = new Class({
      * processing a widget template.  This allows developers to provide custom
      * HTML structures without affecting the functionality of widgets.
      */
-    classes: new Hash({
+    classes: {
         domObj: 'jxTabContainer',
         domA: 'jxTab',
         domImg: 'jxTabIcon',
         domLabel: 'jxTabLabel',
         domClose: 'jxTabClose',
         content: 'tabContent'
-    }),
+    },
 
     /**
      * Method: render
@@ -151,7 +151,7 @@ Jx.Tab = new Class({
      * to create a <Jx.Layout> for the tab content area.
      */
     render : function( ) {
-        this.options = $merge(this.options, {toggle:true});
+        this.options = Object.merge({},this.options, {toggle:true});
         this.parent();
         this.domObj.store('jxTab', this);
         this.processElements(this.options.contentTemplate, this.classes);
@@ -182,7 +182,7 @@ Jx.Tab = new Class({
                 this.domObj.addClass('jxTabClose');
                 this.domClose.addEvent('click', (function(){
                   var shouldClose = true;
-                  if ($defined(this.options.shouldClose)) {
+                  if (this.options.shouldClose !== undefined && this.options.shouldClose !== null) {
                     if (typeof this.options.shouldClose == 'function') {
                       shouldClose = this.options.shouldClose();
                     } else {

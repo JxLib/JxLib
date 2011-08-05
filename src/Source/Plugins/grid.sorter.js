@@ -30,8 +30,8 @@ images:
  * This file is licensed under an MIT style license
  */
 Jx.Plugin.Grid.Sorter = new Class({
-  Family: 'Jx.Plugin.Grid.Sorter',
   Extends: Jx.Plugin,
+  Family: 'Jx.Plugin.Grid.Sorter',
   name: 'Sorter',
 
   Binds: ['sort', 'modifyHeaders'],
@@ -60,7 +60,7 @@ Jx.Plugin.Grid.Sorter = new Class({
    * will be monitoring
    */
   attach: function(grid) {
-    if (!$defined(grid) && !(grid instanceof Jx.Grid)) {
+    if (grid === undefined || grid === null || !(grid instanceof Jx.Grid)) {
         return;
     }
     this.parent(grid);
@@ -121,7 +121,7 @@ Jx.Plugin.Grid.Sorter = new Class({
         dir = 'asc',
         opt = this.options;
     
-    if ($defined(data.column) && data.column.isSortable()){
+    if (data.column !== undefined && data.column !== null && data.column.isSortable()){
       if (el.hasClass(opt.ascendingClass)) {
         el.removeClass(opt.ascendingClass).addClass(opt.descendingClass);
         dir = 'desc';
@@ -137,7 +137,7 @@ Jx.Plugin.Grid.Sorter = new Class({
       
       this.grid.fireEvent('gridSortStarting');
       
-      if ($defined(data.column.options.sort) && Jx.type(data.column.options.sort) == 'function') {
+      if (data.column.options.sort !== undefined && data.column.options.sort !== null && Jx.type(data.column.options.sort) == 'function') {
         data.column.options.sort(dir);
       } else {
         if (sorter) {

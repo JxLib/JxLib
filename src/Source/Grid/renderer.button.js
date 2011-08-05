@@ -26,8 +26,8 @@ provides: [Jx.Grid.Renderer.Button]
  */
 Jx.Grid.Renderer.Button = new Class({
 
-    Family: 'Jx.Grid.Renderer.Button',
     Extends: Jx.Grid.Renderer,
+    Family: 'Jx.Grid.Renderer.Button',
 
     Binds: [],
 
@@ -42,9 +42,9 @@ Jx.Grid.Renderer.Button = new Class({
     
     domInsert: true,
 
-    classes:  $H({
+    classes:  {
         domObj: 'buttons'
-    }),
+    },
 
     init: function () {
         this.parent();
@@ -53,7 +53,7 @@ Jx.Grid.Renderer.Button = new Class({
     render: function () {
         this.parent();
 
-        $A(this.options.buttonOptions).each(function(opts){
+        Array.from(this.options.buttonOptions).each(function(opts){
             var button = new Jx.Button(opts);
             this.domObj.grab(document.id(button));
         },this);

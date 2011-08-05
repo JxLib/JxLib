@@ -34,8 +34,8 @@ images:
  * This file is licensed under an MIT style license
  */
 Jx.ListView = new Class({
-    Family: 'Jx.Widget',
     Extends: Jx.Widget,
+    Family: 'Jx.ListView',
 
     pluginNamespace: 'ListView',
 
@@ -52,10 +52,10 @@ Jx.ListView = new Class({
         }
     },
 
-    classes: new Hash({
+    classes: {
         domObj: 'jxListView',
         listObj: 'jxList'
-    }),
+    },
 
     /**
      * APIMethod: render

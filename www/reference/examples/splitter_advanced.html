@@ -207,7 +207,8 @@ function drawAdvancedSplit() {
             },{
                 header: 'Description',
                 modelField: 'description',
-                width: '200',
+                renderMode: 'fixed',
+                width: 200,
                 isEditable: false,
                 isSortable: false,
                 isResizable: true,
@@ -242,8 +243,9 @@ function drawAdvancedSplit() {
         resizer.attach(grid);
     });
     store.load();
+    grid.redraw();
     
-    resizer.activate('column');
+    //resizer.activate('column');
 }
 </script>
 <style>

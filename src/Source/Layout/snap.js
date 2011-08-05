@@ -33,8 +33,8 @@ provides: [Jx.Splitter.Snap]
  * This file is licensed under an MIT style license
  */
 Jx.Splitter.Snap = new Class({
-    Family: 'Jx.Splitter.Snap',
     Extends: Jx.Object,
+    Family: 'Jx.Splitter.Snap',
     /**
      * Property: snap
      * {HTMLElement} the DOM element of the snap (the thing that gets

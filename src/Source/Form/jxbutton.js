@@ -34,6 +34,7 @@ provides: [Jx.Field.Button]
 Jx.Field.Button = new Class({
 
     Extends: Jx.Field,
+    Family: "Jx.Field.Button",
 
     options: {
         /**
@@ -73,7 +74,7 @@ Jx.Field.Button = new Class({
         this.button.addEvent('click', function(){
           this.fireEvent('click');
         }.bind(this));
-        var c = h.get('jxInputButton');
+        var c = h.jxInputButton;
         if (c) {
             this.button.domObj.replaces(c);
         }

@@ -46,7 +46,7 @@ Jx.Styles = new(new Class({
      * dynamicStyleMap - <Hash> used to keep a reference to dynamically
      * created style sheets for quick access
      */
-    dynamicStyleMap: new Hash(),
+    dynamicStyleMap: {},
     /**
      * APIMethod: getCssRule
      * retrieve a reference to a CSS rule in a specific style sheet based on
@@ -68,7 +68,7 @@ Jx.Styles = new(new Class({
             if (i == -1) {
                 rule = this.insertCssRule(selector, '', styleSheetName);
             } else {
-                if (Browser.Engine.trident) {
+                if (Browser.ie) {
                     rule = ss.sheet.rules[i];
                 } else {
                     rule = ss.sheet.cssRules[i];
@@ -100,8 +100,8 @@ Jx.Styles = new(new Class({
             rule,
             text = selector + " {" + declaration + "}",
             index;
-        if (Browser.Engine.trident) {
-            if (declaration == '') {
+        if (Browser.ie) {
+            if (declaration === '') {
                 //IE requires SOME text for the declaration. Passing '{}' will
                 //create an empty rule.
                 declaration = '{}';
@@ -132,7 +132,7 @@ Jx.Styles = new(new Class({
             i = ss.indicies.indexOf(selector),
             result = false;
         ss.indicies.splice(i, 1);
-        if (Browser.Engine.trident) {
+        if (Browser.ie) {
             ss.removeRule(i);
             result = true;
         } else {
@@ -154,12 +154,12 @@ Jx.Styles = new(new Class({
      */
     getDynamicStyleSheet: function (name) {
         name = (name) ? name : 'default';
-        if (!this.dynamicStyleMap.has(name)) {
+        if (!Object.keys(this.dynamicStyleMap).contains(name)) {
             var sheet = new Element('style').set('type', 'text/css').inject(document.head);
             sheet.indicies = [];
-            this.dynamicStyleMap.set(name, sheet);
+            this.dynamicStyleMap[name] = sheet;
         }
-        return this.dynamicStyleMap.get(name);
+        return this.dynamicStyleMap[name];
     },
     /**
      * APIMethod: enableStyleSheet
@@ -191,7 +191,7 @@ Jx.Styles = new(new Class({
     removeStyleSheet: function (name) {
       this.disableStyleSheet(name);
       this.getDynamicStyleSheet(name).dispose();
-      this.dynamicStyleMap.erase(name);
+      delete this.dynamicStyleMap[name];
     },
     /**
      * APIMethod: isStyleSheetDefined
@@ -201,6 +201,6 @@ Jx.Styles = new(new Class({
      * name = <String> the title of the stylesheet to remove
      */
     isStyleSheetDefined: function (name) {
-      return this.dynamicStyleMap.has(name);
+      return Object.keys(this.dynamicStyleMap).contains(name);
     }
 }))();

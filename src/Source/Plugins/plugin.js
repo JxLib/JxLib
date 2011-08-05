@@ -29,10 +29,9 @@ provides: [Jx.Plugin]
  * This file is licensed under an MIT style license
  */
 Jx.Plugin = new Class({
-
-    Family: "Jx.Plugin",
-
+    
     Extends: Jx.Object,
+    Family: "Jx.Plugin",
 
     options: {},
 

@@ -16,25 +16,20 @@ provides: [Jx.Adaptor.Tree.Mptt]
  */
 /**
  * Class: Jx.Adaptor.Tree.Mptt
- * This class adapts a table adhering to the classic Parent-style "tree table".
+ * This class adapts a table adhering to the MPTT-style "tree table".
  *
  * This class requires an MPTT (Modified Preorder Tree Traversal) table. The MPTT
  * has a 'left' and a 'right' column that indicates the order of nesting. For
  * more details see the sitepoint.com article at
  * http://articles.sitepoint.com/article/hierarchical-data-database
  *
- * if useAjax option is set to true then this adapter will send an Ajax request
- * to the server, through the store's strategy (should be Jx.Store.Strategy.Progressive)
- * to request additional nodes.
- *
  * Copyright 2010 by Jonathan Bomgardner
  * License: mit-style
  */
 Jx.Adaptor.Tree.Mptt = new Class({
 
-
-    Family: 'Jx.Adaptor.Tree.Mptt',
     Extends: Jx.Adaptor.Tree,
+    Family: 'Jx.Adaptor.Tree.Mptt',
 
     name: 'tree.mptt',
 
@@ -66,7 +61,7 @@ Jx.Adaptor.Tree.Mptt = new Class({
     hasParent: function (index) {
         var i = this.getParentIndex(index),
             result = false;
-        if ($defined(i)) {
+        if (i !== undefined && i !== null) {
             result = true;
         }
         return result;

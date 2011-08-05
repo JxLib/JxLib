@@ -42,8 +42,8 @@ provides: [Jx.Compare]
  */
 
 Jx.Compare = new Class({
-    Family: 'Jx.Compare',
     Extends: Jx.Object,
+    Family: 'Jx.Compare',
 
     options: { separator: '.' },
 

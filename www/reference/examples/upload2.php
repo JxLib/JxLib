@@ -14,8 +14,23 @@ if (is_uploaded_file($tempFile)) {
     foreach ($_POST as $key => $value) {
         $obj->$key = $value;
     }
-    $obj->file = $_FILES;
+    
 }
+
+//check file-upload-test2
+
+$tempFiles = $_FILES["file-upload-test2"]["tmp_name"];
+if (is_array($tempFiles)) {
+    foreach($tempFiles as $f) {
+        if (is_uploaded_file($f)) {
+            $obj->success = true;
+        }
+    }
+}
+foreach ($_POST as $key => $value) {
+    $obj->$key = $value;
+}
+$obj->file = $_FILES;
 
 echo "<pre>";
 var_dump($obj);

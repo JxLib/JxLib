@@ -39,8 +39,8 @@ css:
  * This file is licensed under an MIT style license
  */
 Jx.Menu.Context = new Class({
-    Family: 'Jx.Menu.Context',
     Extends: Jx.Menu,
+    Family: 'Jx.Menu.Context',
 
     parameters: ['id'],
 
@@ -51,7 +51,7 @@ Jx.Menu.Context = new Class({
     render: function() {
         this.id = document.id(this.options.id);
         if (this.id) {
-            this.id.addEvent('contextmenu', this.show.bindWithEvent(this));
+            this.id.addEvent('contextmenu', this.show.bind(this));
         }
         this.parent();
     },

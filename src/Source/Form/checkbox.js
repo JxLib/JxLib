@@ -35,6 +35,7 @@ provides: [Jx.Field.Checkbox]
 Jx.Field.Checkbox = new Class({
 
     Extends : Jx.Field,
+    Family: "Jx.Field.Checkbox",
 
     options : {
         /**
@@ -63,8 +64,8 @@ Jx.Field.Checkbox = new Class({
     render : function () {
         this.parent();
 
-        if ($defined(this.options.checked) && this.options.checked) {
-            if (Browser.Engine.trident) {
+        if (this.options.checked !== undefined && this.options.checked !== null && this.options.checked) {
+            if (Browser.ie) {
                 var parent = this.field.getParent();
                 var sibling;
                 if (parent) {
@@ -90,7 +91,7 @@ Jx.Field.Checkbox = new Class({
         // add click event to the label to toggle the checkbox
         if(this.label) {
           this.label.addEvent('click', function(ev) {
-            this.setValue(this.getValue() != null ? false : true)
+            this.setValue(this.getValue() !== null ? false : true);
           }.bind(this));
         }
     },

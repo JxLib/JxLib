@@ -43,8 +43,8 @@ images:
  * This file is licensed under an MIT style license
  */
 Jx.Menu = new Class({
-    Family: 'Jx.Menu',
     Extends: Jx.Widget,
+    Family: 'Jx.Menu',
     // Binds: ['onMouseEnter','onMouseLeave','hide','keypressHandler'],
     /**
      * Property: button
@@ -88,10 +88,10 @@ Jx.Menu = new Class({
         }
     },
 
-    classes: new Hash({
+    classes: {
         contentContainer: 'jxMenuContainer',
         subDomObj: 'jxMenu'
-    }),
+    },
     
     init: function() {
         this.bound.stop = function(e){e.stop();};
@@ -122,7 +122,7 @@ Jx.Menu = new Class({
         /* if options are passed, make a button inside an LI so the
            menu can be embedded inside a toolbar */
         if (this.options.buttonOptions) {
-            this.button = new Jx.Button($merge(this.options.buttonOptions,{
+            this.button = new Jx.Button(Object.merge({},this.options.buttonOptions,{
                 template: this.options.buttonTemplate,
                 onClick:this.bound.show
             }));
@@ -399,7 +399,7 @@ Jx.Menu = new Class({
         this.contentContainer.setContentBoxSize(this.subDomObj.getMarginBoxSize());
         this.showChrome(this.contentContainer);
 
-        this.position(this.contentContainer, this.domObj, $merge({
+        this.position(this.contentContainer, this.domObj, Object.merge({},{
             offsets: this.chromeOffsets
         }, this.options.position));
         this.stack(this.contentContainer);

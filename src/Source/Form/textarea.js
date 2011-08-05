@@ -46,6 +46,7 @@ provides: [Jx.Field.Textarea]
 Jx.Field.Textarea = new Class({
 
     Extends: Jx.Field,
+    Family: "Jx.Field.Textarea",
 
     options: {
         /**
@@ -82,10 +83,10 @@ Jx.Field.Textarea = new Class({
     render: function () {
         this.parent();
 
-        if ($defined(this.options.rows)) {
+        if (this.options.rows !== undefined && this.options.rows !== null) {
             this.field.set('rows', this.options.rows);
         }
-        if ($defined(this.options.columns)) {
+        if (this.options.columns !== undefined && this.options.columns !== null) {
             this.field.set('cols', this.options.columns);
         }
 

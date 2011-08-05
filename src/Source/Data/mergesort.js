@@ -33,8 +33,8 @@ provides: [Jx.Sort.Mergesort]
  * This file is licensed under an MIT style license
  */
 Jx.Sort.Mergesort = new Class({
-    Family: 'Jx.Sort.Mergesort',
     Extends : Jx.Sort,
+    Family: 'Jx.Sort.Mergesort',
 
     name : 'mergesort',
 

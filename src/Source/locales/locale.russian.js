@@ -35,16 +35,18 @@ MooTools.lang.set('ru-RU-unicode', 'Jx', {
 	file: {
 		browseLabel: 'Выбрать...'
 	},
-	'formatter.boolean': {
-		'true': 'Да',
-		'false': 'Нет'
-	},
-	'formatter.currency': {
-		sign: 'р.'
-	},
-	'formatter.number': {
-		decimalSeparator: ',',
-    thousandsSeparator: ' '
+	'formatter' : {
+        'boolean': {
+		    'true': 'Да',
+		    'false': 'Нет'
+	    },
+	    'currency': {
+		    sign: 'р.'
+	    },
+	    'number': {
+		    decimalSeparator: ',',
+            thousandsSeparator: ' '
+	    }
 	},
 	splitter: {
 		barToolTip: 'потяни, чтобы изменить размер'
@@ -54,14 +56,14 @@ MooTools.lang.set('ru-RU-unicode', 'Jx', {
 	},
 	panel: {
 		collapseTooltip: 'Свернуть/Развернуть Панель',
-    collapseLabel: 'Свернуть',
-    expandLabel: 'Развернуть',
-    maximizeTooltip: 'Увеличить Панель',
-    maximizeLabel: 'Увеличить',
-    restoreTooltip: 'Восстановить Панель',
-    restoreLabel: 'Восстановить',
-    closeTooltip: 'Закрыть Панель',
-    closeLabel: 'Закрыть'
+        collapseLabel: 'Свернуть',
+        expandLabel: 'Развернуть',
+        maximizeTooltip: 'Увеличить Панель',
+        maximizeLabel: 'Увеличить',
+        restoreTooltip: 'Восстановить Панель',
+        restoreLabel: 'Восстановить',
+        closeTooltip: 'Закрыть Панель',
+        closeLabel: 'Закрыть'
 	},
 	confirm: {
 		affirmativeLabel: 'Да',
@@ -80,11 +82,13 @@ MooTools.lang.set('ru-RU-unicode', 'Jx', {
 	upload: {
 		buttonText: 'Загрузка файла'
 	},
-	'plugin.resize': {
-	  tooltip: 'Потяни, чтобы изменить, двойной щелчок для авто размера.'
-	},
-  'plugin.editor': {
-    submitButton: 'Сохранить',
-    cancelButton: 'Отмена'
-  }
+	'plugin': {
+        'resize': {
+	        tooltip: 'Потяни, чтобы изменить, двойной щелчок для авто размера.'
+	    },
+        'editor': {
+            submitButton: 'Сохранить',
+            cancelButton: 'Отмена'
+        }
+    }
 });

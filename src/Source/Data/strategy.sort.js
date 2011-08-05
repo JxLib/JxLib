@@ -32,6 +32,7 @@ provides: [Jx.Store.Strategy.Sort]
 Jx.Store.Strategy.Sort = new Class({
     
     Extends: Jx.Store.Strategy,
+    Family: "Jx.Store.Strategy.Sort",
     
     name: 'sort',
     
@@ -87,7 +88,7 @@ Jx.Store.Strategy.Sort = new Class({
      * activates the strategy if it isn't already active.
      */
     activate: function () {
-        if ($defined(this.options.sortOnStoreEvents)) {
+        if (this.options.sortOnStoreEvents !== undefined && this.options.sortOnStoreEvents !== null) {
             this.options.sortOnStoreEvents.each(function (ev) {
                 this.store.addEvent(ev, this.bound.sort);
             },this);
@@ -99,7 +100,7 @@ Jx.Store.Strategy.Sort = new Class({
      * deactivates the strategy if it is already active.
      */
     deactivate: function () {
-        if ($defined(this.options.sortOnStoreEvents)) {
+        if (this.options.sortOnStoreEvents !== undefined && this.options.sortOnStoreEvents !== null) {
             this.options.sortOnStoreEvents.each(function (ev) {
                 this.store.removeEvent(ev, this.bound.sort);
             },this);
@@ -121,13 +122,13 @@ Jx.Store.Strategy.Sort = new Class({
         if (this.store.count()) {
             this.store.fireEvent('sortStart', this);
             var c;
-            if ($defined(cols) && Jx.type(cols) === 'array') {
+            if (cols !== undefined && cols !== null && Jx.type(cols) === 'array') {
                 c = this.options.sortCols = cols;
-            } else if ($defined(cols) && Jx.type(cols) === 'string') {
+            } else if (cols !== undefined && cols !== null && Jx.type(cols) === 'string') {
                 this.options.sortCols = [];
                 this.options.sortCols.push(cols);
                 c = this.options.sortCols;
-            } else if ($defined(this.options.sortCols)) {
+            } else if (this.options.sortCols !== undefined && this.options.sortCols !== null) {
                 c = this.options.sortCols;
             } else {
                 return null;
@@ -141,7 +142,7 @@ Jx.Store.Strategy.Sort = new Class({
                 this.store.data = this.subSort(this.store.data, 0, 1);
             }
         
-            if ($defined(dir) && dir === 'desc') {
+            if (dir !== undefined && dir !== null && dir === 'desc') {
                 this.store.data.reverse();
             }
         
@@ -233,7 +234,7 @@ Jx.Store.Strategy.Sort = new Class({
         data = data ? data : this.data;
         ret = ret ? true : false;
         
-        if (!$defined(this.comparator)) {
+        if (this.comparator === undefined || this.comparator === null) {
             this.comparator = new Jx.Compare({
                 separator : this.options.separator
             });
@@ -242,7 +243,7 @@ Jx.Store.Strategy.Sort = new Class({
         this.col = col = this.resolveCol(col);
         
         var fn = this.comparator[col.type].bind(this.comparator);
-        if (!$defined(this.sorter)) {
+        if (this.sorter === undefined || this.sorter === null) {
             this.sorter = new Jx.Sort[sort](data, fn, col.name, options);
         } else {
             this.sorter.setComparator(fn);

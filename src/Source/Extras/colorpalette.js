@@ -56,8 +56,8 @@ images:
  * This file is licensed under an MIT style license
  */
 Jx.ColorPalette = new Class({
-    Family: 'Jx.ColorPalette',
     Extends: Jx.Widget,
+    Family: 'Jx.ColorPalette',
     /**
      * Property: {HTMLElement} domObj
      * the HTML element representing the color panel
@@ -137,8 +137,8 @@ Jx.ColorPalette = new Class({
 
         this.domObj.adopt(top);
 
-        var swatchClick = this.swatchClick.bindWithEvent(this);
-        var swatchOver = this.swatchOver.bindWithEvent(this);
+        var swatchClick = this.swatchClick.bind(this);
+        var swatchOver = this.swatchOver.bind(this);
 
         var table = new Element('table', {'class':'jxColorGrid'});
         var tbody = new Element('tbody');
@@ -339,11 +339,11 @@ Jx.ColorPalette = new Class({
      *    translations changed.
      */
     changeText: function (lang) {
-    	this.parent();
-    	
-    	if ($defined(this.alphaLabel)) {
-    		this.alphaLabel.set('html', this.getText({set:'Jx',key:'colorpalette',value:'alphaLabel'}));
-    	}
+        this.parent();
+    
+        if (this.alphaLabel !== undefined && this.alphaLabel !== null) {
+            this.alphaLabel.set('html', this.getText({set:'Jx',key:'colorpalette',value:'alphaLabel'}));
+        }
     }
 });
 

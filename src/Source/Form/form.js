@@ -50,9 +50,10 @@ images:
  * This file is licensed under an MIT style license
  */
 Jx.Form = new Class({
-    Family: 'Jx.Form',
+    
     Extends: Jx.Widget,
-
+    Family: 'Jx.Form',
+    
     options: {
         /**
          * Option: method
@@ -115,13 +116,13 @@ Jx.Form = new Class({
      */
     pluginNamespace: 'Form',
 
-    classes: $H({
+    classes: {
         domObj: 'jxForm'
-    }),
+    },
     
     init: function() {
       this.parent();
-      this.fields = new Hash();
+      this.fields = {};
       this.data = {};
     },
     /**
@@ -155,7 +156,7 @@ Jx.Form = new Class({
             this.domObj.set('enctype', 'multipart/form-data');
         }
         
-        if ($defined(this.options.formClass)) {
+        if (this.options.formClass !== undefined && this.options.formClass !== null) {
             this.domObj.addClass(this.options.formClass);
         }
     },
@@ -168,7 +169,7 @@ Jx.Form = new Class({
      * field - <Jx.Field> to add
      */
     addField : function (field) {
-        this.fields.set(field.id, field);
+        this.fields[field.id] = field;
         if (field.options.defaultAction) {
             this.defaultAction = field;
         }
@@ -198,7 +199,7 @@ Jx.Form = new Class({
      */
     getValues : function (asQueryString) {
         var queryString = this.domObj.toQueryString();
-        if ($defined(asQueryString) && asQueryString) {
+        if (asQueryString !== undefined && asQueryString !== null && asQueryString) {
             return queryString;
         } else {
             return queryString.parseQueryString();
@@ -212,11 +213,8 @@ Jx.Form = new Class({
      * values - A Hash of values to set keyed by field name.
      */
     setValues : function (values) {
-        if (Jx.type(values) === 'object') {
-            values = new Hash(values);
-        }
-        this.fields.each(function (item) {
-            item.setValue(values.get(item.name));
+        Object.each(this.fields, function (item) {
+            item.setValue(values[item.name]);
         }, this);
     },
 
@@ -232,10 +230,10 @@ Jx.Form = new Class({
         for (var x = 0; x < arguments.length; x++) {
             field = arguments[x];
             //add form to the field and field to the form if not already there
-            if (field instanceof Jx.Field && !$defined(field.form)) {
+            if (field instanceof Jx.Field && (field.form === undefined || field.form === null)) {
                 field.form = this;
                 this.addField(field);
-            } else if (field instanceof Jx.Fieldset && !$defined(field.form)) {
+            } else if (field instanceof Jx.Fieldset && (field.form === undefined || field.form === null)) {
                 field.form = this;
             }
             
@@ -249,7 +247,7 @@ Jx.Form = new Class({
      * Resets all fields back to their original value
      */
     reset : function () {
-        this.fields.each(function (field, name) {
+        Object.each(this.fields, function (field, name) {
             field.reset();
         }, this);
         this.fireEvent('reset',this);
@@ -264,7 +262,7 @@ Jx.Form = new Class({
      */
     getFieldsByName: function (name) {
         var fields = [];
-        this.fields.each(function(val, id){
+        Object.each(this.fields, function(val, id){
             if (val.name === name) {
                 fields.push(val);
             }
@@ -279,8 +277,8 @@ Jx.Form = new Class({
      * id - {string} the id of the field to find.
      */
     getField: function (id) {
-        if (this.fields.has(id)) {
-            return this.fields.get(id);
+        if (Object.keys(this.fields).contains(id)) {
+            return this.fields[id];
         } 
         return null;
     },
@@ -296,7 +294,7 @@ Jx.Form = new Class({
         return;
       }
       this.parent(state);
-      this.fields.each(function(field) {
+      Object.each(this.fields, function(field) {
         field.setBusy(state, true);
       });
     },
@@ -359,7 +357,7 @@ Jx.Form = new Class({
 
     findFiles: function() {
         var files = [];
-        this.fields.each(function(field){
+        Object.each(this.fields, function(field){
             if (field instanceof Jx.Field.File) {
                 files.push(field);
             }
@@ -369,7 +367,7 @@ Jx.Form = new Class({
 
     fileUploadComplete: function(data){
         this.completed++;
-        $each(data,function(value,key){
+        Object.each(data,function(value,key){
             this.data[key] = value;
         },this);
         if (this.completed == this.files && this.options.uploadFilesFirst) {

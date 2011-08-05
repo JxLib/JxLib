@@ -25,8 +25,8 @@ provides: [Jx.Grid.Renderer.Checkbox]
  */
 Jx.Grid.Renderer.Checkbox = new Class({
   
-  Family: 'Jx.Grid.Renderer.Checkbox',
   Extends: Jx.Grid.Renderer,
+  Family: 'Jx.Grid.Renderer.Checkbox',
   
   Binds: ['onBlur','onChange'],
   

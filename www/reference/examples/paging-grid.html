@@ -65,7 +65,7 @@ function drawToolbar() {
         init: function () {
             this.parent();
             
-            if ($defined(this.options.store)) {
+            if (this.options.store != undefined) {
                 this.store = this.options.store;
             } else {
                 //can't do anything without a store!
@@ -74,7 +74,7 @@ function drawToolbar() {
 
             this.strategy = this.store.getStrategy('paginate');
 
-            if (!$defined(this.strategy)) {
+            if (this.strategy == undefined) {
                 //it didn't have the strategy so let's add it
                 var full = this.store.getStrategy('full');
                 if (full) { full.deactivate(); }

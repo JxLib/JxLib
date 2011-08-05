@@ -1,6 +1,6 @@
 describe('common tests',{
 	'Jx should be defined': function(){
-		value_of($defined(Jx)).should_be_true();
+		value_of(Jx  != undefined).should_be_true();
 	},
 	'Family mutator check': function(){
 		var c = new Class({
@@ -8,7 +8,7 @@ describe('common tests',{
 		});
 		newC = new c();
         value_of(Jx.type(newC)).should_be('Jx.Widget');
-		value_of($type(newC)).should_be('object');
+		value_of(typeOf(newC)).should_be('object');
 	},
     'Jx.getNumber()':function() {
         value_of(Jx.getNumber()).should_be(0);
@@ -79,7 +79,7 @@ describe('Element extension tests', {
 describe('Array extensions test', {
     'swap is implemented': function(){
         var a = [];
-        value_of($defined(a.swap)).should_be_true();
+        value_of(a.swap  != undefined).should_be_true();
     },
     'Test of array swap':function(){
         var a = ['a','c','b'];

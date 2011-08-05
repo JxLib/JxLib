@@ -57,8 +57,8 @@ provides: [Jx.List]
  * This file is licensed under an MIT style license
  */
 Jx.List = new Class({
-    Family: 'Jx.List',
     Extends: Jx.Object,
+    Family: 'Jx.List',
     /**
      * Constructor: Jx.List
      * create a new instance of Jx.List
@@ -147,7 +147,7 @@ Jx.List = new Class({
                 var item = el.retrieve('jxListTargetItem') || el;
                 return !item.hasClass('jxUnselectable');
             };
-        this.bound = $merge(this.bound, {
+        this.bound = Object.merge({},this.bound, {
             mousedown: function() {
                 if (isEnabled(this)) {
                     this.addClass(options.pressClass);
@@ -220,7 +220,7 @@ Jx.List = new Class({
             this.ownsSelection = true;
         }
 
-        if ($defined(options.items)) {
+        if (options.items !== undefined && options.items !== null) {
             this.add(options.items);
         }
     },
@@ -303,14 +303,14 @@ Jx.List = new Class({
                     click: bound.click
                 });
             }
-            if ($defined(position)) {
-                if ($type(position) == 'number') {
+            if (position !== undefined && position !== null) {
+                if (Jx.type(position) == 'number') {
                     if (position < container.childNodes.length) {
                         el.inject(container.childNodes[position],'before');
                     } else {
                         el.inject(container, 'bottom');
                     }
-                } else if (container.hasChild(position)) {
+                } else if (container.contains(document.id(position))) {
                     el.inject(position,'after');
                 }
                 this.fireEvent('add', item, this);
@@ -338,7 +338,7 @@ Jx.List = new Class({
     remove: function(item) {
         var el = document.id(item),
             target;
-        if (el && this.container.hasChild(el)) {
+        if (el && this.container.contains(el)) {
             this.unselect(el, true);
             el.dispose();
             target = el.retrieve('jxListTarget') || el;
@@ -361,7 +361,7 @@ Jx.List = new Class({
      * {mixed} the item that was removed
      */
     replace: function(item, withItem) {
-        if (this.container.hasChild(item)) {
+        if (this.container.contains(document.id(item))) {
             this.add(withItem, item);
             this.remove(item);
         }
@@ -378,7 +378,7 @@ Jx.List = new Class({
      * {integer} the position of the item or -1 if not found
      */
     indexOf: function(item) {
-        return $A(this.container.childNodes).indexOf(item);
+        return Array.from(this.container.childNodes).indexOf(item);
     },
     /**
      * APIMethod: count
@@ -392,7 +392,7 @@ Jx.List = new Class({
      * returns an array of the items in the list
      */
     items: function() {
-        return $A(this.container.childNodes);
+        return Array.from(this.container.childNodes);
     },
     /**
      * APIMethod: each
@@ -405,7 +405,7 @@ Jx.List = new Class({
      * default.
      */
     each: function(f, context) {
-        $A(this.container.childNodes).each(f, context);
+        Array.from(this.container.childNodes).each(f, context);
     },
     /**
      * APIMethod: select

@@ -239,10 +239,13 @@ function drawGrid() {
     });
 
     var clickFn = function (obj) {
-        var btn = obj.obj;
-        var gridCell = $(btn).getParent().getParent();
-        var data = gridCell.retrieve('jxCellData');
-        alert('You clicked a button in row ' + data.row);
+        var btn = obj.obj,
+            gridCell = $(btn).getParent().getParent(),
+            data = gridCell.retrieve('jxCellData'),
+            dlg = new Jx.Dialog.Message({
+                message: 'You clicked a button in row ' + data.row
+            });
+        dlg.show();
     };
 
   //setup options
@@ -254,6 +257,7 @@ function drawGrid() {
           headerColumn: 'header',
           rowHeight: 'auto'
       },
+      model: store,
       columns: {
           headerRowHeight: 20,
           useHeaders: true,
@@ -385,7 +389,7 @@ function drawGrid() {
       }
   };
   //create grid
-  grid = new Jx.Grid(store, options);
+  grid = new Jx.Grid(options);
   store.addEvent('storeDataLoaded', function () {
       prelighter.attach(grid);
       selector.attach(grid);

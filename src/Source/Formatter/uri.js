@@ -40,6 +40,7 @@ provides: [Jx.Formatter.URI]
 Jx.Formatter.Uri = new Class({
 
     Extends: Jx.Formatter,
+    Family: "Jx.Formatter.Uri",
 
     options: {
         /**
@@ -60,7 +61,7 @@ Jx.Formatter.Uri = new Class({
     format: function (value) {
       var uri        = new URI(value),
           uriContent = {},
-          pattern    = new Array(),
+          pattern    = [],
           patternTmp = this.options.format.match(/\\?\{([^{}]+)\}/g);
 
       // remove bracktes

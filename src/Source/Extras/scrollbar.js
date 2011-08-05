@@ -31,9 +31,8 @@ css:
  */
 Jx.Scrollbar = new Class({
     
-    Family: 'Jx.Scrollbar',
-    
     Extends: Jx.Widget,
+    Family: 'Jx.Scrollbar',
     
     Binds: ['scrollIt'],
     
@@ -68,12 +67,12 @@ Jx.Scrollbar = new Class({
         template: '<div class="jxScrollbarContainer"><div class="jxScrollLeft"></div><div class="jxSlider"></div><div class="jxScrollRight"></div></div>'
     },
     
-    classes: new Hash({
+    classes: {
         domObj: 'jxScrollbarContainer',
         scrollLeft: 'jxScrollLeft',
         scrollRight: 'jxScrollRight',
         sliderHolder: 'jxSlider'
-    }),
+    },
     
     el: null,
     //element is the element we want to scroll. 
@@ -141,7 +140,7 @@ Jx.Scrollbar = new Class({
                         }.periodical(1000, this);
                     }.bind(this),
                     mouseup: function () {
-                        $clear(this.pid);
+                        window.clearInterval(this.pid);
                     }.bind(this)
                 });
                 this.scrollRight.addEvents({
@@ -152,7 +151,7 @@ Jx.Scrollbar = new Class({
                         }.periodical(1000, this);
                     }.bind(this),
                     mouseup: function () {
-                        $clear(this.pid);
+                        window.clearInterval(this.pid);
                     }.bind(this)
                 });
                 //set size of the sliderHolder

@@ -20,7 +20,6 @@ requires:
  - Core/Element.Dimensions
  - More/Element.Measure
  - More/Lang
- - Core/Selectors
  - Core/Slick.Finder
  - Core/Slick.Parser
 
@@ -72,14 +71,13 @@ function $jx(id) {
 window.addEvent('load',
 function() {
     if (! ("console" in window)) {
-        var names = ["log", "debug", "info", "warn", "error", "assert", "dir", "dirxml",
-        "group", "groupEnd", "time", "timeEnd", "count", "trace", "profile", "profileEnd"],
-            i;
-
         window.console = {};
-        for (i = 0; i < names.length; ++i) {
-            window.console[names[i]] = function() {};
-        }
+        var empty = function(){};
+        ["log", "debug", "info", "warn", "error", "assert", "dir", "dirxml",
+         "group", "groupEnd", "time", "timeEnd", "count", "trace", "profile", 
+         "profileEnd"].each(function(name){
+            window.console[name] = empty;
+        });
     }
 });
 
@@ -87,66 +85,25 @@ function() {
 // add mutator that sets jxFamily when creating a class so we can check
 // its type
 Class.Mutators.Family = function(self, name) {
-    if ($defined(name)) {
-        self.jxFamily = name;
+    
+    this.prototype.$family = function(){
         return self;
-    }
-    else if(!$defined(this.prototype.jxFamily)) {
-        this.implement({
-            'jxFamily': self
-        });
-    }
+    };
+    this.prototype.jxFamily = self;
 };
 
-// this replaces the mootools $unlink method with our own version that
-// avoids infinite recursion on Jx objects.
-function $unlink(object) {
-    if (object && object.jxFamily) {
-        return object;
-    }
-    var unlinked, p, i, l;
-    switch ($type(object)) {
-    case 'object':
-        unlinked = {};
-        for (p in object) unlinked[p] = $unlink(object[p]);
-        break;
-    case 'hash':
-        unlinked = new Hash(object);
-        break;
-    case 'array':
-        unlinked = [];
-        for (i = 0, l = object.length; i < l; i++) unlinked[i] = $unlink(object[i]);
-        break;
-    default:
-        return object;
-    }
-    return unlinked;
-}
+
+
 
 /**
  * Override of mootools-core 1.3's typeOf operator to prevent infinite recursion
  * when doing typeOf on JxLib objects.
  *
-var typeOf = this.typeOf = function(item){
+var mooTypeOf = typeOf
+typeOf  = function(item){
     if (item == null) return 'null';
     if (item.jxFamily) return item.jxFamily;
-    if (item.$family) return item.$family();
-
-    if (item.nodeName){
-        if (item.nodeType == 1) return 'element';
-        if (item.nodeType == 3) return (/\S/).test(item.nodeValue) ? 'textnode' : 'whitespace';
-    } else if (typeof item.length == 'number'){
-        if (item.callee) return 'arguments';
-        if ('item' in item) return 'collection';
-    }
-
-    return typeof item;
-};
-
-this.$type = function(object){
-    var type = typeOf(object);
-    if (type == 'elements') return 'array';
-    return (type == 'null') ? false : type;
+    return mooTypeOf(item);
 };
 */
 
@@ -163,6 +120,8 @@ this.$type = function(object){
 if (typeof Jx === 'undefined') {
   var Jx = {};
 }
+
+Jx.version = "3.0";
 
 /**
  * APIProperty: {String} baseURL
@@ -184,7 +143,7 @@ if (typeof Jx === 'undefined') {
  * }
  * (end)
  */
-if (!$defined(Jx.baseURL)) {
+if (Jx.baseURL === undefined || Jx.baseURL === null) {
   (function() {
     var aScripts = document.getElementsByTagName('SCRIPT'),
         i, s, n, file;
@@ -217,7 +176,7 @@ if (!$defined(Jx.baseURL)) {
  * }
  * (end)
  */
-if (!$defined(Jx.aPixel)) {
+if (Jx.aPixel === undefined || Jx.aPixel === null) {
   Jx.aPixel = new Element('img', {
     alt:'',
     title:'',
@@ -236,7 +195,7 @@ if (!$defined(Jx.aPixel)) {
  * }
  * (end)
  */
-if (!$defined(Jx.isAir)) {
+if (Jx.isAir === undefined || Jx.isAir === null) {
   (function() {
     /**
      * Determine if we're running in Adobe AIR.
@@ -278,7 +237,7 @@ Jx.setLanguage = function(lang) {
  * exists on the particular widget. You will be able to disable listening for
  * these changes by setting the Jx.Widget option useLang to false.
  */
-if (!$defined(Jx.lang)) {
+if (Jx.lang === undefined || Jx.lang === null) {
   Jx.lang = 'en-US';
 }
 
@@ -410,13 +369,10 @@ Jx.getPageDimensions = function() {
 /**
  * APIMethod: type
  * safely return the type of an object using the mootools type system
- *
- * Returns:
- * {Object} an object containing a width and height property
- * that represent the width and height of the browser client area.
  */
 Jx.type = function(obj) {
-  return typeof obj == 'undefined' ? false : obj.jxFamily || $type(obj);
+  if (obj === null) return false;
+  return typeof obj == 'undefined' ? false : obj.jxFamily || typeOf(obj);
 };
 
 (function($) {
@@ -455,8 +411,8 @@ Jx.type = function(obj) {
             var result = 'content-box',
                 cm,
                 sizing;
-            if (Browser.Engine.trident || Browser.Engine.presto) {
-                cm = document["compatMode"];
+            if (Browser.ie || Browser.opera) {
+                cm = document.compatMode;
                 if (cm == "BackCompat" || cm == "QuirksMode") {
                     result = 'border-box';
                 } else {
@@ -588,14 +544,14 @@ Jx.type = function(obj) {
                 m = this.measure(function() {
                     return this.getSizes(['padding', 'border']);
                 });
-                if ($defined(size.width)) {
+                if (size.width !== undefined && size.width !== null) {
                     width = size.width + m.padding.left + m.padding.right + m.border.left + m.border.right;
                     if (width < 0) {
                         width = 0;
                     }
                     this.setStyle('width', width);
                 }
-                if ($defined(size.height)) {
+                if (size.height !== undefined && size.height !== null) {
                     height = size.height + m.padding.top + m.padding.bottom + m.border.top + m.border.bottom;
                     if (height < 0) {
                         height = 0;
@@ -603,10 +559,10 @@ Jx.type = function(obj) {
                     this.setStyle('height', height);
                 }
             } else {
-                if ($defined(size.width) && size.width >= 0) {
+                if (size.width !== undefined && size.width !== null && size.width >= 0) {
                   this.setStyle('width', width);
                 }
-                if ($defined(size.height) && size.height >= 0) {
+                if (size.height !== undefined && size.height !== null && size.height >= 0) {
                   this.setStyle('height', height);
                 }
             }
@@ -633,14 +589,14 @@ Jx.type = function(obj) {
                     return this.getSizes();
                 });
 
-                if ($defined(size.width)) {
+                if (size.width !== undefined && size.width !== null) {
                     width = size.width - m.padding.left - m.padding.right - m.border.left - m.border.right - m.margin.left - m.margin.right;
                     if (width < 0) {
                         width = 0;
                     }
                     this.setStyle('width', width);
                 }
-                if ($defined(size.height)) {
+                if (size.height !== undefined && size.height !== null) {
                     height = size.height - m.padding.top - m.padding.bottom - m.border.top - m.border.bottom - m.margin.top - m.margin.bottom;
                     if (height < 0) {
                         height = 0;
@@ -648,10 +604,10 @@ Jx.type = function(obj) {
                     this.setStyle('height', height);
                 }
             } else {
-                if ($defined(size.width) && size.width >= 0) {
+                if (size.width !== undefined && size.width !== null && size.width >= 0) {
                   this.setStyle('width', width);
                 }
-                if ($defined(size.height) && size.height >= 0) {
+                if (size.height !== undefined && size.height !== null && size.height >= 0) {
                   this.setStyle('height', height);
                 }
             }

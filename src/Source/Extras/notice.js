@@ -40,8 +40,8 @@ images:
  */
 Jx.Notice = new Class({
 
-    Family: 'Jx.Notice',
     Extends: Jx.ListItem,
+    Family: 'Jx.Notice',
 
     options: {
         /**
@@ -73,12 +73,12 @@ Jx.Notice = new Class({
         klass: ''
     },
 
-    classes: new Hash({
+    classes: {
         domObj: 'jxNoticeItemContainer',
         domItem: 'jxNoticeItem',
         domContent: 'jxNotice',
         domClose: 'jxNoticeClose'
-    }),
+    },
 
     /**
      * Method: render

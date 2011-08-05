@@ -32,8 +32,8 @@ provides: [Jx.Columns]
  */
 Jx.Columns = new Class({
 
-  Family: 'Jx.Columns',
     Extends : Jx.Object,
+    Family: 'Jx.Columns',
 
     options : {
         /**
@@ -83,7 +83,8 @@ Jx.Columns = new Class({
     init : function () {
         this.parent();
 
-        if ($defined(this.options.grid) && 
+        if (this.options.grid !== undefined &&
+            this.options.grid !== null &&
             this.options.grid instanceof Jx.Grid) {
           this.grid = this.options.grid;
         }
@@ -156,9 +157,10 @@ Jx.Columns = new Class({
      * does nothing.
      */
     getHeaderHeight : function (recalculate) {
-        if (!$defined(this.height) || recalculate) {
-            if ($defined(this.options.headerRowHeight)
-                    && this.options.headerRowHeight !== 'auto') {
+        if (this.height === undefined || this.height === null || recalculate) {
+            if (this.options.headerRowHeight !== undefined &&
+                    this.options.headerRowHeight !== null &&
+                    this.options.headerRowHeight !== 'auto') {
                 this.height = this.options.headerRowHeight;
             } //else {
                 //figure out a height.
@@ -339,11 +341,11 @@ Jx.Columns = new Class({
           
         } else if (col.options.renderMode == 'fit') {
           col.calculateWidth(rowHeader);
-        } else if (col.options.renderMode == 'expand' && !$defined(expand)) {
+        } else if (col.options.renderMode == 'expand' && (expand === undefined || expand === null)) {
           expand = col;
         } else {
           //treat it as fixed if has width, otherwise as fit
-          if ($defined(col.options.width)) {
+          if (col.options.width !== undefined && col.options.width !== null) {
             col.setWidth(col.options.width);
           } else {
             col.calculateWidth(rowHeader);
@@ -360,11 +362,11 @@ Jx.Columns = new Class({
       // width of the container
       if (gridSize.width > totalWidth) {
         //now figure the expand column
-        if ($defined(expand)) {
+        if (expand !== undefined && expand !== null) {
           // var leftOverSpace = gridSize.width - totalWidth + rowHeaderWidth;
           leftOverSpace = gridSize.width - totalWidth;
           //account for right borders in firefox...
-          if (Browser.Engine.gecko) {
+          if (Browser.firefox) {
             leftOverSpace -= this.getColumnCount(true);
           } else {
             // -2 is for the right hand border on the cell and the table for all other browsers
@@ -423,7 +425,7 @@ Jx.Columns = new Class({
      * returns the number of columns in this model (including hidden).
      */
     getColumnCount : function (noHidden) {
-        noHidden = $defined(noHidden) ? false : true;
+        noHidden = (noHidden !== undefined && noHidden !== null) ? noHidden : false;
         var total = this.columns.length;
         if (noHidden) {
             this.columns.each(function(col){

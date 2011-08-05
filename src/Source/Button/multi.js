@@ -78,8 +78,8 @@ images:
  * This file is licensed under an MIT style license
  */
 Jx.Button.Multi = new Class({
-    Family: 'Jx.Button.Multi',
     Extends: Jx.Button,
+    Family: 'Jx.Button.Multi',
 
     /**
      * Property: {<Jx.Button>} activeButton
@@ -108,13 +108,13 @@ Jx.Button.Multi = new Class({
      * processing a widget template.  This allows developers to provide custom
      * HTML structures without affecting the functionality of widgets.
      */
-    classes: new Hash({
+    classes: {
         domObj: 'jxButtonContainer',
         domA: 'jxButton',
         domImg: 'jxButtonIcon',
         domLabel: 'jxButtonLabel',
         domDisclose: 'jxButtonDisclose'
-    }),
+    },
 
     /**
      * Method: render
@@ -166,7 +166,7 @@ Jx.Button.Multi = new Class({
                   document.addEvent('keyup', this.bound.keypress);
 
                   this.fireEvent('show', this);
-              }.bindWithEvent(this.menu),
+              }.bind(this.menu),
               mouseenter:function(){
                   document.id(this.domObj.firstChild).addClass('jxButtonHover');
                   if (hasFocus) {
@@ -181,20 +181,20 @@ Jx.Button.Multi = new Class({
                   this.domDisclose.addClass(this.options.pressedClass);
                   hasFocus = true;
                   this.focus();
-              }.bindWithEvent(this),
+              }.bind(this),
               mouseup: function(e) {
                   this.domDisclose.removeClass(this.options.pressedClass);
-              }.bindWithEvent(this),
+              }.bind(this),
               keydown: function(e) {
                   if (e.key == 'enter') {
                       this.domDisclose.addClass(this.options.pressedClass);
                   }
-              }.bindWithEvent(this),
+              }.bind(this),
               keyup: function(e) {
                   if (e.key == 'enter') {
                       this.domDisclose.removeClass(this.options.pressedClass);
                   }
-              }.bindWithEvent(this),
+              }.bind(this),
               blur: function() { hasFocus = false; }
             };
 
@@ -292,7 +292,7 @@ Jx.Button.Multi = new Class({
      * button - {<Jx.Button>} a <Jx.Button> instance, may be repeated in the parameter list
      */
     add: function() {
-        $A(arguments).flatten().each(function(theButton){
+        Array.from(arguments).flatten().each(function(theButton){
           var f,
               opts,
               button;

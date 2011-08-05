@@ -52,8 +52,8 @@ provides: [Jx.PanelSet]
  * This file is licensed under an MIT style license
  */
 Jx.PanelSet = new Class({
-    Family: 'Jx.PanelSet',
     Extends: Jx.Widget,
+    Family: 'Jx.PanelSet',
 
     options: {
         /* Option: parent
@@ -177,7 +177,7 @@ Jx.PanelSet = new Class({
             if (p !== panel.domObj) {
                 thePanel = p.retrieve('Jx.Panel');
                 o = p.retrieve('jxLayout').options;
-                panelHeight = $chk(o.height) ? o.height : p.getBorderBoxSize().height;
+                panelHeight = o.height != null ? o.height : p.getBorderBoxSize().height;
                 if (space > 0) {
                     if (space >= panelHeight) {
                         // this panel can stay open at its current height
@@ -213,7 +213,7 @@ Jx.PanelSet = new Class({
             p = this.splitter.elements[i];
             if (p !== panel.domObj) {
                 o = p.retrieve('jxLayout').options;
-                panelHeight = $chk(o.height) ? o.height : p.getBorderBoxSize().height;
+                panelHeight = o.height != null ? o.height : p.getBorderBoxSize().height;
                 if (space > 0) {
                     if (space >= panelHeight) {
                         // panel can stay open

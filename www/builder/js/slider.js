@@ -12,8 +12,8 @@ Jx.Slider = new Class({
 	options: {
 		elem: null,		//the element that we'll be sliding
 		trigger: null,
-		onSlideOut: $empty,	//called when a panel slides out (shows)
-		onSlideIn: $empty //called when a panel slides in (hides)
+		onSlideOut: function(){},	//called when a panel slides out (shows)
+		onSlideIn: function(){} //called when a panel slides in (hides)
 	},
 	
 	initialize: function(options){
@@ -24,9 +24,9 @@ Jx.Slider = new Class({
 		
 		this.elem.set('tween',{onComplete:this.setDisplay.bind(this)});
 		
-		if ($defined(this.options.trigger)){
+		if (this.options.trigger != undefined){
 			this.trigger = $(this.options.trigger);
-			this.trigger.addEvent('click',this.handleClick.bindWithEvent(this));
+			this.trigger.addEvent('click',this.handleClick.bind(this));
 		}
 		
 		this.elem.store('slider',this);

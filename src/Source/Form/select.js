@@ -47,6 +47,7 @@ provides: [Jx.Field.Select]
 Jx.Field.Select = new Class({
 
     Extends: Jx.Field,
+    Family: "Jx.Field.Select",
 
     options: {
         /**
@@ -98,13 +99,13 @@ Jx.Field.Select = new Class({
     render: function () {
         this.parent();
         this.field.addEvent('change', function() {this.fireEvent('change', this);}.bind(this));
-        if ($defined(this.options.multiple)) {
+        if (this.options.multiple !== undefined && this.options.multiple !== null) {
           this.field.set('multiple', this.options.multiple);
         }
-        if ($defined(this.options.size)) {
+        if (this.options.size !== undefined && this.options.size !== null) {
           this.field.set('size', this.options.size);
         }
-        if ($defined(this.options.optGroups)) {
+        if (this.options.optGroups !== undefined && this.options.optGroups !== null) {
             this.options.optGroups.each(function(group){
                 var gr = new Element('optGroup');
                 gr.set('label',group.name);
@@ -113,14 +114,14 @@ Jx.Field.Select = new Class({
                         'value': option.value,
                         'html': this.getText(option.text)
                     });
-                    if ($defined(option.selected) && option.selected) {
+                    if (option.selected !== undefined && option.selected !== null && option.selected) {
                         opt.set("selected", "selected");
                     }
                     gr.grab(opt);
                 },this);
                 this.field.grab(gr);
             },this);
-        } else if ($defined(this.options.comboOpts)) {
+        } else if (this.options.comboOpts !== undefined && this.options.comboOpts !== null) {
             this.options.comboOpts.each(function (item) {
                 this.addOption(item);
             }, this);
@@ -141,12 +142,12 @@ Jx.Field.Select = new Class({
             'value': item.value,
             'html': this.getText(item.text)
         });
-        if ($defined(item.selected) && item.selected) {
+        if (item.selected !== undefined  && item.selected !== null && item.selected) {
             opt.set("selected", "selected");
         }
         var where = 'bottom';
         var field = this.field;
-        if ($defined(position)) {
+        if (position !== undefined && position !== null) {
             if (Jx.type(position) == 'integer' &&
                 (position >= 0  && position < field.options.length)) {
                 field = this.field.options[position];
@@ -196,7 +197,7 @@ Jx.Field.Select = new Class({
         //check for a set "value" attribute. If not there return the text
         if (index > -1) {
             var ret = this.field.options[index].get("value");
-            if (!$defined(ret)) {
+            if (ret === undefined && ret === null) {
                 ret = this.field.options[index].get("text");
             }
             return ret;
@@ -208,8 +209,8 @@ Jx.Field.Select = new Class({
      * Empties all options from this select
      */
     empty: function () {
-        if ($defined(this.field.options)) {
-            $A(this.field.options).each(function (option) {
+        if (this.field.options !== undefined && this.field.options !== null) {
+            Array.from(this.field.options).each(function (option) {
                 this.field.remove(option);
             }, this);
         }

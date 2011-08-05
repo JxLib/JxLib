@@ -32,6 +32,7 @@ provides: [Jx.Store.Protocol.Ajax]
 Jx.Store.Protocol.Ajax = new Class({
 
     Extends: Jx.Store.Protocol,
+    Family: "Jx.Store.Protocol.Ajax",
 
     options: {
         /**
@@ -75,7 +76,8 @@ Jx.Store.Protocol.Ajax = new Class({
     queue: null,
 
     init: function() {
-        if (!$defined(Jx.Store.Protocol.Ajax.UniqueId)) {
+        if (Jx.Store.Protocol.Ajax.UniqueId === undefined ||
+            Jx.Store.Protocol.Ajax.UniqueId === null) {
           Jx.Store.Protocol.Ajax.UniqueId = 1;
         }
       
@@ -109,7 +111,7 @@ Jx.Store.Protocol.Ajax = new Class({
             temp.url = this.options.urls.read;
         }
 
-        opts = $merge(this.options.requestOptions, temp, options);
+        opts = Object.merge({},this.options.requestOptions, temp, options);
         opts.onSuccess = this.handleResponse.bind(this,resp);
 
         req = new Request(opts);
@@ -135,18 +137,23 @@ Jx.Store.Protocol.Ajax = new Class({
         var req = response.request,
             str = req.xhr.responseText,
             data = this.parser.parse(str);
-        if ($defined(data)) {
-            if ($defined(data.success) && data.success) {
-                if ($defined(data.data)) {
+        if (data !== undefined && data !== null) {
+            if (data.success !== undefined && data.success !== null && data.success) {
+                if (data.data !== undefined && data.data !== null) {
                     response.data = data.data;
                 }
-                if ($defined(data.meta)) {
+                if (data.meta !== undefined && data.meta !== null) {
                     response.meta = data.meta;
+                    
+                } else {
+                    response.meta = {};
                 }
+                
+                response.meta.success = data.success;
                 response.code = Jx.Store.Response.SUCCESS;
             } else {
                 response.code = Jx.Store.Response.FAILURE;
-                response.error = $defined(data.error) ? data.error : null;
+                response.error = (data.error !== undefined && data.error !== null) ? data.error : null;
             }
         } else {
             response.code = Jx.Store.Response.FAILURE;
@@ -163,9 +170,9 @@ Jx.Store.Protocol.Ajax = new Class({
      */
     insert: function (record, options) {
         if (this.options.rest) {
-            options = $merge({url: this.options.urls.rest},options);
+            options = Object.merge({},{url: this.options.urls.rest},options);
         } else {
-            options = $merge({url: this.options.urls.insert},options);
+            options = Object.merge({},{url: this.options.urls.insert},options);
         }
         this.options.requestOptions.method = 'POST';
         return this.run(record, options, "insert");
@@ -180,10 +187,10 @@ Jx.Store.Protocol.Ajax = new Class({
      */
     update: function (record, options) {
         if (this.options.rest) {
-            options = $merge({url: this.options.urls.rest},options);
+            options = Object.merge({},{url: this.options.urls.rest},options);
             this.options.requestOptions.method = 'PUT';
         } else {
-            options = $merge({url: this.options.urls.update},options);
+            options = Object.merge({},{url: this.options.urls.update},options);
             this.options.requestOptions.method = 'POST';
         }
         return this.run(record, options, "update");
@@ -198,10 +205,10 @@ Jx.Store.Protocol.Ajax = new Class({
      */
     "delete": function (record, options) {
         if (this.options.rest) {
-            options = $merge({url: this.options.urls.rest},options);
+            options = Object.merge({},{url: this.options.urls.rest},options);
             this.options.requestOptions.method = 'DELETE';
         } else {
-            options = $merge({url: this.options.urls['delete']},options);
+            options = Object.merge({},{url: this.options.urls['delete']},options);
             this.options.requestOptions.method = 'POST';
         }
         return this.run(record, options, "delete");
@@ -239,6 +246,7 @@ Jx.Store.Protocol.Ajax = new Class({
             record.each(function(r) {
               this.run(r, options, method);
             }, this);
+            return; //since everything should be processed now.
           } else {
             data = [];
             record.each(function(r) {
@@ -249,7 +257,7 @@ Jx.Store.Protocol.Ajax = new Class({
           data = this.parser.encode(record);
         }
 
-        this.options.requestOptions.data = $merge(this.options.requestOptions.data, {
+        this.options.requestOptions.data = Object.merge({},this.options.requestOptions.data, {
           data: data
         });
 
@@ -257,7 +265,7 @@ Jx.Store.Protocol.Ajax = new Class({
         resp.requestParams = [record, options, method];
 
         //set up options
-        opts = $merge(this.options.requestOptions, options);
+        opts = Object.merge({},this.options.requestOptions, options);
         opts.onSuccess = this.handleResponse.bind(this,resp);
         req = new Request(opts);
         resp.request = req;

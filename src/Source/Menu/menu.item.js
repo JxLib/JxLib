@@ -42,8 +42,8 @@ images:
  * This file is licensed under an MIT style license
  */
 Jx.Menu.Item = new Class({
-    Family: 'Jx.Menu.Item',
     Extends: Jx.Button,
+    Family: 'Jx.Menu.Item',
     // Binds: ['onMouseOver'],
     /**
      * Property: owner
@@ -65,12 +65,12 @@ Jx.Menu.Item = new Class({
          */
         template: '<li class="jxMenuItemContainer"><a class="jxMenuItem"><span class="jxMenuItemContent"><img class="jxMenuItemIcon" src="'+Jx.aPixel.src+'"><span class="jxMenuItemLabel"></span></span></a></li>'
     },
-    classes: new Hash({
+    classes: {
         domObj:'jxMenuItemContainer',
         domA: 'jxMenuItem',
         domImg: 'jxMenuItemIcon',
         domLabel: 'jxMenuItemLabel'
-    }),
+    },
     init: function() {
       this.bound.mouseover = this.onMouseOver.bind(this);
       this.parent();
@@ -119,7 +119,7 @@ Jx.Menu.Item = new Class({
      * Method: show
      * Show the menu item
      */
-    show: $empty,
+    show: function(){},
     /**
      * Method: clicked
      * Handle the user clicking on the menu item, overriding the <Jx.Button::clicked>

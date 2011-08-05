@@ -32,13 +32,13 @@ provides: [Jx.Formatter]
  * This file is licensed under an MIT style license
  */
 Jx.Formatter = new Class({
-    Family: 'Jx.Formatter',
     Extends: Jx.Object,
+    Family: 'Jx.Formatter',
 
     /**
      * APIMethod: format
      * Empty method that must be overridden by subclasses to provide
      * the needed formatting functionality.
      */
-    format: $empty
+    format: function(){}
 });

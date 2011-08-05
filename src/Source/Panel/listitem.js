@@ -28,18 +28,18 @@ provides: [Jx.ListItem]
  * This file is licensed under an MIT style license
  */
 Jx.ListItem = new Class({
-    Family: 'Jx.ListItem',
     Extends: Jx.Widget,
+    Family: 'Jx.ListItem',
 
     options: {
         enabled: true,
         template: '<li class="jxListItemContainer jxListItem"></li>'
     },
 
-    classes: new Hash({
+    classes: {
         domObj: 'jxListItemContainer',
         domContent: 'jxListItem'
-    }),
+    },
 
     /**
      * APIMethod: render

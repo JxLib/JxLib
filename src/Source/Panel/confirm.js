@@ -40,6 +40,7 @@ css:
 Jx.Dialog.Confirm = new Class({
 
     Extends: Jx.Dialog,
+    Family: "Jx.Dialog.Confirm",
 
     options: {
         /**
@@ -59,7 +60,12 @@ Jx.Dialog.Confirm = new Class({
         height: 150,
         close: false,
         resize: true,
-        collapse: false
+        collapse: false,
+        toolbarOptions: {
+            align: "center",
+            position: 'bottom',
+            scroll: false
+        }
     },
     /**
      * Reference to MooTools keyboards Class for handling keypress events like Enter or ESC
@@ -72,7 +78,7 @@ Jx.Dialog.Confirm = new Class({
     render: function () {
         //create content to be added
         //turn scrolling off as confirm only has 2 buttons.
-        this.buttons = new Jx.Toolbar({position: 'bottom',scroll: false});
+        this.buttons = new Jx.Toolbar(this.options.toolbarOptions);
 
         // COMMENT: returning boolean would be more what people expect instead of a localized label of a button?
         this.ok = new Jx.Button({
@@ -130,10 +136,10 @@ Jx.Dialog.Confirm = new Class({
     
     changeText: function (lang) {
     	this.parent();
-    	if ($defined(this.ok)) {
+    	if (this.ok != undefined && this.ok != null) {
     		this.ok.setLabel({set:'Jx',key:'confirm',value:'affirmativeLabel'});
     	}
-    	if ($defined(this.cancel)) {
+    	if (this.cancel != undefined && this.cancel != null) {
     		this.cancel.setLabel({set:'Jx',key:'confirm',value:'negativeLabel'});
     	}
       if(Jx.type(this.options.question) === 'object') {

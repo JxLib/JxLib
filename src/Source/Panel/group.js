@@ -32,6 +32,7 @@ provides: [Jx.Panel.DataView.Group]
 Jx.Panel.DataView.Group = new Class({
 
     Extends: Jx.Panel.DataView,
+    Family: "Jx.Panel.DataView.Group",
 
     options: {
         /**
@@ -106,7 +107,7 @@ Jx.Panel.DataView.Group = new Class({
         var d = this.options.data;
         var n = d.count();
 
-        if ($defined(n) && n > 0) {
+        if (n != undefined && n != null && n > 0) {
             var currentGroup = '';
             var itemList = null;
 
@@ -169,7 +170,7 @@ Jx.Panel.DataView.Group = new Class({
      * manager - <Jx.Selection> which selection obj to connect to this list
      */
     createList: function(container, options, manager){
-        return new Jx.List(container, $extend({
+        return new Jx.List(container, Object.append({
             onMouseenter: this.enterItem.bind(this),
             onMouseleave: this.leaveItem.bind(this),
             onAdd: this.addItem.bind(this),

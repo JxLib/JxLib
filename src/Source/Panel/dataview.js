@@ -39,6 +39,7 @@ provides: [Jx.Panel.DataView]
 Jx.Panel.DataView = new Class({
 
     Extends: Jx.Panel,
+    Family: "Jx.Panel.DataView",
 
     options: {
         /**
@@ -94,7 +95,7 @@ Jx.Panel.DataView = new Class({
      * at the end of the method.
      */
     render: function () {
-        if (!$defined(this.options.data)) {
+        if (this.options.data === undefined || this.options.data === null) {
             //we can't do anything without data
             return;
         }
@@ -127,7 +128,7 @@ Jx.Panel.DataView = new Class({
      */
     draw: function () {
         var n = this.options.data.count();
-        if ($defined(n) && n > 0) {
+        if (n != undefined && n != null && n > 0) {
             for (var i = 0; i < n; i++) {
                 this.options.data.moveTo(i);
 
@@ -269,7 +270,7 @@ Jx.Panel.DataView = new Class({
      * options - the options for the list
      */
     createList: function(container, options){
-        return new Jx.List(container, $extend({
+        return new Jx.List(container, Object.append({
             onMouseenter: this.enterItem.bind(this),
             onMouseleave: this.leaveItem.bind(this),
             onSelect:  this.selectItem.bind(this),

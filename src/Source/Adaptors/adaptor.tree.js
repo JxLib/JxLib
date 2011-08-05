@@ -69,7 +69,7 @@ Jx.Adaptor.Tree = new Class({
      */
     currentRecord: -1,
     init: function() {
-      this.folders = new Hash();
+      this.folders = {};
       this.parent();
     },
     /**
@@ -87,7 +87,7 @@ Jx.Adaptor.Tree = new Class({
         if (this.options.monitorFolders) {
             this.strategy = this.store.getStrategy('progressive');
 
-            if (!$defined(this.strategy)) {
+            if (this.strategy === undefined || this.strategy === null) {
                 this.strategy = new Jx.Store.Strategy.Progressive({
                     dropRecords: false,
                     getPaginationParams: function () { return {}; }
@@ -151,7 +151,7 @@ Jx.Adaptor.Tree = new Class({
 
             if (this.hasChildren(i)) {
                 //add as folder
-                item = new Jx.TreeFolder($merge(options.folderOptions, {
+                item = new Jx.TreeFolder(Object.merge({},options.folderOptions, {
                     label: template
                 }));
 
@@ -159,10 +159,10 @@ Jx.Adaptor.Tree = new Class({
                   item.addEvent('disclosed', this.checkFolder);
                 }
 
-                this.folders.set(i,item);
+                this.folders[i] = item;
             } else {
                 //add as item
-                item = new Jx.TreeItem($merge(options.itemOptions, {
+                item = new Jx.TreeItem(Object.merge({},options.itemOptions, {
                     label: template
                 }));
             }
@@ -170,8 +170,8 @@ Jx.Adaptor.Tree = new Class({
             //check for a parent
             if (this.hasParent(i)) {
                 //add as child of parent
-                var p = this.getParentIndex(i);
-                var folder = this.folders.get(p);
+                p = this.getParentIndex(i);
+                folder = this.folders[p];
                 folder.add(item);
             } else {
                 //otherwise add to the tree itself
@@ -189,13 +189,13 @@ Jx.Adaptor.Tree = new Class({
         var items = folder.items(),
             index,
             node;
-        if (!$defined(items) || items.length === 0) {
+        if (items === undefined || items === null || items.length === 0) {
             //get items via the store
-          index = document.id(folder).retrieve('index');
-          node = this.store.get('primaryKey', index);
-          this.busyFolder = folder;
-          this.busyFolder.setBusy(true);
-          this.busy = 'folder';
+            index = document.id(folder).retrieve('index');
+            node = this.store.get('primaryKey', index);
+            this.busyFolder = folder;
+            this.busyFolder.setBusy(true);
+            this.busy = 'folder';
             this.store.load({
                 node: node
             });
@@ -206,17 +206,17 @@ Jx.Adaptor.Tree = new Class({
      * Virtual method to be overridden by sublcasses. Determines if a specific
      * node has any children.
      */
-    hasChildren: $empty,
+    hasChildren: function(){},
     /**
      * Method: hasParent
      * Virtual method to be overridden by sublcasses. Determines if a specific
      * node has a parent node.
      */
-    hasParent: $empty,
+    hasParent: function(){},
     /**
      * Method: getParentIndex
      * Virtual method to be overridden by sublcasses. Determines the store index
      * of the parent node.
      */
-    getParentIndex: $empty
+    getParentIndex: function(){}
 });

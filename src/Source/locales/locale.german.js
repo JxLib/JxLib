@@ -40,16 +40,18 @@ MooTools.lang.set('de-DE', 'Jx', {
 	file: {
 		browseLabel: 'Durchsuchen...'
 	},
-	'formatter.boolean': {
-		'true': 'Ja',
-		'false': 'Nein'
-	},
-	'formatter.currency': {
-		sign: '€'
-	},
-	'formatter.number': {
-		decimalSeparator: ',',
-    thousandsSeparator: '.'
+	'formatter' : {
+        'boolean': {
+		    'true': 'Ja',
+	        'false': 'Nein'
+	    },
+	    'currency': {
+		    sign: '€'
+	    },
+	    'number': {
+		    decimalSeparator: ',',
+            thousandsSeparator: '.'
+	    }
 	},
 	splitter: {
 		barToolTip: 'Ziehen Sie diese Leiste um die Größe zu verändern'
@@ -85,11 +87,13 @@ MooTools.lang.set('de-DE', 'Jx', {
 	upload: {
 		buttonText: 'Dateien hochladen'
 	},
-	'plugin.resize': {
-	  tooltip: 'Klicken um Größe zu verändern. Doppelklick für automatische Anpassung.'
-	},
-  'plugin.editor': {
-    submitButton: 'Speichern',
-    cancelButton: 'Abbrechen'
-  }
+	'plugin': {
+        'resize': {
+	        tooltip: 'Klicken um Größe zu verändern. Doppelklick für automatische Anpassung.'
+	    },
+        'editor': {
+            submitButton: 'Speichern',
+            cancelButton: 'Abbrechen'
+        }
+	}
 });

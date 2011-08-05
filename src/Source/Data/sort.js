@@ -36,10 +36,9 @@ provides: [Jx.Sort]
  * This file is licensed under an MIT style license
  */
 Jx.Sort = new Class({
-
-    Family : 'Jx.Sort',
-
+    
     Extends : Jx.Object,
+    Family : 'Jx.Sort',
 
     options : {
         /**
@@ -50,11 +49,11 @@ Jx.Sort = new Class({
         /**
          * Event: onStart
          */
-        onStart : $empty,
+        onStart : function(){},
         /**
          * Event: onEnd
          */
-        onEnd : $empty
+        onEnd : function(){}
     },
 
     /**
@@ -71,7 +70,7 @@ Jx.Sort = new Class({
      * Property: Comparator
      * The comparator to use in sorting
      */
-    comparator : $empty,
+    comparator : function(){},
     /**
      * Property: col
      * The column to sort by
@@ -98,7 +97,7 @@ Jx.Sort = new Class({
      * APIMethod: sort
      * Actually does the sorting. Must be overridden by subclasses.
      */
-    sort : $empty,
+    sort : function(){},
 
     /**
      * Method: startTimer
@@ -125,7 +124,7 @@ Jx.Sort = new Class({
      * data - the data to sort
      */
     setData : function (data) {
-        if ($defined(data)) {
+        if (data !== undefined && data !== null) {
             this.data = data;
         }
     },
@@ -138,7 +137,7 @@ Jx.Sort = new Class({
      * col - the column to sort by
      */
     setColumn : function (col) {
-        if ($defined(col)) {
+        if (col !== undefined && col !== null) {
             this.col = col;
         }
     },

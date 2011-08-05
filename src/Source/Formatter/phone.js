@@ -36,6 +36,7 @@ provides: [Jx.Formatter.Phone]
 Jx.Formatter.Phone = new Class({
 
     Extends: Jx.Formatter,
+    family: "Jx.Formatter.Phone",
 
     options: {
         /**

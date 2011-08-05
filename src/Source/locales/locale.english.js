@@ -35,33 +35,35 @@ MooTools.lang.set('en-US', 'Jx', {
 	file: {
 		browseLabel: 'Browse...'
 	},
-	'formatter.boolean': {
-		'true': 'Yes',
-		'false': 'No'
-	},
-	'formatter.currency': {
-		sign: '$'
-	},
-	'formatter.number': {
-		decimalSeparator: '.',
-    thousandsSeparator: ','
+	'formatter': {
+        'boolean': {
+            'true': 'Yes',
+            'false': 'No'
+        },
+        'currency': {
+            sign: '$'
+        },
+        'number': {
+            decimalSeparator: '.',
+            thousandsSeparator: ','
+        }
 	},
 	splitter: {
 		barToolTip: 'drag this bar to resize'
 	},
-  panelset: {
-    barToolTip: 'drag this bar to resize'
-  },
+    panelset: {
+        barToolTip: 'drag this bar to resize'
+    },
 	panel: {
 		collapseTooltip: 'Collapse/Expand Panel',
-    collapseLabel: 'Collapse',
-    expandLabel: 'Expand',
-    maximizeTooltip: 'Maximize Panel',
-    maximizeLabel: 'Maximize',
-    restoreTooltip: 'Restore Panel',
-    restoreLabel: 'Restore',
-    closeTooltip: 'Close Panel',
-    closeLabel: 'Close'
+        collapseLabel: 'Collapse',
+        expandLabel: 'Expand',
+        maximizeTooltip: 'Maximize Panel',
+        maximizeLabel: 'Maximize',
+        restoreTooltip: 'Restore Panel',
+        restoreLabel: 'Restore',
+        closeTooltip: 'Close Panel',
+        closeLabel: 'Close'
 	},
 	confirm: {
 		affirmativeLabel: 'Yes',
@@ -80,11 +82,13 @@ MooTools.lang.set('en-US', 'Jx', {
 	upload: {
 		buttonText: 'Upload Files'
 	},
-	'plugin.resize': {
-	  tooltip: 'Drag to resize, double click to auto-size.'
-	},
-  'plugin.editor': {
-    submitButton: 'Save',
-    cancelButton: 'Cancel'
-  }
+	'plugin': {
+        'resize': {
+	        tooltip: 'Drag to resize, double click to auto-size.'
+	    },
+        'editor': {
+            submitButton: 'Save',
+            cancelButton: 'Cancel'
+        }
+	}
 });

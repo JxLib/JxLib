@@ -34,6 +34,7 @@ provides: [Jx.Field.Radio]
 Jx.Field.Radio = new Class({
 
     Extends: Jx.Field,
+    Family: "Jx.Field.Radio",
 
     options: {
         /**
@@ -62,8 +63,9 @@ Jx.Field.Radio = new Class({
     render: function () {
         this.parent();
 
-        if ($defined(this.options.checked) && this.options.checked) {
-            if (Browser.Engine.trident) {
+        if (this.options.checked !== undefined && this.options.checked !== null &&
+             this.options.checked) {
+            if (Browser.ie) {
                 var parent = this.field.getParent();
                 var sibling;
                 if (parent) {
@@ -137,7 +139,3 @@ Jx.Field.Radio = new Class({
     }
 
 });
-
-
-
-

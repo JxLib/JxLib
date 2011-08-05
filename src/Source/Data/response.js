@@ -30,8 +30,8 @@ provides: [Jx.Store.Response]
  */
 Jx.Store.Response = new Class({
 
-    Family: 'Jx.Store.Response',
     Extends: Jx.Object,
+    Family: 'Jx.Store.Response',
 
     /**
      * Property: code

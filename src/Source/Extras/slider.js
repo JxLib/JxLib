@@ -27,8 +27,8 @@ css:
  * License: MIT-style
  */
 Jx.Slider = new Class({
-    Family: 'Jx.Slider',
     Extends: Jx.Widget,
+    Family: 'Jx.Slider',
 
     options: {
         /**
@@ -78,13 +78,13 @@ Jx.Slider = new Class({
          *
          */
         offset: 0,
-        onChange: $empty,
-        onComplete: $empty
+        onChange: function(){},
+        onComplete: function(){}
     },
-    classes: new Hash({
+    classes: {
         domObj: 'jxSliderContainer',
         knob: 'jxSliderKnob'
-    }),
+    },
     slider: null,
     knob: null,
     sliderOpts: null,
@@ -137,7 +137,7 @@ Jx.Slider = new Class({
      * it up and position the slider at the startAt poisition.
      */
     start: function () {
-        if (!$defined(this.slider)) {
+        if (this.slider === undefined || this.slider === null) {
             this.slider = new Slider(this.domObj, this.knob, this.sliderOpts);
         }
         this.slider.set(this.options.startAt);

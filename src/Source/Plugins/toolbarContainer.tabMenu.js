@@ -39,8 +39,8 @@ provides: [Jx.Plugin.ToolbarContainer.TabMenu]
  */
 Jx.Plugin.ToolbarContainer.TabMenu = new Class({
 
-    Family: 'Jx.Plugin.ToolbarContainer.TabMenu',
     Extends: Jx.Plugin,
+    Family: 'Jx.Plugin.ToolbarContainer.TabMenu',
 
     Binds: ['addButton'],
 
@@ -93,7 +93,7 @@ Jx.Plugin.ToolbarContainer.TabMenu = new Class({
 
 
         var l = tab.getLabel();
-        if (!$defined(l)) {
+        if (l === undefined || l === null) {
             l = '';
         }
         var mi = new Jx.Menu.Item({

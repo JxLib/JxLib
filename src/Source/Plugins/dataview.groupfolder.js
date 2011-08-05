@@ -31,6 +31,7 @@ provides: [Jx.Plugin.DataView.GroupFolder]
 Jx.Plugin.DataView.GroupFolder = new Class({
 
     Extends: Jx.Plugin,
+    Family: "Jx.Plugin.DataView.GroupFolder",
 
     options: {
         /**
@@ -46,14 +47,14 @@ Jx.Plugin.DataView.GroupFolder = new Class({
      */
     headerState: null,
     init: function() {
-      this.headerState = new Hash();
+      this.headerState = {};
     },
     /**
      * APIMethod: attach
      * Attaches this plugin to a dataview
      */
     attach: function (dataView) {
-        if (!$defined(dataView) && !(dataview instanceof Jx.Panel.DataView)) {
+        if (dataView === undefined || dataView === null || !(dataview instanceof Jx.Panel.DataView)) {
             return;
         }
 
@@ -79,8 +80,8 @@ Jx.Plugin.DataView.GroupFolder = new Class({
                 onSlideIn: this.onSlideIn.bind(this, header)
             });
 
-            if (this.headerState.has(id)) {
-                var state = this.headerState.get(id);
+            if (Object.keys(this.headerState).contains(id)) {
+                var state = this.headerState[id];
                 if (state === 'open') {
                     s.slide('in');
                 } else {
@@ -100,7 +101,7 @@ Jx.Plugin.DataView.GroupFolder = new Class({
      * header - the header that was clicked.
      */
     onSlideIn: function (header) {
-        this.headerState.set(header.get('id'), 'open');
+        this.headerState[header.get('id')] = 'open';
         if (header.hasClass(this.options.headerClass + '-closed')) {
             header.removeClass(this.options.headerClass + '-closed');
         }
@@ -114,7 +115,7 @@ Jx.Plugin.DataView.GroupFolder = new Class({
      * header - the header that was clicked.
      */
     onSlideOut: function (header) {
-        this.headerState.set(header.get('id'), 'closed');
+        this.headerState[header.get('id')] = 'closed';
         if (header.hasClass(this.options.headerClass + '-open')) {
             header.removeClass(this.options.headerClass + '-open');
         }

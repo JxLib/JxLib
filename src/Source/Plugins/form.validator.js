@@ -32,6 +32,7 @@ provides: [Jx.Plugin.Form.Validator]
 Jx.Plugin.Form.Validator = new Class({
 
     Extends : Jx.Plugin,
+    Family: "Jx.Plugin.Form.Validator",
     name: 'Form.Validator',
 
     options: {
@@ -98,7 +99,7 @@ Jx.Plugin.Form.Validator = new Class({
      * Sets up the plugin and connects it to the form
      */
     attach: function (form) {
-        if (!$defined(form) && !(form instanceof Jx.Form)) {
+        if (form === undefined || form === null || !(form instanceof Jx.Form)) {
             return;
         }
         this.form = form;
@@ -117,16 +118,16 @@ Jx.Plugin.Form.Validator = new Class({
             });
         }
 
-        this.plugins = $H();
+        this.plugins = {};
 
         //setup the fields
-        $H(options.fields).each(function (val, key) {
-            var opts = $merge(this.options.fieldDefaults, val),
+        Object.each(options.fields, function (val, key) {
+            var opts = Object.merge({},this.options.fieldDefaults, val),
                 fields = this.form.getFieldsByName(key).
                 p;
             if (fields && fields.length) {
                 p = new Jx.Plugin.Field.Validator(opts);
-                this.plugins.set(key, p);
+                this.plugins[key] = p;
                 p.attach(fields[0]);
                 p.addEvent('fieldValidationFailed', this.bound.failed);
                 p.addEvent('fieldValidationPassed', this.bound.passed);
@@ -142,7 +143,7 @@ Jx.Plugin.Form.Validator = new Class({
             document.id(this.form).removeEvent('submit');
         }
         this.form = null;
-        this.plugins.each(function(plugin){
+        Object.each(this.plugins, function(plugin){
             plugin.detach();
             plugin = null;
         },this);
@@ -161,11 +162,11 @@ Jx.Plugin.Form.Validator = new Class({
      */
     validate: function () {
         var valid = true;
-        this.errors = $H();
-        this.plugins.each(function(plugin){
+        this.errors = {};
+        Object.each(this.plugins, function(plugin){
             if (!plugin.isValid()) {
                 valid = false;
-                this.errors.set(plugin.field.id,plugin.getErrors());
+                this.errors[plugin.field.id] = plugin.getErrors();
             }
         }, this);
         if (valid) {
@@ -194,7 +195,7 @@ Jx.Plugin.Form.Validator = new Class({
      * Use this method to get all of the errors from all of the fields.
      */
     getErrors: function () {
-        if (!$defined(this.errors)) {
+        if (this.errors !== undefined && this.errors !== null) {
            this.validate();
         }
         return this.errors;

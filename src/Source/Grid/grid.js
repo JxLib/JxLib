@@ -76,8 +76,8 @@ images:
  * This file is licensed under an MIT style license
  */
 Jx.Grid = new Class({
-  Family : 'Jx.Grid',
   Extends: Jx.Widget,
+  Family : 'Jx.Grid',
   Binds: ['storeLoaded', 'clickColumnHeader', 'moveColumnHeader', 'clickRowHeader', 'moveRowHeader', 'clickCell', 'dblclickCell', 'moveCell', 'leaveGrid', 'resize', 'drawStore', 'scroll', 'addRow', 'removeRow', 'removeRows', 'updateRow', 'storeChangesCompleted'],
 
   /**
@@ -118,7 +118,7 @@ Jx.Grid = new Class({
     store: null
   },
    
-  classes: $H({
+  classes: {
     domObj: 'jxWidget',
     columnContainer: 'jxGridColumnsContainer',
     colObj: 'jxGridColumns',
@@ -130,7 +130,7 @@ Jx.Grid = new Class({
     contentContainer: 'jxGridContentContainer',
     gridObj: 'jxGridContent',
     gridTableBody: 'jxGridTableBody'
-  }),
+  },
   
   /**
    * Property: columns
@@ -144,7 +144,7 @@ Jx.Grid = new Class({
    */
   row: null,
   
-  parameters: ['store', 'options'],
+  parameters: ['options'],
   
   /**
    * Property: store
@@ -161,7 +161,7 @@ Jx.Grid = new Class({
   
   /**
    * Property: hooks
-   * a {Hash} of event names for tracking which events have actually been attached
+   * an Object of event names for tracking which events have actually been attached
    * to the grid.
    */
   hooks: null,
@@ -178,33 +178,33 @@ Jx.Grid = new Class({
    */
   init: function() {
     this.uniqueId = this.generateId('jxGrid_');
-    this.store = this.options.store;
+    this.store = this.options.model;
     var options = this.options,
         opts;
 
-    if ($defined(options.row)) {
+    if (options.row !== undefined && options.row !== null) {
       if (options.row instanceof Jx.Row) {
         this.row = options.row;
         this.row.grid = this;
       } else if (Jx.type(options.row) == 'object') {
-        this.row = new Jx.Row($extend({grid: this}, options.row));
+        this.row = new Jx.Row(Object.append({grid: this}, options.row));
       }
     } else {
       this.row = new Jx.Row({grid: this});
     }
 
-    if ($defined(options.columns)) {
+    if (options.columns !== undefined && options.columns !== undefined) {
         if (options.columns instanceof Jx.Columns) {
             this.columns = options.columns;
             this.columns.grid = this;
         } else if (Jx.type(options.columns) === 'object') {
-            this.columns = new Jx.Columns($extend({grid:this}, options.columns));
+            this.columns = new Jx.Columns(Object.append({grid:this}, options.columns));
         }
     } else {
       this.columns = new Jx.Columns({grid: this});
     }
     
-    this.hooks = $H({
+    this.hooks = {
       'gridScroll': false,
       'gridColumnEnter': false,
       'gridColumnLeave': false,
@@ -217,7 +217,7 @@ Jx.Grid = new Class({
       'gridCellEnter': false,
       'gridCellLeave': false,
       'gridMouseLeave': false
-    });
+    };
     
     this.storeEvents = {
       'storeDataLoaded': this.storeLoaded,
@@ -234,61 +234,58 @@ Jx.Grid = new Class({
   },
   
   wantEvent: function(eventName) {
-    var hook = this.hooks.get(eventName);
+    var hook = this.hooks[eventName];
     if (hook === false) {
       switch(eventName) {
         case 'gridColumnEnter':
         case 'gridColumnLeave':
           this.colObj.addEvent('mousemove', this.moveColumnHeader);
-          this.hooks.set({
+          this.hooks = Object.merge(this.hooks,{
             'gridColumnEnter': true,
             'gridColumnLeave': true
           });
           break;
         case 'gridColumnClick':
           this.colObj.addEvent('click', this.clickColumnHeader);
-          this.hooks.set({
-            'gridColumnClick': true
-          });
+          this.hooks.gridColumnClick = true;
           break;
         case 'gridRowEnter':
         case 'gridRowLeave':
           this.rowObj.addEvent('mousemove', this.moveRowHeader);
-          this.hooks.set({
+          this.hooks = Object.merge(this.hooks,{
             'gridRowEnter': true,
             'gridRowLeave': true
           });
           break;
         case 'gridRowClick':
           this.rowObj.addEvent('click', this.clickRowHeader);
-          this.hooks.set({
-            'gridRowClick': true
-          });
+          this.hooks.gridRowClick = true;
           break;
         case 'gridCellEnter':
         case 'gridCellLeave':
           this.gridObj.addEvent('mousemove', this.moveCell);
-          this.hooks.set({
+          this.hooks = Object.merge(this.hooks, {
             'gridCellEnter': true,
             'gridCellLeave': true
           });
           break;
         case 'gridCellClick':
           this.gridObj.addEvent('click', this.clickCell);
-          this.hooks.set('gridCellClick', true);
+          this.hooks.gridCellClick = true;
           break;
         case 'gridCellDblClick':
           this.gridObj.addEvent('dblclick', this.dblclickCell);
-          this.hooks.set('gridCellDblClick', true);
+          this.hooks.gridCellDblClick = true;
           break;
         case 'gridMouseLeave':
           this.rowObj.addEvent('mouseleave', this.leaveGrid);
           this.colObj.addEvent('mouseleave', this.leaveGrid);
           this.gridObj.addEvent('mouseleave', this.leaveGrid);
-          this.hooks.set('gridMouseLeave', true);
+          this.hooks.gridMouseLeave = true;
           break;
         case 'gridScroll':
           this.contentContainer.addEvent('scroll', this.scroll);
+          break;
         default:
           break;
       }
@@ -342,9 +339,9 @@ Jx.Grid = new Class({
     this.contentContainer.setStyle('overflow', 'auto');
     
     // todo: very hacky!  can plugins 'wantEvent' between init and render?
-    this.hooks.each(function(value, key) {
+    Object.each(this.hooks, function(value, key) {
       if (value) {
-        this.hooks.set(key, false);
+        this.hooks[key] = false;
         this.wantEvent(key);
       }
     }, this);
@@ -469,39 +466,45 @@ Jx.Grid = new Class({
     store.options.columns.each(function(col, index) {
       if (!this.columns.getByName(col.name)) {
         var renderer = new Jx.Grid.Renderer.Text(),
-            format = $defined(col.format) ? col.format : null,
-            template = "<span class='jxGridCellContent'>"+ ($defined(col.label) ? col.label : col.name).capitalize() + "</span>",
+            format = (col.format !== undefined && col.format !== null) ? col.format : null,
+            template = "<span class='jxGridCellContent'>"+ ((col.label !== undefined && col.label !== null) ? col.label : col.name).capitalize() + "</span>",
             column;
-        if ($defined(col.renderer)) {
-          if ($type(col.renderer) == 'string') {
+        if (col.renderer !== undefined) {
+          if (Jx.type(col.renderer) == 'string') {
             if (Jx.Grid.Renderer[col.renderer.capitalize()]) {
               renderer = new Jx.Grid.Renderer[col.renderer.capitalize()]();
             }
-          } else if ($type(col.renderer) == 'object' && 
-                     $defined(col.renderer.type) && 
+          } else if (Jx.type(col.renderer) == 'object' && 
+                     col.renderer.type !== undefined &&
+                     col.renderer.type !== null &&
                      Jx.Grid.Renderer[col.renderer.type.capitalize()]) {
             renderer = new Jx.Grid.Renderer[col.renderer.type.capitalize()](col.renderer);
           }
         }
         if (format) {
-          if ($type(format) == 'string' && 
-              $defined(Jx.Formatter[format.capitalize()])) {
+          if (Jx.type(format) == 'string' && 
+              Jx.Formatter[format.capitalize()] !== undefined &&
+              Jx.Formatter[format.capitalize()] !== null) {
             renderer.options.formatter = new Jx.Formatter[format.capitalize()]();
-          } else if ($type(format) == 'object' && 
-                     $defined(format.type) && 
-                     $defined(Jx.Formatter[format.type.capitalize()])) {
+          } else if (Jx.type(format) == 'object' && 
+                     format.type !== undefined &&
+                     format.type !== null &&
+                     Jx.Formatter[format.type.capitalize()] !== undefined &&
+                     Jx.Formatter[format.type.capitalize()] !== null) {
              renderer.options.formatter = new Jx.Formatter[format.type.capitalize()](format);
           }
         }
         column = new Jx.Column({
           grid: this,
           template: template,
-          renderMode: $defined(col.renderMode) ? col.renderMode : $defined(col.width) ? 'fixed' : 'fit',
-          width: $defined(col.width) ? col.width : null,
-          isEditable: $defined(col.editable) ? col.editable : false,
-          isSortable: $defined(col.sortable) ? col.sortable : false,
-          isResizable: $defined(col.resizable) ? col.resizable : false,
-          isHidden: $defined(col.hidden) ? col.hidden : false,
+          renderMode: (col.renderMode !== undefined && col.renderMode !== null) ? 
+                        col.renderMode : 
+                        (col.width !== undefined && col.width !== undefined) ? 'fixed' : 'fit',
+          width: (col.width !== undefined && col.width !== null) ? col.width : null,
+          isEditable: (col.editable !== undefined && col.editable !== null) ? col.editable : false,
+          isSortable: (col.sortable !== undefined && col.sortable !== null) ? col.sortable : false,
+          isResizable: (col.resizable !== undefined && col.resizable !== null) ? col.resizable : false,
+          isHidden: (col.hidden !== undefined && col.hidden !== null) ? col.hidden : false,
           name: col.name || '',
           renderer: renderer 
         });
@@ -518,7 +521,7 @@ Jx.Grid = new Class({
         styles: {
           width: 1000
         }
-      }))
+      }));
       this.colObj.getElement('thead').empty().adopt(tr);
     }
     this.columns.calculateWidths();
@@ -659,7 +662,7 @@ Jx.Grid = new Class({
         th,
         text = index + 1,
         rh;
-    if (!$defined(position) || !['top','bottom','replace'].contains(position)) {
+    if (position === undefined || position === null || !['top','bottom','replace'].contains(position)) {
       position = 'bottom';
     }
     tr = row.getGridRowElement(index, '');

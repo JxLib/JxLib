@@ -73,8 +73,8 @@ images:
  * This file is licensed under an MIT style license
  */
 Jx.Toolbar = new Class({
-    Family: 'Jx.Toolbar',
     Extends: Jx.Widget,
+    Family: 'Jx.Toolbar',
     /**
      * Property: list
      * {<Jx.List>} the list that holds the items in this toolbar
@@ -124,9 +124,9 @@ Jx.Toolbar = new Class({
         scroll: true,
         template: '<ul class="jxToolbar"></ul>'
     },
-    classes: new Hash({
+    classes: {
         domObj: 'jxToolbar'
-    }),
+    },
     /**
      * APIMethod: render
      * Create a new instance of Jx.Toolbar.
@@ -134,7 +134,7 @@ Jx.Toolbar = new Class({
     render: function() {
         this.parent();
         this.domObj.store('jxToolbar', this);
-        if ($defined(this.options.id)) {
+        if (this.options.id !== undefined && this.options.id !== null) {
             this.domObj.id = this.options.id;
         }
 
@@ -150,7 +150,7 @@ Jx.Toolbar = new Class({
         if (this.options.parent) {
             this.addTo(this.options.parent);
         }
-        this.deactivateWatcher = this.deactivate.bindWithEvent(this);
+        this.deactivateWatcher = this.deactivate.bind(this);
         if (this.options.items) {
             this.add(this.options.items);
         }
@@ -191,7 +191,7 @@ Jx.Toolbar = new Class({
      * by passing multiple arguments.
      */
     add: function( ) {
-        $A(arguments).flatten().each(function(thing) {
+        Array.from(arguments).flatten().each(function(thing) {
             var item = thing;
             if (item.domObj) {
                 item = item.domObj;

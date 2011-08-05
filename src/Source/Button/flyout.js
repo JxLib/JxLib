@@ -75,8 +75,8 @@ images:
  * This file is licensed under an MIT style license
  */
 Jx.Button.Flyout = new Class({
-    Family: 'Jx.Button.Flyout',
     Extends: Jx.Button,
+    Family: 'Jx.Button.Flyout',
     Binds: ['keypressHandler', 'clickHandler'],
     options: {
         /* Option: template
@@ -107,10 +107,10 @@ Jx.Button.Flyout = new Class({
      * Property: contentClasses
      * the classes array for processing the contentTemplate
      */
-    contentClasses: new Hash({
+    contentClasses: {
         contentContainer: 'jxFlyout',
         content: 'jxFlyoutContent'
-    }),
+    },
 
     /**
      * Property: content
@@ -145,7 +145,7 @@ Jx.Button.Flyout = new Class({
     cleanup: function() {
       this.content.eliminate('jxFlyout');
       this.content.destroy();
-      this.contentClasses.each(function(v,k){
+      Object.each(this.contentClasses, function(v,k){
         this[k] = null;
       }, this);
       this.parent();
@@ -188,9 +188,9 @@ Jx.Button.Flyout = new Class({
        /* find out what we are contained by if we don't already know */
         if (!owner) {
             this.owner = owner = document.body;
-            var node = document.id(this.domObj.parentNode);
+            node = document.id(this.domObj.parentNode);
             while (node != document.body && owner == document.body) {
-                var flyout = node.retrieve('jxFlyout');
+                flyout = node.retrieve('jxFlyout');
                 if (flyout) {
                     this.owner = owner = flyout;
                     break;
@@ -239,7 +239,7 @@ Jx.Button.Flyout = new Class({
         this.showChrome(this.contentContainer);
 
         var rel = options.positionElement || this.domObj;
-        var pos = $merge(options.position, {
+        var pos = Object.merge({},options.position, {
           offsets: this.chromeOffsets
         });
         this.position(this.contentContainer, rel, pos);

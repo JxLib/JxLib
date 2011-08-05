@@ -31,6 +31,7 @@ provides: [Jx.Store.Strategy.Full]
 Jx.Store.Strategy.Full = new Class({
     
     Extends: Jx.Store.Strategy,
+    Family: "Jx.Store.Strategy.Full",
     
     name: 'full',
     
@@ -75,8 +76,8 @@ Jx.Store.Strategy.Full = new Class({
     load: function (params) {
         this.store.fireEvent('storeBeginDataLoad', this.store);
         this.store.protocol.addEvent('dataLoaded', this.bound.loadStore);
-        var opts = {}
-        if ($defined(params)) {
+        var opts = {};
+        if (params !== undefined && params !== null) {
             opts.data = params;
         } else {
             opts.data = {};
@@ -98,7 +99,7 @@ Jx.Store.Strategy.Full = new Class({
         this.store.protocol.removeEvent('dataLoaded', this.bound.loadStore);
         if (resp.success()) {
             this.store.empty();
-            if ($defined(resp.meta)) {
+            if (resp.meta !== undefined && resp.meta !== null) {
                 this.parseMetaData(resp.meta);
             }
             this.store.addRecords(resp.data);
@@ -118,10 +119,10 @@ Jx.Store.Strategy.Full = new Class({
      * meta - the meta data object from the response.
      */
     parseMetaData: function (meta) {
-        if ($defined(meta.columns)) {
+        if (meta.columns !== undefined && meta.columns !== null) {
             this.store.options.columns = meta.columns;
         }
-        if ($defined(meta.primaryKey)) {
+        if (meta.primaryKey !== undefined && meta.primaryKey !== null) {
             this.store.options.recordOptions.primaryKey = meta.primaryKey;
         }
     }

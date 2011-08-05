@@ -24,7 +24,7 @@ function drawBasicProgressbar() {
       parent: 'progressbarBasic'
   });
   progressBar.addEvent('update',function(){
-      log('updated!');
+      log('updated: ' + progress +" of " + total);
       fn.delay(300);
   });
   progressBar.addEvent('complete',function(){

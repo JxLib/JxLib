@@ -38,8 +38,9 @@ provides: [Jx.Field]
  * This file is licensed under an MIT style license
  */
 Jx.Field = new Class({
-    Family: 'Jx.Field',
+    
     Extends : Jx.Widget,
+    Family: 'Jx.Field',
     pluginNamespace: 'Field',
     Binds: ['changeText'],
     
@@ -183,34 +184,34 @@ Jx.Field = new Class({
      * The classes to search for in the template. Not
      * required, but we look for them.
      */
-    classes : new Hash({
+    classes : {
         domObj: 'jxInputContainer',
         label: 'jxInputLabel',
         tag: 'jxInputTag'
-    }),
+    },
 
     /**
      * APIMethod: render
      */
     render : function () {
-        this.classes.set('field', 'jxInput'+this.type);
-        var name = $defined(this.options.name) ? this.options.name : '';
+        this.classes.field = 'jxInput'+this.type;
+        var name = (this.options.name !== undefined && this.options.name !== null) ? this.options.name : '';
         this.options.template = this.options.template.substitute({name:name});
         this.parent();
 
         this.id = this.generateId();
         this.name = this.options.name;
 
-        if ($defined(this.type)) {
+        if (this.type !== undefined && this.type !== null) {
             this.domObj.addClass('jxInputContainer'+this.type);
         }
 
-        if ($defined(this.options.containerClass)) {
+        if (this.options.containerClass !== undefined && this.options.containerClass !== null) {
             this.domObj.addClass(this.options.containerClass);
         }
-        if ($defined(this.options.required) && this.options.required) {
+        if (this.options.required !== undefined && this.options.required !== null && this.options.required) {
             this.domObj.addClass('jxFieldRequired');
-            if ($defined(this.options.validatorClasses)) {
+            if (this.options.validatorClasses !== undefined && is.options.validatorClasses !== null) {
                 this.options.validatorClasses = 'required ' + this.options.validatorClasses;
             } else {
                 this.options.validatorClasses = 'required';
@@ -220,24 +221,26 @@ Jx.Field = new Class({
 
         // FIELD
         if (this.field) {
-            if ($defined(this.options.fieldClass)) {
+            if (this.options.fieldClass !== undefined && this.options.fieldClass !== null) {
                 this.field.addClass(this.options.fieldClass);
             }
 
-            if ($defined(this.options.value)) {
+            if (this.options.value !== undefined && this.options.value !== null) {
                 this.field.set('value', this.options.value);
             }
 
             this.field.set('id', this.id);
 
-            if ($defined(this.options.readonly)
-                    && this.options.readonly) {
+            if (this.options.readonly !== undefined &&
+                    this.options.readonly !== null &&
+                    this.options.readonly) {
                 this.field.set("readonly", "readonly");
                 this.field.addClass('jxFieldReadonly');
             }
 
-            if ($defined(this.options.disabled)
-                    && this.options.disabled) {
+            if (this.options.disabled !== undefined &&
+                    this.options.disabled !== null &&
+                    this.options.disabled) {
                 this.field.set("disabled", "disabled");
                 this.field.addClass('jxFieldDisabled');
             }
@@ -261,12 +264,12 @@ Jx.Field = new Class({
         }
         // LABEL
         if (this.label) {
-            if ($defined(this.options.labelClass)) {
+            if (this.options.labelClass !== undefined && this.options.labelClass !== null) {
                 this.label.addClass(this.options.labelClass);
             }
-            if ($defined(this.options.label)) {
-                this.label.set('html', this.getText(this.options.label)
-                        + this.options.labelSeparator);
+            if (this.options.label !== undefined && this.options.label !== null) {
+                this.label.set('html', this.getText(this.options.label) +
+                        this.options.labelSeparator);
             }
 
             this.label.set('for', this.id);
@@ -283,16 +286,17 @@ Jx.Field = new Class({
 
         // TAG
         if (this.tag) {
-            if ($defined(this.options.tagClass)) {
+            if (this.options.tagClass !== undefined && this.options.tagClass !== null) {
                 this.tag.addClass(this.options.tagClass);
             }
-            if ($defined(this.options.tag)) {
+            if (this.options.tag !== undefined && this.options.tag !== null) {
                 this.tag.set('html', this.options.tag);
             }
         }
 
-        if ($defined(this.options.form)
-                && this.options.form instanceof Jx.Form) {
+        if (this.options.form !== undefined &&
+                this.options.form !== null &&
+                this.options.form instanceof Jx.Form) {
             this.form = this.options.form;
             this.form.addField(this);
         }
@@ -377,7 +381,7 @@ Jx.Field = new Class({
      */
     changeText: function (lang) {
         this.parent();
-        if ($defined(this.options.label) && this.label) {
+        if (this.options.label !== undefined && this.options.label !== null && this.label) {
           this.label.set('html', this.getText(this.options.label) + this.options.labelSeparator);
         }
         if(this.options.required) {
@@ -387,7 +391,7 @@ Jx.Field = new Class({
           });
           this.requiredText.inject(this.label);
         }
-        if ($defined(this.requiredText)) {
+        if (this.requiredText !== undefined && his.requiredText !== null) {
           this.requiredText.set('html',this.getText({set:'Jx',key:'field',value:'requiredText'}));
         }
     }, 

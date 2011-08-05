@@ -31,6 +31,7 @@ provides: [Jx.Store.Strategy.Paginate]
 Jx.Store.Strategy.Paginate = new Class({
     
     Extends: Jx.Store.Strategy,
+    Family: "Jx.Store.Strategy.Paginate",
     
     name: 'paginate',
     
@@ -101,8 +102,8 @@ Jx.Store.Strategy.Paginate = new Class({
      */
     init: function () {
         this.parent();
-        this.data = new Hash();
-        this.cacheTimer = new Hash();
+        this.data = {};
+        this.cacheTimer = {};
         //set up bindings that we need here
         this.bound.load = this.load.bind(this);
         this.bound.loadStore = this.loadStore.bind(this);
@@ -139,7 +140,7 @@ Jx.Store.Strategy.Paginate = new Class({
         this.store.protocol.addEvent('dataLoaded', this.bound.loadStore);
         this.params = params;
         var opts = {
-            data: $merge(params, this.options.getPaginationParams.apply(this))
+            data: Object.merge({},params, this.options.getPaginationParams.apply(this))
         };
         this.store.protocol.read(opts);
     },
@@ -154,10 +155,10 @@ Jx.Store.Strategy.Paginate = new Class({
     loadStore: function (resp) {
         this.store.protocol.removeEvent('dataLoaded', this.bound.loadStore);
         if (resp.success()) {
-            if ($defined(resp.meta)) {
+            if (resp.meta !== undefined && resp.meta !== null) {
                 this.parseMetaData(resp.meta);
             }
-            this.data.set(this.page,resp.data);
+            this.data[this.page] = resp.data;
             this.loadData(resp.data);
         } else {
             this.store.fireEvent('storeDataLoadFailed', this.store);
@@ -177,7 +178,7 @@ Jx.Store.Strategy.Paginate = new Class({
         this.store.loaded = false;
         if (!this.options.ignoreExpiration) {
             var id = this.expirePage.delay(this.options.expirationInterval, this, this.page);
-            this.cacheTimer.set(this.page,id);
+            this.cacheTimer[this.page]  = id;
         }
         this.store.addRecords(data);
         this.store.loaded = true;
@@ -192,16 +193,16 @@ Jx.Store.Strategy.Paginate = new Class({
      * meta - the meta data object returned from the protocol.
      */
     parseMetaData: function (meta) {
-        if ($defined(meta.columns)) {
+        if (meta.columns !== undefined && meta.columns !== null) {
             this.store.options.columns = meta.columns;
         }
-        if ($defined(meta.totalItems)) {
+        if (meta.totalItems !== undefined && meta.totalItems !== null) {
             this.totalItems = meta.totalItems;
         }
-        if ($defined(meta.totalPages)) {
+        if (meta.totalPages !== undefined && meta.totalPages !== null) {
             this.totalPages = meta.totalPages;
         }
-        if ($defined(meta.primaryKey)) {
+        if (meta.primaryKey !== undefined && meta.primaryKey !== null) {
             this.store.options.recordOptions.primaryKey = meta.primaryKey;
         }
             
@@ -216,8 +217,8 @@ Jx.Store.Strategy.Paginate = new Class({
      * page - the page number to expire.
      */
     expirePage: function (page) {
-        this.data.erase(page);
-        this.cacheTimer.erase(page);
+        delete this.data[page];
+        delete this.cacheTimer[page];
     },
     /**
      * APIMethod: setPage
@@ -250,12 +251,12 @@ Jx.Store.Strategy.Paginate = new Class({
         } else {
             this.page = page;
         }
-        if (this.cacheTimer.has(this.page)) {
-            $clear(this.cacheTimer.get(this.page));
-            this.cacheTimer.erase(this.page);
+        if (Object.keys(this.cacheTimer).contains(this.page)) {
+            window.clearTimeout(this.cacheTimer.get(this.page));
+            delete this.cacheTimer[this.page];
         }
-        if (this.data.has(this.page)){
-            this.loadData(this.data.get(this.page));
+        if (Object.keys(this.data).contains(this.page)){
+            this.loadData(this.data[this.page]);
         } else {
             this.load(this.params);
         }
@@ -283,11 +284,11 @@ Jx.Store.Strategy.Paginate = new Class({
         //set the page size 
         this.itemsPerPage = size;
         //invalidate all pages cached and reload the current one only
-        this.cacheTimer.each(function(val){
-            $clear(val);
+        Object.each(this.cacheTimer, function(val){
+            window.clearTimeout(val);
         },this);
-        this.cacheTimer.empty();
-        this.data.empty();
+        this.cacheTimer = {};
+        this.data = {};
         this.load();
     },
     /**

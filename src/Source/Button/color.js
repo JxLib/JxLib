@@ -50,8 +50,8 @@ provides: [Jx.Button.Color]
  * This file is licensed under an MIT style license
  */
 Jx.Button.Color = new Class({
-    Family: 'Jx.Button.Color',
     Extends: Jx.Button.Flyout,
+    Family: 'Jx.Button.Color',
 
     /**
      * Property: swatch
@@ -88,12 +88,12 @@ Jx.Button.Color = new Class({
      * processing a widget template.  This allows developers to provide custom
      * HTML structures without affecting the functionality of widgets.
      */
-    classes: new Hash({
+    classes: {
         domObj: 'jxButtonContainer',
         domA: 'jxButton',
         swatch: 'jxButtonSwatchColor',
         domLabel: 'jxButtonLabel'
-    }),
+    },
 
     /**
      * Method: render
@@ -143,7 +143,7 @@ Jx.Button.Color = new Class({
         cp.options.color = this.options.color;
         cp.options.alpha = this.options.alpha/100;
         cp.updateSelected();
-},
+    },
 
     /**
      * APIMethod: hide

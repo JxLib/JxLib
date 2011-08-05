@@ -63,9 +63,10 @@ images:
  * This file is licensed under an MIT style license
  */
 Jx.Panel = new Class({
-    Family: 'Jx.Panel',
+    
     Extends: Jx.Widget,
-
+    Family: 'Jx.Panel',
+    
     toolbarContainers: {
         top: null,
         right: null,
@@ -122,7 +123,7 @@ Jx.Panel = new Class({
         template: '<div class="jxPanel"><div class="jxPanelTitle"><img class="jxPanelIcon" src="'+Jx.aPixel.src+'" alt="" title=""/><span class="jxPanelLabel"></span><div class="jxPanelControls"></div></div><div class="jxPanelContentContainer"><div class="jxPanelContent"></div></div></div>',
         controlButtonTemplate: '<a class="jxButtonContainer jxButton"><img class="jxButtonIcon" src="'+Jx.aPixel.src+'"></a>'
     },
-    classes: new Hash({
+    classes: {
         domObj: 'jxPanel',
         title: 'jxPanelTitle',
         domImg: 'jxPanelIcon',
@@ -130,7 +131,7 @@ Jx.Panel = new Class({
         domControls: 'jxPanelControls',
         contentContainer: 'jxPanelContentContainer',
         content: 'jxPanelContent'
-    }),
+    },
 
     /**
      * APIMethod: render
@@ -141,7 +142,8 @@ Jx.Panel = new Class({
 
         this.toolbars = this.options ? this.options.toolbars || [] : [];
 
-        this.options.position = ($defined(this.options.height) && !$defined(this.options.position)) ? 'relative' : 'absolute';
+        this.options.position = (this.options.height != undefined && this.options.height != null && 
+               (this.options.position === undefined || this.options.position == null)) ? 'relative' : 'absolute';
 
         if (this.options.image && this.domImg) {
             this.domImg.setStyle('backgroundImage', 'url('+this.options.image+')');
@@ -272,7 +274,7 @@ Jx.Panel = new Class({
         if (this.options.id) {
             this.domObj.id = this.options.id;
         }
-        var jxl = new Jx.Layout(this.domObj, $merge(this.options, {propagate:false}));
+        var jxl = new Jx.Layout(this.domObj, Object.merge({},this.options, {propagate:false}));
         var layoutHandler = this.layoutContent.bind(this);
         jxl.addEvent('sizeChange', layoutHandler);
 
@@ -356,7 +358,7 @@ Jx.Panel = new Class({
                     tbc = this.toolbarContainers[position];
                     // IE 6 doesn't seem to want to measure the width of
                     // things correctly
-                    if (Browser.Engine.trident4) {
+                    if (Browser.ie && Browser.ie4) {
                         var oldParent = document.id(tbc.parentNode);
                         tbc.style.visibility = 'hidden';
                         document.id(document.body).adopt(tbc);
@@ -364,7 +366,7 @@ Jx.Panel = new Class({
                     var size = tbc.getBorderBoxSize();
                     // put it back into its real parent now we are done
                     // measuring
-                    if (Browser.Engine.trident4) {
+                    if (Browser.ie && Browser.ie4) {
                         oldParent.adopt(tbc);
                         tbc.style.visibility = '';
                     }
@@ -509,7 +511,7 @@ Jx.Panel = new Class({
      * otherwise the state is toggled.
      */
     toggleCollapse: function(state) {
-        if ($defined(state)) {
+        if (state != undefined && state != null) {
             this.options.closed = state;
         } else {
             this.options.closed = !this.options.closed;
@@ -549,19 +551,19 @@ Jx.Panel = new Class({
     
     changeText: function (lang) {
     	this.parent();	//TODO: change this class so that we can access these properties without too much voodoo...
-    	if($defined(this.closeB)) {
+    	if(this.closeB != undefined && this.closeB != null) {
     		this.closeB.setTooltip({set:'Jx',key:'panel',value:'closeTooltip'});
     	}
-    	if ($defined(this.closeM)) {
+    	if (this.closeM != undefined && this.closeM != null) {
     		this.closeM.setLabel({set:'Jx',key:'panel',value:'closeLabel'});
     	}
-    	if ($defined(this.maxB)) {
+    	if (this.maxB != undefined && this.maxB != null) {
     		this.maxB.setTooltip({set:'Jx',key:'panel',value:'maximizeTooltip'});
     	}
-    	if ($defined(this.colB)) {
+    	if (this.colB != undefined && this.colB != null) {
     		this.colB.setTooltip({set:'Jx',key:'panel',value:'collapseTooltip'});
     	}
-    	if ($defined(this.colM)) {
+    	if (this.colM != undefined && this.colM != null) {
 	    	if (this.options.closed == true) {
 	    		this.colM.setLabel({set:'Jx',key:'panel',value:'expandLabel'});
 	    	} else {

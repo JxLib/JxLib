@@ -50,8 +50,8 @@ provides: [Jx.TabSet]
  * This file is licensed under an MIT style license
  */
 Jx.TabSet = new Class({
-    Family: 'Jx.TabSet',
     Extends: Jx.Object,
+    Family: 'Jx.TabSet',
     /**
      * Property: tabs
      * {Array} array of tabs that are managed by this tab set
@@ -105,7 +105,7 @@ Jx.TabSet = new Class({
      * than one tab can be added by passing extra parameters to this method.
      */
     add: function() {
-        $A(arguments).flatten().each(function(tab) {
+        Array.from(arguments).flatten().each(function(tab) {
             if (tab instanceof Jx.Tab) {
                 tab.addEvent('down',this.setActiveTabFn);
                 tab.tabSet = this;

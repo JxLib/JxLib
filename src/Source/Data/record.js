@@ -41,8 +41,12 @@ Jx.Record = new Class({
          * constructor (<Jx.Compare>) - defaults to '.'
          */
         separator : '.',
-
-        primaryKey: null
+        /**
+         * Option: primaryKey
+         * Indicates the column that acts as the primary key for this record.
+         * Defaults to id.
+         */
+        primaryKey: 'id'
     },
     /**
      * Property: data
@@ -77,29 +81,84 @@ Jx.Record = new Class({
      * boolean, or currency.
      */
     columns: null,
+    /**
+     * Property: virtuals
+     * An object that holds all virtual "columns" in this record. You can add
+     * virtuals by implementing them or subclassing Jx.Record.
+     * 
+     * Implement example:
+     * (code)
+     * Jx.Record.implement('virtuals',{
+     *     key: {
+     *       get: function(){},
+     *       set: function(data){}
+     *     }
+     * });
+     * (end)
+     * 
+     * or by subclassing:
+     * (code)
+     * var myRecord = new Class({
+     *     Extends: Jx.Record,
+     *     virtuals: {
+     *       key: {
+     *         get: function(){},
+     *         set: function(data){}
+     *       }
+     *     }
+     * });
+     * (end)
+     * 
+     * You can then just get and set these columns as you would normal columns.
+     */
+    virtuals: {
+        primaryKey: {
+            type: 'alphanumeric',
+            get: function(){
+                column = this.resolveCol(this.options.primaryKey);
+                return this.data[column.name];
+            }
+        }
+    },
 
     parameters: ['store', 'columns', 'data', 'options'],
 
     init: function () {
         this.parent();
-        if ($defined(this.options.columns)) {
+        if (this.options.columns !== undefined &&
+            this.options.columns !== null) {
             this.columns = this.options.columns;
         }
 
-        if ($defined(this.options.data)) {
+        if (this.options.data !== undefined &&
+            this.options.data !== null) {
             this.processData(this.options.data);
         } else {
-            this.data = new Hash();
+            this.data = {};
         }
 
-        if ($defined(this.options.store)) {
+        if (this.options.store !== undefined &&
+            this.options.store !== null) {
             this.store = this.options.store;
+        }
+        
+        //bind the get/set methods of virtuals to the this
+        for (var k in this.virtuals) {
+            var originalGet, originalSet;
+            if (this.virtuals[k].get !== undefined) {
+                originalGet = this.virtuals[k].get;
+                this.virtuals[k].get = originalGet.bind(this);
+            }
+            if (this.virtuals[k].set !== undefined) {
+                originalSet = this.virtuals[k].set;
+                this.virtuals[k].set = originalSet.bind(this);
+            }
         }
 
     },
     /**
      * APIMethod: get
-     * returns the value of the requested column. Can be programmed to handle
+     * returns the value of the requestehd column. Can be programmed to handle
      * pseudo-columns (such as the primaryKey column implemented in this base
      * record).
      *
@@ -107,16 +166,15 @@ Jx.Record = new Class({
      * column - the string, index, or object of the requested column
      */
     get: function (column) {
-        var type = Jx.type(column);
-        if (type !== 'object') {
-            if (column === 'primaryKey') {
-                column = this.resolveCol(this.options.primaryKey);
-            } else {
-                column = this.resolveCol(column);
-            }
+        
+        //first check for a virtual column
+        if (Jx.type(column) == 'string' && this.virtuals[column] !== undefined && this.virtuals[column].get !== undefined) {
+            return this.virtuals[column].get();
         }
-        if (this.data.has(column.name)) {
-            return this.data.get(column.name);
+        //if not virtual then it must be part of the data.
+        column = this.resolveCol(column);
+        if (column !== null && Object.keys(this.data).contains(column.name)) {
+            return this.data[column.name];
         } else {
             return null;
         }
@@ -130,21 +188,31 @@ Jx.Record = new Class({
      *  data - the data to add to the column
      */
     set: function (column, data) {
+        
+        //check for virtual setter
+        if (this.virtuals[column] !== undefined && this.virtuals[column].set !== undefined) {
+            //the virtual column needs to set any flags and fire necessary events.
+            return this.virtuals[column].set(data);
+        }
+        
         var type = Jx.type(column),
             oldValue;
         if (type !== 'object') {
             column = this.resolveCol(column);
         }
-
-        if (!$defined(this.data)) {
-            this.data = new Hash();
+        
+        if (column !== null) {
+            if (this.data === undefined || this.data === null) {
+                this.data = {};
+            }
+    
+            oldValue = this.get(column);
+            this.data[column.name] = data;
+            this.state = Jx.Record.UPDATE;
+            return [column.name, oldValue, data];
+        } else {
+            return null;
         }
-
-        oldValue = this.get(column);
-        this.data.set(column.name, data);
-        this.state = Jx.Record.UPDATE;
-        return [column.name, oldValue, data];
-        //this.store.fireEvent('storeColumnChanged', [this, column.name, oldValue, data]);
 
     },
     /**
@@ -152,28 +220,26 @@ Jx.Record = new Class({
      * Compares the value of a particular column with a given value
      *
      * Parameters:
-     * column - the column to compare with (either column name or index)
+     * column - the column to compare with (either column name, virtual name,
+     *          or index)
      * value - the value to compare to.
      *
      * Returns:
      * True | False depending on the outcome of the comparison.
      */
     equals: function (column, value) {
-        if (column === 'primaryKey') {
-            column = this.resolveCol(this.options.primaryKey);
-        } else {
-            column = this.resolveCol(column);
-        }
-        if (!this.data.has(column.name)) {
-            return null;
-        } else {
-            if (!$defined(this.comparator)) {
+        var col = this.resolveCol(column),
+            currentValue = this.get(col.name);
+        if (currentValue !== null){
+            if (this.comparator === undefined || this.comparator === null) {
                 this.comparator = new Jx.Compare({
                     separator : this.options.separator
                 });
             }
-            var fn = this.comparator[column.type].bind(this.comparator);
-            return (fn(this.get(column), value) === 0);
+            var fn = this.comparator[col.type].bind(this.comparator);
+            return (fn(currentValue, value) === 0);
+        } else {
+            return false;
         }
     },
     /**
@@ -187,7 +253,7 @@ Jx.Record = new Class({
      * data - the data to process
      */
     processData: function (data) {
-        this.data = $H(data);
+        this.data = data;
     },
 
     /**
@@ -200,26 +266,38 @@ Jx.Record = new Class({
      * Returns:
      * the column object referred to
      */
-    resolveCol : function (col) {
-        var t = Jx.type(col);
+    resolveCol: function (col) {
+        var t = Jx.type(col),
+            ret = null;
         if (t === 'number') {
-            col = this.columns[col];
+            ret = this.columns[col];
         } else if (t === 'string') {
-            this.columns.each(function (column) {
-                if (column.name === col) {
-                    col = column;
-                }
-            }, this);
+            //is it virtual?
+            if (Object.keys(this.virtuals).contains(col)){
+                ret = {
+                    name: col,
+                    type: this.virtuals[col].type
+                };
+            } else {
+                //not virtual so check the actual columns.
+                this.columns.each(function (column) {
+                    if (column.name === col) {
+                        ret = column;
+                    }
+                }, this);
+            }
         }
-        return col;
+        return ret;
     },
     /**
-     * APIMethod: asHash
-     * Returns the data for this record as a Hash
+     * APIMethod: asObject
+     * Returns the data for this record as a plain object
      */
-    asHash: function() {
+    asObject: function() {
         return this.data;
     }
+    
+    
 });
 
 Jx.Record.UPDATE = 1;

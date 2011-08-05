@@ -35,8 +35,8 @@ css:
  */
 Jx.Notifier = new Class({
     
-    Family: 'Jx.Notifier',
     Extends: Jx.ListView,
+    Family: 'Jx.Notifier',
     
     options: {
         /**
@@ -59,10 +59,10 @@ Jx.Notifier = new Class({
         listOptions: { }
     },
 
-    classes: new Hash({
+    classes: {
         domObj: 'jxNoticeListContainer',
         listObj: 'jxNoticeList'
-    }),
+    },
     
     /**
      * Method: render
@@ -71,10 +71,11 @@ Jx.Notifier = new Class({
     render: function () {
         this.parent();
         
-        if (!$defined(this.options.parent)) {
+        if (this.options.parent === undefined || this.options.parent === null) {
             this.options.parent = document.body;
         }
-        document.id(this.options.parent).adopt(this.domObj);
+        var parent = document.id(this.options.parent);
+        parent.adopt(this.domObj);
         
         this.addEvent('postRender', function() {
             if (Jx.type(this.options.items) == 'array') {
@@ -108,7 +109,7 @@ Jx.Notifier = new Class({
      * notice - {<Jx.Notice>} the notice to remove
      */
     remove: function (notice) {
-        if (this.domObj.hasChild(notice)) {
+        if (this.domObj.contains(document.id(notice))) {
             notice.removeEvents('close');
             notice.hide();
         }

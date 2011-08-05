@@ -41,7 +41,7 @@ Jx.Store.Parser = new Class({
      * Parameters:
      * data - string of data to parse
      */
-    parse: $empty,
+    parse: function(){},
     /**
      * APIMethod: encode
      * Takes an Jx.Record object and encodes it into a format that can be transmitted 
@@ -50,5 +50,5 @@ Jx.Store.Parser = new Class({
      * Parameters:
      * object - an object to encode
      */
-    encode: $empty
+    encode: function(){}
 });

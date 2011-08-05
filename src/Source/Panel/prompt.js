@@ -38,6 +38,7 @@ provides: [Jx.Dialog.Prompt]
 Jx.Dialog.Prompt = new Class({
 
     Extends: Jx.Dialog,
+    Family: "Jx.Dialog.Prompt",
 
     options: {
         /**
@@ -102,7 +103,9 @@ Jx.Dialog.Prompt = new Class({
             fOpts.options.value = this.options.startingValue;
             fOpts.options.containerClass = 'jxPrompt';
 
-        if(Jx.type(fOpts.type) === 'string' && $defined(Jx.Field[fOpts.type.capitalize()])) {
+        if(Jx.type(fOpts.type) === 'string' && 
+            Jx.Field[fOpts.type.capitalize()] != undefined &&  
+            Jx.Field[fOpts.type.capitalize()] != null) {
           this.field = new Jx.Field[fOpts.type.capitalize()](fOpts.options);
         }else if(Jx.type(fOpts.type) === 'Jx.Object'){
           this.field = fOpts.type;
@@ -134,7 +137,7 @@ Jx.Dialog.Prompt = new Class({
      * Called when the OK button is clicked. Closes the dialog.
      */
     onClick: function (value) {
-        if(value && $defined(this.validator)) {
+        if(value && this.validator != undefined && this.validator != null) {
           if(this.validator.isValid()) {
             this.isOpening = false;
             this.hide();
@@ -153,10 +156,10 @@ Jx.Dialog.Prompt = new Class({
     
     changeText: function (lang) {
     	this.parent();
-    	if ($defined(this.ok)) {
+    	if (this.ok != undefined && this.ok != null) {
     		this.ok.setLabel({set:'Jx',key:'prompt',value:'okButton'});
     	}
-    	if ($defined(this.cancel)) {
+    	if (this.cancel != undefined && this.cancel != null) {
     		this.cancel.setLabel({set:'Jx',key:'prompt',value:'cancelButton'});
     	}
       this.field.label.set('html', this.getText(this.options.prompt));

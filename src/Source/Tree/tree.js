@@ -8,8 +8,7 @@ description: Jx.Tree displays hierarchical data in a tree structure of folders a
 license: MIT-style license.
 
 requires:
- - Jx.Widget
- - Jx.List
+ - Jx.Widget.List
 
 provides: [Jx.Tree]
 
@@ -39,9 +38,10 @@ images:
  * This file is licensed under an MIT style license
  */
 Jx.Tree = new Class({
+    
+    Extends: Jx.Widget.List,
     Family: 'Jx.Tree',
-    Extends: Jx.Widget,
-    parameters: ['options','container', 'selection'],
+    parameters: ['options'],
     pluginNamespace: 'Tree',
     /**
      * APIProperty: selection
@@ -80,17 +80,33 @@ Jx.Tree = new Class({
          * Option: template
          * the default HTML template for a tree can be overridden
          */
-        template: '<ul class="jxTreeRoot"></ul>'
+        template: '<ul class="jxTreeRoot jxListContainer"></ul>',
+        
+        trackEvents: {
+            mouseenter: {
+                on: true,
+                obj: 'li > a'
+            },
+            mouseleave: {
+                on: true,
+                obj: 'li > a'
+            },
+            click: {
+                on: true,
+                obj: 'li > a, li > img'
+            }
+        }
     },
     /**
      * APIProperty: classes
-     * {Hash} a hash of property to CSS class names for extracting references
+     * {Object} anobject of property to CSS class names for extracting references
      * to DOM elements from the supplied templates.  Requires
      * domObj element, anything else is optional.
      */
-    classes: new Hash({domObj: 'jxTreeRoot'}),
+    classes: {domObj: 'jxTreeRoot'},
     
     frozen: false,
+    
     
     /**
      * APIMethod: render
@@ -98,41 +114,18 @@ Jx.Tree = new Class({
      */
     render: function() {
         this.parent();
-        if ($defined(this.options.container) &&
-            document.id(this.options.container)) {
-            this.domObj = this.options.container;
-        }
 
-        if (this.options.selection) {
-            this.selection = this.options.selection;
-        } else if (this.options.select) {
-            this.selection = new Jx.Selection(this.options);
-            this.ownsSelection = true;
-        }
+        this.options.returnJx = true;
+        
+        this.bound.toggle = this.toggle.bind(this);
 
-        this.bound.select = function(item) {
-            this.fireEvent('select', item.retrieve('jxTreeItem'));
-        }.bind(this);
-        this.bound.unselect = function(item) {
-            this.fireEvent('unselect', item.retrieve('jxTreeItem'));
-        }.bind(this);
-        this.bound.onAdd = function(item) {this.update();}.bind(this);
-        this.bound.onRemove = function(item) {this.update();}.bind(this);
+        this.addEvents({
+            click: this.bound.toggle,
+            dblclick: this.bound.toggle
+        });
+        
+        
 
-        if (this.selection && this.ownsSelection) {
-            this.selection.addEvents({
-                select: this.bound.select,
-                unselect: this.bound.unselect
-            });
-        }
-
-        this.list = new Jx.List(this.domObj, {
-                hover: true,
-                press: true,
-                select: true,
-                onAdd: this.bound.onAdd,
-                onRemove: this.bound.onRemove
-            }, this.selection);
         if (this.options.parent) {
             this.addTo(this.options.parent);
         }
@@ -154,9 +147,6 @@ Jx.Tree = new Class({
     
     setDirty: function(state) {
       this.dirty = state;
-      if (state && this.owner && this.owner.setDirty) {
-        this.owner.setDirty(state);
-      }
     },
 
     /**
@@ -167,26 +157,39 @@ Jx.Tree = new Class({
      * item - {<Jx.TreeItem>} or an array of items to be added
      * position - {mixed} optional location to add the items.  By default,
      * this is 'bottom' meaning the items are added at the end of the list.
-     * See <Jx.List::add> for options
+     * See <Jx.Widget.List::add> for options
      *
      * Returns:
      * {<Jx.Tree>} a reference to this object for chaining calls
      */
     add: function(item, position) {
-        if ($type(item) == 'array') {
+        if (Jx.type(item) == 'array') {
             item.each(function(what){ this.add(what, position); }.bind(this) );
             return;
         }
-        item.addEvents({
-            add: function(what) { this.fireEvent('add', what).bind(this); },
-            remove: function(what) { this.fireEvent('remove', what).bind(this); },
-            disclose: function(what) { this.fireEvent('disclose', what).bind(this); }
-        });
-        item.setSelection(this.selection);
+        if (item instanceof Jx.Tree.Folder) {
+            item.addEvents({
+                add: function(what) { 
+                    this.fireEvent('add', what); 
+                }.bind(this),
+                remove: function(what) { 
+                    this.fireEvent('remove', what); 
+                }.bind(this)
+                /*
+                click: function(what) { 
+                    this.fireEvent('click', what); 
+                }.bind(this)
+                */
+            });
+            item.setSelection(this.selection);
+            item.stopListening();
+        }
+        
         item.owner = this;
-        this.list.add(item, position);
+        this.parent(item,position);
         this.setDirty(true);
         this.update(true);
+        this.fireEvent('add',item);
         return this;
     },
     /**
@@ -200,12 +203,14 @@ Jx.Tree = new Class({
      * {<Jx.Tree>} a reference to this object for chaining calls
      */
     remove: function(item) {
-        item.removeEvents('add');
-        item.removeEvents('remove');
-        item.removeEvents('disclose');
+        if (item instanceof Jx.Tree.Folder) {
+            item.removeEvents('add');
+            item.removeEvents('remove');
+            item.removeEvents('disclose');
+            item.setSelection(null);
+        }
         item.owner = null;
-        this.list.remove(item);
-        item.setSelection(null);
+        this.parent(item);
         this.setDirty(true);
         this.update(true);
         return this;
@@ -222,11 +227,15 @@ Jx.Tree = new Class({
      * {<Jx.Tree>} a reference to this object for chaining calls
      */
     replace: function(item, withItem) {
+        if (item instanceof Jx.Tree.Folder) {
+            item.setSelection(null);
+        }
+        if (withItem instanceof Jx.Tree.Folder) {
+            withItem.setSelection(this.selection);
+        }
         item.owner = null;
         withItem.owner = this;
-        this.list.replace(item, withItem);
-        withItem.setSelection(this.selection);
-        item.setSelection(null);
+        this.parent(item, withItem);
         this.setDirty(true);
         this.update(true);
         return this;
@@ -239,24 +248,6 @@ Jx.Tree = new Class({
     cleanup: function() {
         // stop updates when removing existing items.
         this.freeze();
-        if (this.selection && this.ownsSelection) {
-            this.selection.removeEvents({
-                select: this.bound.select,
-                unselect: this.bound.unselect
-            });
-            this.selection.destroy();
-            this.selection = null;
-        }
-        this.list.removeEvents({
-          remove: this.bound.onRemove,
-          add: this.bound.onAdd
-        });
-        this.list.destroy();
-        this.list = null;
-        this.bound.select = null;
-        this.bound.unselect = null;
-        this.bound.onRemove = null;
-        this.bound.onAdd = null;
         this.parent();
     },
     
@@ -276,51 +267,37 @@ Jx.Tree = new Class({
         if (!this.list) return;
         if (this.frozen) return;
         
-        if ($defined(isLast)) {
+        if (isLast !== undefined && isLast !== null) {
             if (isLast) {
                 this.domObj.removeClass('jxTreeNest');
             } else {
                 this.domObj.addClass('jxTreeNest');
             }
         }
-        var last = this.list.count() - 1;
-        this.list.each(function(item, idx){
-            var lastItem = idx == last;
-            if (item.retrieve('jxTreeFolder')) {
-                item.retrieve('jxTreeFolder').update(shouldDescend, lastItem);
-            }
-            if (item.retrieve('jxTreeItem')) {
-                item.retrieve('jxTreeItem').update(lastItem);
+        var last = this.count() - 1;
+        this.each(function(item, idx){
+            var lastItem = idx == last,
+                jx = $jx(item);
+            if (jx instanceof Jx.Tree.Folder) {
+                jx.update(shouldDescend, lastItem);
+            } else if (jx instanceof Jx.Tree.Item) {
+                jx.update(lastItem);
             }
         });
         this.setDirty(false);
     },
 
     /**
-     * APIMethod: items
-     * return an array of tree item instances contained in this tree.
-     * Does not descend into folders but does return a reference to the
-     * folders
-     */
-    items: function() {
-        return this.list.items().map(function(item) {
-            return item.retrieve('jxTreeItem');
-        });
-    },
-    /**
      * APIMethod: empty
      * recursively empty this tree and any folders in it
      */
     empty: function() {
-        this.list.items().each(function(item){
-          var f = item.retrieve('jxTreeItem');
-          if (f && f instanceof Jx.TreeFolder) {
-            f.empty();
-          }
-          if (f && f instanceof Jx.TreeItem) {
-            this.remove(f);
-            f.destroy();
-          }
+        this.items().each(function(item){
+          if (item instanceof Jx.Tree.Folder) {
+            item.empty();
+          } 
+          this.remove(item);
+          item.destroy();
         }, this);
         this.setDirty(true);
     },
@@ -337,18 +314,18 @@ Jx.Tree = new Class({
      */
     findChild : function(path) {
         //path is empty - we are asking for this node
-        if (path.length == 0) {
+        if (path.length === 0) {
             return false;
         }
         //path has more than one thing in it, find a folder and descend into it
         var name = path[0];
         var result = false;
-        this.list.items().some(function(item) {
-            var treeItem = item.retrieve('jxTreeItem');
+        this.items().some(function(item) {
+            var treeItem = $jx(item);
             if (treeItem && treeItem.getLabel() == name) {
                 if (path.length > 0) {
-                    var folder = item.retrieve('jxTreeFolder');
-                    if (folder && path.length > 1) {
+                    var folder = $jx(item);
+                    if (folder && folder instanceof Jx.Tree.Folder && path.length > 1) {
                         result = folder.findChild(path.slice(1, path.length));
                     } else {
                       result = treeItem;
@@ -360,6 +337,28 @@ Jx.Tree = new Class({
             return result;
         });
         return result;
+    },
+    
+     /**
+     * APIMethod: toggle
+     * Checks if we have a folder and toggles its state between open and closed
+     *
+     * Returns:
+     * {<Jx.Tree>} a reference to this for chaining
+     */
+    toggle: function(el, obj) {
+        console.log('in toggle method');
+        if (!this.holdEvents) {
+            var jx = $jx(el);
+            if (jx instanceof Jx.Tree.Folder && jx.isEnabled(el)) {
+                if (jx.isOpen()) {
+                    jx.collapse();
+                } else {
+                    jx.expand();
+                }
+            }
+        }
+        return this;
     },
     
     /**
@@ -381,9 +380,12 @@ Jx.Tree = new Class({
             this.ownsSelection = false;
         }
         this.selection = selection;
-        this.list.setSelection(selection);
-        this.list.each(function(item) {
-            item.retrieve('jxTreeItem').setSelection(selection);
+        this.parent(selection);
+        this.each(function(item) {
+            var jx = $jx(item);
+            if (jx instanceof Jx.Tree.Folder) {
+                jx.setSelection(selection);
+            }
         });
         return this;
     }
