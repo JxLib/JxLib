@@ -3,7 +3,7 @@
 
 name: Jx.Button.Color
 
-description:
+description: A button that allows the user to select a color.
 
 license: MIT-style license.
 
