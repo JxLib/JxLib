@@ -7,19 +7,19 @@ description: Default translations of text strings used in JX for German (Germany
 license: MIT-style license.
 
 requires:
- - More/Lang
+ - More/Locale
 
 provides: [Locale.German]
 
 ...
  */
 
-MooTools.lang.set('de-DE', 'Date', {
+Locale.define('de-DE', 'Date', {
   // need to overwrite 'M&auml;rz' to 'März' for jx.select fields
   months: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember']
 });
 
-MooTools.lang.set('de-DE', 'Jx', {
+Locale.define('de-DE', 'Jx', {
 
 	'widget': {
 		busyMessage: 'Arbeite ...'

@@ -8,13 +8,13 @@ description: Default translations of text strings used in JX for US english (en-
 license: MIT-style license.
 
 requires:
- - More/Lang
+ - More/Locale
 
 provides: [Locale.English.US]
 
 ...
  */
-MooTools.lang.set('en-US', 'Jx', {
+Locale.define('en-US', 'Jx', {
 	
 	'widget': {
 		busyMessage: 'Working ...'

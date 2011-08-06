@@ -407,28 +407,15 @@ Jx.Object = new Class({
     /**
      * APIMethod: getText
      *
-     * returns the text for a jx.widget used in a label.
+     * returns the localized text.
      *
      * Parameters:
      * val - <String> || <Function> || <Object> = { set: '', key: ''[, value: ''] } for a MooTools.lang object
      */
     getText: function(val) {
-      var result = '';
-      if (Jx.type(val) == 'string' || Jx.type(val) == 'number') {
-        result = val;
-      } else if (Jx.type(val) == 'function') {
-        result = val();
-      } else if (Jx.type(val) == 'object' && val.set !== undefined &&
-                 val.set !== null && val.key !== undefined && val.key !== null) {
-        // COMMENT: just an idea how a localization object could be stored to the instance if needed somewhere else and options change?
-        this.i18n = val;
-        if(val.value !== undefined) {
-          result = MooTools.lang.get(val.set, val.key)[val.value];
-        }else{
-          result = MooTools.lang.get(val.set, val.key);
-        }
-      }
-      return result;
+      // COMMENT: just an idea how a localization object could be stored to the instance if needed somewhere else and options change?
+      this.i18n = val;
+      return Jx.getText(val);
     },
 
     /**
