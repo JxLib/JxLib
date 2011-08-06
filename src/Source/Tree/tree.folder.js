@@ -194,7 +194,9 @@ Jx.Tree.Folder = new Class({
         item.owner = this;
         this.parent(item,position);
         this.setDirty(true);
-        this.update(true);
+        if (this.owner) {
+            this.owner.update(true);
+        }
         return this;
     },
     
@@ -214,21 +216,42 @@ Jx.Tree.Folder = new Class({
         /* avoid update if not attached to tree yet */
         if (!this.domObj.parentNode) return;
         
+        if (isLast !== undefined && isLast !== null) {
+            if (isLast) {
+                this.container.removeClass('jxTreeNest');
+            } else {
+                this.container.addClass('jxTreeNest');
+            }
+        }
+        
         if (this.dirty || (this.owner && this.owner.dirty)) {
-          if (isLast === undefined || isLast === null) {
+            if (isLast === undefined || isLast === null) {
               isLast = this.domObj.hasClass('jxTreeBranchLastOpen') ||
                        this.domObj.hasClass('jxTreeBranchLastClosed');
-          }
-
-          ['jxTreeBranchOpen','jxTreeBranchLastOpen','jxTreeBranchClosed',
-          'jxTreeBranchLastClosed'].each(function(c){
+            }
+            
+            ['jxTreeBranchOpen','jxTreeBranchLastOpen','jxTreeBranchClosed',
+            'jxTreeBranchLastClosed'].each(function(c){
               this.removeClass(c);
-          }, this.domObj);
-
-          var c = 'jxTreeBranch';
-          c += isLast ? 'Last' : '';
-          c += this.options.open ? 'Open' : 'Closed';
-          this.domObj.addClass(c);
+            }, this.domObj);
+            
+            var c = 'jxTreeBranch';
+            c += isLast ? 'Last' : '';
+            c += this.options.open ? 'Open' : 'Closed';
+            this.domObj.addClass(c);
+            
+            if (shouldDescend) {
+                var last = this.count() - 1;
+                this.items().each(function(item, idx){
+                    var lastItem = idx == last,
+                        jx = $jx(item);
+                    if (jx instanceof Jx.Tree.Folder) {
+                        jx.update(shouldDescend, lastItem);
+                    } else if (jx instanceof Jx.Tree.Item) {
+                        jx.update(lastItem);
+                    }
+                });
+            }
         }
 
         

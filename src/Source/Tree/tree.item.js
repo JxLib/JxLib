@@ -285,6 +285,22 @@ Jx.Tree.Item = new Class ({
     },
     
     /**
+     * Method: update
+     * Update the CSS of the TreeItem's DOM element in case it has changed
+     * position
+     *
+     * Parameters:
+     * isLast - {Boolean} is the item the last one or not?
+     */
+    update : function(isLast) {
+        if (isLast) {
+            this.domObj.addClass(this.options.lastLeafClass);
+        } else {
+            this.domObj.removeClass(this.options.lastLeafClass);
+        }
+    },
+    
+    /**
      * APIMethod: setBusy
      * set the busy state of the widget
      *
@@ -306,6 +322,7 @@ Jx.Tree.Item = new Class ({
         }
       }
     },
+    
     changeText : function(lang) {
       this.parent();
       this.setLabel(this.options.label);

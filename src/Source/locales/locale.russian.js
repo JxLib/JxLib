@@ -8,13 +8,13 @@ description: Default translations of text strings used in JX for Russia (Russia)
 license: MIT-style license.
 
 requires:
- - More/Lang
+ - More/Locale
 
 provides: [Locale.Russian]
 
 ...
  */
-MooTools.lang.set('ru-RU-unicode', 'Jx', {
+Locale.define('ru-RU-unicode', 'Jx', {
 	
 	'widget': {
 		busyMessage: 'Обработка...'
