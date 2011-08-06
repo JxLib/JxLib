@@ -19,7 +19,7 @@ requires:
  - Core/Element.Event
  - Core/Element.Dimensions
  - More/Element.Measure
- - More/Lang
+ - More/Locale
  - Core/Slick.Finder
  - Core/Slick.Parser
 
@@ -121,7 +121,7 @@ if (typeof Jx === 'undefined') {
   var Jx = {};
 }
 
-Jx.version = "3.0";
+Jx.version = "3.1-pre";
 
 /**
  * APIProperty: {String} baseURL
@@ -221,7 +221,7 @@ if (Jx.isAir === undefined || Jx.isAir === null) {
  */
 Jx.setLanguage = function(lang) {
   Jx.lang = lang;
-  MooTools.lang.setLanguage(Jx.lang);
+  Locale.use(Jx.lang);
 };
 
 /**
@@ -243,6 +243,30 @@ if (Jx.lang === undefined || Jx.lang === null) {
 
 Jx.setLanguage(Jx.lang);
 
+ /**
+ * APIMethod: getText
+ *
+ * returns the localized text.
+ *
+ * Parameters:
+ * val - <String> || <Function> || <Object> = { set: '', key: ''[, value: ''] } for a MooTools.lang object
+ */
+Jx.getText = function(val) {
+  var result = '';
+  if (Jx.type(val) == 'string' || Jx.type(val) == 'number') {
+    result = val;
+  } else if (Jx.type(val) == 'function') {
+    result = val();
+  } else if (Jx.type(val) == 'object' && val.set !== undefined &&
+             val.set !== null && val.key !== undefined && val.key !== null){ 
+    if(val.value !== undefined) {
+      result = Locale.get(val.set + '.' + val.key + '.' + val.value);
+    }else{
+      result =  Locale.get(val.set + '.' + val.key);
+    }
+  }
+  return result;
+},
 /**
  * APIMethod: applyPNGFilter
  *

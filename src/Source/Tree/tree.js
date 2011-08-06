@@ -257,25 +257,17 @@ Jx.Tree = new Class({
      * position
      *
      * Parameters:
-     * shouldDescend - {Boolean} propagate changes to child nodes?
+     * shouldDescend - {Boolean} propagate changes to child nodes
      */
-    update: function(shouldDescend, isLast) {
+    update: function(shouldDescend) {
         // since the memory leak cleanup, it seems that update gets called
         // from the bound onRemove event after the list has been cleaned
         // up.  I suspect that there is a delayed function call for IE in
         // event handling (or some such thing) PS
-        if (!this.list) return;
         if (this.frozen) return;
         
-        if (isLast !== undefined && isLast !== null) {
-            if (isLast) {
-                this.domObj.removeClass('jxTreeNest');
-            } else {
-                this.domObj.addClass('jxTreeNest');
-            }
-        }
         var last = this.count() - 1;
-        this.each(function(item, idx){
+        this.items().each(function(item, idx){
             var lastItem = idx == last,
                 jx = $jx(item);
             if (jx instanceof Jx.Tree.Folder) {
