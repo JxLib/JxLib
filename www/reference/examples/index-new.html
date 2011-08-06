@@ -215,10 +215,11 @@
                 var v = o[i];
                 if (v instanceof Array) {
                     var folder = new Jx.Tree.Folder({label: {set:'Examples',key:'navigation',value:i}, open: true});
+                    tree.add(folder);
                     for (var j=0; j<v.length; j++) {
                         makeTreeItem(v[j], folder);
                     }
-                    tree.add(folder);
+                    
                 } else {
                     var item = new Jx.Tree.Item({
                         label: {set:'Examples',key:'navigation',value:i},
