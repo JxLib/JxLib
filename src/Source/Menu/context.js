@@ -42,7 +42,7 @@ Jx.Menu.Context = new Class({
     Extends: Jx.Menu,
     Family: 'Jx.Menu.Context',
 
-    parameters: ['id'],
+    parameters: ['id','options'],
 
     /**
      * APIMethod: render
