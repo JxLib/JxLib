@@ -123,7 +123,7 @@ Jx.Plugin.Form.Validator = new Class({
         //setup the fields
         Object.each(options.fields, function (val, key) {
             var opts = Object.merge({},this.options.fieldDefaults, val),
-                fields = this.form.getFieldsByName(key).
+                fields = this.form.getFieldsByName(key),
                 p;
             if (fields && fields.length) {
                 p = new Jx.Plugin.Field.Validator(opts);
