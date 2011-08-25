@@ -116,7 +116,7 @@ Jx.Store = new Class({
      * Used to determine if the store is completely initialized.
      */
     ready: false,
-    
+
     /**
      * Property: deleted
      * track deleted records before they are purged
@@ -131,7 +131,7 @@ Jx.Store = new Class({
         this.parent();
 
         this.deleted = [];
-        
+
         if (this.options.id !== undefined && this.options.id !== null) {
             this.id = this.options.id;
         }
@@ -534,7 +534,7 @@ Jx.Store = new Class({
         if (index === undefined && index !== null) {
             index = this.index;
         }
-        
+
         if (index instanceof Jx.Record) {
             return index;
         }
@@ -544,7 +544,7 @@ Jx.Store = new Class({
                 return this.data[index];
             }
         }
-        
+
         return null;
     },
     /**
@@ -562,7 +562,7 @@ Jx.Store = new Class({
             if (index === undefined  && index !== null) {
                 index = this.index;
             }
-            var record = new this.record(this.options.columns,data),
+            var record = new this.record(this, this.options.columns, data),
             oldRecord = this.data[index];
             this.data[index] = record;
             this.fireEvent('storeRecordReplaced', [oldRecord, record]);
@@ -737,12 +737,12 @@ Jx.Store = new Class({
         }, this);
         return template.substitute(itemObj);
     },
-    
+
     /**
      * APIMethod: equals
      * Compares to records to see if they are equivalent. Basically compares the
      * data objects.
-     * 
+     *
      * Parameters:
      * record - the first record to use in the comparison. Can either be a Jx.Record
      *          instance, oor an index to pull from the store.
@@ -751,8 +751,8 @@ Jx.Store = new Class({
     equals: function(record,compareTo) {
         record = this.getRecord(record);
         compareTo = this.getRecord(compareTo);
-        
+
         return record.data == compareTo.data;
     }
-    
+
 });
