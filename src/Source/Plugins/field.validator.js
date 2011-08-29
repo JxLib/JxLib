@@ -70,7 +70,13 @@ Jx.Plugin.Field.Validator = new Class({
          * Determines whether the plugin will validate the field on change.
          * Defaults to true.
          */
-        validateOnChange: true
+        validateOnChange: true,
+        /**
+         * Option: inlineErrors
+         * Determines whether or not the plugin will show inline error messages. 
+         * Defaults to false.
+         */
+        inlineErrors: false
     },
     /**
      * Property: valid
@@ -160,9 +166,29 @@ Jx.Plugin.Field.Validator = new Class({
         }, this);
         if (!this.valid) {
             this.field.domObj.removeClass('jxFieldSuccess').addClass('jxFieldError');
-            this.fireEvent('fieldValidationFailed', [this.field, this]);
+            this.fireEvent('fieldValidationFailed', [this.field, this]);            
+            if (this.options.inlineErrors) {
+            	//get width of label so error can be margined right
+            	var label = this.field.domObj.getChildren("label");
+            	var the_errors = ""; //build a list of the errors
+            	this.errors.each(function(error) {
+            		the_errors += error + '<br />';
+            	});
+            	if (the_errors) { the_errors.slice(0, -'<br />'.length); } //trim last <br />
+            	if (label.length && the_errors) {          	
+						var e = new Element("span", {
+							'class' : 'jxInputLabel jxInlineError',
+							style : 'display:block;margin-left:' + label[0].getSize().x + 'px',
+							html : the_errors
+						});
+						e.inject(this.field.field, 'after');
+					}
+            }            
         } else {
             this.field.domObj.removeClass('jxFieldError').addClass('jxFieldSuccess');
+            if (this.options.inlineErrors) {
+	            this.field.domObj.getElements('.jxInlineError').destroy();            
+	         }
             this.fireEvent('fieldValidationPassed', [this.field, this]);
         }
         return this.valid;
