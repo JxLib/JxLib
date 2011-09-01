@@ -3,7 +3,7 @@
 
 name: Jx.Field.Display 
 
-description: A Jx.Field.Display: Provide a way to only display a valuein a form similar to Ext.form.DisplayField 
+description: A Jx.Field.Display provides a way to only display a value in a form similar to Ext.form.DisplayField 
 
 license: MIT-style license. 
 
@@ -12,16 +12,16 @@ requires:
 
 provides: [Jx.Field.Display] 
 
-
+...
 */
+/**
+ * Class: Jx.Field.Display
+ **/
 Jx.Field.Display = new Class({
   Extends: Jx.Field,
   options: { 
-       template: '<span class="jxInputContainer"><
-label 
-class="jxInputLabel" ></label><span 
-class="jxInputTag"></span></span>' 
-   },
+       template: '<span class="jxInputContainer"><label class="jxInputLabel" ></label><span class="jxInputTag"></span></span>'
+  },
   render: function(){
     this.parent();
     this.field = new Element('div',{
