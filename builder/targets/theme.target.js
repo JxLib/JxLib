@@ -1,7 +1,6 @@
 var util = require("util");
 
 module.exports = function(config, logger) {
-    logger.debug("config passed in to theme target: " + util.inspect(config,false,null));
     return {
         name: "theme",
         description: "create a theme based on the theme variable",

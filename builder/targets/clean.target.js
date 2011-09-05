@@ -1,8 +1,7 @@
 var util = require("util");
 
 module.exports = function(config, logger){
-    logger.debug("in function of clean target");
-    logger.debug("The config object: " + util.inspect(config, false, null));
+    
     var ret = {
         name: "clean",
         description: "clean up areas that we copy files to including dist and build directories",

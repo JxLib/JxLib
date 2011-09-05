@@ -1,6 +1,6 @@
 
 
-module.exports = function(config) {
+module.exports = function(config,logger) {
     return {
         name: "prepare",
         description: "preparing core files",
