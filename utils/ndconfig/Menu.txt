@@ -48,13 +48,6 @@ Format: 1.4
 
 Group: Jx  {
 
-   File: Common  (no auto-title, Base/common.js)
-   File: List  (Base/list.js)
-   File: Object  (Base/object.js)
-   File: Selection  (Base/selection.js)
-   File: Stack  (Base/stack.js)
-   File: Styles  (Base/styles.js)
-   File: Widget  (Base/widget.js)
    File: Plugin  (Plugins/plugin.js)
    File: Adaptor  (Adaptors/adaptor.js)
 
@@ -88,6 +81,8 @@ Group: Jx  {
          File: Grid.Sorter  (Plugins/grid.sorter.js)
          File: Toolbar  (Plugins/plugin.toolbarContainer.js)
          File: ToolbarContainer.TabMenu  (Plugins/toolbarContainer.tabMenu.js)
+         File: Tree  (Plugins/plugin.tree.js)
+         File: Tree.Sorter  (Plugins/tree.sorter.js)
          }  # Group: Plugins
 
       }  # Group: Grid
@@ -161,8 +156,6 @@ Group: Jx  {
    Group: Tree  {
 
       File: Tree  (Tree/tree.js)
-      File: TreeFolder  (Tree/treefolder.js)
-      File: TreeItem  (Tree/treeitem.js)
 
       Group: Adaptors  {
 
@@ -173,6 +166,8 @@ Group: Jx  {
          File: combo.fill.js  (Adaptors/combo.fill.js)
          }  # Group: Adaptors
 
+      File: Tree.Folder  (Tree/tree.folder.js)
+      File: Tree.Item  (Tree/tree.item.js)
       }  # Group: Tree
 
    Group: Formatter  {
@@ -218,6 +213,7 @@ Group: Jx  {
       File: Field.Check  (Form/checkbox.js)
       File: Field.Color  (Form/jxcolor.js)
       File: Field.Combo  (Form/jxcombo.js)
+      File: Field.Display  (Form/display.js)
       File: Field.File  (Form/file.js)
       File: Field.Hidden  (Form/hidden.js)
       File: Field.Password  (Form/password.js)
@@ -237,6 +233,18 @@ Group: Jx  {
          }  # Group: Plugins
 
       }  # Group: Form
+
+   Group: Base  {
+
+      File: Common  (no auto-title, Base/common.js)
+      File: List  (Base/list.js)
+      File: Object  (Base/object.js)
+      File: Selection  (Base/selection.js)
+      File: Stack  (Base/stack.js)
+      File: Styles  (Base/styles.js)
+      File: Widget  (Base/widget.js)
+      File: Widget.List  (Base/widget.list.js)
+      }  # Group: Base
 
    }  # Group: Jx
 
