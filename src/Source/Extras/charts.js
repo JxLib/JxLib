@@ -63,7 +63,9 @@ Jx.Charts = new Class({
   		* could be any of [MilkChart.Column, MilkChart.Bar, MilkChart.Line,
   MilkChart.Scatter, MilkChart.Pie, MilkChart.Doughnut]
   		*/
-  		'class': MilkChart.Column,
+        //NOTE: Changed this to a string otherwise you MUST have Milkchart included
+        //on the page even if you're not using it.
+  		'class': 'Column',
   		/**
   		* Option: data
   		* an object containing the JSON data to display calling setData
@@ -83,7 +85,7 @@ Jx.Charts = new Class({
     	this.domObj = new Element('div');
       new Jx.Layout(this.domObj);
 
-      this.chart = new this.options.class(this.domObj,
+      this.chart = new MilkChart[this.options['class'].capitalize()](this.domObj,
 this.options);
       if(this.options.data != null){
       	this.chart.setData(this.options.data);

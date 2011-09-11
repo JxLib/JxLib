@@ -3,6 +3,9 @@
 /build
 /.idea
 
+#ignore the build log file
+build.log
+
 # /tests/interactive/UserTests/assets/
 /tests/interactive/UserTests/assets/themes
 /tests/interactive/UserTests/assets/a_pixel.png
