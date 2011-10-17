@@ -624,11 +624,7 @@ Jx.Dialog = new Class({
         this.isOpening = false;
         this.hide();
         if (this.options.destroyOnClose) {
-            if(this.blanket) {
-                this.blanket.dispose();
-            }
             this.domObj.dispose();
-            this.unstack();
         }
         this.fireEvent('close',[this]);
     },
