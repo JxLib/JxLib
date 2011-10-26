@@ -467,11 +467,15 @@ Jx.Widget.List = new Class({
                     } else {
                         el.inject(container, 'bottom');
                     }
-                } else if (container.contains(document.id(position))) {
-                    el.inject(position,'after');
                 } else if (['top','bottom','after','before'].contains(position)) {
                     el.inject(container,position);   
-                }
+                } else {
+                    var tempEl = document.id(position);
+                    if (tempEl !== undefined && tempEl !== null &&
+                        container.contains(tempEl)) {
+                        el.inject(position,'after');
+                    }
+                } 
                     
             } else {
                 el.inject(container, 'bottom');

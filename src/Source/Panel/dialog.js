@@ -624,11 +624,7 @@ Jx.Dialog = new Class({
         this.isOpening = false;
         this.hide();
         if (this.options.destroyOnClose) {
-            if(this.blanket) {
-                this.blanket.dispose();
-            }
             this.domObj.dispose();
-            this.unstack();
         }
         this.fireEvent('close',[this]);
     },
@@ -683,7 +679,7 @@ Jx.Dialog = new Class({
       var self = this;
       for(var i in this.options.keys) {
         // only add a reference once, otherwise keyboard events will be fired twice in subclasses
-        if(this.keyboardEvents[i] === undefined && this.keyboardEvents[i] === null) {
+        if(this.keyboardEvents[i] === undefined || this.keyboardEvents[i] === null) {
           if(this.keyboardMethods[this.options.keys[i]] !== undefined &&
              this.keyboardMethods[this.options.keys[i]] !== null) {
             this.keyboardEvents[i] = this.keyboardMethods[this.options.keys[i]];

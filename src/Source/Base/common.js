@@ -394,9 +394,14 @@ Jx.getPageDimensions = function() {
  * APIMethod: type
  * safely return the type of an object using the mootools type system
  */
+ //DEPRECATED:  With the new changes for 1.3 compatability this function is 
+ //no longer needed as typeOf returns the necessary info.
 Jx.type = function(obj) {
+  /**
   if (obj === null) return false;
   return typeof obj == 'undefined' ? false : obj.jxFamily || typeOf(obj);
+  */
+  return typeOf(obj);
 };
 
 (function($) {
