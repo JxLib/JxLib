@@ -1,4 +1,4 @@
-MooTools.lang.set('en-US', 'Examples', {
+Locale.define('en-US', 'Examples', {
 
   mainToolbar : {
     btnBgGrid   : 'Background Grid',
@@ -56,8 +56,8 @@ MooTools.lang.set('en-US', 'Examples', {
       'Progress-Bar'            : 'Progress Bar',
       'Slider'                  : 'Slider',
     'Adaptors'                  : 'Adaptors',
-      'Jx.Tree'                 : 'Jx.Tree',
-      'Jx.Field.Combo'          : 'Jx.Field.Combo'
+      'Tree-adaptor'            : 'Jx.Tree Adaptors',
+      'Combo-adaptor'           : 'Jx.Field.Combo Adaptors'
    },
 
   // name the 'key' after the html example page ?
@@ -179,7 +179,7 @@ MooTools.lang.set('en-US', 'Examples', {
 
 });
 
-MooTools.lang.set('de-DE', 'Examples', {
+Locale.define('de-DE', 'Examples', {
 
   mainToolbar : {
     btnBgGrid   : 'Hintergrund Raster',
@@ -359,7 +359,7 @@ MooTools.lang.set('de-DE', 'Examples', {
 
 });
 
-MooTools.lang.set('ru-RU-unicode', 'Examples', {
+Locale.define('ru-RU-unicode', 'Examples', {
 
   mainToolbar : {
     btnBgGrid   : 'Фоновая сетка',
