@@ -2,6 +2,7 @@
 # /
 /build
 /.idea
+build.log
 
 # /tests/interactive/UserTests/assets/
 /tests/interactive/UserTests/assets/themes
@@ -16,6 +17,7 @@
 /www/builder/more.json
 /www/builder/jxlib.json
 /www/builder/core.json
+/www/builder/deps.json
 
 # /www/builder/work/
 /www/builder/work/deps.json

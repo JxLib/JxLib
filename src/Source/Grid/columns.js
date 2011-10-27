@@ -113,7 +113,7 @@ Jx.Columns = new Class({
      * columns - {Array} an array of columns to add
      */
     addColumns: function(columns) {
-      this.columns.extend(columns);
+      Object.append(this.columns, columns);
       this.buildTemplates();
     },
     

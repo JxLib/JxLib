@@ -214,7 +214,7 @@ if (Jx.isAir === undefined || Jx.isAir === null) {
  * APIMethod: setLanguage
  * set the current language to be used by Jx widgets.  This uses the MooTools
  * lang module.  If an invalid or missing language is requested, the default
- * rules of MooTools.lang will be used (revert to en-US at time of writing).
+ * rules of Locale will be used (revert to en-US at time of writing).
  *
  * Parameters:
  * {String} language identifier, the language to set.
@@ -232,8 +232,8 @@ Jx.setLanguage = function(lang) {
  *
  * The language can be changed on the fly at anytime by calling
  * Jx.setLanguage().
- * By default all Jx.Widget subclasses will listen for the langChange event of
- * the Mootools.lang class. It will then call a method, changeText(), if it
+ * By default all Jx.Widget subclasses will listen for the onChange event of
+ * the Locale class. It will then call a method, changeText(), if it
  * exists on the particular widget. You will be able to disable listening for
  * these changes by setting the Jx.Widget option useLang to false.
  */
@@ -249,7 +249,7 @@ Jx.setLanguage(Jx.lang);
  * returns the localized text.
  *
  * Parameters:
- * val - <String> || <Function> || <Object> = { set: '', key: ''[, value: ''] } for a MooTools.lang object
+ * val - <String> || <Function> || <Object> = { set: '', key: ''[, value: ''] } for a Locale object
  */
 Jx.getText = function(val) {
   var result = '';

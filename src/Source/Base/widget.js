@@ -96,7 +96,7 @@ optional:
  * addTo - called when a widget is added to another element or widget
  * busy - called just before the busy mask is rendered/removed
  *
- * MooTools.Lang Keys:
+ * Locale Keys:
  * widget.busyMessage - sets the message of the waiter component when used
  */
 Jx.Widget = new Class({

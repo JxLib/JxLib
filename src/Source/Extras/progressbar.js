@@ -47,7 +47,7 @@ images:
  * onUpdate - Fired when the bar is updated
  * onComplete - fires when the progress bar completes it's fill
  * 
- * MooTools.lang keys:
+ * Locale keys:
  * - progressbar.messageText
  * - progressbar.progressText
  *
@@ -119,8 +119,8 @@ Jx.Progressbar = new Class({
         
         //Message
         if (this.message) {
-            if (MooTools.lang.get('Jx','progressbar').messageText !== undefined &&
-                MooTools.lang.get('Jx','progressbar').messageText !== null) {
+            if (Locale.get('Jx','progressbar').messageText !== undefined &&
+                Locale.get('Jx','progressbar').messageText !== null) {
                 this.message.set('html', this.getText({set:'Jx',key:'progressbar',value:'messageText'}));
             } else {
                 this.message.destroy();

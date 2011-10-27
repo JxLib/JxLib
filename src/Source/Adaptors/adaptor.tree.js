@@ -151,7 +151,7 @@ Jx.Adaptor.Tree = new Class({
 
             if (this.hasChildren(i)) {
                 //add as folder
-                item = new Jx.TreeFolder(Object.merge({},options.folderOptions, {
+                item = new Jx.Tree.Folder(Object.merge({},options.folderOptions, {
                     label: template
                 }));
 
@@ -162,7 +162,7 @@ Jx.Adaptor.Tree = new Class({
                 this.folders[i] = item;
             } else {
                 //add as item
-                item = new Jx.TreeItem(Object.merge({},options.itemOptions, {
+                item = new Jx.Tree.Item(Object.merge({},options.itemOptions, {
                     label: template
                 }));
             }

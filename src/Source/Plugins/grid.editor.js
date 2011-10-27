@@ -64,8 +64,8 @@ Jx.Plugin.Grid.Editor = new Class({
        * - useLabel   - determines whether to use labels on top of the input.
        *                Text will be the column header
        * - useButtons - determines whether to use Submit and Cancel Buttons
-       * - buttonLabel.submit - Text for Submit Button, uses MooTools.lang.get('Jx', 'plugin.editor').submitButton for default
-       * - buttonLabel.cancel - Text for Cancel Button, uses MooTools.lang.get('Jx', 'plugin.editor').cancelButton for default
+       * - buttonLabel.submit - Text for Submit Button, uses Locale.get('Jx', 'plugin.editor').submitButton for default
+       * - buttonLabel.cancel - Text for Cancel Button, uses Locale.get('Jx', 'plugin.editor').cancelButton for default
        */
       popup : {
         use           : true,

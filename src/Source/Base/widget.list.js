@@ -266,7 +266,10 @@ Jx.Widget.List = new Class({
                     //console.log('mouseleave in Widget.List on ',el);
                     el = document.id($jx(el));
                     if (target.isEnabled(el)) {
+                        //remove hoverClass
                         el.removeClass(options.hoverClass);
+                        //and the pressedClass
+                        el.removeClass(options.pressClass);
                         target.fireEvent('mouseleave', [el, target, e]);
                     }
                 }
@@ -369,7 +372,9 @@ Jx.Widget.List = new Class({
             this.setSelection(options.selection);
             options.select = true;
         } else if (options.select) {
-            this.selection = new Jx.Selection(options);
+            var opts = Object.merge({},options);
+            delete opts.plugins;
+            this.selection = new Jx.Selection(opts);
             this.ownsSelection = true;
         }
 

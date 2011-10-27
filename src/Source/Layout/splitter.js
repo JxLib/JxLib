@@ -38,7 +38,7 @@ css:
  * (code)
  * (end)
  * 
- * MooTools.lang Keys:
+ * Locale Keys:
  * - splitter.barToolTip
  *
  * License:
