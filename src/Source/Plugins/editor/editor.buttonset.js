@@ -9,7 +9,8 @@ license: MIT-style license.
 
 requires:
  - Jx.Plugin.Editor
- - jxlib/Jx.ButtonSet
+ - Jx.ButtonSet
+ - Jx.Button
 
 provides: [Jx.Plugin.Editor.ButtonSet]
 

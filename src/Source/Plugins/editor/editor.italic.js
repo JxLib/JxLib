@@ -3,7 +3,7 @@
 
 name: Jx.Plugin.Editor.Italic
 
-description:
+description: Button to italicize text in the editor.
 
 license: MIT-style license.
 

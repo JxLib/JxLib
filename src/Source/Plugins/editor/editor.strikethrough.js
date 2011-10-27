@@ -3,7 +3,7 @@
 
 name: Jx.Plugin.Editor.Strikethrough
 
-description:
+description: Strikethrough button for editor
 
 license: MIT-style license.
 

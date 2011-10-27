@@ -3,14 +3,15 @@
 
 name: Jx.Editor
 
-description:
+description: A very simplistic IFrame-based WYSIWYG editor.
 
 license: MIT-style license.
 
 requires:
- - jxlib/Jx.Widget
- - jxlib/Jx.Layout
- - jxlib/Jx.Toolbar.Container
+ - Jx.Widget
+ - Jx.Layout
+ - Jx.Toolbar.Container
+ - Core/Browser
 
 provides: [Jx.Editor]
 
@@ -606,20 +607,4 @@ Jx.Editor = new Class({
             plugin.setEnabled(false);
         },this);
     }
-
-    /**
-
-    ,
-
-    addTo: function (reference, where) {
-
-        if (this.options.deferRender) {
-            this.options.parent = $(reference);
-            this.render();
-        } else {
-            this.parent(reference, where);
-        }
-
-    }
-    */
 });

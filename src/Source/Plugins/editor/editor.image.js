@@ -3,13 +3,13 @@
 
 name: Jx.Plugin.Editor.Image
 
-description:
+description: Button to add an image to the editor.
 
 license: MIT-style license.
 
 requires:
  - Jx.Plugin.Editor
- - jxlib/Jx.Dialog.Prompt
+ - Jx.Dialog.Prompt
 
 provides: [Jx.Plugin.Editor.Image]
 

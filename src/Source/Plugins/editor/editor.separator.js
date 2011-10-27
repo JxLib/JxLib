@@ -3,15 +3,15 @@
 
 name: Jx.Plugin.Editor.Separator
 
-description:
+description: Separator for toolbar in editor 
 
 license: MIT-style license.
 
 requires:
- - jxlib/Jx.Toolbar.Separator
+ - Jx.Toolbar.Separator
  - Jx.Plugin.Editor
 
-provides: [Jx]
+provides: [Jx.Plugin.Editor.Separator]
 
 ...
  */

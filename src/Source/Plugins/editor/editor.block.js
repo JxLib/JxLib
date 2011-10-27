@@ -8,7 +8,7 @@ description: Creates block level tags in the editor
 license: MIT-style license.
 
 requires:
- - jxlib/Jx.Field.Select
+ - Jx.Field.Select
  - Jx.Plugin.Editor
 
 provides: [Jx.Plugin.Editor.Block]

@@ -3,7 +3,7 @@
 
 name: Jx.Plugin.Editor.Unlink
 
-description:
+description: Button to unlink text.
 
 license: MIT-style license.
 

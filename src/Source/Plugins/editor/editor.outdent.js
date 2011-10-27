@@ -3,7 +3,7 @@
 
 name: Jx.Plugin.Editor.Outdent
 
-description:
+description: Button to outdent lists.
 
 license: MIT-style license.
 

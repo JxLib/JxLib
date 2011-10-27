@@ -3,7 +3,7 @@
 
 name: Jx.Plugin.Editor.Indent
 
-description:
+description: Button to indent a list in the editor.
 
 license: MIT-style license.
 

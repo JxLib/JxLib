@@ -3,13 +3,13 @@
 
 name: Jx.Plugin.Editor.CustomStyles
 
-description:
+description: Creates a drop down with styles that were passed in.
 
 license: MIT-style license.
 
 requires:
  - Jx.Plugin.Editor
- - jxlib/Jx.Field.Select
+ - Jx.Field.Select
 
 provides: [Jx.Plugin.Editor.CustomStyles]
 

@@ -3,14 +3,14 @@
 
 name: Jx.Plugin.Editor.Link
 
-description:
+description: Button to create a link in the editor.
 
 license: MIT-style license.
 
 requires:
  - Jx.Plugin.Editor.Button
- - jxlib/Jx.Dialog.Message
- - jxlib/Jx.Dialog.Prompt
+ - Jx.Dialog.Message
+ - Jx.Dialog.Prompt
 
 provides: [Jx.Plugin.Editor.Link]
 

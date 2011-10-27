@@ -3,7 +3,7 @@
 
 name: Jx.Plugin.Editor.Undo
 
-description:
+description: Button to undo commands in the editor.
 
 license: MIT-style license.
 

@@ -3,7 +3,7 @@
 
 name: Jx.Plugin.Editor.Unorderedlist
 
-description:
+description: Button to create an unordered list.
 
 license: MIT-style license.
 

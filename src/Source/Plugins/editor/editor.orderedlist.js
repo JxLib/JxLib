@@ -3,7 +3,7 @@
 
 name: Jx.Plugin.Editor.Orderedlist
 
-description:
+description: Button to create an ordered list.
 
 license: MIT-style license.
 

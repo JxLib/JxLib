@@ -3,7 +3,7 @@
 
 name: Jx.Plugin.Editor.Underline
 
-description:
+description: Button to underline text in editor.
 
 license: MIT-style license.
 

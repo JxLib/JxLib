@@ -3,13 +3,12 @@
 
 name: Jx.Editor.Selection
 
-description:
+description: Selection object for use in the editor.
 
 license: MIT-style license.
 
 requires:
  - Jx.Editor
- - jxlib/Jx.Object
 
 provides: [Jx.Editor.Selection]
 

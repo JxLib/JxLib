@@ -3,7 +3,7 @@
 
 name: Jx.Plugin.Editor.Redo
 
-description:
+description: Button to redo changes.
 
 license: MIT-style license.
 

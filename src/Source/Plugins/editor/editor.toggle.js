@@ -3,7 +3,7 @@
 
 name: Jx.Plugin.Editor.Toggle
 
-description:
+description: Button to toggle HTML view.
 
 license: MIT-style license.
 
@@ -42,6 +42,6 @@ Jx.Plugin.Editor.Toggle = new Class({
         this.editor.toggleView();
     },
     
-    setEnabled: $empty
+    setEnabled: function(){}
     
 });

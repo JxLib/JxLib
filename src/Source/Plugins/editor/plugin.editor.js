@@ -3,12 +3,12 @@
 
 name: Jx.Plugin.Editor
 
-description:
+description: Editor plugins namespace. 
 
 license: MIT-style license.
 
 requires:
- - jxlib/Jx.Plugin
+ - Jx.Plugin
 
 provides: [Jx.Plugin.Editor]
 
