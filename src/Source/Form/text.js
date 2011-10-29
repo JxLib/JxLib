@@ -65,6 +65,10 @@ Jx.Field.Text = new Class({
     render: function () {
         this.parent();
 
+        this.field.addEvents({
+            keydown: this.onKeyDown.bind(this),
+            keyup: this.onKeyUp.bind(this)
+        });
         //create the overText instance if needed
         if (this.options.overText !== undefined && this.options.overText !== null) {
             var opts = Object.append({}, this.options.overText);
@@ -73,6 +77,14 @@ Jx.Field.Text = new Class({
             this.overText.show();
         }
 
+    },
+    
+    onKeyDown: function(e){
+        this.fireEvent('keydown',[this,e]);
+    },
+    
+    onKeyUp: function(e){
+        this.fireEvent('keyup', [this,e]);   
     }
 
 });
