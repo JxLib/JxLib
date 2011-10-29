@@ -46,7 +46,7 @@ Jx.Plugin.Editor.Image = new Class({
     },
     
     finish: function (dialog, result, url) {
-        if (result.toLowerCase() === 'ok') {
+        if (result) {
             this.editor.execute(this.action, false, url.trim());
         }
     }

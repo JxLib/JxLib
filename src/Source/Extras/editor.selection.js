@@ -14,6 +14,15 @@ provides: [Jx.Editor.Selection]
 
 ...
  */
+/**
+ * Class: Jx.Editor.Selection
+ * 
+ * This class provides a selection object for working with textual 
+ * selections in an IFrame (specifically the one for <Jx.Editor>).
+ *
+ * Copyright (c) 2011 by Jonathan Bomgardner
+ * Licensed under an mit-style license
+ */
 Jx.Editor.Selection = new Class({
     
     Extends: Jx.Object,

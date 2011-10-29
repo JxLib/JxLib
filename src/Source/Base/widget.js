@@ -801,6 +801,10 @@ Jx.Widget = new Class({
           if ( this.options.id !== undefined && this.options.id !== null) {
             this.domObj.set('id', this.options.id);
           }
+          //if a parent is passed in add this widget to it
+          if (this.options.parent !== undefined && this.options.parent !== null) {
+            this.addTo(this.options.parent);
+          }
           //TODO: Should we autogenerate an id when one is not provided? like so...
           // this.domObj.set('id',this.generateId());
           this.domObj.store('jxWidget', this);

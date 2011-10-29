@@ -328,6 +328,7 @@ Jx.Object = new Class({
             }
         }
     },
+    
 
     /**
      * APIMethod: destroy

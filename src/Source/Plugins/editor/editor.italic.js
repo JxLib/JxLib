@@ -61,7 +61,7 @@ Jx.Plugin.Editor.Italic = new Class({
     },
     
     parse: function () {
-        if (Browser.Engine.gecko) {
+        if (Browser.firefox) {
             var s = this.editor.textarea.get('value')
                 .replace(/<embed([^>]*)>/gi, '<tmpembed$1>')
                 .replace(/<em([^>]*)>/gi, '<i$1>')

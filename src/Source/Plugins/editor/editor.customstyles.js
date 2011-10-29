@@ -17,9 +17,12 @@ provides: [Jx.Plugin.Editor.CustomStyles]
  */
 Jx.Plugin.Editor.CustomStyles = new Class({
     
+    Extends: Jx.Plugin,
     Family: 'Jx.Plugin.Editor.CustomStyles',
     
-    Extends: Jx.Plugin,
+    options: {
+        styles: []
+    },
     
     rules: [],
     
@@ -31,50 +34,10 @@ Jx.Plugin.Editor.CustomStyles = new Class({
         this.editor = editor;
         this.parent(editor);
         
-        //get the stylesheet object from the iframe doc
-        var stylesheets = this.editor.doc.styleSheets;
-        
-        //find the one we want ('jxEditorStylesheet')
-        $A(stylesheets).each(function(sheet){
-            if (sheet.title == 'jxEditorStylesheet') {
-                this.parseStyles.delay(1000,this,sheet);
-            }
+        Array.from(this.options.styles).each(function(style){
+            this.rules.push(style);
         },this);
         
-        //add placeholder
-        this.placeholder = new Element('div',{
-            html: '&nbsp;',
-            width: 10
-        });
-        this.editor.toolbar.add(this.placeholder);
-    },
-    
-    detach: function () {
-        this.button.destroy();
-        this.parent(editor);
-    },
-    
-    parseStyles: function (sheet) {
-        var rules;
-        if (Browser.Engine.trident) {
-            rules = sheet.rules;
-        } else {
-            try {
-                rules = sheet.cssRules;
-            } catch (err) {
-                console.log('couldn not get styles... waiting till they are available');
-                this.parseStyles.delay(500,this,sheet);
-                return;
-            }
-        }
-        
-        $A(rules).each(function(rule){
-            if (rule.selectorText.test(/^\./)) {
-                this.rules.push(rule.selectorText.slice(1));
-            }
-        },this);
-        
-        //create list of buttons
         var items = [];
         items.push({value: '', text: '', selected: true});
         this.rules.each(function(rule){
@@ -92,10 +55,16 @@ Jx.Plugin.Editor.CustomStyles = new Class({
         
         this.button.field.addEvent('change', this.command.bind(this));
         
-        this.button.domObj.replaces(this.placeholder);
+        this.editor.toolbar.add(this.button);
         this.editor.toolbar.update();
         this.settingState = false;
     },
+    
+    detach: function () {
+        this.button.destroy();
+        this.parent(editor);
+    },
+    
     
     checkState: function (element) {
         if (!this.settingState) {

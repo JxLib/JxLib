@@ -27,6 +27,28 @@ css:
  * 
  * a very simplistic IFrame-based WYSIWYG editor.
  * 
+ * Be sure that you place this editor inside a container of some sort that
+ * has at least position:relative on it. If it doesn't the editor will break
+ * out of the container.
+ * 
+ * Events:
+ * - preToggleView
+ * - postToggleView
+ * - editorFocus
+ * - editorBlur
+ * - editorMouseUp
+ * - editorPaste
+ * - editorMouseEnter
+ * - editorClick
+ * - editorKeypress
+ * - editorKeyUp
+ * - editorKeyDown
+ * - editorCut
+ * - editorCopy
+ *
+ * Copyright (c) 2011 by Jonathan Bomgardner
+ * Licensed under an mit-style license
+ * 
  * Inspired by (and a great deal of code from) mooEditable
  */
 Jx.Editor = new Class({
@@ -35,14 +57,38 @@ Jx.Editor = new Class({
     Family: 'Jx.Editor',
     
     options: {
+        /**
+         * Option: template
+         * The template to use in constructing the editor
+         */
         template: '<span class="jxEditor"><span class="jxEditorToolbar"></span><span class="jxEditorIframe"></span><textarea class="jxEditorTextarea"></textarea></span></span>',
+        /**
+         * Option: editorCssFile
+         * The location of a css file to use in the IFrame of the editor. 
+         * Can be a relative or absolue path.
+         */
         editorCssFile: null,
+        /**
+         * Option: html
+         * This is a string template for what will be injected into the iframe.
+         */
         html: '<!DOCTYPE html><html style="height: 100%; margin: 0; padding: 0;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">{stylesheet}</head><body style="height: 100%; padding: 0; margin: 0;"></body></html>',
+        /**
+         * Option: stylesheetTemplate
+         * a string template of the link tag used to add the editorCssFile 
+         * to the html template
+         */
         stylesheetTemplate: ' <link href="{file}" type="text/css" rel="stylesheet" media="screen, projection" title="jxEditorStylesheet" />',
+        /**
+         * Option: content
+         * This should contain the starting content of the editor in 
+         * HTML form.
+         */
         content: null,
         /**
          * Option: buttons
-         * an array of arrays. Each separate array represents the buttons for a single toolbar.
+         * an array of arrays. Each separate array represents the buttons (plugins)
+         * for a single toolbar.
          */
         buttons: null,
         cleanup: true,
@@ -124,6 +170,9 @@ Jx.Editor = new Class({
         this.win = iframe.contentWindow;
         this.doc = (this.win !== null && 
                     this.win !== undefined) ? this.win.document : iframe.contentDocument.document;
+                    
+        // Deal with weird quirks on Gecko
+    	if (Browser.firefox) this.doc.designMode = 'On';
 
         if (this.options.editorCssFile !== null && 
             this.options.editorCssFile !== undefined) {
@@ -131,23 +180,31 @@ Jx.Editor = new Class({
         } else {
             this.options.stylesheetTemplate = '';
         }
+        
+        (Browser.ie) ? this.doc.body.contentEditable = true : this.doc.designMode = 'On';
 
-        this.options.html = this.options.html.substitute({stylesheet: this.options.stylesheetTemplate});
+        this.options.html = this.options.html.substitute({stylesheet: this.options.stylesheetTemplate, js: this.options.mootoolsTemplate});
         this.doc.open();
         this.doc.write(this.options.html);
         this.doc.close();
 
-        if (this.win && !this.win.$family) {
-            new Window(this.win);
-        }
-        if (!this.doc.$family) {
-            new Document(this.doc);
-        }
-        document.id(this.doc.body);
+        // Mootoolize window, document and body
+    	Object.append(this.win, new Window);
+		Object.append(this.doc, new Document);
+		if (Browser.Element){
+    		var winElement = this.win.Element.prototype;
+			for (var method in Element){ // methods from Element generics
+				if (!method.test(/^[A-Z]|\$|prototype/)){
+					winElement[method] = Element.prototype[method];
+				}
+			}
+		} else {
+			document.id(this.doc.body);
+		}
         
         if (this.options.content !== null && 
             this.options.content !== undefined) {
-            this.doc.body.set('html',this.options.content);
+            this.doc.body.set('html', this.options.content);
             this.textarea.set('value', this.options.content);
         }
 
@@ -215,7 +272,7 @@ Jx.Editor = new Class({
 
 
         
-        this.addEvent('postPluginInit', function(){
+        this.addEvent('postInit', function(){
             //now loop through button arrays and init the plugins
             this.options.buttons.each(function(bar, index){
                 this.options.plugins = bar;
@@ -223,17 +280,37 @@ Jx.Editor = new Class({
                 this.initPlugins();
             },this);
         }.bind(this));
+        
+        this.resize();
     },
     
+    /**
+     * APIMethod: setContent
+     * Use this method to set the content of the editor. Overwrites 
+     * existing content.
+     * 
+     * Parameters:
+     * content - {string} the content to set
+     */
     setContent: function (content) {
         this.doc.body.set('html', content);
         return this;
     },
     
+    /**
+     * APIMethod: getContent
+     * Retrieves the content of the editor. This comes back as raw, unfiltered
+     * HTML.
+     */
     getContent: function () {
         return this.doc.body.get('html');
     },
     
+    /**
+     * APIMethod: execute
+     * Mainly used by plugins to execute specific commands on the 
+     * IFrame.
+     */
     execute: function (command, param1, param2) {
         if (this.busy) return;
         this.busy = true;
@@ -244,6 +321,11 @@ Jx.Editor = new Class({
         return false;
     },
     
+    /**
+     * APIMethod: toggleView
+     * This method is used to toggle between the IFrame and the textarea
+     * views of the editor.
+     */
     toggleView: function () {
         this.fireEvent('preToggleView', this);
         if (this.mode === 'textarea') {
@@ -260,6 +342,14 @@ Jx.Editor = new Class({
         this.fireEvent('postToggleView', this);
     },
     
+    /**
+     * APIMethod: saveContent
+     * This method is used to save content from the IFrame into the 
+     * textarea.
+     * 
+     * Returns:
+     * this - the Jx.Editor instance
+     */
     saveContent: function () {
         //console.log('editor save content');
         if (this.mode === 'iframe') {
@@ -269,6 +359,11 @@ Jx.Editor = new Class({
         return this;
     },
     
+    /**
+     * APIMethod: resize
+     * Call this when you need to resize the editor. i.e. when the layout
+     * changes or the window changes size, etc...
+     */
     resize: function () {
         if (this.domObj.resize) {
             this.domObj.resize();
@@ -287,6 +382,10 @@ Jx.Editor = new Class({
         this.textarea.setStyles(styles);
     },
     
+    /**
+     * APIMethod: focus
+     * use this to give the editor area focus.
+     */
     focus: function () {
         if (this.mode == 'iframe') {
             if (this.win) {
@@ -297,13 +396,39 @@ Jx.Editor = new Class({
         } else {
             this.textarea.focus();
         }
-        this.fireEvent('focus', this);
+        this.fireEvent('editorFocus', this);
         return this;
     },
     
     /**
-     * Editor Events
+     * APIMethod: enableToolbar
+     * This function is called to enable the buttons on the toolbars
      */
+    enableToolbar: function () {
+        Object.each(this.plugins, function(plugin){
+            plugin.setEnabled(true);
+        },this);
+    },
+    
+    /**
+     * APIMethod: disableToolbar
+     * This function can be called to disable all buttons on a toolbar 
+     * with the exception of the toggleView button.
+     */
+    disableToolbar: function () {
+        Object.each(this.plugins, function(plugin){
+            plugin.setEnabled(false);
+        },this);
+    },
+    
+    /**
+     * Editor Events
+     * 
+     * Everything from here down responds to a native event and
+     * then fires an equivalent custom event on the editor object that
+     * other classes can listen for.
+     */
+    
     
     editorStopEvent: function (e, event) {
         if (this.editorDisabled) {
@@ -314,6 +439,7 @@ Jx.Editor = new Class({
         this.fireEvent('editor'+event, [e, this]);
     },
     
+
     editorFocus: function (e) {
         //console.log('editor focus event');
         this.oldContent = '';
@@ -476,7 +602,7 @@ Jx.Editor = new Class({
         if (!element) return;
         if (Jx.type(element) != 'element') return;
         
-        this.plugins.each(function(plugin){
+        Object.each(this.plugins, function(plugin){
             if (typeOf(plugin.checkState) == 'function' ) {
                 plugin.checkState(element);
             }
@@ -485,126 +611,119 @@ Jx.Editor = new Class({
     
     cleanup: function(source){
         if (!this.options.cleanup) return source.trim();
-        
-        do {
-            var oSource = source;
 
-            // Webkit cleanup
-            source = source.replace(/<br class\="webkit-block-placeholder">/gi, "<br />");
-            source = source.replace(/<span class="Apple-style-span">(.*)<\/span>/gi, '$1');
-            source = source.replace(/ class="Apple-style-span"/gi, '');
-            source = source.replace(/<span style="">/gi, '');
+    	do {
+			var oSource = source;
 
-            // Remove padded paragraphs
-            source = source.replace(/<p>\s*<br ?\/?>\s*<\/p>/gi, '<p>\u00a0</p>');
-            source = source.replace(/<p>(&nbsp;|\s)*<\/p>/gi, '<p>\u00a0</p>');
-            if (!this.options.semantics){
-                source = source.replace(/\s*<br ?\/?>\s*<\/p>/gi, '</p>');
-            }
+			// replace base URL references: ie localize links
+			if (this.options.baseURL){
+				source = source.replace('="' + this.options.baseURL, '="');	
+			}
 
-            // Replace improper BRs (only if XHTML : true)
-            if (this.options.xhtml){
-                source = source.replace(/<br>/gi, "<br />");
-            }
+			// Webkit cleanup
+			source = source.replace(/<br class\="webkit-block-placeholder">/gi, "<br />");
+			source = source.replace(/<span class="Apple-style-span">(.*)<\/span>/gi, '$1');
+			source = source.replace(/ class="Apple-style-span"/gi, '');
+			source = source.replace(/<span style="">/gi, '');
 
-            if (this.options.semantics){
-                //remove divs from <li>
-                if (Browser.Engine.trident){
-                    source = source.replace(/<li>\s*<div>(.+?)<\/div><\/li>/g, '<li>$1</li>');
-                }
-                //remove stupid apple divs
-                if (Browser.Engine.webkit){
-                    source = source.replace(/^([\w\s]+.*?)<div>/i, '<p>$1</p><div>');
-                    source = source.replace(/<div>(.+?)<\/div>/ig, '<p>$1</p>');
-                }
+			// Remove padded paragraphs
+			source = source.replace(/<p>\s*<br ?\/?>\s*<\/p>/gi, '<p>\u00a0</p>');
+			source = source.replace(/<p>(&nbsp;|\s)*<\/p>/gi, '<p>\u00a0</p>');
+			if (!this.options.semantics){
+				source = source.replace(/\s*<br ?\/?>\s*<\/p>/gi, '</p>');
+			}
 
-                //<p> tags around a list will get moved to after the list
-                if (['gecko', 'presto', 'webkit'].contains(Browser.Engine.name)){
-                    //not working properly in safari?
-                    source = source.replace(/<p>[\s\n]*(<(?:ul|ol)>.*?<\/(?:ul|ol)>)(.*?)<\/p>/ig, '$1<p>$2</p>');
-                    source = source.replace(/<\/(ol|ul)>\s*(?!<(?:p|ol|ul|img).*?>)((?:<[^>]*>)?\w.*)$/g, '</$1><p>$2</p>');
-                }
+			// Replace improper BRs (only if XHTML : true)
+			if (this.options.xhtml){
+				source = source.replace(/<br>/gi, "<br />");
+			}
 
-                source = source.replace(/<br[^>]*><\/p>/g, '</p>'); // remove <br>'s that end a paragraph here.
-                source = source.replace(/<p>\s*(<img[^>]+>)\s*<\/p>/ig, '$1\n'); // if a <p> only contains <img>, remove the <p> tags
+			if (this.options.semantics){
+				//remove divs from <li>
+				if (Browser.ie){
+					source = source.replace(/<li>\s*<div>(.+?)<\/div><\/li>/g, '<li>$1</li>');
+				}
+				//remove stupid apple divs
+				if (Browser.safari || Browser.chrome){
+					source = source.replace(/^([\w\s]+.*?)<div>/i, '<p>$1</p><div>');
+					source = source.replace(/<div>(.+?)<\/div>/ig, '<p>$1</p>');
+				}
 
-                //format the source
-                source = source.replace(/<p([^>]*)>(.*?)<\/p>(?!\n)/g, '<p$1>$2</p>\n'); // break after paragraphs
-                source = source.replace(/<\/(ul|ol|p)>(?!\n)/g, '</$1>\n'); // break after </p></ol></ul> tags
-                source = source.replace(/><li>/g, '>\n\t<li>'); // break and indent <li>
-                source = source.replace(/([^\n])<\/(ol|ul)>/g, '$1\n</$2>'); //break before </ol></ul> tags
-                source = source.replace(/([^\n])<img/ig, '$1\n<img'); // move images to their own line
-                source = source.replace(/^\s*$/g, ''); // delete empty lines in the source code (not working in opera)
-            }
+				//<p> tags around a list will get moved to after the list
+				if (!Browser.ie){
+					//not working properly in safari?
+					source = source.replace(/<p>[\s\n]*(<(?:ul|ol)>.*?<\/(?:ul|ol)>)(.*?)<\/p>/ig, '$1<p>$2</p>');
+					source = source.replace(/<\/(ol|ul)>\s*(?!<(?:p|ol|ul|img).*?>)((?:<[^>]*>)?\w.*)$/g, '</$1><p>$2</p>');
+				}
 
-            // Remove leading and trailing BRs
-            source = source.replace(/<br ?\/?>$/gi, '');
-            source = source.replace(/^<br ?\/?>/gi, '');
+				source = source.replace(/<br[^>]*><\/p>/g, '</p>'); // remove <br>'s that end a paragraph here.
+				source = source.replace(/<p>\s*(<img[^>]+>)\s*<\/p>/ig, '$1\n'); // if a <p> only contains <img>, remove the <p> tags
 
-            // Remove useless BRs
-            source = source.replace(/><br ?\/?>/gi, '>');
+				//format the source
+				source = source.replace(/<p([^>]*)>(.*?)<\/p>(?!\n)/g, '<p$1>$2</p>\n'); // break after paragraphs
+				source = source.replace(/<\/(ul|ol|p)>(?!\n)/g, '</$1>\n'); // break after </p></ol></ul> tags
+				source = source.replace(/><li>/g, '>\n\t<li>'); // break and indent <li>
+				source = source.replace(/([^\n])<\/(ol|ul)>/g, '$1\n</$2>'); //break before </ol></ul> tags
+				source = source.replace(/([^\n])<img/ig, '$1\n<img'); // move images to their own line
+				source = source.replace(/^\s*$/g, ''); // delete empty lines in the source code (not working in opera)
+			}
 
-            // Remove BRs right before the end of blocks
-            source = source.replace(/<br ?\/?>\s*<\/(h1|h2|h3|h4|h5|h6|li|p)/gi, '</$1');
+			// Remove leading and trailing BRs
+			source = source.replace(/<br ?\/?>$/gi, '');
+			source = source.replace(/^<br ?\/?>/gi, '');
 
-            // Semantic conversion
-            source = source.replace(/<span style="font-weight: bold;">(.*)<\/span>/gi, '<strong>$1</strong>');
-            source = source.replace(/<span style="font-style: italic;">(.*)<\/span>/gi, '<em>$1</em>');
-            source = source.replace(/<b\b[^>]*>(.*?)<\/b[^>]*>/gi, '<strong>$1</strong>');
-            source = source.replace(/<i\b[^>]*>(.*?)<\/i[^>]*>/gi, '<em>$1</em>');
-            source = source.replace(/<u\b[^>]*>(.*?)<\/u[^>]*>/gi, '<span style="text-decoration: underline;">$1</span>');
-            source = source.replace(/<strong><span style="font-weight: normal;">(.*)<\/span><\/strong>/gi, '$1');
-            source = source.replace(/<em><span style="font-weight: normal;">(.*)<\/span><\/em>/gi, '$1');
-            source = source.replace(/<span style="text-decoration: underline;"><span style="font-weight: normal;">(.*)<\/span><\/span>/gi, '$1');
-            source = source.replace(/<strong style="font-weight: normal;">(.*)<\/strong>/gi, '$1');
-            source = source.replace(/<em style="font-weight: normal;">(.*)<\/em>/gi, '$1');
+			// Remove useless BRs
+			if (this.options.paragraphise) source = source.replace(/(h[1-6]|p|div|address|pre|li|ol|ul|blockquote|center|dl|dt|dd)><br ?\/?>/gi, '$1>');
 
-            // Replace uppercase element names with lowercase
-            source = source.replace(/<[^> ]*/g, function(match){return match.toLowerCase();});
+			// Remove BRs right before the end of blocks
+			source = source.replace(/<br ?\/?>\s*<\/(h1|h2|h3|h4|h5|h6|li|p)/gi, '</$1');
 
-            // Replace uppercase attribute names with lowercase
-            source = source.replace(/<[^>]*>/g, function(match){
-                   match = match.replace(/ [^=]+=/g, function(match2){return match2.toLowerCase();});
-                   return match;
-            });
+			// Semantic conversion
+			source = source.replace(/<span style="font-weight: bold;">(.*)<\/span>/gi, '<strong>$1</strong>');
+			source = source.replace(/<span style="font-style: italic;">(.*)<\/span>/gi, '<em>$1</em>');
+			source = source.replace(/<b\b[^>]*>(.*?)<\/b[^>]*>/gi, '<strong>$1</strong>');
+			source = source.replace(/<i\b[^>]*>(.*?)<\/i[^>]*>/gi, '<em>$1</em>');
+			source = source.replace(/<u\b[^>]*>(.*?)<\/u[^>]*>/gi, '<span style="text-decoration: underline;">$1</span>');
+			source = source.replace(/<strong><span style="font-weight: normal;">(.*)<\/span><\/strong>/gi, '$1');
+			source = source.replace(/<em><span style="font-weight: normal;">(.*)<\/span><\/em>/gi, '$1');
+			source = source.replace(/<span style="text-decoration: underline;"><span style="font-weight: normal;">(.*)<\/span><\/span>/gi, '$1');
+			source = source.replace(/<strong style="font-weight: normal;">(.*)<\/strong>/gi, '$1');
+			source = source.replace(/<em style="font-weight: normal;">(.*)<\/em>/gi, '$1');
 
-            // Put quotes around unquoted attributes
-            source = source.replace(/<[^>]*>/g, function(match){
-                   match = match.replace(/( [^=]+=)([^"][^ >]*)/g, "$1\"$2\"");
-                   return match;
-            });
+			// Replace uppercase element names with lowercase
+			source = source.replace(/<[^> ]*/g, function(match){return match.toLowerCase();});
 
-            //make img tags xhtml compatible <img>,<img></img> -> <img/>
-            if (this.options.xhtml){
-                source = source.replace(/<img([^>]+)(\s*[^\/])>(<\/img>)*/gi, '<img$1$2 />');
-            }
-            
-            //remove double <p> tags and empty <p> tags
-            source = source.replace(/<p>(?:\s*)<p>/g, '<p>');
-            source = source.replace(/<\/p>\s*<\/p>/g, '</p>');
-            
-            // Replace <br>s inside <pre> automatically added by some browsers
-            source = source.replace(/<pre[^>]*>.*?<\/pre>/gi, function(match){
-                return match.replace(/<br ?\/?>/gi, '\n');
-            });
+			// Replace uppercase attribute names with lowercase
+			source = source.replace(/<[^>]*>/g, function(match){
+				   match = match.replace(/ [^=]+=/g, function(match2){return match2.toLowerCase();});
+				   return match;
+			});
 
-            // Final trim
-            source = source.trim();
-        }
-        while (source != oSource);
+			// Put quotes around unquoted attributes
+			source = source.replace(/<[^!][^>]*>/g, function(match){
+				   match = match.replace(/( [^=]+=)([^"][^ >]*)/g, "$1\"$2\"");
+				   return match;
+			});
 
-        return source;
-    },
-    
-    enableToolbar: function () {
-        this.plugins.each(function(plugin){
-            plugin.setEnabled(true);
-        },this);
-    },
-    
-    disableToolbar: function () {
-        this.plugins.each(function(plugin){
-            plugin.setEnabled(false);
-        },this);
+			//make img tags xhtml compatible <img>,<img></img> -> <img/>
+			if (this.options.xhtml){
+				source = source.replace(/<img([^>]+)(\s*[^\/])>(<\/img>)*/gi, '<img$1$2 />');
+			}
+
+			//remove double <p> tags and empty <p> tags
+			source = source.replace(/<p>(?:\s*)<p>/g, '<p>');
+			source = source.replace(/<\/p>\s*<\/p>/g, '</p>');
+
+			// Replace <br>s inside <pre> automatically added by some browsers
+			source = source.replace(/<pre[^>]*>.*?<\/pre>/gi, function(match){
+				return match.replace(/<br ?\/?>/gi, '\n');
+			});
+
+			// Final trim
+			source = source.trim();
+		}
+		while (source != oSource);
+
+		return source;
     }
 });

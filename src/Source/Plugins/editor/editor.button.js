@@ -25,7 +25,7 @@ Jx.Plugin.Editor.Button = new Class({
         image: '',
         toggle: false,
         shortcut: null,
-        title: null,
+        title: '',
         imageClass: '',
         prefix: 'jxEditorButton'
     },
@@ -37,14 +37,16 @@ Jx.Plugin.Editor.Button = new Class({
     attach: function (editor) {
         this.editor = editor;
         this.selection = editor.selection;
-        
         this.parent(editor);
+        
+        var tt = this.options.title;
+        tt = (this.options.shortcut !== null && this.options.shortcut !== undefined)?tt+" (ctrl-" + this.options.shortcut + ")":tt;
         
         this.button = new Jx.Button({
             toggle: this.options.toggle,
             image: this.options.image,
             imageClass: this.options.prefix + this.options.imageClass,
-            tooltip: this.options.title + ($defined(this.options.shortcut)?"(ctrl-" + this.options.shortcut + ")":'')
+            tooltip: tt
         });
         
         this.editor.toolbar.add(this.button);

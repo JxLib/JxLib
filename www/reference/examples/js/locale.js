@@ -55,6 +55,7 @@ Locale.define('en-US', 'Examples', {
       'Custom-Scrollbars'       : 'Custom Scrollbars',
       'Progress-Bar'            : 'Progress Bar',
       'Slider'                  : 'Slider',
+      'Editor'                  : 'Editor',
     'Adaptors'                  : 'Adaptors',
       'Tree-adaptor'            : 'Jx.Tree Adaptors',
       'Combo-adaptor'           : 'Jx.Field.Combo Adaptors'

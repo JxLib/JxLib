@@ -55,7 +55,7 @@ Jx.Plugin.Editor.Link = new Class({
     },
     
     finish: function (dialog, result, url) {
-        if (result.toLowerCase() === 'ok') {
+        if (result) {
             this.editor.execute('createlink', false, url.trim());
         }
     }
