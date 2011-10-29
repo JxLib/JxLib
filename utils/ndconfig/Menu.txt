@@ -92,6 +92,7 @@ Group: Jx  {
 
       File: ColorPalette  (Extras/colorpalette.js)
       File: Editor  (Extras/editor.js)
+      File: Editor.Selection  (Extras/editor.selection.js)
       File: Notice  (Extras/notice.js)
       File: Notifier  (Extras/notifier.js)
       File: Notifier.Float  (Extras/notifier.float.js)
