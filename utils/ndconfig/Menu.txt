@@ -73,16 +73,17 @@ Group: Jx  {
 
       Group: Plugins  {
 
-         File: Grid  (Plugins/plugin.grid.js)
-         File: Grid.Editor  (Plugins/grid.editor.js)
-         File: Grid.Prelighter  (Plugins/grid.prelighter.js)
-         File: Grid.Resize  (Plugins/grid.resize.js)
-         File: Grid.Selector  (Plugins/grid.selector.js)
-         File: Grid.Sorter  (Plugins/grid.sorter.js)
-         File: Toolbar  (Plugins/plugin.toolbarContainer.js)
-         File: ToolbarContainer.TabMenu  (Plugins/toolbarContainer.tabMenu.js)
-         File: Tree  (Plugins/plugin.tree.js)
-         File: Tree.Sorter  (Plugins/tree.sorter.js)
+         File: buttons  (Plugins/editor/editor.buttonset.js)
+         File: Jx...Grid.Editor  (Plugins/grid.editor.js)
+         File: Jx...Grid.Prelighter  (Plugins/grid.prelighter.js)
+         File: Jx...Grid.Resize  (Plugins/grid.resize.js)
+         File: Jx...Grid.Selector  (Plugins/grid.selector.js)
+         File: Jx...Grid.Sorter  (Plugins/grid.sorter.js)
+         File: Jx...ToolbarContainer.TabMenu  (Plugins/toolbarContainer.tabMenu.js)
+         File: Jx...Tree.Sorter  (Plugins/tree.sorter.js)
+         File: Jx.Plugin.Grid  (Plugins/plugin.grid.js)
+         File: Jx.Plugin.Toolbar  (Plugins/plugin.toolbarContainer.js)
+         File: Jx.Plugin.Tree  (Plugins/plugin.tree.js)
          }  # Group: Plugins
 
       }  # Group: Grid
@@ -90,6 +91,7 @@ Group: Jx  {
    Group: Extras  {
 
       File: ColorPalette  (Extras/colorpalette.js)
+      File: Editor  (Extras/editor.js)
       File: Notice  (Extras/notice.js)
       File: Notifier  (Extras/notifier.js)
       File: Notifier.Float  (Extras/notifier.float.js)

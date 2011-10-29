@@ -267,15 +267,21 @@ Jx.Object = new Class({
 
         this.bound.changeText = this.changeText.bind(this);
         if (this.options.useLang) {
-            MooTools.lang.addEvent('langChange', this.bound.changeText);
+            Locale.addEvent('change', this.bound.changeText);
         }
 
-        this.fireEvent('preInit');
-        this.init();
-        this.fireEvent('postInit');
+        //Changed the initPlugins() to before init and render so that 
+        //plugins can connect to preInit and postInit functions as well as 
+        //call methods before the object is completely initialized. This was
+        //done mainly so grid plugins could call want events before render time.
         this.fireEvent('prePluginInit');
         this.initPlugins();
         this.fireEvent('postPluginInit');
+        
+        this.fireEvent('preInit');
+        this.init();
+        this.fireEvent('postInit');
+        
         this.fireEvent('initializeDone');
     },
 
@@ -322,6 +328,7 @@ Jx.Object = new Class({
             }
         }
     },
+    
 
     /**
      * APIMethod: destroy
@@ -352,7 +359,7 @@ Jx.Object = new Class({
         }
         this.plugins = {};
         if (this.options.useLang && this.bound.changeText !== undefined && this.bound.changeText !== null) {
-            MooTools.lang.removeEvent('langChange', this.bound.changeText);
+            Locale.removeEvent('change', this.bound.changeText);
         }
         this.bound = null;
     },
@@ -410,7 +417,7 @@ Jx.Object = new Class({
      * returns the localized text.
      *
      * Parameters:
-     * val - <String> || <Function> || <Object> = { set: '', key: ''[, value: ''] } for a MooTools.lang object
+     * val - <String> || <Function> || <Object> = { set: '', key: ''[, value: ''] } for a Locale object
      */
     getText: function(val) {
       // COMMENT: just an idea how a localization object could be stored to the instance if needed somewhere else and options change?

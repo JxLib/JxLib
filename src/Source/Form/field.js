@@ -29,7 +29,7 @@ provides: [Jx.Field]
  * (code)
  * (end)
  * 
- * MooTools.lang Keys:
+ * Locale Keys:
  * - field.requiredText
  *
  * License:

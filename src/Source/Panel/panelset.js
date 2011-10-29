@@ -43,7 +43,7 @@ provides: [Jx.PanelSet]
  * var panelSet = new Jx.PanelSet('panels', [p1,p2,p3]);
  * (end)
  * 
- * MooTools.lang Keys:
+ * Locale Keys:
  * - panelset.barTooltip
  *
  * License:

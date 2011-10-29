@@ -34,7 +34,7 @@ images:
  * This class extends Jx.Panel to provide a consistent interface for uploading
  * files in an application.
  * 
- * MooTools.lang Keys:
+ * Locale Keys:
  * - upload.buttonText
  *
  * License:
