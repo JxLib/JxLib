@@ -98,7 +98,7 @@ Jx.Field.Select = new Class({
      */
     render: function () {
         this.parent();
-        this.field.addEvent('change', function() {this.fireEvent('change', this);}.bind(this));
+        
         if (this.options.multiple !== undefined && this.options.multiple !== null) {
           this.field.set('multiple', this.options.multiple);
         }
