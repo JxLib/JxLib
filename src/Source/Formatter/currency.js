@@ -28,7 +28,7 @@ provides: [Jx.Formatter.Currency]
  * (code)
  * (end)
  * 
- * MooTools.lang Keys:
+ * Locale Keys:
  * - 'formatter.currency'.sign
  *
  * License:

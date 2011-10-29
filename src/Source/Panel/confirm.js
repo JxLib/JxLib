@@ -28,7 +28,7 @@ css:
  * Jx.Dialog.Confirm is an extension of Jx.Dialog that allows the developer
  * to prompt their user with e yes/no question.
  * 
- * MooTools.lang Keys:
+ * Locale Keys:
  * - confirm.affirmitiveLabel
  * - confirm.negativeLabel
  * 

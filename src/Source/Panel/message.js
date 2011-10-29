@@ -28,7 +28,7 @@ css:
  * Jx.Dialog.Message is an extension of Jx.Dialog that allows the developer
  * to display a message to the user. It only presents an OK button.
  * 
- * MooTools.lang Keys:
+ * Locale Keys:
  * - message.okButton
  *
  * License:

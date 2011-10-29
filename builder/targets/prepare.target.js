@@ -34,13 +34,16 @@ module.exports = function(config,logger) {
                 combine: [  //uses jxLoader
                     {    
                         repos: ['jxlib'],
-                        target: config.app.build + "/lib/jxlib.temp.js"
+                        target: config.app.build + "/lib/jxlib.temp.js",
+                        tags: []
                     },{
                         repos: ['core'],
-                        target: config.app.build + "/lib/mootools-core.js"
+                        target: config.app.build + "/lib/mootools-core.js",
+                        tags: ['1.2compat']
                     },{
                         repos: ['more'],
-                        target: config.app.build + "/lib/mootools-more.js"
+                        target: config.app.build + "/lib/mootools-more.js",
+                        tags: ['1.2compat']
                     }
                 ]
             },{

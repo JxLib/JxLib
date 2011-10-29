@@ -50,7 +50,7 @@ Jx.Plugin.Grid.Resize = new Class({
         /**
          * Option: tooltip
          * the tooltip to display for the draggable portion of the
-         * cell header, localized with MooTools.lang.get('Jx','plugin.resize').tooltip for default
+         * cell header, localized with Locale.get('Jx','plugin.resize').tooltip for default
          */
         tooltip: ''
     },

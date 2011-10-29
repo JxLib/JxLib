@@ -1,0 +1,25 @@
+
+.jxInputEditor {
+    display: inline-block;
+    height: 200px;
+    position: relative;
+
+    margin: 0px 4px;
+    /* padding: 4px; */
+    border: 1px solid #bbb;
+    /* overall width is 250px, margins+padding+border is 18px */
+    width: 532px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    line-height: 16px;
+    color: #000;
+}
+
+.jxInputEditor:focus {
+  border: 1px solid #000;
+}
+
+.jxInputEditor .jxEditor {
+    border: none;
+
+}

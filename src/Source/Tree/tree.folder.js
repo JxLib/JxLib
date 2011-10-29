@@ -155,7 +155,7 @@ Jx.Tree.Folder = new Class({
       this.parent();
     },
     
-        /**
+    /**
      * APIMethod: add
      * add one or more items to the tree at a particular position in the tree
      *
@@ -210,7 +210,7 @@ Jx.Tree.Folder = new Class({
      * isLast - {Boolean} is this the last item in the list?
      *
      * Returns:
-     * {<Jx.TreeFolder>} a reference to this for chaining
+     * {<Jx.Tree.Folder>} a reference to this for chaining
      */
     update: function(shouldDescend,isLast) {
         /* avoid update if not attached to tree yet */
@@ -262,7 +262,7 @@ Jx.Tree.Folder = new Class({
      * Expands the folder
      *
      * Returns:
-     * {<Jx.TreeFolder>} a reference to this for chaining
+     * {<Jx.Tree.Folder>} a reference to this for chaining
      */
     expand : function() {
         this.options.open = true;
@@ -277,7 +277,7 @@ Jx.Tree.Folder = new Class({
      * Collapses the folder
      *
      * Returns:
-     * {<Jx.TreeFolder>} a reference to this for chaining
+     * {<Jx.Tree.Folder>} a reference to this for chaining
      */
     collapse : function() {
         this.options.open = false;
@@ -314,7 +314,7 @@ Jx.Tree.Folder = new Class({
      * selection - {<Jx.Selection>} the new selection object to use
      *
      * Returns:
-     * {<Jx.TreeFolder>} a reference to this for chaining
+     * {<Jx.Tree.Folder>} a reference to this for chaining
      */
     setSelection: function(selection) {
         this.parent(selection);

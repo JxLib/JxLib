@@ -46,7 +46,7 @@ images:
  * change - triggered when the color changes.
  * click - the user clicked on a color swatch (emitted after a change event)
  *
- * MooTools.lang keys:
+ * Locale keys:
  * - colorpalette.alphaLabel
  * 
  * 

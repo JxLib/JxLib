@@ -41,13 +41,13 @@ function basicTree() {
     var tree = new Jx.Tree({
         parent: 'treeArea',
         onAdd: function(item) {
-         log('item added: ' + item.getName());
+         log('item added: ' + item.getLabel());
         },
         onRemove: function(item) {
-         log('item removed: ' + item.getName());
+         log('item removed: ' + item.getLabel());
         },
         onDisclose: function(item) {
-         log('item disclosed: ' + item.getName());
+         log('item disclosed: ' + item.getLabel());
         },
         onSelect: function(item) {
          log('item selected: '+item.options.label);
@@ -58,7 +58,7 @@ function basicTree() {
     });
 
     /* you can put an item right into the tree */
-    var item = new Jx.TreeItem({
+    var item = new Jx.Tree.Item({
         label: {set:'Examples',key:'tree',value:'customIcon'},
         selectable: false,
         image: 'images/bug.png',
@@ -70,7 +70,7 @@ function basicTree() {
     tree.add(item);
     
     /* add a folder to the tree */
-    var folder = new Jx.TreeFolder({
+    var folder = new Jx.Tree.Folder({
         label: {set:'Examples',key:'tree',value:'customFolder'},
         image: 'images/blue_folder.png',
         imageClass: 'blueFolder',
@@ -80,32 +80,28 @@ function basicTree() {
     tree.add(folder);
     
     /* put an item into the folder */
-    var item = new Jx.TreeItem({
+    var item = new Jx.Tree.Item({
         label: {set:'Examples',key:'tree',value:'subItem'}
     });
     folder.add(item);
     
     /* you can put a folder into a folder */
-    var subFolder = new Jx.TreeFolder({label: {set:'Examples',key:'tree',value:'subFolder'}});
+    var subFolder = new Jx.Tree.Folder({label: {set:'Examples',key:'tree',value:'subFolder'}});
     folder.add(subFolder);
 
     /* and items into that too! */
-    var item = new Jx.TreeItem({label: {set:'Examples',key:'tree',value:'subItem2'}});
+    var item = new Jx.Tree.Item({label: {set:'Examples',key:'tree',value:'subItem2'}});
     subFolder.add(item);
     
     /* add a lot more stuff */
     for (var j=1; j<4; j++) {
-        var folder = new Jx.TreeFolder({
-          label: function(j) {
-            return MooTools.lang.get('Examples', 'tree').item + j;
-          }.bind(folder, [j])
+        var folder = new Jx.Tree.Folder({
+          label: Locale.get('Examples.tree').folder + j
         });
         tree.add(folder);
         for (var i=1; i<10; i++) {
-            var item = new Jx.TreeItem({
-              label: function(i,j) {
-                return MooTools.lang.get('Examples', 'tree').folder + j +"."+ i;
-              }.bind(item, [i,j])
+            var item = new Jx.Tree.Item({
+              label: Locale.get('Examples.tree.item') + j + '.' + i
             });
             folder.add(item);
         }        
@@ -118,25 +114,25 @@ function customTree() {
     /* the tree object goes in a div */
    var root = new Jx.Tree({parent: 'treeArea2'});
    
-   var tree = new Jx.TreeFolder({label: 'root test'});
+   var tree = new Jx.Tree.Folder({label: 'root test'});
    
    root.add(tree);
    
-   Jx.TreeItem.Check = new Class({
-     Extends: Jx.TreeItem,
+   Jx.Tree.Item.Check = new Class({
+     Extends: Jx.Tree.Item,
      options: {
        template:'<li class="jxTreeContainer jxTreeLeaf"><img class="jxTreeImage" src="'+Jx.aPixel.src+'" alt="" title=""><a class="jxTreeItem" href="javascript:void(0);"><img class="jxTreeIcon" src="'+Jx.aPixel.src+'" alt="" title=""><span class="jxTreeLabel"></span><input type="checkbox"></a></li>'
      }
    });
    
    /* you can put an item right into the tree */
-    var item = new Jx.TreeItem.Check({
+    var item = new Jx.Tree.Item.Check({
         label: 'Tree Item with checkbox'
     });
     tree.add(item);
     
     /* add a folder to the tree */
-    var folder = new Jx.TreeFolder({
+    var folder = new Jx.Tree.Folder({
         label: 'Tree folder with custom icon',
         image: 'images/blue_folder.png',
         imageClass: 'blueFolder'
@@ -144,25 +140,25 @@ function customTree() {
     tree.add(folder);
     
     /* put an item into the folder */
-    var item = new Jx.TreeItem.Check({
+    var item = new Jx.Tree.Item.Check({
         label: 'A Sub Item'
     });
     folder.add(item);
     
     /* you can put a folder into a folder */
-    var subFolder = new Jx.TreeFolder({label: 'A Sub Folder'});
+    var subFolder = new Jx.Tree.Folder({label: 'A Sub Folder'});
     folder.add(subFolder);
 
     /* and items into that too! */
-    var item = new Jx.TreeItem.Check({label: 'Another Sub Item'});
+    var item = new Jx.Tree.Item.Check({label: 'Another Sub Item'});
     subFolder.add(item);
     
     /* add a lot more stuff */
     for (var j=1; j<4; j++) {
-        var folder = new Jx.TreeFolder({label: 'Folder ' + j});
+        var folder = new Jx.Tree.Folder({label: 'Folder ' + j});
         tree.add(folder);
         for (var i=1; i<10; i++) {
-            var item = new Jx.TreeItem.Check({label: 'Item ' + i});
+            var item = new Jx.Tree.Item.Check({label: 'Item ' + i});
             folder.add(item);
         }        
     }    

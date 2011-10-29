@@ -46,7 +46,7 @@ images:
  * collapse - fired when the panel is collapsed
  * expand - fired when the panel is opened
  * 
- * MooTools.lang Keys:
+ * Locale Keys:
  * - panel.collapseTooltip
  * - panel.collapseLabel
  * - panel.expandlabel

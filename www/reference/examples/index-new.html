@@ -75,6 +75,7 @@
 
         var mainTree = new Jx.Tree({
           parent: mainSplitter.elements[0],
+          select: true,
           onClick: function(el) {
             el = $jx(el);
             if (el instanceof Jx.Tree.Item) {
@@ -130,11 +131,12 @@
                     {'Notification' : 'notification.html'},
                     {'Custom-Scrollbars' : 'custom_scrollbars.html'},
                     {'Progress-Bar' : 'progressbar.html'},
-                    {'Slider' : 'slider.html'}
+                    {'Slider' : 'slider.html'},
+                    {'Editor' : 'editor.html'} 
                 ]},
                 {'Adaptors' : [
-                    {'Jx.Tree': 'tree_adaptors.html'},
-                    {'Jx.Field.Combo': 'adaptor_combo.html' }
+                    {'Tree-adaptor': 'tree_adaptors.html'},
+                    {'Combo-adaptor': 'adaptor_combo.html' }
                 ]}
             ]
         };
