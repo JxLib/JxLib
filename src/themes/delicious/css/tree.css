@@ -98,10 +98,10 @@ li.jxTreeContainer a.jxHover {
   background-position: left -24px;
 }
 
-li.jxTreeContainer a.jxSelected,
-li.jxTreeContainer a.jxSelected:hover,
-li.jxTreeContainer a.jxPressed,
-li.jxTreeContainer a.jxPressed:hover {
+li.jxTreeContainer.jxSelected a:fiest-child,
+li.jxTreeContainer.jxSelected a:first-child:hover,
+li.jxTreeContainer.jxPressed a:first-child,
+li.jxTreeContainer.jxPressed a:first-child:hover {
   border-left: 1px solid #8AABFB;
   border-right: 1px solid #8AABFB;
   margin: 0px 0px 0px 16px;
