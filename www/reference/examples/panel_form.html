@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Jx.Toolbar Examples</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="../../lib/mootools-core.js"></script>
+<script type="text/javascript" src="../../lib/mootools-more.js"></script>
+<script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
+<script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/locale.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+window.addEvent('load', function() {
+    panelFormFn();
+});
+if($(document).getElements('.tabContentActiveExamples').length > 0) {
+  $(document).getElements('.tabContentActiveExamples')[0].addEvent('loadAjax', function() {
+    panelFormFn();
+  });
+}
+</script>
+
+<script id="panelFormScript" type="text/javascript">
+function panelFormFn() {
+    new Jx.Panel.Form({
+    
+        parent: 'formPanelArea',
+        label: 'Panel Form Example',
+        id: 'test',
+    
+        fields: [
+            new Element('p', {
+                html: 'This is a paragraph that was added to the form.'
+            }),{
+                type: 'text',
+                options: {
+                    label: 'First example textbox',
+                    name: 'textbox-1',
+                    id: 'textbox-1'
+                }
+            },{
+                type: 'fieldset',
+                options: {
+                    legend: 'Fieldset #1'
+                },
+                children: [
+                    {
+                        type: 'text',
+                        options: {
+                            label: 'first child in frameset',
+                            id: 'frame-text-1',
+                            name: 'frame-text-1',
+                            required: true
+                        }
+                    },{
+                        type: 'checkbox',
+                        options: {
+                            label: 'a checkbox',
+                            id: 'checkbox-1',
+                            name: 'checkbox-1'
+                        }
+                    }
+                ]
+            },
+            new Element('div', {
+                id: 'test-form-editor-container',
+                styles: {
+                    width: '80%',
+                    height: 300,
+                    clear: 'both',
+                    position: 'relative'
+                }
+            })
+        ],
+    
+        validators: {
+            fields: {
+                'textbox-1': {
+                    validators: ['minLength:5', 'maxLength:10']
+                },
+                'frame-text-1': {
+                    validators: []
+                }
+            }
+        },
+    
+        notifierType: 'inline',
+    
+        formOptions: {
+            id: 'test-form-1',
+            name: 'test-form-1'
+        }
+    
+    });
+    
+    new Jx.Editor({
+        parent: 'test-form-editor-container',
+        editorCssFile: 'css/editor.css',
+        content: '<p>Starting content.</p>',
+        buttons: [
+            ['bold','italic','underline','strikethrough','separator','alignment',
+                  'separator','orderedlist','unorderedlist','indent','outdent'],
+            ['undo','redo','separator','customStyles','block',
+                  'separator', 'link','unlink', 'image','separator', 'toggle']
+        ]
+    });
+};
+</script>
+
+<style>
+#formPanelArea {
+    position: relative;
+    height: 600px;
+    border: 1px solid black;
+}
+</style>
+</head>
+<body>
+<h1>Jx.Panel.Form Examples</h1>
+<p>API Reference: <a id="formpanel-js" href="javascript:void();" title="link to API Reference">Jx.Form.Panel</a></p>
+<h2 id="panelForm">Jx.Panel.Form Basic Example</h2>
+<p>The following form was defined entirely in javascript. check the 
+source button to the right for details</p>
+<div id="formPanelArea"></div>
+
+
+
+</body>
+</html>

@@ -138,6 +138,7 @@ Group: Jx  {
       File: Panel.DataView  (Panel/dataview.js)
       File: Panel.DataView.Group  (Panel/group.js)
       File: Panel.FileUpload  (Panel/upload.js)
+      File: Panel.Form  (Panel/panel.form.js)
       File: PanelSet  (Panel/panelset.js)
 
       Group: Plugins  {
