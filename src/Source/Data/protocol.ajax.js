@@ -70,7 +70,13 @@ Jx.Store.Protocol.Ajax = new Class({
         queue: {
           autoAdvance: true,
           concurrent: 1
-        }
+        },
+        /**
+         * Option: dataProperty
+         * an string that represent the name of the property in the response that holds the data.
+         * By default, the value is set to 'data'.
+         */
+        dataProperty: 'data'
     },
     
     queue: null,
@@ -139,8 +145,8 @@ Jx.Store.Protocol.Ajax = new Class({
             data = this.parser.parse(str);
         if (data !== undefined && data !== null) {
             if (data.success !== undefined && data.success !== null && data.success) {
-                if (data.data !== undefined && data.data !== null) {
-                    response.data = data.data;
+                if (data[this.options.dataProperty] !== undefined && data[this.options.dataProperty] !== null) {
+                    response.data = data[this.options.dataProperty];
                 }
                 if (data.meta !== undefined && data.meta !== null) {
                     response.meta = data.meta;
