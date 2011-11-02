@@ -791,7 +791,8 @@ Jx.Grid = new Class({
     var target = e.target;
     if (target.getParent('tbody')) {
       target = target.tagName == 'TD' ? target : target.getParent('td');
-      this.fireEvent('gridCellClick', target);
+      var record = this.store.getRecord(target.retrieve('jxCellData').row);
+      this.fireEvent('gridCellClick', [target, record]);
     }
   },
   
@@ -803,7 +804,8 @@ Jx.Grid = new Class({
     var target = e.target;
     if (target.getParent('tbody')) {
       target = target.tagName == 'TD' ? target : target.getParent('td');
-      this.fireEvent('gridCellDblClick', target);
+      var record = this.store.getRecord(target.retrieve('jxCellData').row);
+      this.fireEvent('gridCellDblClick', [target, record]);
     }
   },
   
