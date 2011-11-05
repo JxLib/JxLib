@@ -229,6 +229,14 @@ Jx.Object = new Class({
     },
 
     bound: null,
+    /**
+     * APIProperty: ready
+     * Indicator if this object has completed through the initialize pipeline
+     * and is ready to be used. Plugins can check this when attaching to 
+     * determine if they need to listen for the postInit event to do additional
+     * work or just do that work straight away.
+     */
+    ready: null,
 
     initialize: function(){
         this.plugins = {};
@@ -278,11 +286,19 @@ Jx.Object = new Class({
         this.initPlugins();
         this.fireEvent('postPluginInit');
         
+        //after calling initPlugins we need to remove the plugins from the
+        //options object or else every class that relies on the options will try 
+        //to initialize the same plugins. By this point all of the plugins should
+        //be registered in this.plugins.
+        delete this.options.plugins;
+        
         this.fireEvent('preInit');
         this.init();
         this.fireEvent('postInit');
         
         this.fireEvent('initializeDone');
+        
+        this.ready = true;
     },
 
     /**

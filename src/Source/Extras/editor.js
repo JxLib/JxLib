@@ -354,6 +354,7 @@ Jx.Editor = new Class({
         //console.log('editor save content');
         if (this.mode === 'iframe') {
             this.textarea.set('value', this.cleanup(this.getContent()));
+            this.fireEvent('editorChange',[this.textarea.get('value'),this]);
             //console.log('value saved:' + this.textarea.get('value'));
         }
         return this;

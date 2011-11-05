@@ -133,6 +133,7 @@ Jx.Panel = new Class({
         content: 'jxPanelContent'
     },
 
+    pluginNamespace: 'Panel',
     /**
      * APIMethod: render
      * Initialize a new Jx.Panel instance

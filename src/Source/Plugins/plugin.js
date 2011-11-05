@@ -37,8 +37,8 @@ Jx.Plugin = new Class({
 
     /**
      * APIMethod: attach
-     * Empty method that must be overridden by subclasses. It is
-     * called by the user of the plugin to setup the plugin for use.
+     * Registers this plugin with the class it works on. Can be overridden to
+     * setup the plugin but the parent must be called.
      */
     attach: function(obj){
         obj.registerPlugin(this);
@@ -46,8 +46,7 @@ Jx.Plugin = new Class({
 
     /**
      * APIMethod: detach
-     * Empty method that must be overridden by subclasses. It is
-     * called by the user of the plugin to remove the plugin.
+     * Called to deregister the plugin with the object.
      */
     detach: function(obj){
         obj.deregisterPlugin(this);
