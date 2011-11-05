@@ -79,9 +79,11 @@ Group: Jx  {
          File: Jx...Grid.Resize  (Plugins/grid.resize.js)
          File: Jx...Grid.Selector  (Plugins/grid.selector.js)
          File: Jx...Grid.Sorter  (Plugins/grid.sorter.js)
+         File: Jx...Panel.Notifier  (Plugins/panel.notifier.js)
          File: Jx...ToolbarContainer.TabMenu  (Plugins/toolbarContainer.tabMenu.js)
          File: Jx...Tree.Sorter  (Plugins/tree.sorter.js)
          File: Jx.Plugin.Grid  (Plugins/plugin.grid.js)
+         File: Jx.Plugin.Panel  (Plugins/plugin.panel.js)
          File: Jx.Plugin.Toolbar  (Plugins/plugin.toolbarContainer.js)
          File: Jx.Plugin.Tree  (Plugins/plugin.tree.js)
          }  # Group: Plugins

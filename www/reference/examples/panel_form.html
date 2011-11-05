@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-<title>Jx.Toolbar Examples</title>
+<title>Jx.Panel.Form Examples</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <script type="text/javascript" src="../../lib/mootools-core.js"></script>
 <script type="text/javascript" src="../../lib/mootools-more.js"></script>
@@ -60,16 +60,29 @@ function panelFormFn() {
                         }
                     }
                 ]
-            },
-            new Element('div', {
-                id: 'test-form-editor-container',
-                styles: {
-                    width: '80%',
-                    height: 300,
-                    clear: 'both',
-                    position: 'relative'
+            },{
+                type: 'editor',
+                options: {
+                    name: 'description',
+                    label: 'Description',
+                    id: 'description',
+                    required: true,
+                    value: '',
+                    editorOptions: {
+                        editorCssFile: 'css/editor.css',
+                        buttons: [
+                            ['bold','italic','underline','strikethrough','separator','alignment',
+                              'separator','orderedlist','unorderedlist','indent','outdent','separator','undo','redo'],
+                            [{ name: 'customStyles',
+                               options: {
+                                   styles: ['small','large','hide','quiet','loud','highlight',
+                                        'added','removed','first','last','top','bottom']
+                                }
+                            },'block', 'separator', 'link','unlink', 'image','separator', 'toggle']
+                        ]
+                    }
                 }
-            })
+            }
         ],
     
         validators: {
@@ -78,31 +91,31 @@ function panelFormFn() {
                     validators: ['minLength:5', 'maxLength:10']
                 },
                 'frame-text-1': {
+                    //Need to add the empty validators array which will force it to
+                    //also pick up the required option in the field itself.
+                    validators: []
+                },
+                'description': {
                     validators: []
                 }
             }
         },
     
-        notifierType: 'inline',
-    
         formOptions: {
             id: 'test-form-1',
             name: 'test-form-1'
-        }
+        },
+        
+        plugins: [{
+            name: 'Notifier',
+            options: {
+                notifierType: 'inline'
+            }
+        }]
+                
     
     });
     
-    new Jx.Editor({
-        parent: 'test-form-editor-container',
-        editorCssFile: 'css/editor.css',
-        content: '<p>Starting content.</p>',
-        buttons: [
-            ['bold','italic','underline','strikethrough','separator','alignment',
-                  'separator','orderedlist','unorderedlist','indent','outdent'],
-            ['undo','redo','separator','customStyles','block',
-                  'separator', 'link','unlink', 'image','separator', 'toggle']
-        ]
-    });
 };
 </script>
 
@@ -119,7 +132,9 @@ function panelFormFn() {
 <p>API Reference: <a id="formpanel-js" href="javascript:void();" title="link to API Reference">Jx.Form.Panel</a></p>
 <h2 id="panelForm">Jx.Panel.Form Basic Example</h2>
 <p>The following form was defined entirely in javascript. check the 
-source button to the right for details</p>
+source button to the right for details. Also, notice that validation works on
+on the editor as well. In this case it simply required to have something in it.
+</p>
 <div id="formPanelArea"></div>
 
 

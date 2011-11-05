@@ -59,12 +59,7 @@ Jx.Panel.Form = new Class({
          * This should be the config used in Jx.Plugin.Form.Validator
          */
         validators: null,
-        /**
-         * Option: notifierType
-         * The type of notifier to use. Either 'float' or 'inline'.
-         * Default is 'inline' which places the notifier at the top of the form.
-         */
-        notifierType: 'inline',
+        
         /**
          * Option: formOptions
          * The options for the internal instance of Jx.Form
@@ -79,20 +74,12 @@ Jx.Panel.Form = new Class({
     render: function () {
         this.form = new Jx.Form(this.options.formOptions);
        
-        //create the notifier here so it will be at the top of the form
-        if (this.options.notifierType instanceof Jx.Notifier) {
-            this.notifier = this.options.notifierType;
-        } else if (this.options.notifierType === 'inline') {
-            this.notifier = new Jx.Notifier({parent: document.id(this.form)});
-        } else {
-            this.notifier = new Jx.Notifier.Float({parent: document.body});
-        }
-        
-        //add fields
-        this.addFields(this.form, this.options.fields);
         this.options.content = document.id(this.form);
         
         this.parent();
+        
+        //add fields
+        this.addFields(this.form, this.options.fields);
         
         //create validator
         if (this.options.validators !== undefined && this.options.validators !== null) {
@@ -104,6 +91,7 @@ Jx.Panel.Form = new Class({
                 'fieldValidationFailed': this.fieldFailed.bind(this),
                 'fieldValidationPassed': this.fieldPassed.bind(this)
             });
+            this.form.fireEvent('postInit');
         }
         
         this.domObj.resize();
@@ -114,19 +102,22 @@ Jx.Panel.Form = new Class({
         Object.each(options, function(opt){
             var t = Jx.type(opt);
             if (t === 'element') {
-                opt.inject(document.id(this.form));
+                opt.inject(document.id(container));
             } else if (opt instanceof Jx.Widget) {
-                opt.addTo(this.form);
+                opt.addTo(container);
+                if (opt instanceof Jx.Field) {
+                    this.form.addField(opt);
+                }
             } else if (t === 'object' && opt.type !== undefined && opt.type !== null) {
+                opt.options.parent = container;
+                opt.options.form = this.form;
                 if (opt.type.toLowerCase() === 'fieldset') {
                     var field = new Jx.Fieldset(opt.options);
-                    container.add(field);
                     if (opt.children !== undefined && opt.children !== null) {
                         this.addFields(field, opt.children);
                     }
                 } else {
-                    var field = new Jx.Field[opt.type.capitalize()](opt.options);
-                    container.add(field);
+                    new Jx.Field[opt.type.capitalize()](opt.options);
                 }
             }
         },this);
@@ -140,20 +131,9 @@ Jx.Panel.Form = new Class({
     },
     
     fieldPassed: function (field, validator) {
-        if (this.notices[field.id] !== undefined && this.notices[field.id] !== null) {
-            this.notices[field.id].close();
-        }
+        this.fireEvent('fieldPassed',[field,validator,this]);
     },
     fieldFailed: function (field, validator) {
-        var errs = validator.getErrors();
-        var text = field.name + " has the following errors: " + errs.join(",") + ".";
-        var notice = new Jx.Notice.Error({
-            content: text,
-            onClose: function(){
-                delete this.notices[field.id];
-            }.bind(this)
-        });
-        this.notifier.add(notice);
-        this.notices[field.id] = notice;
+        this.fireEvent('fieldFailed',[field,validator,this]);
     }
 });

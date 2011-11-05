@@ -46,16 +46,37 @@ Jx.Field.Editor = new Class({
 
         this.options.editorOptions.content = this.options.value;
         this.options.editorOptions.textareaName = this.options.name;
+        
+        if (this.options.parent !== null && this.options.parent !== undefined) {
+            this.createEditor();
+        }
 
     },
 
     addTo: function (reference, where) {
 
         this.parent(reference, where);
-
-        this.options.editorOptions.parent = document.id(this.field);
-        this.editor = new Jx.Editor(this.options.editorOptions);
-        this.editor.resize();
+        this.createEditor();
+        
+    },
+    
+    createEditor: function(){
+        if (this.editor === undefined ||
+            this.editor === null || typeOf(this.editor) !== 'Jx.Editor') {
+            this.options.editorOptions.parent = document.id(this.field);
+            this.editor = new Jx.Editor(this.options.editorOptions);
+            this.editor.resize();
+            this.field = this.editor.textarea;
+            //grab change and blur events and pass them on for the editor
+            this.editor.addEvents({
+                'editorChange': function(){
+                    this.fireEvent('change', this);
+                }.bind(this),
+                'editorBlur': function(){
+                    this.fireEvent('blur',this);
+                }.bind(this)
+            });
+        }
     },
 
     getValue: function () {

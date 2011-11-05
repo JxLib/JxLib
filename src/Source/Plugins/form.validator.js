@@ -93,6 +93,7 @@ Jx.Plugin.Form.Validator = new Class({
         this.bound.validate = this.validate.bind(this);
         this.bound.failed = this.fieldFailed.bind(this);
         this.bound.passed = this.fieldPassed.bind(this);
+        this.bound.finish = this.finishSetup.bind(this);
     },
     /**
      * APIMethod: attach
@@ -119,9 +120,18 @@ Jx.Plugin.Form.Validator = new Class({
         }
 
         this.plugins = {};
+        
+        if (this.form.ready === true) {
+            this.finishSetup();
+        } else {
+           this.form.addEvent('postInit',this.bound.finish);
+        }
 
+    },
+    
+    finishSetup: function(){
         //setup the fields
-        Object.each(options.fields, function (val, key) {
+        Object.each(this.options.fields, function (val, key) {
             var opts = Object.merge({},this.options.fieldDefaults, val),
                 fields = this.form.getFieldsByName(key),
                 p;
@@ -133,8 +143,8 @@ Jx.Plugin.Form.Validator = new Class({
                 p.addEvent('fieldValidationPassed', this.bound.passed);
             }
         }, this);
-
     },
+    
     /**
      * APIMethod: detach
      */
