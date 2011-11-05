@@ -67,19 +67,7 @@ function $jx(id) {
  * This file is licensed under an MIT style license
  */
 
-/* firebug console supressor for IE/Safari/Opera */
-window.addEvent('load',
-function() {
-    if (! ("console" in window)) {
-        window.console = {};
-        var empty = function(){};
-        ["log", "debug", "info", "warn", "error", "assert", "dir", "dirxml",
-         "group", "groupEnd", "time", "timeEnd", "count", "trace", "profile", 
-         "profileEnd"].each(function(name){
-            window.console[name] = empty;
-        });
-    }
-});
+
 
 
 // add mutator that sets jxFamily when creating a class so we can check
@@ -94,18 +82,6 @@ Class.Mutators.Family = function(self, name) {
 
 
 
-
-/**
- * Override of mootools-core 1.3's typeOf operator to prevent infinite recursion
- * when doing typeOf on JxLib objects.
- *
-var mooTypeOf = typeOf
-typeOf  = function(item){
-    if (item == null) return 'null';
-    if (item.jxFamily) return item.jxFamily;
-    return mooTypeOf(item);
-};
-*/
 
 /* Setup global namespace.  It is possible to set the global namespace
  * prior to including jxlib.  This would typically be required only if
@@ -122,6 +98,47 @@ if (typeof Jx === 'undefined') {
 }
 
 Jx.version = "3.1-pre";
+
+/**
+ * APIProperty: {String} debug
+ * This determines if the library is in debug mode or not. It allows toggling
+ * the console object on and off without having to remove all of the console.XXX()
+ * functions in the code.
+ */
+if (Jx.debug === undefined || Jx.debug === null) {
+    Jx.debug = false;
+}
+
+/**
+ * The following is an override of the console object to toggle writing out 
+ * based on the state of Jx.debug. It relies on the
+ */
+
+/* firebug console supressor for IE/Safari/Opera */
+window.addEvent('load',
+function() {
+    if (! ("console" in window)) {
+        window.console = {};
+        var empty = function(){};
+        ["log", "debug", "info", "warn", "error", "assert", "dir", "dirxml",
+         "group", "groupEnd", "time", "timeEnd", "count", "trace", "profile", 
+         "profileEnd"].each(function(name){
+            window.console[name] = empty;
+        });
+    } else {
+        window.realConsole = window.console;
+        window.console = {};
+        ["log", "debug", "info", "warn", "error", "assert", "dir", "dirxml",
+         "group", "groupEnd", "time", "timeEnd", "count", "trace", "profile", 
+         "profileEnd"].each(function(name){
+            window.console[name] = function(){
+                if (Jx.debug) {
+                    window.realConsole[name].apply(realConsole,arguments);
+                }
+            };
+        });
+    }
+});
 
 /**
  * APIProperty: {String} baseURL
