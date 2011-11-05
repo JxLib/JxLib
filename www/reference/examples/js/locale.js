@@ -26,7 +26,7 @@ Locale.define('en-US', 'Examples', {
         'Panels-Integrated'     : 'Panels Integrated',
         'Dialog'                : 'Dialog',
         'Dialogs-Integrated'    : 'Dialogs Integrated',
-        'Message-Dialogs-TBC'   : 'Message Dialogs TBC',
+        'Panel-Form'            : 'Jx.Panel.Form Example',
         'File-Upload-Panel'     : 'File Upload Panel',
     'Lists'                     : 'Lists',
       'Grid'                    : 'Grid',

@@ -120,10 +120,10 @@ Jx.Plugin.Field.Validator = new Class({
             }
         }, this);
         if (this.options.validateOnBlur) {
-            this.field.field.addEvent('blur', this.bound.validate);
+            this.field.addEvent('blur', this.bound.validate);
         }
         if (this.options.validateOnChange) {
-            this.field.field.addEvent('change', this.bound.validate);
+            this.field.addEvent('change', this.bound.validate);
         }
         this.field.addEvent('reset', this.bound.reset);
     },
@@ -132,11 +132,11 @@ Jx.Plugin.Field.Validator = new Class({
      */
     detach: function () {
         if (this.field) {
-            this.field.field.removeEvent('blur', this.bound.validate);
-            this.field.field.removeEvent('change', this.bound.validate);
+            this.field.removeEvent('blur', this.bound.validate);
+            this.field.removeEvent('change', this.bound.validate);
+            this.field.removeEvent('reset', this.bound.reset);
+            this.field = null;
         }
-        this.field.removeEvent('reset', this.bound.reset);
-        this.field = null;
         this.validators = null;
     },
 
