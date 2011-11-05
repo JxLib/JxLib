@@ -136,6 +136,7 @@ function drawBasicForm() {
     checked: true,
     labelSeparator: ''
   }).addTo(radioSet);
+  
   new Jx.Field.Button({
     buttonClass: Jx.Button.Color,
     buttonOptions:{label: 'Foreground', color: '#f0f', alpha: 50},
@@ -149,14 +150,32 @@ function drawBasicForm() {
     }
   }).addTo(fieldSet1);  
   
-  new Jx.Field.Button({
-    buttonOptions:{
-      label: 'Go',
-      onClick: function() {
-        console.log('Go!');
-      }
-    },
-    defaultAction: true
+  new Jx.Field.OptionGroup({
+    label: 'Select One or More of these',
+    columns: 3,
+    asArray: true,
+    name: 'test',
+    items: [
+        {
+            label: 'test item 1',
+            value: 'test1'
+        },{
+            label: 'test item 2',
+            value: 'test2'
+        },{
+            label: 'test item 3',
+            value: 'test3'
+        },{
+            label: 'test item 4',
+            value: 'test4'
+        },{
+            label: 'test item 5',
+            value: 'test5'
+        },{
+            label: 'test item 6',
+            value: 'test6'
+        }
+    ]
   }).addTo(fieldSet1);
   
 // Second Fieldset
@@ -294,6 +313,15 @@ function drawBasicForm() {
     columns: 40
   }).addTo(fieldSet3);
   
+  new Jx.Field.Button({
+    buttonOptions:{
+      label: 'Go',
+      onClick: function() {
+        console.log(form.getValues());
+      }
+    },
+    defaultAction: true
+  }).addTo(form);
 }
 </script>
 
