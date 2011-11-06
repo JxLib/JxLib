@@ -18,15 +18,15 @@ jxSkins.some(function(skin){
 // load each skin's CSS file making the right one the active one
 jxSkins.each(function(skin, i) {
     var rel = (skin.label == defaultSkin) ? 'stylesheet': 'alternate stylesheet';
-    new Asset.css('../../lib/themes/'+skin.skin+'/jxtheme.css', {
+    new Asset.css('lib/themes/'+skin.skin+'/jxtheme.css', {
         rel: rel,
         title: skin.label
     });
     if (Browser.ie && Browser.ie4) {
-        new Asset.css('../../lib/themes/'+skin.skin+'/ie6.css', {rel: 'stylesheet'});
+        new Asset.css('lib/themes/'+skin.skin+'/ie6.css', {rel: 'stylesheet'});
     }
     if (Browser.ie && Browser.ie5) {
-        new Asset.css('../../lib/themes/'+skin.skin+'/ie7.css', {rel: 'stylesheet'});
+        new Asset.css('lib/themes/'+skin.skin+'/ie7.css', {rel: 'stylesheet'});
     }
 });
 
