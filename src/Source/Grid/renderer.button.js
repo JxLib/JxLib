@@ -3,7 +3,7 @@
 
 name: Jx.Grid.Renderer.Button
 
-description: "Renders one or more buttons in a single column.
+description: Renders one or more buttons in a single column.
 
 license: MIT-style license.
 

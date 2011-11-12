@@ -3,7 +3,7 @@
 
 name: Jx.Container
 
-description: A Jx.Container: Provide a container for others widgets allowing to use as a content of a widget.
+description: Provide a container for others widgets allowing to use as a content of a widget.
 
 license: MIT-style license.
 
