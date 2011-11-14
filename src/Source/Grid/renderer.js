@@ -69,7 +69,7 @@ Jx.Grid.Renderer = new Class({
   },
   
   setColumn: function (column) {
-    if (column instanceof Jx.Column) {
+    if (column instanceof Jx.Grid.Column) {
       this.column = column;
     }
   }
