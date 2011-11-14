@@ -132,8 +132,8 @@ Jx.Grid.Column = new Class({
         this.name = this.options.name;
 
         //adjust header for column
-        if (!$defined(this.options.template)) {
-            if($defined(this.options.label)){
+        if (this.options.template === undefined  || this.options.template === null) {
+            if(this.options.label !== undefined  && this.options.label !== null){
                 this.options.template = '<span class="jxGridCellContent">' + this.options.label + '</span>';
             } else {
                 this.options.template = '<span class="jxGridCellContent">' + this.name.capitalize() + '</span>';
