@@ -269,9 +269,9 @@ Jx.Store.Strategy.Sort = new Class({
     resolveCol: function (col) {
         var t = Jx.type(col);
         if (t === 'number') {
-            col = this.store.options.columns[col];
+            col = this.store.options.fields[col];
         } else if (t === 'string') {
-            this.store.options.columns.each(function (column) {
+            this.store.options.fields.each(function (column) {
                 if (column.name === col) {
                     col = column;
                 }
