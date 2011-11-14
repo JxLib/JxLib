@@ -460,58 +460,6 @@ Jx.Grid = new Class({
     
     this.hoverColumn = this.hoverRow = this.hoverCell = null;
     
-    // TODO: consider moving whole thing into Jx.Columns ??
-    // create a suitable column representation for everything
-    // in the store that doesn't already have a representation
-    store.options.columns.each(function(col, index) {
-      if (!this.columns.getByName(col.name)) {
-        var renderer = new Jx.Grid.Renderer.Text(),
-            format = (col.format !== undefined && col.format !== null) ? col.format : null,
-            template = "<span class='jxGridCellContent'>"+ ((col.label !== undefined && col.label !== null) ? col.label : col.name).capitalize() + "</span>",
-            column;
-        if (col.renderer !== undefined) {
-          if (Jx.type(col.renderer) == 'string') {
-            if (Jx.Grid.Renderer[col.renderer.capitalize()]) {
-              renderer = new Jx.Grid.Renderer[col.renderer.capitalize()]();
-            }
-          } else if (Jx.type(col.renderer) == 'object' && 
-                     col.renderer.type !== undefined &&
-                     col.renderer.type !== null &&
-                     Jx.Grid.Renderer[col.renderer.type.capitalize()]) {
-            renderer = new Jx.Grid.Renderer[col.renderer.type.capitalize()](col.renderer);
-          }
-        }
-        if (format) {
-          if (Jx.type(format) == 'string' && 
-              Jx.Formatter[format.capitalize()] !== undefined &&
-              Jx.Formatter[format.capitalize()] !== null) {
-            renderer.options.formatter = new Jx.Formatter[format.capitalize()]();
-          } else if (Jx.type(format) == 'object' && 
-                     format.type !== undefined &&
-                     format.type !== null &&
-                     Jx.Formatter[format.type.capitalize()] !== undefined &&
-                     Jx.Formatter[format.type.capitalize()] !== null) {
-             renderer.options.formatter = new Jx.Formatter[format.type.capitalize()](format);
-          }
-        }
-        column = new Jx.Column({
-          grid: this,
-          template: template,
-          renderMode: (col.renderMode !== undefined && col.renderMode !== null) ? 
-                        col.renderMode : 
-                        (col.width !== undefined && col.width !== undefined) ? 'fixed' : 'fit',
-          width: (col.width !== undefined && col.width !== null) ? col.width : null,
-          isEditable: (col.editable !== undefined && col.editable !== null) ? col.editable : false,
-          isSortable: (col.sortable !== undefined && col.sortable !== null) ? col.sortable : false,
-          isResizable: (col.resizable !== undefined && col.resizable !== null) ? col.resizable : false,
-          isHidden: (col.hidden !== undefined && col.hidden !== null) ? col.hidden : false,
-          name: col.name || '',
-          renderer: renderer 
-        });
-        columns.push(column);
-      }
-    }, this);
-    this.columns.addColumns(columns);
     if (this.columns.useHeaders()) {
       tr = new Element('tr');
       this.columns.getHeaders(tr);
