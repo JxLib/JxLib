@@ -460,9 +460,9 @@ Jx.Grid = new Class({
     
     this.hoverColumn = this.hoverRow = this.hoverCell = null;
     
-    if (this.columns.useHeaders()) {
+    if (this.columnModel.useHeaders()) {
       tr = new Element('tr');
-      this.columns.getHeaders(tr);
+      this.columnModel.getHeaders(tr);
       tr.adopt(new Element('th', {
         'class': 'jxGridColHead',
         'html': '&nbsp',
