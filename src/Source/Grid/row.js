@@ -1,7 +1,7 @@
 /*
 ---
 
-name: Jx.Row
+name: Jx.RowModel
 
 description: Holds information related to display of rows in the grid.
 
@@ -10,13 +10,13 @@ license: MIT-style license.
 requires:
  - Jx.Object
 
-provides: [Jx.Row]
+provides: [Jx.RowModel]
 
 ...
  */
 // $Id$
 /**
- * Class: Jx.Row
+ * Class: Jx.RowModel
  *
  * Extends: <Jx.Object>
  *
@@ -30,10 +30,10 @@ provides: [Jx.Row]
  *
  * This file is licensed under an MIT style license
  */
-Jx.Row = new Class({
+Jx.RowModel = new Class({
 
     Extends : Jx.Object,
-    Family: 'Jx.Row',
+    Family: 'Jx.RowModel',
 
     options : {
         /**
@@ -134,7 +134,7 @@ Jx.Row = new Class({
     getRowHeaderWidth : function () {
       var col, width;
       if (this.options.headerColumn) {
-        col = this.grid.columns.getByName(this.options.headerColumn);
+        col = this.grid.columnModel.getByName(this.options.headerColumn);
         width = col.getWidth();
         if (width === undefined && width === null) {
           col.calculateWidth(true);
@@ -221,13 +221,13 @@ Jx.Row = new Class({
      */
     getRowHeader : function (list) {
         var th = this.getRowHeaderCell();
-        //if (this.grid.model.getPosition() === 0) {
+        //if (this.grid.store.getPosition() === 0) {
         //    var rowWidth = this.getRowHeaderWidth();
         //    th.setStyle("width", rowWidth);
         //}
         th.store('jxCellData', {
             rowHeader: true,
-            row: this.grid.model.getPosition()
+            row: this.grid.store.getPosition()
         });
         list.add(th);
     },
