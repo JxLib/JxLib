@@ -124,7 +124,7 @@ Jx.Toolbar.Container = new Class({
             this.domObj.grab(this.scroller, 'top');
         }
         
-        //add the alignment option... not sure why this keeps getting removed??
+        //So, for some reason, the alignment screws up the bar when in a panel (but not a dialog)
         this.domObj.addClass('jxToolbarAlign' + 
                 this.options.align.capitalize());
 

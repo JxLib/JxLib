@@ -93,8 +93,10 @@ Group: Jx  {
    Group: Extras  {
 
       File: ColorPalette  (Extras/colorpalette.js)
+      File: DatePicker  (Extras/datepicker.js)
       File: Editor  (Extras/editor.js)
       File: Editor.Selection  (Extras/editor.selection.js)
+      File: MonthPicker  (Extras/monthpicker.js)
       File: Notice  (Extras/notice.js)
       File: Notifier  (Extras/notifier.js)
       File: Notifier.Float  (Extras/notifier.float.js)
@@ -156,6 +158,7 @@ Group: Jx  {
       File: Toolbar  (Toolbar/toolbar.js)
       File: Toolbar.Container  (Toolbar/container.js)
       File: Toolbar.Item  (Toolbar/toolbar.item.js)
+      File: Toolbar.Pager  (Toolbar/paging.js)
       File: Toolbar.Separator  (Toolbar/toolbar.separator.js)
       }  # Group: Toolbar
 
@@ -165,6 +168,7 @@ Group: Jx  {
 
       Group: Adaptors  {
 
+         File: Adapter.Tree.Object  (Adaptors/tree.object.js)
          File: Adapter.Tree.Parent  (Adaptors/tree.parent.js)
          File: Adaptor.Combo  (Adaptors/adaptor.combo.js)
          File: Adaptor.Tree  (Adaptors/adaptor.tree.js)
@@ -219,15 +223,20 @@ Group: Jx  {
       File: Field.Check  (Form/checkbox.js)
       File: Field.Color  (Form/jxcolor.js)
       File: Field.Combo  (Form/jxcombo.js)
+      File: Field.ComboBox  (Form/combobox.js)
+      File: Field.Date  (Form/field.date.js)
       File: Field.Display  (Form/display.js)
       File: Field.File  (Form/file.js)
       File: Field.Hidden  (Form/hidden.js)
+      File: Field.NumberSpinner  (Form/numberspinner.js)
       File: Field.OptionGroup  (Form/field.options.js)
       File: Field.Password  (Form/password.js)
       File: Field.Radio  (Form/radio.js)
       File: Field.Select  (Form/select.js)
+      File: Field.Spinner  (Form/spinner.js)
       File: Field.Text  (Form/text.js)
       File: Field.Textarea  (Form/textarea.js)
+      File: Field.TreeCombo  (Form/treecombo.js)
       File: Fieldset  (Form/fieldset.js)
       File: Form  (Form/form.js)
 

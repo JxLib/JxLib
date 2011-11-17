@@ -1,0 +1,36 @@
+.jxMonthPickerCell {
+    text-align: center;
+    border-width: 5px;
+    margin-left: 5px;
+    position: relative;
+    font-size: 12px;
+    font-weight: normal;
+    cursor: pointer;
+}
+
+.jxMonthPickerCell:HOVER {
+     /*border-left: 1px solid #CDDFFD;
+    border-right: 1px solid #CDDFFD;*/
+    background-image: url(images/listitem.png);
+    background-repeat: repeat-x;
+    background-color: #CDE5FF;
+    background-position: left -24px;
+}
+
+.jxMonthPickerLeft {
+    position: absolute;
+    left: 10px;
+    top: 0px;
+}
+
+.jxMonthPickerRight {
+    position: absolute;
+    left: 80px;
+    top: 0px;
+}
+        
+.jxMonthPickerControls {
+    position: absolute;
+    left: 35px;
+    bottom: 0px;
+}

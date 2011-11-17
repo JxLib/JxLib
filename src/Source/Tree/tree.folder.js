@@ -96,6 +96,8 @@ Jx.Tree.Folder = new Class({
         this.parent();
         this.domObj.store('jxTreeFolder', this);
         
+        this.options.returnJx = true;
+        
         if (!this.options.selectable) {
             this.domObj.addClass('jxUnselectable');
         }
@@ -121,8 +123,6 @@ Jx.Tree.Folder = new Class({
 
         if (this.domA) {
             this.domA.addEvents({
-                //click: this.click.bind(this),
-                //dblclick: this.dblclick.bind(this),
                 drag: function(e) { e.stop(); }
             });
             //TODO: should we keep this in? Can it be overridden by a plugin?
