@@ -1,0 +1,89 @@
+.jxDatePicker {
+    position: absolute;
+    width: 165px;
+    height: 150px;
+    left: 0px;
+    border: 1px solid #000;
+    padding: 2px;
+    background-image: url(images/a_pixel.png);
+}
+
+.jxDatePickerBar {
+    position: relative;
+    overflow: hidden;    
+}
+
+img.jxPrevDatePickerIcon {
+    background-image: url(images/emblems.png);
+    background-position: right -144px;
+    background-repeat: no-repeat;
+}
+img.jxNextDatePickerIcon {
+    background-image: url(images/emblems.png);
+    background-position: right -32px;
+    background-repeat: no-repeat;
+}
+
+.jxDatePickerPrevButton .jxButtonContainer,
+.jxDatePickerPrevButton .jxButtonContent,
+.jxDatePickerPrevButton .jxButton,
+.jxDatePickerNextButton .jxButtonContainer,
+.jxDatePickerNextButton .jxButtonContent,
+.jxDatePickerNextButton .jxButton,
+.jxDatePickerBar .jxButtonContainer,
+.jxDatePickerBar .jxButtonContent,
+.jxDatePickerBar .jxButton	{
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+    background-color: transparent;
+    background-image: none;
+}
+
+.jxDatePickerCell {
+    text-align: center;
+    height: 14px;
+    width: 24px;
+    border-width: 5px;
+    position: relative;
+    font-size: 10px;
+    font-weight: normal;
+    cursor: pointer;
+}
+.jxDatePickerEmptyCell {
+    height: 14px;
+    width: 24px;
+    border-width: 5px;
+    position: relative;
+}
+
+.jxDatePickerHeaderCell {
+    text-align: center;
+    height: 14px;
+    width: 24px;
+    border-width: 5px;
+    position: relative;
+    font-size: 10px;
+    font-weight: normal;
+    cursor: pointer;
+}
+
+.jxDatePickerCell:HOVER {
+    margin: 0px;
+    /*border-left: 1px solid #CDDFFD;
+    border-right: 1px solid #CDDFFD;*/
+    background-image: url(images/listitem.png);
+    background-repeat: repeat-x;
+    background-color: #CDE5FF;
+    background-position: left -24px;
+}
+
+.jxDatePickerSelected {
+    margin: 0px;
+    /*border-left: 1px solid #8AABFB;
+    border-right: 1px solid #8AABFB;*/
+    background-color: #CDE5FF;
+    background-image: url(images/listitem.png);
+    background-repeat: repeat-x;
+    background-position: left -48px;
+}
