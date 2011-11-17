@@ -53,17 +53,20 @@ Jx.Plugin.Form.Validator = new Class({
         /**
          * Option: fieldDefaults
          * {Object} contains named defaults for field validators to be
-         * triggered on blur or change.  Default is:
+         * triggered on blur or change. Also contains an option whether
+         * or not to show errors inline. Default is:
          * (code)
          * {
          *    validateOnBlur: true
          *    validateOnChange: false
+              inlineErrors: false
          * }
          * (end)
          */
         fieldDefaults: {
             validateOnBlur: true,
-            validateOnChange: true
+            validateOnChange: true,  
+	         inlineErrors : false
         },
         /**
          * Option: validateOnSubmit
