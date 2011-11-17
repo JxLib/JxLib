@@ -100,7 +100,13 @@ Jx.Button.Flyout = new Class({
          * it is the domObj of this button and should only be changed
          * if you really know what you are doing
          */
-        positionElement: null
+        positionElement: null,
+        /**
+         * Option: hasChrome
+         * Set to false to prevent chrome form being used on this flyout.
+         * Defaults to true.
+         */
+        hasChrome: true
     },
 
     /**
@@ -236,12 +242,18 @@ Jx.Button.Flyout = new Class({
                 child.resize();
             }
         });
-        this.showChrome(this.contentContainer);
-
+        
+        var pos;
+        if (options.hasChrome) {
+            this.showChrome(this.contentContainer);
+            pos = Object.merge({},options.position, {
+              offsets: this.chromeOffsets
+            });
+        } else {
+            pos = options.position
+        }
         var rel = options.positionElement || this.domObj;
-        var pos = Object.merge({},options.position, {
-          offsets: this.chromeOffsets
-        });
+            
         this.position(this.contentContainer, rel, pos);
 
         /* we have to size the container for IE to render the chrome correctly

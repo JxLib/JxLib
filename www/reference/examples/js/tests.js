@@ -18,7 +18,7 @@ jxSkins.some(function(skin){
 // load each skin's CSS file making the right one the active one
 jxSkins.each(function(skin, i) {
     var rel = (skin.label == defaultSkin) ? 'stylesheet': 'alternate stylesheet';
-    new Asset.css('lib/themes/'+skin.skin+'/jxtheme.css', {
+    new Asset.css('lib/themes/'+skin.skin+'/jxtheme.uncompressed.css', {
         rel: rel,
         title: skin.label
     });
