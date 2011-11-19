@@ -12,12 +12,14 @@
 window.addEvent('load', function() {
     Jx.debug = true;
     drawBasicForm();
+    drawFormWithPlugins();
     drawFileForm();
     drawFileForm2();
 }); 
 if($(document).getElements('.tabContentActiveExamples').length > 0) {
   $(document).getElements('.tabContentActiveExamples')[0].addEvent('loadAjax', function() {
     drawBasicForm();
+    drawFormWithPlugins();
     drawFileForm();
     drawFileForm2();
   });
@@ -408,6 +410,87 @@ function drawBasicForm() {
 }
 </script>
 
+<script id="formPluginsScript" type="text/javascript" charset="utf-8">
+var form;
+function drawFormWithPlugins() {
+  pluginForm = new Jx.Form({
+    name: 'testForm',
+    formClass: 'jxFormInline',
+    plugins: ['inlineErrors',
+        {
+            name: 'validator',
+            options: {
+                fields: {
+                    'Text31': { validators: [] },
+                    'Select31': { validators: [] },
+                    'TextArea31': {
+                        validators: ['minLength:10','maxLength:40']
+                    }
+                }
+            }
+        }
+    ]
+  }).addTo('formPluginsBox');
+  
+  // Third Fieldset
+
+  var fieldSet3 = new Jx.Fieldset({
+    // no legend in this one
+    id: 'FieldSet3',
+    fieldsetClass: 'jxFormBlock',
+    legend: 'Form with Plugins'
+  }).addTo(pluginForm);
+  
+  new Jx.Field.Text({
+    id: 'Text31',
+    name: 'Text31',
+    label: 'Text One',
+    value: 'Initial Value',
+    tag: 'a tag',
+    required: true
+  }).addTo(fieldSet3);
+
+  new Jx.Field.Select({
+    id: 'Select31',
+    name: 'Select31',
+    label: 'Select One',
+    tag: 'another tag',
+    required: true,
+    comboOpts: [{
+        value: 'opt31',
+        text: 'Option #1',
+        selected: false
+    },{
+        value: 'opt32',
+        text: 'Option #2',
+        selected: true
+    },{
+        value: 'opt33',
+        text: 'Option #3',
+        selected: false
+    }]
+  }).addTo(fieldSet3);
+
+  new Jx.Field.Textarea({
+    id: 'TextArea31',
+    name: 'TextArea31',
+    label: 'TextArea One',
+    rows: 6,
+    columns: 40
+  }).addTo(fieldSet3);
+  
+  new Jx.Field.Button({
+    buttonOptions:{
+      label: 'Go',
+      onClick: function() {
+        console.log(pluginForm.getValues());
+      }
+    },
+    defaultAction: true
+  }).addTo(pluginForm);
+}
+</script>
+
 <script id="fileFormScript" type="text/javascript" charset="utf-8">
 var form2;
 function drawFileForm() {
@@ -742,6 +825,10 @@ function drawFileForm2() {
 <h2 id="basicForm">A Form with Inline-Block Class</h2>
 <p>A programmatically created form with several fieldsets of fields oriented in various ways.</p>
 <div id="formBasic" class="formBox"></div>
+
+<h2 id="formPlugins">A Form with validation plugins and inline error display</h2>
+<p>A programmatically created form using plugins for field validation and displaying errors inline with the field label.</p>
+<div id="formPluginsBox" class="formBox"></div>
 
 <h2 id="fileForm">A Form containing a Jx.Field.File field submitted by ajax</h2>
 <p>A form with a Jx.Field.File field. The form is submitted by ajax and the other form elements are added to the file form for upload.</p>

@@ -74,6 +74,7 @@ Group: Jx  {
       Group: Plugins  {
 
          File: buttons  (Plugins/editor/editor.buttonset.js)
+         File: Jx...Form.InlineErrors  (Plugins/form.InlineErrors.js)
          File: Jx...Grid.Editor  (Plugins/grid.editor.js)
          File: Jx...Grid.Prelighter  (Plugins/grid.prelighter.js)
          File: Jx...Grid.Resize  (Plugins/grid.resize.js)

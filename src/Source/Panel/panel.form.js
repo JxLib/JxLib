@@ -87,7 +87,7 @@ Jx.Panel.Form = new Class({
             this.validator.attach(this.form);
         
             //connect validation events
-            this.validator.addEvents({
+            this.form.addEvents({
                 'fieldValidationFailed': this.fieldFailed.bind(this),
                 'fieldValidationPassed': this.fieldPassed.bind(this)
             });
