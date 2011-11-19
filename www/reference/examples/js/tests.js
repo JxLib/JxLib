@@ -114,7 +114,8 @@ window.addEvent('load', function() {
     var jxLanguages = [
       {label: {set:'Examples',key:'mainToolbar',value:'langEn'}, langId:'en-US', image: 'http://upload.wikimedia.org/wikipedia/commons/7/7d/Icons-flag-us.png', active: false},
       {label: {set:'Examples',key:'mainToolbar',value:'langDe'}, langId:'de-DE', image: 'http://upload.wikimedia.org/wikipedia/commons/b/b5/Icons-flag-de.png', active: false},
-      {label: {set:'Examples',key:'mainToolbar',value:'langRu'}, langId:'ru-RU', image: 'http://upload.wikimedia.org/wikipedia/commons/9/9d/Icons-flag-ru.png', active: false}
+      {label: {set:'Examples',key:'mainToolbar',value:'langRu'}, langId:'ru-RU', image: 'http://upload.wikimedia.org/wikipedia/commons/9/9d/Icons-flag-ru.png', active: false},
+      {label: {set:'Examples',key:'mainToolbar',value:'langEs'}, langId:'es-ES', image: 'http://upload.wikimedia.org/wikipedia/commons/9/9d/Icons-flag-es.png', active: false}
     ];
 
     jxLanguages.some(function(lang){
