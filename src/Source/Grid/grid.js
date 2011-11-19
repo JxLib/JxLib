@@ -11,8 +11,6 @@ requires:
  - Jx.Widget
  - Jx.Styles
  - Jx.Layout
- - Jx.Grid.ColumnModel
- - Jx.Grid.RowModel
  - Jx.Plugin.Grid
  - Jx.Store
  - Jx.List
@@ -339,12 +337,16 @@ Jx.Grid = new Class({
     this.contentContainer.setStyle('overflow', 'auto');
     
     // todo: very hacky!  can plugins 'wantEvent' between init and render?
+    //YES! made a change to the order of things so we can call wantEvent from
+    //the plugin's attach method. Woo!!
+    /*
     Object.each(this.hooks, function(value, key) {
       if (value) {
         this.hooks[key] = false;
         this.wantEvent(key);
       }
     }, this);
+    */
     
     if (document.id(this.options.parent)) {
       this.addTo(this.options.parent);
@@ -453,7 +455,7 @@ Jx.Grid = new Class({
         template = '',
         tr,
         columns = [],
-        useRowHeaders = this.row.useHeaders();
+        useRowHeaders = this.rowModel.useHeaders();
     this.fireEvent('beginCreateGrid');
     
     this.gridObj.getElement('tbody').empty();

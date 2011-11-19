@@ -9,6 +9,7 @@ license: MIT-style license.
 
 requires:
  - Jx.Widget
+ - Jx.Grid
 
 provides: [Jx.Grid.Column]
 
