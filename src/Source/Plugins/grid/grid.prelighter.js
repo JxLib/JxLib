@@ -90,21 +90,21 @@ Jx.Plugin.Grid.Prelighter = new Class({
         }
         this.parent(grid);
         this.grid = grid;
-        // this.grid.wantEvent('gridCellEnter');
-        // this.grid.wantEvent('gridCellLeave');
-        // this.grid.wantEvent('gridRowEnter');
-        // this.grid.wantEvent('gridRowLeave');
-        // this.grid.wantEvent('gridColumnEnter');
-        // this.grid.wantEvent('gridColumnLeave');
-        // this.grid.wantEvent('gridMouseLeave');
+        grid.wantEvent('gridCellEnter');
+        grid.wantEvent('gridCellLeave');
+        grid.wantEvent('gridRowEnter');
+        grid.wantEvent('gridRowLeave');
+        grid.wantEvent('gridColumnEnter');
+        grid.wantEvent('gridColumnLeave');
+        grid.wantEvent('gridMouseLeave');
         
-        this.grid.addEvent('gridCellEnter', this.bound.lighton);
-        this.grid.addEvent('gridCellLeave', this.bound.lightoff);
-        this.grid.addEvent('gridRowEnter', this.bound.lighton);
-        this.grid.addEvent('gridRowLeave', this.bound.lightoff);
-        this.grid.addEvent('gridColumnEnter', this.bound.lighton);
-        this.grid.addEvent('gridColumnLeave', this.bound.lightoff);
-        this.grid.addEvent('gridMouseLeave', this.bound.mouseleave);
+        grid.addEvent('gridCellEnter', this.bound.lighton);
+        grid.addEvent('gridCellLeave', this.bound.lightoff);
+        grid.addEvent('gridRowEnter', this.bound.lighton);
+        grid.addEvent('gridRowLeave', this.bound.lightoff);
+        grid.addEvent('gridColumnEnter', this.bound.lighton);
+        grid.addEvent('gridColumnLeave', this.bound.lightoff);
+        grid.addEvent('gridMouseLeave', this.bound.mouseleave);
     },
     /**
      * APIMethod: detach

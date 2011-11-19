@@ -64,15 +64,15 @@ Jx.Record = new Class({
      */
     state: null,
     /**
-     * Property: columns
-     * Holds a reference to the columns for this record. These are usually
+     * Property: fields
+     * Holds a reference to the fields for this record. These are usually
      * passed to the record from the store. This should be an array of objects
-     * where the objects represent the columns. The object should take the form:
+     * where the objects represent the fields. The object should take the form:
      *
      * (code)
      * {
-     *     name: <column name>,
-     *     type: <column type>,
+     *     name: <field name>,
+     *     type: <field type>,
      *     ..additional options required by the record implementation...
      * }
      * (end)
@@ -80,10 +80,10 @@ Jx.Record = new Class({
      * The type of the column should be one of alphanumeric, numeric, date,
      * boolean, or currency.
      */
-    columns: null,
+    fields: null,
     /**
      * Property: virtuals
-     * An object that holds all virtual "columns" in this record. You can add
+     * An object that holds all virtual "fields" in this record. You can add
      * virtuals by implementing them or subclassing Jx.Record.
      * 
      * Implement example:
@@ -109,7 +109,7 @@ Jx.Record = new Class({
      * });
      * (end)
      * 
-     * You can then just get and set these columns as you would normal columns.
+     * You can then just get and set these fields as you would normal fields.
      */
     virtuals: {
         primaryKey: {
@@ -121,13 +121,13 @@ Jx.Record = new Class({
         }
     },
 
-    parameters: ['store', 'columns', 'data', 'options'],
+    parameters: ['store', 'fields', 'data', 'options'],
 
     init: function () {
         this.parent();
-        if (this.options.columns !== undefined &&
-            this.options.columns !== null) {
-            this.columns = this.options.columns;
+        if (this.options.fields !== undefined &&
+            this.options.fields !== null) {
+            this.fields = this.options.fields;
         }
 
         if (this.options.data !== undefined &&
@@ -159,7 +159,7 @@ Jx.Record = new Class({
     /**
      * APIMethod: get
      * returns the value of the requestehd column. Can be programmed to handle
-     * pseudo-columns (such as the primaryKey column implemented in this base
+     * pseudo-fields (such as the primaryKey column implemented in this base
      * record).
      *
      * Parameters:
@@ -253,7 +253,10 @@ Jx.Record = new Class({
      * data - the data to process
      */
     processData: function (data) {
-        this.data = data;
+        this.data = {};
+        this.fields.each(function (field) {
+            this.data[field.name] = data[field.name];
+        }, this);
     },
 
     /**
@@ -270,7 +273,7 @@ Jx.Record = new Class({
         var t = Jx.type(col),
             ret = null;
         if (t === 'number') {
-            ret = this.columns[col];
+            ret = this.fields[col];
         } else if (t === 'string') {
             //is it virtual?
             if (Object.keys(this.virtuals).contains(col)){
@@ -279,8 +282,8 @@ Jx.Record = new Class({
                     type: this.virtuals[col].type
                 };
             } else {
-                //not virtual so check the actual columns.
-                this.columns.each(function (column) {
+                //not virtual so check the actual fields.
+                this.fields.each(function (column) {
                     if (column.name === col) {
                         ret = column;
                     }

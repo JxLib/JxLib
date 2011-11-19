@@ -37,7 +37,8 @@ Jx.Plugin.Grid.Selector = new Class({
     
     name: 'Selector',
 
-    Binds: ['select','checkSelection','checkAll','afterGridRender','onCellClick', 'sort', 'updateCheckColumn', 'updateSelectedRows'],
+    Binds: ['select','checkSelection','checkAll','afterGridRender',
+            'onCellClick', 'sort', 'updateCheckColumn', 'updateSelectedRows', 'onPostRender'],
 
     options : {
         /**
@@ -118,8 +119,17 @@ Jx.Plugin.Grid.Selector = new Class({
             template;
         this.grid = grid;
         
-        this.grid.addEvent('gridSortFinished', this.updateSelectedRows);
-        
+        grid.addEvent('gridSortFinished', this.updateSelectedRows);
+        if (grid.ready) {
+            this.onPostRender();
+        } else {
+            grid.addEvent('postRender', this.onPostRender);
+        }
+    },
+    
+    onPostRender: function() {
+        var grid = this.grid,
+            options = this.options;
         //setup check column if needed
         if (options.useCheckColumn) {
           grid.addEvent('gridDrawRow', this.updateCheckColumn);
@@ -132,7 +142,7 @@ Jx.Plugin.Grid.Selector = new Class({
 
           template += "</span>";
 
-          this.checkColumn = new Jx.Column({
+          this.checkColumn = new Jx.Grid.Column({
             template: template,
             renderMode: 'fixed',
             width: 20,
@@ -142,14 +152,14 @@ Jx.Plugin.Grid.Selector = new Class({
             sort: options.sortableColumn ? this.sort : null
           }, grid);
           this.checkColumn.options.renderer = this;
-          grid.columns.columns.reverse();
-          grid.columns.columns.push(this.checkColumn);
-          grid.columns.columns.reverse();
+          grid.columnModel.columns.reverse();
+          grid.columnModel.columns.push(this.checkColumn);
+          grid.columnModel.columns.reverse();
 
           if (options.checkAsHeader) {
-              this.oldHeaderColumn = grid.row.options.headerColumn;
-              grid.row.options.useHeaders = true;
-              grid.row.options.headerColumn = 'selection';
+              this.oldHeaderColumn = grid.rowModel.options.headerColumn;
+              grid.rowModel.options.useHeaders = true;
+              grid.rowModel.options.headerColumn = 'selection';
 
               if (options.multiple) {
                   grid.addEvent('doneCreateGrid', this.afterGridRender);
@@ -162,6 +172,7 @@ Jx.Plugin.Grid.Selector = new Class({
               });
           }
         } else {
+          grid.wantEvent('gridCellClick');
           grid.addEvent('gridCellClick', this.onCellClick);
         }
     },
@@ -238,14 +249,14 @@ Jx.Plugin.Grid.Selector = new Class({
               click: this.onCellClick
             });
             if (this.checkColumn) {
-                grid.columns.columns.erase(this.checkColumn);
+                grid.columnModel.columns.erase(this.checkColumn);
                 this.checkColumn.destroy();
                 this.checkColumn = null;
             }
             if (options.useCheckColumn) {
                 grid.removeEvent('gridDrawRow', this.updateCheckColumn);
                 if (options.checkAsHeader) {
-                    grid.row.options.headerColumn = this.oldHeaderColumn;
+                    grid.rowModel.options.headerColumn = this.oldHeaderColumn;
                 }
             }
         }
@@ -338,7 +349,7 @@ Jx.Plugin.Grid.Selector = new Class({
         }
 
         if (options.column && data.index !== undefined && data.index !== null) {
-            if (this.grid.row.useHeaders()) {
+            if (this.grid.rowModel.useHeaders()) {
                 this.selectColumn(data.index - 1);
             } else {
                 this.selectColumn(data.index);
@@ -458,7 +469,7 @@ Jx.Plugin.Grid.Selector = new Class({
             if (options.checkAsHeader) {
               cell = document.id(grid.rowTableBody.rows[row].cells[0]);
             } else {
-              col = grid.columns.getIndexFromGrid(this.checkColumn.name);
+              col = grid.columnModel.getIndexFromGrid(this.checkColumn.name);
               cell = document.id(grid.gridTableBody.rows[row].cells[col]);
             }
             check = cell.getElement('.jxGridSelector');
@@ -474,7 +485,7 @@ Jx.Plugin.Grid.Selector = new Class({
      * row - {Integer} the row header to select
      */
     selectRowHeader: function (row) {
-        if (!this.grid.row.useHeaders()) {
+        if (!this.grid.rowModel.useHeaders()) {
             return;
         }
         var rows = this.grid.rowTableBody.rows,
@@ -557,7 +568,7 @@ Jx.Plugin.Grid.Selector = new Class({
      */
     selectColumnHeader: function (col) {
         var rows = this.grid.colTableBody;
-        if (rows.length === 0 || !this.grid.row.useHeaders()) {
+        if (rows.length === 0 || !this.grid.rowModel.useHeaders()) {
             return;
         }
 
@@ -594,7 +605,7 @@ Jx.Plugin.Grid.Selector = new Class({
      * selection appropriately.
      *
      * Parameters:
-     * column - <Jx.Column> that created the checkbox
+     * column - <Jx.Grid.Column> that created the checkbox
      * field - <Jx.Field.Checkbox> instance that was checked/unchecked
      * created the checkbox
      */
@@ -624,7 +635,7 @@ Jx.Plugin.Grid.Selector = new Class({
             col = 0;
             rows = grid.rowTableBody.rows;
         } else {
-            col = grid.columns.getIndexFromGrid(this.checkColumn.name);
+            col = grid.columnModel.getIndexFromGrid(this.checkColumn.name);
             rows = grid.gridTableBody.rows;
         }
 
@@ -648,7 +659,7 @@ Jx.Plugin.Grid.Selector = new Class({
           data = store.data,
           gridTableBody= grid.gridTableBody,
           gridParent = gridTableBody.getParent(),
-          useHeaders = grid.row.useHeaders(),
+          useHeaders = grid.rowModel.useHeaders(),
           rowTableBody = grid.rowTableBody,
           rowParent = rowTableBody.getParent(),
           selected = this.getSelectedRows();

@@ -1,7 +1,7 @@
 /*
 ---
 
-name: Jx.Column
+name: Jx.Grid.Column
 
 description: A representation of a single grid column
 
@@ -9,14 +9,15 @@ license: MIT-style license.
 
 requires:
  - Jx.Widget
+ - Jx.Grid
 
-provides: [Jx.Column]
+provides: [Jx.Grid.Column]
 
 ...
  */
 // $Id$
 /**
- * Class: Jx.Column
+ * Class: Jx.Grid.Column
  *
  * Extends: <Jx.Object>
  *
@@ -31,10 +32,10 @@ provides: [Jx.Column]
  *
  * This file is licensed under an MIT style license
  */
-Jx.Column = new Class({
+Jx.Grid.Column = new Class({
 
     Extends: Jx.Widget,
-    Family: 'Jx.Column',
+    Family: 'Jx.Grid.Column',
 
     options: {
         /**
@@ -84,8 +85,14 @@ Jx.Column = new Class({
         /**
          * Option: name
          * The name given to this column
+         * if no label is specified the name is used as label
          */
         name: '',
+        /**
+         * Option: label
+         * The label given to this column
+         */
+        label: null,
 
         /**
          * Option: template
@@ -126,8 +133,12 @@ Jx.Column = new Class({
         this.name = this.options.name;
 
         //adjust header for column
-        if (this.options.template === undefined || this.options.template === null) {
-            this.options.template = '<span class="jxGridCellContent">' + this.name.capitalize() + '</span>';
+        if (this.options.template === undefined  || this.options.template === null) {
+            if(this.options.label !== undefined  && this.options.label !== null){
+                this.options.template = '<span class="jxGridCellContent">' + this.options.label + '</span>';
+            } else {
+                this.options.template = '<span class="jxGridCellContent">' + this.name.capitalize() + '</span>';
+            }
         }
 
         this.parent();
@@ -260,8 +271,8 @@ Jx.Column = new Class({
               this.options.renderer.render();
               text = document.id(this.options.renderer);
               klass = 'jxGridCell';
-              if (this.grid.row.useHeaders() &&
-                      this.options.name === this.grid.row.getRowHeaderColumn()) {
+              if (this.grid.rowModel.useHeaders() &&
+                      this.options.name === this.grid.rowModel.getRowHeaderColumn()) {
                   klass = 'jxGridRowHead';
               }
               s = this.measure(text, klass, rowHeader, store.getPosition());
@@ -279,8 +290,8 @@ Jx.Column = new Class({
           }
 
           //check the column header as well (unless this is the row header)
-          if (!(this.grid.row.useHeaders() &&
-              this.options.name === this.grid.row.getRowHeaderColumn())) {
+          if (!(this.grid.rowModel.useHeaders() &&
+              this.options.name === this.grid.rowModel.getRowHeaderColumn())) {
               klass = 'jxGridColHead';
               if (this.isEditable()) {
                   klass += ' jxColEditable';
@@ -296,7 +307,7 @@ Jx.Column = new Class({
                   maxWidth = s.content.width;
               }
               if (s.cell.width > maxCellWidth) {
-                maxCellWidth = s.cell.width;
+                  maxCellWidth = s.cell.width;
               }
           }
       }
@@ -337,8 +348,8 @@ Jx.Column = new Class({
                 el = el.getFirst();
             }
             return {
-              content: el.getMarginBoxSize(),
-              cell: el.getMarginBoxSize()
+                content: el.getMarginBoxSize(),
+                cell: el.getMarginBoxSize()
             };
         });
         d.destroy();

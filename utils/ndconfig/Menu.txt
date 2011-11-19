@@ -62,28 +62,33 @@ Group: Jx  {
 
    Group: Grid  {
 
-      File: Column  (Grid/column.js)
-      File: Columns  (Grid/columns.js)
       File: Grid  (Grid/grid.js)
+      File: Grid.Column  (Grid/column.js)
+      File: Grid.ColumnModel  (Grid/columnModel.js)
       File: Grid.Renderer  (Grid/renderer.js)
       File: Grid.Renderer.Button  (Grid/renderer.button.js)
       File: Grid.Renderer.CheckBox  (Grid/renderer.checkbox.js)
       File: Grid.Renderer.Text  (Grid/renderer.text.js)
-      File: Row  (Grid/row.js)
+      File: Grid.RowModel  (Grid/rowModel.js)
 
       Group: Plugins  {
 
          File: buttons  (Plugins/editor/editor.buttonset.js)
+
+         Group: Grid  {
+
+            File: Grid  (Plugins/grid/plugin.grid.js)
+            File: Grid.Editor  (Plugins/grid/grid.editor.js)
+            File: Grid.Prelighter  (Plugins/grid/grid.prelighter.js)
+            File: Grid.Resize  (Plugins/grid/grid.resize.js)
+            File: Grid.Selector  (Plugins/grid/grid.selector.js)
+            File: Grid.Sorter  (Plugins/grid/grid.sorter.js)
+            }  # Group: Grid
+
          File: Jx...Form.InlineErrors  (Plugins/form.InlineErrors.js)
-         File: Jx...Grid.Editor  (Plugins/grid.editor.js)
-         File: Jx...Grid.Prelighter  (Plugins/grid.prelighter.js)
-         File: Jx...Grid.Resize  (Plugins/grid.resize.js)
-         File: Jx...Grid.Selector  (Plugins/grid.selector.js)
-         File: Jx...Grid.Sorter  (Plugins/grid.sorter.js)
          File: Jx...Panel.Notifier  (Plugins/panel.notifier.js)
          File: Jx...ToolbarContainer.TabMenu  (Plugins/toolbarContainer.tabMenu.js)
          File: Jx...Tree.Sorter  (Plugins/tree.sorter.js)
-         File: Jx.Plugin.Grid  (Plugins/plugin.grid.js)
          File: Jx.Plugin.Panel  (Plugins/plugin.panel.js)
          File: Jx.Plugin.Toolbar  (Plugins/plugin.toolbarContainer.js)
          File: Jx.Plugin.Tree  (Plugins/plugin.tree.js)
