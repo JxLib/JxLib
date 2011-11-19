@@ -90,8 +90,8 @@ Jx.Plugin.Grid.Sorter = new Class({
         columnTable = grid.colObj,
         store = grid.store,
         c = this.options.sortableClass;
-    if (grid.columns.useHeaders()) {
-      grid.columns.columns.each(function(col, index) {
+    if (grid.columnModel.useHeaders()) {
+      grid.columnModel.columns.each(function(col, index) {
         if (!col.isHidden() && col.isSortable()) {
           var th = columnTable.getElement('.jxGridCol'+index);
           th.addClass(c);
@@ -114,7 +114,7 @@ Jx.Plugin.Grid.Sorter = new Class({
         gridParent = gridTableBody.getParent(),
         rowTableBody = grid.rowTableBody,
         rowParent = rowTableBody.getParent(),
-        useHeaders = grid.row.useHeaders(),
+        useHeaders = grid.rowModel.useHeaders(),
         store = grid.store,
         sorter = store.getStrategy('sort'),
         data = el.retrieve('jxCellData'),

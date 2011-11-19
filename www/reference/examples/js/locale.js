@@ -1,4 +1,4 @@
-MooTools.lang.set('en-US', 'Examples', {
+Locale.define('en-US', 'Examples', {
 
   mainToolbar : {
     btnBgGrid   : 'Background Grid',
@@ -9,7 +9,8 @@ MooTools.lang.set('en-US', 'Examples', {
     langChange  : 'Changing language to',
     langEn      : 'English (en-US)',
     langDe      : 'Deutsch (de-DE)',
-    langRu      : 'Русский (ru-RU)'
+    langRu      : 'Русский (ru-RU)',
+    langEs	: 'Spanish (es-ES) - someone translate me :)'
   },
 
   navigation : {
@@ -26,7 +27,7 @@ MooTools.lang.set('en-US', 'Examples', {
         'Panels-Integrated'     : 'Panels Integrated',
         'Dialog'                : 'Dialog',
         'Dialogs-Integrated'    : 'Dialogs Integrated',
-        'Message-Dialogs-TBC'   : 'Message Dialogs TBC',
+        'Panel-Form'            : 'Jx.Panel.Form Example',
         'File-Upload-Panel'     : 'File Upload Panel',
     'Lists'                     : 'Lists',
       'Grid'                    : 'Grid',
@@ -55,9 +56,10 @@ MooTools.lang.set('en-US', 'Examples', {
       'Custom-Scrollbars'       : 'Custom Scrollbars',
       'Progress-Bar'            : 'Progress Bar',
       'Slider'                  : 'Slider',
+      'Editor'                  : 'Editor',
     'Adaptors'                  : 'Adaptors',
-      'Jx.Tree'                 : 'Jx.Tree',
-      'Jx.Field.Combo'          : 'Jx.Field.Combo'
+      'Tree-adaptor'            : 'Jx.Tree Adaptors',
+      'Combo-adaptor'           : 'Jx.Field.Combo Adaptors'
    },
 
   // name the 'key' after the html example page ?
@@ -179,7 +181,7 @@ MooTools.lang.set('en-US', 'Examples', {
 
 });
 
-MooTools.lang.set('de-DE', 'Examples', {
+Locale.define('de-DE', 'Examples', {
 
   mainToolbar : {
     btnBgGrid   : 'Hintergrund Raster',
@@ -359,7 +361,7 @@ MooTools.lang.set('de-DE', 'Examples', {
 
 });
 
-MooTools.lang.set('ru-RU-unicode', 'Examples', {
+Locale.define('ru-RU-unicode', 'Examples', {
 
   mainToolbar : {
     btnBgGrid   : 'Фоновая сетка',

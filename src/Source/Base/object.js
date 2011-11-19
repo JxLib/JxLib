@@ -229,6 +229,14 @@ Jx.Object = new Class({
     },
 
     bound: null,
+    /**
+     * APIProperty: ready
+     * Indicator if this object has completed through the initialize pipeline
+     * and is ready to be used. Plugins can check this when attaching to 
+     * determine if they need to listen for the postInit event to do additional
+     * work or just do that work straight away.
+     */
+    ready: null,
 
     initialize: function(){
         this.plugins = {};
@@ -267,16 +275,30 @@ Jx.Object = new Class({
 
         this.bound.changeText = this.changeText.bind(this);
         if (this.options.useLang) {
-            MooTools.lang.addEvent('langChange', this.bound.changeText);
+            Locale.addEvent('change', this.bound.changeText);
         }
 
-        this.fireEvent('preInit');
-        this.init();
-        this.fireEvent('postInit');
+        //Changed the initPlugins() to before init and render so that 
+        //plugins can connect to preInit and postInit functions as well as 
+        //call methods before the object is completely initialized. This was
+        //done mainly so grid plugins could call want events before render time.
         this.fireEvent('prePluginInit');
         this.initPlugins();
         this.fireEvent('postPluginInit');
+        
+        //after calling initPlugins we need to remove the plugins from the
+        //options object or else every class that relies on the options will try 
+        //to initialize the same plugins. By this point all of the plugins should
+        //be registered in this.plugins.
+        delete this.options.plugins;
+        
+        this.fireEvent('preInit');
+        this.init();
+        this.fireEvent('postInit');
+        
         this.fireEvent('initializeDone');
+        
+        this.ready = true;
     },
 
     /**
@@ -322,6 +344,7 @@ Jx.Object = new Class({
             }
         }
     },
+    
 
     /**
      * APIMethod: destroy
@@ -352,7 +375,7 @@ Jx.Object = new Class({
         }
         this.plugins = {};
         if (this.options.useLang && this.bound.changeText !== undefined && this.bound.changeText !== null) {
-            MooTools.lang.removeEvent('langChange', this.bound.changeText);
+            Locale.removeEvent('change', this.bound.changeText);
         }
         this.bound = null;
     },
@@ -410,7 +433,7 @@ Jx.Object = new Class({
      * returns the localized text.
      *
      * Parameters:
-     * val - <String> || <Function> || <Object> = { set: '', key: ''[, value: ''] } for a MooTools.lang object
+     * val - <String> || <Function> || <Object> = { set: '', key: ''[, value: ''] } for a Locale object
      */
     getText: function(val) {
       // COMMENT: just an idea how a localization object could be stored to the instance if needed somewhere else and options change?

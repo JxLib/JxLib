@@ -62,7 +62,7 @@ images:
  * Extends:
  * Jx.Dialog extends <Jx.Panel>, please go there for more details.
  * 
- * MooTools.lang Keys:
+ * Locale Keys:
  * - dialog.resizeToolTip
  *
  * License:

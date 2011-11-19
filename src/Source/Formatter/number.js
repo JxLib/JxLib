@@ -31,7 +31,7 @@ provides: [Jx.Formatter.Number]
  * (code)
  * (end)
  * 
- * MooTools.lang Keys:
+ * Locale Keys:
  * - 'formatter.number'.decimalSeparator
  * - 'formatter.number'.thousandsSeparator
  *

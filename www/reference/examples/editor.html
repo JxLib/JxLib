@@ -1,0 +1,129 @@
+<html>
+<head>
+    <title>Jx.Editor Test Page</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="lib/mootools-core.js"></script>
+    <script type="text/javascript" src="lib/mootools-more.js"></script>
+    <script type="text/javascript" src="lib/jxlib.standalone.uncompressed.js"></script>
+    <script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/locale.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+        window.addEvent('load', function() {
+            editor();
+            editorField();
+        });
+        if($(document).getElements('.tabContentActiveExamples').length > 0) {
+          $(document).getElements('.tabContentActiveExamples')[0].addEvent('loadAjax', function() {
+            editor();
+            editorField();
+          });
+        };
+    </script>
+
+    <script id="editorScript" type="text/javascript">
+        function editor() {
+            var editor = new Jx.Editor({
+                parent: 'editor-container',
+                editorCssFile: 'css/editor.css',
+                editorMooFile: '../../lib/mootools-core.js',
+                content: '<p>Starting content.</p>',
+                buttons: [
+                    ['bold','italic','underline','strikethrough','separator','alignment',
+                          'separator','orderedlist','unorderedlist','indent','outdent'],
+                    ['undo','redo','separator',
+                        { name: 'customStyles',
+                            options: {
+                                styles: ['small','large','hide','quiet','loud','highlight',
+                                        'added','removed','first','last','top','bottom']
+                            }
+                        },
+                    'block', 'separator', 'link','unlink', 'image','separator', 'toggle']
+                ]
+            });
+            
+            new Jx.Button({
+               label: 'Show in Console',
+               onClick: function(){
+                   console.log(editor.getContent());
+               }
+            }).addTo('button-container');
+        }
+    </script>
+    
+    <script id="editorFieldScript" type="text/javascript">
+        function editorField() {
+            var form = new Jx.Form({
+                formClass: 'jxFormInlineblock'
+            }).addTo('editorField-container');
+
+            //place inside an fieldset
+            var fs = new Jx.Fieldset({
+                legend: 'Test Fieldset'
+            }).addTo(form);
+            
+            var editorF = new Jx.Field.Editor({
+                parent: fs,
+                name: 'description',
+                label: 'Description',
+                id: 'description',
+                required: true,
+                value: '',
+                editorOptions: {
+                    editorCssFile: 'css/editor.css',
+                    buttons: [
+                        ['bold','italic','underline','strikethrough','separator','alignment',
+                              'separator','orderedlist','unorderedlist','indent','outdent','separator','undo','redo'],
+                        [{ name: 'customStyles',
+                            options: {
+                                styles: ['small','large','hide','quiet','loud','highlight',
+                                        'added','removed','first','last','top','bottom']
+                            }
+                        },'block', 'separator', 'link','unlink', 'image','separator', 'toggle']
+                    ]
+                }
+            });
+
+            //editorF.addTo(fs);
+
+            var submit = new Jx.Field.Button({
+                buttonOptions: {
+                    label: 'Submit',
+                    onClick: function () {
+                        var data = form.getValues();
+                        console.log(data);
+                    }
+                }
+            }).addTo(form);
+            
+        }
+    </script>
+
+<style>
+#editor-container {
+    width: 50%;
+    height: 300px;
+    position: relative;
+}
+</style>
+</head>
+<body>
+<h1>Jx.Editor Examples</h1>
+<p>API Reference: <a id="editor-js" href="javascript:void();" title="link to API Reference">Jx.Editor</a></p>
+<h2 id="editor">Basic Editor</h2>
+<p>
+    This is a pretty simple editor that is extendable via plugins to do 
+    just about anything you want. Play with it for a while and then click 
+    the "Show in Console" button to have it show you what would be submitted by
+    writing it to the console.
+</p>
+<div id="editor-container"></div>
+<div id="button-container"></div>
+
+<h2 id="editorField">Editor as a Form Field</h2>
+<p>
+    Same editor as above but as a Jx.Field.Editor to fit into a form. Press
+    submit and check the console for the result.
+</p>
+<div id="editorField-container"></div>
+</body>
+</html>

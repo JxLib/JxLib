@@ -189,15 +189,26 @@ Jx.Widget.List = new Class({
             contextmenu: {
                 on: true,
                 obj: 'li'
-            },
-            select: {
-                on: true
-            },
-            unselect: {
-                on: true
             }
         },
-        template: '<div class="jxWidget jxListContainer"></div>'
+        template: '<div class="jxWidget jxListContainer"></div>',
+        /**
+         * Option: selectionFunction
+         * This should be a function that returns a boolean value indicating
+         * whether the passed in node is selectable or not.
+         */
+        selectionFunction: function(el, e){
+            var item = document.id(el).retrieve('jxListTargetItem') || el;
+            return !item.hasClass('jxUnselectable');
+        },
+        /**
+         * Option: selectionEvents
+         * Determines whether we listen for and rethrow events from Jx.Selection
+         */
+        selectionEvents: {
+            select: true,
+            unselect: true
+        }
     },
     
     classes: {
@@ -266,7 +277,10 @@ Jx.Widget.List = new Class({
                     //console.log('mouseleave in Widget.List on ',el);
                     el = document.id($jx(el));
                     if (target.isEnabled(el)) {
+                        //remove hoverClass
                         el.removeClass(options.hoverClass);
+                        //and the pressedClass
+                        el.removeClass(options.pressClass);
                         target.fireEvent('mouseleave', [el, target, e]);
                     }
                 }
@@ -293,7 +307,7 @@ Jx.Widget.List = new Class({
                     console.log('click in Widget.List on ',el);
                     if (target.selection &&
                         target.isEnabled(el) &&
-                        target.isSelectable(el)) {
+                        target.isSelectable(el, e)) {
                         target.selection.select(el, target);
                     }
                     target.fireEvent('click', [el, target, e]);
@@ -304,7 +318,7 @@ Jx.Widget.List = new Class({
                     el = document.id($jx(el));
                     if (target.selection &&
                         target.isEnabled(el) &&
-                        target.isSelectable(el)) {
+                        target.isSelectable(el, e)) {
                         target.selection.select(el, target);
                     }
                     target.fireEvent('dblclick', [el, target, e]);
@@ -369,8 +383,19 @@ Jx.Widget.List = new Class({
             this.setSelection(options.selection);
             options.select = true;
         } else if (options.select) {
-            this.selection = new Jx.Selection(options);
+            var opts = Object.merge({},options);
+            delete opts.plugins;
+            this.selection = new Jx.Selection(opts);
             this.ownsSelection = true;
+        }
+        
+        if (this.selection !== undefined && this.selection !== null) {
+            var selectionEvents = this.options.selectionEvents;
+            for (var key in selectionEvents) {
+                if (selectionEvents[key]) {
+                    this.selection.addEvent(key, this.bound[key])
+                }
+            }
         }
 
         if (options.items !== undefined && options.items !== null) {
@@ -383,9 +408,8 @@ Jx.Widget.List = new Class({
         return !item.hasClass('jxDisabled');
     },
     
-    isSelectable: function(el) {
-        var item = el.retrieve('jxListTargetItem') || el;
-        return !item.hasClass('jxUnselectable');
+    isSelectable: function(el, e) {
+        return this.options.selectionFunction(el, e);
     },
     
     setHoldEvents: function(state){

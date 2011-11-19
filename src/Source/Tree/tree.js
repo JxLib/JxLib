@@ -154,7 +154,7 @@ Jx.Tree = new Class({
      * add one or more items to the tree at a particular position in the tree
      *
      * Parameters:
-     * item - {<Jx.TreeItem>} or an array of items to be added
+     * item - {<Jx.Tree.Item>} or an array of items to be added
      * position - {mixed} optional location to add the items.  By default,
      * this is 'bottom' meaning the items are added at the end of the list.
      * See <Jx.Widget.List::add> for options
@@ -197,7 +197,7 @@ Jx.Tree = new Class({
      * remove an item from the tree
      *
      * Parameters:
-     * item - {<Jx.TreeItem>} the tree item to remove
+     * item - {<Jx.Tree.Item>} the tree item to remove
      *
      * Returns:
      * {<Jx.Tree>} a reference to this object for chaining calls
@@ -220,8 +220,8 @@ Jx.Tree = new Class({
      * replaces one item with another
      *
      * Parameters:
-     * item - {<Jx.TreeItem>} the tree item to remove
-     * withItem - {<Jx.TreeItem>} the tree item to insert
+     * item - {<Jx.Tree.Item>} the tree item to remove
+     * withItem - {<Jx.Tree.Item>} the tree item to insert
      *
      * Returns:
      * {<Jx.Tree>} a reference to this object for chaining calls

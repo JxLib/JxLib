@@ -26,7 +26,7 @@ provides: [Jx.Dialog.Prompt]
  * Jx.Dialog.Prompt is an extension of Jx.Dialog that allows the developer
  * to display a message to the user and ask for a text response. 
  * 
- * MooTools.lang Keys:
+ * Locale Keys:
  * - prompt.okButton
  * - prompt.cancelButton
  *

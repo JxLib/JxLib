@@ -3,9 +3,9 @@
 <head>
 <title>Jx.Splitter Examples</title>
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-<script type="text/javascript" src="../../lib/mootools-core.js"></script>
-<script type="text/javascript" src="../../lib/mootools-more.js"></script>
-<script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
+<script type="text/javascript" src="lib/mootools-core.js"></script>
+<script type="text/javascript" src="lib/mootools-more.js"></script>
+<script type="text/javascript" src="lib/jxlib.standalone.uncompressed.js"></script>
 <script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/locale.js" type="text/javascript" charset="utf-8"></script>
 <script  type="text/javascript">
@@ -29,18 +29,19 @@ function drawAdvancedSplit() {
     });
     
     /* top left */
-    new Jx.Tree({
+    var tree = new Jx.Tree({
         parent: splitV1.elements[0]
-    }).add(
-        new Jx.TreeFolder({
-            label: 'Tree Root'
-        }).add([
-            new Jx.TreeItem({label: 'Item 1'}),
-            new Jx.TreeItem({label: 'Item 2'}),
-            new Jx.TreeItem({label: 'Item 3'}),
-            new Jx.TreeItem({label: 'Item 4'})
-        ])
-    );
+    });
+    var folder = new Jx.Tree.Folder({
+        label: 'Tree Root'
+    });
+    tree.add(folder);
+    folder.add([
+        new Jx.Tree.Item({label: 'Item 1'}),
+        new Jx.Tree.Item({label: 'Item 2'}),
+        new Jx.Tree.Item({label: 'Item 3'}),
+        new Jx.Tree.Item({label: 'Item 4'})
+    ]);
     
     /* bottom left */
     new Jx.Panel({

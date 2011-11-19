@@ -26,7 +26,7 @@ provides: [Jx.Formatter.Boolean]
  * (code)
  * (end)
  *
- * MooTools.lang Keys:
+ * Locale Keys:
  * - 'formatter.boolean'.true
  * - 'formatter.boolean'.false
  * 

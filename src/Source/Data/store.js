@@ -50,14 +50,14 @@ Jx.Store = new Class({
          */
         id : null,
         /**
-         * Option: columns
-         * an array listing the columns of the store in order of their
+         * Option: fields
+         * an array listing the fields of the store in order of their
          * appearance in the data object formatted as an object
          *      {name: 'column name', type: 'column type'}
          * where type can be one of alphanumeric, numeric, date, boolean,
          * or currency.
          */
-        columns : [],
+        fields : [],
         /**
          * Option: protocol
          * The protocol to use for communication in this store. The store
@@ -475,7 +475,7 @@ Jx.Store = new Class({
 
         var record = data;
         if (!(data instanceof Jx.Record)) {
-            record = new (this.record)(this, this.options.columns, data, this.options.recordOptions);
+            record = new (this.record)(this, this.options.fields, data, this.options.recordOptions);
         }
         if (insert) {
             record.state = Jx.Record.INSERT;
@@ -562,7 +562,7 @@ Jx.Store = new Class({
             if (index === undefined  && index !== null) {
                 index = this.index;
             }
-            var record = new this.record(this, this.options.columns, data),
+            var record = new this.record(this, this.options.fields, data),
             oldRecord = this.data[index];
             this.data[index] = record;
             this.fireEvent('storeRecordReplaced', [oldRecord, record]);
@@ -612,11 +612,11 @@ Jx.Store = new Class({
     },
 
     /**
-     * APIMethod: getColumns
-     * Allows retrieving the columns array
+     * APIMethod: getFields
+     * Allows retrieving the fields array
      */
-    getColumns: function () {
-        return this.options.columns;
+    getFields: function () {
+        return this.options.fields;
     },
 
     /**
@@ -682,19 +682,19 @@ Jx.Store = new Class({
 
     /**
      * APIMethod: parseTemplate
-     * parses the provided template to determine which store columns are
+     * parses the provided template to determine which store fields are
      * required to complete it.
      *
      * Parameters:
      * template - the template to parse
      */
     parseTemplate: function (template) {
-        //we parse the template based on the columns in the data store looking
+        //we parse the template based on fields in the data store looking
         //for the pattern {column-name}. If it's in there we add it to the
         //array of ones to look fo
         var arr = [],
             s;
-        this.options.columns.each(function (col) {
+        this.options.fields.each(function (col) {
             s = '{' + col.name + '}';
             if (template.contains(s)) {
                 arr.push(col.name);
@@ -712,7 +712,7 @@ Jx.Store = new Class({
      * index - the index of the data in the store to use in populating the
      *          template or a Jx.Record instance.
      * template - the template to fill
-     * columnsNeeded - the array of columns needed by this template. should be
+     * columnsNeeded - the array of fields needed by this template. should be
      *      obtained by calling parseTemplate().
      * obj - an object with some prefilled keys to use in substituting.
      *      Ones that are also in the store will be overwritten.

@@ -1,0 +1,99 @@
+
+.jxInputEditor {
+    display: inline-block;
+    height: 200px;
+    position: relative;
+
+    margin: 0px 4px;
+    /* padding: 4px; */
+    border: 1px solid #bbb;
+    /* overall width is 250px, margins+padding+border is 18px */
+    width: 532px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    line-height: 16px;
+    color: #000;
+}
+
+.jxInputEditor:focus {
+  border: 1px solid #000;
+}
+
+.jxInputEditor .jxEditor {
+    border: none;
+
+}
+
+.jxFieldError .jxInputEditor .jxInputText,
+.jxFieldError .jxInputEditor .jxInputPassword,
+.jxFieldError .jxInputEditor .jxInputTextarea,
+.jxFieldError .jxInputEditor .jxInputSelect,
+.jxFieldError .jxInputEditor .jxInputCombo,
+.jxFieldError .jxInputEditor .jxInputColor {
+  background-color: transparent; 
+  color: #000; 
+  border-color: #bbb;
+}
+
+.jxFieldSuccess .jxInputEditor .jxInputText,
+.jxFieldSuccess .jxInputEditor .jxInputPassword,
+.jxFieldSuccess .jxInputEditor .jxInputTextarea,
+.jxFieldSuccess .jxInputEditor .jxInputSelect,
+.jxFieldSuccess .jxInputEditor .jxInputCombo,
+.jxFieldSuccess .jxInputEditor .jxInputColor {
+  background-color: transparent; 
+  color: #000; 
+  border-color: #bbb;
+}
+
+.jxFieldError .jxInputEditor .jxInputText:focus,
+.jxFieldError .jxInputEditor .jxInputPassword:focus,
+.jxFieldError .jxInputEditor .jxInputTextarea:focus,
+.jxFieldError .jxInputEditor .jxInputSelect:focus,
+.jxFieldError .jxInputEditor .jxInputCombo:focus,
+.jxFieldError .jxInputEditor .jxInputColor:focus {
+  border-color: #000;
+}
+
+.jxFieldSuccess .jxInputEditor .jxInputText:focus,
+.jxFieldSuccess .jxInputEditor .jxInputPassword:focus,
+.jxFieldSuccess .jxInputEditor .jxInputTextarea:focus,
+.jxFieldSuccess .jxInputEditor .jxInputSelect:focus,
+.jxFieldSuccess .jxInputEditor .jxInputCombo:focus,
+.jxFieldSuccess .jxInputEditor .jxInputColor:focus {
+  border-color: #000;
+}
+
+.jxFieldError .jxInputEditor .jxInputLabel,
+.jxFieldError .jxInputEditor .jxInputTag {
+  color: #000; 
+}
+
+.jxFieldSuccess .jxInputEditor .jxInputLabel,
+.jxFieldSuccess .jxInputEditor .jxInputTag {
+  color: #000; 
+}
+
+.jxFieldError .jxInputEditor  {
+  background-color: #FBE3E4; 
+  color: #8a1f11; 
+  border-color: #FBC2C4;
+}
+
+.jxFieldSuccess .jxInputEditor  {
+  background-color: #E6EFC2; 
+  color: #264409; 
+  border-color: #C6D880;
+}
+
+.jxFieldError .jxInputEditor {
+  border-color: #8a1f11;
+}
+
+.jxFieldSuccess .jxInputEditor {
+  border-color: #264409;
+}
+
+
+
+

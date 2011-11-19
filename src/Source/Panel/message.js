@@ -28,7 +28,7 @@ css:
  * Jx.Dialog.Message is an extension of Jx.Dialog that allows the developer
  * to display a message to the user. It only presents an OK button.
  * 
- * MooTools.lang Keys:
+ * Locale Keys:
  * - message.okButton
  *
  * License:
@@ -74,6 +74,11 @@ Jx.Dialog.Message = new Class({
         useKeyboard : true,
         keys : {
           'enter' : 'ok'
+        },
+        toolbarOptions: {
+            align: "center",
+            position: 'bottom',
+            scroll: false
         }
     },
     /**
@@ -82,7 +87,7 @@ Jx.Dialog.Message = new Class({
      */
     render: function () {
         //create content to be added
-        this.buttons = new Jx.Toolbar({position: 'bottom',scroll:false});
+        this.buttons = new Jx.Toolbar(this.options.toolbarOptions);
         this.ok = new Jx.Button({
             label: this.getText({set:'Jx',key:'message',value:'okButton'}),
             onClick: this.onOk

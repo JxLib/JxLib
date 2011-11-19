@@ -3,20 +3,23 @@
 <head>
 <title>Jx.Form Examples</title>
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-<script type="text/javascript" src="../../lib/mootools-core.js"></script>
-<script type="text/javascript" src="../../lib/mootools-more.js"></script>
-<script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
+<script type="text/javascript" src="lib/mootools-core.js"></script>
+<script type="text/javascript" src="lib/mootools-more.js"></script>
+<script type="text/javascript" src="lib/jxlib.standalone.uncompressed.js"></script>
 <script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/locale.js" type="text/javascript" charset="utf-8"></script>
 <script  type="text/javascript">
 window.addEvent('load', function() {
+    Jx.debug = true;
     drawBasicForm();
+    drawFormWithPlugins();
     drawFileForm();
     drawFileForm2();
 }); 
 if($(document).getElements('.tabContentActiveExamples').length > 0) {
   $(document).getElements('.tabContentActiveExamples')[0].addEvent('loadAjax', function() {
     drawBasicForm();
+    drawFormWithPlugins();
     drawFileForm();
     drawFileForm2();
   });
@@ -136,6 +139,7 @@ function drawBasicForm() {
     checked: true,
     labelSeparator: ''
   }).addTo(radioSet);
+  
   new Jx.Field.Button({
     buttonClass: Jx.Button.Color,
     buttonOptions:{label: 'Foreground', color: '#f0f', alpha: 50},
@@ -149,14 +153,114 @@ function drawBasicForm() {
     }
   }).addTo(fieldSet1);  
   
-  new Jx.Field.Button({
-    buttonOptions:{
-      label: 'Go',
-      onClick: function() {
-        console.log('Go!');
-      }
-    },
-    defaultAction: true
+  new Jx.Field.OptionGroup({
+    label: 'Select One or More of these',
+    columns: 3,
+    asArray: true,
+    name: 'test',
+    items: [
+        {
+            label: 'test item 1',
+            value: 'test1'
+        },{
+            label: 'test item 2',
+            value: 'test2'
+        },{
+            label: 'test item 3',
+            value: 'test3'
+        },{
+            label: 'test item 4',
+            value: 'test4'
+        },{
+            label: 'test item 5',
+            value: 'test5'
+        },{
+            label: 'test item 6',
+            value: 'test6'
+        }
+    ]
+  }).addTo(fieldSet1);
+  
+  new Jx.Field.NumberSpinner({
+    label: 'Pick a positive number',
+    allowNegative: false,
+    name: 'spinnerfield'
+  }).addTo(fieldSet1);
+  
+  //this is the new Jx.Field.ComboBox
+  var data = [];
+  for (i = 1; i < 30; i++) {
+    data.push({id: i, label: 'test' + i});
+  }
+  var parser = new Jx.Store.Parser.JSON();
+  var paginate = new Jx.Store.Strategy.Paginate({
+    startingItemsPerPage: 10  
+  });
+  
+  var store = new Jx.Store({
+    columns: [{
+      name: 'label',
+      type: 'alphanumeric'
+    }, {
+      name: 'id',
+      type: 'numeric'
+    }],
+    protocol: new Jx.Store.Protocol.Local(data, {
+      parser: parser
+    }),
+    strategies: [paginate],
+    record: Jx.Record,
+    recordOptions: {
+      primaryKey: 'id'
+    }
+  });
+
+  store.load();  
+  
+  new Jx.Field.ComboBox({
+    label: 'Pick something',
+    store: store,
+    displayField: 'label',
+    valueField: 'id',
+    emptyMessage: '',
+    name: 'comboBox'
+  }).addTo(fieldSet1);
+  
+  new Jx.Field.Date({
+    label: 'Start Date',
+    value: '05/05/1984',
+    format: '%m/%d/%Y',
+    name: 'startDate'
+  }).addTo(fieldSet1);
+  
+  //The new Jx.Field.TreeCombo
+  var treeData = [{
+    label: 'test1',
+    children: [
+        {
+            label: 'test1.1',
+            children: [
+                { label: 'test1.1.1'},
+                { label: 'test1.1.2'}
+            ]
+        },
+        {
+            label: 'test1.2',
+            children: [
+                {label: 'test1.2.1'},
+                {label: 'test1.2.2'}
+            ]
+        }
+    ]
+  },{
+    label: 'test2'  
+  }]
+  new Jx.Field.TreeCombo({
+    protocol: new Jx.Store.Protocol.Local(treeData,{
+        parser: parser
+    }),
+    name: 'treeCombo',
+    label: 'Choose from the tree'
   }).addTo(fieldSet1);
   
 // Second Fieldset
@@ -294,6 +398,96 @@ function drawBasicForm() {
     columns: 40
   }).addTo(fieldSet3);
   
+  new Jx.Field.Button({
+    buttonOptions:{
+      label: 'Go',
+      onClick: function() {
+        console.log(form.getValues());
+      }
+    },
+    defaultAction: true
+  }).addTo(form);
+}
+</script>
+
+<script id="formPluginsScript" type="text/javascript" charset="utf-8">
+var form;
+function drawFormWithPlugins() {
+  pluginForm = new Jx.Form({
+    name: 'testForm',
+    formClass: 'jxFormInline',
+    plugins: ['inlineErrors',
+        {
+            name: 'validator',
+            options: {
+                fields: {
+                    'Text31': { validators: [] },
+                    'Select31': { validators: [] },
+                    'TextArea31': {
+                        validators: ['minLength:10','maxLength:40']
+                    }
+                }
+            }
+        }
+    ]
+  }).addTo('formPluginsBox');
+  
+  // Third Fieldset
+
+  var fieldSet3 = new Jx.Fieldset({
+    // no legend in this one
+    id: 'FieldSet3',
+    fieldsetClass: 'jxFormBlock',
+    legend: 'Form with Plugins'
+  }).addTo(pluginForm);
+  
+  new Jx.Field.Text({
+    id: 'Text31',
+    name: 'Text31',
+    label: 'Text One',
+    value: 'Initial Value',
+    tag: 'a tag',
+    required: true
+  }).addTo(fieldSet3);
+
+  new Jx.Field.Select({
+    id: 'Select31',
+    name: 'Select31',
+    label: 'Select One',
+    tag: 'another tag',
+    required: true,
+    comboOpts: [{
+        value: 'opt31',
+        text: 'Option #1',
+        selected: false
+    },{
+        value: 'opt32',
+        text: 'Option #2',
+        selected: true
+    },{
+        value: 'opt33',
+        text: 'Option #3',
+        selected: false
+    }]
+  }).addTo(fieldSet3);
+
+  new Jx.Field.Textarea({
+    id: 'TextArea31',
+    name: 'TextArea31',
+    label: 'TextArea One',
+    rows: 6,
+    columns: 40
+  }).addTo(fieldSet3);
+  
+  new Jx.Field.Button({
+    buttonOptions:{
+      label: 'Go',
+      onClick: function() {
+        console.log(pluginForm.getValues());
+      }
+    },
+    defaultAction: true
+  }).addTo(pluginForm);
 }
 </script>
 
@@ -631,6 +825,10 @@ function drawFileForm2() {
 <h2 id="basicForm">A Form with Inline-Block Class</h2>
 <p>A programmatically created form with several fieldsets of fields oriented in various ways.</p>
 <div id="formBasic" class="formBox"></div>
+
+<h2 id="formPlugins">A Form with validation plugins and inline error display</h2>
+<p>A programmatically created form using plugins for field validation and displaying errors inline with the field label.</p>
+<div id="formPluginsBox" class="formBox"></div>
 
 <h2 id="fileForm">A Form containing a Jx.Field.File field submitted by ajax</h2>
 <p>A form with a Jx.Field.File field. The form is submitted by ajax and the other form elements are added to the file form for upload.</p>

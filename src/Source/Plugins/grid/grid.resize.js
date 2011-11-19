@@ -50,7 +50,7 @@ Jx.Plugin.Grid.Resize = new Class({
         /**
          * Option: tooltip
          * the tooltip to display for the draggable portion of the
-         * cell header, localized with MooTools.lang.get('Jx','plugin.resize').tooltip for default
+         * cell header, localized with Locale.get('Jx','plugin.resize').tooltip for default
          */
         tooltip: ''
     },
@@ -82,10 +82,10 @@ Jx.Plugin.Grid.Resize = new Class({
       }
       this.parent(grid);
       this.grid = grid;
-      if (grid.columns.useHeaders()) {
-        this.grid.addEvent('doneCreateGrid', this.createHandles);
-        this.grid.addEvent('beginCreateGrid', this.removeHandles);
-        this.createHandles();
+      if (grid.columnModel.useHeaders()) {
+        grid.addEvent('doneCreateGrid', this.createHandles);
+        grid.addEvent('beginCreateGrid', this.removeHandles);
+        grid.addEvent('postRender', this.createHandles);
       }
     },
     /**
@@ -107,7 +107,7 @@ Jx.Plugin.Grid.Resize = new Class({
         if (this.options[option] !== undefined && this.options[option] !== null) {
           this.options[option] = true;
         }
-        if (this.grid.columns.useHeaders()) {
+        if (this.grid.columnModel.useHeaders()) {
           this.createHandles();
         }
     },
@@ -141,9 +141,10 @@ Jx.Plugin.Grid.Resize = new Class({
       var grid = this.grid,
           store = grid.store;
       this.removeHandles();
-      if (this.options.column && grid.columns.useHeaders()) {
-        grid.columns.columns.each(function(col, idx) {
-          if (col.isResizable() && !col.isHidden()) {
+      if (this.options.column && grid.columnModel.useHeaders()) {
+        grid.columnModel.columns.each(function(col, idx) {
+          var rhc = (grid.rowModel.getRowHeaderColumn() == col.name);
+          if (col.isResizable() && !col.isHidden() && !rhc) {
             var colEl = grid.colObj.getElement('.jxGridCol'+idx+ ' .jxGridCellContent');
             var el = new Element('div', {
               'class':'jxGridColumnResize',
@@ -187,7 +188,7 @@ Jx.Plugin.Grid.Resize = new Class({
       //if (this.options.row && this.grid.row.useHeaders()) {}
     },
     /**
-     * Method: createText
+     * Method: changeText
      * respond to a language change by updating the tooltip
      */
     changeText: function (lang) {

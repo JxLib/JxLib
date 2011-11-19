@@ -1,0 +1,100 @@
+.jxEditorTextarea {
+    display: none;
+}
+
+.jxEditorIframe {
+    width: 100%;
+    height: 100%;
+}
+
+.jxEditor {
+    border: 1px solid black;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+}
+
+.jxEditor span.jxEditorToolbar {
+    display: block;
+    position: relative;
+}
+
+.jxEditor span.jxEditorToolbar label.jxInputLabel {
+    width: auto;
+}
+
+/**
+ * Editor Buttons
+ */
+ 
+.jxEditorButtonBold {
+   background-image: url(images/text_bold.png);
+}
+ 
+.jxEditorButtonItalic {
+   background-image: url(images/text_italic.png);
+}
+ 
+.jxEditorButtonUnderline {
+   background-image: url(images/text_underline.png);
+}
+
+.jxEditorButtonJustifyLeft {
+   background-image: url(images/text_align_left.png);
+}
+
+.jxEditorButtonJustifyRight {
+   background-image: url(images/text_align_right.png);
+}
+
+.jxEditorButtonJustifyCenter {
+   background-image: url(images/text_align_center.png);
+}
+
+.jxEditorButtonJustifyFull {
+   background-image: url(images/text_align_justify.png);
+}
+
+.jxEditorButtonImage {
+   background-image: url(images/image.png);
+}
+
+.jxEditorButtonIndent {
+   background-image: url(images/text_indent.png);
+}
+
+.jxEditorButtonLink {
+   background-image: url(images/link.png);
+}
+
+.jxEditorButtonOrderedList {
+   background-image: url(images/text_list_numbers.png);
+}
+
+.jxEditorButtonOutdent {
+   background-image: url(images/text_indent_remove.png);
+}
+
+.jxEditorButtonRedo {
+   background-image: url(images/edit-redo.png);
+}
+
+.jxEditorButtonStrikethrough {
+   background-image: url(images/text_strikethrough.png);
+}
+
+.jxEditorButtonToggleView {
+   background-image: url(images/toggleview.png);
+}
+
+.jxEditorButtonUndo {
+   background-image: url(images/edit-undo.png);
+}
+
+.jxEditorButtonUnlink {
+   background-image: url(images/link_break.png);
+}
+
+.jxEditorButtonUnorderedList {
+   background-image: url(images/text_list_bullets.png);
+}

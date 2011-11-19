@@ -3,9 +3,9 @@
 <head>
 <title>Jx.Grid Test Page</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<script type="text/javascript" src="../../lib/mootools-core.js"></script>
-<script type="text/javascript" src="../../lib/mootools-more.js"></script>
-<script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
+<script type="text/javascript" src="lib/mootools-core.js"></script>
+<script type="text/javascript" src="lib/mootools-more.js"></script>
+<script type="text/javascript" src="lib/jxlib.standalone.uncompressed.js"></script>
 <script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/locale.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
@@ -191,7 +191,7 @@ function drawToolbar() {
         }
     }).addTo('buttons');
 
-}
+};
 </script>
 <script id="gridScript" type="text/javascript">
 function drawGrid() {
@@ -223,7 +223,7 @@ function drawGrid() {
     var full = new Jx.Store.Strategy.Full();
     var sort = new Jx.Store.Strategy.Sort({sortOnStoreEvents: null});
     var store = new Jx.Store({
-        columns: [
+        fields: [
             {name: 'header',type: 'alphanumeric'},
             {name: '2002', type: 'currency'},
             {name: '2003', type: 'currency'},
@@ -251,14 +251,14 @@ function drawGrid() {
   //setup options
   var options = {
       parent: 'gridArea',
-      row: {
+      rowModel: {
           useHeaders: true,
           alternateRowColors: true,
           headerColumn: 'header',
           rowHeight: 'auto'
       },
-      model: store,
-      columns: {
+      store: store,
+      columnModel: {
           headerRowHeight: 20,
           useHeaders: true,
           columns: [{
@@ -298,6 +298,9 @@ function drawGrid() {
               name: '2003',
               dataType: 'currency',
               renderer: new Jx.Grid.Renderer.Text({
+                formatter : {
+                  name: 'Currency'
+                },
                 textTemplate: '{2003}'
               })
           },{
@@ -310,6 +313,9 @@ function drawGrid() {
               name: '2004',
               dataType: 'currency',
               renderer: new Jx.Grid.Renderer.Text({
+                formatter : {
+                  name: 'Currency'
+                },
                 textTemplate: '{2004}'
               })
           },{
@@ -322,6 +328,9 @@ function drawGrid() {
               name: '2005',
               dataType: 'currency',
               renderer: new Jx.Grid.Renderer.Text({
+                formatter : {
+                  name: 'Currency'
+                },
                 textTemplate: '{2005}'
               })
           },{
@@ -334,6 +343,9 @@ function drawGrid() {
               name: '2006',
               dataType: 'currency',
               renderer: new Jx.Grid.Renderer.Text({
+                formatter : {
+                  name: 'Currency'
+                },
                 textTemplate: '{2006}'
               })
           },{
@@ -346,6 +358,9 @@ function drawGrid() {
               name: '2007',
               dataType: 'currency',
               renderer: new Jx.Grid.Renderer.Text({
+                formatter : {
+                  name: 'Currency'
+                },
                 textTemplate: '{2007}'
               })
           },{

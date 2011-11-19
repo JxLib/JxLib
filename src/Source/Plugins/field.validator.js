@@ -94,6 +94,7 @@ Jx.Plugin.Field.Validator = new Class({
         this.validators = {};
         this.bound.validate = this.validate.bind(this);
         this.bound.reset = this.reset.bind(this);
+        this.bound.postRender = this.onPostRender.bind(this);
     },
     /**
      * APIMethod: attach
@@ -109,6 +110,29 @@ Jx.Plugin.Field.Validator = new Class({
             this.options.validators.reverse().push('required');
             this.options.validators.reverse();
         }
+        
+        if (this.options.validateOnBlur) {
+            field.addEvent('blur', this.bound.validate);
+        }
+        
+        if (this.options.validateOnChange) {
+            field.addEvent('change', this.bound.validate);
+        }
+        
+        field.addEvent('reset', this.bound.reset);
+        
+        if (field.ready) {
+            this.onPostRender();
+        } else {
+            //add function for postRender
+            field.addEvent('postRender',this.bound.postRender);
+        }
+    },
+    /**
+     * APIMethod: onPostRender
+     * Event handler for adding stuff directly to the DOM objects after they are rendered.
+     */
+    onPostRender: function(){
         //add validation classes
         this.options.validators.each(function (v) {
             var t = Jx.type(v);
@@ -119,25 +143,24 @@ Jx.Plugin.Field.Validator = new Class({
                 this.field.field.addClass(v.validatorClass);
             }
         }, this);
-        if (this.options.validateOnBlur) {
-            this.field.field.addEvent('blur', this.bound.validate);
-        }
-        if (this.options.validateOnChange) {
-            this.field.field.addEvent('change', this.bound.validate);
-        }
-        this.field.addEvent('reset', this.bound.reset);
+        this.field.removeEvent('postRender',this.bound.postRender);
     },
+    
     /**
      * APIMethod: detach
      */
     detach: function () {
         if (this.field) {
-            this.field.field.removeEvent('blur', this.bound.validate);
-            this.field.field.removeEvent('change', this.bound.validate);
+            this.field.removeEvent('blur', this.bound.validate);
+            this.field.removeEvent('change', this.bound.validate);
+            this.field.removeEvent('reset', this.bound.reset);
+            this.field = null;
         }
-        this.field.removeEvent('reset', this.bound.reset);
-        this.field = null;
         this.validators = null;
+        this.bound.validate = null;
+        this.bound.reset = null;
+        this.bound.postRender = null;
+        this.bound = null;
     },
 
     validate: function () {
@@ -160,10 +183,10 @@ Jx.Plugin.Field.Validator = new Class({
         }, this);
         if (!this.valid) {
             this.field.domObj.removeClass('jxFieldSuccess').addClass('jxFieldError');
-            this.fireEvent('fieldValidationFailed', [this.field, this]);
+            this.field.fireEvent('fieldValidationFailed', [this.field, this]);
         } else {
             this.field.domObj.removeClass('jxFieldError').addClass('jxFieldSuccess');
-            this.fireEvent('fieldValidationPassed', [this.field, this]);
+            this.field.fireEvent('fieldValidationPassed', [this.field, this]);
         }
         return this.valid;
     },

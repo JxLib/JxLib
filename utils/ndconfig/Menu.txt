@@ -62,27 +62,36 @@ Group: Jx  {
 
    Group: Grid  {
 
-      File: Column  (Grid/column.js)
-      File: Columns  (Grid/columns.js)
       File: Grid  (Grid/grid.js)
+      File: Grid.Column  (Grid/column.js)
+      File: Grid.ColumnModel  (Grid/columnModel.js)
       File: Grid.Renderer  (Grid/renderer.js)
       File: Grid.Renderer.Button  (Grid/renderer.button.js)
       File: Grid.Renderer.CheckBox  (Grid/renderer.checkbox.js)
       File: Grid.Renderer.Text  (Grid/renderer.text.js)
-      File: Row  (Grid/row.js)
+      File: Grid.RowModel  (Grid/rowModel.js)
 
       Group: Plugins  {
 
-         File: Grid  (Plugins/plugin.grid.js)
-         File: Grid.Editor  (Plugins/grid.editor.js)
-         File: Grid.Prelighter  (Plugins/grid.prelighter.js)
-         File: Grid.Resize  (Plugins/grid.resize.js)
-         File: Grid.Selector  (Plugins/grid.selector.js)
-         File: Grid.Sorter  (Plugins/grid.sorter.js)
-         File: Toolbar  (Plugins/plugin.toolbarContainer.js)
-         File: ToolbarContainer.TabMenu  (Plugins/toolbarContainer.tabMenu.js)
-         File: Tree  (Plugins/plugin.tree.js)
-         File: Tree.Sorter  (Plugins/tree.sorter.js)
+         File: buttons  (Plugins/editor/editor.buttonset.js)
+
+         Group: Grid  {
+
+            File: Grid  (Plugins/grid/plugin.grid.js)
+            File: Grid.Editor  (Plugins/grid/grid.editor.js)
+            File: Grid.Prelighter  (Plugins/grid/grid.prelighter.js)
+            File: Grid.Resize  (Plugins/grid/grid.resize.js)
+            File: Grid.Selector  (Plugins/grid/grid.selector.js)
+            File: Grid.Sorter  (Plugins/grid/grid.sorter.js)
+            }  # Group: Grid
+
+         File: Jx...Form.InlineErrors  (Plugins/form.InlineErrors.js)
+         File: Jx...Panel.Notifier  (Plugins/panel.notifier.js)
+         File: Jx...ToolbarContainer.TabMenu  (Plugins/toolbarContainer.tabMenu.js)
+         File: Jx...Tree.Sorter  (Plugins/tree.sorter.js)
+         File: Jx.Plugin.Panel  (Plugins/plugin.panel.js)
+         File: Jx.Plugin.Toolbar  (Plugins/plugin.toolbarContainer.js)
+         File: Jx.Plugin.Tree  (Plugins/plugin.tree.js)
          }  # Group: Plugins
 
       }  # Group: Grid
@@ -90,6 +99,10 @@ Group: Jx  {
    Group: Extras  {
 
       File: ColorPalette  (Extras/colorpalette.js)
+      File: DatePicker  (Extras/datepicker.js)
+      File: Editor  (Extras/editor.js)
+      File: Editor.Selection  (Extras/editor.selection.js)
+      File: MonthPicker  (Extras/monthpicker.js)
       File: Notice  (Extras/notice.js)
       File: Notifier  (Extras/notifier.js)
       File: Notifier.Float  (Extras/notifier.float.js)
@@ -135,6 +148,7 @@ Group: Jx  {
       File: Panel.DataView  (Panel/dataview.js)
       File: Panel.DataView.Group  (Panel/group.js)
       File: Panel.FileUpload  (Panel/upload.js)
+      File: Panel.Form  (Panel/panel.form.js)
       File: PanelSet  (Panel/panelset.js)
 
       Group: Plugins  {
@@ -150,6 +164,7 @@ Group: Jx  {
       File: Toolbar  (Toolbar/toolbar.js)
       File: Toolbar.Container  (Toolbar/container.js)
       File: Toolbar.Item  (Toolbar/toolbar.item.js)
+      File: Toolbar.Pager  (Toolbar/paging.js)
       File: Toolbar.Separator  (Toolbar/toolbar.separator.js)
       }  # Group: Toolbar
 
@@ -159,6 +174,7 @@ Group: Jx  {
 
       Group: Adaptors  {
 
+         File: Adapter.Tree.Object  (Adaptors/tree.object.js)
          File: Adapter.Tree.Parent  (Adaptors/tree.parent.js)
          File: Adaptor.Combo  (Adaptors/adaptor.combo.js)
          File: Adaptor.Tree  (Adaptors/adaptor.tree.js)
@@ -213,14 +229,20 @@ Group: Jx  {
       File: Field.Check  (Form/checkbox.js)
       File: Field.Color  (Form/jxcolor.js)
       File: Field.Combo  (Form/jxcombo.js)
+      File: Field.ComboBox  (Form/combobox.js)
+      File: Field.Date  (Form/field.date.js)
       File: Field.Display  (Form/display.js)
       File: Field.File  (Form/file.js)
       File: Field.Hidden  (Form/hidden.js)
+      File: Field.NumberSpinner  (Form/numberspinner.js)
+      File: Field.OptionGroup  (Form/field.options.js)
       File: Field.Password  (Form/password.js)
       File: Field.Radio  (Form/radio.js)
       File: Field.Select  (Form/select.js)
+      File: Field.Spinner  (Form/spinner.js)
       File: Field.Text  (Form/text.js)
       File: Field.Textarea  (Form/textarea.js)
+      File: Field.TreeCombo  (Form/treecombo.js)
       File: Fieldset  (Form/fieldset.js)
       File: Form  (Form/form.js)
 

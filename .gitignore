@@ -2,6 +2,7 @@
 # /
 /build
 /.idea
+build.log
 
 #ignore the build log file
 build.log
@@ -19,6 +20,7 @@ build.log
 /www/builder/more.json
 /www/builder/jxlib.json
 /www/builder/core.json
+/www/builder/deps.json
 
 # /www/builder/work/
 /www/builder/work/deps.json
@@ -56,3 +58,5 @@ build.log
 /utils/ndconfig/Data/
 
 .settings.xml
+
+node_modules/build

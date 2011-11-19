@@ -3,9 +3,9 @@
 <head>
 <title>Jx.Slider Examples</title>
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-<script type="text/javascript" src="../../lib/mootools-core.js"></script>
-<script type="text/javascript" src="../../lib/mootools-more.js"></script>
-<script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
+<script type="text/javascript" src="lib/mootools-core.js"></script>
+<script type="text/javascript" src="lib/mootools-more.js"></script>
+<script type="text/javascript" src="lib/jxlib.standalone.uncompressed.js"></script>
 <script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/locale.js" type="text/javascript" charset="utf-8"></script>
 <script  type="text/javascript">
@@ -43,9 +43,30 @@ function drawBasicSlider() {
   
   slider.addTo('sliderBasic');
   
+  //button to enable/disable
+  new Jx.Button({
+    label: 'Disable Slider',
+    onClick: function(){
+      if (this.getLabel() == 'Disable Slider') {
+        slider.disable();
+        this.setLabel('Enable Slider');
+      } else {
+        slider.enable();
+        this.setLabel('Disable Slider');
+      }
+    }
+  }).addTo('button-container');
+  
   slider.start();
 }
 </script>
+
+<style>
+#sliderBasic {
+    margin-left: 5px;
+    width: 75%;
+}
+</style>
 </head>
 <body>
 
@@ -55,6 +76,7 @@ function drawBasicSlider() {
 <h2 id="basicSlider">A Slider Bar</h2>
 <p>A slider.</p>
 <div id="sliderBasic" class=""></div>
+<div id="button-container"></div>
 
 </body>
 </html>

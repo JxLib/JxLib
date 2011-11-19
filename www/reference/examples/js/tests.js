@@ -18,15 +18,15 @@ jxSkins.some(function(skin){
 // load each skin's CSS file making the right one the active one
 jxSkins.each(function(skin, i) {
     var rel = (skin.label == defaultSkin) ? 'stylesheet': 'alternate stylesheet';
-    new Asset.css('../../lib/themes/'+skin.skin+'/jxtheme.css', {
+    new Asset.css('lib/themes/'+skin.skin+'/jxtheme.uncompressed.css', {
         rel: rel,
         title: skin.label
     });
     if (Browser.ie && Browser.ie4) {
-        new Asset.css('../../lib/themes/'+skin.skin+'/ie6.css', {rel: 'stylesheet'});
+        new Asset.css('lib/themes/'+skin.skin+'/ie6.css', {rel: 'stylesheet'});
     }
     if (Browser.ie && Browser.ie5) {
-        new Asset.css('../../lib/themes/'+skin.skin+'/ie7.css', {rel: 'stylesheet'});
+        new Asset.css('lib/themes/'+skin.skin+'/ie7.css', {rel: 'stylesheet'});
     }
 });
 
@@ -114,7 +114,8 @@ window.addEvent('load', function() {
     var jxLanguages = [
       {label: {set:'Examples',key:'mainToolbar',value:'langEn'}, langId:'en-US', image: 'http://upload.wikimedia.org/wikipedia/commons/7/7d/Icons-flag-us.png', active: false},
       {label: {set:'Examples',key:'mainToolbar',value:'langDe'}, langId:'de-DE', image: 'http://upload.wikimedia.org/wikipedia/commons/b/b5/Icons-flag-de.png', active: false},
-      {label: {set:'Examples',key:'mainToolbar',value:'langRu'}, langId:'ru-RU', image: 'http://upload.wikimedia.org/wikipedia/commons/9/9d/Icons-flag-ru.png', active: false}
+      {label: {set:'Examples',key:'mainToolbar',value:'langRu'}, langId:'ru-RU', image: 'http://upload.wikimedia.org/wikipedia/commons/9/9d/Icons-flag-ru.png', active: false},
+      {label: {set:'Examples',key:'mainToolbar',value:'langEs'}, langId:'es-ES', image: 'http://upload.wikimedia.org/wikipedia/commons/9/9d/Icons-flag-es.png', active: false}
     ];
 
     jxLanguages.some(function(lang){

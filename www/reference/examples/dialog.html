@@ -3,9 +3,9 @@
 <head>
 <title>Jx.Dialog Examples</title>
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-<script type="text/javascript" src="../../lib/mootools-core.js"></script>
-<script type="text/javascript" src="../../lib/mootools-more.js"></script>
-<script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
+<script type="text/javascript" src="lib/mootools-core.js"></script>
+<script type="text/javascript" src="lib/mootools-more.js"></script>
+<script type="text/javascript" src="lib/jxlib.standalone.uncompressed.js"></script>
 <script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/locale.js" type="text/javascript" charset="utf-8"></script>
 <script  type="text/javascript">
@@ -257,6 +257,9 @@ function drawConfirmDialog() {
         question: {set:'Examples',key:'dialog',value:'dialogConfirm'},
         onClose : function(dialog, value) {
           log("You clicked "+ value);
+        },
+        toolbarOptions: {
+            align: "center"
         }
     });
     new Jx.Button({
@@ -272,7 +275,10 @@ function drawConfirmDialog() {
         image   : 'images/world.png',
         // set the moving limit of a dialog to the id of a DOM element
         limit: 'confirmDialog',
-        message : {set:'Examples',key:'dialog',value:'dialogMessage'}
+        message : {set:'Examples',key:'dialog',value:'dialogMessage'},
+        toolbarOptions: {
+            align: "left"
+        }
     });
 
     new Jx.Button({
@@ -289,6 +295,9 @@ function drawConfirmDialog() {
         message : $('warningMessage'),
         onClose : function() {
           log("you closed the message");
+        },
+        toolbarOptions: {
+            align: "right"
         }
     });
 

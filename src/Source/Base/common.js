@@ -67,19 +67,7 @@ function $jx(id) {
  * This file is licensed under an MIT style license
  */
 
-/* firebug console supressor for IE/Safari/Opera */
-window.addEvent('load',
-function() {
-    if (! ("console" in window)) {
-        window.console = {};
-        var empty = function(){};
-        ["log", "debug", "info", "warn", "error", "assert", "dir", "dirxml",
-         "group", "groupEnd", "time", "timeEnd", "count", "trace", "profile", 
-         "profileEnd"].each(function(name){
-            window.console[name] = empty;
-        });
-    }
-});
+
 
 
 // add mutator that sets jxFamily when creating a class so we can check
@@ -95,18 +83,6 @@ Class.Mutators.Family = function(self, name) {
 
 
 
-/**
- * Override of mootools-core 1.3's typeOf operator to prevent infinite recursion
- * when doing typeOf on JxLib objects.
- *
-var mooTypeOf = typeOf
-typeOf  = function(item){
-    if (item == null) return 'null';
-    if (item.jxFamily) return item.jxFamily;
-    return mooTypeOf(item);
-};
-*/
-
 /* Setup global namespace.  It is possible to set the global namespace
  * prior to including jxlib.  This would typically be required only if
  * the auto-detection of the jxlib base URL would fail.  For instance,
@@ -121,7 +97,48 @@ if (typeof Jx === 'undefined') {
   var Jx = {};
 }
 
-Jx.version = "3.1-pre";
+Jx.version = "3.1-beta2";
+
+/**
+ * APIProperty: {String} debug
+ * This determines if the library is in debug mode or not. It allows toggling
+ * the console object on and off without having to remove all of the console.XXX()
+ * functions in the code.
+ */
+if (Jx.debug === undefined || Jx.debug === null) {
+    Jx.debug = false;
+}
+
+/**
+ * The following is an override of the console object to toggle writing out 
+ * based on the state of Jx.debug. It relies on the
+ */
+
+/* firebug console supressor for IE/Safari/Opera */
+window.addEvent('load',
+function() {
+    if (! ("console" in window)) {
+        window.console = {};
+        var empty = function(){};
+        ["log", "debug", "info", "warn", "error", "assert", "dir", "dirxml",
+         "group", "groupEnd", "time", "timeEnd", "count", "trace", "profile", 
+         "profileEnd"].each(function(name){
+            window.console[name] = empty;
+        });
+    } else {
+        window.realConsole = window.console;
+        window.console = {};
+        ["log", "debug", "info", "warn", "error", "assert", "dir", "dirxml",
+         "group", "groupEnd", "time", "timeEnd", "count", "trace", "profile", 
+         "profileEnd"].each(function(name){
+            window.console[name] = function(){
+                if (Jx.debug) {
+                    window.realConsole[name].apply(realConsole,arguments);
+                }
+            };
+        });
+    }
+});
 
 /**
  * APIProperty: {String} baseURL
@@ -214,7 +231,7 @@ if (Jx.isAir === undefined || Jx.isAir === null) {
  * APIMethod: setLanguage
  * set the current language to be used by Jx widgets.  This uses the MooTools
  * lang module.  If an invalid or missing language is requested, the default
- * rules of MooTools.lang will be used (revert to en-US at time of writing).
+ * rules of Locale will be used (revert to en-US at time of writing).
  *
  * Parameters:
  * {String} language identifier, the language to set.
@@ -232,8 +249,8 @@ Jx.setLanguage = function(lang) {
  *
  * The language can be changed on the fly at anytime by calling
  * Jx.setLanguage().
- * By default all Jx.Widget subclasses will listen for the langChange event of
- * the Mootools.lang class. It will then call a method, changeText(), if it
+ * By default all Jx.Widget subclasses will listen for the onChange event of
+ * the Locale class. It will then call a method, changeText(), if it
  * exists on the particular widget. You will be able to disable listening for
  * these changes by setting the Jx.Widget option useLang to false.
  */
@@ -249,7 +266,7 @@ Jx.setLanguage(Jx.lang);
  * returns the localized text.
  *
  * Parameters:
- * val - <String> || <Function> || <Object> = { set: '', key: ''[, value: ''] } for a MooTools.lang object
+ * val - <String> || <Function> || <Object> = { set: '', key: ''[, value: ''] } for a Locale object
  */
 Jx.getText = function(val) {
   var result = '';
