@@ -11,8 +11,6 @@ requires:
  - Jx.Widget
  - Jx.Styles
  - Jx.Layout
- - Jx.Columns
- - Jx.Row
  - Jx.Plugin.Grid
  - Jx.Store
  - Jx.List
@@ -97,19 +95,19 @@ Jx.Grid = new Class({
     template: "<div class='jxWidget'><div class='jxGridContainer jxGridRowCol'></div><div class='jxGridContainer jxGridColumnsContainer'><table class='jxGridTable jxGridHeader jxGridColumns'><thead class='jxGridColumnHead'></thead></table></div><div class='jxGridContainer jxGridHeader jxGridRowContainer'><table class='jxGridTable jxGridRows'><thead class='jxGridRowBody'></thead></table></div><div class='jxGridContainer jxGridContentContainer'><table class='jxGridTable jxGridContent'><tbody class='jxGridTableBody'></tbody></table></div></div>",
     
     /**
-     * Options: columns
+     * Options: columnModel
      * an object consisting of a columns array that defines the individuals
-     * columns as well as containing any options for Jx.Grid.Columns or
-     * a Jx.Grid.Columns object itself.
+     * columns as well as containing any options for Jx.Grid.ColumnModel or
+     * a Jx.Grid.ColumnModel object itself.
      */
-    columns: null,
+    columnModel: null,
     
     /**
      * Option: row
-     * Either a Jx.Grid.Row object or a json object defining options for
+     * Either a Jx.Grid.RowModel object or a json object defining options for
      * the class
      */
-    row : null,
+    rowModel : null,
 
     /**
      * Option: store
@@ -136,13 +134,13 @@ Jx.Grid = new Class({
    * Property: columns
    * holds a reference to the columns object
    */
-  columns: null,
+  columnModel: null,
   
   /**
    * Property: row
    * Holds a reference to the row object
    */
-  row: null,
+  rowModel: null,
   
   parameters: ['options'],
   
@@ -178,30 +176,30 @@ Jx.Grid = new Class({
    */
   init: function() {
     this.uniqueId = this.generateId('jxGrid_');
-    this.store = this.options.model;
+    this.store = this.options.store;
     var options = this.options,
         opts;
 
-    if (options.row !== undefined && options.row !== null) {
-      if (options.row instanceof Jx.Row) {
-        this.row = options.row;
-        this.row.grid = this;
-      } else if (Jx.type(options.row) == 'object') {
-        this.row = new Jx.Row(Object.append({grid: this}, options.row));
+    if (options.rowModel !== undefined && options.rowModel !== null) {
+      if (options.rowModel instanceof Jx.Grid.RowModel) {
+        this.rowModel = options.rowModel;
+        this.rowModel.grid = this;
+      } else if (Jx.type(options.rowModel) == 'object') {
+        this.rowModel = new Jx.Grid.RowModel(Object.append({grid: this}, options.rowModel));
       }
     } else {
-      this.row = new Jx.Row({grid: this});
+      this.rowModel = new Jx.Grid.RowModel({grid: this});
     }
 
-    if (options.columns !== undefined && options.columns !== undefined) {
-        if (options.columns instanceof Jx.Columns) {
-            this.columns = options.columns;
-            this.columns.grid = this;
-        } else if (Jx.type(options.columns) === 'object') {
-            this.columns = new Jx.Columns(Object.append({grid:this}, options.columns));
+    if (options.columnModel !== undefined && options.columnModel !== undefined) {
+        if (options.columnModel instanceof Jx.Grid.ColumnModel) {
+            this.columnModel = options.columnModel;
+            this.columnModel.grid = this;
+        } else if (Jx.type(options.columnModel) === 'object') {
+            this.columnModel = new Jx.Grid.ColumnModel(Object.append({grid:this}, options.columnModel));
         }
     } else {
-      this.columns = new Jx.Columns({grid: this});
+      this.columnModel = new Jx.Grid.ColumnModel({grid: this});
     }
     
     this.hooks = {
@@ -324,13 +322,13 @@ Jx.Grid = new Class({
         this.storeLoaded(store);
       }
     }
-    if (!this.columns.useHeaders()) {
+    if (!this.columnModel.useHeaders()) {
       this.columnContainer.dispose();
     } else {
       this.wantEvent('gridScroll');
     }
     
-    if (!this.row.useHeaders()) {
+    if (!this.rowModel.useHeaders()) {
       this.rowContainer.dispose();
     } else {
       this.wantEvent('gridScroll');
@@ -339,12 +337,16 @@ Jx.Grid = new Class({
     this.contentContainer.setStyle('overflow', 'auto');
     
     // todo: very hacky!  can plugins 'wantEvent' between init and render?
+    //YES! made a change to the order of things so we can call wantEvent from
+    //the plugin's attach method. Woo!!
+    /*
     Object.each(this.hooks, function(value, key) {
       if (value) {
         this.hooks[key] = false;
         this.wantEvent(key);
       }
     }, this);
+    */
     
     if (document.id(this.options.parent)) {
       this.addTo(this.options.parent);
@@ -365,12 +367,12 @@ Jx.Grid = new Class({
         colHeaderHeight = 0,
         rowHeaderWidth = 0;
     
-    if (this.columns.useHeaders()) {
-      colHeaderHeight = this.columns.getHeaderHeight();
+    if (this.columnModel.useHeaders()) {
+      colHeaderHeight = this.columnModel.getHeaderHeight();
     }
     
-    if (this.row.useHeaders()) {
-      rowHeaderWidth = this.row.getRowHeaderWidth();
+    if (this.rowModel.useHeaders()) {
+      rowHeaderWidth = this.rowModel.getRowHeaderWidth();
     }
     
     this.rowColContainer.setBorderBoxSize({
@@ -453,7 +455,7 @@ Jx.Grid = new Class({
         template = '',
         tr,
         columns = [],
-        useRowHeaders = this.row.useHeaders();
+        useRowHeaders = this.rowModel.useHeaders();
     this.fireEvent('beginCreateGrid');
     
     this.gridObj.getElement('tbody').empty();
@@ -463,8 +465,8 @@ Jx.Grid = new Class({
     // TODO: consider moving whole thing into Jx.Columns ??
     // create a suitable column representation for everything
     // in the store that doesn't already have a representation
-    store.options.columns.each(function(col, index) {
-      if (!this.columns.getByName(col.name)) {
+    store.options.fields.each(function(col, index) {
+      if (!this.columnModel.getByName(col.name)) {
         var renderer = new Jx.Grid.Renderer.Text(),
             format = (col.format !== undefined && col.format !== null) ? col.format : null,
             template = "<span class='jxGridCellContent'>"+ ((col.label !== undefined && col.label !== null) ? col.label : col.name).capitalize() + "</span>",
@@ -474,7 +476,7 @@ Jx.Grid = new Class({
             if (Jx.Grid.Renderer[col.renderer.capitalize()]) {
               renderer = new Jx.Grid.Renderer[col.renderer.capitalize()]();
             }
-          } else if (Jx.type(col.renderer) == 'object' && 
+          } else if (Jx.type(col.renderer) == 'object' &&
                      col.renderer.type !== undefined &&
                      col.renderer.type !== null &&
                      Jx.Grid.Renderer[col.renderer.type.capitalize()]) {
@@ -482,11 +484,11 @@ Jx.Grid = new Class({
           }
         }
         if (format) {
-          if (Jx.type(format) == 'string' && 
+          if (Jx.type(format) == 'string' &&
               Jx.Formatter[format.capitalize()] !== undefined &&
               Jx.Formatter[format.capitalize()] !== null) {
             renderer.options.formatter = new Jx.Formatter[format.capitalize()]();
-          } else if (Jx.type(format) == 'object' && 
+          } else if (Jx.type(format) == 'object' &&
                      format.type !== undefined &&
                      format.type !== null &&
                      Jx.Formatter[format.type.capitalize()] !== undefined &&
@@ -494,27 +496,27 @@ Jx.Grid = new Class({
              renderer.options.formatter = new Jx.Formatter[format.type.capitalize()](format);
           }
         }
-        column = new Jx.Column({
+        column = new Jx.Grid.Column({
           grid: this,
           template: template,
-          renderMode: (col.renderMode !== undefined && col.renderMode !== null) ? 
-                        col.renderMode : 
+          renderMode: (col.renderMode !== undefined && col.renderMode !== null) ?
+                        col.renderMode :
                         (col.width !== undefined && col.width !== undefined) ? 'fixed' : 'fit',
           width: (col.width !== undefined && col.width !== null) ? col.width : null,
           isEditable: (col.editable !== undefined && col.editable !== null) ? col.editable : false,
           isSortable: (col.sortable !== undefined && col.sortable !== null) ? col.sortable : false,
           isResizable: (col.resizable !== undefined && col.resizable !== null) ? col.resizable : false,
-          isHidden: (col.hidden !== undefined && col.hidden !== null) ? col.hidden : false,
+          isHidden: true,
           name: col.name || '',
-          renderer: renderer 
+          renderer: renderer
         });
         columns.push(column);
       }
     }, this);
-    this.columns.addColumns(columns);
-    if (this.columns.useHeaders()) {
+    this.columnModel.addColumns(columns);
+    if (this.columnModel.useHeaders()) {
       tr = new Element('tr');
-      this.columns.getHeaders(tr);
+      this.columnModel.getHeaders(tr);
       tr.adopt(new Element('th', {
         'class': 'jxGridColHead',
         'html': '&nbsp',
@@ -524,8 +526,8 @@ Jx.Grid = new Class({
       }));
       this.colObj.getElement('thead').empty().adopt(tr);
     }
-    this.columns.calculateWidths();
-    this.columns.createRules(this.styleSheet+'Columns', '.'+this.uniqueId);
+    this.columnModel.calculateWidths();
+    this.columnModel.createRules(this.styleSheet+'Columns', '.'+this.uniqueId);
     this.drawStore();
     this.fireEvent('doneCreateGrid');
   },
@@ -611,7 +613,7 @@ Jx.Grid = new Class({
    * that is handled by the render() method
    */
   drawStore: function() {
-    var useHeaders = this.row.useHeaders(), 
+    var useHeaders = this.rowModel.useHeaders(), 
         blank;
     this.domObj.resize();
     this.gridTableBody.empty();
@@ -646,9 +648,9 @@ Jx.Grid = new Class({
    *     the new row in the grid.
    */
   drawRow: function(record, index, position) {
-    var columns = this.columns,
+    var columns = this.columnModel,
         body = this.gridTableBody,
-        row = this.row,
+        row = this.rowModel,
         store = this.store,
         rowHeaders = row.useHeaders(),
         autoRowHeight = row.options.rowHeight == 'auto',
@@ -846,7 +848,7 @@ Jx.Grid = new Class({
     if (cell) {
       body = this.gridTableBody;
       row = body.getChildren().indexOf(cell.getParent('tr'));
-      this.columns.columns.some(function(col,idx){
+      this.columnModel.columns.some(function(col,idx){
         if (cell.hasClass('jxGridCol'+idx)) {
           index = idx;
           column = col;

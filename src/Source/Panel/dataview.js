@@ -175,17 +175,17 @@ Jx.Panel.DataView = new Class({
     },
     /**
      * Method: parseTemplate
-     * parses the provided template to determine which store columns are
+     * parses the provided template to determine which store fields are
      * required to complete it.
      *
      * Parameters:
      * template - the template to parse
      */
     parseTemplate: function (template) {
-        //we parse the template based on the columns in the data store looking
+        //we parse the template based on the fields in the data store looking
         //for the pattern {column-name}. If it's in there we add it to the
         //array of ones to look for
-        var columns = this.options.data.getColumns();
+        var columns = this.options.data.getFields();
         var arr = [];
         columns.each(function (col) {
             var s = '{' + col.name + '}';
