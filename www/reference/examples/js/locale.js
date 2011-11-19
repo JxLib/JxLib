@@ -9,7 +9,8 @@ Locale.define('en-US', 'Examples', {
     langChange  : 'Changing language to',
     langEn      : 'English (en-US)',
     langDe      : 'Deutsch (de-DE)',
-    langRu      : 'Русский (ru-RU)'
+    langRu      : 'Русский (ru-RU)',
+    langEs	: 'Spanish (es-ES) - someone translate me :)'
   },
 
   navigation : {
