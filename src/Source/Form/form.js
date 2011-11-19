@@ -173,6 +173,7 @@ Jx.Form = new Class({
         if (field.options.defaultAction) {
             this.defaultAction = field;
         }
+        this.fireEvent('fieldAdded',[field,this]);
     },
 
     /**

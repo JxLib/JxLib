@@ -94,6 +94,7 @@ Jx.Plugin.Form.Validator = new Class({
         this.bound.failed = this.fieldFailed.bind(this);
         this.bound.passed = this.fieldPassed.bind(this);
         this.bound.finish = this.finishSetup.bind(this);
+        this.bound.fieldAdded = this.onFieldAdded.bind(this);
     },
     /**
      * APIMethod: attach
@@ -103,14 +104,46 @@ Jx.Plugin.Form.Validator = new Class({
         if (form === undefined || form === null || !(form instanceof Jx.Form)) {
             return;
         }
+
+        this.parent(form);        
+        
         this.form = form;
-        var plugin = this,
-            options = this.options;
+        var plugin = this;
         //override the isValid function in the form
         form.isValid = function () {
             return plugin.isValid();
         };
 
+        this.plugins = {};
+        
+        if (this.form.ready === true) {
+            this.finishSetup();
+        } else {
+           form.addEvent('postRender',this.bound.finish);
+        }
+        
+        //we also need to listen for added fields so we can setup validators
+        //if they are needed.
+        form.addEvent('fieldAdded',this.bound.fieldAdded);
+
+    },
+    
+    finishSetup: function(){
+        var options = this.options;
+        //setup the fields
+        Object.each(options.fields, function (val, key) {
+            var opts = Object.merge({},options.fieldDefaults, val),
+                fields = this.form.getFieldsByName(key),
+                p;
+            if (fields && fields.length) {
+                p = new Jx.Plugin.Field.Validator(opts);
+                this.plugins[key] = p;
+                p.attach(fields[0]);
+                fields[0].addEvent('fieldValidationFailed', this.bound.failed);
+                fields[0].addEvent('fieldValidationPassed', this.bound.passed);
+            }
+        }, this);
+        
         if (options.validateOnSubmit && !options.suspendSubmit) {
             document.id(this.form).addEvent('submit', this.bound.validate);
         } else if (options.suspendSubmit) {
@@ -118,31 +151,22 @@ Jx.Plugin.Form.Validator = new Class({
                 ev.stop();
             });
         }
-
-        this.plugins = {};
-        
-        if (this.form.ready === true) {
-            this.finishSetup();
-        } else {
-           this.form.addEvent('postInit',this.bound.finish);
-        }
-
     },
-    
-    finishSetup: function(){
-        //setup the fields
-        Object.each(this.options.fields, function (val, key) {
-            var opts = Object.merge({},this.options.fieldDefaults, val),
-                fields = this.form.getFieldsByName(key),
-                p;
-            if (fields && fields.length) {
+    /**
+     * APIMethod: onFieldAdded
+     * Event handler for the form's fieldAdded event. Handles attaching
+     * Field.Validator instances to the field as they are added if needed.
+     */
+    onFieldAdded: function(field,form) {
+        if (this.options.fields[field.name] !== undefined &&
+            this.options.fields[field.name] !== null) {
+            var opts = Object.merge({},this.options.fieldDefaults, this.options.fields[field.name]),
                 p = new Jx.Plugin.Field.Validator(opts);
-                this.plugins[key] = p;
-                p.attach(fields[0]);
-                p.addEvent('fieldValidationFailed', this.bound.failed);
-                p.addEvent('fieldValidationPassed', this.bound.passed);
-            }
-        }, this);
+            this.plugins[field.name] = p;
+            p.attach(field);
+            field.addEvent('fieldValidationFailed', this.bound.failed);
+            field.addEvent('fieldValidationPassed', this.bound.passed);
+        }
     },
     
     /**
@@ -191,14 +215,14 @@ Jx.Plugin.Form.Validator = new Class({
      * Refires the fieldValidationFailed event from the field validators it contains
      */
     fieldFailed: function (field, validator) {
-        this.fireEvent('fieldValidationFailed', [field, validator]);
+        this.form.fireEvent('fieldValidationFailed', [field, validator]);
     },
     /**
      * Method: fieldPassed
      * Refires the fieldValidationPassed event from the field validators it contains
      */
     fieldPassed: function (field, validator) {
-        this.fireEvent('fieldValidationPassed', [field, validator]);
+        this.form.fireEvent('fieldValidationPassed', [field, validator]);
     },
     /**
      * APIMethod: getErrors
