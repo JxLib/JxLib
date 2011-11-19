@@ -194,7 +194,7 @@ Jx.Store.Strategy.Paginate = new Class({
      */
     parseMetaData: function (meta) {
         if (meta.columns !== undefined && meta.columns !== null) {
-            this.store.options.columns = meta.columns;
+            this.store.options.fields = meta.columns;
         }
         if (meta.totalItems !== undefined && meta.totalItems !== null) {
             this.totalItems = meta.totalItems;
