@@ -331,6 +331,12 @@ form .jxFormInline .jxInputGroup .jxInputLabel {
   width: auto;
 }
 
+.jxFormInline .jxFieldError .jxInlineError {
+  display: inline;
+  color: #8a1f11;
+  width: auto;
+}
+
 
 /* BLOCK FORM 
  *  Sets up form elements to work as block objects so they can appear stacked */
@@ -384,6 +390,12 @@ form .jxFormBlock .jxInputGroup .jxInputLabel {
   width: auto;
 }
 
+.jxFormBlock .jxFieldError .jxInlineError {
+  display: block;
+  width: auto;
+  color: #8a1f11;
+}
+
 
 /* INLINE-BLOCK FORM 
  * Sets up form elements to work as inline-block objects so labels can have set 
@@ -423,6 +435,12 @@ form .jxFormInlineblock .jxInputGroup .jxFieldsetLegend {
 .jxFormInlineblock .jxInputGroup .jxInputLabel,
 form .jxFormInlineblock .jxInputGroup .jxInputLabel {
   display: -moz-inline-box;
+  display: inline-block;
+  width: auto;
+}
+
+.jxFormInlineblock .jxFieldError .jxInlineError {
+  color: #8a1f11;
   display: inline-block;
   width: auto;
 }
