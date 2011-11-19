@@ -1,23 +1,23 @@
 /*
 ---
 
-name: Jx.Columns
+name: Jx.Grid.ColumnModel
 
 description: A container for defining and holding individual columns
 
 license: MIT-style license.
 
 requires:
- - Jx.Column
+ - Jx.Grid.Column
  - Jx.Object
 
-provides: [Jx.Columns]
+provides: [Jx.Grid.ColumnModel]
 
 ...
  */
 // $Id$
 /**
- * Class: Jx.Columns
+ * Class: Jx.Grid.ColumnModel
  *
  * Extends: <Jx.Object>
  *
@@ -30,10 +30,10 @@ provides: [Jx.Columns]
  *
  * This file is licensed under an MIT style license
  */
-Jx.Columns = new Class({
+Jx.Grid.ColumnModel = new Class({
 
     Extends : Jx.Object,
-    Family: 'Jx.Columns',
+    Family: 'Jx.Grid.ColumnModel',
 
     options : {
         /**
@@ -93,10 +93,10 @@ Jx.Columns = new Class({
 
         this.options.columns.each(function (col) {
             //check the column to see if it's a Jx.Grid.Column or an object
-            if (col instanceof Jx.Column) {
+            if (col instanceof Jx.Grid.Column) {
                 this.columns.push(col);
             } else if (Jx.type(col) === "object") {
-                this.columns.push(new Jx.Column(col,this.grid));
+                this.columns.push(new Jx.Grid.Column(col,this.grid));
             }
             var c = this.columns[this.columns.length - 1 ];
         }, this);
@@ -128,8 +128,8 @@ Jx.Columns = new Class({
       var rowTemplate = '',
           hasExpandable = false,
           grid = this.grid,
-          row = grid.row,
-          rhc = grid.row.useHeaders() ? this.getByName(row.options.headerColumn) : null,
+          row = grid.rowModel,
+          rhc = grid.rowModel.useHeaders() ? this.getByName(row.options.headerColumn) : null,
           colTemplate;
       
       this.columns.each(function(col, idx) {
@@ -239,8 +239,8 @@ Jx.Columns = new Class({
      */
     getHeaders : function (tr) {
       var grid = this.grid,
-          row = grid.row,
-          rhc = grid.row.useHeaders() ? this.getByName(row.options.headerColumn) : null;
+          row = grid.rowModel,
+          rhc = grid.rowModel.useHeaders() ? this.getByName(row.options.headerColumn) : null;
       if (this.useHeaders()) {
         this.columns.each(function(col, idx) {
           if (!col.isHidden() && col != rhc) {
@@ -282,8 +282,8 @@ Jx.Columns = new Class({
       var data = {},
           grid = this.grid,
           store = grid.store,
-          row = grid.row,
-          rhc = grid.row.useHeaders() ? 
+          row = grid.rowModel,
+          rhc = grid.rowModel.useHeaders() ? 
                      this.getByName(row.options.headerColumn) : null,
           domInserts = [],
           i = 0;
@@ -332,7 +332,7 @@ Jx.Columns = new Class({
       this.columns.each(function(col,idx){
         //are we checking the rowheader?
         var rowHeader = false;
-        // if (col.name == this.grid.row.options.headerColumn) {
+        // if (col.name == this.grid.rowModel.options.headerColumn) {
         //   rowHeader = true;
         // }
         //if it's fixed, set the width to the passed in width
@@ -351,7 +351,7 @@ Jx.Columns = new Class({
             col.calculateWidth(rowHeader);
           }
         }
-        if (!col.isHidden() /* && !(col.name == this.grid.row.options.headerColumn) */) {
+        if (!col.isHidden() /* && !(col.name == this.grid.rowModel.options.headerColumn) */) {
             totalWidth += Jx.getNumber(col.getCellWidth());
             if (rowHeader) {
                 rowHeaderWidth = col.getWidth();
@@ -394,7 +394,7 @@ Jx.Columns = new Class({
      * create CSS rules for the current grid object
      */
     createRules: function(styleSheet, scope) {
-      var autoRowHeight = this.grid.row.options.rowHeight == 'auto';
+      var autoRowHeight = this.grid.rowModel.options.rowHeight == 'auto';
       this.columns.each(function(col, idx) {
         var selector = scope+' .jxGridCol'+idx,
             dec = '';

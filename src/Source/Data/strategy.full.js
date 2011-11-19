@@ -120,7 +120,7 @@ Jx.Store.Strategy.Full = new Class({
      */
     parseMetaData: function (meta) {
         if (meta.columns !== undefined && meta.columns !== null) {
-            this.store.options.columns = meta.columns;
+            this.store.options.fields = meta.columns;
         }
         if (meta.primaryKey !== undefined && meta.primaryKey !== null) {
             this.store.options.recordOptions.primaryKey = meta.primaryKey;
