@@ -1,0 +1,59 @@
+
+.jxLayoutColumns {
+    position: relative;
+    width: 100%;	
+    min-height: 100%;
+}
+
+.jxLayoutColumn {
+    float: left;
+    position: relative;
+    margin-right: 10px;
+    min-height: 100%;
+}
+
+.jxLayoutColumn div.jxDialog {
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.jxLayoutColumnMarker {
+    background-color: blue;
+    border: 1px yellow dashed;
+}
+
+.jxLayoutPlaceholder {
+    height: 200px;
+    width: 100%;
+    position: relative;
+}
+
+.jxLayoutColumnLast {
+    margin-right: 0;
+}
+
+.jxLayoutDraggable .jxDialogTitle {
+    cursor: pointer;
+}
+
+.jxLayoutColumns:after, .jxLayoutColumn:after { 
+    content: "."; 
+    display: block; 
+    height: 0; 
+    font-size:0; 
+    clear: both; 
+    visibility:hidden; 
+}
+
+.jxLayoutColumns:after, .jxLayoutColumn:after { 
+    display: inline-block; 
+}
+
+/* Hides from IE Mac \*/ 
+* html .floatcontainer {
+    height: 1%;
+}
+.jxLayoutColumns:after, .jxLayoutColumn:after { 
+    display:block;
+}
+/* End Hack */ 
