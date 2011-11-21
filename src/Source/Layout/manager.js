@@ -107,6 +107,8 @@ Jx.LayoutManager = new Class({
     },
 
     items: null,
+    container: null,
+    domObj: null,
     
     init: function(){
         this.items = [];
@@ -115,6 +117,7 @@ Jx.LayoutManager = new Class({
     
     setContainer: function(domObj){
         this.domObj = document.id(domObj);
+        this.container = $jx(domObj);
     },
     
     add: function(obj,options){

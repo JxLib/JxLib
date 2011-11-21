@@ -77,9 +77,17 @@ Jx.Container = new Class({
     
     options: {
         /* Option: layoutManager
-         * A string, Jx.LayoutManager instance, or null. Will be used to determine
+         * A string, object, Jx.LayoutManager instance, or null. Will be used to determine
          * which layout manager to use in this container. If null, then 
          * Jx.LayoutManager.Fill will be used and only one object can be added.
+         * If it's an object then it should look like:
+         *
+         * (code)
+         * {
+         *   name: <ManagerName>,
+         *   options: {} //options for the manager
+         * }
+         * (end)
          */
         layoutManager: null,
         /* Option: items
@@ -133,32 +141,29 @@ Jx.Container = new Class({
 
     render: function () {
         this.parent();
-
-        if (this.options.layoutManager === null || 
-            this.options.layoutManager === undefined) {
-            this.layoutManager = new Jx.LayoutManager.Fill();
-        } else if (typeOf(this.options.layoutManager) == 'string') {
-            this.layoutManager = new Jx.LayoutManager[this.options.layoutManager.capitalize()]();
+        var options = this.options;
+        
+        if (options.layoutManager === null || 
+            options.layoutManager === undefined) {
+            layoutManager = new Jx.LayoutManager.Fill();
         } else {
-            this.layoutManger = this.options.layoutManager;
+            var t = typeOf(options.layoutManager);            
+            if (t == 'string') {
+                this.layoutManager = new Jx.LayoutManager[options.layoutManager.capitalize()]();
+            } else if (t == 'object') {
+                this.layoutManager = new Jx.LayoutManager[options.layoutManager.name.capitalize()](options.layoutManager.options);
+            } else {
+                this.layoutManger = options.layoutManager;
+            }
         }
         this.layoutManager.setContainer(this);
         
-        //if we have a parent inject it, otherwise assume we're already in 
-        //a container of some kind.
-        if (this.options.parent !== null && this.options.parent !== undefined) {
-            if (this.options.parent.toLowerCase() == 'body') {
-                this.domObj.inject(document.body);
-            } else {
-                this.domObj.inject(document.id(this.options.parent));
-            }
-        }
-        //The container fills the DOM object that it's contained in.
+        
         if (this.options.topLevel) {
+            //The container fills the DOM object that it's contained in.
             new Jx.Layout(this.domObj).resize();
         }
 
-        
         this.add(this.options.items);
         
         if (this.options.resizeWithWindow || document.body == this.domObj.parentNode) {
@@ -182,8 +187,18 @@ Jx.Container = new Class({
                 item.options = (item.options)?item.options:{};
                 
                 if (item['class'] !== null && item['class'] !== undefined) {
+                    var obj;                    
+                    if (typeOf(item['class']) == 'string') {
+                        var parts = item['class'].split('.');
+                        parts = parts.map(function(p){
+                            return p.capitalize();    
+                        },this);
+                        obj = Object.getFromPath(Jx,parts);
+                    } else {
+                        obj = item['class'];
+                    }
                     item.options.parent = domObj;
-                    itemObj = new item['class'](item.options);
+                    itemObj = new obj(item.options);
                 } else if (item.id !== null && item.id !== undefined) {
                     itemObj = document.id(item.id);
                     document.id(itemObj).inject(domObj);

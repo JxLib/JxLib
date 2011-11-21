@@ -19,33 +19,112 @@ window.addEvent('load', function() {
 
 <script id="hToolbarScript" type="text/javascript">
 function testFn() {
-  var c1 = new Jx.Field.Combo({
-    id: 'Select11',
-    name: 'Select11',
-    label: 'Combo Test',
-    readonly: true,
-    tag: 'another tag',
-    items: [
-        {image: 'images/swatches.png', imageClass: 'comboRed', label: 'red'},
-        {image: 'images/swatches.png', imageClass: 'comboMagenta', label: 'magenta'},
-        {image: 'images/swatches.png', imageClass: 'comboBlue'},
-        {label: 'cyan'},
-        {image: 'images/swatches.png', imageClass: 'comboGreen'},
-        {image: 'images/swatches.png', imageClass: 'comboYellow'}
-      ]
-  }).addTo('container');
-  
-  new Jx.Field.Button({
-    buttonOptions:{
-      label: 'Go',
-      onClick: function() {
-        console.log('emptying');
-        c1.empty();
-      }
-    },
-    defaultAction: true
-  }).addTo('container');
-   
+    
+    var container = new Jx.Container({
+        parent: 'container',
+        topLevel: true,
+        layoutManager: {
+            name: 'columns',
+            options: {
+                columns: [{
+                    cssClass: '',
+                    width: '30%'
+                },{
+                    cssClass: '',
+                    width: '*'
+                },{
+                    cssClass: '',
+                    width: '25%'
+                }],
+                addDefaults: {
+                    isDraggable: true,
+                    column: 1,
+                    position: 'bottom'
+                },
+                dragDefaults: {
+                    dropZoneClass: 'jxDropZone',
+                    handle: '.jxPanelTitle',
+                    position: 'top',
+                    isDraggable: true
+                }
+            }
+        },
+        items: [
+            {
+                'class': Jx.Panel,
+                options: {
+                    label: 'Basic Panel 1',
+                    content: 'basicPanelContent',
+                    height: 200,
+                    id: 'widget1'
+                },
+                layoutOpts: {
+                    column: 0
+                }
+            },{
+                'class': 'panel',
+                options: {
+                    label: 'Basic Panel 2',
+                    content: 'basicPanelContent',
+                    height: 200,
+                    id: 'widget2'
+                },
+                layoutOpts: {
+                    column: 0
+                }
+            },{
+                'class': Jx.Panel,
+                options: {
+                    label: 'Basic Panel 3',
+                    content: 'basicPanelContent',
+                    height: 200,
+                    id: 'widget3'
+                },
+                layoutOpts: {
+                    column: 1
+                }
+            },{
+                'class': 'panel',
+                options: {
+                    label: 'Basic Panel 4',
+                    content: 'basicPanelContent',
+                    height: 200,
+                    id: 'widget4'
+                },
+                layoutOpts: {
+                    column: 1
+                }
+            },{
+                'class': Jx.Panel,
+                options: {
+                    label: 'Basic Panel 5',
+                    content: 'basicPanelContent',
+                    height: 200,
+                    id: 'widget5'
+                },
+                layoutOpts: {
+                    column: 2
+                }
+            },{
+                'class': 'panel',
+                options: {
+                    label: 'Basic Panel 6',
+                    content: 'basicPanelContent',
+                    height: 200,
+                    id: 'widget6'
+                },
+                layoutOpts: {
+                    column: 2
+                }
+            }
+        ]
+    });
+    
+    container.addEvent('jxLayoutMoveComplete',function(){
+        console.log(layout.serialize());
+    });
+    
+    container.resize();
 };
 </script>
 
