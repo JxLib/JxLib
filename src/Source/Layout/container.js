@@ -71,7 +71,7 @@ Jx.Container = new Class({
 
     this.items = [];
     this.options.items.each(function(item) {
-      var itemObj = new item.class(item);
+      var itemObj = new item['class'](item);
 
       var layoutOpts = {};
       if(item.layoutOpts){
