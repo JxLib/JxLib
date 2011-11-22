@@ -66,7 +66,12 @@ Jx.Adaptor.Tree.Object = new Class({
         itemOptions: {
             active : false
         }
-        
+        /*
+         * Option: labelProperty
+         *	configure the property of the label in the objects of the data. 
+         * Defaults to 'label' for be backward compatible.
+        	*/
+        labelProperty: 'label'
     },
     
     init: function(){
@@ -90,8 +95,9 @@ Jx.Adaptor.Tree.Object = new Class({
     makeItems: function(node, tree){
         if(node.children != undefined){
             var folder = new Jx.Tree.Folder(Object.merge({},this.options.folderOptions,{
-                label: node.label,
-                image: node.icon
+                label: node[this.options.labelProperty],
+                image: node.icon,
+                attributes: node.attributes
             }));
 
             tree.add(folder);
@@ -102,8 +108,9 @@ Jx.Adaptor.Tree.Object = new Class({
                         
         }else {
             var item = new Jx.Tree.Item(Object.merge({},this.options.itemOptions,{
-                label: node.label,
+                label: node[this.options.labelProperty],
                 image: node.icon,
+                attributes: node.attributes
             }));
 
             tree.add(item);
