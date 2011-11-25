@@ -72,11 +72,11 @@ Jx.Adaptor.ListView.Fill = new Class({
     fill: function () {
         this.widget.empty();
 
-        if (this.columnsNeeded === undefined || this.columnsNeeded === null) {
+        if (this.columnsNeeded === undefined || this.columnsNeeded === null || this.columnsNeeded.length == 0) {
             this.columnsNeeded = this.store.parseTemplate(this.options.template);
         }
 
-        if (this.itemColumnsNeeded === undefined || this.itemColumnsNeeded === null) {
+        if (this.itemColumnsNeeded === undefined || this.itemColumnsNeeded === null || this.itemColumnsNeeded.length == 0) {
             this.itemColumnsNeeded = this.store.parseTemplate(this.options.itemTemplate);
         }
 

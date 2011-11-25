@@ -37,37 +37,37 @@ function setupComboAdaptor(){
  	var full = new Jx.Store.Strategy.Full();
 
 	var store = new Jx.Store({
-		columns: [{
-			name: 'label',
-			type: 'alphanumeric'
-		}, {
-			name: 'image',
-			type: 'alphanumeric'
-		}, {
-			name: 'imageClass',
-			type: 'alphanumeric'
-		}, {
-			name: 'id',
-			type: 'numeric'
-		}],
-		protocol: new Jx.Store.Protocol.Local(data, {
-			parser: parser
-		}),
-		strategies: [full],
-		record: Jx.Record,
-		recordOptions: {
-			primaryKey: 'id'
-		}
+	    fields: [{
+		name: 'label',
+		type: 'alphanumeric'
+	    }, {
+		name: 'image',
+		type: 'alphanumeric'
+	    }, {
+		name: 'imageClass',
+		type: 'alphanumeric'
+	    }, {
+		name: 'id',
+		type: 'numeric'
+	    }],
+	    protocol: new Jx.Store.Protocol.Local(data, {
+		parser: parser
+	    }),
+	    strategies: [full],
+	    record: Jx.Record,
+	    recordOptions: {
+		primaryKey: 'id'
+	    }
 	});
 	var adaptor = new Jx.Adaptor.Combo.Fill({
         useTemplate: true,
         template: '{label}',
-		store: store,
+	store: store,
         imagePathColumn: 'image',
         imageClassColumn: 'imageClass'
     });
 
-	var c1 = new Jx.Field.Combo({
+    var c1 = new Jx.Field.Combo({
         id: 'Select11',
         name: 'Select11',
         label: 'Combo Test',
@@ -99,32 +99,32 @@ function setupComboAdaptor2(){
  	var full = new Jx.Store.Strategy.Full();
 
 	var store = new Jx.Store({
-		columns: [{
-			name: 'label',
-			type: 'alphanumeric'
-		}, {
-			name: 'image',
-			type: 'alphanumeric'
-		}, {
-			name: 'imageClass',
-			type: 'alphanumeric'
-		}, {
-			name: 'id',
-			type: 'numeric'
-		}],
-		protocol: new Jx.Store.Protocol.Local(data, {
-			parser: parser
-		}),
-		strategies: [full],
-		record: Jx.Record,
-		recordOptions: {
-			primaryKey: 'id'
-		}
+	    fields: [{
+		name: 'label',
+		type: 'alphanumeric'
+	    }, {
+		name: 'image',
+		type: 'alphanumeric'
+	    }, {
+		name: 'imageClass',
+		type: 'alphanumeric'
+	    }, {
+		name: 'id',
+		type: 'numeric'
+	    }],
+	    protocol: new Jx.Store.Protocol.Local(data, {
+		parser: parser
+	    }),
+	    strategies: [full],
+	    record: Jx.Record,
+	    recordOptions: {
+		primaryKey: 'id'
+	    }
 	});
 	var adaptor = new Jx.Adaptor.Combo.Fill({
         useTemplate: true,
         template: '{label}',
-		store: store,
+	store: store,
         imagePathColumn: 'image',
         imageClassColumn: 'imageClass',
         noRepeat: true

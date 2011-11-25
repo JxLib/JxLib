@@ -25,20 +25,22 @@ function drawBasicProgressbar() {
   });
   progressBar.addEvent('update',function(){
       log('updated: ' + progress +" of " + total);
-      fn.delay(300);
+      fn.delay(3000);
   });
   progressBar.addEvent('complete',function(){
       b1.setBusy(false);
       log('completed!');
   });
   
-  var  total = 20;
+  var total = 20;
   var progress = 0;
   var fn = function() {
-      progress++;
+      console.log(total, progress);
+      progress += 1;
       progressBar.update(total,progress);
   }
   
+  Jx.debug = true;
   var b1 = new Jx.Button({
       label: {set:'Examples',key:'progressBar',value:'runButton'},
       busyMask: {
@@ -46,10 +48,8 @@ function drawBasicProgressbar() {
         'class': 'jxSpinner jxSpinnerLarge'
       },
       onClick: function(){
-          total = 20;
-          progress = 0;
-          fn();
           b1.setBusy(true);
+          fn();
       }
   }).addTo('progressbarBasic');
 }

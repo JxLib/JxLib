@@ -238,7 +238,7 @@ Jx.Dialog = new Class({
         this.options.parent = document.id(this.options.parent);
 
         this.domObj.setStyle('display','none');
-        this.options.parent.adopt(this.domObj);
+        //this.options.parent.adopt(this.domObj);  base Jx.Widget should handle this.
 
         /* the dialog is moveable by its title bar */
         if (this.options.move && typeof Drag != 'undefined') {

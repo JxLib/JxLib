@@ -138,9 +138,11 @@ Jx.Menu = new Class({
         this.subDomObj.addEvent('mouseleave', this.bound.mouseleave);
         this.subDomObj.store('jxSubMenu', this);
         
+        /* handled by Jx.Widget.render()
         if (this.options.parent) {
             this.addTo(this.options.parent);
         }
+        */
     },
     cleanup: function() {
       if (this.hideTimer) {

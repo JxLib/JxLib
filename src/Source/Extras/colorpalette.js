@@ -214,9 +214,11 @@ Jx.ColorPalette = new Class({
         }
         this.domObj.adopt(table);
         this.updateSelected();
+        /* handled by Jx.Widget.render();
         if (this.options.parent) {
             this.addTo(this.options.parent);
         }
+        */
     },
 
     /**

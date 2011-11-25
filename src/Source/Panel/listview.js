@@ -43,6 +43,7 @@ Jx.ListView = new Class({
     },
 
     classes: {
-        domObj: 'jxListView'
+        domObj: 'jxListView',
+        container: 'jxListContainer'
     }
 });

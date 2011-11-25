@@ -108,10 +108,6 @@ Jx.Progressbar = new Class({
     render: function () {
         this.parent();
         
-        if (this.options.parent !== undefined && this.options.parent !== null) {
-            this.domObj.inject(document.id(this.options.parent));
-        }
-        
         this.domObj.addClass('jxProgressStarting');
 
         //we need to know the width of the bar
@@ -166,9 +162,13 @@ Jx.Progressbar = new Class({
         if (this.domObj.hasClass('jxProgressStarting')) {
             this.domObj.removeClass('jxProgressStarting').addClass('jxProgressWorking');
         }
+        
+        this.total = total;
+        this.progress = progress;
 
         var newWidth = (progress * this.width) / total;
         
+        /*
         //update bar width
         this.text.set('tween', {property:'width', onComplete: function() {
             var obj = {};
@@ -176,20 +176,34 @@ Jx.Progressbar = new Class({
                                   this.getText({set:'Jx',key:'progressbar',value:'progressText'}) :
                                   this.getText(this.options.progressText);
             if (progressText.contains('{progress}')) {
-                obj.progress = progress;
+                obj.progress = this.progress;
             }
             if (progressText.contains('{total}')) {
-                obj.total = total;
+                obj.total = this.total;
             }
             var t = progressText.substitute(obj);
             this.text.set('text', t);
         }.bind(this)});
         
         this.text.get('tween').start(newWidth);
+        */
         
         this.fill.set('tween', {property: 'width', onComplete: (function () {
+
+            var obj = {};
+            var progressText = this.options.progressText === null ?
+                                  this.getText({set:'Jx',key:'progressbar',value:'progressText'}) :
+                                  this.getText(this.options.progressText);
+            if (progressText.contains('{progress}')) {
+                obj.progress = this.progress;
+            }
+            if (progressText.contains('{total}')) {
+                obj.total = this.total;
+            }
+            var t = progressText.substitute(obj);
+            this.text.set('text', t);            
             
-            if (total === progress) {
+            if (this.total <= this.progress) {
                 this.complete = true;
                 this.domObj.removeClass('jxProgressWorking').addClass('jxProgressFinished');
                 this.fireEvent('complete');
