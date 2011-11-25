@@ -309,9 +309,11 @@ Jx.Panel = new Class({
         this.addEvent('addTo', function() {
             this.domObj.resize();
         });
+        /* Should be handled by Jx.Widget.render();
         if (this.options.parent) {
             this.addTo(this.options.parent);
         }
+        */
     },
 
     /**

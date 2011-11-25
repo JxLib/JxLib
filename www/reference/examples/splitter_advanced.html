@@ -94,7 +94,7 @@ function drawAdvancedSplit() {
       var parser = new Jx.Store.Parser.JSON();
       var full = new Jx.Store.Strategy.Full();
       var store = new Jx.Store({
-          columns: [
+          fields: [
               {name: 'header',type: 'alphanumeric'},
               {name: '2002', type: 'currency'},
               {name: '2003', type: 'currency'},
@@ -112,13 +112,13 @@ function drawAdvancedSplit() {
     //setup options
     var options = {
         parent: splitV2.elements[1],
-        row: {
+        rowModel: {
             //useHeaders: true,
             alternateRowColors: true,
             headerField: 'header',
             rowHeight: 'auto'
         },
-        columns: {
+        columnModel: {
             headerRowHeight: 20,
             useHeaders: true,
             columns: [{
@@ -226,7 +226,7 @@ function drawAdvancedSplit() {
             }
            ]
         },
-        model: store
+        store: store
     };
     //create grid
     var grid = new Jx.Grid(options);
@@ -247,7 +247,7 @@ function drawAdvancedSplit() {
     grid.redraw();
     
     //resizer.activate('column');
-}
+};
 </script>
 <style>
 .textWrap {

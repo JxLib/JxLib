@@ -47,7 +47,9 @@ Jx.Field.Editor = new Class({
         this.options.editorOptions.content = this.options.value;
         this.options.editorOptions.textareaName = this.options.name;
         
-        if (this.options.parent !== null && this.options.parent !== undefined) {
+        if (this.options.parent !== null &&
+            this.options.parent !== undefined &&
+            Jx.type(this.options.parent) != 'function') {
             this.createEditor();
         }
 

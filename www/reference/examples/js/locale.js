@@ -10,7 +10,7 @@ Locale.define('en-US', 'Examples', {
     langEn      : 'English (en-US)',
     langDe      : 'Deutsch (de-DE)',
     langRu      : 'Русский (ru-RU)',
-    langEs	: 'Spanish (es-ES) - someone translate me :)'
+    langEs	: 'Spanish (es-ES)'
   },
 
   navigation : {
@@ -192,7 +192,8 @@ Locale.define('de-DE', 'Examples', {
     langChange  : 'Sprache gewechselt zu',
     langEn      : 'English (en-US)',
     langDe      : 'Deutsch (de-DE)',
-    langRu      : 'Русский (ru-RU)'
+    langRu      : 'Русский (ru-RU)',
+    langEs	: 'Spanish (es-ES)'
   },
 
   navigation : {
@@ -372,7 +373,8 @@ Locale.define('ru-RU-unicode', 'Examples', {
     langChange  : 'Changing language to',
     langEn      : 'English (en-US)',
     langDe      : 'Deutsch (de-DE)',
-    langRu      : 'Русский (ru-RU)'
+    langRu      : 'Русский (ru-RU)',
+    langEs	: 'Spanish (es-ES)'
   },
 
   navigation : {
@@ -539,4 +541,188 @@ Locale.define('ru-RU-unicode', 'Examples', {
         right          : 'По правому краю',
         fill           : 'Заливка'
   }
+});
+
+
+Locale.define('es-ES', 'Examples', {
+
+  mainToolbar : {
+    btnBgGrid   : 'Fondo de la Tabla',
+    btnEvLog    : 'Registro de Eventos',
+    btnClearLog : 'Limpiar Registros',
+    labelLang   : 'Idioma',
+    labelTheme  : 'Tema',
+    langChange  : 'Cambiar a Idioma',
+    langEn      : 'English (en-US)',
+    langDe      : 'Deutsch (de-DE)',
+    langRu      : 'Русский (ru-RU)',
+    langEs  	: 'Spanish (es-ES)'
+  },
+
+  navigation : {
+    'new-window'                : 'Abrir ejemplo en una nueva Ventana',
+    'Jx-Examples'               : 'Ejemplos de Jx',
+      'About'                   : 'Acerca de',
+      'Page-Layout'             : 'Formato de página',
+        'Layout'                : 'Disposición',
+        'Splitter'              : 'Separador',
+        'Splitter-Integrated'   : 'Separador Integrado',
+      'Panels-and-Dialogs'      : 'Paneles y Diálogos',
+        'Panel'                 : 'Panel',
+        'Panel-Set'             : 'Conjunto de Paneles',
+        'Panels-Integrated'     : 'Paneles Integrados',
+        'Dialog'                : 'Diálogos',
+        'Dialogs-Integrated'    : 'Diálogos Integrados',
+        'Panel-Form'            : 'Ejemplos de Jx.Panel.Form',
+        'File-Upload-Panel'     : 'Panel de subida de Archivos',
+    'Lists'                     : 'Listas',
+      'Grid'                    : 'Tablas',
+      'Paginated-Grid'          : 'Tablas con Paginación',
+      'Grid-Inline-Editor'      : 'Editor de Tablas en linea',
+      'Tree'                    : 'Árbol',
+      'List-View'               : 'Vista de Lista',
+    'Bars-and-Buttons'          : 'Barras y Botones',
+      'Toolbar'                 : 'Barra de Herramientas',
+      'Buttons'                 : 'Botones',
+        'Basic'                 : 'Básico',
+        'Flyouts'               : 'Menus Laterales',*
+        'Flyouts-Integrated'    : 'Menus Laterales Integrados',*
+        'Multi'                 : 'Múltiple',
+        'Color'                 : 'Color',
+      'Tabs'                    : 'Pestañas',
+        'Tab-Set'               : 'Conjunto de Pestañas',
+        'Tabs-Integrated'       : 'Pestañas Integradas',
+      'Menus'                   : 'Menús',
+        'Menu-button'           : 'Botón de Menú',
+        'Menu-bar'              : 'Barra de Menú',
+        'Context-Menu'          : 'Menú Contextual',
+    'Extras'                    : 'Extras',
+      'Forms'                   : 'Formularios',
+      'Notification'            : 'Notificación',
+      'Custom-Scrollbars'       : 'Barras de progreso personalizadas ',
+      'Progress-Bar'            : 'Barra de Progreso',
+      'Slider'                  : 'Control deslizante',
+      'Editor'                  : 'Editor',
+    'Adaptors'                  : 'Adaptadores',
+      'Tree-adaptor'            : 'Adaptadores para Jx.Tree',
+      'Combo-adaptor'           : 'Adaptadores para Jx.Field.Combo'
+   },
+
+  // name the 'key' after the html example page ?
+    button : {
+    labelAndIcon        : 'Etiqueta e Icono',
+    justALabel          : 'Solo Etiqueta',
+    enableTransmission  : 'Habilitar Transmisión',
+    disableTransmission : 'Deshabilitar Transmisión',
+    startTransmission   : 'Comenzar Transmisión',
+    stopTransmission    : 'Detener Transmisión',
+    left    : 'derecha',
+    center  : 'centrado',
+    right   : 'izquierda',
+    justify : 'justificado'
+  },
+
+  panel : {
+    basic1          : 'Primer Panel Básico',
+    basic2          : 'Segundo Panel Básico',
+    togglePanelMask : 'Intercambiar Máscara de Panel',
+    panelToolbar    : 'Panel con Barra de Herramientas',
+    btnTop    : 'Arriba',
+    btnRight  : 'Derecha',
+    btnBottom : 'Abajo',
+    btnLeft   : 'Izquierda'
+  },
+
+  dialog : {
+    btnStatic     : 'Estático',
+    btnModal      : 'Colocar Modal',
+    btnDynamic    : 'Contenido Dinámico y Barra de Herramientas',
+    btnInvalid    : 'Contenido Inválido en URL',
+    btnConfirm    : 'Diálogo de Confirmación',
+    btnPrompt     : 'Diálogo para pedir E-Mail',
+    btnMessage    : 'Diálogo de Mensaje',
+    btnBusy       : 'Mensaje Ocupado personalizado..',
+    dialogStatic  : 'Diálogo Estático',
+    dialogModal   : 'Dialogo Modal',
+    dialogDynamic : 'Diálogo con Contenido Dinámico y Barra de Herramientas',
+    dialogInvalid : 'Contenido Inválido en URL',
+    dialogConfirm : '̣Te gusta JxLib?',
+    dialogPrompt  : 'Dirección E-Mail',
+    dialogMessage : 'Hola Mundo.'
+  },
+
+  grid : {
+    rowOptions        : 'Opciones de Fila',
+    rowPrelight       : 'Resaltador de fila',
+    rowHeaderPrelight : 'Resaltador de Encabezado de fila',
+    rowSelection      : 'Selección de Fila',
+    colOptions        : 'Opciones de Columna',
+    colResize         : 'Redimencionar Columna',
+    colPrelight       : 'Resaltador de Columna',
+    colHeaderPrelight : 'Resaltador de Encabezado de Columna',
+    colSelection      : 'Selección de Columna',
+    cellOptions       : 'Opciones de Celda',
+    cellPrelight      : 'Resaltador de Celda',
+    cellSelection     : 'Selección de Celda',
+// leave commented out to let people see that a regular string works too :)
+//    otherOptions      : 'Otras Opciones',
+//    checkCol          : 'Marcar Columna',
+//    checkColHeader    : 'Marcar Columna como Cabecera',
+//    multipleSelect    : 'Selección Múltiple',
+    clickMe           : 'Hazme Click...',
+    orMe              : '... O a mi'
+  },
+
+  tree : {
+    customIcon     : 'Elemento de árbol con ícono personalizado',
+    customFolder   : 'Carpeta de árbol con ícono personalizado',
+    subItem        : 'Subelemento',
+    subItem2       : 'Otro Subelemento',
+    subFolder      : 'Subcarpeta',
+    item           : 'Elemento',
+    folder         : 'Carpeta'
+  },
+
+  tabset : {
+    newTab         : 'Adicionar nueva Pestaña',
+    embedded       : 'Panel Embebido',
+    inline         : 'Contenido en Línea',
+    ajax           : 'Contenido Ajax',
+    closeable      : 'Pestaña Cerrable'
+  },
+
+  progressBar : {
+    runButton : 'Ejecutar Barra de Progreso'
+  },
+
+  menu : {
+    file           : 'Archivo',
+      'new'          : 'Nuevo',
+      open           : 'Abrir',
+      save           : 'Guardar',
+      saveAs         : 'Guardar Como',
+      print          : 'Imprimir',
+      printPreview   : 'Vista preliminar de Impresión',
+      properties     : 'Propiedades',
+	edit           : 'Editar',
+      undo           : 'Deshacer',
+      redo           : 'Rehacer',
+      cut            : 'Cortar',
+      copy           : 'Copiar',
+      paste          : 'Pegar',
+    format         : 'Formatear',
+      intendMore     : 'Indentar Mas',//intend or indent 
+      intendLess     : 'Indentar Menos',//intend or indent 
+      font           : 'Fuente',
+        bold           : 'Negrita',
+        italic         : 'Cursiva',
+        strikethrough  : 'Tachado',
+        underline      : 'Subrayado',
+      align          : 'Alineación',
+        left           : 'Izquierda',
+        center         : 'Centrado',
+        right          : 'Derecha',
+        fill           : 'Llenar'//fill or justify
+  }
+
 });
