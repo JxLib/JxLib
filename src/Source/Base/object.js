@@ -475,38 +475,38 @@ Document.implement({
 
         var types = {
 
-    		string: function(id, nocash, doc){
-				id = Slick.find(doc, '#' + id.replace(/(\W)/g, '\\$1'));
-				return (id) ? types.element(id, nocash) : null;
-			},
+    	    string: function(id, nocash, doc){
+		id = Slick.find(doc, '#' + id.replace(/(\W)/g, '\\$1'));
+		return (id) ? types.element(id, nocash) : null;
+	    },
 
-			element: function(el, nocash){
-				$uid(el);
-				if (!nocash && !el.$family && !(/^(?:object|embed)$/i).test(el.tagName)){
-					Object.append(el, Element.Prototype);
-				}
-				return el;
-			},
+	    element: function(el, nocash){
+		$uid(el);
+		if (!nocash && !el.$family && !(/^(?:object|embed)$/i).test(el.tagName)){
+		    Object.append(el, Element.Prototype);
+		}
+		return el;
+	    },
 
-			object: function(obj, nocash, doc){
-				if (obj.toElement) return types.element(obj.toElement(doc), nocash);
-				return null;
-			}
+	    object: function(obj, nocash, doc){
+		if (obj.toElement) return types.element(obj.toElement(doc), nocash);
+                return null;
+	    }
 
-		};
+	};
 
-		types.textnode = types.whitespace = types.window = types.document = function(zero){
-			return zero;
-		};
+	types.textnode = types.whitespace = types.window = types.document = function(zero){
+	    return zero;
+	};
 
-		return function(el, nocash, doc){
-			if (el && el.$family && el.uid) return el;
-            if (el instanceof Jx.Object) {
+	return function(el, nocash, doc){
+	    if (el && el.$family && el.uid) return el;
+            if (el && instanceOf(el, Jx.Object)) {
                 return types.element(el.toElement(doc || document), nocash);
             }
-			var type = typeOf(el);
-			return (types[type]) ? types[type](el, nocash, doc || document) : null;
-		};
+	    var type = typeOf(el);
+	    return (types[type]) ? types[type](el, nocash, doc || document) : null;
+	};
 
-	})()
+    })()
 });

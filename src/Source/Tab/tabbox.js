@@ -110,7 +110,6 @@ Jx.TabBox = new Class({
         this.tabSet.addEvent('tabChange', function(tabSet, tab) {
             this.showItem(tab);
         }.bind(this.tabBar));
-        this.domObj = this.panel.domObj;
         /* when the panel changes size, the tab set needs to update
          * the content areas.
          */
@@ -134,9 +133,11 @@ Jx.TabBox = new Class({
         this.addEvent('addTo', function() {
             this.domObj.resize({forceResize: true});
         });
-        if (this.options.parent) {
-            this.addTo(this.options.parent);
-        }
+        
+        this.panel.domObj.replaces(this.domObj);
+        this.domObj = this.panel.domObj;
+        this.domObj.resize({forceResize: true});
+        
     },
     /**
      * Method: add

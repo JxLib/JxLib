@@ -73,27 +73,27 @@ if($(document).getElements('.tabContentActiveExamples').length > 0) {
 	
 	
 	var store1 = new Jx.Store({
-		columns: [{
-			name: 'label',
-			type: 'alphanumeric'
-		}, {
-			name: 'folder',
-			type: 'boolean'
-		}, {
-			name: 'parent',
-			type: 'numeric'
-		}, {
-			name: 'id',
-			type: 'numeric'
-		}],
-		protocol: new Jx.Store.Protocol.Local(parentData, {
-			parser: parser
-		}),
-		strategies: [full],
-		record: Jx.Record,
-		recordOptions: {
-			primaryKey: 'id'
-		}
+	    fields: [{
+		    name: 'label',
+		    type: 'alphanumeric'
+	    }, {
+		    name: 'folder',
+		    type: 'boolean'
+	    }, {
+		    name: 'parent',
+		    type: 'numeric'
+	    }, {
+		    name: 'id',
+		    type: 'numeric'
+	    }],
+	    protocol: new Jx.Store.Protocol.Local(parentData, {
+		    parser: parser
+	    }),
+	    strategies: [full],
+	    record: Jx.Record,
+	    recordOptions: {
+		    primaryKey: 'id'
+	    }
 	});
 	var adaptor = new Jx.Adaptor.Tree.Parent({
         useTemplate: true,
@@ -162,27 +162,27 @@ function setupTreeAdaptorMptt(){
 		sortCols: ['left']
 	});
 	var store2 = new Jx.Store({
-		columns: [{
-			name: 'label',
-			type: 'alphanumeric'
-		}, {
-			name: 'left',
-			type: 'numeric'
-		}, {
-			name: 'right',
-			type: 'numeric'
-		}, {
-			name: 'id',
-			type: 'numeric'
-		}],
-		protocol: new Jx.Store.Protocol.Local(mpttData, {
-			parser: parser2
-		}),
-		strategies: [full2, sorter],
-		record: Jx.Record,
-		recordOptions: {
-			primaryKey: 'id'
-		}
+	    fields: [{
+		    name: 'label',
+		    type: 'alphanumeric'
+	    }, {
+		    name: 'left',
+		    type: 'numeric'
+	    }, {
+		    name: 'right',
+		    type: 'numeric'
+	    }, {
+		    name: 'id',
+		    type: 'numeric'
+	    }],
+	    protocol: new Jx.Store.Protocol.Local(mpttData, {
+		    parser: parser2
+	    }),
+	    strategies: [full2, sorter],
+	    record: Jx.Record,
+	    recordOptions: {
+		    primaryKey: 'id'
+	    }
 	});
 	
 	 var adaptor = new Jx.Adaptor.Tree.Mptt({
@@ -203,13 +203,13 @@ function setupTreeAdaptorMptt(){
 </script>
 <script id="setupTreeAdaptorParentAjaxScript" type="text/javascript">
 function setupTreeAdaptorParentAjax(){
-	var parser = new Jx.Store.Parser.JSON();
+    var parser = new Jx.Store.Parser.JSON();
     var progressive = new Jx.Store.Strategy.Progressive({
-		dropRecords: false
-	});
+	    dropRecords: false
+    });
     
-	var store = new Jx.Store({
-        columns: [{
+    var store = new Jx.Store({
+        fields: [{
             name: 'name',
             type: 'alphanumeric'
         }, {
@@ -227,9 +227,9 @@ function setupTreeAdaptorParentAjax(){
         }],
         protocol: new Jx.Store.Protocol.Ajax({
             parser: parser,
-			urls: {
-				read: 'treeadaptor.php'
-			}
+		urls: {
+		    read: 'treeadaptor.php'
+		}
         }),
         strategies: [progressive],
         record: Jx.Record,
