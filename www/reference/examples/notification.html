@@ -60,7 +60,7 @@ function drawBasicNotifier() {
   });
   plugin.attach(field1);
 
-  plugin.addEvent('fieldValidationFailed', function(field, validator){
+  field1.addEvent('fieldValidationFailed', function(field, validator){
       var p = new Element('p',{
           html: field.id + ' failed validation. Errors:'
       });
@@ -77,17 +77,10 @@ function drawBasicNotifier() {
       flotifier.add(new Jx.Notice.Error({content: msg}));
   });
   
-  plugin.addEvent('fieldValidationPassed', function(field, validator){
+  field1.addEvent('fieldValidationPassed', function(field, validator){
       flotifier.add(new Jx.Notice.Success({content: field.id + ' passed validation.'}));
   });
   
-  /**
-  new Jx.Field.Button({
-    buttonOptions:{label: 'Float Warning', onClick: function() {
-      flotifier.add(new Jx.Notice.Warning({content: 'You clicked the warning button'}));
-    }}
-  }).addTo(fieldSet1);
-  **/
   
   var field2 = new Jx.Field.Text({
     id: 'Text2',
@@ -106,7 +99,7 @@ function drawBasicNotifier() {
   });
   plugin2.attach(field2);
 
-  plugin2.addEvent('fieldValidationFailed', function(field, validator){
+  field2.addEvent('fieldValidationFailed', function(field, validator){
       var p = new Element('p',{
           html: field.id + ' failed validation. Errors:'
       });
@@ -123,17 +116,10 @@ function drawBasicNotifier() {
       flotifier.add(new Jx.Notice.Error({content: msg}));
   });
   
-  plugin2.addEvent('fieldValidationPassed', function(field, validator){
+  field2.addEvent('fieldValidationPassed', function(field, validator){
       flotifier.add(new Jx.Notice.Success({content: field.id + ' passed validation.'}));
   });
 
-  /**
-  new Jx.Field.Button({
-    buttonOptions:{label: 'Error', onClick: function() {
-      notifier.add(new Jx.Notice.Error({content: 'You clicked the error button'}));
-    }}
-  }).addTo(fieldSet1);
-  **/
   var field3 = new Jx.Field.Text({
     id: 'Text3',
     name: 'Text3',
@@ -150,7 +136,7 @@ function drawBasicNotifier() {
   });
   plugin3.attach(field3);
 
-  plugin3.addEvent('fieldValidationFailed', function(field, validator){
+  field3.addEvent('fieldValidationFailed', function(field, validator){
       var p = new Element('p',{
           html: field.id + ' failed validation. Errors:'
       });
@@ -167,16 +153,9 @@ function drawBasicNotifier() {
       notifier.add(new Jx.Notice.Error({content: msg}));
   });
   
-  plugin3.addEvent('fieldValidationPassed', function(field, validator){
+  field3.addEvent('fieldValidationPassed', function(field, validator){
       notifier.add(new Jx.Notice.Success({content: field.id + ' passed validation.'}));
   });
-  /**
-  new Jx.Field.Button({
-    buttonOptions:{label: 'Success', onClick: function() {
-      notifier.add(new Jx.Notice.Success({content: 'You clicked the success button'}));
-    }}
-  }).addTo(fieldSet1);
-  **/
 
 
 

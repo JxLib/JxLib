@@ -44,7 +44,7 @@ Jx.Notifier = new Class({
          * The parent this notifier is to be placed in. If not specified, it
          * will be placed in the body of the document.
          */
-        parent: null,
+        parent: 'body',
         /**
          * Option: template
          * This is the template for the notification container itself, not the
@@ -61,7 +61,7 @@ Jx.Notifier = new Class({
 
     classes: {
         domObj: 'jxNoticeListContainer',
-        listObj: 'jxNoticeList'
+        container: 'jxNoticeList'
     },
     
     /**
@@ -70,15 +70,6 @@ Jx.Notifier = new Class({
      */
     render: function () {
         this.parent();
-        
-        /*
-         * NOTE: This is now handled by the Jx.Widget base class
-        if (this.options.parent === undefined || this.options.parent === null) {
-            this.options.parent = document.body;
-        }
-        var parent = document.id(this.options.parent);
-        parent.adopt(this.domObj);
-        */
         
         this.addEvent('postRender', function() {
             if (Jx.type(this.options.items) == 'array') {
@@ -101,7 +92,7 @@ Jx.Notifier = new Class({
             notice = new Jx.Notice({content: notice});
         }
         notice.addEvent('close', this.remove.bind(this));
-        notice.show(this.listObj);
+        notice.show(this.container);
     },
     
     /**

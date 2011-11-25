@@ -805,6 +805,9 @@ Jx.Widget = new Class({
           if (this.options.parent !== undefined &&
               this.options.parent !== null &&
               Jx.type(this.options.parent) != 'function') {
+            if (this.options.parent == 'body') {
+                this.options.parent = document.id(document.body);
+            }
             this.addTo(this.options.parent);
           }
           //TODO: Should we autogenerate an id when one is not provided? like so...

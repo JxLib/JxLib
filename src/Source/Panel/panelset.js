@@ -86,11 +86,14 @@ Jx.PanelSet = new Class({
      * Create a new instance of Jx.PanelSet.
      */
     render: function() {
+        this.parent();
         if (this.options.panels) {
             this.panels = this.options.panels;
             this.options.panels = null;
         }
-        this.domObj = new Element('div');
+        var obj = new Element('div');
+        obj.replaces(this.domObj);
+        this.domObj = obj;
         new Jx.Layout(this.domObj);
 
         //make a fake panel so we get the right number of splitters
@@ -133,9 +136,9 @@ Jx.PanelSet = new Class({
             document.id(this.domObj.parentNode).setStyle('overflow', 'hidden');
             this.domObj.resize();
         });
-        if (this.options.parent) {
-            this.addTo(this.options.parent);
-        }
+        
+        this.domObj.resize();
+        
     },
 
     /**

@@ -125,10 +125,11 @@ Jx.Tree = new Class({
         });
         
         
-
+        /* should be handled in Jx.Widget
         if (this.options.parent) {
             this.addTo(this.options.parent);
         }
+        */
     },
     /**
      * APIMethod: freeze

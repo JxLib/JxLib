@@ -147,9 +147,11 @@ Jx.Toolbar = new Class({
             }.bind(this)
         });
 
+        /*Handled in Jx.Widget
         if (this.options.parent) {
             this.addTo(this.options.parent);
         }
+        */
         this.deactivateWatcher = this.deactivate.bind(this);
         if (this.options.items) {
             this.add(this.options.items);

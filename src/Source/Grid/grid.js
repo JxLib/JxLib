@@ -348,8 +348,9 @@ Jx.Grid = new Class({
     }, this);
     */
     
-    if (document.id(this.options.parent)) {
-      this.addTo(this.options.parent);
+    if (this.options.parent !== undefined &&
+        this.options.parent !== null &&
+        Jx.type(this.options.parent) != 'function') {
       this.resize();
     }
   },
