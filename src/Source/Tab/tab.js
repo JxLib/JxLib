@@ -155,19 +155,27 @@ Jx.Tab = new Class({
         this.parent();
         this.domObj.store('jxTab', this);
         this.processElements(this.options.contentTemplate, this.classes);
-        new Jx.Layout(this.content, this.options);
         
-        // load content onDemand if needed
-        if(!this.options.loadOnDemand || this.options.active) {
-          this.loadContent(this.content);
-          // set active if needed
-          if(this.options.active) {
-            this.clicked();
-          }
-        }else{
-          this.addEvent('contentLoaded', function(ev) {
-            this.setActive(true);
-          }.bind(this));
+        
+        if (this.options.items !== undefined && this.options.items !== null) {
+            opts = Object.merge({},this.options,{
+                parent: this.content
+            });
+            delete opts.template;
+            this.container = new Jx.Container(opts);
+        } else {
+            new Jx.Layout(this.content, this.options); 
+            if(!this.options.loadOnDemand || this.options.active) {
+                this.loadContent(this.content);
+                // set active if needed
+                if(this.options.active) {
+                    this.clicked();
+                }
+            }else{
+              this.addEvent('contentLoaded', function(ev) {
+                this.setActive(true);
+              }.bind(this));
+            }
         }
         this.addEvent('down', function(){
             this.content.addClass(this.options.activeTabClass);
@@ -214,7 +222,19 @@ Jx.Tab = new Class({
         }else{
           this.setActive(true);
         }
+        
+        this.resize();
       }
+      
+    },
+    
+    resize: function(){
+        if (this.domObj.resize) {
+            this.domObj.resize();
+        }
+        if (instanceOf(this.container, Jx.Container)) {
+            this.container.resize();
+        }
     }
 });
 

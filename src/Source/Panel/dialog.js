@@ -369,8 +369,8 @@ Jx.Dialog = new Class({
      * rules.
      */
     resize: function(width, height, autoPosition) {
-        this.options.width = width;
-        this.options.height = height;
+        this.options.width = (width === undefined)? this.options.width:width;
+        this.options.height = (height === undefined)? this.options.height: height;
         if (this.domObj.getStyle('display') != 'none') {
             this.layoutContent();
             this.domObj.resize(this.options);

@@ -72,6 +72,9 @@ Jx.LayoutManager.Columns = new Class({
     
     init: function () {
         this.parent();
+	
+	this.bound.makeDraggable = this.makeDraggable.bind(this);
+	this.bound.windowResize = this.windowResize.bind(this);
         
         this.marker = new Element('div', {
             'class': 'jxLayoutColumnMarker'
@@ -94,8 +97,8 @@ Jx.LayoutManager.Columns = new Class({
             this.columns.push(column);
         },this);
         //listen for the window resize and adjust the columns accordingly
-        window.addEvent('resize', this.windowResize.bind(this));
-        window.addEvent('load', this.windowResize.bind(this));
+        window.addEvent('resize', this.bound.windowResize);
+        window.addEvent('load', this.bound.windowResize);
                     
     },
     
@@ -113,7 +116,10 @@ Jx.LayoutManager.Columns = new Class({
                 this.addPlaceholder(idx);
             }
         }, this);
+	
         this.windowResize();
+	
+	this.container.addEvent('jxContainerWidgetAdded', this.bound.makeDraggable)
     },
     
     addPlaceholder: function (idx) {
@@ -213,140 +219,160 @@ Jx.LayoutManager.Columns = new Class({
                 jx.resize();
             }
             el.setStyle('position','relative');
-            if (options.isDraggable) {
-                this.makeDraggable(el, options.handle);
-            }
+            
+	    this.container.fireEvent('jxLayoutItemAdd', [el, this]);
         },this);
-        this.container.fireEvent('jxLayoutItemAdd');
+        
     },
     
-    makeDraggable: function (elem, handle) {
-        handle = (handle !== undefined && handle !== null) ? handle : this.options.dragDefaults.handle;
-        Array.from(elem).each(function(d){
-            d = document.id(d);
-            d.addClass('jxLayoutDraggable');
-            d.makeDraggable({
-                droppables: document.getElements('.' + this.options.dragDefaults.dropZoneClass), 
-                handle: d.getElement(handle), 
-                precalculate: false,
-                style: false,
-                onBeforeStart: function(){
-                    var coords = d.getCoordinates(d.getParent());
-                    var col = d.getParent();
-                    if (col.getChildren().length == 1) {
-                        //add placeholder to bottom of column
-                        col.retrieve('placeholder').inject(col,'bottom');
-                    }
-                    this.marker.setStyles({
-                        'display': 'block', 
-                        'visibility': 'visible',
-                        'height': coords.height, 
-                        'width': coords.width - 5
-                    }).inject(d, 'after');
-                    d.setStyles({
-                        'position': 'absolute', 
-                        'top': (coords.top - d.getStyle('margin-top').toFloat()), 
-                        'left': (coords.left - d.getStyle('margin-left').toFloat()), 
-                        'width': coords.width, 
-                        'opacity': 0.7, 
-                        'z-index': 3
-                    });
-                }.bind(this), 
-                onEnter: function(el, drop){
-                    drop.adopt(this.marker.setStyles({
-                            'display': 'block', 
-                            'height': el.getCoordinates().height, 
-                            'width': drop.getCoordinates().width - 5
-                        })
-                    );
-                    var p = drop.retrieve('placeholder');
-                    if (drop.hasChild(p)) {
-                        p.dispose();
-                    }
-                }.bind(this), 
-                onLeave: function(el, drop){
-                    this.marker.dispose();
-                    var p = drop.retrieve('placeholder');
-                    var children = drop.getChildren();
-                    children = children.filter(function(child){ return child != p && child != el;},this);
-                    if (children.length == 0 ) {
-                        p.inject(drop,'top');
-                    }       
-                }.bind(this), 
-                onDrag: function(el){
-                    target = null;
-                    drop = this.marker.getParent();
-                    var drag = el.retrieve('dragger');
-                    if (drop && drop.getChildren().length > 1){
-                        //check for placeholder and remove it before adding the marker
-                        var p = drop.retrieve('placeholder');
-                        if (drop.hasChild(p)) {
-                            p.dispose();
-                        }
-                        kids = drop.getChildren();
-                        mouseY = drag.mouse.now.y;
-                        kids.each(function(k){
-                            if (mouseY > (k.getCoordinates().top + Math.round(k.getCoordinates().height / 2))) {
-                                target = k;
-                            }
-                        });
-                        if (target == null){
-                            if (kids[0] != this.marker) {
-                                this.marker.inject(drop, 'top');
-                            }
-                        } else {
-                            if ((target != this.marker) && (target != this.marker.getPrevious())) {
-                                this.marker.inject(target, 'after');
-                            }
-                        }
-                    }
-                    //console.log('drag');
-                }.bind(this), 
-                onDrop: function(el, drop){
-                    if (drop) {
-                        el.setStyles({
-                            'position': 'relative', 
-                            'top': '0', 
-                            'left': '0', 
-                            'width': 'auto', 
-                            'opacity': 1, 
-                            'z-index': 1
-                        }).replaces(this.marker);
-                        if (el.resize) {
-                            el.resize({width: null});
-                        }
-                        if (drop.hasChild(drop.retrieve('placeholder'))) {
-                            document.id(drop.retrieve('placeholder')).dispose();
-                        }
-                    } else {
-                        el.setStyles({
-                            'position': 'relative', 
-                            'top': '0', 
-                            'left': '0', 
-                            'opacity': 1, 
-                            'z-index': 1
-                        });
-                        console.log('drop not in zone');
-                    }
-                }.bind(this), 
-                onComplete: function(el){
-                    this.marker.dispose();
-                    el.setStyle('position','relative');
-                    this.container.fireEvent('jxLayoutMoveComplete', el);
-                }.bind(this), 
-                onCancel: function(el){
-                    this.marker.dispose();
-                    el.setStyles({
-                        'position': 'relative', 
-                        'top': '0', 
-                        'left': '0', 
-                        'width': null, 
-                        'opacity': 1, 
-                        'z-index': 1
-                    });
-                }.bind(this)
-            });
-        },this);
+    makeDraggable: function (jx, opts, container) {
+	var dragOpts = Object.merge({},this.options.dragDefaults, opts.layoutOpts);
+	if (dragOpts.isDraggable) {
+	    var d = document.id(jx).getParent();
+	    d.addClass('jxLayoutDraggable');
+	    d.makeDraggable({
+		droppables: document.getElements('.' + dragOpts.dropZoneClass), 
+		handle: d.getElement(dragOpts.handle), 
+		precalculate: false,
+		style: false,
+		onBeforeStart: function(el){
+		    var coords = d.getCoordinates(d.getParent());
+		    var col = d.getParent();
+		    if (col.getChildren().length == 1) {
+			//add placeholder to bottom of column
+			col.retrieve('placeholder').inject(col,'bottom');
+		    }
+		    this.marker.setStyles({
+			'display': 'block', 
+			'visibility': 'visible',
+			'height': coords.height, 
+			'width': coords.width - 5
+		    }).inject(d, 'after');
+		    //get current mouse position
+		    var mouse = el.retrieve('dragger').mouse;
+		    
+		    var offsets = {
+			x: mouse.start.x - coords.left,
+			y: mouse.start.y - coords.top
+		    };
+		    el.store('offsets', offsets);
+		    
+		    d.setStyles({
+			'position': 'absolute', 
+			'top': (coords.top - d.getStyle('margin-top').toFloat()), 
+			'left': (coords.left - d.getStyle('margin-left').toFloat()), 
+			'width': coords.width, 
+			'opacity': 0.7, 
+			'z-index': 3
+		    });
+		}.bind(this),
+		onEnter: function(el, drop){
+		    drop.adopt(this.marker.setStyles({
+			    'display': 'block', 
+			    'height': el.getCoordinates().height, 
+			    'width': drop.getCoordinates().width - 5
+			})
+		    );
+		    var p = drop.retrieve('placeholder');
+		    if (drop.contains(p)) {
+			p.dispose();
+		    }
+		}.bind(this), 
+		onLeave: function(el, drop){
+		    this.marker.dispose();
+		    var p = drop.retrieve('placeholder');
+		    var children = drop.getChildren();
+		    children = children.filter(function(child){ return child != p && child != el;},this);
+		    if (children.length == 0 ) {
+			p.inject(drop,'top');
+		    }       
+		}.bind(this),
+		onDrag: function(el){
+		    target = null;
+		    drop = this.marker.getParent();
+		    var drag = el.retrieve('dragger');
+		    
+		    //get mouse coordinates and offset
+		    var offsets = el.retrieve('offsets'),
+			topLeft = {
+			    left: drag.mouse.now.x - offsets.x,
+			    top: drag.mouse.now.y - offsets.y
+			};
+			
+		    el.setStyles(topLeft);
+		    
+		    if (drop && drop.getChildren().length > 1){
+			//check for placeholder and remove it before adding the marker
+			var p = drop.retrieve('placeholder');
+			if (drop.contains(p)) {
+			    p.dispose();
+			}
+			kids = drop.getChildren();
+			mouseY = drag.mouse.now.y;
+			kids.each(function(k){
+			    if (mouseY > (k.getCoordinates().top + Math.round(k.getCoordinates().height / 2))) {
+				target = k;
+			    }
+			});
+			if (target == null){
+			    if (kids[0] != this.marker) {
+				this.marker.inject(drop, 'top');
+			    }
+			} else {
+			    if ((target != this.marker) && (target != this.marker.getPrevious())) {
+				this.marker.inject(target, 'after');
+			    }
+			}
+		    }
+		    //console.log('drag');
+		}.bind(this),
+		onDrop: function(el, drop){
+		    if (drop) {
+			el.setStyles({
+			    'position': 'relative', 
+			    'top': '0', 
+			    'left': '0', 
+			    'width': 'auto', 
+			    'opacity': 1, 
+			    'z-index': 1
+			}).replaces(this.marker);
+			if (el.resize) {
+			    el.resize({width: null});
+			} else if (jx.resize) {
+			    jx.resize();
+			}
+			if (drop.contains(drop.retrieve('placeholder'))) {
+			    document.id(drop.retrieve('placeholder')).dispose();
+			}
+		    } else {
+			el.setStyles({
+			    'position': 'relative', 
+			    'top': '0', 
+			    'left': '0', 
+			    'opacity': 1, 
+			    'z-index': 1
+			});
+			console.log('drop not in zone');
+		    }
+		}.bind(this),
+		onComplete: function(el){
+		    this.marker.dispose();
+		    el.setStyle('position','relative');
+		    this.container.fireEvent('jxLayoutMoveComplete', el);
+		}.bind(this),
+		onCancel: function(el){
+		    this.marker.dispose();
+		    el.setStyles({
+			'position': 'relative', 
+			'top': '0', 
+			'left': '0', 
+			'width': null, 
+			'opacity': 1, 
+			'z-index': 1
+		    });
+		}.bind(this)
+	    });
+	}
     },
 
     resize: function(){

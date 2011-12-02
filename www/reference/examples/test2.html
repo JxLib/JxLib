@@ -21,7 +21,7 @@ window.addEvent('load', function() {
 function testFn() {
     
     var container = new Jx.Container({
-        parent: 'container',
+        parent: 'body',
         topLevel: true,
         layoutManager: {
             name: 'columns',
@@ -128,17 +128,8 @@ function testFn() {
 };
 </script>
 
-<style>
-#container {
-    width: 100%;
-    height: 100%;
-    background-color: red;
-}
-</style>
 </head>
 <body>
-
-<div id="container"></div>
 
 </body>
 </html>

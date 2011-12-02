@@ -176,7 +176,7 @@ Jx.Widget = new Class({
          * parent before any rendering happens so that size calculations will 
          * work properly. Default is null which doesn't put this anywhere.
          */
-        parent: null
+        //parent: null
     },
 
     /**

@@ -27,7 +27,6 @@ Locale.define('en-US', 'Examples', {
         'Panels-Integrated'     : 'Panels Integrated',
         'Dialog'                : 'Dialog',
         'Dialogs-Integrated'    : 'Dialogs Integrated',
-        'Panel-Form'            : 'Jx.Panel.Form Example',
         'File-Upload-Panel'     : 'File Upload Panel',
     'Lists'                     : 'Lists',
       'Grid'                    : 'Grid',
@@ -573,7 +572,6 @@ Locale.define('es-ES', 'Examples', {
         'Panels-Integrated'     : 'Paneles Integrados',
         'Dialog'                : 'Diálogos',
         'Dialogs-Integrated'    : 'Diálogos Integrados',
-        'Panel-Form'            : 'Ejemplos de Jx.Panel.Form',
         'File-Upload-Panel'     : 'Panel de subida de Archivos',
     'Lists'                     : 'Listas',
       'Grid'                    : 'Tablas',
@@ -585,8 +583,8 @@ Locale.define('es-ES', 'Examples', {
       'Toolbar'                 : 'Barra de Herramientas',
       'Buttons'                 : 'Botones',
         'Basic'                 : 'Básico',
-        'Flyouts'               : 'Menus Laterales',*
-        'Flyouts-Integrated'    : 'Menus Laterales Integrados',*
+        'Flyouts'               : 'Menus Laterales',
+        'Flyouts-Integrated'    : 'Menus Laterales Integrados',
         'Multi'                 : 'Múltiple',
         'Color'                 : 'Color',
       'Tabs'                    : 'Pestañas',

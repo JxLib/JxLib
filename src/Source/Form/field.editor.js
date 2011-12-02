@@ -8,8 +8,9 @@ description:
 license: MIT-style license.
 
 requires:
- - jxlib/Jx.Field
+ - Jx.Field
  - Jx.Editor
+ - more/Element.Shortcuts
 
 provides: [Jx.Field.Editor]
 
@@ -58,26 +59,34 @@ Jx.Field.Editor = new Class({
     addTo: function (reference, where) {
 
         this.parent(reference, where);
-        this.createEditor();
+        //this.createEditor();
         
     },
     
     createEditor: function(){
-        if (this.editor === undefined ||
-            this.editor === null || typeOf(this.editor) !== 'Jx.Editor') {
-            this.options.editorOptions.parent = document.id(this.field);
-            this.editor = new Jx.Editor(this.options.editorOptions);
-            this.editor.resize();
-            this.field = this.editor.textarea;
-            //grab change and blur events and pass them on for the editor
-            this.editor.addEvents({
-                'editorChange': function(){
-                    this.fireEvent('change', this);
-                }.bind(this),
-                'editorBlur': function(){
-                    this.fireEvent('blur',this);
-                }.bind(this)
-            });
+        if (document.id(this.field).isVisible()) {
+            //if the delay is still set...
+            if (this.delay) { clearTimeout(this.delay);}
+            if (this.editor === undefined ||
+                this.editor === null || !instanceOf(this.editor, Jx.Editor)) {
+                this.options.editorOptions.parent = document.id(this.field);
+                this.editor = new Jx.Editor(this.options.editorOptions);
+                this.editor.resize();
+                this.field = this.editor.textarea;
+                //grab change and blur events and pass them on for the editor
+                this.editor.addEvents({
+                    'editorChange': function(){
+                        this.fireEvent('change', this);
+                    }.bind(this),
+                    'editorBlur': function(){
+                        this.fireEvent('blur',this);
+                    }.bind(this)
+                });
+            }
+        } else {
+            //we would need to wait until the field is visible before we can render the editor
+            //simply delay this function for a seconds and then try again
+            this.delay = this.createEditor.delay(1000, this);
         }
     },
 

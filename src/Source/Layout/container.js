@@ -145,7 +145,7 @@ Jx.Container = new Class({
         
         if (options.layoutManager === null || 
             options.layoutManager === undefined) {
-            layoutManager = new Jx.LayoutManager.Fill();
+            this.layoutManager = new Jx.LayoutManager.Fill();
         } else {
             var t = typeOf(options.layoutManager);            
             if (t == 'string') {
@@ -158,11 +158,8 @@ Jx.Container = new Class({
         }
         this.layoutManager.setContainer(this);
         
-        
-        if (this.options.topLevel) {
-            //The container fills the DOM object that it's contained in.
-            new Jx.Layout(this.domObj).resize();
-        }
+        //Container should always fill the DOM object it's in
+        new Jx.Layout(this.domObj).resize();
 
         this.add(this.options.items);
         
@@ -199,6 +196,9 @@ Jx.Container = new Class({
                     }
                     item.options.parent = domObj;
                     itemObj = new obj(item.options);
+                    if (itemObj.resize) {
+                        itemObj.resize();
+                    }
                 } else if (item.id !== null && item.id !== undefined) {
                     itemObj = document.id(item.id);
                     document.id(itemObj).inject(domObj);
@@ -206,10 +206,12 @@ Jx.Container = new Class({
                 
                 this.items.push(itemObj);
             }
+            this.fireEvent('jxContainerWidgetAdded', [itemObj, item,this])
         }, this);
     },
 
     resize: function(){
+        this.domObj.resize();
         this.layoutManager.resize();
         //loop through items and if it's a container, or it has a resize() method,
         //call it's resize method

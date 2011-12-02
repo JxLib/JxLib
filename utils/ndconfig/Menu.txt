@@ -86,7 +86,7 @@ Group: Jx  {
             }  # Group: Grid
 
          File: Jx...Form.InlineErrors  (Plugins/form.InlineErrors.js)
-         File: Jx...Panel.Notifier  (Plugins/panel.notifier.js)
+         File: Jx...Form.Notifier  (Plugins/form.notifier.js)
          File: Jx...ToolbarContainer.TabMenu  (Plugins/toolbarContainer.tabMenu.js)
          File: Jx...Tree.Sorter  (Plugins/tree.sorter.js)
          File: Jx.Plugin.Panel  (Plugins/plugin.panel.js)
@@ -153,7 +153,6 @@ Group: Jx  {
       File: Panel.DataView  (Panel/dataview.js)
       File: Panel.DataView.Group  (Panel/group.js)
       File: Panel.FileUpload  (Panel/upload.js)
-      File: Panel.Form  (Panel/panel.form.js)
       File: PanelSet  (Panel/panelset.js)
 
       Group: Plugins  {

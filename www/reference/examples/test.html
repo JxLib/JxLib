@@ -23,6 +23,35 @@ if($(document).getElements('.tabContentActiveExamples').length > 0) {
 <script id="hToolbarScript" type="text/javascript">
 function testFn() {
     
+    var data = [];
+    for (i = 1; i < 30; i++) {
+        data.push({id: i, label: 'test' + i});
+    }
+    var parser = new Jx.Store.Parser.JSON();
+    var paginate = new Jx.Store.Strategy.Paginate({
+        startingItemsPerPage: 10  
+    });
+  
+    var store = new Jx.Store({
+        fields: [{
+            name: 'label',
+            type: 'alphanumeric'
+        }, {
+            name: 'id',
+            type: 'numeric'
+        }],
+        protocol: new Jx.Store.Protocol.Local(data, {
+            parser: parser
+        }),
+        strategies: [paginate],
+        record: Jx.Record,
+        recordOptions: {
+            primaryKey: 'id'
+        }
+    });
+    
+    store.load();
+    
     new Jx.Container({
         parent: 'body',
         layoutManager: 'anchored',
@@ -38,7 +67,7 @@ function testFn() {
             'class': Jx.Panel,
             options: {
                 image: 'images/page_white_world.png',
-                label: 'Left Panel',
+                label: 'Just a Panel',
                 content: 'layoutOffsetElement2',
                 loadOnDemand: true,   // this option is ignored in panels
                 menu: true,
@@ -54,7 +83,142 @@ function testFn() {
             //center panel
             'class': Jx.TabBox,
             options: {
-                id: 'centerTabBox'
+                id: 'centerTabBox',
+                items: [{
+                    'class': 'tab',
+                    options: {
+                        image: 'images/star.png',
+                        content: 'starContent'
+                    }
+                },{
+                    'class': 'tab',
+                    options: {
+                        label: 'Embedded Panel',
+                        items: [{
+                            'class': 'panel',
+                            options: {
+                                label: 'Panel in a Tab',
+                                collapse: false,
+                                content: '<p>This is a panel embedded in a tab.</p>'
+                            }
+                        }]
+                    }
+                },{
+                    'class': 'tab',
+                    options: {
+                        label: 'A Form in a tab',
+                        image: 'images/page_white_world.png',
+                        items: [{
+                            'class': 'form',
+                            options: {
+                                name: 'testForm',
+                                formClass: 'jxFormInlineblock',
+                                items: ['layoutOffsetElement4',
+                                    new Element('p', {
+                                        html: 'This is a paragraph that was added to the form.'
+                                    }),{
+                                        'class': 'text',
+                                        options: {
+                                            label: 'First example textbox',
+                                            name: 'textbox-1',
+                                            id: 'textbox-1'
+                                        }
+                                    },{
+                                        'class': 'fieldset',
+                                        options: {
+                                            legend: 'Fieldset #1',
+                                            items: [
+                                                {
+                                                    'class': 'text',
+                                                    options: {
+                                                        label: 'first child in frameset',
+                                                        id: 'frame-text-1',
+                                                        name: 'frame-text-1',
+                                                        required: true
+                                                    }
+                                                },{
+                                                    'class': 'checkbox',
+                                                    options: {
+                                                        label: 'a checkbox',
+                                                        id: 'checkbox-1',
+                                                        name: 'checkbox-1'
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },{
+                                        'class': 'editor',
+                                        options: {
+                                            name: 'description',
+                                            label: 'Description',
+                                            id: 'description',
+                                            required: true,
+                                            value: '',
+                                            editorOptions: {
+                                                editorCssFile: 'css/editor.css',
+                                                buttons: [
+                                                    ['bold','italic','underline','strikethrough','separator','alignment',
+                                                      'separator','orderedlist','unorderedlist','indent','outdent','separator','undo','redo'],
+                                                    [{ name: 'customStyles',
+                                                       options: {
+                                                           styles: ['small','large','hide','quiet','loud','highlight',
+                                                                'added','removed','first','last','top','bottom']
+                                                        }
+                                                    },'block', 'separator', 'link','unlink', 'image','separator', 'toggle']
+                                                ]
+                                            }
+                                        }
+                                    }       
+                                ],
+                                plugins: [{
+                                    name: 'validator',
+                                    options: {
+                                        fields: {
+                                            'textbox-1': {
+                                                validators: ['minLength:5', 'maxLength:10']
+                                            },
+                                            'frame-text-1': {
+                                                //Need to add the empty validators array which will force it to
+                                                //also pick up the required option in the field itself.
+                                                validators: []
+                                            },
+                                            'description': {
+                                                validators: []
+                                            }
+                                        }
+                                    }
+                                },{
+                                    name: 'notifier',
+                                    options: {
+                                        notifierType: 'inline'
+                                    }
+                                }]
+                            }
+                        }]
+                    }
+                },{
+                    'class': 'tab',
+                    options: {
+                        label: 'Inline Content',
+                        image: 'images/page_white_code.png',
+                        content: 'labelContent'
+                    }
+                },{
+                    'class': 'tab',
+                    options: {
+                        active: true,
+                        label: 'Center Panel',
+                        image: 'images/page_white_code.png',
+                        content: 'layoutOffsetElement3'
+                    }
+                },{
+                    'class': 'tab',
+                    options: {
+                        label: 'Closeable Tab',
+                        close: true,
+                        contentURL: 'tab_content.html'
+                    }
+                }]
             },
             //id: 'layoutOffsetElement3',
             layoutOpts: {
@@ -64,7 +228,32 @@ function testFn() {
                 left: 200
             }
         },{
-            id: 'layoutOffsetElement4',
+            'class': Jx.Panel,
+            options: {
+                image: 'images/page_white_world.png',
+                label: 'ListView in a Panel',
+                loadOnDemand: true,   // this option is ignored in panels
+                menu: true,
+                //height: 200,
+                id: 'rightPanel',
+                layoutManager: 'fill',                
+                items: [{
+                    'class': 'listView',
+                    options: {
+                        id: 'listViewBox',
+                        plugins: [{
+                            name: 'Fill',
+                            options: {
+                                itemTemplate: "<li class='jxListItemContainer'><a class='jxListItem' href='javascript:void(0);'>{item}</a></li>",
+                                template: '{label}',
+                                emptyMessage: "<p>No items.</p>",
+                                store: store
+                            }
+                        }]
+                        
+                    }
+                }]
+            },
             layoutOpts: {
                 left: null,
                 top: 50,
@@ -79,51 +268,6 @@ function testFn() {
             }
         }]
     });
-    
-    //we can then add tabs to the center box by doing:
-    //eventually it would be good to have the tabbox be a container as well
-    //that way we could just add items via the items option.
-    var panel = new Jx.Panel({
-        label: 'Panel in a Tab',
-        collapse: false,
-        content: '<p>This is a panel embedded in a tab.</p>'
-    });
-
-    
-    $jx('centerTabBox').add(
-        new Jx.Tab({
-            image: 'images/star.png',
-            content: 'starContent'
-        }),
-        new Jx.Tab({
-            label: 'Embedded Panel',
-            content: panel
-        }),
-        new Jx.Tab({
-            label: 'Inline Content',
-            image: 'images/page_white_code.png',
-            content: 'labelContent'
-        }),
-         new Jx.Tab({
-            active: true,
-            label: 'Center Panel',
-            image: 'images/page_white_code.png',
-            content: 'layoutOffsetElement3'
-        }),
-        new Jx.Tab({
-            label: 'Ajax Content',
-            image: 'images/page_white_world.png',
-            contentURL: 'tab_content.html',
-            loadOnDemand: true,
-            cacheContent : false
-        }),
-        new Jx.Tab({
-            label: 'Closeable Tab',
-            close: true,
-            contentURL: 'tab_content.html'
-        })
-    );
-
     
 };
 </script>
@@ -140,6 +284,11 @@ function testFn() {
     overflow: auto;
 }
 
+.jxContainerContent .jxContainerContent {
+    margin: 0;
+    border: none;
+}
+
 </style>
 </head>
 <body>
@@ -153,7 +302,7 @@ function testFn() {
         <p>This element has variable width and height with fixed left, top, right and bottom offsets.</p>
     </div>
     <div id="layoutOffsetElement4" class="layoutElement">
-        <p>This element has variable height, fixed width and top offset, attached to the right side.</p>
+        <p>This element was pulled from the HTML and added to this form.</p>
     </div>
     <div id="layoutOffsetElement5" class="layoutElement">
         <p>This element has variable width and fixed height, attached to the bottom of the container.</p>
