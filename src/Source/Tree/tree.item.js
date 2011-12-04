@@ -9,6 +9,7 @@ license: MIT-style license.
 
 requires:
  - Jx.Widget
+ - Jx.Tree
 
 optional:
  - More/Drag

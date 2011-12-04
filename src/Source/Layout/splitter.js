@@ -302,6 +302,7 @@ Jx.Splitter = new Class({
                         this.fireEvent('cancel',[obj]);
                     }).bind(this),
                     onDrag: (function(obj, event){
+                        fn.apply(this,[obj]);
                         this.fireEvent('drag',[obj,event]);
                     }).bind(this),
                     onComplete : (function(obj) {
@@ -540,7 +541,15 @@ Jx.Splitter = new Class({
             bottomSide.resize({top: bsTop, height: bsHeight});
         }
     },
-
+    
+    /**
+     * APIMethod: resize
+     * triggers a resize of the splitter.
+     */
+    resize: function(){
+        this.sizeChanged();
+    },
+    
     /**
      * Method: sizeChanged
      * handle the size of the container being changed.

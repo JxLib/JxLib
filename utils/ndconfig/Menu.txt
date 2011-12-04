@@ -86,7 +86,7 @@ Group: Jx  {
             }  # Group: Grid
 
          File: Jx...Form.InlineErrors  (Plugins/form.InlineErrors.js)
-         File: Jx...Panel.Notifier  (Plugins/panel.notifier.js)
+         File: Jx...Form.Notifier  (Plugins/form.notifier.js)
          File: Jx...ToolbarContainer.TabMenu  (Plugins/toolbarContainer.tabMenu.js)
          File: Jx...Tree.Sorter  (Plugins/tree.sorter.js)
          File: Jx.Plugin.Panel  (Plugins/plugin.panel.js)
@@ -122,7 +122,13 @@ Group: Jx  {
 
    Group: Layout  {
 
+      File: Container  (Layout/container.js)
       File: Layout  (Layout/layout.js)
+      File: LayoutManager  (Layout/manager.js)
+      File: LayoutManager.Anchored  (Layout/manager.anchored.js)
+      File: LayoutManager.Fill  (Layout/manager.fill.js)
+      File: LayoutManager.Split  (Layout/manager.split.js)
+      File: manager.columns.js  (Layout/manager.columns.js)
       File: Splitter  (Layout/splitter.js)
       File: Splitter.Snap  (Layout/snap.js)
       }  # Group: Layout
@@ -148,7 +154,6 @@ Group: Jx  {
       File: Panel.DataView  (Panel/dataview.js)
       File: Panel.DataView.Group  (Panel/group.js)
       File: Panel.FileUpload  (Panel/upload.js)
-      File: Panel.Form  (Panel/panel.form.js)
       File: PanelSet  (Panel/panelset.js)
 
       Group: Plugins  {

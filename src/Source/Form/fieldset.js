@@ -119,7 +119,29 @@ Jx.Fieldset = new Class({
                 this.legend.destroy();
             }
         }
+        
+        if (this.options.items !== undefined && this.options.items !== null) {
+            this.addItems(this, this.options.items);
+        }
     },
+    
+    addItems: function (container, options) {
+        Object.each(options, function(opt){
+            var t = Jx.type(opt);
+            if (t === 'element' || t === 'string' || instanceOf(opt, Jx.Widget)) {
+                this.add(opt);
+            } else if (t === 'object' && opt['class'] !== undefined && opt['class'] !== null) {
+                //opt.options.parent = container;
+                opt.options.form = this;
+                if (opt['class'].toLowerCase() === 'fieldset') {
+                    this.add(new Jx.Fieldset(opt.options));
+                } else {
+                    this.add(new Jx.Field[opt['class'].capitalize()](opt.options));
+                }
+            }
+        },this);
+    },
+    
     /**
      * APIMethod: add
      * Adds fields to this fieldset
@@ -139,7 +161,7 @@ Jx.Fieldset = new Class({
                 field.form = this.form;
                 this.form.addField(field);
             }
-            this.domObj.grab(field);
+            this.domObj.grab(document.id(field));
         }
         return this;
     },
