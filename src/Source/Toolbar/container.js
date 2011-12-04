@@ -231,7 +231,7 @@ Jx.Toolbar.Container = new Class({
                     this.scrollRight.setEnabled(false);
                     this.scrollLeft.setEnabled(false);
                 }
-                this.scroller.setStyle('width', scrollerSize);
+                this.scroller.setStyle('width', scrollerSize - 1);
 
                 this.findFirstVisible();
                 this.updating = false;

@@ -156,11 +156,12 @@ Jx.Container = new Class({
                 this.layoutManger = options.layoutManager;
             }
         }
-        this.layoutManager.setContainer(this);
         
         //Container should always fill the DOM object it's in
-        new Jx.Layout(this.domObj).resize();
-
+        new Jx.Layout(this.domObj).resize();        
+        
+        this.layoutManager.setContainer(this);
+        
         this.add(this.options.items);
         
         if (this.options.resizeWithWindow || document.body == this.domObj.parentNode) {

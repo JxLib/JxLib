@@ -20,6 +20,8 @@
         var mainSplitter = new Jx.Splitter('splitMain', {
           containerOptions: [{resizeWithWindow: true,width: 200},{resizeWithWindow: true}]
         });
+        
+        mainSplitter.elements[0].set('id','splitMainLeft');
 
         var mainTabs = new Jx.TabBox({
           parent: mainSplitter.elements[1]
@@ -92,7 +94,11 @@
                 {'Page-Layout' : [
                     {'Layout' :'layout.html'},
                     {'Splitter' : 'splitter.html'},
-                    {'Splitter-Integrated' : 'splitter_advanced.html'}
+                    {'Splitter-Integrated' : 'splitter_advanced.html'},
+                    {'Container-Managers': [
+                      {'Container' : 'container.html'},
+                      {'Column-layout': 'columns.html'}
+                    ]}
                 ]},
                 {'Panels-and-Dialogs' : [
                     {'Panel' :'panel.html'},
@@ -269,14 +275,14 @@
       });
     </script>
     <style type="text/css">
-      .splitterBox { height: 600px !important; }
-      .jxSplitArea { overflow: auto; }
+      #splitMain { height: 600px !important; }
+      #splitMainLeft { overflow: auto; }
     </style>
   </head>
   <body>
     <h1>JxLib Examples</h1>
     <br />
-    <div id="splitMain" class="splitterBox"></div>
+    <div id="splitMain" class="splitterBox" ></div>
     <div id="failure" style="display:none">
       <br />
       <h2>Failure :(</h2>

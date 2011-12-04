@@ -95,6 +95,10 @@ Jx.TabSet = new Class({
             this.activeTab.content.resize({forceResize: true});
         }
     },
+    
+    resize: function(){
+        this.activeTab.resize();
+    },
 
     /**
      * Method: add
@@ -151,9 +155,7 @@ Jx.TabSet = new Class({
             this.activeTab.setActive(false);
         }
         this.activeTab = tab;
-        if (this.activeTab.content.resize) {
-          this.activeTab.content.resize({forceResize: true});
-        }
+        this.activeTab.resize();
         this.fireEvent('tabChange', [this, tab]);
     }
 });

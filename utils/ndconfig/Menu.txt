@@ -127,6 +127,7 @@ Group: Jx  {
       File: LayoutManager  (Layout/manager.js)
       File: LayoutManager.Anchored  (Layout/manager.anchored.js)
       File: LayoutManager.Fill  (Layout/manager.fill.js)
+      File: LayoutManager.Split  (Layout/manager.split.js)
       File: manager.columns.js  (Layout/manager.columns.js)
       File: Splitter  (Layout/splitter.js)
       File: Splitter.Snap  (Layout/snap.js)

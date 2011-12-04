@@ -33,6 +33,7 @@ Jx.LayoutManager.Fill = new Class({
     Family: 'Jx.LayoutManager.Fill',
     
     item: null,
+    resizing: false,
     
     add: function(obj){
         //only allow a single item in this manager because it
@@ -45,6 +46,11 @@ Jx.LayoutManager.Fill = new Class({
     },
     
     resize: function(options){
-        this.size(this.item);
+        if (!this.resizing) {
+            this.resizing = true;
+            this.size(this.item);
+            this.container.resize();
+            this.resizing = false;
+        }
     }
 });

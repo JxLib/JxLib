@@ -81,7 +81,7 @@ Jx.LayoutManager.Columns = new Class({
         }).setStyles({
             'opacity': 0.7, 
             'visibility': 'hidden'
-        }).inject(document.getElement('body'));
+        });
         
         this.columns = [];
         //create columns in the target
@@ -106,6 +106,7 @@ Jx.LayoutManager.Columns = new Class({
         this.parent(domObj);
 
         this.domObj.addClass('jxLayoutColumns');
+	this.marker.inject(this.domObj);
         this.columns.each(function(col, idx){
             col.inject(this.domObj);
             if (col.items !== undefined && col.items !== null) {
@@ -136,7 +137,7 @@ Jx.LayoutManager.Columns = new Class({
     windowResize: function () {
         var tSize = this.domObj.getContentBoxSize();
         //the -10 here is to account for any possible scrollbar on the window.
-        tSize.width -= 50;
+        //tSize.width -= 50;
         var  w = 0;
         this.options.columns.each(function(col, idx){
             var column = this.columns[idx];
@@ -378,14 +379,21 @@ Jx.LayoutManager.Columns = new Class({
     resize: function(){
         this.windowResize();
     },
+
+    resizing: false,    
     
     elsResize: function () {
-        this.items.each(function(el){
-            el = document.id(el);
-            if (el.resize) {
-                el.resize();
-            }
-        },this);
+	if (!this.resizing){
+	    this.resizing = true;
+	    this.items.each(function(el){
+		el = document.id(el);
+		if (el.resize) {
+		    el.resize();
+		}
+	    },this);
+	    this.container.resize();
+	    this.resizing = false;
+	}
     },
     /**
      * APIMethod: serialize
@@ -416,7 +424,7 @@ Jx.LayoutManager.Columns = new Class({
                 if (!widget.hasClass('jxLayoutPlaceholder')) {
                     var size = widget.getBorderBoxSize();
                     result.push({
-                        id: widget.get('id'),
+                        id: (widget.getChildren()[0]).get('id'),
                         width: size.width,
                         height: size.height,
                         column: idx,

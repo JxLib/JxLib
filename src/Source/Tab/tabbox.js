@@ -202,5 +202,12 @@ Jx.TabBox = new Class({
     remove : function(tab) {
         this.tabBar.remove(tab);
         this.tabSet.remove(tab);
+    },
+    
+    resize: function(){
+        this.domObj.resize({forceResize: true});
+        this.tabSet.resize();
+        this.tabBar.domObj.getParent('.jxBarContainer').retrieve('jxBarContainer').update();
+        this.tabBar.domObj.getParent('.jxBarContainer').addClass('jxTabBar'+this.options.position.capitalize());
     }
 });

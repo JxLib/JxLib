@@ -31,17 +31,24 @@ Jx.LayoutManager.Anchored = new Class({
     Extends: Jx.LayoutManager,
     Family: 'Jx.LayoutManager.Anchored',
 
+    resizing: false,
+    
     add: function(obj, options) {
         this.parent(obj);
         this.size(obj, options);
     },
 
     resize: function(options) {
-        //grab each child and size it again
-        Array.from(this.domObj.childNodes).each(function(child){
-            if (child.getStyle('display') != 'none') {
-                this.size(child,options);
-            }
-        }, this);
+        if (!this.resizing) {
+            this.resizing = true;
+            //grab each child and size it again
+            Array.from(this.domObj.childNodes).each(function(child){
+                if (child.getStyle('display') != 'none') {
+                    this.size(child,options);
+                }
+            }, this);
+            this.container.resize();
+            this.resizing = false;
+        }
     }
 });

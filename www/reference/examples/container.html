@@ -2,26 +2,25 @@
 <html>
 <head>
 <title>Jx Test Page</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<script type="text/javascript" src="../../lib/mootools-core.js"></script>
-<script type="text/javascript" src="../../lib/mootools-more.js"></script>
-<script type="text/javascript" src="../../lib/jxlib.standalone.uncompressed.js"></script>
-<!-- <script src="js/tests.js" type="text/javascript" charset="utf-8"></script> -->
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="lib/mootools-core.js"></script>
+<script type="text/javascript" src="lib/mootools-more.js"></script>
+<script type="text/javascript" src="lib/jxlib.standalone.uncompressed.js"></script>
+<script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/locale.js" type="text/javascript" charset="utf-8"></script>
-<link href="../../lib/themes/delicious/jxtheme.css" rel="stylesheet" type="text/css" media="screen" />
 <script type="text/javascript">
 window.addEvent('load', function() {
-    testFn();
+    drawContainerLayout();
 });
 if($(document).getElements('.tabContentActiveExamples').length > 0) {
   $(document).getElements('.tabContentActiveExamples')[0].addEvent('loadAjax', function() {
-    testFn();
+    drawContainerLayout();
   });
 }
 </script>
 
-<script id="hToolbarScript" type="text/javascript">
-function testFn() {
+<script id="containerLayoutScript" type="text/javascript">
+function drawContainerLayout() {
     
     var data = [];
     for (i = 1; i < 30; i++) {
@@ -53,7 +52,7 @@ function testFn() {
     store.load();
     
     new Jx.Container({
-        parent: 'body',
+        parent: 'containerBox',
         layoutManager: 'anchored',
         topLevel: true,
         items: [{
@@ -348,25 +347,44 @@ function testFn() {
     border: none;
 }
 
+#containerBox {
+    position: relative;
+    width: 1000px;
+    height: 500px;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+}
+
 </style>
 </head>
 <body>
-    <div id="layoutOffsetElement1" class="layoutElement">
+    <h1>Jx.Container and Jx.LayoutManager (and subclasses) Example</h1>
+  
+    <h2 id="containerLayout">Example</h2>  
+    <p>
+    This example shows an advanced layout using Jx.Container and Jx.LayoutManager (including the Fill, Anchored, and Split subclasses).
+    Everything is defined as a single, nested javascript object including any plugins. The only thing setup in advance is the store needed
+    for the right hand panel's ListView.
+    </p>
+    <div id="containerBox"></div>
+    
+    
+    
+    <div id="layoutOffsetElement1">
         <p>This element has variable width and a fixed height, attached to the top of the container.</p>
     </div>
     <div id="layoutOffsetElement2">
         <p>This element has fixed width, variable height, and is attached to the left of the container.</p>
     </div>
-    <div id="layoutOffsetElement3" class="layoutElement">
+    <div id="layoutOffsetElement3">
         <p>This element has variable width and height with fixed left, top, right and bottom offsets.</p>
     </div>
-    <div id="layoutOffsetElement4" class="layoutElement">
+    <div id="layoutOffsetElement4">
         <p>This element was pulled from the HTML and added to this form.</p>
     </div>
-    <div id="layoutOffsetElement5" class="layoutElement">
+    <div id="layoutOffsetElement5">
         <p>This element has variable width and fixed height, attached to the bottom of the container.</p>
     </div>
     <div id="starContent"><p>This tab just has an image.</p></div>
-    <div id="labelContent"><p>This tab just has a label.</p></div>
 </body>
 </html>
