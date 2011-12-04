@@ -121,9 +121,10 @@ Jx.Form = new Class({
     },
     
     init: function() {
-      this.parent();
-      this.fields = {};
-      this.data = {};
+        this.fields = {};
+        this.data = {};
+        this.parent();
+      
     },
     /**
      * APIMethod: render
@@ -159,6 +160,28 @@ Jx.Form = new Class({
         if (this.options.formClass !== undefined && this.options.formClass !== null) {
             this.domObj.addClass(this.options.formClass);
         }
+        
+        if (this.options.items !== undefined && this.options.items !== null) {
+            //add the defined fields to the form
+            this.addItems(this, this.options.items);
+        }
+    },
+    
+    addItems: function (container, options) {
+        Object.each(options, function(opt){
+            var t = Jx.type(opt);
+            if (t === 'element' || t === 'string' || instanceOf(opt, Jx.Widget)) {
+                this.add(opt);
+            } else if (t === 'object' && opt['class'] !== undefined && opt['class'] !== null) {
+                opt.options.parent = container;
+                opt.options.form = this;
+                if (opt['class'].toLowerCase() === 'fieldset') {
+                    this.add(new Jx.Fieldset(opt.options));
+                } else {
+                    this.add(new Jx.Field[opt['class'].capitalize()](opt.options));
+                }
+            }
+        },this);
     },
 
     /**
@@ -169,6 +192,9 @@ Jx.Form = new Class({
      * field - <Jx.Field> to add
      */
     addField : function (field) {
+        if (this.fields === undefined || this.fields === null) {
+            this.fields = {};
+        }
         this.fields[field.id] = field;
         if (field.options.defaultAction) {
             this.defaultAction = field;
@@ -224,7 +250,7 @@ Jx.Form = new Class({
      *
      * Parameters:
      * Pass as many parameters as you like. However, they should all be
-     * <Jx.Field> objects.
+     * <Jx.Field> objects or objects that can be processed by document.id().
      */
     add : function () {
         var field;
@@ -234,11 +260,11 @@ Jx.Form = new Class({
             if (field instanceof Jx.Field && (field.form === undefined || field.form === null)) {
                 field.form = this;
                 this.addField(field);
-            } else if (field instanceof Jx.Fieldset && (field.form === undefined || field.form === null)) {
+            } else if (instanceOf(field, Jx.Fieldset) && (field.form === undefined || field.form === null)) {
                 field.form = this;
             }
             
-            this.domObj.grab(field);
+            this.domObj.grab(document.id(field));
         }
         return this;
     },

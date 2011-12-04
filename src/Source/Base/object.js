@@ -323,21 +323,28 @@ Jx.Object = new Class({
                         // that is used for locating the plugins. The default
                         // namespace is 'Other' for
                         // now until we come up with a better idea
-                      if (Jx.Plugin[this.pluginNamespace][plugin.name.capitalize()] !== undefined &&
+                        if (Jx.Plugin[this.pluginNamespace] !== undefined &&
+                          Jx.Plugin[this.pluginNamespace] !== null &&
+                          Jx.Plugin[this.pluginNamespace][plugin.name.capitalize()] !== undefined &&
                           Jx.Plugin[this.pluginNamespace][plugin.name.capitalize()] !== null) {
-                        p = new Jx.Plugin[this.pluginNamespace][plugin.name.capitalize()](plugin.options);
-                      } else {
-                        p = new Jx.Adaptor[this.pluginNamespace][plugin.name.capitalize()](plugin.options);
-                      }
+                            p = new Jx.Plugin[this.pluginNamespace][plugin.name.capitalize()](plugin.options);
+                        } else if (Jx.Adaptor[this.pluginNamespace] !== undefined &&
+                          Jx.Adaptor[this.pluginNamespace] !== null &&
+                          Jx.Adaptor[this.pluginNamespace][plugin.name.capitalize()] !== undefined &&
+                          Jx.Adaptor[this.pluginNamespace][plugin.name.capitalize()] !== null) {
+                            p = new Jx.Adaptor[this.pluginNamespace][plugin.name.capitalize()](plugin.options);
+                        } else {
+                            return;          
+                        }
                         p.attach(this);
                     } else if (Jx.type(plugin) === 'string') {
                         //this is a name for a plugin.
-                      if (Jx.Plugin[this.pluginNamespace][plugin.capitalize()] !== undefined &&
-                          Jx.Plugin[this.pluginNamespace][plugin.capitalize()] !== null) {
-                        p = new Jx.Plugin[this.pluginNamespace][plugin.capitalize()]();
-                      } else {
-                        p = new Jx.Adaptor[this.pluginNamespace][plugin.capitalize()]();
-                      }
+                        if (Jx.Plugin[this.pluginNamespace][plugin.capitalize()] !== undefined &&
+                            Jx.Plugin[this.pluginNamespace][plugin.capitalize()] !== null) {
+                            p = new Jx.Plugin[this.pluginNamespace][plugin.capitalize()]();
+                        } else {
+                            p = new Jx.Adaptor[this.pluginNamespace][plugin.capitalize()]();
+                        }
                         p.attach(this);
                     }
                 }, this);
@@ -425,6 +432,7 @@ Jx.Object = new Class({
         if (Object.keys(this.plugins).contains(name)) {
             return this.plugins[name];
         }
+        return null;
     },
 
     /**

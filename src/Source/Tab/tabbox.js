@@ -103,7 +103,8 @@ Jx.TabBox = new Class({
             toolbars: [this.tabBar],
             hideTitle: true,
             height: this.options.height,
-            width: this.options.width
+            width: this.options.width,
+            id: this.options.id
         });
         this.panel.domObj.addClass('jxTabBox');
         this.tabSet = new Jx.TabSet(this.panel.content);
@@ -136,7 +137,36 @@ Jx.TabBox = new Class({
         
         this.panel.domObj.replaces(this.domObj);
         this.domObj = this.panel.domObj;
+        this.domObj.store('jxWidget', this);
         this.domObj.resize({forceResize: true});
+        
+        //add items to this if we have them
+        if (this.options.items !== undefined && this.options.items !== null) {
+            Array.from(this.options.items).each(function(item){
+                if (item['class'] == 'tab' || instanceOf(item['class'], Jx.Tab)) {
+                    item.options = (item.options)?item.options:{};
+                    var obj;                    
+                    if (typeOf(item['class']) == 'string') {
+                        var parts = item['class'].split('.');
+                        parts = parts.map(function(p){
+                            return p.capitalize();    
+                        },this);
+                        obj = Object.getFromPath(Jx,parts);
+                    } else {
+                        obj = item['class'];
+                    }
+                    itemObj = new obj(item.options);
+                    this.add(itemObj);
+                    if (itemObj.resize) {
+                        itemObj.resize()
+                    } else if (document.id(itemObj).resize) {
+                        document.id(itemobj).resize();
+                    }
+                }
+            },this);
+        }
+        
+
         
     },
     /**
@@ -172,5 +202,12 @@ Jx.TabBox = new Class({
     remove : function(tab) {
         this.tabBar.remove(tab);
         this.tabSet.remove(tab);
+    },
+    
+    resize: function(){
+        this.domObj.resize({forceResize: true});
+        this.tabSet.resize();
+        this.tabBar.domObj.getParent('.jxBarContainer').retrieve('jxBarContainer').update();
+        this.tabBar.domObj.getParent('.jxBarContainer').addClass('jxTabBar'+this.options.position.capitalize());
     }
 });

@@ -298,10 +298,20 @@ Jx.Panel = new Class({
         }
 
         new Jx.Layout(this.contentContainer);
-        new Jx.Layout(this.content);
+        
 
         if(this.shouldLoadContent()) {
+          new Jx.Layout(this.content);
           this.loadContent(this.content);
+        } else if (this.options.items !== null && this.options.items !== undefined) {
+            this.content.destroy();
+            delete this.options.template;
+            this.container = new Jx.Container(Object.merge({},this.options,{
+                parent: this.contentContainer    
+            }));
+            this.content = document.id(this.container);
+        } else {
+            new Jx.Layout(this.content);
         }
 
         this.toggleCollapse(this.options.closed);
@@ -309,11 +319,9 @@ Jx.Panel = new Class({
         this.addEvent('addTo', function() {
             this.domObj.resize();
         });
-        /* Should be handled by Jx.Widget.render();
-        if (this.options.parent) {
-            this.addTo(this.options.parent);
-        }
-        */
+        
+        this.resize();
+
     },
 
     /**
@@ -585,6 +593,19 @@ Jx.Panel = new Class({
      * Method to be able to allow loadingOnDemand in subclasses but not here
      */
     shouldLoadContent: function() {
-      return true;
+        if ((this.options.content !== undefined && this.options.content !== null) ||
+            (this.options.contentURL !== undefined && this.options.contentURL !== null)) {
+            return true;
+        } else {
+            return false; 
+        }
+      
+    },
+    
+    resize: function(){
+        this.domObj.resize();        
+        if (instanceOf(this.container, Jx.Container)) {
+            this.container.resize();
+        }
     }
 });

@@ -65,7 +65,7 @@ Jx.Adaptor.Tree.Object = new Class({
          */
         itemOptions: {
             active : false
-        }
+        },
         /*
          * Option: labelProperty
          *	configure the property of the label in the objects of the data. 

@@ -169,7 +169,14 @@ Jx.Widget = new Class({
          * render() at some later time. The only drawback to doing so will be
          * the loss of preRender and postRender events.
          */
-        deferRender: false
+        deferRender: false,
+        /**
+         * Option: parent
+         * Indicates the parent of the widget. We will put the domObj inside this
+         * parent before any rendering happens so that size calculations will 
+         * work properly. Default is null which doesn't put this anywhere.
+         */
+        //parent: null
     },
 
     /**
@@ -802,12 +809,10 @@ Jx.Widget = new Class({
             this.domObj.set('id', this.options.id);
           }
           //if a parent is passed in add this widget to it
-          if (this.options.parent !== undefined &&
-              this.options.parent !== null &&
-              Jx.type(this.options.parent) != 'function') {
-            if (this.options.parent == 'body') {
-                this.options.parent = document.id(document.body);
-            }
+          if (this.options.parent !== undefined && this.options.parent !== null) {
+            if (typeOf(this.options.parent) == 'string' && this.options.parent.toLowerCase() == 'body') {
+                this.options.parent = document.body;
+            } 
             this.addTo(this.options.parent);
           }
           //TODO: Should we autogenerate an id when one is not provided? like so...

@@ -1,7 +1,7 @@
 /*
 ---
 
-name: Jx.Plugin.Panel.Notifier
+name: Jx.Plugin.Form.Notifier
 
 description: Plugin to Form.Panel to display error using a Jx.Notifier
 
@@ -11,13 +11,13 @@ requires:
  - Jx.Plugin.Panel
  - Jx.Notifier
 
-provides: [Jx.Plugin.Panel.Notifier]
+provides: [Jx.Plugin.Form.Notifier]
 
 ...
  */
 // $Id$
 /**
- * Class: Jx.Plugin.Panel.Notifier
+ * Class: Jx.Plugin.Form.Notifier
  *
  * Extends: <Jx.Plugin>
  *
@@ -29,11 +29,11 @@ provides: [Jx.Plugin.Panel.Notifier]
  *
  * This file is licensed under an MIT style license
  */
-Jx.Plugin.Panel.Notifier = new Class({
+Jx.Plugin.Form.Notifier = new Class({
 
     Extends : Jx.Plugin,
-    Family: "Jx.Plugin.FormPanel.ErrorDisplayTop",
-    name: 'Form.Validator',
+    Family: "Jx.Plugin.Form.Notifier",
+    name: 'Form.Notifier',
 
     options: {
         /**
@@ -55,19 +55,19 @@ Jx.Plugin.Panel.Notifier = new Class({
         this.parent();
         this.bound = {
             postInit: this.onPostInit.bind(this),
-            fieldPassed: this.onFieldPassed.bind(this),
-            fieldFailed: this.onFieldFailed.bind(this)
+            fieldValidationPassed: this.onFieldPassed.bind(this),
+            fieldValidationFailed: this.onFieldFailed.bind(this)
         };
         this.notices = {};
     },
     
-    attach: function(panel){
-        this.parent(panel);
-        this.panel = panel;
+    attach: function(form){
+        this.parent(form);
+        this.form = form;
         
         //listen for the validation errors
         //and wait for postInit to add the notifier.
-        panel.addEvents(this.bound);
+        form.addEvents(this.bound);
     },
     
     onPostInit: function(){
@@ -76,17 +76,17 @@ Jx.Plugin.Panel.Notifier = new Class({
             this.notifier = this.options.notifierType;
         } else if (this.options.notifierType === 'inline') {
             this.notifier = new Jx.Notifier();
-            this.notifier.addTo(this.panel.content,'top');
+            this.notifier.addTo(document.id(this.form),'top');
         } else {
             this.notifier = new Jx.Notifier.Float({parent: document.body});
         }
-        this.panel.removeEvent('postInit',this.bound.postInit);
+        this.form.removeEvent('postInit',this.bound.postInit);
     },
     /**
      * APIMethod: detach
      */
     detach: function() {
-        
+        this.form.removeEvents(this.bound);
     },
 
     onFieldPassed: function (field, validator, panel) {
@@ -96,6 +96,9 @@ Jx.Plugin.Panel.Notifier = new Class({
     },
     
     onFieldFailed: function (field, validator, panel) {
+        if (this.notices[field.id] !== undefined && this.notices[field.id] !== null) {
+            this.notices[field.id].close();
+        }
         var errs = validator.getErrors();
         var text = field.name + " has the following errors: " + errs.join(",") + ".";
         var notice = new Jx.Notice.Error({

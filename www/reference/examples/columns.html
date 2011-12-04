@@ -2,26 +2,33 @@
 <html>
 <head>
 <title>Jx.Toolbar Examples</title>
-
-    <link type="text/css" rel="stylesheet" href="../../lib/themes/crispin/jxtheme.uncompressed.css">
-
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 <script type="text/javascript" src="lib/mootools-core.js"></script>
 <script type="text/javascript" src="lib/mootools-more.js"></script>
 <script type="text/javascript" src="lib/jxlib.standalone.uncompressed.js"></script>
+<script src="js/tests.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/locale.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
 window.addEvent('load', function() {
-    testFn();
+    columnLayout();
 });
+
+console.log($(document).getElements('.tabContentActiveExamples'));
+if($(document).getElements('.tabContentActiveExamples').length > 0) {
+  $(document).getElements('.tabContentActiveExamples')[0].addEvent('loadAjax', function() {
+
+    columnLayout();
+
+  });
+}
 
 </script>
 
-<script id="hToolbarScript" type="text/javascript">
-function testFn() {
+<script id="columnLayoutScript" type="text/javascript">
+function columnLayout() {
     
     var container = new Jx.Container({
-        parent: 'body',
+        parent: 'containerBox',
         topLevel: true,
         layoutManager: {
             name: 'columns',
@@ -129,9 +136,23 @@ function testFn() {
     container.resize();
 }
 </script>
-
+<style>
+    #containerBox {
+        position: relative;
+        width: 80%;
+        height: 700;
+        margin: 0 auto;
+    }
+</style>
 </head>
 <body>
-
+    <h1>Jx.LayoutManager.Columns Example</h1>
+  
+    <h2 id="columnLayout">Column Layout Example</h2>  
+    <p>
+    This example shows a container with a columnar layout defined entirely as a javascript object. Check the source to see how it was done. You can
+    drag and drop panels between columns by clicking and dragging on the panel header.
+    </p>
+    <div id="containerBox"></div>
 </body>
 </html>

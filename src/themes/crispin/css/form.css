@@ -35,6 +35,14 @@
   color: #000;
 }
 
+/*
+ provide a base margin/padding when a form is inside a panel
+*/
+.jxPanelContent .jxForm {
+  margin: 5px;
+  padding: 2px;
+}
+
 .jxFieldset {
   display: block;
   position: relative;

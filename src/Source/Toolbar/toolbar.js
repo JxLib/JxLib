@@ -91,7 +91,7 @@ Jx.Toolbar = new Class({
      * if any menu in the toolbar is active and this is how they
      * find out.
      */
-    isActive : false,
+    active : false,
     options: {
         /* Option: position
          * the position of this toolbar in the container.  The position
@@ -262,7 +262,7 @@ Jx.Toolbar = new Class({
      * {Boolean}
      */
     isActive: function() {
-        return this.isActive;
+        return this.active;
     },
     /**
      * Method: setActive
