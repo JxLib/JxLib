@@ -97,7 +97,7 @@ if (typeof Jx === 'undefined') {
   var Jx = {};
 }
 
-Jx.version = "3.1-beta2";
+Jx.version = "3.1-beta3";
 
 /**
  * APIProperty: {String} debug
