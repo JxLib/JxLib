@@ -19,7 +19,7 @@ provides: [Jx.Field.NumberSpinner]
  * Class: Jx.Field.NumberSpinner
  *
  * A Jx.Widget that provides a Text Field with two buttons that fires events
- * and will spin numbers up and down
+ * and will spin numbers up and down 
  *
  * Example:
  * (code)
@@ -45,6 +45,7 @@ Jx.Field.NumberSpinner = new Class({
     
     options: {
         allowNegative: true,
+        step: 1,
         value: 0
     },
     
@@ -64,13 +65,13 @@ Jx.Field.NumberSpinner = new Class({
     
     onSpinUp: function(){
         var num = this.getValue().toInt();
-        num++;
+        num+=this.options.step;
         this.setValue(num);
     },
     
     onSpinDown: function(){
         var num = this.getValue().toInt();
-        num--;
+        num-=this.options.step;
         if (!this.options.allowNegative && num < 0){
             num = 0;
         }
