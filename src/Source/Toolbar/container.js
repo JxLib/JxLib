@@ -110,12 +110,14 @@ Jx.Toolbar.Container = new Class({
          * template
          */
         if (document.id(this.options.parent)) {
-            this.domObj = document.id(this.options.parent);
             this.elements = {
-                'jxBarContainer': this.domObj
+                'jxBarContainer': document.id(this.options.parent)
             };
+            var temp = this.domObj;
+            this.domObj = this.elements['jxBarContainer'];
             this.domObj.addClass('jxBarContainer');
             this.domObj.grab(this.controls);
+            temp.destroy();
             this.domObj.addEvent('sizeChange', this.update);
         }
 
@@ -199,6 +201,9 @@ Jx.Toolbar.Container = new Class({
                     this);
 
                     var scrollerSize = tbcSize;
+                    
+                    //account for control size as we never hide it
+                    scrollerSize -= this.controls.getMarginBoxSize().width;
 
                     if (s === 0) {
                         this.scrollLeft.setEnabled(false);
@@ -207,9 +212,7 @@ Jx.Toolbar.Container = new Class({
 
 
                         var leftMargin = this.wrapper.getStyle('margin-left').toInt();
-                        scrollerSize -= this.controls.getMarginBoxSize().width;
-
-
+                        
                         if (leftMargin < 0) {
                             //has been scrolled left so activate the right scroller
                             this.scrollLeft.setEnabled(true);
@@ -231,7 +234,9 @@ Jx.Toolbar.Container = new Class({
                     this.scrollRight.setEnabled(false);
                     this.scrollLeft.setEnabled(false);
                 }
-                this.scroller.setStyle('width', scrollerSize - 1);
+                //due to rounding errors, we reduce by 3 just to make sure we leave
+                //ample room for the buttons to show
+                this.scroller.setStyle('width', ((scrollerSize <= 0)? 0:scrollerSize - 3));
 
                 this.findFirstVisible();
                 this.updating = false;

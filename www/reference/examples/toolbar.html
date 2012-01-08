@@ -14,6 +14,10 @@ window.addEvent('load', function() {
     vToolbar();
     drawMultiToolbar();
     drawAlignedToolbar();
+    
+    //after everything fire a window resize event to ensure everything
+    //is drawn correctly.
+    window.fireEvent('resize');
 });
 if($(document).getElements('.tabContentActiveExamples').length > 0) {
   $(document).getElements('.tabContentActiveExamples')[0].addEvent('loadAjax', function() {
@@ -21,6 +25,7 @@ if($(document).getElements('.tabContentActiveExamples').length > 0) {
     vToolbar();
     drawMultiToolbar();
     drawAlignedToolbar();
+    window.fireEvent('resize');
   });
 }
 </script>
