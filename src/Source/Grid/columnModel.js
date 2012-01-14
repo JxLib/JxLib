@@ -310,7 +310,7 @@ Jx.Grid.ColumnModel = new Class({
       });
       tr.set('html', this.rowTemplate.substitute(data));
       domInserts.each(function(obj) {
-        tr.childNodes[obj.index].adopt(obj.column.getHTML());
+        document.id(tr.childNodes[obj.index]).adopt(obj.column.getHTML());
       });
     },
 
