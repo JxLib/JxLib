@@ -21,6 +21,7 @@
 
 .jxEditor span.jxEditorToolbar label.jxInputLabel {
     width: auto;
+    display: inline;
 }
 
 /**
