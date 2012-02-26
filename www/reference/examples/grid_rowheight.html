@@ -169,7 +169,7 @@ function drawGrid() {
         {'header': 'Other Countries', '2002': '-12,281.90', '2003': '-13,360.40', '2004': '-16,778.20', '2005': '-25,369.40', '2006': '-28,561.30', '2007': '-27,013.60'}
     ]);
     
-    var parser = new Jx.Store.Parser.JSON();
+    var parser = new Jx.Data.Parser.JSON();
     var full = new Jx.Store.Strategy.Full();
     var store = new Jx.Store({
         columns: [
@@ -182,7 +182,7 @@ function drawGrid() {
             {name: '2007', type: 'currency'},
             {name: 'description', type: 'alphanumeric'}
         ],
-        protocol: new Jx.Store.Protocol.Local(data,{parser: parser}),
+        protocol: new Jx.Data.Protocol.Local(data,{parser: parser}),
         strategies: [full],
         record: Jx.Record
     });

@@ -27,7 +27,7 @@ function testFn() {
     for (i = 1; i < 30; i++) {
         data.push({id: i, label: 'test' + i});
     }
-    var parser = new Jx.Store.Parser.JSON();
+    var parser = new Jx.Data.Parser.JSON();
     var paginate = new Jx.Store.Strategy.Paginate({
         startingItemsPerPage: 10  
     });
@@ -40,7 +40,7 @@ function testFn() {
             name: 'id',
             type: 'numeric'
         }],
-        protocol: new Jx.Store.Protocol.Local(data, {
+        protocol: new Jx.Data.Protocol.Local(data, {
             parser: parser
         }),
         strategies: [paginate],

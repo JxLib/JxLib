@@ -3,7 +3,7 @@ module.exports = function(config,logger) {
     return {
         name: "deploy",
         description: "Deploy JxLib",
-        depends: ["tests","docs"],
+        depends: ["tests","docs","require"],
         tasks: [{
             echo: "Deploying files"
         },{
