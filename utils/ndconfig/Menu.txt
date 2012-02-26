@@ -46,233 +46,249 @@ Format: 1.4
 # --------------------------------------------------------------------------
 
 
+File: base.js  (base.js)
+
 Group: Jx  {
 
-   File: Plugin  (Plugins/plugin.js)
-   File: Adaptor  (Adaptors/adaptor.js)
+   File: Adaptor  (jx/adaptor.js)
+
+   Group: Adaptor  {
+
+      File: Adapter.Tree.Object  (jx/adaptor/tree/object.js)
+      File: Adapter.Tree.Parent  (jx/adaptor/tree/parent.js)
+      File: Adaptor.Combo  (jx/adaptor/combo.js)
+      File: Adaptor.Tree  (jx/adaptor/tree.js)
+      File: Adaptor.Tree.Mptt  (jx/adaptor/tree/mptt.js)
+      File: combo/fill.js  (jx/adaptor/combo/fill.js)
+      }  # Group: Adaptor
+
+   File: Button  (jx/button.js)
 
    Group: Button  {
 
-      File: Button.Flyout  (Button/flyout.js)
-      File: Button.Color  (Button/color.js)
-      File: Button.Multi  (Button/multi.js)
-      File: ButtonSet  (Button/set.js)
-      File: Button  (Button/button.js)
+      File: Button.Color  (jx/button/color.js)
+      File: Button.Flyout  (jx/button/flyout.js)
+      File: Button.Multi  (jx/button/multi.js)
+      File: ButtonSet  (jx/button/set.js)
       }  # Group: Button
 
-   Group: Grid  {
-
-      File: Grid  (Grid/grid.js)
-      File: Grid.Column  (Grid/column.js)
-      File: Grid.ColumnModel  (Grid/columnModel.js)
-      File: Grid.Renderer  (Grid/renderer.js)
-      File: Grid.Renderer.Button  (Grid/renderer.button.js)
-      File: Grid.Renderer.CheckBox  (Grid/renderer.checkbox.js)
-      File: Grid.Renderer.Text  (Grid/renderer.text.js)
-      File: Grid.RowModel  (Grid/rowModel.js)
-
-      Group: Plugins  {
-
-         File: buttons  (Plugins/editor/editor.buttonset.js)
-
-         Group: Grid  {
-
-            File: Grid  (Plugins/grid/plugin.grid.js)
-            File: Grid.Editor  (Plugins/grid/grid.editor.js)
-            File: Grid.Prelighter  (Plugins/grid/grid.prelighter.js)
-            File: Grid.Resize  (Plugins/grid/grid.resize.js)
-            File: Grid.Selector  (Plugins/grid/grid.selector.js)
-            File: Grid.Sorter  (Plugins/grid/grid.sorter.js)
-            }  # Group: Grid
-
-         File: Jx...Form.InlineErrors  (Plugins/form.InlineErrors.js)
-         File: Jx...Form.Notifier  (Plugins/form.notifier.js)
-         File: Jx...ToolbarContainer.TabMenu  (Plugins/toolbarContainer.tabMenu.js)
-         File: Jx...Tree.Sorter  (Plugins/tree.sorter.js)
-         File: Jx.Plugin.Panel  (Plugins/plugin.panel.js)
-         File: Jx.Plugin.Toolbar  (Plugins/plugin.toolbarContainer.js)
-         File: Jx.Plugin.Tree  (Plugins/plugin.tree.js)
-         }  # Group: Plugins
-
-      }  # Group: Grid
-
-   Group: Extras  {
-
-      File: ColorPalette  (Extras/colorpalette.js)
-      File: DatePicker  (Extras/datepicker.js)
-      File: Editor  (Extras/editor.js)
-      File: Editor.Selection  (Extras/editor.selection.js)
-      File: MonthPicker  (Extras/monthpicker.js)
-      File: Notice  (Extras/notice.js)
-      File: Notifier  (Extras/notifier.js)
-      File: Notifier.Float  (Extras/notifier.float.js)
-      File: Progressbar  (Extras/progressbar.js)
-      File: Scrollbar  (Extras/scrollbar.js)
-      File: Slide  (Extras/slide.js)
-      File: Slider  (Extras/slider.js)
-      File: Tooltip  (Extras/tooltip.js)
-      }  # Group: Extras
-
-   Group: Tabs  {
-
-      File: Tab  (Tab/tab.js)
-      File: TabBox  (Tab/tabbox.js)
-      File: TabSet  (Tab/tabset.js)
-      }  # Group: Tabs
-
-   Group: Layout  {
-
-      File: Container  (Layout/container.js)
-      File: Layout  (Layout/layout.js)
-      File: LayoutManager  (Layout/manager.js)
-      File: LayoutManager.Anchored  (Layout/manager.anchored.js)
-      File: LayoutManager.Fill  (Layout/manager.fill.js)
-      File: LayoutManager.Split  (Layout/manager.split.js)
-      File: manager.columns.js  (Layout/manager.columns.js)
-      File: Splitter  (Layout/splitter.js)
-      File: Splitter.Snap  (Layout/snap.js)
-      }  # Group: Layout
-
-   Group: Menu  {
-
-      File: Menu  (Menu/menu.js)
-      File: Menu.Context  (Menu/context.js)
-      File: Menu.Item  (Menu/menu.item.js)
-      File: Menu.Separator  (Menu/menu.separator.js)
-      File: Menu.SubMenu  (Menu/submenu.js)
-      }  # Group: Menu
-
-   Group: Panel  {
-
-      File: Dialog  (Panel/dialog.js)
-      File: Dialog.Confirm  (Panel/confirm.js)
-      File: Dialog.Message  (Panel/message.js)
-      File: Dialog.Prompt  (Panel/prompt.js)
-      File: ListItem  (Panel/listitem.js)
-      File: ListView  (Panel/listview.js)
-      File: Panel  (Panel/panel.js)
-      File: Panel.DataView  (Panel/dataview.js)
-      File: Panel.DataView.Group  (Panel/group.js)
-      File: Panel.FileUpload  (Panel/upload.js)
-      File: PanelSet  (Panel/panelset.js)
-
-      Group: Plugins  {
-
-         File: DataView  (Plugins/plugin.dataview.js)
-         File: DataView.GroupFolder  (Plugins/dataview.groupfolder.js)
-         }  # Group: Plugins
-
-      }  # Group: Panel
-
-   Group: Toolbar  {
-
-      File: Toolbar  (Toolbar/toolbar.js)
-      File: Toolbar.Container  (Toolbar/container.js)
-      File: Toolbar.Item  (Toolbar/toolbar.item.js)
-      File: Toolbar.Pager  (Toolbar/paging.js)
-      File: Toolbar.Separator  (Toolbar/toolbar.separator.js)
-      }  # Group: Toolbar
-
-   Group: Tree  {
-
-      File: Tree  (Tree/tree.js)
-
-      Group: Adaptors  {
-
-         File: Adapter.Tree.Object  (Adaptors/tree.object.js)
-         File: Adapter.Tree.Parent  (Adaptors/tree.parent.js)
-         File: Adaptor.Combo  (Adaptors/adaptor.combo.js)
-         File: Adaptor.Tree  (Adaptors/adaptor.tree.js)
-         File: Adaptor.Tree.Mptt  (Adaptors/tree.mptt.js)
-         File: combo.fill.js  (Adaptors/combo.fill.js)
-         }  # Group: Adaptors
-
-      File: Tree.Folder  (Tree/tree.folder.js)
-      File: Tree.Item  (Tree/tree.item.js)
-      }  # Group: Tree
-
-   Group: Formatter  {
-
-      File: Formatter  (Formatter/formatter.js)
-      File: Formatter.Boolean  (Formatter/boolean.js)
-      File: Formatter.Currency  (Formatter/currency.js)
-      File: Formatter.Date  (Formatter/date.js)
-      File: Formatter.Number  (Formatter/number.js)
-      File: Formatter.Phone  (Formatter/phone.js)
-      File: Formatter.Text  (Formatter/formatter.text.js)
-      File: Formatter.URI  (Formatter/uri.js)
-      }  # Group: Formatter
+   File: ColorPalette  (jx/colorpalette.js)
+   File: Compare  (jx/compare.js)
+   File: Container  (jx/container.js)
 
    Group: Data  {
 
-      File: Compare  (Data/compare.js)
-      File: Record  (Data/record.js)
-      File: Sort  (Data/sort.js)
-      File: Sort.Heapsort  (Data/heapsort.js)
-      File: Sort.Mergesort  (Data/mergesort.js)
-      File: Sort.Nativesort  (Data/nativesort.js)
-      File: Sort.Quicksort  (Data/quicksort.js)
-      File: Store  (Data/store.js)
-      File: Store.Parser  (Data/parser.js)
-      File: Store.Parser.JSON  (Data/parser.json.js)
-      File: Store.Protocol  (Data/protocol.js)
-      File: Store.Protocol.Ajax  (Data/protocol.ajax.js)
-      File: Store.Protocol.Local  (Data/protocol.local.js)
-      File: Store.Response  (Data/response.js)
-      File: Store.Strategy  (Data/strategy.js)
-      File: Store.Strategy.Full  (Data/strategy.full.js)
-      File: Store.Strategy.Paginate  (Data/strategy.paginate.js)
-      File: Store.Strategy.Progressive  (Data/strategy.progressive.js)
-      File: Store.Strategy.Save  (Data/strategy.save.js)
-      File: Store.Strategy.Sort  (Data/strategy.sort.js)
+      File: Parser  (jx/data/parser.js)
+      File: Parser.JSON  (jx/data/parser/json.js)
+      File: Protocol  (jx/data/protocol.js)
+      File: Protocol.Ajax  (jx/data/protocol/ajax.js)
+      File: Protocol.Local  (jx/data/protocol/local.js)
+      File: Response  (jx/data/response.js)
       }  # Group: Data
 
-   Group: Form  {
+   File: DatePicker  (jx/datepicker.js)
+   File: Dialog  (jx/dialog.js)
 
-      File: Field  (Form/field.js)
-      File: Field.Button  (Form/jxbutton.js)
-      File: Field.Check  (Form/checkbox.js)
-      File: Field.Color  (Form/jxcolor.js)
-      File: Field.Combo  (Form/jxcombo.js)
-      File: Field.ComboBox  (Form/combobox.js)
-      File: Field.Date  (Form/field.date.js)
-      File: Field.Display  (Form/display.js)
-      File: Field.File  (Form/file.js)
-      File: Field.Hidden  (Form/hidden.js)
-      File: Field.NumberSpinner  (Form/numberspinner.js)
-      File: Field.OptionGroup  (Form/field.options.js)
-      File: Field.Password  (Form/password.js)
-      File: Field.Radio  (Form/radio.js)
-      File: Field.Select  (Form/select.js)
-      File: Field.Spinner  (Form/spinner.js)
-      File: Field.Text  (Form/text.js)
-      File: Field.Textarea  (Form/textarea.js)
-      File: Field.TreeCombo  (Form/treecombo.js)
-      File: Fieldset  (Form/fieldset.js)
-      File: Form  (Form/form.js)
+   Group: Dialog  {
 
-      Group: Plugins  {
+      File: Confirm  (jx/dialog/confirm.js)
+      File: Message  (jx/dialog/message.js)
+      File: Prompt  (jx/dialog/prompt.js)
+      }  # Group: Dialog
 
-         File: Field  (Plugins/plugin.field.js)
-         File: Field.Validator  (Plugins/field.validator.js)
-         File: Form  (Plugins/plugin.form.js)
-         File: Form.Validator  (Plugins/form.validator.js)
-         }  # Group: Plugins
+   File: Editor  (jx/editor.js)
+   File: Editor.Selection  (jx/editor/selection.js)
+   File: Field  (jx/field.js)
 
-      }  # Group: Form
+   Group: Field  {
 
-   Group: Base  {
+      File: Button  (jx/field/button.js)
+      File: Check  (jx/field/checkbox.js)
+      File: Color  (jx/field/color.js)
+      File: Combo  (jx/field/combo.js)
+      File: ComboBox  (jx/field/combobox.js)
+      File: Date  (jx/field/date.js)
+      File: Display  (jx/field/display.js)
+      File: File  (jx/field/file.js)
+      File: Hidden  (jx/field/hidden.js)
+      File: NumberSpinner  (jx/field/numberspinner.js)
+      File: OptionGroup  (jx/field/optiongroup.js)
+      File: Password  (jx/field/password.js)
+      File: Radio  (jx/field/radio.js)
+      File: Select  (jx/field/select.js)
+      File: Spinner  (jx/field/spinner.js)
+      File: Text  (jx/field/text.js)
+      File: Textarea  (jx/field/textarea.js)
+      File: TreeCombo  (jx/field/treecombo.js)
+      }  # Group: Field
 
-      File: Common  (no auto-title, Base/common.js)
-      File: List  (Base/list.js)
-      File: Object  (Base/object.js)
-      File: Selection  (Base/selection.js)
-      File: Stack  (Base/stack.js)
-      File: Styles  (Base/styles.js)
-      File: Widget  (Base/widget.js)
-      File: Widget.List  (Base/widget.list.js)
-      }  # Group: Base
+   File: Fieldset  (jx/fieldset.js)
+   File: Form  (jx/form.js)
+   File: Formatter  (jx/formatter.js)
 
+   Group: Formatter  {
+
+      File: Boolean  (jx/formatter/boolean.js)
+      File: Currency  (jx/formatter/currency.js)
+      File: Date  (jx/formatter/date.js)
+      File: Number  (jx/formatter/number.js)
+      File: Phone  (jx/formatter/phone.js)
+      File: Text  (jx/formatter/text.js)
+      File: URI  (jx/formatter/uri.js)
+      }  # Group: Formatter
+
+   File: Grid  (jx/grid.js)
+
+   Group: Grid  {
+
+      File: Column  (jx/grid/column.js)
+      File: ColumnModel  (jx/grid/columnmodel.js)
+      File: Renderer  (jx/grid/renderer.js)
+
+      Group: Renderer  {
+
+         File: Button  (jx/grid/renderer/button.js)
+         File: CheckBox  (jx/grid/renderer/checkbox.js)
+         File: Text  (jx/grid/renderer/text.js)
+         }  # Group: Renderer
+
+      File: RowModel  (jx/grid/rowModel.js)
+      }  # Group: Grid
+
+   File: Layout  (jx/layout.js)
+
+   Group: Layoutmanager  {
+
+      File: Anchored  (jx/layoutmanager/anchored.js)
+      File: columns.js  (jx/layoutmanager/columns.js)
+      File: Fill  (jx/layoutmanager/fill.js)
+      File: Split  (jx/layoutmanager/split.js)
+      }  # Group: Layoutmanager
+
+   File: LayoutManager  (jx/layoutmanager.js)
+   File: List  (jx/list.js)
+   File: ListItem  (jx/listitem.js)
+   File: ListView  (jx/listview.js)
+   File: Menu  (jx/menu.js)
+
+   Group: Menu  {
+
+      File: Context  (jx/menu/context.js)
+      File: Item  (jx/menu/item.js)
+      File: Separator  (jx/menu/separator.js)
+      File: SubMenu  (jx/menu/submenu.js)
+      }  # Group: Menu
+
+   File: MonthPicker  (jx/monthpicker.js)
+   File: Notice  (jx/notice.js)
+
+   Group: Notice  {
+
+      File: Error  (jx/notice/error.js)
+      File: Information  (jx/notice/information.js)
+      File: Success  (jx/notice/success.js)
+      File: Success  (jx/notice/warning.js)
+      }  # Group: Notice
+
+   File: Notifier  (jx/notifier.js)
+   File: Notifier.Float  (jx/notifier/float.js)
+   File: Object  (jx/object.js)
+   File: Panel  (jx/panel.js)
+
+   Group: Panel  {
+
+      File: DataView  (jx/panel/dataview.js)
+      File: DataView.Group  (jx/panel/dataview/group.js)
+      File: FileUpload  (jx/panel/fileupload.js)
+      }  # Group: Panel
+
+   File: PanelSet  (jx/panelset.js)
+   File: Plugin  (jx/plugin.js)
+
+   Group: Plugin  {
+
+      File: buttons  (jx/plugin/editor/buttonset.js)
+
+      Group: Form  {
+
+         File: InlineErrors  (jx/plugin/form/InlineErrors.js)
+         File: Notifier  (jx/plugin/form/notifier.js)
+         File: Validator  (jx/plugin/form/validator.js)
+         }  # Group: Form
+
+      Group: Grid  {
+
+         File: Editor  (jx/plugin/grid/editor.js)
+         File: Prelighter  (jx/plugin/grid/prelighter.js)
+         File: Resize  (jx/plugin/grid/resize.js)
+         File: Selector  (jx/plugin/grid/selector.js)
+         File: Sorter  (jx/plugin/grid/sorter.js)
+         }  # Group: Grid
+
+      File: Jx...DataView.GroupFolder  (jx/plugin/dataview/groupfolder.js)
+      File: Jx...Field.Validator  (jx/plugin/field/validator.js)
+      File: Jx...ToolbarContainer.TabMenu  (jx/plugin/toolbarcontainer/tabMenu.js)
+      File: Jx...Tree.Sorter  (jx/plugin/tree/sorter.js)
+      File: Jx.Plugin.DataView  (jx/plugin/dataview.js)
+      File: Jx.Plugin.Field  (jx/plugin/field.js)
+      File: Jx.Plugin.Form  (jx/plugin/form.js)
+      File: Jx.Plugin.Grid  (jx/plugin/grid.js)
+      File: Jx.Plugin.Panel  (jx/plugin/panel.js)
+      File: Jx.Plugin.Toolbar  (jx/plugin/toolbarcontainer.js)
+      File: Jx.Plugin.Tree  (jx/plugin/tree.js)
+      }  # Group: Plugin
+
+   File: Progressbar  (jx/progressbar.js)
+   File: Record  (jx/record.js)
+   File: Scrollbar  (jx/scrollbar.js)
+   File: Selection  (jx/selection.js)
+   File: Slide  (jx/slide.js)
+   File: Slider  (jx/slider.js)
+   File: Sort  (jx/sort.js)
+
+   Group: Sort  {
+
+      File: Heapsort  (jx/sort/heapsort.js)
+      File: Mergesort  (jx/sort/mergesort.js)
+      File: Nativesort  (jx/sort/nativesort.js)
+      File: Quicksort  (jx/sort/quicksort.js)
+      }  # Group: Sort
+
+   File: Splitter  (jx/splitter.js)
+   File: Splitter.Snap  (jx/splitter/snap.js)
+   File: Stack  (jx/stack.js)
+   File: Store  (jx/store.js)
+
+   Group: Store  {
+
+      File: Strategy  (jx/store/strategy.js)
+      File: Strategy.Full  (jx/store/strategy/full.js)
+      File: Strategy.Paginate  (jx/store/strategy/paginate.js)
+      File: Strategy.Progressive  (jx/store/strategy/progressive.js)
+      File: Strategy.Save  (jx/store/strategy/save.js)
+      File: Strategy.Sort  (jx/store/strategy/sort.js)
+      }  # Group: Store
+
+   File: Styles  (jx/styles.js)
+   File: Tab  (jx/tab.js)
+   File: TabBox  (jx/tabbox.js)
+   File: TabSet  (jx/tabset.js)
+   File: Toolbar  (jx/toolbar.js)
+
+   Group: Toolbar  {
+
+      File: Container  (jx/toolbar/container.js)
+      File: Item  (jx/toolbar/item.js)
+      File: Pager  (jx/toolbar/paging.js)
+      File: Separator  (jx/toolbar/separator.js)
+      }  # Group: Toolbar
+
+   File: Tooltip  (jx/tooltip.js)
+   File: Tree  (jx/tree.js)
+   File: Tree.Folder  (jx/tree/folder.js)
+   File: Tree.Item  (jx/tree/item.js)
+   File: Widget  (jx/widget.js)
+   File: Widget.List  (jx/widget/list.js)
    }  # Group: Jx
 
 Group: Index  {
@@ -282,8 +298,8 @@ Group: Index  {
    Constructor Index: Constructor
    Property Index: Properties
    TODO Index: TODO
-   Event Index: Events
    File Index: Files
    Function Index: Functions
+   Event Index: Events
    }  # Group: Index
 
