@@ -33,7 +33,7 @@ function setupComboAdaptor(){
         {id: 6, image: 'images/swatches.png', imageClass: 'comboYellow', label: 'Yellow'}
     ];
 
- 	var parser = new Jx.Store.Parser.JSON();
+ 	var parser = new Jx.Data.Parser.JSON();
  	var full = new Jx.Store.Strategy.Full();
 
 	var store = new Jx.Store({
@@ -50,7 +50,7 @@ function setupComboAdaptor(){
 		name: 'id',
 		type: 'numeric'
 	    }],
-	    protocol: new Jx.Store.Protocol.Local(data, {
+	    protocol: new Jx.Data.Protocol.Local(data, {
 		parser: parser
 	    }),
 	    strategies: [full],
@@ -95,7 +95,7 @@ function setupComboAdaptor2(){
         {id: 9, image: 'images/swatches.png', imageClass: 'comboYellow', label: 'Yellow'}
     ];
 
- 	var parser = new Jx.Store.Parser.JSON();
+ 	var parser = new Jx.Data.Parser.JSON();
  	var full = new Jx.Store.Strategy.Full();
 
 	var store = new Jx.Store({
@@ -112,7 +112,7 @@ function setupComboAdaptor2(){
 		name: 'id',
 		type: 'numeric'
 	    }],
-	    protocol: new Jx.Store.Protocol.Local(data, {
+	    protocol: new Jx.Data.Protocol.Local(data, {
 		parser: parser
 	    }),
 	    strategies: [full],

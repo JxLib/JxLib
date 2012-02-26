@@ -9,7 +9,7 @@ var basedir = fs.realpathSync(__dirname + "/.."),
         app: {
             name: "jxlib",
             path: "/jxlib",
-            version: "3.1b3",
+            version: "3.2-dev",
             home: basedir,
             build: basedir + "/build",
             dist: basedir + "/dist",
