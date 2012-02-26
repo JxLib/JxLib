@@ -101,7 +101,7 @@ define("jx/container", function(require, exports, module){
              * container. If an object is passed then it needs to be in the form:
              * (code)
              * {
-             *   class: Jx.Widget,    //the name of the class to create. Do NOT use quotes around it.
+             *   class: Jx.Widget|string,    //either the name of the class to create or a string. Do NOT use quotes around it if it is the actual class name.
              *   id: 'some-id',       //a string id of an existing DOM object to use (mutually exclusive with class)
              *   options: {}          //an object with the options needed to construct the class. If id is used then the only thing we look for is layoutOpts.
              *   layoutOpts: {}       //an object with the appropriate layout options as required by the chosen manager.
@@ -122,13 +122,6 @@ define("jx/container", function(require, exports, module){
              * Defaults to null.
              */
             parent: null,
-            /* Option: topLevel
-             * Indicates to the container that this is a top level container (not
-             * contained within another container) and thus shoudl fill all of the
-             * space it is given by the DOM object that it is inside of. Defaults to
-             * false.
-             */
-            topLevel: false
         },
     
         layoutManager: null,
