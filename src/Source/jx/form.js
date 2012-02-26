@@ -384,8 +384,8 @@ define("jx/form", function(require, exports, module){
             //submit to the action via the method
             var data = this.getValues();
             var req = new Request.JSON({
-                url: this.action,
-                method: this.method,
+                url: this.options.action,
+                method: this.options.method,
                 data: data,
                 urlEncoded: true,
                 onSuccess: function(responseJSON, responseText) {
