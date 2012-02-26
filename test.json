@@ -1,0 +1,434 @@
+[
+  {
+    "tags": [],
+    "description": {
+      "full": "<hr />\n\n<p>name: Common</p>\n\n<p>description: Jx namespace with methods and classes common to most Jx widgets</p>\n\n<p>license: MIT-style license.</p>\n\n<h2>requires</h2>\n\n<ul>\n<li>Core/Class</li>\n<li>Core/Element</li>\n<li>Core/Browser</li>\n<li>Core/Element.Style</li>\n<li>Core/Request</li>\n<li>Core/Class.Extras</li>\n<li>More/Class.Binds</li>\n<li>Core/Array</li>\n<li>Core/Element.Event</li>\n<li>Core/Element.Dimensions</li>\n<li>More/Element.Measure</li>\n<li>More/Locale</li>\n<li>Core/Slick.Finder</li>\n<li>Core/Slick.Parser</li>\n<li>Global</li>\n<li>Config</li>\n</ul>\n\n<p>provides: [Jx]</p>\n\n<h2>css</h2>\n\n<ul>\n<li>license</li>\n<li>reset</li>\n<li>common</li>\n</ul>\n\n<h2>images</h2>\n\n<ul>\n<li>a_pixel.png</li>\n</ul>\n\n<p>...</p>",
+      "summary": "<hr />",
+      "body": "<p>name: Common</p>\n\n<p>description: Jx namespace with methods and classes common to most Jx widgets</p>\n\n<p>license: MIT-style license.</p>\n\n<h2>requires</h2>\n\n<ul>\n<li>Core/Class</li>\n<li>Core/Element</li>\n<li>Core/Browser</li>\n<li>Core/Element.Style</li>\n<li>Core/Request</li>\n<li>Core/Class.Extras</li>\n<li>More/Class.Binds</li>\n<li>Core/Array</li>\n<li>Core/Element.Event</li>\n<li>Core/Element.Dimensions</li>\n<li>More/Element.Measure</li>\n<li>More/Locale</li>\n<li>Core/Slick.Finder</li>\n<li>Core/Slick.Parser</li>\n<li>Global</li>\n<li>Config</li>\n</ul>\n\n<p>provides: [Jx]</p>\n\n<h2>css</h2>\n\n<ul>\n<li>license</li>\n<li>reset</li>\n<li>common</li>\n</ul>\n\n<h2>images</h2>\n\n<ul>\n<li>a_pixel.png</li>\n</ul>\n\n<p>...</p>"
+    },
+    "ignore": true
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>This file will contain the base code needed to run Jx. It will be loaded by Jx.Object<br />or anything else needing it as a dependency.</p>\n\n<p>First, we need to override require's onError function so we can handle<br />missing files. In some cases, specifically plugins and adaptors, we<br />want missing files to return a null or undefined response. We use this<br />to force that behavior</p>",
+      "summary": "<p>This file will contain the base code needed to run Jx. It will be loaded by Jx.Object<br />or anything else needing it as a dependency.</p>",
+      "body": "<p>First, we need to override require's onError function so we can handle<br />missing files. In some cases, specifically plugins and adaptors, we<br />want missing files to return a null or undefined response. We use this<br />to force that behavior</p>"
+    },
+    "ignore": true,
+    "code": "require.onError = function (err) {\n   //for now, log the error then throw it until we debug a bit and\n   //decide what to do\n   console.log(err);\n   throw err;\n};",
+    "ctx": {
+      "type": "method",
+      "receiver": "require",
+      "name": "onError",
+      "string": "require.onError()"
+    }
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>The config dependency should be declared by the main html page and is used to pass<br />configuration options to this code. If you don't have any configuration to pass,<br />this will load the default config.js file in the same directory as this file<br />which passes a null reference. If you want to provide options, do the following</p>\n\n<h2>on the main HTML page</h2>\n\n<p>define('config', function(require, exports, module){<br />  module.exports = {...};  //create config object here<br />});</p>\n\n<p>We will also need to make sure core and more are available in this same directory<br />as well until they support AMD. Once they support AMD we will need to change these<br />to match the above dependencies.</p>",
+      "summary": "<p>The config dependency should be declared by the main html page and is used to pass<br />configuration options to this code. If you don't have any configuration to pass,<br />this will load the default config.js file in the same directory as this file<br />which passes a null reference. If you want to provide options, do the following</p>\n\n<h2>on the main HTML page</h2>",
+      "body": "<p>define('config', function(require, exports, module){<br />  module.exports = {...};  //create config object here<br />});</p>\n\n<p>We will also need to make sure core and more are available in this same directory<br />as well until they support AMD. Once they support AMD we will need to change these<br />to match the above dependencies.</p>"
+    },
+    "ignore": false,
+    "code": "define('base',function(require, exports, module){\n    \n    var base = module.exports,\n        config = require('config');\n    \n    if (typeof Jx != 'undefined') {\n        exports.global = Jx;\n        //move any global config to the base\n        Object.append(base, exports.global);\n    } else if (config !== null && config !== undefined) {\n        //add in any config passed in\n        Object.append(base, config);\n    }\n    \n    base.version = \"3.2-dev\";"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Function: $jx<br />dereferences a DOM Element to a JxLib object if possible and returns<br />a reference to the object, or null if not defined.</p>\n\n<p>TODO: need to decide if this would be better in the Widget class, accessed<br />either by (Jx.)Widget.getWidget(id) or this.getWidget(id) inside a widget class.</p>",
+      "summary": "<p>Function: $jx<br />dereferences a DOM Element to a JxLib object if possible and returns<br />a reference to the object, or null if not defined.</p>",
+      "body": "<p>TODO: need to decide if this would be better in the Widget class, accessed<br />either by (Jx.)Widget.getWidget(id) or this.getWidget(id) inside a widget class.</p>"
+    },
+    "ignore": false,
+    "code": "base.getWidget = window.$jx = function(id) {\n      var widget = null;\n      id = document.id(id);\n      if (id) {\n        widget = id.retrieve('jxWidget');\n        if (!widget && id != document.body) {\n          widget = $jx(id.getParent());\n        }\n      }\n      return widget;\n    }",
+    "ctx": {
+      "type": "property",
+      "receiver": "base",
+      "name": "getWidget",
+      "value": "window.$jx = function(id) {",
+      "string": "base.getWidget"
+    }
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>mutator that sets jxFamily when creating a class so we can check<br />its type</p>",
+      "summary": "<p>mutator that sets jxFamily when creating a class so we can check<br />its type</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "Class.Mutators.Family = function(self, name) {\n        \n        this.prototype.$family = function(){\n            return self;\n        };\n        this.prototype.jxFamily = self;\n    };"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>APIProperty: {String} debug<br />This determines if the library is in debug mode or not. It allows toggling<br />the console object on and off without having to remove all of the console.XXX()<br />functions in the code.</p>",
+      "summary": "<p>APIProperty: {String} debug<br />This determines if the library is in debug mode or not. It allows toggling<br />the console object on and off without having to remove all of the console.XXX()<br />functions in the code.</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "if (base.debug === undefined || base.debug === null) {\n        base.debug = false;\n    }"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>The following is an override of the console object to toggle writing out <br />based on the state of Jx.debug.</p>\n\n<p>TODO: Find a better way to do debugging and debug suppression.</p>",
+      "summary": "<p>The following is an override of the console object to toggle writing out <br />based on the state of Jx.debug.</p>",
+      "body": "<p>TODO: Find a better way to do debugging and debug suppression.</p>"
+    },
+    "ignore": false
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>firebug console supressor for IE/Safari/Opera</p>",
+      "summary": "<p>firebug console supressor for IE/Safari/Opera</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "window.addEvent('load',\n    function() {\n        if (! (\"console\" in window)) {\n            window.console = {};\n            var empty = function(){};\n            [\"log\", \"debug\", \"info\", \"warn\", \"error\", \"assert\", \"dir\", \"dirxml\",\n             \"group\", \"groupEnd\", \"time\", \"timeEnd\", \"count\", \"trace\", \"profile\", \n             \"profileEnd\"].each(function(name){\n                window.console[name] = empty;\n            });\n        } else {\n            window.realConsole = window.console;\n            window.console = {};\n            [\"log\", \"debug\", \"info\", \"warn\", \"error\", \"assert\", \"dir\", \"dirxml\",\n             \"group\", \"groupEnd\", \"time\", \"timeEnd\", \"count\", \"trace\", \"profile\", \n             \"profileEnd\"].each(function(name){\n                window.console[name] = function(){\n                    if (base.debug) {\n                        window.realConsole[name].apply(realConsole,arguments);\n                    }\n                };\n            });\n        }\n    });"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>APIProperty: {String} baseURL<br />This is the URL that Jx was loaded from, it is<br />automatically calculated from the script tag<br />src property that included Jx.</p>\n\n<p>Note that this assumes that you are loading Jx<br />from a js/ or lib/ folder in parallel to the<br />images/ folder that contains the various images<br />needed by Jx components.  If you have a different<br />folder structure, you can define Jx's base<br />by including the following before including</p>\n\n<h2>the jxlib javascript file</h2>\n\n<p>(code)<br />Jx = {<br />   baseURL: 'some/path'<br />}<br />(end)</p>\n\n<p>TODO: need a way to find the baseUrl... most likely from require some how.</p>",
+      "summary": "<p>APIProperty: {String} baseURL<br />This is the URL that Jx was loaded from, it is<br />automatically calculated from the script tag<br />src property that included Jx.</p>",
+      "body": "<p>Note that this assumes that you are loading Jx<br />from a js/ or lib/ folder in parallel to the<br />images/ folder that contains the various images<br />needed by Jx components.  If you have a different<br />folder structure, you can define Jx's base<br />by including the following before including</p>\n\n<h2>the jxlib javascript file</h2>\n\n<p>(code)<br />Jx = {<br />   baseURL: 'some/path'<br />}<br />(end)</p>\n\n<p>TODO: need a way to find the baseUrl... most likely from require some how.</p>"
+    },
+    "ignore": false,
+    "code": "if (base.baseURL === undefined || base.baseURL === null) {\n      (function() {\n        var aScripts = document.getElementsByTagName('SCRIPT'),\n            i, s, n, file;\n        for (i = 0; i < aScripts.length; i++) {\n          s = aScripts[i].src;\n          n = s.lastIndexOf('/');\n          file = s.slice(n+1,s.length-1);\n          if (file.contains('jxlib') || file.contains('require')) {\n            base.baseURL = s.slice(0,n);\n            break;\n          }\n        }\n      })();\n    }"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>APIProperty: {Image} aPixel<br />aPixel is a single transparent pixel and is the only image we actually<br />use directly in JxLib code.  If you want to use your own transparent pixel<br />image or use it from a different location than the install of jxlib<br />javascript files, you can manually declare it before including jxlib code<br />(code)<br />Jx = {<br />  aPixel: new Element('img', {<br />    alt: '',<br />    title: '',<br />    width: 1,<br />    height: 1,<br />    src: 'path/to/a/transparent.png'<br />  });<br />}<br />(end)</p>",
+      "summary": "<p>APIProperty: {Image} aPixel<br />aPixel is a single transparent pixel and is the only image we actually<br />use directly in JxLib code.  If you want to use your own transparent pixel<br />image or use it from a different location than the install of jxlib<br />javascript files, you can manually declare it before including jxlib code<br />(code)<br />Jx = {<br />  aPixel: new Element('img', {<br />    alt: '',<br />    title: '',<br />    width: 1,<br />    height: 1,<br />    src: 'path/to/a/transparent.png'<br />  });<br />}<br />(end)</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "if (base.aPixel === undefined || base.aPixel === null) {\n      base.aPixel = new Element('img', {\n        alt:'',\n        title:'',\n        src: base.baseURL +'/a_pixel.png'\n      });\n    }"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>APIProperty: {Boolean} isAir<br />indicates if JxLib is running in an Adobe Air environment.  This is<br />normally auto-detected but you can manually set it by declaring the Jx</p>\n\n<h2>namespace before including jxlib</h2>\n\n<p>(code)<br />Jx = {<br />  isAir: true<br />}<br />(end)</p>",
+      "summary": "<p>APIProperty: {Boolean} isAir<br />indicates if JxLib is running in an Adobe Air environment.  This is<br />normally auto-detected but you can manually set it by declaring the Jx</p>\n\n<h2>namespace before including jxlib</h2>\n\n<p>(code)<br />Jx = {<br />  isAir: true<br />}<br />(end)</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "if (base.isAir === undefined || base.isAir === null) {\n      (function() {"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Determine if we're running in Adobe AIR.</p>",
+      "summary": "<p>Determine if we're running in Adobe AIR.</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "var aScripts = document.getElementsByTagName('SCRIPT'),\n            src = aScripts[0].src;\n        if (src.contains('app:')) {\n          base.isAir = true;\n        } else {\n          base.isAir = false;\n        }\n      })();\n    }",
+    "ctx": {
+      "type": "declaration",
+      "name": "aScripts",
+      "value": "document.getElementsByTagName('SCRIPT'),",
+      "string": "aScripts"
+    }
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>APIMethod: setLanguage<br />set the current language to be used by Jx widgets.  This uses the MooTools<br />lang module.  If an invalid or missing language is requested, the default<br />rules of Locale will be used (revert to en-US at time of writing).</p>\n\n<h2>Parameters</h2>\n\n<p>{String} language identifier, the language to set.</p>",
+      "summary": "<p>APIMethod: setLanguage<br />set the current language to be used by Jx widgets.  This uses the MooTools<br />lang module.  If an invalid or missing language is requested, the default<br />rules of Locale will be used (revert to en-US at time of writing).</p>",
+      "body": "<h2>Parameters</h2>\n\n<p>{String} language identifier, the language to set.</p>"
+    },
+    "ignore": false,
+    "code": "base.setLanguage = function(lang) {\n      base.lang = lang;\n      Locale.use(base.lang);\n    };",
+    "ctx": {
+      "type": "method",
+      "receiver": "base",
+      "name": "setLanguage",
+      "string": "base.setLanguage()"
+    }
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>APIProperty: {String} lang<br />Checks to see if Jx.lang is already set. If not, it sets it to the default<br />'en-US'. We will then set the Motools.lang language to this setting<br />automatically.</p>\n\n<p>The language can be changed on the fly at anytime by calling<br />Jx.setLanguage().<br />By default all Jx.Widget subclasses will listen for the onChange event of<br />the Locale class. It will then call a method, changeText(), if it<br />exists on the particular widget. You will be able to disable listening for<br />these changes by setting the Jx.Widget option useLang to false.</p>",
+      "summary": "<p>APIProperty: {String} lang<br />Checks to see if Jx.lang is already set. If not, it sets it to the default<br />'en-US'. We will then set the Motools.lang language to this setting<br />automatically.</p>",
+      "body": "<p>The language can be changed on the fly at anytime by calling<br />Jx.setLanguage().<br />By default all Jx.Widget subclasses will listen for the onChange event of<br />the Locale class. It will then call a method, changeText(), if it<br />exists on the particular widget. You will be able to disable listening for<br />these changes by setting the Jx.Widget option useLang to false.</p>"
+    },
+    "ignore": false,
+    "code": "if (base.lang === undefined || base.lang === null) {\n      base.lang = 'en-US';\n    };\n    \n    base.setLanguage(base.lang);"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>APIMethod: getText</p>\n\n<p>returns the localized text.</p>\n\n<h2>Parameters</h2>\n\n<p>val - <String> || <Function> || <Object> = { set: '', key: ''[, value: ''] } for a Locale object</p>",
+      "summary": "<p>APIMethod: getText</p>",
+      "body": "<p>returns the localized text.</p>\n\n<h2>Parameters</h2>\n\n<p>val - <String> || <Function> || <Object> = { set: '', key: ''[, value: ''] } for a Locale object</p>"
+    },
+    "ignore": false,
+    "code": "base.getText = function(val) {\n      var result = '';\n      if (typeOf(val) == 'string' || typeOf(val) == 'number') {\n        result = val;\n      } else if (typeOf(val) == 'function') {\n        result = val();\n      } else if (typeOf(val) == 'object' && val.set !== undefined &&\n                 val.set !== null && val.key !== undefined && val.key !== null){ \n        if(val.value !== undefined) {\n          result = Locale.get(val.set + '.' + val.key + '.' + val.value);\n        }else{\n          result =  Locale.get(val.set + '.' + val.key);\n        }\n      }\n      return result;\n    };",
+    "ctx": {
+      "type": "method",
+      "receiver": "base",
+      "name": "getText",
+      "string": "base.getText()"
+    }
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>APIMethod: applyPNGFilter</p>\n\n<p>Static method that applies the PNG Filter Hack for IE browsers<br />when showing 24bit PNG's.  Used automatically for img tags with<br />a class of png24.</p>\n\n<p>The filter is applied using a nifty feature of IE that allows javascript to<br />be executed as part of a CSS style rule - this ensures that the hack only<br />gets applied on IE browsers.</p>\n\n<p>The CSS that triggers this hack is only in the ie6.css files of the various<br />themes.</p>\n\n<h2>Parameters</h2>\n\n<p>object {Object} the object (img) to which the filter needs to be applied.</p>",
+      "summary": "<p>APIMethod: applyPNGFilter</p>",
+      "body": "<p>Static method that applies the PNG Filter Hack for IE browsers<br />when showing 24bit PNG's.  Used automatically for img tags with<br />a class of png24.</p>\n\n<p>The filter is applied using a nifty feature of IE that allows javascript to<br />be executed as part of a CSS style rule - this ensures that the hack only<br />gets applied on IE browsers.</p>\n\n<p>The CSS that triggers this hack is only in the ie6.css files of the various<br />themes.</p>\n\n<h2>Parameters</h2>\n\n<p>object {Object} the object (img) to which the filter needs to be applied.</p>"
+    },
+    "ignore": false,
+    "code": "base.applyPNGFilter = function(o) {\n        var t = base.aPixel.src, \n            s;\n        if (o.src != t) {\n            s = o.src;\n            o.src = t;\n            o.runtimeStyle.filter = \"progid:DXImageTransform.Microsoft.AlphaImageLoader(src='\" + s + \"',sizingMethod='scale')\";\n        }\n    };",
+    "ctx": {
+      "type": "method",
+      "receiver": "base",
+      "name": "applyPNGFilter",
+      "string": "base.applyPNGFilter()"
+    }
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>NOTE: We should consider moving the image loading code into a separate<br />class. Perhaps as Jx.Preloader which could extend Jx.Object</p>",
+      "summary": "<p>NOTE: We should consider moving the image loading code into a separate<br />class. Perhaps as Jx.Preloader which could extend Jx.Object</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "base.imgQueue = [];\n    //The queue of images to be loaded\n    base.imgLoaded = {};\n    //a hash table of images that have been loaded and cached\n    base.imagesLoading = 0;\n    //counter for number of concurrent image loads",
+    "ctx": {
+      "type": "property",
+      "receiver": "base",
+      "name": "imgQueue",
+      "value": "[]",
+      "string": "base.imgQueue"
+    }
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>APIMethod: addToImgQueue<br />Request that an image be set to a DOM IMG element src attribute.  This puts<br />the image into a queue and there are private methods to manage that queue<br />and limit image loading to 2 at a time.</p>\n\n<h2>Parameters</h2>\n\n<p>obj - {Object} an object containing an element and src<br />property, where element is the element to update and src<br />is the url to the image.</p>",
+      "summary": "<p>APIMethod: addToImgQueue<br />Request that an image be set to a DOM IMG element src attribute.  This puts<br />the image into a queue and there are private methods to manage that queue<br />and limit image loading to 2 at a time.</p>",
+      "body": "<h2>Parameters</h2>\n\n<p>obj - {Object} an object containing an element and src<br />property, where element is the element to update and src<br />is the url to the image.</p>"
+    },
+    "ignore": false,
+    "code": "base.addToImgQueue = function(obj) {\n        if (base.imgLoaded[obj.src]) {\n            //if this image was already requested (i.e. it's in cache) just set it directly\n            obj.element.src = obj.src;\n        } else {\n            //otherwise stick it in the queue\n            base.imgQueue.push(obj);\n            base.imgLoaded[obj.src] = true;\n        }\n        //start the queue management process\n        base.checkImgQueue();\n    };",
+    "ctx": {
+      "type": "method",
+      "receiver": "base",
+      "name": "addToImgQueue",
+      "string": "base.addToImgQueue()"
+    }
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>APIMethod: checkImgQueue</p>\n\n<p>An internal method that ensures no more than 2 images are loading at a<br />time.</p>",
+      "summary": "<p>APIMethod: checkImgQueue</p>",
+      "body": "<p>An internal method that ensures no more than 2 images are loading at a<br />time.</p>"
+    },
+    "ignore": false,
+    "code": "base.checkImgQueue = function() {\n        while (base.imagesLoading < 2 && base.imgQueue.length > 0) {\n            base.loadNextImg();\n        }\n    };",
+    "ctx": {
+      "type": "method",
+      "receiver": "base",
+      "name": "checkImgQueue",
+      "string": "base.checkImgQueue()"
+    }
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Method: loadNextImg</p>\n\n<p>An internal method actually populate the DOM element with the image source.</p>",
+      "summary": "<p>Method: loadNextImg</p>",
+      "body": "<p>An internal method actually populate the DOM element with the image source.</p>"
+    },
+    "ignore": false,
+    "code": "base.loadNextImg = function() {\n        var obj = base.imgQueue.shift();\n        if (obj) {\n            ++base.imagesLoading;\n            obj.element.onload = function() {--base.imagesLoading;\n                base.checkImgQueue();\n            };\n            obj.element.onerror = function() {--base.imagesLoading;\n                base.checkImgQueue();\n            };\n            obj.element.src = obj.src;\n        }\n    };",
+    "ctx": {
+      "type": "method",
+      "receiver": "base",
+      "name": "loadNextImg",
+      "string": "base.loadNextImg()"
+    }
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>APIMethod: getNumber<br />safely parse a number and return its integer value.  A NaN value<br />returns 0.  CSS size values are also parsed correctly.</p>\n\n<h2>Parameters</h2>\n\n<p>n - {Mixed} the string or object to parse.</p>\n\n<h2>Returns</h2>\n\n<p>{Integer} the integer value that the parameter represents</p>",
+      "summary": "<p>APIMethod: getNumber<br />safely parse a number and return its integer value.  A NaN value<br />returns 0.  CSS size values are also parsed correctly.</p>",
+      "body": "<h2>Parameters</h2>\n\n<p>n - {Mixed} the string or object to parse.</p>\n\n<h2>Returns</h2>\n\n<p>{Integer} the integer value that the parameter represents</p>"
+    },
+    "ignore": false,
+    "code": "base.getNumber = function(n, def) {\n        var result = n === null || isNaN(parseInt(n, 10)) ? (def || 0) : parseInt(n, 10);\n        return result;\n    };",
+    "ctx": {
+      "type": "method",
+      "receiver": "base",
+      "name": "getNumber",
+      "string": "base.getNumber()"
+    }
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>APIMethod: getPageDimensions<br />return the dimensions of the browser client area.</p>\n\n<h2>Returns</h2>\n\n<p>{Object} an object containing a width and height property<br />that represent the width and height of the browser client area.</p>",
+      "summary": "<p>APIMethod: getPageDimensions<br />return the dimensions of the browser client area.</p>",
+      "body": "<h2>Returns</h2>\n\n<p>{Object} an object containing a width and height property<br />that represent the width and height of the browser client area.</p>"
+    },
+    "ignore": false,
+    "code": "base.getPageDimensions = function() {\n        return {\n            width: window.getWidth(),\n            height: window.getHeight()\n        };\n    };",
+    "ctx": {
+      "type": "method",
+      "receiver": "base",
+      "name": "getPageDimensions",
+      "string": "base.getPageDimensions()"
+    }
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>APIMethod: type<br />safely return the type of an object using the mootools type system</p>",
+      "summary": "<p>APIMethod: type<br />safely return the type of an object using the mootools type system</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "//DEPRECATED:  With the new changes for 1.3 compatability this function is \n     //no longer needed as typeOf returns the necessary info.\n    base.type = function(obj) {"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>if (obj === null) return false;<br />      return typeof obj == 'undefined' ? false : obj.jxFamily || typeOf(obj);</p>",
+      "summary": "<p>if (obj === null) return false;<br />      return typeof obj == 'undefined' ? false : obj.jxFamily || typeOf(obj);</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "return typeOf(obj);\n    };\n    \n    (function($) {\n        // Wrapper for document.id"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Class: Element</p>\n\n<p>Element is a global object provided by the mootools library.  The<br />functions documented here are extensions to the Element object provided<br />by Jx to make cross-browser compatibility easier to achieve.  Most of<br />the methods are measurement related.</p>\n\n<p>While the code in these methods has been converted to use MooTools<br />methods, there may be better MooTools methods to use to accomplish<br />these things.<br />Ultimately, it would be nice to eliminate most or all of these and find<br />the MooTools equivalent or convince MooTools to add them.</p>\n\n<p>NOTE: Many of these methods can be replaced with mootools-more's<br />Element.Measure</p>",
+      "summary": "<p>Class: Element</p>",
+      "body": "<p>Element is a global object provided by the mootools library.  The<br />functions documented here are extensions to the Element object provided<br />by Jx to make cross-browser compatibility easier to achieve.  Most of<br />the methods are measurement related.</p>\n\n<p>While the code in these methods has been converted to use MooTools<br />methods, there may be better MooTools methods to use to accomplish<br />these things.<br />Ultimately, it would be nice to eliminate most or all of these and find<br />the MooTools equivalent or convince MooTools to add them.</p>\n\n<p>NOTE: Many of these methods can be replaced with mootools-more's<br />Element.Measure</p>"
+    },
+    "ignore": false,
+    "code": "Element.implement({"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>APIMethod: getBoxSizing<br />return the box sizing of an element, one of 'content-box' or<br />'border-box'.</p>\n\n<h2>Parameters</h2>\n\n<p>elem - {Object} the element to get the box sizing of.</p>\n\n<h2>Returns</h2>\n\n<p>{String} the box sizing of the element.</p>",
+      "summary": "<p>APIMethod: getBoxSizing<br />return the box sizing of an element, one of 'content-box' or<br />'border-box'.</p>",
+      "body": "<h2>Parameters</h2>\n\n<p>elem - {Object} the element to get the box sizing of.</p>\n\n<h2>Returns</h2>\n\n<p>{String} the box sizing of the element.</p>"
+    },
+    "ignore": false,
+    "code": "getBoxSizing: function() {\n                var result = 'content-box',\n                    cm,\n                    sizing;\n                if (Browser.ie || Browser.opera) {\n                    cm = document.compatMode;\n                    if (cm == \"BackCompat\" || cm == \"QuirksMode\") {\n                        result = 'border-box';\n                    } else {\n                        result = 'content-box';\n                    }\n                } else {\n                    if (arguments.length === 0) {\n                        node = document.documentElement;\n                    }\n                    sizing = this.getStyle(\"-moz-box-sizing\");\n                    if (!sizing) {\n                        sizing = this.getStyle(\"box-sizing\");\n                    }\n                    result = (sizing ? sizing: 'content-box');\n                }\n                return result;\n            },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>APIMethod: getContentBoxSize<br />return the size of the content area of an element.  This is the<br />size of the element less margins, padding, and borders.</p>\n\n<h2>Parameters</h2>\n\n<p>elem - {Object} the element to get the content size of.</p>\n\n<h2>Returns</h2>\n\n<p>{Object} an object with two properties, width and height, that<br />are the size of the content area of the measured element.</p>",
+      "summary": "<p>APIMethod: getContentBoxSize<br />return the size of the content area of an element.  This is the<br />size of the element less margins, padding, and borders.</p>",
+      "body": "<h2>Parameters</h2>\n\n<p>elem - {Object} the element to get the content size of.</p>\n\n<h2>Returns</h2>\n\n<p>{Object} an object with two properties, width and height, that<br />are the size of the content area of the measured element.</p>"
+    },
+    "ignore": false,
+    "code": "getContentBoxSize: function() {\n                var s = this.getSizes(['padding', 'border']);\n                return {\n                    width: this.offsetWidth - s.padding.left - s.padding.right - s.border.left - s.border.right,\n                    height: this.offsetHeight - s.padding.bottom - s.padding.top - s.border.bottom - s.border.top\n                };\n            },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>APIMethod: getBorderBoxSize<br />return the size of the border area of an element.  This is the size<br />of the element less margins.</p>\n\n<h2>Parameters</h2>\n\n<p>elem - {Object} the element to get the border sizing of.</p>\n\n<h2>Returns</h2>\n\n<p>{Object} an object with two properties, width and height, that<br />are the size of the border area of the measured element.</p>",
+      "summary": "<p>APIMethod: getBorderBoxSize<br />return the size of the border area of an element.  This is the size<br />of the element less margins.</p>",
+      "body": "<h2>Parameters</h2>\n\n<p>elem - {Object} the element to get the border sizing of.</p>\n\n<h2>Returns</h2>\n\n<p>{Object} an object with two properties, width and height, that<br />are the size of the border area of the measured element.</p>"
+    },
+    "ignore": false,
+    "code": "getBorderBoxSize: function() {\n                return {\n                    width: this.offsetWidth,\n                    height: this.offsetHeight\n                };\n            },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>APIMethod: getMarginBoxSize<br />return the size of the margin area of an element.  This is the size<br />of the element plus margins.</p>\n\n<h2>Parameters</h2>\n\n<p>elem - {Object} the element to get the margin sizing of.</p>\n\n<h2>Returns</h2>\n\n<p>{Object} an object with two properties, width and height, that<br />are the size of the margin area of the measured element.</p>",
+      "summary": "<p>APIMethod: getMarginBoxSize<br />return the size of the margin area of an element.  This is the size<br />of the element plus margins.</p>",
+      "body": "<h2>Parameters</h2>\n\n<p>elem - {Object} the element to get the margin sizing of.</p>\n\n<h2>Returns</h2>\n\n<p>{Object} an object with two properties, width and height, that<br />are the size of the margin area of the measured element.</p>"
+    },
+    "ignore": false,
+    "code": "getMarginBoxSize: function() {\n                var s = this.getSizes(['margin']);\n                return {\n                    width: this.offsetWidth + s.margin.left + s.margin.right,\n                    height: this.offsetHeight + s.margin.top + s.margin.bottom\n                };\n            },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>APIMethod: getSizes<br />measure the size of various styles on various edges and return<br />the values.</p>\n\n<h2>Parameters</h2>\n\n<p>styles - array, the styles to compute.  By default, this is<br />['padding', 'border','margin'].  If you don't need all the styles,<br />just request the ones you need to minimize compute time required.<br />edges - array, the edges to compute styles for.  By default,  this<br />is ['top','right','bottom','left'].  If you don't need all the<br />edges, then request the ones you need to minimize compute time.</p>\n\n<h2>Returns</h2>\n\n<p>{Object} an object with one member for each requested style.  Each<br />style member is an object containing members for each requested<br />edge. Values are the computed style for each edge in pixels.</p>",
+      "summary": "<p>APIMethod: getSizes<br />measure the size of various styles on various edges and return<br />the values.</p>",
+      "body": "<h2>Parameters</h2>\n\n<p>styles - array, the styles to compute.  By default, this is<br />['padding', 'border','margin'].  If you don't need all the styles,<br />just request the ones you need to minimize compute time required.<br />edges - array, the edges to compute styles for.  By default,  this<br />is ['top','right','bottom','left'].  If you don't need all the<br />edges, then request the ones you need to minimize compute time.</p>\n\n<h2>Returns</h2>\n\n<p>{Object} an object with one member for each requested style.  Each<br />style member is an object containing members for each requested<br />edge. Values are the computed style for each edge in pixels.</p>"
+    },
+    "ignore": false,
+    "code": "getSizes: function(which, edges) {\n                which = which || ['padding', 'border', 'margin'];\n                edges = edges || ['left', 'top', 'right', 'bottom'];\n                var result = {},\n                    e,\n                    n;\n                which.each(function(style) {\n                    result[style] = {};\n                    edges.each(function(edge) {\n                        e = (style == 'border') ? edge + '-width': edge;\n                        n = this.getStyle(style + '-' + e);\n                        result[style][edge] = n === null || isNaN(parseInt(n, 10)) ? 0: parseInt(n, 10);\n                    },\n                    this);\n                },\n                this);\n                return result;\n            },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>APIMethod: setContentBoxSize<br />set either or both of the width and height of an element to<br />the provided size.  This function ensures that the content<br />area of the element is the requested size and the resulting<br />size of the element may be larger depending on padding and<br />borders.</p>\n\n<h2>Parameters</h2>\n\n<p>elem - {Object} the element to set the content area of.<br />size - {Object} an object with a width and/or height property that<br />is the size to set the content area of the element to.</p>",
+      "summary": "<p>APIMethod: setContentBoxSize<br />set either or both of the width and height of an element to<br />the provided size.  This function ensures that the content<br />area of the element is the requested size and the resulting<br />size of the element may be larger depending on padding and<br />borders.</p>",
+      "body": "<h2>Parameters</h2>\n\n<p>elem - {Object} the element to set the content area of.<br />size - {Object} an object with a width and/or height property that<br />is the size to set the content area of the element to.</p>"
+    },
+    "ignore": false,
+    "code": "setContentBoxSize: function(size) {\n                var m,\n                    width,\n                    height;\n                if (this.getBoxSizing() == 'border-box') {\n                    m = this.measure(function() {\n                        return this.getSizes(['padding', 'border']);\n                    });\n                    if (size.width !== undefined && size.width !== null) {\n                        width = size.width + m.padding.left + m.padding.right + m.border.left + m.border.right;\n                        if (width < 0) {\n                            width = 0;\n                        }\n                        this.setStyle('width', width);\n                    }\n                    if (size.height !== undefined && size.height !== null) {\n                        height = size.height + m.padding.top + m.padding.bottom + m.border.top + m.border.bottom;\n                        if (height < 0) {\n                            height = 0;\n                        }\n                        this.setStyle('height', height);\n                    }\n                } else {\n                    if (size.width !== undefined && size.width !== null && size.width >= 0) {\n                      this.setStyle('width', width);\n                    }\n                    if (size.height !== undefined && size.height !== null && size.height >= 0) {\n                      this.setStyle('height', height);\n                    }\n                }\n            },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>APIMethod: setBorderBoxSize<br />set either or both of the width and height of an element to<br />the provided size.  This function ensures that the border<br />size of the element is the requested size and the resulting<br />content areaof the element may be larger depending on padding and<br />borders.</p>\n\n<h2>Parameters</h2>\n\n<p>elem - {Object} the element to set the border size of.<br />size - {Object} an object with a width and/or height property that<br />is the size to set the content area of the element to.</p>",
+      "summary": "<p>APIMethod: setBorderBoxSize<br />set either or both of the width and height of an element to<br />the provided size.  This function ensures that the border<br />size of the element is the requested size and the resulting<br />content areaof the element may be larger depending on padding and<br />borders.</p>",
+      "body": "<h2>Parameters</h2>\n\n<p>elem - {Object} the element to set the border size of.<br />size - {Object} an object with a width and/or height property that<br />is the size to set the content area of the element to.</p>"
+    },
+    "ignore": false,
+    "code": "setBorderBoxSize: function(size) {\n                var m, \n                    width, \n                    height;\n                if (this.getBoxSizing() == 'content-box') {\n                    m = this.measure(function() {\n                        return this.getSizes();\n                    });\n    \n                    if (size.width !== undefined && size.width !== null) {\n                        width = size.width - m.padding.left - m.padding.right - m.border.left - m.border.right - m.margin.left - m.margin.right;\n                        if (width < 0) {\n                            width = 0;\n                        }\n                        this.setStyle('width', width);\n                    }\n                    if (size.height !== undefined && size.height !== null) {\n                        height = size.height - m.padding.top - m.padding.bottom - m.border.top - m.border.bottom - m.margin.top - m.margin.bottom;\n                        if (height < 0) {\n                            height = 0;\n                        }\n                        this.setStyle('height', height);\n                    }\n                } else {\n                    if (size.width !== undefined && size.width !== null && size.width >= 0) {\n                      this.setStyle('width', width);\n                    }\n                    if (size.height !== undefined && size.height !== null && size.height >= 0) {\n                      this.setStyle('height', height);\n                    }\n                }\n            },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>APIMethod: descendantOf<br />determines if the element is a descendent of the reference node.</p>\n\n<h2>Parameters</h2>\n\n<p>node - {HTMLElement} the reference node</p>\n\n<h2>Returns</h2>\n\n<p>{Boolean} true if the element is a descendent, false otherwise.</p>",
+      "summary": "<p>APIMethod: descendantOf<br />determines if the element is a descendent of the reference node.</p>",
+      "body": "<h2>Parameters</h2>\n\n<p>node - {HTMLElement} the reference node</p>\n\n<h2>Returns</h2>\n\n<p>{Boolean} true if the element is a descendent, false otherwise.</p>"
+    },
+    "ignore": false,
+    "code": "descendantOf: function(node) {\n                var parent = document.id(this.parentNode);\n                while (parent != node && parent && parent.parentNode && parent.parentNode != parent) {\n                    parent = document.id(parent.parentNode);\n                }\n                return parent == node;\n            },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>APIMethod: findElement<br />search the parentage of the element to find an element of the given<br />tag name.</p>\n\n<h2>Parameters</h2>\n\n<p>type - {String} the tag name of the element type to search for</p>\n\n<h2>Returns</h2>\n\n<p>{HTMLElement} the first node (this one or first parent) with the<br />requested tag name or false if none are found.</p>",
+      "summary": "<p>APIMethod: findElement<br />search the parentage of the element to find an element of the given<br />tag name.</p>",
+      "body": "<h2>Parameters</h2>\n\n<p>type - {String} the tag name of the element type to search for</p>\n\n<h2>Returns</h2>\n\n<p>{HTMLElement} the first node (this one or first parent) with the<br />requested tag name or false if none are found.</p>"
+    },
+    "ignore": false,
+    "code": "findElement: function(type) {\n                var o = this,\n                    tagName = o.tagName;\n                while (o.tagName != type && o && o.parentNode && o.parentNode != o) {\n                    o = document.id(o.parentNode);\n                }\n                return o.tagName == type ? o: false;\n            }\n        });"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Class: Array<br />Extensions to the javascript array object</p>",
+      "summary": "<p>Class: Array<br />Extensions to the javascript array object</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "Array.implement({"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>APIMethod: swap<br />swaps 2 elements of an array</p>\n\n<h2>Parameters</h2>\n\n<p>a - the first position to swap<br />b - the second position to swap</p>",
+      "summary": "<p>APIMethod: swap<br />swaps 2 elements of an array</p>",
+      "body": "<h2>Parameters</h2>\n\n<p>a - the first position to swap<br />b - the second position to swap</p>"
+    },
+    "ignore": false,
+    "code": "'swap': function(a, b) {\n                var temp = this[a];\n                this[a] = this[b];\n                this[b] = temp;\n            }\n        });\n    })(document.id || $);\n    // End Wrapper for document.id\n    \n    //add all of base's members to the global context\n    if (exports.global) {\n        Object.append(exports.global, exports);\n    }\n\n});"
+  }
+]
