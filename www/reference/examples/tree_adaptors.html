@@ -67,7 +67,7 @@ if($(document).getElements('.tabContentActiveExamples').length > 0) {
  		id: 7
  	}];
  	
- 	var parser = new Jx.Store.Parser.JSON();
+ 	var parser = new Jx.Data.Parser.JSON();
  	var full = new Jx.Store.Strategy.Full();
  	//create each adapter
 	
@@ -86,7 +86,7 @@ if($(document).getElements('.tabContentActiveExamples').length > 0) {
 		    name: 'id',
 		    type: 'numeric'
 	    }],
-	    protocol: new Jx.Store.Protocol.Local(parentData, {
+	    protocol: new Jx.Data.Protocol.Local(parentData, {
 		    parser: parser
 	    }),
 	    strategies: [full],
@@ -156,7 +156,7 @@ function setupTreeAdaptorMptt(){
 	}];
 	
 		
-	var parser2 = new Jx.Store.Parser.JSON();
+	var parser2 = new Jx.Data.Parser.JSON();
 	var full2 = new Jx.Store.Strategy.Full();
 	var sorter = new Jx.Store.Strategy.Sort({
 		sortCols: ['left']
@@ -175,7 +175,7 @@ function setupTreeAdaptorMptt(){
 		    name: 'id',
 		    type: 'numeric'
 	    }],
-	    protocol: new Jx.Store.Protocol.Local(mpttData, {
+	    protocol: new Jx.Data.Protocol.Local(mpttData, {
 		    parser: parser2
 	    }),
 	    strategies: [full2, sorter],
@@ -203,7 +203,7 @@ function setupTreeAdaptorMptt(){
 </script>
 <script id="setupTreeAdaptorParentAjaxScript" type="text/javascript">
 function setupTreeAdaptorParentAjax(){
-    var parser = new Jx.Store.Parser.JSON();
+    var parser = new Jx.Data.Parser.JSON();
     var progressive = new Jx.Store.Strategy.Progressive({
 	    dropRecords: false
     });
@@ -225,7 +225,7 @@ function setupTreeAdaptorParentAjax(){
             name: 'realPath',
             type: 'alphanumeric'
         }],
-        protocol: new Jx.Store.Protocol.Ajax({
+        protocol: new Jx.Data.Protocol.Ajax({
             parser: parser,
 		urls: {
 		    read: 'treeadaptor.php'

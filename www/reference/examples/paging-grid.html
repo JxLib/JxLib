@@ -146,11 +146,11 @@ function drawToolbar() {
 </script>
 <script id="gridScript" type="text/javascript">
 function drawGrid() {
-    var parser = new Jx.Store.Parser.JSON();
+    var parser = new Jx.Data.Parser.JSON();
     var paginate = new Jx.Store.Strategy.Paginate({
         ignoreExpiration: true
     });
-    var protocol = new Jx.Store.Protocol.Ajax({
+    var protocol = new Jx.Data.Protocol.Ajax({
         parser: parser,
         urls: {
             read: 'paging.php'

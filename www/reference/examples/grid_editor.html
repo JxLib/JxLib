@@ -286,7 +286,7 @@ function drawToolbar() {
         {'id':13,'name':'Frank Gillis','dob':'2/3/1976','active':'true','duesLeft':5,'url':'http://www.alistapart.com','phone':'4758693094'}
     ]);
 
-    var parser = new Jx.Store.Parser.JSON();
+    var parser = new Jx.Data.Parser.JSON();
     var full = new Jx.Store.Strategy.Full();
     var sort = new Jx.Store.Strategy.Sort({sortOnStoreEvents: null});
 
@@ -300,7 +300,7 @@ function drawToolbar() {
         {name: 'url',      type: 'alphanumeric'},
         {name: 'phone',    type: 'alphanumeric'}
       ],
-      protocol: new Jx.Store.Protocol.Local(model,{parser: parser}),
+      protocol: new Jx.Data.Protocol.Local(model,{parser: parser}),
       strategies: [full,sort],
       record: Jx.Record
     });
