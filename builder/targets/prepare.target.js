@@ -62,6 +62,10 @@ module.exports = function(config,logger) {
             },{
                 concat: {
                     files: [
+                        config.project.basedir + "/src/open-comment.txt",
+                        config.app.vendor + "/mootools-core/Source/license.txt",
+                        config.app.vendor + "/mootools-more/Source/license.txt",
+                        config.project.basedir + "/src/close-comment.txt",
                         config.app.build + "/Source/license.js",
                         config.app.build + "/lib/jxlib.uncompressed.temp.js"
                     ],
@@ -88,6 +92,10 @@ module.exports = function(config,logger) {
             },{
                 concat: {
                     files: [
+                        config.project.basedir + "/src/open-comment.txt",
+                        config.app.vendor + "/mootools-core/Source/license.txt",
+                        config.app.vendor + "/mootools-more/Source/license.txt",
+                        config.project.basedir + "/src/close-comment.txt",
                         config.app.build + "/Source/license.js",
                         config.app.build + "/lib/jxlib.compressed.js"
                     ],
@@ -126,6 +134,7 @@ module.exports = function(config,logger) {
                     config.app.build + "/lib/jxlib.standalone.compressed.js",
                     config.app.build + "/lib/jxlib.compressed.js",
                     config.app.build + "/lib/jxlib.uncompressed.temp.js",
+                    config.app.build + "/lib/jxlib.uncompressed.1.js",
                     config.app.build + "/lib/jxlib.temp.js"
                 ]
             },{
