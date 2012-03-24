@@ -46,12 +46,9 @@ css:
  *
  * This file is licensed under an MIT style license
  */
-define("jx/layout", function(require, exports, module){
+define("jx/layout", ['../base','./object'], function(base, jxObject){
     
-    var base = require("../base"),
-        jxObject = require("./object");
-        
-    var layout = module.exports = new Class({
+    var layout = new Class({
         Extends: jxObject,
         Family: 'Jx.Layout',
     
@@ -457,7 +454,9 @@ define("jx/layout", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Layout = module.exports;
+        base.global.Layout = layout;
     }
+    
+    return layout;
     
 });

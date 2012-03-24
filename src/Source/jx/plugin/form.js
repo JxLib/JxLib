@@ -25,9 +25,10 @@ provides: [Jx.Plugin.Form]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/plugin/form", function(require){
-    var base = require("../../base");
+define("jx/plugin/form", ['../../base'], function(base){
+
     if (base.global) {
         base.global.Plugin.Form = {};
     }
+    return {};
 });

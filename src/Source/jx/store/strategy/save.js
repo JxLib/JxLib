@@ -28,13 +28,10 @@ provides: [Jx.Store.Strategy.Save]
  * This file is licensed under an MIT style license
  */
 
-define("jx/store/strategy/save", function(require, exports, module){
+define("jx/store/strategy/save", ['../../../base','../strategy','../../record'],
+       function(base, Strategy, Record){
     
-    var base = require("../../../base"),
-        Strategy = require("../strategy"),
-        Record = require("../../record");
-        
-    var save = module.exports = new Class({
+    var save = new Class({
     
         Extends: Strategy,
         Family: 'Jx.Store.Strategy.Save',
@@ -268,7 +265,9 @@ define("jx/store/strategy/save", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Store.Strategy.Save = module.exports;
+        base.global.Store.Strategy.Save = save;
     }
+    
+    return save;
     
 });

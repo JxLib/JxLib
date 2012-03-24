@@ -18,13 +18,10 @@ images:
 
 ...
  */
-define("jx/plugin/editor/image", function(require, exports, module){
+define("jx/plugin/editor/image", ['../../../base','./button','../../dialog/prompt'],
+       function(base, Button, Prompt){
     
-    var base = require("../../../base"),
-        Button = require("./button"),
-        Prompt = require("../../dialog/prompt");
-        
-    var image = module.exports = new Class({
+    var image = new Class({
     
         Extends: Button,
         Family: 'Jx.Plugin.Editor.Image',
@@ -59,6 +56,7 @@ define("jx/plugin/editor/image", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Plugin.Editor.Image = module.exports;
+        base.global.Plugin.Editor.Image = image;
     }
+    return image;
 });

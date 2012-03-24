@@ -31,12 +31,10 @@ provides: [Jx.Field.Hidden]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/field/hidden", function(require, exports, module){
+define("jx/field/hidden", ['../../base','../field'],
+       function(base, Field){
     
-    var base = require("../../base"),
-        Field = require("../field");
-        
-    var hidden = module.exports = new Class({
+    var hidden = new Class({
 
         Extends: Field,
         Family: "Jx.Field.Hidden",
@@ -57,8 +55,10 @@ define("jx/field/hidden", function(require, exports, module){
     });
 
     if (base.global) {
-        base.global.Field.Hidden = module.exports;
+        base.global.Field.Hidden = hidden;
     }
+    
+    return hidden;
     
 });
 

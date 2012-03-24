@@ -8,7 +8,7 @@ description: A ButtonSet manages a set of Jx.Button instances by ensuring that o
 license: MIT-style license.
 
 requires:
- - Jx.Object
+ - Jx.Button
 
 provides: [Jx.ButtonSet]
 
@@ -46,13 +46,10 @@ provides: [Jx.ButtonSet]
  *
  * This file is licensed under an MIT style license
  */
-define('jx/button/set', function(require, exports, module){
+define('jx/button/set', ['../../base','../object','../button'],
+       function(base, jxObject, Button){
     
-    var base = require("../../base"),
-        jxObject = require("../object"),
-        Button = require("../button");
-        
-    var set = module.exports = new Class({
+    var set = new Class({
         Extends: jxObject,
         Family: 'Jx.ButtonSet',
         Binds: ['buttonChanged'],
@@ -159,5 +156,7 @@ define('jx/button/set', function(require, exports, module){
     if (base.global) {
         base.global.ButtonSet = set;
     }
+    
+    return set;
 
 });

@@ -38,12 +38,9 @@ images:
  *
  * This file is licensed under an MIT style license
  */
-define("jx/notice",function(require, exports, module){
+define("jx/notice", ['../base','./listitem'], function(base, ListItem){
     
-    var base = require("../base"),
-        ListItem = require("./listitem");
-        
-    var notice = module.exports = new Class({
+    var notice = new Class({
 
         Extends: ListItem,
         Family: 'Jx.Notice',
@@ -146,7 +143,9 @@ define("jx/notice",function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Notice = module.exports;
+        base.global.Notice = notice;
     }
+    
+    return notice;
     
 });

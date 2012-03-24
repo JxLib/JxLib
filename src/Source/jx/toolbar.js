@@ -72,15 +72,10 @@ images:
  *
  * This file is licensed under an MIT style license
  */
-define("jx/toolbar", function(require, exports, module){
-    
-    var base = require("../base"),
-        Widget = require("./widget"),
-        Container = null,
-        Item = null,
-        List = require("./list")
+define("jx/toolbar", ['../base','./widget','./toolbar/container','./toolbar/item','./list', 'require'],
+       function(base, Widget, Container, Item, List, require){
         
-    var toolbar = module.exports = new Class({
+    var toolbar = new Class({
         Extends: Widget,
         Family: 'Jx.Toolbar',
         /**
@@ -137,11 +132,14 @@ define("jx/toolbar", function(require, exports, module){
         },
         
         init: function(){
-            //load any dependencies that we couldn't earlier...
-            Container = require("./toolbar/container");
-            Item = require("./toolbar/item");
+            //in a global build, Container and Item will be null due to the dependency
+            //they have on toolbar (they come after this in the file).
+            //So... load them in correctly
+            if (base.global) {
+                Container = require('jx/toolbar/container');
+                Item = require('jx/toolbar/item');
+            }
             this.parent();
-            
         },
         /**
          * APIMethod: render
@@ -340,6 +338,8 @@ define("jx/toolbar", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Toolbar = module.exports;
+        base.global.Toolbar = toolbar;
     }
+    
+    return toolbar;
 });

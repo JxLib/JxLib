@@ -61,13 +61,9 @@ provides: [Jx.Widget.List]
  *
  * This file is licensed under an MIT style license
  */
-define('jx/widget/list', function(require, exports, module){
+define('jx/widget/list', ['../../base','../widget','../selection'], function(base, Widget, Selection){
     
-    var base = require("../../base"),
-        Widget = require("../widget"),
-        Selection = require("../selection");
-    
-    var list = module.exports = new Class({
+    var list = new Class({
         
         Extends: Widget,
         Family: 'Jx.Widget.List',
@@ -694,5 +690,7 @@ define('jx/widget/list', function(require, exports, module){
     if (base.global) {
         base.global.Widget.List = list;
     }
+    
+    return list;
     
 });

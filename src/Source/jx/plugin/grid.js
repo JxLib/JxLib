@@ -25,9 +25,10 @@ provides: [Jx.Plugin.Grid]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/plugin/grid", function(require){
-    var base = require("../../base");
+define("jx/plugin/grid", ['../../base'], function(base){
+    
     if (base.global) {
         base.global.Plugin.Grid = {};
     }
+    return {};
 });

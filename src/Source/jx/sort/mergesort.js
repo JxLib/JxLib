@@ -32,12 +32,9 @@ provides: [Jx.Sort.Mergesort]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/sort/mergesort", function(require, exports, module){
+define("jx/sort/mergesort", ['../../base','../sort'], function(base, Sort){
     
-    var base = require("../../base"),
-        Sort = require("../sort");
-        
-    var mergesort = module.exports = new Class({
+    var mergesort = new Class({
         Extends : Sort,
         Family: 'Jx.Sort.Mergesort',
     
@@ -119,7 +116,9 @@ define("jx/sort/mergesort", function(require, exports, module){
     });
 
     if (base.global) {
-        base.global.Sort.Mergesort = module.exports;
+        base.global.Sort.Mergesort = mergesort;
     }
+    
+    return mergesort;
     
 });

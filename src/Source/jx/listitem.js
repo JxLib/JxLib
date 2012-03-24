@@ -27,12 +27,9 @@ provides: [Jx.ListItem]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/listitem", function(require, exports, module){
+define("jx/listitem", ['../base','./widget'], function(base, Widget){
     
-    var base = require("../base"),
-        Widget = require("./widget");
-        
-    var listItem = module.exports = new Class({
+    var listItem = new Class({
         Extends: Widget,
         Family: 'Jx.ListItem',
     
@@ -62,6 +59,8 @@ define("jx/listitem", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.ListItem = module.exports;
+        base.global.ListItem = listItem;
     }
+    
+    return listItem;
 });

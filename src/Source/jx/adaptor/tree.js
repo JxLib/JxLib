@@ -27,15 +27,10 @@ provides: [Jx.Adaptor.Tree]
  * License: mit-style
  */
 
-define('jx/adaptor/tree',function(require,exports,module){
+define('jx/adaptor/tree', ['../../base','../adaptor','../tree/folder','../tree/item','../store/strategy/progressive'],
+       function(base, Adaptor, Folder, Item, Progressive){
 
-    var base = require("../../base"),
-        Adaptor = require("../adaptor"),
-        Folder = require("../tree/folder"),
-        Item = require("../tree/item"),
-        Progressive = require("../store/strategy/progressive");
-        
-    var tree = module.exports = new Class({
+    var tree = new Class({
 
         Extends: Jx.Adaptor,
         Family: 'Jx.Adaptor.Tree',
@@ -233,7 +228,9 @@ define('jx/adaptor/tree',function(require,exports,module){
     });
     
     if (base.global) {
-        base.global.Adaptor.Tree = module.exports;
+        base.global.Adaptor.Tree = tree;
     }
+    
+    return tree;
     
 });

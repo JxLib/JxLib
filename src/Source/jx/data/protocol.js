@@ -30,12 +30,10 @@ provides: [Jx.Data.Protocol]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/data/protocol", function(require, exports, module){
+define("jx/data/protocol", ['../../base','../object'],
+       function(base, jxObject){
     
-    var base = require("../../base"),
-        jxObject = require("../object");
-        
-    var protocol = module.exports = new Class({
+    var protocol = new Class({
 
         Extends: jxObject,
         Family: 'Jx.Store.Protocol',
@@ -125,7 +123,9 @@ define("jx/data/protocol", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Data.Protocol = module.exports;
+        base.global.Data.Protocol = protocol;
     }
+    
+    return protocol;
     
 });

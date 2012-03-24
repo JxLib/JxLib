@@ -33,13 +33,9 @@ css:
  *
  * This file is licensed under an MIT style license
  */
-define("jx/notifier",function(require, exports, module){
+define("jx/notifier",['../base','./listview','./notice'], function(base, ListView, Notice){
     
-    var base = require("../base"),
-        ListView = require("./listview"),
-        Notice = require("./notice");
-        
-    var notifier = module.exports = new Class({
+    var notifier = new Class({
     
         Extends: ListView,
         Family: 'Jx.Notifier',
@@ -117,7 +113,9 @@ define("jx/notifier",function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Notifier = module.exports;
+        base.global.Notifier = notifier;
     }
+    
+    return notifier;
     
 });

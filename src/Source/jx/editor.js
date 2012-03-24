@@ -51,16 +51,10 @@ css:
  * 
  * Inspired by (and a great deal of code from) mooEditable
  */
-define("jx/editor", function(require, exports, module){
+define("jx/editor", ['../base','./widget','./toolbar','./layout','./editor/selection','./toolbar/container','require'],
+       function(base, Widget, Toolbar,Layout, EditorSelection, ToolbarContainer,require){
     
-    var base = require("../base"),
-        Widget = require("./widget"),
-        Toolbar = require("./toolbar"),
-        Layout = require("./layout"),
-        EditorSelection = null,
-        ToolbarContainer = require("./toolbar/container");
-        
-    var editor = module.exports = new Class({
+    var editor = new Class({
     
         Extends: Widget,
         Family: 'Jx.Editor',
@@ -118,8 +112,11 @@ define("jx/editor", function(require, exports, module){
         blockEls: /^(H[1-6]|HR|P|DIV|ADDRESS|PRE|FORM|TABLE|LI|OL|UL|TD|CAPTION|BLOCKQUOTE|CENTER|DL|DT|DD)$/i,
         
         init: function () {
-            EditorSelection = require("./editor/selection");
-            
+            //in global mode, Jx.Editor.Selection wasn't defined when we were.
+            //grab it now...
+            if (EditorSelection === undefined || EditorSelection === null) {
+                EditorSelection = require('jx/editor/selection');
+            }
             if (this.options.parent !== null && this.options.parent !== undefined) {
                 this.options.deferRender = false;
             } else {
@@ -740,7 +737,9 @@ define("jx/editor", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Editor = module.exports;
+        base.global.Editor = editor;
     }
+    
+    return editor;
     
 });

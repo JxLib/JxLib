@@ -16,16 +16,15 @@ images:
  - notice.png
 ...
  */
-define("jx/notice/success", function(require, exports, module){
+/**
+ * Class: Jx.Notice.Information
+ * A <Jx.Notice> subclass useful for displaying informational messages
+ */
+define("jx/notice/information", ['../../base','../notice'],
+       function(base, Notice){
     
-    var base = require("../../base"),
-        Notice = require("../notice");
-        
-    /**
-     * Class: Jx.Notice.Information
-     * A <Jx.Notice> subclass useful for displaying informational messages
-     */
-    var information = module.exports = new Class({
+
+    var information = new Class({
         Extends: Notice,
         options: {
             template: '<li class="jxNoticeItemContainer"><div class="jxNoticeItem"><img class="jxNoticeIcon" src="'+base.aPixel.src+'" title="Success"><span class="jxNotice"></span><a class="jxNoticeClose" href="javascript:void(0);" title="' + Locale.get('Jx','notice').closeTip + '"></a></div></li>',
@@ -34,7 +33,9 @@ define("jx/notice/success", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Notice.Information = module.exports;
+        base.global.Notice.Information = information;
     }
+    
+    return information;
 
 });

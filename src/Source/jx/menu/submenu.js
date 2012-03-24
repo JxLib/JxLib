@@ -38,13 +38,10 @@ provides: [Jx.Menu.SubMenu]
  *
  * This file is licensed under an MIT style license
  */
-define('jx/menu/submenu', function(require, exports, module){
+define('jx/menu/submenu', ['../../base','../menu','./item'],
+       function(base, Menu, Item){
 
-    var base = require("../../base"),
-        Menu = require("../menu"),
-        Item = require("./item");
-    
-    var subMenu = module.exports = new Class({
+    var subMenu = new Class({
         Extends: Item,
         Family: 'Jx.Menu.SubMenu',
         /**
@@ -245,5 +242,7 @@ define('jx/menu/submenu', function(require, exports, module){
     if (base.global) {
         base.global.Menu.SubMenu = subMenu;
     }
+    
+    return subMenu;
 
 });

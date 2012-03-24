@@ -46,16 +46,11 @@ provides: [Jx.Field.ComboBox]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/field/combobox", function(require, exports, module){
+define("jx/field/combobox", ['../../base','../field','../listview','../adaptor/listview/fill',
+                             '../button/flyout','../toolbar/pager'],
+       function(base, Field, ListView, Fill, Flyout, Pager){
     
-    var base = require("../../base"),
-        Field = require("../field"),
-        ListView = require("../listview"),
-        Fill = require("../adaptor/listview/fill"),
-        Flyout = require("../button/flyout"),
-        Pager = require("../toolbar/pager");
-        
-    var comboBox = module.exports = new Class({
+    var comboBox = new Class({
     
         Extends: Field,
         Family: 'Jx.Field.Combo',            
@@ -158,7 +153,9 @@ define("jx/field/combobox", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Field.ComboBox = module.exports;
+        base.global.Field.ComboBox = comboBox;
     }
+    
+    return comboBox;
     
 });

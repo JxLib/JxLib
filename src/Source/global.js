@@ -41,14 +41,27 @@ this.require = function(name){
 };
 
 var define = this.define = function(id, deps, fn){
-	if (typeof deps == 'function') fn = deps;
-	var module = {exports: {}};
-	var require = function(name){
-		name = normalize(name, id);
-		return loaded[name];
-	};
-	fn.call(module.exports, require, module.exports, module);
-	loaded[id] = module.exports;
+	if (typeof deps == 'function') {
+        fn = deps;
+        deps = [];
+    }
+    if (loaded.require === undefined || loaded.require === null) {
+        var require = function(name){
+            name = normalize(name, id);
+            return loaded[name];
+        };
+        require.defined = function(name) {
+            return (loaded[name] !== undefined && loaded[name] !== null);
+        }
+        loaded['require'] = require;
+    }
+    //get deps
+    var d = deps.map(function(dep){
+        name = normalize(dep, id);
+        return loaded[name];
+    });
+	var ret = fn.apply(this,d);
+	loaded[id] = ret;
 };
 
 define.amd = {};

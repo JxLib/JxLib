@@ -32,12 +32,10 @@ provides: [Jx.Field.Checkbox]
  * This file is licensed under an MIT style license
  *
  */
-define("jx/field/checkbox", function(require, exports, module){
+define("jx/field/checkbox", ['../../base','../field'],
+       function(base, Field){
     
-    var base = require("../../base"),
-        Field = require("../field");
-        
-    var checkbox = module.exports = new Class({
+    var checkbox = new Class({
 
         Extends : Field,
         Family: "Jx.Field.Checkbox",
@@ -152,7 +150,9 @@ define("jx/field/checkbox", function(require, exports, module){
     });
 
     if (base.global) {
-        base.global.Field.Checkbox = module.exports;
+        base.global.Field.Checkbox = checkbox;
     }
+    
+    return checkbox;
     
 });

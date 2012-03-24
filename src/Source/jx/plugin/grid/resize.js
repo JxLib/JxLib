@@ -28,13 +28,10 @@ provides: [Jx.Plugin.Grid.Resize]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/plugin/grid/resize", function(require, exports, module){
+define("jx/plugin/grid/resize", ['../../../base','../../plugin','../../grid'],
+       function(base, Plugin, Grid){
     
-    var base = require("../../../base"),
-        Plugin = require("../../plugin"),
-        Grid = require("../../grid")
-        
-    var resize = module.exports = new Class({
+    var resize = new Class({
 
         Extends : Plugin,
         Family: "Jx.Plugin.Grid.Resize",
@@ -207,7 +204,9 @@ define("jx/plugin/grid/resize", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Plugin.Grid.Resize = module.exports;
+        base.global.Plugin.Grid.Resize = resize;
     }
+    
+    return resize;
     
 });

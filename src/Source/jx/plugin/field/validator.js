@@ -31,13 +31,10 @@ provides: [Jx.Plugin.Field.Validator]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/plugin/field/validator", function(require, exports, module){
+define("jx/plugin/field/validator", ['../../../base','../../plugin','../../field'],
+       function(base, Plugin, Field){
     
-    var base = require("../../../base"),
-        Plugin = require("../../plugin"),
-        Field = require("../../field");
-        
-    var validator = module.exports = new Class({
+    var validator = new Class({
 
         Extends : Plugin,
         Family: "Jx.Plugin.Field.Validator",
@@ -218,6 +215,8 @@ define("jx/plugin/field/validator", function(require, exports, module){
     });
 
     if (base.global) {
-        base.global.Plugin.Field.Validator = module.exports;
+        base.global.Plugin.Field.Validator = validator;
     }
+    
+    return validator;
 });

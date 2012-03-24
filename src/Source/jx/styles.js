@@ -42,11 +42,9 @@ provides: [Jx.Styles]
  *
  */
 
-define('jx/styles',['../base'],function(require, exports, module){
+define('jx/styles',['../base'],function(base){
     
-    var base = require('../base');
-    
-    var styles = module.exports = new(new Class({
+    var styles = new(new Class({
         /**
          * dynamicStyleMap - <Hash> used to keep a reference to dynamically
          * created style sheets for quick access
@@ -211,7 +209,9 @@ define('jx/styles',['../base'],function(require, exports, module){
     }))();
     
     if (base.global) {
-        base.global.Styles = module.exports;
+        base.global.Styles = styles;
     }
+    
+    return styles;
 
 });

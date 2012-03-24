@@ -35,12 +35,9 @@ images:
  *
  * This file is licensed under an MIT style license
  */
-define("jx/toolbar/separator", function(require, exports, module){
+define("jx/toolbar/separator", ['../../base','../widget'], function(base, Widget){
     
-    var base = require("../../base"),
-        Widget = require("../widget");
-        
-    var separator = module.exports = new Class({
+    var separator = new Class({
         Extends: Widget,
         Family: 'Jx.Toolbar.Separator',
         /**
@@ -55,6 +52,8 @@ define("jx/toolbar/separator", function(require, exports, module){
     });
 
     if (base.global) {
-        base.global.Toolbar.Separator = module.exports;
+        base.global.Toolbar.Separator = separator;
     }
+    
+    return separator;
 });

@@ -38,15 +38,10 @@ images:
  *
  * This file is licensed under an MIT style license
  */
-define("jx/toolbar/pager", function(require, exports, module){
+define("jx/toolbar/pager", ['../../base','../toolbar','../button','./item','../store/strategy/paginate'],
+       function(base, Toolbar, Button, Item, Paginate){
     
-    var base = require("../../base"),
-        Toolbar = require("../toolbar"),
-        Button = require("../button"),
-        Item = require("./item"),
-        Paginate = require("../store/strategy/paginate")
-        
-    var pager = module.exports = new Class({
+    var pager = new Class({
 
         Extends: Toolbar,
     
@@ -162,6 +157,8 @@ define("jx/toolbar/pager", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Toolbar.Pager = module.exports;
+        base.global.Toolbar.Pager = pager;
     }
+    
+    return pager;
 });

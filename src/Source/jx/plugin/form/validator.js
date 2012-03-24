@@ -29,14 +29,10 @@ provides: [Jx.Plugin.Form.Validator]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/plugin/form/validator", function(require, exports, module){
+define("jx/plugin/form/validator", ['../../../base','../../plugin','../../form','../field/validator'],
+       function(base, Plugin, Form, Validator){
     
-    var base = require("../../../base"),
-        Plugin = require("../../plugin"),
-        Form = require("../../form"),
-        Validator = require("../field/validator")
-        
-    var validator = module.exports = new Class({
+    var validator = new Class({
 
         Extends : Plugin,
         Family: "Jx.Plugin.Form.Validator",
@@ -246,6 +242,8 @@ define("jx/plugin/form/validator", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Plugin.Form.Validator = module.exports;
+        base.global.Plugin.Form.Validator = validator;
     }
+    
+    return validator;
 });

@@ -36,12 +36,10 @@ provides: [Jx.Formatter.Currency]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/formatter/currency", function(require, exports, module){
+define("jx/formatter/currency", ['../../base','./number'],
+       function(base, NumberFormatter){
     
-    var base = require("../../base"),
-        NumberFormatter = require("./number");
-            
-    var currency = module.exports = new Class({
+    var currency = new Class({
 
         Extends: NumberFormatter,
         Family: "Jx.Formatter.Currency",
@@ -89,7 +87,9 @@ define("jx/formatter/currency", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Formatter.Currency = module.exports;
+        base.global.Formatter.Currency = currency;
     }
+    
+    return currency;
     
 });

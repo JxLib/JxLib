@@ -18,12 +18,10 @@ images:
 
 ...
  */
-define("jx/plugin/editor/bold", function(require, exports, module){
+define("jx/plugin/editor/bold", ['../../../base','./button'],
+       function(base, Button){
     
-    var base = require("../../../base"),
-        Button = require("./button");
-        
-    var bold = module.exports = new Class({
+    var bold = new Class({
     
         Extends: Button,
         Family: 'Jx.Plugin.Editor.Bold',
@@ -79,6 +77,7 @@ define("jx/plugin/editor/bold", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Plugin.Editor.Bold = module.exports;
+        base.global.Plugin.Editor.Bold = bold;
     }
+    return bold;
 });

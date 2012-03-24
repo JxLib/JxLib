@@ -38,12 +38,9 @@ provides: [Jx.Selection]
  *
  * This file is licensed under an MIT style license
  */
-define('jx/selection',function(require, exports, module){
+define('jx/selection',['../base','./object'], function(base, jxObject){
 
-    var base = require('../base'),
-        jxObject = require('./object');
-        
-    var selection = module.exports = new Class({
+    var selection = new Class({
         
         Extends: jxObject,
         Family: 'Jx.Selection',
@@ -215,7 +212,9 @@ define('jx/selection',function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Selection = module.exports;
+        base.global.Selection = selection;
     }
+    
+    return selection;
 
 });

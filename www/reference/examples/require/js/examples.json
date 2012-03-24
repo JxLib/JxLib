@@ -1,0 +1,61 @@
+{
+    'Jx-Examples': [
+        {'Page-Layout' : [
+            {'Layout' :'layout'},
+            {'Splitter' : 'splitter'},
+            {'Splitter-Integrated' : 'splitter_advanced'},
+            {'Container-Managers': [
+              {'Container' : 'container'},
+              {'Column-layout': 'columns'}
+            ]}
+        ]},
+        {'Panels-and-Dialogs' : [
+            {'Panel' :'panel'},
+            {'Panel-Set' : 'panelset'},
+            {'Panels-Integrated' : 'panel_advanced'},
+            {'Dialog' : 'dialog.html'},
+            {'Dialogs-Integrated' : 'dialog_advanced'}
+            
+            //{'File-Upload-Panel' : 'file_upload.html' }
+        ]},
+        {'Lists' : [
+            {'Grid' : 'grid'},
+            //{'Paginated-Grid' : 'paging-grid.html'},
+            {'Grid-Inline-Editor' : 'grid_editor'},
+            {'Tree' : 'tree'},
+            {'List-View' : 'list'}
+        ]},
+        {'Bars-and-Buttons' : [
+            {'Toolbar' :'toolbar'},
+            {'Buttons' : [
+                {'Basic' : 'button'},
+                {'Flyouts' : 'flyout'},
+                {'Flyouts-Integrated' : 'flyout_advanced'},
+                {'Multi' : 'multi'},
+                {'Color' : 'color'}
+            ]},
+            {'Tabs':[
+                {'Tabs' : 'tab'},
+                {'Tab-Set' : 'tab_set'},
+                {'Tabs-Integrated' : 'tab_box_advanced'}
+            ]},
+            {'Menus': [
+                {'Menu-button' : 'menu'},
+                {'Menu-bar' : 'menu_bar'},
+                {'Context-Menu' : 'menu_context'}
+            ]}
+        ]},
+        {'Extras' : [
+            {'Forms' : 'forms'},
+            {'Notification' : 'notification'},
+            {'Custom-Scrollbars' : 'custom_scrollbars'},
+            {'Progress-Bar' : 'progressbar'},
+            {'Slider' : 'slider'},
+            {'Editor' : 'editor'} 
+        ]},
+        {'Adaptors' : [
+            {'Tree-adaptor': 'tree_adaptors'},
+            {'Combo-adaptor': 'adaptor_combo' }
+        ]}
+    ]
+}

@@ -17,12 +17,10 @@ images:
 
 ...
  */
-define("jx/plugin/editor/outdent", function(require, exports, module){
+define("jx/plugin/editor/outdent", ['../../../base','./button'],
+       function(base, Button){
     
-    var base = require("../../../base"),
-        Button = require("./button");
-
-    var outdent = module.exports = new Class({
+    var outdent = new Class({
     
         Extends: Button,
         Family: 'Jx.Plugin.Editor.Outdent',
@@ -42,7 +40,9 @@ define("jx/plugin/editor/outdent", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Plugin.Editor.Outdent = module.exports;
+        base.global.Plugin.Editor.Outdent = outdent;
     }
+    
+    return outdent;
     
 });

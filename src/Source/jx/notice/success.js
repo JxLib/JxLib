@@ -15,17 +15,15 @@ provides: [Jx.Notice.Success]
 images:
  - notice_success.png
 ...
+*/
+/**
+ * Class: Jx.Notice.Success
+ * A <Jx.Notice> subclass useful for displaying success messages
  */
-define("jx/notice/success", function(require, exports, module){
+define("jx/notice/success", ['../../base','../notice'],
+       function(base, Notice){
     
-    var base = require("../../base"),
-        Notice = require("../notice");
-        
-    /**
-     * Class: Jx.Notice.Success
-     * A <Jx.Notice> subclass useful for displaying success messages
-     */
-    var success = module.exports = new Class({
+    var success = new Class({
         Extends: Notice,
         options: {
             template: '<li class="jxNoticeItemContainer"><div class="jxNoticeItem"><img class="jxNoticeIcon" src="'+base.aPixel.src+'" title="Success"><span class="jxNotice"></span><a class="jxNoticeClose" href="javascript:void(0);" title="' + Locale.get('Jx','notice').closeTip + '"></a></div></li>',
@@ -34,7 +32,9 @@ define("jx/notice/success", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Notice.Success = module.exports;
+        base.global.Notice.Success = success;
     }
+    
+    return success;
 
 });

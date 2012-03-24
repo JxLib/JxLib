@@ -54,12 +54,9 @@ images:
  * Copyright (c) 2010 by Jonathan Bomgardner
  * Licensed under an mit-style license
  */
-define("jx/progressbar", function(require, exports, module){
+define("jx/progressbar", ['../base','./widget'], function(base, Widget){
     
-    var base = require("../base"),
-        Widget = require("./widget");
-        
-    var progressbar = module.exports = new Class({
+    var progressbar = new Class({
         Extends: Widget,
         Family: 'Jx.Progressbar',
         
@@ -221,6 +218,8 @@ define("jx/progressbar", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Progressbar = module.exports;
+        base.global.Progressbar = progressbar;
     }
+    
+    return progressbar;
 });

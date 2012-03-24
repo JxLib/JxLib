@@ -15,13 +15,10 @@ provides: [Jx.Plugin.Editor.Button]
 
 ...
  */
-define("jx/plugin/editor/button", function(require, exports, module){
+define("jx/plugin/editor/button", ['../../../base','../../plugin','../../button'],
+       function(base, Plugin, Button){
     
-    var base = require("../../../base"),
-        Plugin = require("../../plugin"),
-        Button = require("../../button")
-        
-    var button = module.exports = new Class({
+    var button = new Class({
     
         Extends: Plugin,
         Family: 'Jx.Plugin.Editor.Button',
@@ -140,6 +137,7 @@ define("jx/plugin/editor/button", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Plugin.Editor.Button = module.exports;
+        base.global.Plugin.Editor.Button = button;
     }
+    return button;
 });

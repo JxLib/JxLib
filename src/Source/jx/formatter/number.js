@@ -40,12 +40,10 @@ provides: [Jx.Formatter.Number]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/formatter/number", function(require, exports, module){
+define("jx/formatter/number", ['../../base','../formatter'],
+       function(base, Formatter){
     
-    var base = require("../../base"),
-        Formatter = require("../formatter");
-        
-    var number = module.exports = new Class({
+    var number = new Class({
 
         Extends: Formatter,
         Family: "Jx.Formatter.Number",
@@ -150,6 +148,8 @@ define("jx/formatter/number", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Formatter.Number = module.exports;
+        base.global.Formatter.Number = number;
     }
+    
+    return number;
 });

@@ -14,9 +14,10 @@ provides: [Jx.Plugin.Editor]
 
 ...
  */
-define("jx/plugin/editor", function(require){
-    var base = require("../../base");
+define("jx/plugin/editor", ['../../base'], function(base){
+    
     if (base.global) {
         base.global.Plugin.Editor = {};
     }
+    return {};
 });

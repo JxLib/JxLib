@@ -37,14 +37,10 @@ css:
  *
  * This file is licensed under an MIT style license
  */
-define("jx/dialog/confirm", function(require, exports, module){
+define("jx/dialog/confirm", ['../../base','../dialog','../toolbar','../button'],
+       function(base, Dialog, Toolbar, Button){
     
-    var base = require("../../base"),
-        Dialog = require("../dialog"),
-        Toolbar = require("../toolbar"),
-        Button = require("../button");
-        
-    var confirm = module.exports = new Class({
+    var confirm = new Class({
 
         Extends: Dialog,
         Family: "Jx.Dialog.Confirm",
@@ -157,6 +153,8 @@ define("jx/dialog/confirm", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Dialog.Confirm = module.exports;
+        base.global.Dialog.Confirm = confirm;
     }
+    
+    return confirm;
 });

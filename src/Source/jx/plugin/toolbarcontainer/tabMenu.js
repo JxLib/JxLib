@@ -37,15 +37,10 @@ provides: [Jx.Plugin.ToolbarContainer.TabMenu]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/plugin/toolbarcontainer/tabmenu", function(require, exports, module){
+define("jx/plugin/toolbarcontainer/tabmenu", ['../../../base','../../plugin','../../tab','../../menu','../../menu/item'],
+       function(base, Plugin, Tab, Menu, MenuItem){
     
-    var base = require("../../../base"),
-        Plugin = require("../../plugin"),
-        Tab = require("../../tab"),
-        Menu = require("../../menu"),
-        MenuItem = require("../../menu/item");
-        
-    var tabMenu = module.exports = new Class({
+    var tabMenu = new Class({
 
         Extends: Plugin,
         Family: 'Jx.Plugin.ToolbarContainer.TabMenu',
@@ -127,7 +122,9 @@ define("jx/plugin/toolbarcontainer/tabmenu", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Plugin.ToolbarContainer.TabMenu  = module.exports;
+        base.global.Plugin.ToolbarContainer.TabMenu  = tabMenu;
     }
+    
+    return tabMenu;
     
 });

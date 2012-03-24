@@ -19,14 +19,10 @@ images:
 
 ...
  */
-define("jx/plugin/editor/link", function(require, exports, module){
+define("jx/plugin/editor/link", ['../../../base','./button','../../dialog/message','../../dialog/prompt'],
+       function(base, Button, Message, Prompt){
     
-    var base = require("../../../base"),
-        Button = require("./button"),
-        Message = require("../../dialog/message"),
-        Prompt = require("../../dialog/prompt");
-        
-    var link = module.exports = new Class({
+    var link = new Class({
     
         Extends: Button,
         Family: 'Jx.Plugin.Editor.Link',
@@ -69,6 +65,8 @@ define("jx/plugin/editor/link", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Plugin.Editor.Link = module.exports;
+        base.global.Plugin.Editor.Link = link;
     }
+    
+    return link;
 });

@@ -17,12 +17,10 @@ images:
 
 ...
  */
-define("jx/plugin/editor/undo", function(require, exports, module){
+define("jx/plugin/editor/undo", ['../../../base','./button'],
+       function(base, Button){
     
-    var base = require("../../../base"),
-        Button = require("./button");
-        
-    var undo = module.exports = new Class({
+    var undo = new Class({
     
         Extends: Button,
         Family: 'Jx.Plugin.Editor.Undo',
@@ -43,6 +41,8 @@ define("jx/plugin/editor/undo", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Plugin.Editor.Undo = module.exports;
+        base.global.Plugin.Editor.Undo = undo;
     }
+    
+    return undo;
 });
