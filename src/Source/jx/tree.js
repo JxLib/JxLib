@@ -37,14 +37,10 @@ images:
  *
  * This file is licensed under an MIT style license
  */
-define("jx/tree", function(require, exports, module){
-    
-    var base = require("../base"),
-        WidgetList = require("./widget/list"),
-        Item = null,
-        Folder = null;
+define("jx/tree", ['../base','./widget/list','./tree/item','./tree/folder'],
+       function(base, WidgetList, Item, Folder){
         
-    var tree = module.exports = new Class({
+    var tree = new Class({
     
         Extends: WidgetList,
         Family: 'Jx.Tree',
@@ -115,8 +111,14 @@ define("jx/tree", function(require, exports, module){
         frozen: false,
         
         init: function(){
-            Item = require("./tree/item");
-            Folder = require("./tree/folder");
+            //in global mode, folder and item are not defined when the class is defined.
+            //get them now
+            if (base.global && Folder === undefined) {
+                Folder = require('jx/tree/folder');
+            }
+            if (base.global && Item === undefined) {
+                Item = require('jx/tree/item');
+            }
             this.parent();
         },
         
@@ -390,8 +392,10 @@ define("jx/tree", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Tree = module.exports;
+        base.global.Tree = tree;
     }
+    
+    return tree;
     
 });
 

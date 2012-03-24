@@ -19,12 +19,12 @@ provides: [Jx.Adaptor.Combo]
  * The namespace for all combo adaptors
  */
 
-define("jx/adaptor/combo", function(require){
-    
-    var base = require("../../base");
+define("jx/adaptor/combo", ['../../base'], function(base){
     
     //This just needs to set the namespace in the global object
     if (base.global) {
         base.global.Adaptor.Combo = {};
     }
+    
+    return {};
 });

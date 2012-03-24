@@ -9,6 +9,9 @@ license: MIT-style license.
 
 requires:
  - Jx
+ - Jx.Options
+ - Jx.Lang
+ - Jx.Plugin
 
 provides: [Jx.Object]
 
@@ -199,34 +202,17 @@ provides: [Jx.Object]
  * This file is licensed under an MIT style license
  */
 
-define('jx/object',function(require, exports, module){
+define('jx/object',['../base', './options', './lang', './plugin', 'require'], function(base, jxOptions, Lang, Plugin, require){
     
-    var base = require('../base');
-    
-    var jxObject = module.exports = new Class({
+    var jxObject = new Class({
         
+        Implements: [Options, Events, jxOptions, Lang],
         Family: "Jx.Object",
-        Implements: [Options, Events],
         plugins: null,
         pluginNamespace: 'Other',
-        /**
-         * Constructor: Jx.Object
-         * create a new instance of Jx.Object
-         *
-         * Parameters:
-         * options - {Object} optional parameters for creating an object.
-         */
-        parameters: ['options'],
+        
     
         options: {
-          /**
-           * Option: useLang
-           * Turns on this widget's ability to react to changes in
-           * the default language. Handy for changing text out on the fly.
-           *
-           * TODO: Should this be enabled or disabled by default?
-           */
-          useLang: true,
           /**
            * Option: plugins
            * {Array} an array of plugins to add to the object.
@@ -248,41 +234,10 @@ define('jx/object',function(require, exports, module){
             this.plugins = {};
             this.bound = {};
             //normalize arguments
-            var numArgs = arguments.length,
-                options = {},
-                parameters = this.parameters,
-                numParams,
-                index;
+            
+            this.setOptions(this.determineOptions.apply(this, arguments));
     
-            if (numArgs > 0) {
-                if (numArgs === 1 &&
-                        (typeOf(arguments[0])==='object') &&
-                        parameters.length === 1 &&
-                        parameters[0] === 'options') {
-                    options = arguments[0];
-                } else {
-                    numParams = parameters.length;
-                    if (numParams <= numArgs) {
-                        index = numParams;
-                    } else {
-                        index = numArgs;
-                    }
-                    for (var i = 0; i < index; i++) {
-                        if (parameters[i] === 'options') {
-                            Object.append(options, arguments[i]);
-                        } else {
-                            options[parameters[i]] = arguments[i];
-                        }
-                    }
-                }
-            }
-    
-            this.setOptions(options);
-    
-            this.bound.changeText = this.changeText.bind(this);
-            if (this.options.useLang) {
-                Locale.addEvent('change', this.bound.changeText);
-            }
+            this.setupLang();
     
             //Changed the initPlugins() to before init and render so that 
             //plugins can connect to preInit and postInit functions as well as 
@@ -290,8 +245,9 @@ define('jx/object',function(require, exports, module){
             //done mainly so grid plugins could call want events before render time.
             this.fireEvent('prePluginInit');
             this.initPlugins();
+            //call the rest of the init/render chain...
             this.fireEvent('postPluginInit');
-            
+        
             //after calling initPlugins we need to remove the plugins from the
             //options object or else every class that relies on the options will try 
             //to initialize the same plugins. By this point all of the plugins should
@@ -305,6 +261,7 @@ define('jx/object',function(require, exports, module){
             this.fireEvent('initializeDone');
             
             this.ready = true;
+            
         },
     
         /**
@@ -312,9 +269,7 @@ define('jx/object',function(require, exports, module){
          * internal function to initialize plugins on object creation
          */
         initPlugins: function () {
-            var p, klass, options, file,
-                Plugin = require("./plugin");
-            
+            var p, klass, options, file, plug, type;
             // pluginNamespace must be defined in order to pass plugins to the
             // object
             if (this.pluginNamespace !== undefined && this.pluginNamespace !== null) {
@@ -326,7 +281,7 @@ define('jx/object',function(require, exports, module){
                         if (instanceOf(plugin, Plugin)) {
                             plugin.attach(this);
                         } else {
-                            var type = typeOf(plugin);
+                            type = typeOf(plugin);
                             if (type === 'object') {
                                 klass = plugin.name;
                                 options = plugin.options;
@@ -343,14 +298,18 @@ define('jx/object',function(require, exports, module){
                             } else {
                                 //otherwise it's just a name and should be in the proper
                                 //namespace. Create the require path.
-                                file = './plugin/' + this.pluginNamespace.toLowerCase() + '/' + klass.toLowerCase();
+                                file = 'jx/plugin/' + this.pluginNamespace.toLowerCase() + '/' + klass.toLowerCase();
                             }
-                            //Not sure what this will return if it can't find the file in non-global situations
-                            var plug = require(file);
-                            if (plug === undefined || plug === null) {
-                                //try the adaptor namespace if the plugin namespace turns up nothing...
-                                file = './adaptor/' + this.pluginNamespace.toLowerCase() + '/' + klass.toLowerCase();
+                            //NOTE: top-level requires will need to be sure all plugin/adaptor modules are loaded by require
+                            //before instantiating a class.
+                            if (require.defined(file)) {
                                 plug = require(file);
+                            } else {
+                                //try the adaptor namespace if the plugin namespace turns up nothing...
+                                file = 'jx/adaptor/' + this.pluginNamespace.toLowerCase() + '/' + klass.toLowerCase();
+                                if (require.defined(file)) {
+                                    plug = require(file);
+                                }
                             }
                             
                             if (plug !== undefined && plug !== null) {
@@ -394,9 +353,7 @@ define('jx/object',function(require, exports, module){
                 }, this);
             }
             this.plugins = {};
-            if (this.options.useLang && this.bound.changeText !== undefined && this.bound.changeText !== null) {
-                Locale.removeEvent('change', this.bound.changeText);
-            }
+            this.cleanupLang();
             this.bound = null;
         },
     
@@ -449,31 +406,6 @@ define('jx/object',function(require, exports, module){
         },
     
         /**
-         * APIMethod: getText
-         *
-         * returns the localized text.
-         *
-         * Parameters:
-         * val - <String> || <Function> || <Object> = { set: '', key: ''[, value: ''] } for a Locale object
-         */
-        getText: function(val) {
-          // COMMENT: just an idea how a localization object could be stored to the instance if needed somewhere else and options change?
-          this.i18n = val;
-          return base.getText(val);
-        },
-    
-        /**
-         * APIMethod: changeText
-         * This method should be overridden by subclasses. It should be used
-         * to change any language specific default text that is used by the widget.
-         *
-         * Parameters:
-         * lang - the language being changed to or that had it's data set of
-         *    translations changed.
-         */
-        changeText : function(){},
-    
-        /**
          * Method: generateId
          * Used to generate a unique ID for Jx Objects.
          */
@@ -522,7 +454,7 @@ define('jx/object',function(require, exports, module){
             };
     
             return function(el, nocash, doc){
-                    if (el && instanceOf(el, jxObject)) {
+                    if (el && (instanceOf(el, jxObject) || instanceOf(el, Plugin))) {
                         return types.element(el.toElement(doc || document), nocash);
                     }                
                     if (el && el.$family && el.uniqueNumber) return el;
@@ -535,7 +467,8 @@ define('jx/object',function(require, exports, module){
     
 
     if (base.global) {
-        base.global.Object = module.exports;
+        base.global.Object = jxObject;
     }
 
+    return jxObject;
 });

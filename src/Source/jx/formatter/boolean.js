@@ -35,12 +35,10 @@ provides: [Jx.Formatter.Boolean]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/formatter/boolean", function(require, exports, module){
+define("jx/formatter/boolean", ['../../base','../formatter'],
+       function(base, Formatter){
 
-    var base = require("../../base"),
-        Formatter = require("../formatter");
-        
-    var Boolean = module.exports = new Class({
+    var Boolean = new Class({
 
         Extends: Formatter,
         Family: "Jx.Formatter.Boolean",
@@ -93,6 +91,8 @@ define("jx/formatter/boolean", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Formatter.Boolean = module.exports;
+        base.global.Formatter.Boolean = Boolean;
     }
+    
+    return Boolean;
 });

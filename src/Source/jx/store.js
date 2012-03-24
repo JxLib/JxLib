@@ -39,14 +39,10 @@ provides: [Jx.Store]
  * This file is licensed under an MIT style license
  */
 
-define("jx/store", function(require, exports, module){
+define("jx/store", ['../base','./object','./record','./store/strategy/full'],
+       function(base, jxObject, Record, Full){
     
-    var base = require("../base"),
-        jxObject = require("./object"),
-        Record = require("./record"),
-        Full = require("./store/strategy/full")
-        
-    var store = module.exports = new Class({
+    var store = new Class({
 
         Extends: jxObject,
         Family: 'Jx.Store',
@@ -766,7 +762,9 @@ define("jx/store", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Store = module.exports;
+        base.global.Store = store;
     }
+    
+    return store;
     
 });

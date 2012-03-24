@@ -69,14 +69,9 @@ images:
  *
  * This file is licensed under an MIT style license
  */
-define("jx/tab", function(require, exports, module){
+define("jx/tab", ['../base','./button','./layout','./container'], function(base, Button, Layout, Container){
     
-    var base = require("../base"),
-        Button = require("./button"),
-        Layout = require("./layout"),
-        Container = require("./container")
-        
-    var tab = module.exports = new Class({
+    var tab = new Class({
         Extends: Button,
         Family: 'Jx.Tab',
         /**
@@ -255,7 +250,7 @@ define("jx/tab", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Tab = module.exports;
+        base.global.Tab = tab;
         
         /* keep the old location temporarily */
         base.global.Button.Tab = new Class({
@@ -270,5 +265,7 @@ define("jx/tab", function(require, exports, module){
           }
         });
     }
+    
+    return tab;
     
 });

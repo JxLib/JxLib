@@ -49,12 +49,9 @@ images:
  *
  * This file is licensed under an MIT style license
  */
-define("jx/tree/item", function(require, exports, module){
+define("jx/tree/item", ['../../base','../widget'], function(base, Widget){
     
-    var base = require("../../base"),
-        Widget = require("../widget");
-        
-    var item = module.exports = new Class ({
+    var item = new Class ({
     
         Extends: Widget,
         Family: 'Jx.Tree.Item',
@@ -336,7 +333,9 @@ define("jx/tree/item", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Tree.Item = module.exports;
+        base.global.Tree.Item = item;
     }
+    
+    return item;
     
 });

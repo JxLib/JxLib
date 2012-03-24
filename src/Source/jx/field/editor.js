@@ -20,13 +20,10 @@ css:
 
 ...
  */
-define("jx/field/editor", function(require, exports, module){
+define("jx/field/editor", ['../../base','../field','../editor'],
+       function(base, Field, Editor){
     
-    var base = require("../../base"),
-        Field = require("../field"),
-        Editor = require("../editor");
-        
-    var editor = module.exports = new Class({
+    var editor = new Class({
 
         Extends: Field,
         Family: 'Jx.Field.Editor',
@@ -106,7 +103,9 @@ define("jx/field/editor", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Field.Editor = module.exports;
+        base.global.Field.Editor = editor;
     }
+    
+    return editor;
     
 });

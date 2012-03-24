@@ -15,13 +15,10 @@ provides: [Jx.Plugin.Editor.CustomStyles]
 
 ...
  */
-define("jx/plugin/editor/customstyles", function(require, exports, module){
+define("jx/plugin/editor/customstyles", ['../../../base','../../plugin','../../field/select'],
+       function(base, Plugin, Select){
     
-    var base = require("../../../base"),
-        Plugin = require("../../plugin"),
-        Select = require("../../field/select");
-        
-    var customStyles = module.exports = new Class({
+    var customStyles = new Class({
     
         Extends: Plugin,
         Family: 'Jx.Plugin.Editor.CustomStyles',
@@ -119,6 +116,8 @@ define("jx/plugin/editor/customstyles", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Plugin.Editor.CustomStyles = module.exports;
+        base.global.Plugin.Editor.CustomStyles = customStyles;
     }
+    
+    return customStyles;
 });

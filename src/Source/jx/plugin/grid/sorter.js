@@ -29,13 +29,10 @@ images:
  *
  * This file is licensed under an MIT style license
  */
-define("jx/plugin/grid/sorter", function(require, exports, module){
+define("jx/plugin/grid/sorter", ['../../../base','../../plugin','../../grid'],
+       function(base, Plugin, Grid){
     
-    var base = require("../../../base"),
-        Plugin = require("../../plugin"),
-        Grid = require("../../grid")
-        
-    var sorter = module.exports = new Class({
+    var sorter = new Class({
         Extends: Plugin,
         Family: 'Jx.Plugin.Grid.Sorter',
         name: 'Sorter',
@@ -181,6 +178,8 @@ define("jx/plugin/grid/sorter", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Plugin.Grid.Sorter = module.exports;
+        base.global.Plugin.Grid.Sorter = sorter;
     }
+    
+    return sorter;
 });

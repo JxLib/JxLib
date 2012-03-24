@@ -47,13 +47,10 @@ provides: [Jx.MonthPicker]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/monthpicker", function(require, exports, module){
+define("jx/monthpicker", ['../base','./widget','./button'],
+       function(base, Widget, Button){
     
-    var base = require("../base"),
-        Widget = require("./widget"),
-        Button = require("./button");
-        
-    var monthPicker = module.exports = new Class({
+    var monthPicker = new Class({
     
         Extends: Widget,
         Family: 'Jx.MonthPicker',
@@ -223,7 +220,9 @@ define("jx/monthpicker", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.MonthPicker = module.exports;
+        base.global.MonthPicker = monthPicker;
     }
+    
+    return monthPicker;
     
 });

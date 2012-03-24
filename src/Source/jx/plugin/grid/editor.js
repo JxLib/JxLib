@@ -33,13 +33,10 @@ images:
  *
  * This file is licensed under an MIT style license
  */
-define("jx/plugin/grid/editor", function(require, exports, module){
+define("jx/plugin/grid/editor", ['../../../base','../../plugin','../../grid'],
+       function(base, Plugin, Grid){
     
-    var base = require("../../../base"),
-        Plugin = require("../../plugin"),
-        Grid = require("../../grid")
-        
-    var editor = module.exports = new Class({
+    var editor = new Class({
 
         Extends : Plugin,
         Family: "Jx.Plugin.Grid.Editor",
@@ -1234,6 +1231,8 @@ define("jx/plugin/grid/editor", function(require, exports, module){
     }); 
 
     if (base.global) {
-        base.global.Plugin.Grid.Editor = module.exports;
+        base.global.Plugin.Grid.Editor = editor;
     }
+    
+    return editor;
 });

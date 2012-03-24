@@ -23,12 +23,10 @@ provides: [Jx.Editor.Selection]
  * Copyright (c) 2011 by Jonathan Bomgardner
  * Licensed under an mit-style license
  */
-define("jx/editor/selection", function(require, exports, module){
+define("jx/editor/selection", ['../../base','../object'],
+       function(base, jxObject){
     
-    var base = require("../../base"),
-        jxObject = require("../object");
-        
-    var selection = module.exports = new Class({
+    var selection = new Class({
     
         Extends: jxObject,
         Family: 'Jx.Editor.Selection',
@@ -175,7 +173,9 @@ define("jx/editor/selection", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Editor.Selection = module.exports;
+        base.global.Editor.Selection = selection;
     }
+    
+    return selection;
     
 });

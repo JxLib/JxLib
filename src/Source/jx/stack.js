@@ -29,11 +29,9 @@ provides: [Jx.Stack]
  * This file is licensed under an MIT style license
  */
 
-define('jx/stack', function(require, exports, module){
+define('jx/stack', ['../base'], function(base){
     
-    var base = require('../base');
-    
-    var stack = module.exports = new(new Class({
+    var stack = new(new Class({
       /**
        * Property: els
        * {Array} the elements in the stack
@@ -104,7 +102,9 @@ define('jx/stack', function(require, exports, module){
     }))();
     
     if (base.global) {
-        base.global.Stack = module.exports;
+        base.global.Stack = stack;
     }
+    
+    return stack;
 
 });

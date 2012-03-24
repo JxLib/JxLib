@@ -42,14 +42,10 @@ images:
  *
  * This file is licensed under an MIT style license
  */
-define('jx/menu', function(require, exports, module){
+define('jx/menu', ['../base','./widget','./list','./button'],
+       function(base, Widget, List, Button){
     
-    var base = require("../base"),
-        Widget = require("./widget"),
-        List = require("./list"),
-        Button = require("./button");
-        
-    var menu = module.exports = new Class({
+    var menu = new Class({
         Extends: Widget,
         Family: 'Jx.Menu',
         // Binds: ['onMouseEnter','onMouseLeave','hide','keypressHandler'],
@@ -559,5 +555,7 @@ define('jx/menu', function(require, exports, module){
     if (base.global) {
         base.global.Menu = menu;
     }
+    
+    return menu;
     
 });

@@ -30,14 +30,10 @@ provides: [Jx.Plugin.Grid.Selector]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/plugin/grid/selector", function(require, exports, module){
+define("jx/plugin/grid/selector", ['../../../base','../../plugin','../../grid','../../grid/column'],
+       function(base, Plugin, Grid, Column){
     
-    var base = require("../../../base"),
-        Plugin = require("../../plugin"),
-        Grid = require("../../grid"),
-        Column = require("../../grid/column");
-        
-    var selector = module.exports = new Class({
+    var selector = new Class({
 
         Extends : Plugin,
         Family: 'Jx.Plugin.Grid.Selector',
@@ -732,6 +728,8 @@ define("jx/plugin/grid/selector", function(require, exports, module){
     });
 
     if (base.global) {
-        base.global.Plugin.Grid.Selector = module.exports;
+        base.global.Plugin.Grid.Selector = selector;
     }
+    
+    return selector;
 });

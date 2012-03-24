@@ -155,6 +155,7 @@ Group: Jx  {
       File: RowModel  (jx/grid/rowModel.js)
       }  # Group: Grid
 
+   File: Lang  (jx/lang.js)
    File: Layout  (jx/layout.js)
 
    Group: Layoutmanager  {
@@ -187,12 +188,13 @@ Group: Jx  {
       File: Error  (jx/notice/error.js)
       File: Information  (jx/notice/information.js)
       File: Success  (jx/notice/success.js)
-      File: Success  (jx/notice/warning.js)
+      File: Warning  (jx/notice/warning.js)
       }  # Group: Notice
 
    File: Notifier  (jx/notifier.js)
    File: Notifier.Float  (jx/notifier/float.js)
    File: Object  (jx/object.js)
+   File: Options  (jx/options.js)
    File: Panel  (jx/panel.js)
 
    Group: Panel  {

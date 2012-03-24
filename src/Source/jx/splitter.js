@@ -46,14 +46,10 @@ css:
  *
  * This file is licensed under an MIT style license
  */
-define("jx/splitter", function(require, exports, module){
+define("jx/splitter", ['../base','./object','./layout','./splitter/snap','require'],
+       function(base, jxObject, Layout, Snap, require){
     
-    var base = require("../base"),
-        jxObject = require("./object"),
-        Layout = require("./layout"),
-        Snap = null;
-        
-    var splitter = module.exports = new Class({
+    var splitter  = new Class({
         Extends: jxObject,
         Family: 'Jx.Splitter',
         /**
@@ -142,9 +138,11 @@ define("jx/splitter", function(require, exports, module){
          * Create a new instance of Jx.Splitter
          */
         init: function() {
-
-            Snap = require("./splitter/snap");            
-            
+            //in a global build, snap won't load in time
+            //load it now... always reference with a full path in here (include the jx/).
+            if (base.global && Snap === undefined) {
+                Snap = require('jx/splitter/snap');
+            }
             this.domObj = document.id(this.options.domObj);
             this.domObj.addClass('jxSplitContainer');
             var jxLayout = this.domObj.retrieve('jxLayout');
@@ -789,7 +787,9 @@ define("jx/splitter", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Splitter = module.exports;
+        base.global.Splitter = splitter;
     }
+    
+    return splitter;
     
 });

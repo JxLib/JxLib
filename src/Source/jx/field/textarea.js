@@ -43,12 +43,10 @@ provides: [Jx.Field.Textarea]
  * This file is licensed under an MIT style license
  *
  */
-define("jx/field/textarea", function(require, exports, module){
+define("jx/field/textarea", ['../../base','../field'],
+       function(base, Field){
     
-    var base = require("../../base"),
-        Field = require("../field");
-        
-    var textarea = module.exports = new Class({
+    var textarea = new Class({
 
         Extends: Field,
         Family: "Jx.Field.Textarea",
@@ -101,7 +99,9 @@ define("jx/field/textarea", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Field.Textarea = module.exports;
+        base.global.Field.Textarea = textarea;
     }
+    
+    return textarea;
     
 });

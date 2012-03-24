@@ -28,12 +28,10 @@ provides: [Jx.Plugin.Form.InlineErrors]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/plugin/form/inlineerrors", function(require, exports, module){
+define("jx/plugin/form/inlineerrors", ['../../../base','../../plugin'],
+       function(base, Plugin){
     
-    var base = require("../../../base"),
-        Plugin = require("../../plugin");
-        
-    var inlineErrors = module.exports = new Class({
+    var inlineErrors = new Class({
 
         Extends : Plugin,
         Family: "Jx.Plugin.Form.InlineErrors",
@@ -89,7 +87,9 @@ define("jx/plugin/form/inlineerrors", function(require, exports, module){
     });
 
     if (base.global) {
-        base.global.Plugin.Form.InlineErrors = module.exports;
+        base.global.Plugin.Form.InlineErrors = inlineErrors;
     }
+    
+    return inlineErrors;
 });
     

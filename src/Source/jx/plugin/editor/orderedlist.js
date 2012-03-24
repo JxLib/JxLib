@@ -17,12 +17,10 @@ images:
 
 ...
  */
-define("jx/plugin/editor/orderedlist", function(require, exports, module){
+define("jx/plugin/editor/orderedlist", ['../../../base','./button'],
+       function(base, Button){
     
-    var base = require("../../../base"),
-        Button = require("./button");
-        
-    var orderedlist = module.exports = new Class({
+    var orderedlist = new Class({
     
         Extends: Button,
         Family: 'Jx.Plugin.Editor.Orderedlist',
@@ -42,6 +40,8 @@ define("jx/plugin/editor/orderedlist", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Plugin.Editor.Orderedlist = module.exports;
+        base.global.Plugin.Editor.Orderedlist = orderedlist;
     }
+    
+    return orderedlist;
 });

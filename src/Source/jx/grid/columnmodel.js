@@ -30,15 +30,10 @@ provides: [Jx.Grid.ColumnModel]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/grid/columnmodel", function(require, exports, module) {
-    
-    var base = require("../../base"),
-        jxObject = require("../object"),
-        Grid = require("../grid");
-        Column = require("./column"),
-        Styles = require("../styles");
+define("jx/grid/columnmodel", ['../../base','../object','../grid','./column','../styles'],
+       function(base, jxObject, Grid, Column, Styles) {
         
-    var columnModel = module.exports = new Class({
+    var columnModel = new Class({
 
         Extends : jxObject,
         Family: 'Jx.Grid.ColumnModel',
@@ -478,7 +473,9 @@ define("jx/grid/columnmodel", function(require, exports, module) {
     });
 
     if (base.global) {
-        base.global.Grid.ColumnModel = module.exports;
+        base.global.Grid.ColumnModel = columnModel;
     }
+    
+    return columnModel;
     
 });

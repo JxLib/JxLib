@@ -62,18 +62,10 @@ images:
  *
  * This file is licensed under an MIT style license
  */
-define("jx/panel", function(require, exports, module){
+define("jx/panel",['../base','./widget','./layout','./container','./button','./toolbar','./menu','./menu/item'],
+       function(base, Widget, Layout, Container, Button, Toolbar,Menu, MenuItem){
     
-    var base = require("../base"),
-        Widget = require("./widget"),
-        Layout = require("./layout"),
-        Container = require("./container"),
-        Button = require("./button"),
-        Toolbar = require("./toolbar"),
-        Menu = require("./menu"),
-        MenuItem = require("./menu/item")
-        
-    var panel = module.exports = new Class({
+    var panel = new Class({
     
         Extends: Widget,
         Family: 'Jx.Panel',
@@ -622,6 +614,8 @@ define("jx/panel", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Panel = module.exports;
+        base.global.Panel = panel;
     }
+    
+    return panel;
 });

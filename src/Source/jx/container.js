@@ -70,14 +70,10 @@ provides: [Jx.Container]
 *
 * This file is licensed under an MIT style license
 */
-define("jx/container", function(require, exports, module){
+define("jx/container", ['../base','./widget','./layoutmanager/fill','./layout','require'],
+       function(base, Widget, Fill, Layout, require){
     
-    var base = require("../base"),
-        Widget = require("./widget"),
-        Fill = require("./layoutmanager/fill"),
-        Layout = require("./layout");
-        
-    var container = module.exports = new Class({
+    var container = new Class({
         Extends: Widget,
         Family: 'Jx.Container',
         
@@ -199,8 +195,9 @@ define("jx/container", function(require, exports, module){
                                 //otherwise it's just a name and should be in the proper
                                 //namespace. Create the require path.
                                 klass = klass.replace(".","/");
-                                file = './' + klass.toLowerCase();
+                                file = 'jx/' + klass.toLowerCase();
                             }
+                            //NOTE: top-level require needs to have preloaded all objects/plugins/adaptors
                             obj = require(file);
                         } else {
                             obj = item['class'];
@@ -235,7 +232,9 @@ define("jx/container", function(require, exports, module){
     });
 
     if (base.global) {
-        base.global.Container = module.exports;
+        base.global.Container = container;
     }
+    
+    return container;
     
 });

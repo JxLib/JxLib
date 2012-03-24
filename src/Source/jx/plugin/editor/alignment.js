@@ -20,12 +20,10 @@ images:
 
 ...
  */
-define("jx/plugin/editor/alignment", function(require, exports, module){
+define("jx/plugin/editor/alignment", ['../../../base','./buttonset'],
+       function(base, ButtonSet){
     
-    var base = require("../../../base"),
-        ButtonSet = require("./buttonset");
-        
-    var alignment = module.exports = new Class({
+    var alignment = new Class({
      
         Extends: ButtonSet,
         Family: 'Jx.Plugin.Editor.Aligmment',
@@ -65,6 +63,8 @@ define("jx/plugin/editor/alignment", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Plugin.Editor.Alignment = module.exports;
+        base.global.Plugin.Editor.Alignment = alignment;
     }
+    
+    return alignment;
 });

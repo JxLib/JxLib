@@ -34,12 +34,10 @@ provides: [Jx.Field.Text]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/field/text", function(require, exports, module){
+define("jx/field/text", ['../../base','../field'],
+       function(base, Field){
     
-    var base = require("../../base"),
-        Field = require("../field");
-        
-    var text = module.exports = new Class({
+    var text = new Class({
 
         Extends: Field,
         Family: "Jx.Field.Text",
@@ -95,7 +93,9 @@ define("jx/field/text", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Field.Text = module.exports;
+        base.global.Field.Text = text;
     }
+    
+    return text;
     
 });

@@ -19,4 +19,4 @@ provides: [Config]
  * This file is only used when require.js is used. In a full build this file should
  * be excluded and the user will need to define any config "normally".
  */
-define('config',[],function(){return null;});
+define('config', function(){return null;});

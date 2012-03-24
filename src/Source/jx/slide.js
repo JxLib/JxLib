@@ -23,12 +23,9 @@ provides: [Jx.Slide]
  * Copyright 2009 by Jonathan Bomgardner
  * License: MIT-style
  */
-define("jx/slide", function(require, exports, module){
+define("jx/slide", ['../base','./object'], function(base, jxObject){
     
-    var base = require("../base"),
-        jxObject = require("./object");
-        
-    var slide = module.exports = new Class({
+    var slide = new Class({
         Extends: jxObject,
         Family: 'Jx.Slide',
         Binds: ['handleClick'],
@@ -144,7 +141,9 @@ define("jx/slide", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Slide = module.exports;
+        base.global.Slide = slide;
     }
+    
+    return slide;
     
 });

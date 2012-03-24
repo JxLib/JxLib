@@ -8,7 +8,8 @@ description: Base class for all plugins
 license: MIT-style license.
 
 requires:
- - Jx.Object
+ - Jx.Lang
+ - Jx.Options
 
 provides: [Jx.Plugin]
 
@@ -29,18 +30,49 @@ provides: [Jx.Plugin]
  * This file is licensed under an MIT style license
  */
 
-define('jx/plugin', function(require, exports, module){
+define('jx/plugin', ['../base', './options', './lang' ], function(base, jxOptions, Lang){
     
-    var base = require("../base"),
-        jxObject = require("./object");
-    
-    var plugin = module.exports = new Class({
+    var plugin = new Class({
         
-        Extends: jxObject,
+        Implements: [Options, Events, jxOptions, Lang],
         Family: "Jx.Plugin",
     
         options: {},
-    
+        
+        bound: null,
+        
+        ready: null,
+        
+        initialize: function(){
+            this.ready = false;
+            
+            this.bound = {};
+            
+            this.setOptions(this.determineOptions(arguments));
+            
+            this.setupLang();
+            
+            //no plugins of plugins crazy man!!!
+            if (this.options.plugins !== undefined && this.options.plugins !== null) {
+                delete this.options.plugins;
+            }
+            
+            this.fireEvent('preInit');
+            this.init();
+            this.fireEvent('postInit');
+            
+            this.fireEvent('initializeDone');
+            
+            this.ready = true;
+        },
+        
+        /**
+         * APIMethod: init
+         * used to place plugin-specific initialization code. Should
+         * be overridden in sub-classes
+         */
+        init: function(){},
+        
         /**
          * APIMethod: attach
          * Registers this plugin with the class it works on. Can be overridden to
@@ -80,5 +112,6 @@ define('jx/plugin', function(require, exports, module){
     if (base.global) {
         base.global.Plugin = plugin;
     }
-
+    
+    return plugin;
 });

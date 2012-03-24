@@ -32,12 +32,10 @@ provides: [Jx.Splitter.Snap]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/splitter/snap", function(require, exports, module){
+define("jx/splitter/snap", ['../../base','../object'],
+       function(base, jxObject){
     
-    var base = require("../../base"),
-        jxObject = require("../object");
-        
-    var snap = module.exports = new Class({
+    var snap = new Class({
         Extends: jxObject,
         Family: 'Jx.Splitter.Snap',
         /**
@@ -151,6 +149,8 @@ define("jx/splitter/snap", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Splitter.Snap = module.exports;
+        base.global.Splitter.Snap = snap;
     }
+    
+    return snap;
 });

@@ -27,14 +27,10 @@ provides: [Jx.LayoutManager.Split]
 *
 * This file is licensed under an MIT style license
 */
-define("jx/layoutmanager/split", function(require, exports, module){
+define("jx/layoutmanager/split", ['../../base','../layoutmanager','../splitter','../layout'],
+       function(base, LayoutManager, Splitter, Layout){
     
-    var base = require("../../base"),
-        LayoutManager = require("../layoutmanager"),
-        Splitter = require("../splitter"),
-        Layout = require("../layout");
-        
-    var split = module.exports = new Class({
+    var split = new Class({
         Extends: LayoutManager,
         Family: 'Jx.LayoutManager.Split',
     
@@ -85,7 +81,9 @@ define("jx/layoutmanager/split", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.LayoutManager.Split = module.exports;
+        base.global.LayoutManager.Split = split;
     }
+    
+    return split;
     
 });

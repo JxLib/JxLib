@@ -28,12 +28,10 @@ provides: [Jx.Data.Parser]
  * This file is licensed under an MIT style license
  */
 
-define("jx/data/parser", function(require, exports, module){
+define("jx/data/parser", ['../../base','../object'],
+       function(base, jxObject){
     
-    var base = require("../../base"),
-        jxObject = require("../object");
-        
-    var parser = module.exports = new Class({
+    var parser = new Class({
     
         Extends: jxObject,
         Family: 'Jx.Store.Parser',
@@ -59,7 +57,9 @@ define("jx/data/parser", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Data.Parser = module.exports;
+        base.global.Data.Parser = parser;
     }
+    
+    return parser;
     
 });

@@ -31,13 +31,10 @@ provides: [Jx.Field.Button]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/field/button", function(require, exports, module){
+define("jx/field/button", ['../../base','../field','../button'],
+       function(base, Field, Button){
     
-    var base = require("../../base"),
-        Field = require("../field"),
-        Button = require("../button");
-        
-    var button = module.exports = new Class({
+    var button = new Class({
 
         Extends: Field,
         Family: "Jx.Field.Button",
@@ -104,7 +101,9 @@ define("jx/field/button", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Field.Button = module.exports;
+        base.global.Field.Button = button;
     }
+    
+    return button;
     
 });

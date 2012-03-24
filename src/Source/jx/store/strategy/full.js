@@ -27,12 +27,10 @@ provides: [Jx.Store.Strategy.Full]
  * 
  * This file is licensed under an MIT style license
  */
-define("jx/store/strategy/full", function(require, exports, module){
+define("jx/store/strategy/full", ['../../../base','../strategy'],
+       function(base, Strategy){
     
-    var base = require("../../../base"),
-        Strategy = require("../strategy");
-        
-    var full = module.exports = new Class({
+    var full = new Class({
     
         Extends: Strategy,
         Family: "Jx.Store.Strategy.Full",
@@ -133,7 +131,9 @@ define("jx/store/strategy/full", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Store.Strategy.Full = module.exports;
+        base.global.Store.Strategy.Full = full;
     }
+    
+    return full;
     
 });

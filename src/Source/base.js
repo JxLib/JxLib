@@ -70,15 +70,14 @@ require.onError = function (err) {
  * to match the above dependencies.
  * 
  */
-define('base',function(require, exports, module){
+define('base',['config','require'], function(config, require){
     
-    var base = module.exports,
-        config = require('config');
+    var base = {};
     
     if (typeof Jx != 'undefined') {
-        exports.global = Jx;
+        base.global = Jx;
         //move any global config to the base
-        Object.append(base, exports.global);
+        Object.append(base, base.global);
     } else if (config !== null && config !== undefined) {
         //add in any config passed in
         Object.append(base, config);
@@ -86,6 +85,34 @@ define('base',function(require, exports, module){
     
     base.version = "3.2-dev";
     
+    
+    /**
+     * Function: base.require
+     * This function should be used within all of Jx code to get modules.
+     * In global mode it simply calls the globall require method. In requirejs
+     * mode it needs to check if the file is defined in requirejs and if so
+     * just return it. If not, it needs to request and then block until it
+     * gets sent back.
+     *
+     * NOTE: perhaps a while (!require.defined(file)) {};
+     *
+     */
+    base.require = function(file){
+        if (require.defined(file)) {
+            while (typeOf(require(file)) !== 'function') {}
+            return require(file);
+        }
+        
+        var loaded = false;
+        require([file],function(f){
+            loaded = true;
+            file = f;
+        });
+        
+        while (!require.defined(file)) {}
+        
+        return file;
+    }
     /**
      * Function: $jx
      * dereferences a DOM Element to a JxLib object if possible and returns
@@ -747,8 +774,10 @@ define('base',function(require, exports, module){
     // End Wrapper for document.id
     
     //add all of base's members to the global context
-    if (exports.global) {
-        Object.append(exports.global, exports);
+    if (base.global) {
+        Object.append(base.global, base);
     }
+    
+    return base;
 
 });

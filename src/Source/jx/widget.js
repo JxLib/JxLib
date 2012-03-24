@@ -100,15 +100,9 @@ optional:
  * widget.busyMessage - sets the message of the waiter component when used
  */
 
-define('jx/widget', function(require, exports, module) {
+define('jx/widget', ['../base','./object','./stack', './locale/english'], function(base, jxObject, Stack) {
 
-    var base = require('../base'),
-        jxObject = require('./object'),
-        Stack = require('./stack');
-        
-    require('./locale/english');
-    
-    var widget = module.exports = new Class({
+    var widget = new Class({
         Extends: jxObject,
         Family: "Jx.Widget",
     
@@ -1022,7 +1016,8 @@ define('jx/widget', function(require, exports, module) {
     
     //put widget in global context if needed
     if (base.global) {
-        base.global.Widget = module.exports;
+        base.global.Widget = widget;
     };
 
+    return widget;
 });

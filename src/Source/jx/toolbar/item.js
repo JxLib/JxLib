@@ -30,13 +30,10 @@ provides: [Jx.Toolbar.Item]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/toolbar/item", function(require, exports, module){
+define("jx/toolbar/item", ['../../base','../widget'], function(base, Widget){
     
-    var base = require("../../base"),
-        Widget = require("../widget");
-        
     //TODO: consider... should this extend Jx.ListItem instead of Widget?
-    var item = module.exports = new Class( {
+    var item = new Class( {
         Extends: Widget,
         Family: 'Jx.Toolbar.Item',
         options: {
@@ -66,6 +63,8 @@ define("jx/toolbar/item", function(require, exports, module){
     });
 
     if (base.global) {
-        base.global.Toolbar.Item = module.exports;
+        base.global.Toolbar.Item = item;
     }
+    
+    return item;
 });

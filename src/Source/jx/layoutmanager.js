@@ -29,12 +29,9 @@ provides: [Jx.LayoutManager]
 *
 * This file is licensed under an MIT style license
 */
-define("jx/layoutmanager", function(require, exports, module){
+define("jx/layoutmanager", ['../base','./object'], function(base, jxObject){
     
-    var base = require("../base"),
-        jxObject = require("./object");
-        
-    var layoutManager = module.exports = new Class({
+    var layoutManager = new Class({
         Extends: jxObject,
         Family: 'Jx.LayoutManager',
         
@@ -396,6 +393,8 @@ define("jx/layoutmanager", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.LayoutManager = module.exports;
+        base.global.LayoutManager = layoutManager;
     }
+    
+    return layoutManager;
 });

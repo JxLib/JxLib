@@ -42,19 +42,11 @@ images:
  *
  * This file is licensed under an MIT style license
  */
-define("jx/panel/fileupload", function(require, exports, module){
+define("jx/panel/fileupload", ['../../base','../panel','../field/file','../listview',
+                               '../button','../toolbar','../listitem','../progressbar','../tooltip'],
+       function(base, Panel, FileField, ListView, Button, Toolbar, ListItem, ProgressBar, Tooltip){
     
-    var base = require("../../base"),
-        Panel = require("../panel"),
-        FileField = require("../field/file"),
-        ListView = require("../listview"),
-        Button = require("../button"),
-        Toolbar = require("../toolbar"),
-        ListItem = require("../listitem"),
-        ProgressBar = require("../progressbar"),
-        Tooltip = require("../tooltip");
-        
-    var fileUpload = module.exports = new Class({
+    var fileUpload = new Class({
 
         Extends: Panel,
         Family: 'Jx.Panel.FileUpload',
@@ -328,7 +320,9 @@ define("jx/panel/fileupload", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Panel.FileUpload = module.exports;
+        base.global.Panel.FileUpload = fileUpload;
     }
+    
+    return fileUpload;
     
 });
