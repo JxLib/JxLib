@@ -38,12 +38,10 @@ provides: [Jx.Field.NumberSpinner]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/field/numberspinner", function(require, exports, module){
+define("jx/field/numberspinner", ['../../base','./spinner'],
+       function(base, Spinner){
     
-    var base = require("../../base"),
-        Spinner = require("./spinner");
-        
-    var numberSpinner = module.exports = new Class({
+    var numberSpinner = new Class({
         Extends: Spinner,
         Family: 'Jx.Field.NumberSpinner',
         
@@ -84,6 +82,8 @@ define("jx/field/numberspinner", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Field.NumberSpinner = module.exports;
+        base.global.Field.NumberSpinner = numberSpinner;
     }
+    
+    return numberSpinner;
 });

@@ -31,15 +31,10 @@ provides: [Jx.Field.Color]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/field/color", function(require, exports, module){
+define("jx/field/color", ['../../base','../field','../colorpalette','../button/flyout','../plugin/field/validator'],
+       function(base, Field, ColorPalette, Flyout, Validator){
 
-    var base = require("../../base"),
-        Field = require("../field"),
-        ColorPalette = require("../colorpalette"),
-        Flyout = require("../button/flyout"),
-        Validator = require("../plugin/field/validator");
-        
-    var color = module.exports = new Class({
+    var color = new Class({
         Extends: Field,
         Family: "Jx.Field.Color",
         Binds: ['changed','hide','keyup','changeText'],
@@ -199,7 +194,9 @@ define("jx/field/color", function(require, exports, module){
     });
 
     if (base.global) {
-        base.global.Field.Color = module.exports;
+        base.global.Field.Color = color;
     }
+    
+    return color;
     
 });

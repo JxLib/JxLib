@@ -49,13 +49,9 @@ provides: [Jx.TabSet]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/tabset", function(require, exports, module){
+define("jx/tabset", ['../base','./object','./tab'], function(base, jxObject, Tab){
     
-    var base = require("../base"),
-        jxObject = require("./object"),
-        Tab = require("./tab");
-        
-    var tabSet = module.exports = new Class({
+    var tabSet = new Class({
         Extends: jxObject,
         Family: 'Jx.TabSet',
         /**
@@ -167,8 +163,10 @@ define("jx/tabset", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.TabSet = module.exports;
+        base.global.TabSet = tabSet;
     }
+    
+    return tabSet;
     
 });
     

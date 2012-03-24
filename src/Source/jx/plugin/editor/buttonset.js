@@ -16,14 +16,10 @@ provides: [Jx.Plugin.Editor.ButtonSet]
 
 ...
  */
-define("jx/plugin/editor/buttonset", function(require, exports, module){
+define("jx/plugin/editor/buttonset", ['../../../base','../../plugin','../../button/set','../../button'],
+       function(base, Plugin, ButtonSet, Button){
     
-    var base = require("../../../base"),
-        Plugin = require("../../plugin"),
-        ButtonSet = require("../../button/set"),
-        Button = require("../../button");
-        
-    var buttonSet = module.exports = new Class({
+    var buttonSet = new Class({
     
         Extends: Plugin,
         Family: 'Jx.Plugin.Editor.ButtonSet',
@@ -140,6 +136,7 @@ define("jx/plugin/editor/buttonset", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Plugin.Editor.ButtonSet = module.exports;
+        base.global.Plugin.Editor.ButtonSet = buttonSet;
     }
+    return buttonSet
 });

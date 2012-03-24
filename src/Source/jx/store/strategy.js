@@ -29,13 +29,9 @@ provides: [Jx.Store.Strategy]
  * This file is licensed under an MIT style license
  */
 
-define("jx/store/strategy", function(require, exports, module){
+define("jx/store/strategy", ['../../base','../object','../store'], function(base, jxObject, Store){
     
-    var base = require("../../base"),
-        jxObject = require("../object"),
-        Store = require("../store");
-        
-    var strategy = module.exports = new Class({
+    var strategy = new Class({
     
         Extends: jxObject,
         Family: 'Jx.Store.Strategy',
@@ -95,7 +91,9 @@ define("jx/store/strategy", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Store.Strategy = module.exports;
+        base.global.Store.Strategy = strategy;
     }
+    
+    return strategy;
     
 });

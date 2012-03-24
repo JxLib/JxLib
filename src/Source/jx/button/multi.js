@@ -78,15 +78,10 @@ images:
  *
  * This file is licensed under an MIT style license
  */
-define('jx/button/multi', function(require, exports, module){
+define('jx/button/multi', ['../../base','../button','./set','../menu','../menu/item'],
+       function(base, Button, Set, Menu, Item){
     
-    var base = require("../../base"),
-        Button = require("../button"),
-        Set = require("./set"),
-        Menu = require("../menu"),
-        Item = require("../menu/item");
-    
-    var multi = module.exports = new Class({
+    var multi = new Class({
         Extends: Button,
         Family: 'Jx.Button.Multi',
     
@@ -415,5 +410,7 @@ define('jx/button/multi', function(require, exports, module){
     if (base.global) {
         base.global.Button.Multi = multi;
     }
+    
+    return multi;
 
 });

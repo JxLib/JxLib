@@ -33,12 +33,10 @@ provides: [Jx.Formatter.Phone]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/formatter/phone", function(require, exports, module){
+define("jx/formatter/phone", ['../../base','../formatter'],
+       function(base, Formatter){
     
-    var base = require("../../base"),
-        Formatter = require("../formatter");
-        
-    var phone = module.exports = new Class({
+    var phone = new Class({
 
         Extends: Formatter,
         family: "Jx.Formatter.Phone",
@@ -94,7 +92,9 @@ define("jx/formatter/phone", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Formatter.Phone = module.exports;
+        base.global.Formatter.Phone = phone;
     }
+    
+    return phone;
     
 });

@@ -60,3 +60,7 @@ build.log
 .settings.xml
 
 node_modules/build
+
+# /www/reference/eamples/require
+/www/reference/examples/require/lib
+

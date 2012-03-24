@@ -26,12 +26,9 @@ css:
  * Copyright 2009 by Jonathan Bomgardner
  * License: MIT-style
  */
-define("jx/slider", function(require, exports, module){
+define("jx/slider",['../base','./widget'], function(base, Widget){
     
-    var base = require("../base"),
-        Widget = require("./widget");
-        
-    var slider = module.exports = new Class({
+    var slider = new Class({
         Extends: Widget,
         Family: 'Jx.Slider',
     
@@ -173,7 +170,9 @@ define("jx/slider", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Slider = module.exports;
+        base.global.Slider = slider;
     }
+    
+    return slider;
     
 });

@@ -32,12 +32,9 @@ images:
  *
  * This file is licensed under an MIT style license
  */
-define("jx/listview", function(require, exports, module){
+define("jx/listview", ['../base','./widget/list'], function(base, WidgetList){
     
-    var base = require("../base"),
-        WidgetList = require("./widget/list");
-        
-    var listView = module.exports = new Class({
+    var listView = new Class({
         Extends: WidgetList,
         Family: 'Jx.ListView',
     
@@ -54,6 +51,8 @@ define("jx/listview", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.ListView = module.exports;
+        base.global.ListView = listView;
     }
+    
+    return listView;
 });

@@ -24,13 +24,10 @@ provides: [Jx.Grid.Renderer.Button]
  * Extends: <Jx.Grid.Renderer>
  *
  */
-define("jx/grid/renderer/button", function(require, exports, module){
+define("jx/grid/renderer/button", ['../../../base','../renderer','../../button'],
+       function(base, Renderer, Button){
     
-    var base = require("../../../base"),
-        Renderer = require("../renderer"),
-        Button = require("../../button");
-        
-    var buttonRenderer = module.exports = new Class({
+    var buttonRenderer = new Class({
 
         Extends: Renderer,
         Family: 'Jx.Grid.Renderer.Button',
@@ -68,7 +65,8 @@ define("jx/grid/renderer/button", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Grid.Renderer.Button = module.exports;
+        base.global.Grid.Renderer.Button = buttonRenderer;
     }
     
+    return buttonRenderer;
 });

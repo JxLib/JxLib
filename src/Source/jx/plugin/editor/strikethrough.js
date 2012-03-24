@@ -17,12 +17,10 @@ images:
 
 ...
  */
-define("jx/plugin/editor/strikethrough", function(require, exports, module){
+define("jx/plugin/editor/strikethrough", ['../../../base','./button'],
+       function(base, Button){
     
-    var base = require("../../../base"),
-        Button = require("./button");
-        
-    var strikethrough = module.exports = new Class({
+    var strikethrough = new Class({
     
         Extends: Button,
         Family: 'Jx.Plugin.Editor.Strikethrough',
@@ -44,6 +42,7 @@ define("jx/plugin/editor/strikethrough", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Plugin.Editor.Strikethrough = module.exports;
+        base.global.Plugin.Editor.Strikethrough = strikethrough;
     }
+    return strikethrough;
 });

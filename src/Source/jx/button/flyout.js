@@ -74,12 +74,10 @@ images:
  *
  * This file is licensed under an MIT style license
  */
-define('jx/button/flyout', function(require, exports, module){
-    
-    var base = require("../../base"),
-        Button = require("../button");
-        
-    var flyout = module.exports = new Class({
+define('jx/button/flyout', ['../../base','../button'],
+       function(base, Button){
+     
+    var flyout = new Class({
         Extends: Button,
         Family: 'Jx.Button.Flyout',
         Binds: ['keypressHandler', 'clickHandler'],
@@ -316,7 +314,9 @@ define('jx/button/flyout', function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Button.Flyout = module.exports;
+        base.global.Button.Flyout = flyout;
     }
+    
+    return flyout;
 
 });

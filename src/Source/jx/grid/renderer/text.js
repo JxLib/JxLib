@@ -23,13 +23,10 @@ provides: [Jx.Grid.Renderer.Text]
  * Extends: <Jx.Grid.Renderer>
  *
  */
-define("jx/grid/renderer/text", function(require, exports, module){
+define("jx/grid/renderer/text", ['../../../base','../renderer','../../formatter','require'],
+       function(base, Renderer, Formatter, require){
     
-    var base = require("../../../base"),
-        Renderer = require("../renderer"),
-        Formatter = require("../../formatter");
-        
-    var text = module.exports = new Class({
+    var text = new Class({
 
         Extends: Renderer,
         Family: 'Jx.Grid.Renderer.Text',
@@ -88,7 +85,7 @@ define("jx/grid/renderer/text", function(require, exports, module){
                        options.formatter.options !== null) {
                         options.formatter.options = {};
                     }
-                    var formatter = require("../../formatter/" + options.formatter.name.toLowerCase());
+                    var formatter = require("jx/formatter/" + options.formatter.name.toLowerCase());
                     options.formatter = new formatter(options.formatter.options);
                 }
             }
@@ -134,7 +131,9 @@ define("jx/grid/renderer/text", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Grid.Renderer.Text = module.exports;
+        base.global.Grid.Renderer.Text = text;
     }
+    
+    return text;
     
 });

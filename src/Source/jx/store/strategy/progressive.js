@@ -30,12 +30,10 @@ provides: [Jx.Store.Strategy.Progressive]
  * This file is licensed under an MIT style license
  */
 
-define("jx/store/strategy/progresive", function(require, exports, module){
+define("jx/store/strategy/progresive", ['../../../base','./paginate'],
+       function(base, Paginate){
     
-    var base = require("../../../base"),
-        Paginate = require("./paginate");
-        
-    var progressive = module.exports = new Class({
+    var progressive = new Class({
     
         Extends: Paginate,
         Family: "Jx.Store.Strategy.Progressive",
@@ -177,7 +175,9 @@ define("jx/store/strategy/progresive", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Store.Strategy.Progressive = module.exports;
+        base.global.Store.Strategy.Progressive = progressive;
     }
+
+    return progressive;
     
 });

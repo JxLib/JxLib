@@ -36,13 +36,10 @@ provides: [Jx.Panel.DataView]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/panel/dataview", function(require, exports, module){
+define("jx/panel/dataview", ['../../base','../panel','../list'],
+       function(base, Panel, List){
     
-    var base = require("../../base"),
-        Panel = require("../panel"),
-        List = require("../list");
-        
-    var dataView = module.exports = new Class({
+    var dataView = new Class({
 
         Extends: Panel,
         Family: "Jx.Panel.DataView",
@@ -288,7 +285,9 @@ define("jx/panel/dataview", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Panel.DataView = module.exports;
+        base.global.Panel.DataView = dataView;
     }
+    
+    return dataView;
     
 });

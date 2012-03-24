@@ -21,7 +21,7 @@
     });
     
     //then require and go... this should auomatically load everything we need
-    require(['jx!button', 'jx!button.set', 'require','./js/locale.js'], function(Button, ButtonSet, req){
+    require(['jx!button', 'jx/button/set', './js/locale.js'], function(Button, ButtonSet){
         new Button({
           id: 'basic1',
           label: {set:'Examples',key:'button',value:'labelAndIcon'},
@@ -35,9 +35,10 @@
             id: 'basic2',
             label: {set:'Examples',key:'button',value:'justALabel'},
             tooltip: 'a tooltip',
+            parent: 'buttons',
             onClick: function() { //log('click button with just a label');
                 }
-        }).addTo('buttons');
+        });
         new Button({
             id: 'basic3',
             label: 'Not Localized',
@@ -45,14 +46,13 @@
             onClick: function() { //log('click button that is not localized and uses a normal string as a label');
                 }
         }).addTo('buttons');
-        /* just an image on this one */
         var bug = new Button({
             image: 'images/bug.png',
             tooltip: 'a tooltip',
             onClick: function() {//log('button with just an image clicked')
                 }
         }).addTo('buttons');
-        /* test button with nothing */
+    
         new Button({tooltip:'another tooltip'}).addTo('buttons');
         
         var transmit = new Button({
@@ -64,9 +64,7 @@
             onDown: function(){this.setLabel({ set: 'Examples', key: 'button', value: 'stopTransmission' })},
             onUp: function(){this.setLabel({ set: 'Examples', key: 'button', value: 'startTransmission' })}
         }).addTo('toggleButton');
-        /* this is another toggle button that controls the first one
-        * and demonstrates changing labels on the fly
-        */
+        
         new Button({
             label: {set:'Examples',key:'button',value:'enableTransmission'},
             image: 'images/lightbulbs.png',
@@ -108,13 +106,15 @@
             toggle:true
         }).addTo('toggleSet');
         
-        /* make the button set and add our buttons to it */
         var buttonSet = new ButtonSet({
             onChange: function(){
                 //log('text justify: '+this.activeButton.getLabel())
             }
         }).add(tLeft,tCenter,tRight,tJustify);
+
     });
+    
+
     
 </script>
 </head>

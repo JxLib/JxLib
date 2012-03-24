@@ -20,12 +20,10 @@ provides: [Jx.LayoutManager.Columns]
 
 ...
  */
-define("jx/layoutmanager/columns", function(require, exports, module){
+define("jx/layoutmanager/columns", ['../../base','../layoutmanager'],
+       function(base, LayoutManager){
     
-    var base = require("../../base"),
-        LayoutManager = require("../layoutmanager");
-        
-    var columns = module.exports = new Class({
+    var columns = new Class({
 	
         Extends: LayoutManager,
         Family: 'Jx.LayoutManager.Columns',
@@ -444,7 +442,9 @@ define("jx/layoutmanager/columns", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.LayoutManager.Columns = module.exports;
+        base.global.LayoutManager.Columns = columns;
     }
+    
+    return columns;
     
 });

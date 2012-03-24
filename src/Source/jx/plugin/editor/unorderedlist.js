@@ -17,12 +17,10 @@ images:
 
 ...
  */
-define("jx/plugin/editor/unorderedlist", function(require, exports, module){
+define("jx/plugin/editor/unorderedlist", ['../../../base','./button'],
+       function(base, Button){
     
-    var base = require("../../../base"),
-        Button = require("./button");
-        
-    var unorderedlist = module.exports = new Class({
+    var unorderedlist = new Class({
 
         Extends: Button,
         Family: 'Jx.Plugin.Editor.Unoderedlist',
@@ -42,6 +40,8 @@ define("jx/plugin/editor/unorderedlist", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Plugin.Editor.Unorderedlist = module.exports;
+        base.global.Plugin.Editor.Unorderedlist = unorderedlist;
     }
+    
+    return unorderedlist;
 });

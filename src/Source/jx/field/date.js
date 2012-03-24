@@ -45,15 +45,10 @@ provides: [Jx.Field.Date]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/field/date", function(require, exports, module){
+define("jx/field/date", ['../../base','../field','../formatter/date','../button/flyout','../datepicker'],
+       function(base, Field, DateFormatter, Flyout, DatePicker){
     
-    var base = require("../../base"),
-        Field = require("../field"),
-        DateFormatter = require("../formatter/date"),
-        Flyout = require("../button/flyout"),
-        DatePicker = require("../datepicker");
-        
-    var date = module.exports = new Class({    
+    var date = new Class({    
         Extends: Field,
         Family: 'Jx.Field.Date',
         
@@ -142,7 +137,9 @@ define("jx/field/date", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Field.Date = module.exports;
+        base.global.Field.Date = date;
     }
+    
+    return date;
     
 });

@@ -31,12 +31,10 @@ provides: [Jx.Field.Radio]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/field/radio", function(require, exports, module){
+define("jx/field/radio", ['../../base','../field'],
+       function(base, Field){
     
-    var base = require("../../base"),
-        Field = require("../field");
-        
-    var radio = module.exports = new Class({
+    var radio = new Class({
 
         Extends: Field,
         Family: "Jx.Field.Radio",
@@ -146,7 +144,9 @@ define("jx/field/radio", function(require, exports, module){
     });
 
     if (base.global) {
-        base.global.Field.Radio = module.exports;
+        base.global.Field.Radio = radio;
     }
+    
+    return radio;
     
 });

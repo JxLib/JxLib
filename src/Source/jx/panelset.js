@@ -51,14 +51,10 @@ provides: [Jx.PanelSet]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/panelset", function(require, exports, module){
+define("jx/panelset",['../base','./widget','./layout','./splitter'],
+       function(base, Widget, Layout, Splitter){
     
-    var base = require("../base"),
-        Widget = require("./widget"),
-        Layout = require("./layout"),
-        Splitter = require("./splitter");
-        
-    var panelSet = module.exports = new Class({
+    var panelSet = new Class({
         Extends: Widget,
         Family: 'Jx.PanelSet',
     
@@ -262,6 +258,8 @@ define("jx/panelset", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.PanelSet = module.exports;
+        base.global.PanelSet = panelSet;
     }
+    
+    return panelSet;
 });

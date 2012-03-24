@@ -37,12 +37,10 @@ provides: [Jx.Formatter.URI]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/formatter/uri", function(require, exports, module){
+define("jx/formatter/uri", ['../../base','../formatter'],
+       function(base, Formatter){
     
-    var base = require("../../base"),
-        Formatter = require("../formatter");
-        
-    var uri = module.exports = new Class({
+    var uri = new Class({
 
         Extends: Formatter,
         Family: "Jx.Formatter.Uri",
@@ -90,7 +88,9 @@ define("jx/formatter/uri", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Formatter.URI = module.exports;
+        base.global.Formatter.URI = uri;
     }
+    
+    return uri;
     
 });

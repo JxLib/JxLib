@@ -23,13 +23,10 @@ provides: [Jx.Grid.Renderer.Checkbox]
  * Extends: <Jx.Grid.Renderer>
  * 
  */
-define("jx/grid/renderer/checkbox", function(require, exports, module){
+define("jx/grid/renderer/checkbox", ['../../../base','../renderer','../../field/checkbox'],
+       function(base, Renderer, CheckboxField){
     
-    var base = require("../../../base"),
-        Renderer = require("../renderer"),
-        CheckboxField = require("../../field/checkbox");
-        
-    var checkbox = module.exports = new Class({
+    var checkbox = new Class({
   
         Extends: Renderer,
         Family: 'Jx.Grid.Renderer.Checkbox',
@@ -107,7 +104,9 @@ define("jx/grid/renderer/checkbox", function(require, exports, module){
     });
         
     if (base.global) {
-        base.global.Grid.Renderer.Checkbox = module.exports;
+        base.global.Grid.Renderer.Checkbox = checkbox;
     }
+    
+    return checkbox;
     
 });

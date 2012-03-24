@@ -29,14 +29,10 @@ provides: [Jx.Panel.DataView.Group]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/panel/dataview/group", function(require, exports, module){
+define("jx/panel/dataview/group", ['../../../base','../dataview','../../list','../../selection'],
+       function(base, DataView, List, Selection){
     
-    var base = require("../../../base"),
-        DataView = require("../dataview"),
-        List = require("../../list"),
-        Selection = require("../../selection");
-        
-    var group = module.exports = new Class({
+    var group = new Class({
 
         Extends: DataView,
         Family: "Jx.Panel.DataView.Group",
@@ -188,7 +184,9 @@ define("jx/panel/dataview/group", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Panel.DataView.Group = module.exports;
+        base.global.Panel.DataView.Group = group;
     }
+    
+    return group;
     
 });

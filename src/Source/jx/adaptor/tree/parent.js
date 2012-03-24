@@ -34,12 +34,10 @@ provides: [Jx.Adaptor.Tree.Parent]
  * License: mit-style
  */
 
-define('jx/adaptor/tree/parent',function(require, exports, module){
+define('jx/adaptor/tree/parent', ['../../../base','../tree'],
+       function(base, treeAdaptor){
 
-    var base = require("../../../base"),
-        treeAdaptor = require("../tree");
-        
-    var parent = module.exports = new Class({
+    var parent = new Class({
     
 
         Extends: treeAdaptor,
@@ -90,7 +88,9 @@ define('jx/adaptor/tree/parent',function(require, exports, module){
     });
  
     if (base.global) {
-        base.global.Adaptor.Tree.Parent = module.exports;
+        base.global.Adaptor.Tree.Parent = parent;
     }
+    
+    return parent;
     
 });

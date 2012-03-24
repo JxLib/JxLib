@@ -34,12 +34,10 @@ images:
  *
  * This file is licensed under an MIT style license
  */
-define('jx/menu/separator', function(require, exports, module){
+define('jx/menu/separator', ['../../base','../widget'],
+       function(base, Widget){
 
-    var base = require("../../base"),
-        Widget = require("../widget");
-        
-    var separator = module.exports = new Class({
+    var separator = new Class({
         Extends: Widget,
         Family: 'Jx.Menu.Separator',
         /**
@@ -97,5 +95,7 @@ define('jx/menu/separator', function(require, exports, module){
     if (base.global) {
         base.global.Menu.Separator = separator;
     }
+    
+    return separator;
 
 });

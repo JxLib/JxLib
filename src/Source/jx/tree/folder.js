@@ -9,7 +9,7 @@ license: MIT-style license.
 
 requires:
  - Jx.Widget.List
- - Jx.Tree
+ - Jx.Tree.Item
 
 provides: [Jx.Tree.Folder]
 
@@ -34,13 +34,9 @@ provides: [Jx.Tree.Folder]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/tree/folder", function(require, exports, module){
+define("jx/tree/folder", ['../../base','../widget/list','./item'], function(base, WidgetList, Item){
     
-    var base = require("../../base"),
-        WidgetList = require("../widget/list"),
-        Item = null;
-        
-    var folder = module.exports = new Class({
+    var folder = new Class({
     
         Extends: WidgetList,
         Family: 'Jx.Tree.Folder',
@@ -95,7 +91,6 @@ define("jx/tree/folder", function(require, exports, module){
         dirty: false,
         
         init: function(){
-            Item = require("./item");
             this.parent();
         },
         /**
@@ -446,6 +441,8 @@ define("jx/tree/folder", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Tree.Folder = module.exports;
+        base.global.Tree.Folder = folder;
     }
+    
+    return folder;
 });

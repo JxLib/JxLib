@@ -27,12 +27,10 @@ provides: [Jx.LayoutManager.Anchored]
 *
 * This file is licensed under an MIT style license
 */
-define("jx/layoutmanager/anchored", function(require, exports, module){
+define("jx/layoutmanager/anchored", ['../../base','../layoutmanager'],
+       function(base, LayoutManager){
     
-    var base = require("../../base"),
-        LayoutManager = require("../layoutmanager");
-        
-    var anchored = module.exports = new Class({
+    var anchored = new Class({
         Extends: LayoutManager,
         Family: 'Jx.LayoutManager.Anchored',
     
@@ -59,7 +57,9 @@ define("jx/layoutmanager/anchored", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.LayoutManager.Anchored = module.exports;
+        base.global.LayoutManager.Anchored = anchored;
     }
+    
+    return anchored;
     
 });

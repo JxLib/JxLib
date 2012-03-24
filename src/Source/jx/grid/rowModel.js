@@ -30,14 +30,10 @@ provides: [Jx.Grid.RowModel]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/grid/rowmodel", function(require, exports, module){
+define("jx/grid/rowmodel", ['../../base','../object','../grid'],
+       function(base, jxObject, Grid){
     
-    var base = require("../../base"),
-        jxObject = require("../object"),
-        Grid = require("../grid");
-        
-        
-    var rowModel = module.exports = new Class({
+    var rowModel = new Class({
 
         Extends : jxObject,
         Family: 'Jx.RowModel',
@@ -248,6 +244,8 @@ define("jx/grid/rowmodel", function(require, exports, module){
     });
 
     if (base.global) {
-        base.global.Grid.RowModel = module.exports;
+        base.global.Grid.RowModel = rowModel;
     }
+    
+    return rowModel;
 });

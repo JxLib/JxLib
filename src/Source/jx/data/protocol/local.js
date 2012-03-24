@@ -33,13 +33,10 @@ provides: [Jx.Data.Protocol.Local]
  * 
  * This file is licensed under an MIT style license
  */
-define("jx/data/protocol/local", function(require, exports, module){
+define("jx/data/protocol/local", ['../../../base','../protocol','../response'],
+       function(base, Protocol, Response){
     
-    var base = require("../../../base"),
-        Protocol = require("../protocol"),
-        Response  = require("../response");
-        
-    var local = module.exports = new Class({
+    var local = new Class({
     
         Extends: Protocol,
         Family: "Jx.Data.Protocol.Local",
@@ -114,7 +111,9 @@ define("jx/data/protocol/local", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Data.Protocol.Local = module.exports;
+        base.global.Data.Protocol.Local = local;
     }
+    
+    return local;
     
 });

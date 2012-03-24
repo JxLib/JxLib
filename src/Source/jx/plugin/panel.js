@@ -25,9 +25,10 @@ provides: [Jx.Plugin.Panel]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/plugin/panel", function(require){
-    var base = require("../../base");
+define("jx/plugin/panel", ['../../base'], function(base){
+    
     if (base.global) {
         base.global.Plugin.Panel = {};
     }
+    return {};
 });

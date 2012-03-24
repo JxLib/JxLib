@@ -31,12 +31,10 @@ provides: [Jx.Field.Password]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/field/password", function(require, exports, module){
+define("jx/field/password", ['../../base','../field'],
+       function(base, Field){
     
-    var base = require("../../base"),
-        Field = require("../field");
-        
-    var password = module.exports = new Class({
+    var password = new Class({
 
         Extends: Field,
         Family: "Jx.Field.Password",
@@ -49,7 +47,9 @@ define("jx/field/password", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Field.Password = module.exports;
+        base.global.Field.Password = password;
     }
+    
+    return password;
     
 });

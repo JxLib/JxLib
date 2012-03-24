@@ -27,12 +27,10 @@ provides: [Jx.Adaptor.Tree.Mptt]
  * License: mit-style
  */
 
-define("jx/adaptor/tree/mptt",function(require, exports, module){
+define("jx/adaptor/tree/mptt", ['../../../base','../tree'],
+       function(base, treeAdaptor){
     
-    var base = require("../../../base");
-        treeAdaptor = require("../tree");
-    
-    var mptt = module.exports = new Class({
+    var mptt = new Class({
     
         Extends: treeAdaptor,
         Family: 'Jx.Adaptor.Tree.Mptt',
@@ -102,7 +100,9 @@ define("jx/adaptor/tree/mptt",function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Adaptor.Tree.Mptt = module.exports;
+        base.global.Adaptor.Tree.Mptt = mptt;
     }
+    
+    return mptt;
     
 });

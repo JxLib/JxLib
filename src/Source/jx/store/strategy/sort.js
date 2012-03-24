@@ -30,13 +30,10 @@ provides: [Jx.Store.Strategy.Sort]
  * This file is licensed under an MIT style license
  */
 
-define("jx/store/strategy/sort", function(require, exports, module){
+define("jx/store/strategy/sort", ['../../../base','../strategy','../../compare','require'],
+       function(base, Strategy, Compare, require){
     
-    var base = require("../../../base"),
-        Strategy = require("../strategy"),
-        Compare = require("../../compare");
-        
-    var sort = module.exports = new Class({
+    var sort = new Class({
     
         Extends: Strategy,
         Family: "Jx.Store.Strategy.Sort",
@@ -251,7 +248,8 @@ define("jx/store/strategy/sort", function(require, exports, module){
             
             var fn = this.comparator[col.type].bind(this.comparator);
             if (this.sorter === undefined || this.sorter === null) {
-                var Sorter = require("../../sort/" + sort.toLowerCase());
+                //NOTE: top-level require should be sure whatever sorter is needed is loaded.
+                var Sorter = require("jx/sort/" + sort.toLowerCase());
                 this.sorter = new Sorter(data, fn, col.name, options);
             } else {
                 this.sorter.setComparator(fn);
@@ -290,7 +288,9 @@ define("jx/store/strategy/sort", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Store.Strategy.Sort = module.exports;
+        base.global.Store.Strategy.Sort = sort;
     }
+    
+    return sort;
     
 });

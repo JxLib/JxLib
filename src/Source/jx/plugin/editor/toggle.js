@@ -17,12 +17,10 @@ images:
 
 ...
  */
-define("jx/plugin/editor/toggle", function(require, exports, module){
+define("jx/plugin/editor/toggle", ['../../../base','./button'],
+       function(base, Button){
     
-    var base = require("../../../base"),
-        Button = require("./button");
-        
-    var toggle = module.exports = new Class({
+    var toggle = new Class({
     
         Extends: Button,
         Family: 'Jx.Plugin.Editor.Toggle',
@@ -50,6 +48,8 @@ define("jx/plugin/editor/toggle", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Plugin.Editor.Toggle = module.exports;
+        base.global.Plugin.Editor.Toggle = toggle;
     }
+    
+    return toggle;
 });

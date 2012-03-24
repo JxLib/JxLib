@@ -32,47 +32,46 @@ provides: [Jx.Formatter.Text]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/formatter/text", function(require, exports, module){
+define("jx/formatter/text", ['../../base','../formatter'],
+       function(base, Formatter){
     
-    var base = require("../../base"),
-        Formatter = require("../formatter");
-        
-    var text = module.exports = new Class({
+    var text = new Class({
 
-    Extends: Formatter,
-    Family: "Jx.Formatter.Text",
-  
-    options: {
-      /**
-       * Option: length
-       * {Integer} default null, if set to an integer value greater than
-       * 0 then the value will be truncated to length characters and
-       * the remaining characters will be replaced by an ellipsis (...)
-       */
-      maxLength: null,
-      /**
-       * Option: ellipsis
-       * {String} the text to use as the ellipsis when truncating a string
-       * default is three periods (...)
-       */
-      ellipsis: '...'
-    },
-  
-    format : function (value) {
-      var text = '' + value,
-          max = this.options.maxLength,
-          ellipsis = this.options.ellipsis;
-  
-      if (max && text.length > max) {
-        text = text.substr(0,max-ellipsis.length) + ellipsis;
-      }
-  
-      return text;
-    }
-  });
+        Extends: Formatter,
+        Family: "Jx.Formatter.Text",
+      
+        options: {
+          /**
+           * Option: length
+           * {Integer} default null, if set to an integer value greater than
+           * 0 then the value will be truncated to length characters and
+           * the remaining characters will be replaced by an ellipsis (...)
+           */
+          maxLength: null,
+          /**
+           * Option: ellipsis
+           * {String} the text to use as the ellipsis when truncating a string
+           * default is three periods (...)
+           */
+          ellipsis: '...'
+        },
+      
+        format : function (value) {
+            var text = '' + value,
+                max = this.options.maxLength,
+                ellipsis = this.options.ellipsis;
+        
+            if (max && text.length > max) {
+                text = text.substr(0,max-ellipsis.length) + ellipsis;
+            }
+      
+          return text;
+        }
+    });
     
     if (base.global) {
-        base.global.Formatter.Text = module.exports;
+        base.global.Formatter.Text = text;
     }
+    return text;
     
 });

@@ -22,13 +22,10 @@ images:
 ...
  */
 
-define("jx/adaptor/listview/fill", function(require, exports, module){
+define("jx/adaptor/listview/fill", ['../../../base','../../adaptor','../../listitem'],
+       function(base, Adaptor, ListItem){
     
-    var base = require("../../../base"),
-        Adaptor = require("../../adaptor"),
-        ListItem = require("../../listitem");
-            
-    var fill = module.exports = new Class({
+    var fill = new Class({
     
         
         Extends: Adaptor,
@@ -117,6 +114,8 @@ define("jx/adaptor/listview/fill", function(require, exports, module){
     });
 
     if (base.global) {
-        base.global.Adaptor.ListView.Fill = module.exports;
+        base.global.Adaptor.ListView.Fill = fill;
     }
+    
+    return fill;
 });

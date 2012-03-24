@@ -28,14 +28,10 @@ provides: [Jx.Plugin.DataView.GroupFolder]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/plugin/dataview/groupfolder", function(require, exports, module){
+define("jx/plugin/dataview/groupfolder", ['../../../base','../../plugin','../../slide','../../panel/dataview'],
+       function(base, Plugin, Slide, DataView){
     
-    var base = require("../../../base"),
-        Plugin = require("../../plugin"),
-        Slide = require("../../slide"),
-        DataView = require("../../panel/dataview");
-        
-    var groupFolder = module.exports = new Class({
+    var groupFolder = new Class({
 
         Extends: Plugin,
         Family: "Jx.Plugin.DataView.GroupFolder",
@@ -131,6 +127,7 @@ define("jx/plugin/dataview/groupfolder", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Plugin.DataView.GroupFolder = module.exports;
+        base.global.Plugin.DataView.GroupFolder = groupFolder;
     }
+    return groupFolder;
 });

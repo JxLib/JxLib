@@ -17,12 +17,10 @@ images:
 
 ...
  */
-define("jx/plugin/editor/underline", function(require, exports, module){
+define("jx/plugin/editor/underline", ['../../../base','./button'],
+       function(base, Button){
     
-    var base = require("../../../base"),
-        Button = require("./button");
-        
-    var underline = module.exports = new Class({
+    var underline = new Class({
     
         Extends: Button,
         Family: 'Jx.Plugin.Editor.Underline',
@@ -44,6 +42,8 @@ define("jx/plugin/editor/underline", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Plugin.Editor.Underline = module.exports;
+        base.global.Plugin.Editor.Underline = underline;
     }
+    
+    return underline;
 });

@@ -29,13 +29,10 @@ provides: [Jx.Notifier.Float]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/notifier/float", function(require, exports, module){
+define("jx/notifier/float", ['../../base','../notifier','../notice'],
+       function(base, Notifier, Notice){
     
-    var base = require("../../base"),
-        Notifier = require("../notifier"),
-        Notice = require("../notice");
-        
-    var float = module.exports = new Class({
+    var Float = new Class({
     
         Extends: Notifier,
         Family: 'Jx.Notifier.Float',
@@ -100,7 +97,9 @@ define("jx/notifier/float", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Notifier.Float = module.exports;
+        base.global.Notifier.Float = Float;
     }
+    
+    return Float;
     
 });

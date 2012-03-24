@@ -56,13 +56,9 @@ provides: [Jx.List]
  *
  * This file is licensed under an MIT style license
  */
-define('jx/list', function(require, exports, module){
+define('jx/list', ['../base','./object','./selection'], function(base, jxObject, Selection){
 
-    var base = require("../base"),
-        jxObject = require("./object"),
-        Selection = require("./selection");
-        
-    var list = module.exports = new Class({
+    var list = new Class({
         Extends: jxObject,
         Family: 'Jx.List',
         /**
@@ -496,5 +492,7 @@ define('jx/list', function(require, exports, module){
     if (base.global) {
         base.global.List = list;
     }
+    
+    return list;
 
 });

@@ -32,12 +32,9 @@ provides: [Jx.Sort.Nativesort]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/sort/nativesort", function(require, exports, module){
+define("jx/sort/nativesort", ['../../base','../sort'], function(base, Sort){
     
-    var base = require("../../base"),
-        Sort = require("../sort");
-        
-    var nativesort = module.exports = new Class({
+    var nativesort = new Class({
         Extends : Sort,
         Family: 'Jx.Sort.Nativesort',
     
@@ -66,7 +63,9 @@ define("jx/sort/nativesort", function(require, exports, module){
     });
 
     if (base.global) {
-        base.global.Sort.Nativesort = module.exports;
+        base.global.Sort.Nativesort = nativesort;
     }
+    
+    return nativesort;
     
 });

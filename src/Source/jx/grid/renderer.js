@@ -21,13 +21,10 @@ provides: [Jx.Grid.Renderer]
  * Extends: <Jx.Widget>
  * We extended Jx.Widget to take advantage of templating support.
  */
-define("jx/grid/renderer", function(require, exports, module){
+define("jx/grid/renderer",['../../base','../widget','./column','require'],
+       function(base, Widget, Column, require){
     
-    var base = require("../../base"),
-        Widget = require("../widget"),
-        Column = null;
-        
-    var renderer = module.exports = new Class({
+    var renderer = new Class({
   
         Extends: Widget,
         Family: 'Jx.Grid.Renderer',
@@ -66,8 +63,11 @@ define("jx/grid/renderer", function(require, exports, module){
         column: null,
       
         init: function () {
-            Column = require("./column");
-            
+            //column and renderer is a circular ref...
+            //get Column now if undefined (or not instanceOf widget)
+            if (Column === undefined || Column === null || !instanceOf(Column, Widget)) {
+                Column = require('jx/grid/column');
+            }
             this.parent();
             this.attached = false;
         },
@@ -85,6 +85,8 @@ define("jx/grid/renderer", function(require, exports, module){
       });
     
     if (base.global) {
-        base.global.Grid.Renderer = module.exports;
+        base.global.Grid.Renderer = renderer;
     }
+    
+    return renderer;
 })

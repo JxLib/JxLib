@@ -132,8 +132,8 @@ function drawToolbar() {
         grid.redraw();
       },
       onUp: function() {
-        selector.detach();
         selector.deactivate('checkAsHeader');
+        selector.detach();
         selector.attach(grid);
         grid.redraw();
       }});
@@ -149,8 +149,10 @@ function drawToolbar() {
           grid.redraw();
       },
       onUp: function() {
-          selector.detach();
+          //you have to deactivate before detaching and reattaching otherwise
+          //this.grid will be null in deactivate()
           selector.deactivate('multiple');
+          selector.detach();
           selector.attach(grid);
           grid.redraw();
       }
@@ -166,8 +168,8 @@ function drawToolbar() {
         b.setEnabled(true); 
       },
       onUp: function() { 
-        selector.detach(); 
         selector.deactivate('useCheckColumn'); 
+        selector.detach(); 
         selector.attach(grid); 
         grid.redraw(); 
         b.setEnabled(false);

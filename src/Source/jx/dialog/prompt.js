@@ -35,16 +35,11 @@ provides: [Jx.Dialog.Prompt]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/dialog/prompt", function(require, exports, module){
-    
-    var base = require("../../base"),
-        Dialog = require("../dialog"),
-        Toolbar = require("../toolbar"),
-        Button = require("../button"),
-        TextField = require("../field/text"),
-        FieldValidator = require("../plugin/field/validator");
+define("jx/dialog/prompt", ['../../base','../dialog','../toolbar','../button',
+                            '../field/text','../plugin/field/validator', '../widget','require'],
+       function(base, Dialog, Toolbar, Button, TextField, FieldValidator, Widget, require){
         
-    var prompt = module.exports = new Class({
+    var prompt  = new Class({
 
         Extends: Dialog,
         Family: "Jx.Dialog.Prompt",
@@ -114,11 +109,11 @@ define("jx/dialog/prompt", function(require, exports, module){
             
             var t = typeOf(fOpts.type);
             if(t === 'string') {
-                var f = require("jx/field/"+fOpts.type);
+                var f = require("jx/field/"+fOpts.type.toLowerCase());
                 if (f) {
                     this.field = new f(fOpts.options);
                 }
-            }else if(t === 'Jx.Object'){
+            }else if(instanceOf(fOpts.type, Widget)){
               this.field = fOpts.type;
             }else{
               // warning and fallback?
@@ -178,7 +173,9 @@ define("jx/dialog/prompt", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Dialog.Prompt = module.exports;
+        base.global.Dialog.Prompt = prompt;
     }
+    
+    return prompt;
     
 });

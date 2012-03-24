@@ -16,20 +16,14 @@ images:
  - notice_warning.png
 ...
  */
-define("jx/notice/warning", function(require, exports, module){
+/**
+ * Class: Jx.Notice.Warning
+ * A <Jx.Notice> subclass useful for displaying warning messages
+ */
+define("jx/notice/warning", ['../../base','../notice'],
+       function(base, Notice){
     
-    var base = require("../../base"),
-        Notice = require("../notice");
-        
-    /**
-     * Class: Jx.Notice.Success
-     * A <Jx.Notice> subclass useful for displaying success messages
-     */
-    /**
-     * Class: Jx.Notice.Success
-     * A <Jx.Notice> subclass useful for displaying warning messages
-     */
-    var warning = module.exports = new Class({
+    var warning = new Class({
         Extends: Notice,
         options: {
             template: '<li class="jxNoticeItemContainer"><div class="jxNoticeItem"><img class="jxNoticeIcon" src="'+base.aPixel.src+'" title="Warning"><span class="jxNotice"></span><a class="jxNoticeClose" href="javascript:void(0);" title="' + Locale.get('Jx','notice').closeTip + '"></a></div></li>',
@@ -39,7 +33,9 @@ define("jx/notice/warning", function(require, exports, module){
     
     
     if (base.global) {
-        base.global.Notice.Warning = module.exports;
+        base.global.Notice.Warning = warning;
     }
+    
+    return warning;
 
 });

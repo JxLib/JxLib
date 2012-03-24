@@ -28,12 +28,10 @@ provides: [Jx.LayoutManager.Fill]
 *
 * This file is licensed under an MIT style license
 */
-define("jx/layoutmanager/fill", function(require, exports, module){
+define("jx/layoutmanager/fill", ['../../../base','../layoutmanager'],
+       function(base, LayoutManager){
     
-    var base = require("../../base"),
-        LayoutManager = require("../layoutmanager");
-        
-    var Fill = module.exports = new Class({
+    var Fill = new Class({
         Extends: LayoutManager,
         Family: 'Jx.LayoutManager.Fill',
         
@@ -61,7 +59,9 @@ define("jx/layoutmanager/fill", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.LayoutManager.Fill = module.exports;
+        base.global.LayoutManager.Fill = Fill;
     }
+    
+    return Fill;
     
 });

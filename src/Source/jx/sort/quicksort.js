@@ -32,12 +32,9 @@ provides: [Jx.Sort.Quicksort]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/sort/quicksort", function(require, exports, module){
+define("jx/sort/quicksort", ['../../base','../sort'], function(base, Sort){
     
-    var base = require("../../base"),
-        Sort = require("../sort");
-        
-    var quicksort = module.exports = new Class({
+    var quicksort = new Class({
         Extends : Sort,
         Family: 'Jx.Sort.Quicksort',
     
@@ -182,7 +179,9 @@ define("jx/sort/quicksort", function(require, exports, module){
     });
 
     if (base.global) {
-        base.global.Sort.Quicksort = module.exports;
+        base.global.Sort.Quicksort = quicksort;
     }
+    
+    return quicksort;
     
 });

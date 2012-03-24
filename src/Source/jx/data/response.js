@@ -28,12 +28,10 @@ provides: [Jx.Data.Response]
  * 
  * This file is licensed under an MIT style license
  */
-define("jx/data/response", function(require, exports, module){
+define("jx/data/response", ['../../base','../object'],
+       function(base, jxObject){
     
-    var base = require("../../base"),
-        jxObject = require("../object");
-        
-    var response = module.exports = new Class({
+    var response = new Class({
 
         Extends: jxObject,
         Family: 'Jx.Store.Response',
@@ -88,7 +86,9 @@ define("jx/data/response", function(require, exports, module){
     response.FAILURE = 0;
 
     if (base.global) {
-        base.global.Data.Response = module.exports;
+        base.global.Data.Response = response;
     }
+    
+    return response;
     
 });
