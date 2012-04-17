@@ -7,6 +7,12 @@ module.exports = function(config,logger) {
         tasks: [{
             echo: "Deploying files"
         },{
+            mkdir: [ 
+                config.app.deploy + "/reference/examples/require/lib",
+                config.app.deploy + "/reference/examples/require/lib/Source",
+                config.app.deploy + + "/reference/examples/require/lib/themes"
+            ]
+        },{
             //just copy the source directories to the places we need 
             copyDir: {
                 basedirs: {
