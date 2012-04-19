@@ -100,12 +100,12 @@ optional:
  * widget.busyMessage - sets the message of the waiter component when used
  */
 
-define('jx/widget', ['../base','./object','./stack', './locale/english'], function(base, jxObject, Stack) {
+define('jx/widget', ['../base','./object','./stack', './thememanager', './locale/english'], function(base, jxObject, Stack, ThemeManager) {
 
     var widget = new Class({
         Extends: jxObject,
         Family: "Jx.Widget",
-    
+        Theme: true,
         options: {
             /* Option: id
              * (optional) {String} an HTML ID to assign to the widget
@@ -140,7 +140,7 @@ define('jx/widget', ['../base','./object','./stack', './locale/english'], functi
              * the default HTML structure of this widget.  The default template
              * is just a div with a class of jxWidget in the base class
              */
-            template: '<div class="jxWidget"></div>',
+            template: null,
             /**
              * Option: busyClass
              * {String} a CSS class name to apply to busy mask when a widget is
@@ -219,6 +219,12 @@ define('jx/widget', ['../base','./object','./stack', './locale/english'], functi
          * the DOM element that contains the chrome
          */
         chrome: null,
+        
+        /**
+         * Property: rendering
+         * Indicates that the widget is in the process of rendering
+         */
+        rendering: false,
     
         /**
          * Method: init
@@ -227,13 +233,12 @@ define('jx/widget', ['../base','./object','./stack', './locale/english'], functi
          * called directly.
          */
         init: function(){
-            if (!this.options.deferRender) {
-                this.fireEvent('preRender');
-                this.render();
-                this.fireEvent('postRender');
-            } else {
-                this.fireEvent('deferRender');
-            }
+            
+            //call into the ThemeManager to begin the rendering process
+            this.rendering = true;
+            ThemeManager.getTemplate(this, this.startRender.bind(this), this.classes, this.options.template);
+            //then return back up the stack
+
         },
     
         /**
@@ -732,36 +737,7 @@ define('jx/widget', ['../base','./object','./stack', './locale/english'], functi
             return this.domObj;
         },
     
-        /**
-         * APIMethod: processTemplate
-         * This function pulls the needed elements from a provided template
-         *
-         * Parameters:
-         * template - the template to use in grabbing elements
-         * classes - an array of class names to use in grabbing elements
-         * container - the container to add the template into
-         *
-         * Returns:
-         * a hash object containing the requested Elements keyed by the class
-         * names
-         */
-        processTemplate: function(template,classes,container){
-            var h = {},
-                element,
-                el;
-            if (container !== undefined && container !== null){
-                element = container.set('html',template);
-            } else {
-                element = new Element('div',{html:template});
-            }
-            Object.each(classes, function(klass){
-                el = element.getElement('.'+klass);
-                if (el !== undefined && el !== null){
-                    h[klass] = el;
-                }
-            });
-            return h;
-        },
+        
     
         /**
          * APIMethod: dispose
@@ -799,18 +775,26 @@ define('jx/widget', ['../base','./object','./stack', './locale/english'], functi
             }
             this.parent();
         },
-    
+        
+        /**
+         * Method: startRender
+         * This method is only to be called by the TemplateManager when it
+         * is done doing it's thing.
+         */
+        startRender: function(obj) {
+            //keep return from templateManager
+            this.templateReturned = obj;
+            //start any further rendering needed
+            this.fireEvent('preRender');
+            this.render();
+            this.fireEvent('doneRender');
+        },
+        
         /**
          * Method: render
          * render the widget, internal function called by the framework.
          */
-        render: function() {
-            this.elements = this.processElements(this.options.template,
-                this.classes);
-            if (this.domObj !== undefined && this.domObj !== null) {
-              if ( this.options.id !== undefined && this.options.id !== null) {
-                this.domObj.set('id', this.options.id);
-              }
+        render: function(obj) {
               //if a parent is passed in add this widget to it
               if (this.options.parent !== undefined && this.options.parent !== null) {
                 if (typeOf(this.options.parent) == 'string' && this.options.parent.toLowerCase() == 'body') {
@@ -818,10 +802,7 @@ define('jx/widget', ['../base','./object','./stack', './locale/english'], functi
                 } 
                 this.addTo(this.options.parent);
               }
-              //TODO: Should we autogenerate an id when one is not provided? like so...
-              // this.domObj.set('id',this.generateId());
               this.domObj.store('jxWidget', this);
-            }
         },
     
         /**
@@ -830,29 +811,7 @@ define('jx/widget', ['../base','./object','./stack', './locale/english'], functi
          */
         elements: null,
     
-        /**
-         * Method: processElements
-         * process the template of the widget and populate the elements hash
-         * with any objects.  Also set any object references based on the classes
-         * hash.
-         */
-        processElements: function(template, classes) {
-            var keys = [],
-                values = [];
-            for (var key in classes){
-                if (key !== undefined) {
-                    values.push(classes[key]);
-                    keys.push(key);
-                }
-            }
-            elements = this.processTemplate(template, values);
-            keys.each(function(key){
-                if (key != 'elements' && elements[classes[key]] !== undefined && elements[classes[key]] !== null) {
-                    this[key] =  elements[classes[key]];
-                }
-            },this);
-            return elements;
-        },
+        
     
         /**
          * APIMethod: isBusy
