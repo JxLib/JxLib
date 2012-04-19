@@ -1,0 +1,5 @@
+{
+    "baseTheme": null,
+    "browserSpecificFiles": true,
+    "globalFiles": ["reset.css"]
+}

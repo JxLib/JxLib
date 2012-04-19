@@ -1,82 +1,9 @@
-/**
- * @project         Jx
- * @revision        $Id$
- * @author          Fred Warnock (fwarnock@dmsolutions.ca)
- * @copyright       (c) 2006 DM Solutions Group Inc.
- */
 
-/* ============= */
-/* BUTTON STYLES */
-/* ============= */
-/* jxButtons consist of an A, containing a SPAN, which contains an image.
-   Buttons can use the sliding door technique with background images to horizontally
-   accomodate icons with labels. */
-
-.jxButtonContainer {
-  /* Base setup */
-  display: -moz-inline-box;
-  display: inline-block;
-  position: relative;
-  font-size: 0px;
-  line-height: 0px;
-  /* float: left; */
-
-  margin: 0px;
-  padding: 2px;
-  border: none;
-}
-
-/* normal button */
-.jxButton {
-  /* Base setup */
-  display: -moz-inline-box;
-  display: inline-block;
-  position: relative;
-  font-size: 0px;
-  line-height: 0px;
-  /* float: left; */
-
-  /* Using background images, the A contains the left side of the background */
-  margin: 0px; /* margins don't seem to work properly in IE */
-  padding: 0px 0px 0px 4px; /* makes room for the left of the button bg */
-  border: none;
-  background-image: url(images/button.png);
-  background-position: left -24px;
-  background-repeat: no-repeat;
-  text-decoration: none;
-  outline: none;
-}
-
-/* normal button */
-a.jxButton {
-  /* Base setup */
-  cursor: pointer;
-  user-select: none;
-  -moz-user-select: none;
-  -khtml-user-select: none;
-}
 
 ul.jxToolbar .jxButton {
   background-position: left top;
 }
 
-span.jxButtonContent {
-  /* Base setup */
-  display: -moz-inline-box;
-  display: inline-block;
-  position: relative;
-  /* float: left; */
-  font-size: 0px;
-  line-height: 0px;
-
-  /* Using background images, the SPAN contains the right side of the background */
-  margin: 0px; /* margins don't seem to work properly in IE */
-  padding: 4px 4px 4px 0px; /* makes room for the right of the button bg */
-  border: none;
-  background-image: url(images/button.png);
-  background-position: right -24px;
-  background-repeat: no-repeat;
-}
 
 ul.jxToolbar span.jxButtonContent {
   background-position: right top;
@@ -145,11 +72,7 @@ ul.jxToolbar .jxButtonPressed:focus span.jxButtonContent,
   background-position: right -120px;
 }
 
-/* disabled buttons */
-.jxDisabled .jxButton,
-.jxDisabled span.jxButtonContent span {
- cursor: default; 
-}
+
 
 /* hover, focus and pressing disabled button */
 ul.jxToolbar .jxDisabled .jxButton:focus,
@@ -159,12 +82,7 @@ ul.jxToolbar .jxDisabled .jxButtonPressed {
   background-position: left top;
 }
 
-.jxDisabled .jxButton:focus,
-.jxDisabled .jxButton:active,
-.jxDisabled .jxButton:hover,
-.jxDisabled .jxButtonPressed {
-  background-position: left -24px;
-}
+
 
 ul.jxToolbar .jxDisabled .jxButton:focus span.jxButtonContent,
 ul.jxToolbar .jxDisabled .jxButton:active span.jxButtonContent,
@@ -173,12 +91,7 @@ ul.jxToolbar .jxDisabled .jxButtonPressed span.jxButtonContent {
   background-position: right top;
 }
   
-.jxDisabled .jxButton:focus span.jxButtonContent,
-.jxDisabled .jxButton:active span.jxButtonContent,
-.jxDisabled .jxButton:hover span.jxButtonContent,
-.jxDisabled .jxButtonPressed span.jxButtonContent {
-  background-position: right -24px;
-}
+
 
 /* hover and focus disabled active button */
 ul.jxToolbar .jxDisabled .jxButtonActive:focus,
@@ -199,42 +112,6 @@ ul.jxToolbar .jxDisabled .jxButtonActive:hover span.jxButtonContent,
   background-position: right -72px;
 }
 
-img.jxButtonIcon {
-  /* Base setup */
-  display: -moz-inline-box;
-  display: inline-block;
-  position: relative;
-  vertical-align: middle;
-  /* float: left; */
-
-  width: 16px;
-  height: 16px;
-  background-position: center center;
-  background-repeat: no-repeat;
-}
-
-span.jxButtonContent span {
-  /* Base setup */
-  display: -moz-inline-box;
-  display: inline-block;
-  position: relative;
-  vertical-align: middle;
-  /* float: left; */
-  cursor: pointer;
-
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 11px;
-  line-height: 16px;
-  height: 16px;
-  white-space: nowrap;
-}
-
-span.jxButtonContent span.jxButtonLabel {
-  margin: 0px;
-  padding: 0 4px 0 4px;
-  color: #000;
-  font-size: 11px;
-}
 
 /* ========================== */
 /* JX BUTTON EXTENSION STYLES */

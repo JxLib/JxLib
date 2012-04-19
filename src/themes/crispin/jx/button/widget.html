@@ -1,0 +1,29 @@
+<span class="jxButtonContainer {{#if options.toggle}}{{options.toggleClass}}{{/if}}"
+    {{#if options.id}}
+        id="{{options.id}}"
+    {{/if}}
+>
+    <a class="jxButton"
+        {{#if options.target}}target="{{options.target}}"{{/if}}
+        {{#if options.href}}href="{{options.href}}"{{/if}}
+        {{#if options.tooltip}}
+             title="{{{getText options.tooltip}}}"
+             alt="{{{getText options.tooltip}}}"
+        {{/if}}
+        >
+        <span class="jxButtonContent">
+            {{#if options.image}}
+            <img class="jxButtonIcon {{#if options.imageClass}}{{options.imageClass}}{{/if}}"
+                 src="{{aPixel}}"
+                 {{#if options.tooltip}}
+                    title="{{{getText options.tooltip}}}"
+                    alt="{{{getText options.tooltip}}}"
+                 {{/if}}
+            >
+            {{/if}}
+            {{#if options.label}}
+            <span class="jxButtonLabel">{{getText options.label}}</span>
+            {{/if}}
+        </span>
+    </a>
+</span>

@@ -17,6 +17,7 @@ module.exports = function(config, logger){
                 config.app.deploy + "/builder/assets",
                 config.app.deploy + "/reference/tutorials/lib",
                 config.app.deploy + "/reference/examples/lib",
+                config.app.deploy + "/reference/examples/require/lib",
                 config.app.deploy + "/lib",
                 config.project.basedir + "/utils/ndconfig/Data"
             ]
