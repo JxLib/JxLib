@@ -1,0 +1,249 @@
+/**
+ * @project         Jx
+ * @revision        $Id$
+ * @author          Fred Warnock (fwarnock@dmsolutions.ca)
+ * @copyright       (c) 2006 DM Solutions Group Inc.
+ */
+
+/* ============= */
+/* BUTTON STYLES */
+/* ============= */
+/* jxButtons consist of an A, containing a SPAN, which contains an image.
+   Buttons can use the sliding door technique with background images to horizontally
+   accomodate icons with labels. */
+
+/*****************************************************************
+ * NOTE: This was changed to ONLY hold css for the basic button
+ *****************************************************************/
+
+.jxButtonContainer {
+  /* Base setup */
+  display: -moz-inline-box;
+  display: inline-block;
+  position: relative;
+  font-size: 0px;
+  line-height: 0px;
+  /* float: left; */
+
+  margin: 0px;
+  padding: 2px;
+  border: none;
+}
+
+/* normal button */
+.jxButton {
+  /* Base setup */
+  display: -moz-inline-box;
+  display: inline-block;
+  position: relative;
+  font-size: 0px;
+  line-height: 0px;
+  /* float: left; */
+
+  /* Using background images, the A contains the left side of the background */
+  margin: 0px; /* margins don't seem to work properly in IE */
+  padding: 0px 0px 0px 4px; /* makes room for the left of the button bg */
+  border: none;
+  background-image: url(button.png);
+  background-position: left -24px;
+  background-repeat: no-repeat;
+  text-decoration: none;
+  outline: none;
+}
+
+/* normal button */
+a.jxButton {
+  /* Base setup */
+  cursor: pointer;
+  user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+}
+
+span.jxButtonContent {
+  /* Base setup */
+  display: -moz-inline-box;
+  display: inline-block;
+  position: relative;
+  /* float: left; */
+  font-size: 0px;
+  line-height: 0px;
+
+  /* Using background images, the SPAN contains the right side of the background */
+  margin: 0px; /* margins don't seem to work properly in IE */
+  padding: 4px 4px 4px 0px; /* makes room for the right of the button bg */
+  border: none;
+  background-image: url(button.png);
+  background-position: right -24px;
+  background-repeat: no-repeat;
+}
+
+/* disabled buttons */
+.jxDisabled .jxButton,
+.jxDisabled span.jxButtonContent span {
+ cursor: default; 
+}
+
+.jxDisabled .jxButton:focus,
+.jxDisabled .jxButton:active,
+.jxDisabled .jxButton:hover,
+.jxDisabled .jxButtonPressed {
+  background-position: left -24px;
+}
+
+.jxDisabled .jxButton:focus span.jxButtonContent,
+.jxDisabled .jxButton:active span.jxButtonContent,
+.jxDisabled .jxButton:hover span.jxButtonContent,
+.jxDisabled .jxButtonPressed span.jxButtonContent {
+  background-position: right -24px;
+}
+
+
+img.jxButtonIcon {
+  /* Base setup */
+  display: -moz-inline-box;
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+  /* float: left; */
+
+  width: 16px;
+  height: 16px;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+span.jxButtonContent span {
+  /* Base setup */
+  display: -moz-inline-box;
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+  /* float: left; */
+  cursor: pointer;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  line-height: 16px;
+  height: 16px;
+  white-space: nowrap;
+}
+
+span.jxButtonContent span.jxButtonLabel {
+  margin: 0px;
+  padding: 0 4px 0 4px;
+  color: #000;
+  font-size: 11px;
+}
+
+ul.jxToolbar .jxButton {
+  background-position: left top;
+}
+
+
+ul.jxToolbar span.jxButtonContent {
+  background-position: right top;
+}
+
+/* active button */
+ul.jxToolbar .jxButtonActive,
+.jxButtonActive {
+  background-position: left -72px;
+}
+
+ul.jxToolbar .jxButtonActive span.jxButtonContent,
+.jxButtonActive span.jxButtonContent {
+  background-position: right -72px;
+}
+
+/* focus button */
+ul.jxToolbar .jxButton:focus,
+.jxButton:focus {
+  background-position: left -96px;
+}
+
+ul.jxToolbar .jxButton:focus span.jxButtonContent,
+.jxButton:focus span.jxButtonContent {
+  background-position: right -96px;
+}
+
+/* focus active button */
+ul.jxToolbar .jxButtonActive:focus,
+.jxButtonActive:focus {
+  background-position: left -144px;
+}
+
+ul.jxToolbar .jxButtonActive:focus span.jxButtonContent,
+.jxButtonActive:focus span.jxButtonContent {
+  background-position: right -144px;
+}
+
+/* hover normal and active button */
+ul.jxToolbar .jxButton:hover,
+ul.jxToolbar .jxButtonActive:hover,
+.jxButton:hover,
+.jxButtonActive:hover {
+  background-position: left -48px;
+}
+
+ul.jxToolbar .jxButton:hover span.jxButtonContent,
+ul.jxToolbar .jxButtonActive:hover span.jxButtonContent,
+.jxButton:hover span.jxButtonContent,
+.jxButtonActive:hover span.jxButtonContent {
+  background-position: right -48px;
+}
+
+/* clicking normal and focused button */
+ul.jxToolbar .jxButtonPressed,
+ul.jxToolbar .jxButtonPressed:focus,
+.jxButtonPressed,
+.jxButtonPressed:focus {
+  background-position: left -120px;
+}
+
+ul.jxToolbar .jxButtonPressed span.jxButtonContent,
+ul.jxToolbar .jxButtonPressed:focus span.jxButtonContent,
+.jxButtonPressed span.jxButtonContent,
+.jxButtonPressed:focus span.jxButtonContent {
+  background-position: right -120px;
+}
+
+
+
+/* hover, focus and pressing disabled button */
+ul.jxToolbar .jxDisabled .jxButton:focus,
+ul.jxToolbar .jxDisabled .jxButton:active,
+ul.jxToolbar .jxDisabled .jxButton:hover,
+ul.jxToolbar .jxDisabled .jxButtonPressed {
+  background-position: left top;
+}
+
+
+
+ul.jxToolbar .jxDisabled .jxButton:focus span.jxButtonContent,
+ul.jxToolbar .jxDisabled .jxButton:active span.jxButtonContent,
+ul.jxToolbar .jxDisabled .jxButton:hover span.jxButtonContent,
+ul.jxToolbar .jxDisabled .jxButtonPressed span.jxButtonContent {
+  background-position: right top;
+}
+  
+
+
+/* hover and focus disabled active button */
+ul.jxToolbar .jxDisabled .jxButtonActive:focus,
+ul.jxToolbar .jxDisabled .jxButtonActive:active,
+ul.jxToolbar .jxDisabled .jxButtonActive:hover,
+.jxDisabled .jxButtonActive:focus,
+.jxDisabled .jxButtonActive:active,
+.jxDisabled .jxButtonActive:hover {
+  background-position: left -72px;
+}
+
+ul.jxToolbar .jxDisabled .jxButtonActive:focus span.jxButtonContent,
+ul.jxToolbar .jxDisabled .jxButtonActive:active span.jxButtonContent,
+ul.jxToolbar .jxDisabled .jxButtonActive:hover span.jxButtonContent,
+.jxDisabled .jxButtonActive:focus span.jxButtonContent,
+.jxDisabled .jxButtonActive:active span.jxButtonContent,
+.jxDisabled .jxButtonActive:hover span.jxButtonContent {
+  background-position: right -72px;
+}

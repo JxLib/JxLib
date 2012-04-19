@@ -42,9 +42,11 @@ provides: [Jx.Styles]
  *
  */
 
-define('jx/styles',['../base'],function(base){
+define('jx/styles',['../base','./object'],function(base, jxObject){
     
     var styles = new(new Class({
+        Extends: jxObject,
+        Family: 'Jx.Styles',
         /**
          * dynamicStyleMap - <Hash> used to keep a reference to dynamically
          * created style sheets for quick access
@@ -205,6 +207,79 @@ define('jx/styles',['../base'],function(base){
          */
         isStyleSheetDefined: function (name) {
           return Object.keys(this.dynamicStyleMap).contains(name);
+        },
+        
+        /**
+         * Functions to handle lazy loading of css stylesheets. Code taken and
+         * adapted from https://github.com/LukeTheDuke/Lazyloader/blob/master/lazyloader.js
+         */
+        filesToLoad: 0,
+        newStylesheetIndex: document.styleSheets.length-1,
+        
+        /**
+         * method: loadFiles
+         * Begins the process of loading one or more css files. Be sure
+         * to connect to the loadFinished event to be notified when they're done.
+         */
+        loadFiles: function(files){
+            if (typeOf(files) != 'array'){
+                files = [files];
+            }
+            
+            var stylesheets = [];
+            files.each(function(file){
+                this.filesToLoad++
+                stylesheets.push(this.appendStylesheet(file));
+                this.newStylesheetIndex++;
+                if(!Browser.opera && !Browser.ie) {
+                    this.callCallbackForStylesheet(this.newStylesheetIndex);
+                }
+            },this);
+            
+            return stylesheets;
+        },
+        
+        appendStylesheet: function(url) {
+            var oLink = new Asset.css(url)
+            oLink.onload = this.decrementAndCallGlobalCallback.bind(this);
+            oLink.onreadystatechange= function () {
+                if(oLink.readyState == 'loaded' || oLink.readyState == 'complete') {
+                    this.decrementAndCallGlobalCallback();
+                }
+            }.bind(this);
+            return oLink;
+        },
+        
+        callCallbackForStylesheet: function(index) {
+
+            try {
+                if (document.styleSheets[index].cssRules) {
+                    this.decrementAndCallGlobalCallback();
+                } else {
+                    if (document.styleSheets[index].rules && document.styleSheets[index].rules.length) {
+                        this.decrementAndCallGlobalCallback();
+                    } else {
+                        setTimeout(function() {
+                          this.callCallbackForStylesheet(index);
+                        }.bind(this), 250);
+                    }
+                }
+            }
+            catch(e) {
+                setTimeout(function() {
+                  this.callCallbackForStylesheet(index);
+                }.bind(this), 250);
+            }
+        
+        },
+        
+        decrementAndCallGlobalCallback: function() {
+            this.filesToLoad--;
+        
+            if(this.filesToLoad == 0) {
+                this.fireEvent('loadFinished');
+            }
+            
         }
     }))();
     

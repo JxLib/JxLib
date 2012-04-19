@@ -3,33 +3,33 @@
 <head>
 <title>Jx.Button Examples</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link href="lib/themes/crispin/jxtheme.uncompressed.css" type="text/css" rel="stylesheet"/>
 <link href="css/tests.css" type="text/css" rel="stylesheet" />
 <script type="text/javascript" charset="utf-8">
     var require = {
         baseUrl: 'lib/Source',
-        waitSeconds: 120
+        waitSeconds: 120,
+        deps: ['mootools-core','mootools-more','handlebars']
     };
 </script>
-<script src="lib/Source/test-built.js" type="text/javascript" charset="utf-8"></script>
+<script src="lib/Source/require.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    
+    require(['jx/button','./js/locale.js'], function(Button){
+        var btn = new Button({
+            id: 'basic1',
+            label: {set:'Examples',key:'button',value:'labelAndIcon'},
+            image: 'images/asterisk_orange.png',
+            tooltip: 'a tooltip',
+            onDoneRender: function(){
+                btn.addTo('test');
+            }
+        });
+    });
+</script>
 
 </head>
 <body>
-  <h1>Jx.Button Examples - Require.js test page</h1>
-  <p>API Reference: <a id="button-js" href="javascript:void();" title="link to API Reference">Jx.Button</a> See Also: <a id="buttonset-js" href="javascript:void();" title="link to API Reference">Jx.ButtonSet</a></p>
-  
-  <h2 id="basicButtons">Basic Buttons</h2>
-  <p>A basic button normally triggers some action when it is clicked.  It can have an icon, a label, both or nothing at all. All button subclasses support the same set of options.</p>
-  <div id="buttons" class="buttonBox"></div>
-  
-  <h2 id="toggleButtons">Toggle Buttons</h2>
-  <p>A button can be a toggle button, indicating that it is on or off.  They can start on or off as well.  Buttons can also be disabled and enabled programmatically.  The first button starts disabled.  The second button toggles the disabled state of the first one.</p>
-  <div id="toggleButton" class="buttonBox"></div>
-  
-  <h2 id="buttonSets">Button Sets</h2>
-  <p>Toggle buttons can also be organized using a ButtonSet, so only one of the buttons can be active at a time.  The button set also fires events, which we are using in this case (see the event log).</p>
-  <div id="toggleSet" class="buttonBox"></div>
-  
+<div id="test"></div>
   
 </body>
 </html>

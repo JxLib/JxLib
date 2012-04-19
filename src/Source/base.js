@@ -242,7 +242,7 @@ define('base',['config','require'], function(config, require){
       * and it should not include a trailing slash.
       */
      if (base.themeBaseUrl === undefined || base.themeBaseUrl === null) {
-        base.themeBaseUrl === base.baseURL + '/themes';
+        base.themeBaseUrl = base.baseURL + '/../themes';
      }
     
     /**
@@ -261,13 +261,7 @@ define('base',['config','require'], function(config, require){
         /**
          * Determine if we're running in Adobe AIR.
          */
-        var aScripts = document.getElementsByTagName('SCRIPT'),
-            src = aScripts[0].src;
-        if (src.contains('app:')) {
-          base.isAir = true;
-        } else {
-          base.isAir = false;
-        }
+        base.isAir = Browser.Features.air;
       })();
     }
     
@@ -328,6 +322,11 @@ define('base',['config','require'], function(config, require){
       }
       return result;
     };
+    
+    //add a handlebars.js helper
+    Handlebars.registerHelper('getText', function(val){
+        return base.getText(val);    
+    });
     
     /**
      * APIMethod: applyPNGFilter

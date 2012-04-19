@@ -3,14 +3,14 @@ module.exports = function(config,logger) {
     return {
         name: "require",
         description: "Deploy JxLib for requirejs",
-        depends: ["build"],
+        depends: ["prepare"],
         tasks: [{
             echo: "Deploying files"
         },{
             mkdir: [ 
                 config.app.deploy + "/reference/examples/require/lib",
                 config.app.deploy + "/reference/examples/require/lib/Source",
-                config.app.deploy + + "/reference/examples/require/lib/themes"
+                config.app.deploy + "/reference/examples/require/lib/themes"
             ]
         },{
             //just copy the source directories to the places we need 
@@ -25,7 +25,7 @@ module.exports = function(config,logger) {
             copyDir: {
                 basedirs: {
                     to: config.app.deploy + "/reference/examples/require/lib",
-                    from: config.app.build + "/lib"
+                    from: config.app.build
                 },
                 copy: [ '/themes']
             }
@@ -48,6 +48,11 @@ module.exports = function(config,logger) {
             copy: {
                 from: config.app.build + "/lib/jxlib.standalone.uncompressed.js",
                 to: config.app.deploy + "/reference/examples/require/lib/jxlib.standalone.uncompressed.js"
+            }
+        },{
+            copy: {
+                from: config.app.vendor + "/handlebars.js",
+                to: config.app.deploy + "/reference/examples/require/lib/Source/handlebars.js"
             }
         }]
     };
