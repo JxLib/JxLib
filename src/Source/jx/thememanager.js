@@ -35,6 +35,7 @@ define('jx/thememanager',['../base', './object', './styles'], function(base, jxO
         bound: null,
         failureCount: 0,
         currentWidget: null,
+        loading: false,
         
         init: function(){
             this.bound = {
@@ -52,6 +53,7 @@ define('jx/thememanager',['../base', './object', './styles'], function(base, jxO
              * information
              */
             var url = base.themeBaseUrl + "/" + theme + '/theme.json';
+            this.loading = true;
             new Request.JSON({
                 url: url,
                 onSuccess: function(info){
@@ -107,17 +109,31 @@ define('jx/thememanager',['../base', './object', './styles'], function(base, jxO
                 },this);
                 if (this.loadedStylesheets[theme] === undefined ||
                     this.loadedStylesheets[theme] === null) {
-                    this.loadedStylesheets[theme] = [];
+                    this.loadedStylesheets[theme] = {};
                 }
-                this.loadedStylesheets[theme].append(Styles.loadFiles(files));
+                Object.append(this.loadedStylesheets[theme], Styles.loadFiles(files));
             }
         },
         
         globalsLoaded: function(){
             Styles.removeEvent('loadFinished', this.bound.globalsLoaded);
+            this.loading = false;
+            this.fireEvent('globalLoadDone', this);
         },
         
         getTemplate: function(widget, callback, classes, template){
+            //we need to have the global stuff done so, check if
+            //loading... if so, wait for globalLoadDone event
+            if (this.loading) {
+                var fn = function(){
+                    this.removeEvent('globalLoadDone', fn);
+                    this.getTemplate(widget, callback, classes, template);
+                }.bind(this);
+                this.addEvent('globalLoadDone', fn);
+                return;
+            }
+            //otherwise continue on...
+            
             //if we get passed a template, just use that and process it.
             //this allows developers to change templates ina one-off fashion
             //if they need to.
@@ -135,14 +151,15 @@ define('jx/thememanager',['../base', './object', './styles'], function(base, jxO
                     this.templates[this.activeTheme][widgetName] !== undefined &&
                     this.templates[this.activeTheme][widgetName] !== null) {
                     //we have the template, process it and pass it back
-                    beginTemplateProcessing(this.templates[this.activeTheme][widgetName], callback, classes);
+                    this.currentWidget = widget;
+                    this.beginTemplateProcessing(this.templates[this.activeTheme][widgetName], callback, classes, this.activeTheme);
                 } else {
                     //load the html file first, then the css (only if the html loads)
                     if (!this.requestInProgress) {
                         this.failureCount = 0;
                         this.requestTemplate(widget, widgetName, this.activeTheme, callback, classes);
                     } else {
-                        this.queuedWidget.push({w: widget, n: widgetName, cb: callback, cl: classes});
+                        this.queuedWidgets.push({w: widget, cb: callback, cl: classes});
                     }
                 }
             }
@@ -208,23 +225,25 @@ define('jx/thememanager',['../base', './object', './styles'], function(base, jxO
             
             //load css (need to also load all required descendant css files if not already loaded...)
             url = base.themeBaseUrl + '/' + theme + '/' + this.requestedTemplate + '/widget.css';
-            this.loadedStylesheets[theme].append(Styles.loadFiles([url]));
-            
-            //kick off next request
-            if (this.queuedWidgets.length > 0) {
-                var r = this.queuedWidgets.shift();
-                this.requestTemplate(r.w, r.n, this.activeTheme, r.db, r.cl);
+            if (!Object.keys(this.loadedStylesheets[theme]).contains(url)) {
+                Object.append(this.loadedStylesheets[theme], Styles.loadFiles([url]));
             }
             
             //use handlebars to pre-process the template. Use the widget passed in as
             //the context.
-            if (this.templates[this.activeTheme] === undefined ||
-                this.templates[this.activeTheme] === null) {
-                this.templates[this.activeTheme] = {};
+           
+            var widgetName, tpl, html;
+            if (typeOf(template) !== 'function') {
+                if (this.templates[this.activeTheme] === undefined ||
+                    this.templates[this.activeTheme] === null) {
+                    this.templates[this.activeTheme] = {};
+                }
+                widgetName = typeOf(widget).replace(".","/").toLowerCase();
+                tpl = this.templates[this.activeTheme][widgetName] = Handlebars.compile(template);
+            } else {
+                tpl = template;
             }
-            var widgetName = typeOf(widget).replace(".","/").toLowerCase(),
-                tpl = this.templates[this.activeTheme][widgetName] = Handlebars.compile(template),
-                html = tpl(widget);
+            html = tpl(widget);
             
             //now actually process the passed in template and pull out the
             //parts that the widget needs.
@@ -233,6 +252,11 @@ define('jx/thememanager',['../base', './object', './styles'], function(base, jxO
             //return to the calling widget
             callback(elements);
             
+            //kick off next request
+            if (this.queuedWidgets.length > 0) {
+                var r = this.queuedWidgets.shift();
+                this.getTemplate(r.w, r.cb, r.cl, null);
+            }
         },
         
         /**

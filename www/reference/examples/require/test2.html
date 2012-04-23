@@ -14,6 +14,8 @@
 <script src="lib/Source/require.js" type="text/javascript" charset="utf-8"></script>
 <script>
     
+    define('config', function(){return {theme: 'gala'};});
+    
     require(['jx/button','./js/locale.js'], function(Button){
         var btn = new Button({
             id: 'basic1',
@@ -22,6 +24,41 @@
             tooltip: 'a tooltip',
             onDoneRender: function(){
                 btn.addTo('test');
+            },
+            onClick: function(){
+                alert('first button clicked!');
+            }
+        });
+        
+        var toggleBtn = new Button({
+            id: 'toggle1',
+            label: 'A toggle button',
+            image: 'images/asterisk_orange.png',
+            tooltip: 'a tooltip',
+            toggle: true,
+            //imagePosition: 'Right',
+            onDoneRender: function(){
+                toggleBtn.addTo('test');
+            },
+            onDown: function(){
+                alert('toggle button down!');
+            },
+            onUp: function(){
+                alert('toggle button up!');
+            }
+        });
+        
+        var rightBtn = new Button({
+            id: 'right1',
+            label: 'Image on Right',
+            image: 'images/asterisk_orange.png',
+            tooltip: 'a tooltip',
+            imagePosition: 'Right',
+            onDoneRender: function(){
+                rightBtn.addTo('test');
+            },
+            onClick: function(){
+                alert('Image on Right button clicked!');
             }
         });
     });
