@@ -7,6 +7,10 @@ body {
   overflow: visible;
 }
 
+div#test {
+    margin: 30px;
+}
+
 .pageGrid {
   background-image:url(../images/page_grid.png);
   background-position: 0px 0px;

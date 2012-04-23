@@ -61,8 +61,8 @@ require.onError = function (err) {
  * which passes a null reference. If you want to provide options, do the following
  * on the main HTML page :
  *
- * define('config', function(require, exports, module){
- *   module.exports = {...};  //create config object here
+ * define('config', function(){
+ *   return {...};  //create config object here
  * });
  *
  * We will also need to make sure core and more are available in this same directory
@@ -86,33 +86,6 @@ define('base',['config','require'], function(config, require){
     base.version = "3.2-dev";
     
     
-    /**
-     * Function: base.require
-     * This function should be used within all of Jx code to get modules.
-     * In global mode it simply calls the globall require method. In requirejs
-     * mode it needs to check if the file is defined in requirejs and if so
-     * just return it. If not, it needs to request and then block until it
-     * gets sent back.
-     *
-     * NOTE: perhaps a while (!require.defined(file)) {};
-     *
-     */
-    base.require = function(file){
-        if (require.defined(file)) {
-            while (typeOf(require(file)) !== 'function') {}
-            return require(file);
-        }
-        
-        var loaded = false;
-        require([file],function(f){
-            loaded = true;
-            file = f;
-        });
-        
-        while (!require.defined(file)) {}
-        
-        return file;
-    }
     /**
      * Function: $jx
      * dereferences a DOM Element to a JxLib object if possible and returns
@@ -254,6 +227,25 @@ define('base',['config','require'], function(config, require){
     }
     
     /**
+     * APIProperty: theme
+     * The theme property is used to define the default, or current active, theme for
+     * the theme manager to use.
+     */
+     if (base.theme === undefined || base.theme === null) {
+        //TODO: decide, should this be crispin or delicious?
+        base.theme = "crispin";
+     }
+     
+     /**
+      * APIProperty: themeBaseUrl
+      * This will show the base theme URL. It shoudl NOT include the name of the theme
+      * and it should not include a trailing slash.
+      */
+     if (base.themeBaseUrl === undefined || base.themeBaseUrl === null) {
+        base.themeBaseUrl = base.baseURL + '/../themes';
+     }
+    
+    /**
      * APIProperty: {Boolean} isAir
      * indicates if JxLib is running in an Adobe Air environment.  This is
      * normally auto-detected but you can manually set it by declaring the Jx
@@ -269,13 +261,7 @@ define('base',['config','require'], function(config, require){
         /**
          * Determine if we're running in Adobe AIR.
          */
-        var aScripts = document.getElementsByTagName('SCRIPT'),
-            src = aScripts[0].src;
-        if (src.contains('app:')) {
-          base.isAir = true;
-        } else {
-          base.isAir = false;
-        }
+        base.isAir = Browser.Features.air;
       })();
     }
     
@@ -336,6 +322,11 @@ define('base',['config','require'], function(config, require){
       }
       return result;
     };
+    
+    //add a handlebars.js helper
+    Handlebars.registerHelper('getText', function(val){
+        return base.getText(val);    
+    });
     
     /**
      * APIMethod: applyPNGFilter

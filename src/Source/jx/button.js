@@ -93,14 +93,21 @@ define('jx/button', ['../base','./widget'], function(base, Widget){
     var button = new Class({
         Extends: Widget,
         Family: 'Jx.Button',
-    
+        Theme: true,
+        
         options: {
             /* Option: image
              * optional.  A string value that is the url to load the image to
-             * display in this button.  The default styles size this image to 16 x
-             * 16.  If not provided, then the button will have no icon.
+             * display in this button. If not provided, then the button will have no icon.
              */
             image: '',
+            /**
+             * Option: imagePosition
+             * optional. A string value that determines icon placement on the button.
+             * Valid values are 'Right' or 'Left'. Default is null which places the
+             * icon on the left.
+             */
+            imagePosition: null,
             /* Option: tooltip
              * optional.  A string value to use as the alt/title attribute of the
              * <A> tag that wraps the button, resulting in a tooltip that appears
@@ -159,7 +166,7 @@ define('jx/button', ['../base','./widget'], function(base, Widget){
              * jxButtonLabel are used if present to put the image and label into
              * the button.
              */
-            template: '<span class="jxButtonContainer"><a class="jxButton"><span class="jxButtonContent"><img class="jxButtonIcon" src="'+base.aPixel.src+'"><span class="jxButtonLabel"></span></span></a></span>'
+            template: null
         },
     
         /**
@@ -183,19 +190,9 @@ define('jx/button', ['../base','./widget'], function(base, Widget){
             var options = this.options,
                 hasFocus,
                 mouseDown;
-            /* is the button toggle-able? */
-            if (options.toggle) {
-                this.domObj.addClass(options.toggleClass);
-            }
     
             // the clickable part of the button
             if (this.domA) {
-                this.domA.set({
-                    target: options.target,
-                    href: options.href,
-                    title: this.getText(options.tooltip),
-                    alt: this.getText(options.tooltip)
-                });
                 this.domA.addEvents({
                     click: this.clicked.bind(this),
                     drag: (function(e) {e.stop();}).bind(this),
@@ -239,15 +236,8 @@ define('jx/button', ['../base','./widget'], function(base, Widget){
     
             if (this.domImg) {
                 if (options.image || !options.label) {
-                    this.domImg.set({
-                        title: this.getText(options.tooltip),
-                        alt: this.getText(options.tooltip)
-                    });
                     if (options.image && options.image.indexOf(base.aPixel.src) == -1) {
                         this.domImg.setStyle('backgroundImage',"url("+options.image+")");
-                    }
-                    if (options.imageClass) {
-                        this.domImg.addClass(options.imageClass);
                     }
                 } else {
                     //remove the image if we don't need it
@@ -263,11 +253,7 @@ define('jx/button', ['../base','./widget'], function(base, Widget){
                     this.domLabel.setStyle('display','none');
                 }
             }
-    
-            if (options.id) {
-                this.domObj.set('id', options.id);
-            }
-    
+            
             //update the enabled state
             this.setEnabled(options.enabled);
     
@@ -286,6 +272,7 @@ define('jx/button', ['../base','./widget'], function(base, Widget){
          * evt - {Event} the user click event
          */
         clicked : function(evt) {
+            evt.preventDefault();
             var options = this.options;
             if (options.enabled && !this.isBusy()) {
                 if (options.toggle) {

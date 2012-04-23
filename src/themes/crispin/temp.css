@@ -1,0 +1,149 @@
+
+
+
+
+/* ========================== */
+/* JX BUTTON EXTENSION STYLES */
+/* ========================== */
+
+.jxDiscloser span.jxButtonContent {
+  padding-right: 0px;
+}
+
+.jxDiscloser span.jxButtonContent span {
+  padding-right: 16px;
+  background-image: url(images/emblems.png);
+  background-position: right -16px;
+  background-repeat: no-repeat;
+}
+
+a.jxButtonDisclose {
+  position: absolute;
+  display: -moz-inline-box;
+  display: inline-block;
+  padding: 4px 0px;
+  font-size: 0px;
+  line-height: 0px;
+  right: 2px;
+  top: 2px;
+  background-image: url(images/button_multi_disclose.png);
+  background-position: right 0px;
+  background-repeat: no-repeat;
+  outline: none;
+  user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+}
+
+a.jxButtonDisclose img {
+  width: 16px;
+  height: 16px;
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+  background-image: url(images/emblems.png);
+  background-position: right -16px;
+  background-repeat: no-repeat;
+}
+
+a.jxButtonDisclose:focus,
+a.jxButtonDisclose:active {
+  background-position: right -96px;
+}
+
+a.jxButtonDisclose:hover {
+  background-position: right -48px;
+}
+
+a.jxButtonDisclosePressed {
+  background-position: right -120px;
+}
+
+.jxDisabled a.jxButtonDisclose,
+.jxDisabled a.jxButtonDisclose:focus, 
+.jxDisabled a.jxButtonDisclose:active, 
+.jxDisabled a.jxButtonDisclose:hover, 
+.jxDisabled a.jxButtonDisclosePressed {
+  cursor: default; 
+  background-position: right 0px;
+}
+
+/* note, jxButtonHover is set by Multi button JS */
+ul.jxToolbar .jxButtonHover {
+  background-position: left -24px !important;
+}
+
+ul.jxToolbar .jxButtonHover span.jxButtonContent {
+  background-position: right -24px !important;
+}
+
+
+/* Jx Flyout Styles */
+
+.jxFlyout .jxChrome {
+  background-image: url(images/flyout_chrome.png);
+  padding: 5px 5px 7px 6px;
+}
+
+.jxFlyout {
+  /* Base setup */
+  position: absolute;
+  display: block;
+  z-index: 100;
+
+  margin: 0px;
+  padding: 0px;
+}
+
+.jxFlyoutContent {
+  position: relative;
+  display: block;
+  overflow: auto;
+  margin: 6px 6px 8px 7px;
+  background-color: #fff;
+  border: 1px solid #999;
+}
+
+/* Jx Combo and Multi Button Styles */
+
+.jxButtonMulti,
+.jxButtonMulti span.jxButtonContent {
+  background-image: url(images/button_multi.png);
+}
+
+.jxButtonEditCombo,
+.jxButtonEditCombo span.jxButtonContent {
+  background-image: url(images/button_combo.png);
+}
+
+/*a.jxButtonEditCombo {
+  user-select: text;
+  -moz-user-select: text;
+  -khtml-user-select: text;
+}*/
+
+.jxButtonMulti span.jxButtonContent span {
+  padding-right: 21px;
+}
+
+.jxButtonEditCombo span.jxButtonContent span {
+  font-size: 0px;
+}
+
+.jxButtonComboDefault span.jxButtonContent span,
+.jxButtonComboDefault input {
+  font-style: italic;
+  color: #999;
+}
+
+.jxButtonEditCombo input {
+  float: left;
+  line-height: 16px;
+  height: 16px;
+  padding: 0px 4px;
+  margin: 0px;
+  border: none;
+  font-size: 11px;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: transparent;
+}
