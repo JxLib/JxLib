@@ -98,10 +98,16 @@ define('jx/button', ['../base','./widget'], function(base, Widget){
         options: {
             /* Option: image
              * optional.  A string value that is the url to load the image to
-             * display in this button.  The default styles size this image to 16 x
-             * 16.  If not provided, then the button will have no icon.
+             * display in this button. If not provided, then the button will have no icon.
              */
             image: '',
+            /**
+             * Option: imagePosition
+             * optional. A string value that determines icon placement on the button.
+             * Valid values are 'Right' or 'Left'. Default is null which places the
+             * icon on the left.
+             */
+            imagePosition: null,
             /* Option: tooltip
              * optional.  A string value to use as the alt/title attribute of the
              * <A> tag that wraps the button, resulting in a tooltip that appears
@@ -266,6 +272,7 @@ define('jx/button', ['../base','./widget'], function(base, Widget){
          * evt - {Event} the user click event
          */
         clicked : function(evt) {
+            evt.preventDefault();
             var options = this.options;
             if (options.enabled && !this.isBusy()) {
                 if (options.toggle) {

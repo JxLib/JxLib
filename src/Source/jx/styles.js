@@ -226,10 +226,10 @@ define('jx/styles',['../base','./object'],function(base, jxObject){
                 files = [files];
             }
             
-            var stylesheets = [];
+            var stylesheets = {};
             files.each(function(file){
                 this.filesToLoad++
-                stylesheets.push(this.appendStylesheet(file));
+                stylesheets[file] = this.appendStylesheet(file);
                 this.newStylesheetIndex++;
                 if(!Browser.opera && !Browser.ie) {
                     this.callCallbackForStylesheet(this.newStylesheetIndex);
