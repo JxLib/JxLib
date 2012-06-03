@@ -28,12 +28,10 @@ provides: [Jx.Store.Strategy.Paginate]
  * 
  * This file is licensed under an MIT style license
  */
-define("jx/store/strategy/paginate", function(require, exports, module){
+define("jx/store/strategy/paginate", ['../../../base','../strategy'],
+       function(base, Strategy){
     
-    var base = require("../../../base"),
-        Strategy = require("../strategy");
-        
-    var paginate = module.exports = new Class({
+    var paginate = new Class({
     
         Extends: Strategy,
         Family: "Jx.Store.Strategy.Paginate",
@@ -313,7 +311,9 @@ define("jx/store/strategy/paginate", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Store.Strategy.Paginate = module.exports;
+        base.global.Store.Strategy.Paginate = paginate;
     }
+    
+    return paginate;
     
 });

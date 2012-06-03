@@ -29,15 +29,10 @@ provides: [Jx.Plugin.Form.Notifier]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/plugin/form/notifier", function(require, exports, module){
+define("jx/plugin/form/notifier", ['../../../base','../../plugin','../../notifier','../../notifier/float','../../notice/error'],
+       function(base, Plugin, Notifier, FloatNotifier, ErrorNotice){
     
-    var base = require("../../../base"),
-        Plugin = require("../../plugin"),
-        Notifier = require("../../notifier"),
-        FloatNotifier = require("../../notifier/float"),
-        ErrorNotice = require("../../notice").Error
-        
-    var notifier = module.exports = new Class({
+    var notifier = new Class({
 
         Extends : Plugin,
         Family: "Jx.Plugin.Form.Notifier",
@@ -122,6 +117,8 @@ define("jx/plugin/form/notifier", function(require, exports, module){
     });
 
     if (base.global) {
-        base.global.Plugin.Form.Notifier = module.exports;
+        base.global.Plugin.Form.Notifier = notifier;
     }
+    
+    return notifier;
 });

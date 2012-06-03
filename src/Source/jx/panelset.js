@@ -51,14 +51,10 @@ provides: [Jx.PanelSet]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/panelset", function(require, exports, module){
+define("jx/panelset",['../base','./widget','./layout','./splitter'],
+       function(base, Widget, Layout, Splitter){
     
-    var base = require("../base"),
-        Widget = require("./widget"),
-        Layout = require("./layout"),
-        Splitter = require("./splitter");
-        
-    var panelSet = module.exports = new Class({
+    var panelSet = new Class({
         Extends: Widget,
         Family: 'Jx.PanelSet',
     
@@ -94,13 +90,17 @@ define("jx/panelset", function(require, exports, module){
          */
         render: function() {
             this.parent();
+            this.doRender();
+        },
+        
+        doRender: function(){
             if (this.options.panels) {
                 this.panels = this.options.panels;
                 this.options.panels = null;
             }
-            var obj = new Element('div');
-            obj.replaces(this.domObj);
-            this.domObj = obj;
+            //var obj = new Element('div');
+            //obj.replaces(this.domObj);
+            //this.domObj = obj;
             new Layout(this.domObj);
     
             //make a fake panel so we get the right number of splitters
@@ -146,6 +146,18 @@ define("jx/panelset", function(require, exports, module){
             
             this.domObj.resize();
             
+        },
+        
+        /**
+         * APIMethod: add
+         * Adds a panel to the panelset and recalculates everything by emptying
+         * the panel and re-rendering everything (obviously not the best way to
+         * do this but definitely the easiest)
+         */
+        add: function(panel) {
+            this.panels.push(panel);
+            this.domObj.empty();
+            this.doRender();
         },
     
         /**
@@ -262,6 +274,8 @@ define("jx/panelset", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.PanelSet = module.exports;
+        base.global.PanelSet = panelSet;
     }
+    
+    return panelSet;
 });

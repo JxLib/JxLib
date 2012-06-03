@@ -31,12 +31,9 @@ provides: [Jx.Formatter]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/formatter", function(require, exports, module){
+define("jx/formatter", ['../base','./object'], function(base, jxObject){
     
-    var base = require("../base"),
-        jxObject = require("./object");
-        
-    var formatter = module.exports = new Class({
+    var formatter = new Class({
         Extends: jxObject,
         Family: 'Jx.Formatter',
     
@@ -49,6 +46,8 @@ define("jx/formatter", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Formatter = module.exports;
+        base.global.Formatter = formatter;
     }
+    
+    return formatter;
 });

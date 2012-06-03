@@ -17,12 +17,10 @@ images:
 
 ...
  */
-define("jx/plugin/editor/indent", function(require, exports, module){
+define("jx/plugin/editor/indent", ['../../../base','./button'],
+       function(base, Button){
     
-    var base = require("../../../base"),
-        Button = require("./button");
-        
-    var indent = module.exports = new Class({
+    var indent = new Class({
     
         Extends: Button,
         Family: 'Jx.Plugin.Editor.Indent',
@@ -42,7 +40,8 @@ define("jx/plugin/editor/indent", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Plugin.Editor.Indent = module.exports;
+        base.global.Plugin.Editor.Indent = indent;
     }
+    return indent;
     
 });

@@ -100,15 +100,9 @@ optional:
  * widget.busyMessage - sets the message of the waiter component when used
  */
 
-define('jx/widget', function(require, exports, module) {
+define('jx/widget', ['../base','./object','./stack', './locale/english'], function(base, jxObject, Stack) {
 
-    var base = require('../base'),
-        jxObject = require('./object'),
-        Stack = require('./stack');
-        
-    require('./locale/english');
-    
-    var widget = module.exports = new Class({
+    var widget = new Class({
         Extends: jxObject,
         Family: "Jx.Widget",
     
@@ -239,6 +233,10 @@ define('jx/widget', function(require, exports, module) {
                 this.fireEvent('postRender');
             } else {
                 this.fireEvent('deferRender');
+            }
+            //register this widget with the base widget collection
+            if (this.options.id !== undefined && this.options.id !== null) {
+                base.widgets[this.options.id] = this;
             }
         },
     
@@ -907,7 +905,7 @@ define('jx/widget', function(require, exports, module) {
             }
             if (options.busyMask && domObj.spin) {
               /* put the spinner above the element in the z-index */
-              z = Jx.getNumber(domObj.getStyle('z-index'));
+              z = base.getNumber(domObj.getStyle('z-index'));
               opts = {
                 style: {
                   'z-index': z+1
@@ -1022,7 +1020,8 @@ define('jx/widget', function(require, exports, module) {
     
     //put widget in global context if needed
     if (base.global) {
-        base.global.Widget = module.exports;
+        base.global.Widget = widget;
     };
 
+    return widget;
 });

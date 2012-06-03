@@ -36,12 +36,9 @@ provides: [Jx.Sort]
  * This file is licensed under an MIT style license
  */
 
-define("jx/sort", function(require, exports, module){
+define("jx/sort",['../base','./object'], function(base, jxObject){
     
-    var base = require("../base"),
-        jxObject = require("./object");
-        
-    var sort = module.exports = new Class({
+    var sort = new Class({
     
         Extends : jxObject,
         Family : 'Jx.Sort',
@@ -161,7 +158,9 @@ define("jx/sort", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Sort = module.exports;
+        base.global.Sort = sort;
     }
+    
+    return sort;
     
 });

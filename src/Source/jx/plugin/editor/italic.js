@@ -17,12 +17,10 @@ images:
 
 ...
  */
-define("jx/plugin/editor/italic", function(require, exports, module){
+define("jx/plugin/editor/italic", ['../../../base','./button'],
+       function(base, Button){
     
-    var base = require("../../../base"),
-        Button = require("./button");
-        
-    var italic = module.exports = new Class({
+    var italic = new Class({
     
         Extends: Button,
         Family: 'Jx.Plugin.Editor.Italic',
@@ -80,6 +78,7 @@ define("jx/plugin/editor/italic", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Plugin.Editor.Italic = module.exports;
+        base.global.Plugin.Editor.Italic = italic;
     }
+    return italic;
 });

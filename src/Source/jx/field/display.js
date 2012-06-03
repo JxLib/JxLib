@@ -17,12 +17,10 @@ provides: [Jx.Field.Display]
 /**
  * Class: Jx.Field.Display
  **/
-define("jx/field/display", function(require, exports, module){
+define("jx/field/display", ['../../base','../field'],
+       function(base, Field){
     
-    var base = require("../../base"),
-        Field = require("../field");
-        
-    var display = module.exports = new Class({
+    var display = new Class({
         Extends: Field,
         options: { 
             template: '<span class="jxInputContainer"><label class="jxInputLabel" ></label><span class="jxInputTag"></span></span>'
@@ -50,7 +48,9 @@ define("jx/field/display", function(require, exports, module){
     });
 
     if (base.global) {
-        base.global.Field.Display = module.exports;
+        base.global.Field.Display = display;
     }
+    
+    return display;
     
 });

@@ -29,13 +29,9 @@ css:
  * Based in part on 'Mootools CSS Styled Scrollbar' on
  * http://solutoire.com/2008/03/10/mootools-css-styled-scrollbar/
  */
-define("jx/scrollbar", function(require, exports, module){
+define("jx/scrollbar", ['../base','./widget','./slider'], function(base, Widget, Slider){
     
-    var base = require("../base"),
-        Widget = require("./widget"),
-        Slider = require("./slider")
-        
-    var scrollbar = module.exports = new Class({
+    var scrollbar = new Class({
     
         Extends: Widget,
         Family: 'Jx.Scrollbar',
@@ -206,6 +202,8 @@ define("jx/scrollbar", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Scrollbar = module.exports;
+        base.global.Scrollbar = scrollbar;
     }
+    
+    return scrollbar;
 });

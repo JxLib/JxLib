@@ -33,12 +33,10 @@ provides: [Jx.Formatter.Date]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/formatter/date", function(require, exports, module){
+define("jx/formatter/date", ['../../base','../formatter'],
+       function(base, Formatter){
     
-    var base = require("../../base"),
-        Formatter = require("../formatter");
-        
-    var date = module.exports = new Class({
+    var date = new Class({
 
         Extends: Formatter,
         Family: "Jx.Formatter.Date",
@@ -66,6 +64,8 @@ define("jx/formatter/date", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Formatter.Date = module.exports;
+        base.global.Formatter.Date = date;
     }
+    
+    return date;
 });

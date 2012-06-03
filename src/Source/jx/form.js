@@ -49,15 +49,10 @@ images:
  *
  * This file is licensed under an MIT style license
  */
-define("jx/form", function(require, exports, module){
+define("jx/form", ['../base','./widget','./field','./field/file','./fieldset'],
+       function(base, Widget, Field, File, Fieldset){
     
-    var base = require("../base"),
-        Widget = require("./widget"),
-        Field = null,
-        File = null,
-        Fieldset = null;
-        
-    var form = module.exports = new Class({
+    var form = new Class({
     
         Extends: Widget,
         Family: 'Jx.Form',
@@ -129,9 +124,18 @@ define("jx/form", function(require, exports, module){
         },
         
         init: function() {
-            Field = require("./field");
-            File = require("./field/file");
-            Fieldset = require("./fieldset");
+            //in global mode Field, File, and Fieldset are
+            //all undefined when Jx.Form is defined. Bring them in here...
+            if (Field === undefined) {
+                Field = require("jx/field");
+            }
+            if (File === undefined) {
+                File = require("jx/field/file");
+            }
+            if (Fieldset === undefined) {
+                Fieldset = require("jx/fieldset");
+            }
+            
             this.fields = {};
             this.data = {};
             this.parent();
@@ -150,6 +154,7 @@ define("jx/form", function(require, exports, module){
                 'method' : this.options.method,
                 'action' : this.options.action,
                 'name' : this.options.name,
+                'id': this.options.id,
                 'accept-charset': this.options.acceptCharset,
                 events: {
                     keypress: function(e) {
@@ -190,7 +195,7 @@ define("jx/form", function(require, exports, module){
                     if (opt['class'].toLowerCase() === 'fieldset') {
                         this.add(new Fieldset(opt.options));
                     } else {
-                        var field = require("./field/" + opt['class']);
+                        var field = require("jx/field/" + opt['class']);
                         this.add(new field(opt.options));
                     }
                 }
@@ -420,7 +425,9 @@ define("jx/form", function(require, exports, module){
     });
 
     if (base.global) {
-        base.global.Form = module.exports;
+        base.global.Form = form;
     }
+    
+    return form;
     
 });

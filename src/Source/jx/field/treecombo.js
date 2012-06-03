@@ -45,19 +45,13 @@ provides: [Jx.Field.TreeCombo]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/field/treecombo", function(require, exports, module){
+define("jx/field/treecombo", ['../../base','../field','../data/protocol/ajax','../data/parser/json',
+                              '../adaptor/tree/object','../tree','../tree/folder','../button/flyout',
+                              '../panel'],
+       function(base, Field, AjaxProtocol, JSONParser, TreeObjectAdaptor, Tree,
+                Folder, Flyout, Panel){
     
-    var base = require("../../base"),
-        Field = require("../field"),
-        AjaxProtocol = require("../data/protocol/ajax"),
-        JSONParser = require("../data/parser/json"),
-        TreeObjectAdaptor = require("../adaptor/tree/object"),
-        Tree = require("../tree"),
-        Folder = require("../tree/folder"),
-        Flyout = require("../button/flyout"),
-        Panel = require("../panel");
-        
-    var treeCombo = module.exports = new Class({
+    var treeCombo = new Class({
     
         Extends: Field,
         Family: 'Jx.Field.Combo',    
@@ -193,7 +187,9 @@ define("jx/field/treecombo", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Field.TreeCombo = module.exports;
+        base.global.Field.TreeCombo = treeCombo;
     }
+    
+    return treeCombo;
     
 });

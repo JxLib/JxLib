@@ -36,14 +36,10 @@ css:
  *
  * This file is licensed under an MIT style license
  */
-define("jx/dialog/message", function(require, exports, module){
+define("jx/dialog/message", ['../../base','../dialog','../toolbar','../button'],
+       function(base, Dialog, Toolbar, Button){
     
-    var base = require("../../base"),
-        Dialog = require("../dialog"),
-        Toolbar = require("../toolbar"),
-        Button = require("../button");
-        
-    var message = module.exports = new Class({
+    var message = new Class({
         Extends: Dialog,
         Family: 'Jx.Dialog.Message',
         Binds: ['onOk'],
@@ -110,7 +106,7 @@ define("jx/dialog/message", function(require, exports, module){
                   case 'string':
                   case 'object':
                     this.question.set('html', this.getText(this.options.message));
-                  break;
+                    break;
                   case 'element':
                     this.options.message.inject(this.question);
                     break;
@@ -168,7 +164,9 @@ define("jx/dialog/message", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Dialog.Message = module.exports;
+        base.global.Dialog.Message = message;
     }
+    
+    return message;
     
 });

@@ -29,13 +29,10 @@ provides: [Jx.Data.Protocol.Ajax]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/data/protocol/ajax", function(require, exports, module){
+define("jx/data/protocol/ajax", ['../../../base','../protocol','../response'],
+       function(base, Protocol, Response){
     
-    var base = require("../../../base"),
-        Protocol = require("../protocol"),
-        Response = require("../response");
-        
-    var ajax = module.exports = new Class({
+    var ajax = new Class({
 
         Extends: Protocol,
         Family: "Jx.Data.Protocol.Ajax",
@@ -302,7 +299,9 @@ define("jx/data/protocol/ajax", function(require, exports, module){
     })();
 
     if (base.global) {
-        base.global.Data.Protocol.Ajax = module.exports;
+        base.global.Data.Protocol.Ajax = ajax;
     }
+    
+    return ajax;
     
 });

@@ -17,12 +17,10 @@ images:
 
 ...
  */
-define("jx/plugin/editor/redo", function(require, exports, module){
-    
-    var base = require("../../../base"),
-        Button = require("./button");
-        
-    var redo = module.exports = new Class({
+define("jx/plugin/editor/redo", ['../../../base','./button'],
+       function(base, Button){
+     
+    var redo = new Class({
     
         Extends: Button,
         Family: 'Jx.Plugin.Editor.Redo',
@@ -43,6 +41,8 @@ define("jx/plugin/editor/redo", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Plugin.Editor.Redo = module.exports;
+        base.global.Plugin.Editor.Redo = redo;
     }
+    
+    return redo;
 });

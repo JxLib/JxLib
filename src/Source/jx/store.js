@@ -39,14 +39,10 @@ provides: [Jx.Store]
  * This file is licensed under an MIT style license
  */
 
-define("jx/store", function(require, exports, module){
+define("jx/store", ['../base','./object','./record','./store/strategy/full'],
+       function(base, jxObject, Record, Full){
     
-    var base = require("../base"),
-        jxObject = require("./object"),
-        Record = require("./record"),
-        Full = require("./store/strategy/full")
-        
-    var store = module.exports = new Class({
+    var store = new Class({
 
         Extends: jxObject,
         Family: 'Jx.Store',
@@ -481,7 +477,8 @@ define("jx/store", function(require, exports, module){
     
             position = (position !== undefined && position !== null) ? position : 'bottom';
     
-            var record = data;
+            var record = data,
+                idx;
             if (!(data instanceof Record)) {
                 record = new (this.record)(this, this.options.fields, data, this.options.recordOptions);
             }
@@ -494,10 +491,12 @@ define("jx/store", function(require, exports, module){
                 this.data.reverse();
                 this.data.push(record);
                 this.data.reverse();
+                idx = this.data.length - 1;
             } else {
                 this.data.push(record);
+                idx = 0;
             }
-            this.fireEvent('storeRecordAdded', [this, record, position]);
+            this.fireEvent('storeRecordAdded', [this, record, idx]);
         },
         /**
          * APIMethod: addRecords
@@ -589,19 +588,16 @@ define("jx/store", function(require, exports, module){
          *          defaults to the current store index.
          */
         deleteRecord: function(index) {
+            var record
             if (index === undefined && index !== null) {
                 index = this.index;
+            } else if (instanceOf(index, this.record)) {
+                record = index;
+            } else {
+                record = this.data[index];    
             }
-            var record = this.data[index];
             record.state = Record.DELETE;
-            // Set to Null or slice it out and compact the array???
-            //this.data[index] = null;
             this.data.splice(index,1);
-            // TODO: I moved this to a property that is always an array so I don't
-            // get an error in the save strategy.
-            // if (this.deleted  == undefined) {
-            //     this.deleted = [];
-            // }
             this.deleted.push(record);
             this.fireEvent('storeRecordDeleted', [this, record]);
         },
@@ -766,7 +762,9 @@ define("jx/store", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Store = module.exports;
+        base.global.Store = store;
     }
+    
+    return store;
     
 });

@@ -49,14 +49,10 @@ provides: [Jx.TabSet]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/tabset", function(require, exports, module){
+define("jx/tabset", ['../base','./widget','./tab', './layout'], function(base, Widget, Tab, Layout){
     
-    var base = require("../base"),
-        jxObject = require("./object"),
-        Tab = require("./tab");
-        
-    var tabSet = module.exports = new Class({
-        Extends: jxObject,
+    var tabSet = new Class({
+        Extends: Widget,
         Family: 'Jx.TabSet',
         /**
          * Property: tabs
@@ -76,7 +72,7 @@ define("jx/tabset", function(require, exports, module){
          * options - an options object, only event handlers are supported
          * as options at this time.
          */
-        parameters: ['domObj','options'],
+        parameters: ['parent','options'],
     
         /**
          * APIMethod: init
@@ -84,11 +80,12 @@ define("jx/tabset", function(require, exports, module){
          * the DOM.
          */
         init: function() {
+            this.parent();
             this.tabs = [];
-            this.domObj = document.id(this.options.domObj);
             if (!this.domObj.hasClass('jxTabSetContainer')) {
                 this.domObj.addClass('jxTabSetContainer');
             }
+            new Layout(this.domObj);
             this.setActiveTabFn = this.setActiveTab.bind(this);
         },
         /**
@@ -103,7 +100,9 @@ define("jx/tabset", function(require, exports, module){
         },
         
         resize: function(){
-            this.activeTab.resize();
+            if (this.activeTab !== undefined && this.activeTab !== null) {
+                this.activeTab.resize();
+            }
         },
     
         /**
@@ -163,12 +162,30 @@ define("jx/tabset", function(require, exports, module){
             this.activeTab = tab;
             this.activeTab.resize();
             this.fireEvent('tabChange', [this, tab]);
+        },
+        
+        hasTab: function(label, activate){
+            var t = null;
+            activate = (activate) ? activate : false;
+            this.tabs.each(function(tab){
+                if (tab.getLabel() == label) {
+                    t = tab;
+                }
+            },this);
+            
+            if (t !== null && activate) {
+                this.setActiveTab(t);
+            }
+            
+            return (t?true:false);
         }
     });
     
     if (base.global) {
-        base.global.TabSet = module.exports;
+        base.global.TabSet = tabSet;
     }
+    
+    return tabSet;
     
 });
     

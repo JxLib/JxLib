@@ -29,14 +29,10 @@ css:
  * https://raw.github.com/cpojer/mootools-tree/master/Source/Tree.js
  * which is under an MIT-style license
  */
-define("jx/plugin/tree/sorter", function(require, exports, module){
+define("jx/plugin/tree/sorter", ['../../../base','../../plugin','../../tree','../../tree/folder'],
+       function(base, Plugin, Tree, Folder){
     
-    var base = require("../../../base"),
-        Plugin = require("../../plugin"),
-        Tree = require("../../tree"),
-        folder = require("../../tree/folder");
-        
-    var sorter = module.exports = new Class({
+    var sorter = new Class({
 
         Extends: Plugin,
         Family: 'Jx.Plugin.Tree.Sorter',
@@ -123,7 +119,8 @@ define("jx/plugin/tree/sorter", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Plugin.Tree.Sorter = module.exports;
+        base.global.Plugin.Tree.Sorter = sorter;
     }
+    return sorter;
     
 });

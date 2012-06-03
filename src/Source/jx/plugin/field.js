@@ -25,9 +25,11 @@ provides: [Jx.Plugin.Field]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/plugin/field", function(require){
-    var base = require("../../base");
+define("jx/plugin/field", ['../../base'], function(base){
+    
     if (base.global) {
         base.global.Plugin.Field = {};
     }
+    
+    return {};
 });

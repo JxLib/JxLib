@@ -49,13 +49,10 @@ provides: [Jx.Button.Color]
  *
  * This file is licensed under an MIT style license
  */
-define('jx/button/color', function(require, exports, module){
+define('jx/button/color', ['../../base','./flyout','../colorpalette'],
+       function(base, Flyout, ColorPalette){
 
-    var base = require("../../base"),
-        Flyout = require("./flyout"),
-        ColorPalette = require("../colorpalette");
-    
-    var color = module.exports = new Class({
+    var color = new Class({
         Extends: Flyout,
         Family: 'Jx.Button.Color',
     
@@ -233,5 +230,7 @@ define('jx/button/color', function(require, exports, module){
     if (base.global) {
         base.global.Button.Color = color;
     }
+    
+    return color;
 
 });

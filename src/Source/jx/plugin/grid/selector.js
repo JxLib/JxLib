@@ -30,14 +30,10 @@ provides: [Jx.Plugin.Grid.Selector]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/plugin/grid/selector", function(require, exports, module){
+define("jx/plugin/grid/selector", ['../../../base','../../plugin','../../grid','../../grid/column'],
+       function(base, Plugin, Grid, Column){
     
-    var base = require("../../../base"),
-        Plugin = require("../../plugin"),
-        Grid = require("../../grid"),
-        Column = require("../../grid/column");
-        
-    var selector = module.exports = new Class({
+    var selector = new Class({
 
         Extends : Plugin,
         Family: 'Jx.Plugin.Grid.Selector',
@@ -119,7 +115,7 @@ define("jx/plugin/grid/selector", function(require, exports, module){
          */
         attach: function (grid) {
             if (grid === undefined || grid === null || !instanceOf(grid, Grid)) {
-                return;
+                return this;
             }
             this.parent(grid);
             var options = this.options,
@@ -132,6 +128,7 @@ define("jx/plugin/grid/selector", function(require, exports, module){
             } else {
                 grid.addEvent('postRender', this.onPostRender);
             }
+            return this;
         },
         
         onPostRender: function() {
@@ -280,6 +277,7 @@ define("jx/plugin/grid/selector", function(require, exports, module){
          */
         activate: function (opt) {
             this.options[opt] = true;
+            return this;
         },
         /**
          * APIMethod: deactivate
@@ -322,6 +320,7 @@ define("jx/plugin/grid/selector", function(require, exports, module){
                 },this);
                 selected.columnHeads = [];
             }
+            return this;
         },
         
         /**
@@ -427,7 +426,7 @@ define("jx/plugin/grid/selector", function(require, exports, module){
                     //search array and remove this item
                     rows.erase(row);
                     if (!silently) {
-                        this.fireEvent('unselectRow', row);
+                        this.fireEvent('unselectRow', [row, tr]);
                     }
                 } else {
                     tr.store('jxRowData', {row: row});
@@ -435,7 +434,7 @@ define("jx/plugin/grid/selector", function(require, exports, module){
                     tr.addClass('jxGridRowSelected');
                     this.setCheckField(row, true);
                     if (!silently) {
-                        this.fireEvent('selectRow', row);
+                        this.fireEvent('selectRow', [row, tr]);
                     }
                 }
     
@@ -450,7 +449,7 @@ define("jx/plugin/grid/selector", function(require, exports, module){
                             rows.erase(row);
                             unselected.push(idx);
                             if (!silently) {
-                                this.fireEvent('unselectRow', row);
+                                this.fireEvent('unselectRow', [row, tr]);
                             }
                         }
                       
@@ -732,6 +731,8 @@ define("jx/plugin/grid/selector", function(require, exports, module){
     });
 
     if (base.global) {
-        base.global.Plugin.Grid.Selector = module.exports;
+        base.global.Plugin.Grid.Selector = selector;
     }
+    
+    return selector;
 });

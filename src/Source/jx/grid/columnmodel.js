@@ -30,15 +30,10 @@ provides: [Jx.Grid.ColumnModel]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/grid/columnmodel", function(require, exports, module) {
-    
-    var base = require("../../base"),
-        jxObject = require("../object"),
-        Grid = require("../grid");
-        Column = require("./column"),
-        Styles = require("../styles");
+define("jx/grid/columnmodel", ['../../base','../object','../grid','./column','../styles', 'require'],
+       function(base, jxObject, Grid, Column, Styles, require) {
         
-    var columnModel = module.exports = new Class({
+    var columnModel = new Class({
 
         Extends : jxObject,
         Family: 'Jx.Grid.ColumnModel',
@@ -89,6 +84,11 @@ define("jx/grid/columnmodel", function(require, exports, module) {
          * Creates the class.
          */
         init : function () {
+            
+            if (Grid === undefined || Grid === null) {
+                Grid = require('jx/grid');
+            }
+            
             this.parent();
     
             if (this.options.grid !== undefined &&
@@ -121,7 +121,7 @@ define("jx/grid/columnmodel", function(require, exports, module) {
          * columns - {Array} an array of columns to add
          */
         addColumns: function(columns) {
-          Object.append(this.columns, columns);
+          this.columns.append(columns);
           this.buildTemplates();
         },
         
@@ -478,7 +478,9 @@ define("jx/grid/columnmodel", function(require, exports, module) {
     });
 
     if (base.global) {
-        base.global.Grid.ColumnModel = module.exports;
+        base.global.Grid.ColumnModel = columnModel;
     }
+    
+    return columnModel;
     
 });

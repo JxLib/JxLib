@@ -16,16 +16,14 @@ images:
  - notice_error.png
 ...
  */
-define("jx/notice/error", function(require, exports, module){
+/**
+ * Class: Jx.Notice.Error
+ * A <Jx.Notice> subclass useful for displaying error messages
+ */
+define("jx/notice/error", ['../../base','../notice'],
+       function(base, Notice){
     
-    var base = require("../../base"),
-        Notice = require("../notice");
-        
-    /**
-     * Class: Jx.Notice.Error
-     * A <Jx.Notice> subclass useful for displaying error messages
-     */
-    var error = module.exports = new Class({
+    var error = new Class({
         Extends: Notice,
         options: {
             template: '<li class="jxNoticeItemContainer"><div class="jxNoticeItem"><img class="jxNoticeIcon" src="'+base.aPixel.src+'" title="Error"><span class="jxNotice"></span><a class="jxNoticeClose" href="javascript:void(0);" title="' + Locale.get('Jx','notice').closeTip + '"></a></div></li>',
@@ -34,7 +32,9 @@ define("jx/notice/error", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Notice.Error = module.exports;
+        base.global.Notice.Error = error;
     }
+    
+    return error;
 
 });

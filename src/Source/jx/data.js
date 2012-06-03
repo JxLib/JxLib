@@ -15,11 +15,11 @@ provides: [Jx.Data]
 ...
  */
 
-define("jx/data",function(require, exports, module){
-   
-    var base = require("../base");
+define("jx/data", ['../base'], function(base){
    
     if (base.global) {
-        base.global.Data = module.exports;
+        base.global.Data = {};
     }
+    
+    return {};
 });

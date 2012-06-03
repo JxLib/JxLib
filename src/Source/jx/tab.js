@@ -69,14 +69,9 @@ images:
  *
  * This file is licensed under an MIT style license
  */
-define("jx/tab", function(require, exports, module){
+define("jx/tab", ['../base','./button','./layout','./container'], function(base, Button, Layout, Container){
     
-    var base = require("../base"),
-        Button = require("./button"),
-        Layout = require("./layout"),
-        Container = require("./container")
-        
-    var tab = module.exports = new Class({
+    var tab = new Class({
         Extends: Button,
         Family: 'Jx.Tab',
         /**
@@ -109,7 +104,7 @@ define("jx/tab", function(require, exports, module){
             /* Option: template
              * the HTML template for a tab
              */
-            template: '<span class="jxTabContainer"><a class="jxTab"><span class="jxTabContent"><img class="jxTabIcon" src="'+Jx.aPixel.src+'"><span class="jxTabLabel"></span></span></a><a class="jxTabClose"></a></span>',
+            template: '<span class="jxTabContainer"><a class="jxTab"><span class="jxTabContent"><img class="jxTabIcon" src="'+base.aPixel.src+'"><span class="jxTabLabel"></span></span></a><a class="jxTabClose"></a></span>',
             /* Option: contentTemplate
              * the HTML template for a tab's content area
              */
@@ -255,7 +250,7 @@ define("jx/tab", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Tab = module.exports;
+        base.global.Tab = tab;
         
         /* keep the old location temporarily */
         base.global.Button.Tab = new Class({
@@ -270,5 +265,7 @@ define("jx/tab", function(require, exports, module){
           }
         });
     }
+    
+    return tab;
     
 });

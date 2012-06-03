@@ -43,12 +43,10 @@ provides: [Jx.Field.Select]
  * This file is licensed under an MIT style license
  *
  */
-define("jx/field/select", function(require, exports, module){
+define("jx/field/select", ['../../base','../field'],
+       function(base, Field){
     
-    var base = require("../../base"),
-        Field = require("../field");
-        
-    var select = module.exports = new Class({
+    var select = new Class({
 
         Extends: Field,
         Family: "Jx.Field.Select",
@@ -222,7 +220,8 @@ define("jx/field/select", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Field.Select = module.exports;
+        base.global.Field.Select = select;
     }
     
+    return select;
 });

@@ -30,15 +30,10 @@ css:
  *
  * This file is licensed under an MIT style license
  */
-define("jx/field/optiongroup", function(require, exports, module){
+define("jx/field/optiongroup", ['../../base','../field','./checkbox','./radio','../styles'],
+       function(base, Field, Checkbox, Radio, Styles){
     
-    var base = require("../../base"),
-        Field = require("../field"),
-        Checkbox = require("./checkbox"),
-        Radio = require("./radio"),
-        Styles = require("../styles");
-        
-    var optionGroup = module.exports = new Class({
+    var optionGroup = new Class({
 
         Extends: Field,
         Family: 'Jx.Field.OptionGroup',
@@ -130,7 +125,9 @@ define("jx/field/optiongroup", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Field.OptionGroup = module.exports;
+        base.global.Field.OptionGroup = optionGroup;
     }
+    
+    return optionGroup;
     
 });

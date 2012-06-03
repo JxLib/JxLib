@@ -10,7 +10,7 @@ license: MIT-style license.
 requires:
  - Jx.Widget
  - Jx.Grid
- - Jx.Grid.Renderer
+ - Jx.Grid.Renderer.Text
 
 provides: [Jx.Grid.Column]
 
@@ -33,15 +33,10 @@ provides: [Jx.Grid.Column]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/grid/column", function(require, exports, module){
-    
-    var base = require("../../base"),
-        Widget = require("../widget"),
-        Grid = require("../grid"),
-        Renderer = require("./renderer"),
-        TextRenderer = null;
+define("jx/grid/column", ['../../base','../widget','../grid','./renderer', "./renderer/text",'require'],
+       function(base, Widget, Grid, Renderer, TextRenderer, require){
         
-    var column = module.exports = new Class({
+    var column = new Class({
 
         Extends: Widget,
         Family: 'Jx.Grid.Column',
@@ -138,8 +133,10 @@ define("jx/grid/column", function(require, exports, module){
          * initializes the column object
          */
         init : function () {
-            TextRenderer = require("./renderer/text");
             
+            if (Grid === undefined || Grid === null) {
+                Grid = require('jx/grid');
+            }
             this.name = this.options.name;
     
             //adjust header for column
@@ -172,7 +169,7 @@ define("jx/grid/column", function(require, exports, module){
                         if(this.options.renderer.name === undefined || this.options.renderer.name === null) {
                           this.options.renderer.name = 'Text';
                         }
-                        var r = require("./renderer/" + this.options.renderer.name);
+                        var r = require("jx/grid/renderer/" + this.options.renderer.name);
                         this.options.renderer = new r(this.options.renderer.options);
                     }
                 }
@@ -413,6 +410,8 @@ define("jx/grid/column", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Grid.Column = module.exports;
+        base.global.Grid.Column = column;
     }
+    
+    return column;
 });

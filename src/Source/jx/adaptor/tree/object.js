@@ -40,14 +40,10 @@ provides: [Jx.Adaptor.Tree.Object]
  * License: mit-style
  */
 
-define("jx/adaptor/tree/object",function(require, exports, module){
+define("jx/adaptor/tree/object", ['../../../base','../../tree/folder','../../tree/item','../../plugin'],
+       function(base, Folder, Item, Plugin){
     
-    var base = require("../../../base"),
-        Folder = require("../../tree/folder"),
-        Item = require("../../tree/item"),
-        Plugin = require("../../plugin");
-        
-    var treeObject = module.exports = new Class({
+    var treeObject = new Class({
     
         Extends: Plugin,
         Family: 'Jx.Adaptor.Tree.Object',
@@ -150,7 +146,9 @@ define("jx/adaptor/tree/object",function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Adaptor.Tree.Object = module.exports;
+        base.global.Adaptor.Tree.Object = treeObject;
     }
+    
+    return treeObject;
     
 });

@@ -47,13 +47,10 @@ provides: [Jx.Field.Spinner]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/field/spinner", function(require, exports, module){
+define("jx/field/spinner", ['../../base','./text','../button'],
+       function(base, Text, Button){
     
-    var base = require("../../base"),
-        Text = require("./text"),
-        Button = require("../button");
-        
-    var spinner = module.exports = new Class({
+    var spinner = new Class({
         Extends: Text,
         Family: 'Jx.Field.Spinner',
         
@@ -88,7 +85,9 @@ define("jx/field/spinner", function(require, exports, module){
     }); 
     
     if (base.global) {
-        base.global.Field.Spinner = module.exports;
+        base.global.Field.Spinner = spinner;
     }
+    
+    return spinner;
     
 });

@@ -36,13 +36,10 @@ provides: [Jx.Panel.DataView]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/panel/dataview", function(require, exports, module){
+define("jx/panel/dataview", ['../../base','../panel','../list'],
+       function(base, Panel, List){
     
-    var base = require("../../base"),
-        Panel = require("../panel"),
-        List = require("../list");
-        
-    var dataView = module.exports = new Class({
+    var dataView = new Class({
 
         Extends: Panel,
         Family: "Jx.Panel.DataView",
@@ -114,7 +111,7 @@ define("jx/panel/dataview", function(require, exports, module){
             this.domA.addClass(this.options.containerClass);
     
             //parse templates so we know what values are needed in each
-            this.itemCols = this.parseTemplate(this.options.itemTemplate);
+            this.itemCols = this.options.data.parseTemplate(this.options.itemTemplate);
     
             this.bound.update = this.update.bind(this);
             //listen for data updates
@@ -133,37 +130,21 @@ define("jx/panel/dataview", function(require, exports, module){
          * begins the process of creating the items
          */
         draw: function () {
-            var n = this.options.data.count();
-            if (n != undefined && n != null && n > 0) {
-                for (var i = 0; i < n; i++) {
-                    this.options.data.moveTo(i);
-    
-                    var item = this.createItem();
+            if (this.options.data.count() > 0) {
+                this.options.data.each(function(record){
+                    var itemTemp = this.options.data.fillTemplate(record, this.options.itemTemplate, this.itemCols, null);
+                    var item = new Element('div', {
+                        'class': this.options.itemClass,
+                        html: itemTemp
+                    });
+                    item.store('record',record);
                     this.list.add(item);
-                }
+                },this);
             } else {
                 var empty = new Element('div', {html: this.options.emptyTemplate});
                 this.list.add(item);
             }
             this.fireEvent('renderDone', this);
-        },
-        /**
-         * Method: createItem
-         * Actually does the work of getting the data from the store
-         * and creating a single item based on the provided template
-         */
-        createItem: function () {
-            //create the item
-            var itemObj = {};
-            this.itemCols.each(function (col) {
-                itemObj[col] = this.options.data.get(col);
-            }, this);
-            var itemTemp = this.options.itemTemplate.substitute(itemObj);
-            var item = new Element('div', {
-                'class': this.options.itemClass,
-                html: itemTemp
-            });
-            return item;
         },
         /**
          * APIMethod: update
@@ -173,33 +154,15 @@ define("jx/panel/dataview", function(require, exports, module){
         update: function () {
             if (!this.updating) {
                 this.updating = true;
+                //this.setBusy(true);
                 this.list.empty();
-                this.options.data.sort(this.options.sortColumns);
+                if (this.options.sortColumns !== null) {
+                    this.options.data.sort(this.options.sortColumns);
+                }
                 this.draw();
                 this.updating = false;
+                //this.setBusy(false);
             }
-        },
-        /**
-         * Method: parseTemplate
-         * parses the provided template to determine which store fields are
-         * required to complete it.
-         *
-         * Parameters:
-         * template - the template to parse
-         */
-        parseTemplate: function (template) {
-            //we parse the template based on the fields in the data store looking
-            //for the pattern {column-name}. If it's in there we add it to the
-            //array of ones to look for
-            var columns = this.options.data.getFields();
-            var arr = [];
-            columns.each(function (col) {
-                var s = '{' + col.name + '}';
-                if (template.contains(s)) {
-                    arr.push(col.name);
-                }
-            }, this);
-            return arr;
         },
         /**
          * Method: enterItem
@@ -210,7 +173,7 @@ define("jx/panel/dataview", function(require, exports, module){
          * list - the list this item is in.
          */
         enterItem: function(item, list){
-            this.fireEvent('mouseenter', item, list);
+            this.fireEvent('mouseenter', [item, list]);
         },
         /**
          * Method: leaveItem
@@ -221,7 +184,7 @@ define("jx/panel/dataview", function(require, exports, module){
          * list - the list this item is in.
          */
         leaveItem: function(item, list){
-            this.fireEvent('mouseleave', item, list);
+            this.fireEvent('mouseleave', [item, list]);
         },
         /**
          * Method: selectItem
@@ -232,7 +195,7 @@ define("jx/panel/dataview", function(require, exports, module){
          * list - the list this item is in.
          */
         selectItem: function(item, list){
-            this.fireEvent('select', item, list);
+            this.fireEvent('select', [item, list]);
         },
         /**
          * Method: unselectItem
@@ -243,7 +206,7 @@ define("jx/panel/dataview", function(require, exports, module){
          * list - the list this item is in.
          */
         unselectItem: function(item, list){
-            this.fireEvent('unselect', item, list);
+            this.fireEvent('unselect', [item, list]);
         },
         /**
          * Method: addItem
@@ -254,7 +217,7 @@ define("jx/panel/dataview", function(require, exports, module){
          * list - the list this item is in.
          */
         addItem: function(item, list) {
-            this.fireEvent('add', item, list);
+            this.fireEvent('add', [item, list]);
         },
         /**
          * Method: removeItem
@@ -265,7 +228,18 @@ define("jx/panel/dataview", function(require, exports, module){
          * list - the list this item is in.
          */
         removeItem: function(item, list) {
-            this.fireEvent('remove', item, list);
+            this.fireEvent('remove', [item, list]);
+        },
+        /**
+         * Method: clickItem
+         * Fires remove event
+         *
+         * Parameters:
+         * item - the item that is the target of the event
+         * list - the list this item is in.
+         */
+        clickItem: function(item, list) {
+            this.fireEvent('click', [item, list]);
         },
         /**
          * Method: createList
@@ -282,13 +256,16 @@ define("jx/panel/dataview", function(require, exports, module){
                 onSelect:  this.selectItem.bind(this),
                 onAdd: this.addItem.bind(this),
                 onRemove: this.removeItem.bind(this),
-                onUnselect: this.unselectItem.bind(this)
+                onUnselect: this.unselectItem.bind(this),
+                onClick: this.clickItem.bind(this)
             }, options));
         }
     });
     
     if (base.global) {
-        base.global.Panel.DataView = module.exports;
+        base.global.Panel.DataView = dataView;
     }
+    
+    return dataView;
     
 });

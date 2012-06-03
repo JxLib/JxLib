@@ -15,13 +15,10 @@ provides: [Jx.Plugin.Editor.Separator]
 
 ...
  */
-define("jx/plugin/editor/separator", function(require, exports, module){
+define("jx/plugin/editor/separator", ['../../../base','../../plugin','../../toolbar/separator'],
+       function(base, Plugin, Separator){
     
-    var base = require("../../../base"),
-        Plugin = require("../../plugin"),
-        Separator = require("../../toolbar/separator");
-        
-    var separator = module.exports = new Class({
+    var separator = new Class({
     
         Extends: Plugin,
         Family: 'Jx.Plugin.Editor.Separator',
@@ -35,6 +32,8 @@ define("jx/plugin/editor/separator", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Plugin.Editor.Separator = module.exports;
+        base.global.Plugin.Editor.Separator = separator;
     }
+    
+    return separator;
 });

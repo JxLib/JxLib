@@ -28,13 +28,10 @@ provides: [Jx.Data.Parser.JSON]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/data/parser/json", function(require, exports, module){
+define("jx/data/parser/json", ['../../../base','../parser','../../record'],
+       function(base, Parser, Record){
     
-    var base = require("../../../base"),
-        Parser = require("../parser"),
-        Record = require("../../record");
-        
-    var json = module.exports = new Class({
+    var json = new Class({
 
         Extends: Parser,
         Family: "Jx.data.Parser.JSON",
@@ -85,7 +82,9 @@ define("jx/data/parser/json", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Data.Parser.JSON = module.exports;
+        base.global.Data.Parser.JSON = json;
     }
+    
+    return json;
     
 });

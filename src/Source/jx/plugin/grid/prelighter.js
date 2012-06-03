@@ -30,13 +30,10 @@ provides: [Jx.Plugin.Grid.Prelighter]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/plugin/grid/prelighter", function(require, exports, module){
+define("jx/plugin/grid/prelighter", ['../../../base','../../plugin','../../grid'],
+       function(base, Plugin, Grid){
     
-    var base = require("../../../base"),
-        Plugin = require("../../plugin"),
-        Grid = require("../../grid"
-                       )
-    var prelighter = module.exports = new Class({
+    var prelighter = new Class({
 
         Extends : Plugin,
         Family: "Jx.Plugin.Grid.Prelighter",
@@ -136,6 +133,7 @@ define("jx/plugin/grid/prelighter", function(require, exports, module){
          */
         activate: function (opt) {
             this.options[opt] = true;
+            return this;
         },
         /**
          * APIMethod: deactivate
@@ -146,6 +144,7 @@ define("jx/plugin/grid/prelighter", function(require, exports, module){
          */
         deactivate: function (opt) {
             this.options[opt] = false;
+            return this;
         },
         /**
          * Method: lighton
@@ -316,7 +315,9 @@ define("jx/plugin/grid/prelighter", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Plugin.Grid.Prelighter = module.exports;
+        base.global.Plugin.Grid.Prelighter = prelighter;
     }
+    
+    return prelighter;
     
 });

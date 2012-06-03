@@ -70,21 +70,51 @@ require.onError = function (err) {
  * to match the above dependencies.
  * 
  */
-define('base',function(require, exports, module){
+define('base',['config','require'], function(config, require){
     
-    var base = module.exports,
-        config = require('config');
+    var base = {};
     
     if (typeof Jx != 'undefined') {
-        exports.global = Jx;
+        base.global = Jx;
         //move any global config to the base
-        Object.append(base, exports.global);
+        Object.append(base, base.global);
     } else if (config !== null && config !== undefined) {
         //add in any config passed in
         Object.append(base, config);
     }
     
     base.version = "3.2-dev";
+    
+    
+    /**
+     * Function: base.require
+     * This function should be used within all of Jx code to get modules.
+     * In global mode it simply calls the globall require method. In requirejs
+     * mode it needs to check if the file is defined in requirejs and if so
+     * just return it. If not, it needs to request and then block until it
+     * gets sent back.
+     *
+     * NOTE: perhaps a while (!require.defined(file)) {};
+     *
+     */
+    base.require = function(file){
+        if (require.defined(file)) {
+            while (typeOf(require(file)) !== 'function') {}
+            return require(file);
+        }
+        
+        var loaded = false;
+        require([file],function(f){
+            loaded = true;
+            file = f;
+        });
+        
+        while (!require.defined(file)) {}
+        
+        return file;
+    }
+    
+    base.widgets = {};
     
     /**
      * Function: $jx
@@ -96,12 +126,17 @@ define('base',function(require, exports, module){
      */
     base.getWidget = window.$jx = function(id) {
       var widget = null;
-      id = document.id(id);
-      if (id) {
-        widget = id.retrieve('jxWidget');
-        if (!widget && id != document.body) {
-          widget = $jx(id.getParent());
-        }
+      //first check the widget object
+      if (base.widgets[id] !== undefined && base.widgets[id] !== null) {
+         widget = base.widgets[id];
+      } else {
+         id = document.id(id);
+         if (id) {
+           widget = id.retrieve('jxWidget');
+           if (!widget && id != document.body) {
+             widget = $jx(id.getParent());
+           }
+         }
       }
       return widget;
     }
@@ -146,7 +181,8 @@ define('base',function(require, exports, module){
              "profileEnd"].each(function(name){
                 window.console[name] = empty;
             });
-        } else {
+        } /*  TODO: Need a better solution than this.
+           else {
             window.realConsole = window.console;
             window.console = {};
             ["log", "debug", "info", "warn", "error", "assert", "dir", "dirxml",
@@ -159,6 +195,7 @@ define('base',function(require, exports, module){
                 };
             });
         }
+         */
     });
     
     /**
@@ -747,8 +784,10 @@ define('base',function(require, exports, module){
     // End Wrapper for document.id
     
     //add all of base's members to the global context
-    if (exports.global) {
-        Object.append(exports.global, exports);
+    if (base.global) {
+        Object.append(base.global, base);
     }
+    
+    return base;
 
 });

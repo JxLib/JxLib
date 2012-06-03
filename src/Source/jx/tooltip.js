@@ -39,12 +39,9 @@ css:
  *
  * This file is licensed under an MIT style license
  */
-define("jx/tooltip", function(require, exports, module){
-    
-    var base = require("../base"),
-        Widget = require("./widget");
+define("jx/tooltip", ['../base','./widget'], function(base, Widget){
         
-    var tooltip = module.exports = new Class({
+    var tooltip = new Class({
         Extends : Widget,
         Family: 'Jx.Tooltip',
         Binds: ['enter', 'leave', 'move'],
@@ -203,7 +200,9 @@ define("jx/tooltip", function(require, exports, module){
     });
 
     if (base.global) {
-        base.global.Tooltip = module.exports;
+        base.global.Tooltip = tooltip;
     }
+    
+    return tooltip;
     
 });

@@ -38,12 +38,10 @@ css:
  *
  * This file is licensed under an MIT style license
  */
-define('jx/menu/context', function(require, exports, module){
+define('jx/menu/context', ['../../base','../menu'],
+       function(base, Menu){
     
-    var base = require("../../base"),
-        Menu = require("../menu");
-        
-    var context = module.exports = new Class({
+    var context = new Class({
         Extends: Menu,
         Family: 'Jx.Menu.Context',
     
@@ -106,5 +104,7 @@ define('jx/menu/context', function(require, exports, module){
     if (base.global) {
         base.global.Menu.Context = context;
     }
+    
+    return context;
 
 });

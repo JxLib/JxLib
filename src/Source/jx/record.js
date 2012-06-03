@@ -30,13 +30,9 @@ provides: [Jx.Record]
  * This file is licensed under an MIT style license
  */
 
-define("jx/record", function(require, exports, module){
+define("jx/record",['../base','./object','./compare'], function(base, jxObject, Compare){
     
-    var base = require("../base"),
-        jxObject = require("./object"),
-        Compare = require("./compare");
-        
-    var record = module.exports = new Class({
+    var record = new Class({
 
         Extends: jxObject,
         Family: 'Jx.Record',
@@ -214,7 +210,11 @@ define("jx/record", function(require, exports, module){
                 }
         
                 oldValue = this.get(column);
-                this.data[column.name] = data;
+                if (column.type == "boolean") {
+                    this.data[column.name] = !!data;
+                } else {
+                    this.data[column.name] = data;
+                }
                 this.state = record.UPDATE;
                 return [column.name, oldValue, data];
             } else {
@@ -315,7 +315,9 @@ define("jx/record", function(require, exports, module){
     record.INSERT = 3;
     
     if (base.global) {
-        base.global.Record = module.exports;
+        base.global.Record = record;
     }
+    
+    return record;
     
 });

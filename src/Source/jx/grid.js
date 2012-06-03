@@ -73,19 +73,12 @@ images:
  *
  * This file is licensed under an MIT style license
  */
-define("jx/grid", function(require, exports, module){
+define("jx/grid", ['../base','./widget','./store','./layout','./list',
+                   './grid/rowmodel','./grid/columnmodel','./grid/renderer/text',
+                   './grid/column','require'],
+       function(base, Widget, Store, Layout, List, RowModel, ColumnModel, TextRenderer, Column, require){
     
-    var base = require("../base"),
-        Widget = require("./widget"),
-        Store = require("./store"),
-        Layout = require("./layout"),
-        List = require("./list"),
-        RowModel = null,
-        ColumnModel = null,
-        TextRenderer = null,
-        Column = null;
-        
-    var grid = module.exports= new Class({
+    var grid = new Class({
         
         Extends: Widget,
         Family : 'Jx.Grid',
@@ -188,14 +181,21 @@ define("jx/grid", function(require, exports, module){
          * Constructor: Jx.Grid
          */
         init: function() {
-            //load classes needed here
-            RowModel = require("./grid/rowmodel");
-            ColumnModel = require("./grid/columnmodel");
-            TextRenderer = require("./grid/renderer/text");
-            Column = require("./grid/column");
+            //in Global mode, anything under the .Grid namespace isn't loaded yet...
+            //get it all now
+            if (base.global &&  RowModel === undefined) {
+                RowModel = require('jx/grid/rowmodel');
+            }
+            if (base.global &&  ColumnModel === undefined) {
+                ColumnModel = require('jx/grid/columnmodel');
+            }
+            if (base.global &&  TextRenderer === undefined) {
+                TextRenderer = require('jx/grid/renderer/text');
+            }
+            if (base.global &&  Column === undefined) {
+                Column = require('jx/grid/column');
+            }
             
-            
-            //start actual code
             this.uniqueId = this.generateId('jxGrid_');
             this.store = this.options.store;
             var options = this.options,
@@ -356,18 +356,6 @@ define("jx/grid", function(require, exports, module){
       
             this.contentContainer.setStyle('overflow', 'auto');
           
-            // todo: very hacky!  can plugins 'wantEvent' between init and render?
-            //YES! made a change to the order of things so we can call wantEvent from
-            //the plugin's attach method. Woo!!
-            /*
-            Object.each(this.hooks, function(value, key) {
-                if (value) {
-                    this.hooks[key] = false;
-                    this.wantEvent(key);
-                }
-            }, this);
-            */
-          
             if (this.options.parent !== undefined &&
                 this.options.parent !== null &&
                 typeOf(this.options.parent) != 'function') {
@@ -523,7 +511,7 @@ define("jx/grid", function(require, exports, module){
                             }
                         }
                     }
-                    column = new JColumn({
+                    column = new Column({
                         grid: this,
                         template: template,
                         renderMode: (col.renderMode !== undefined && col.renderMode !== null) ?
@@ -566,10 +554,12 @@ define("jx/grid", function(require, exports, module){
          */
         addRow: function (store, record, position) {
             if (this.store.loaded) {
-                if (position === 'bottom') {
+                if (position !== 0) {
                     this.store.last();
+                    position = "bottom";
                 } else {
                     this.store.first();
+                    position = "top";
                 }
                 this.drawRow(record, this.store.index, position);
             }
@@ -923,7 +913,9 @@ define("jx/grid", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Grid = module.exports;
+        base.global.Grid = grid;
     }
+    
+    return grid;
     
 });

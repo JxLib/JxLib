@@ -49,16 +49,10 @@ images:
  *
  * This file is licensed under an MIT style license
  */
-define("jx/tabbox", function(require, exports, module){
+define("jx/tabbox", ['../base','./widget','./tab','./tabset','./panel','./toolbar'],
+       function(base, Widget, Tab, TabSet, Panel, Toolbar){
     
-    var base = require("../base"),
-        Widget = require("./widget"),
-        Tab = require("./tab"),
-        TabSet = require("./tabset"),
-        Panel = require("./panel"),
-        Toolbar = require("./toolbar")
-        
-    var tabBox = module.exports = new Class({
+    var tabBox = new Class({
         Extends: Widget,
         Family: 'Jx.TabBox',
         options: {
@@ -215,11 +209,26 @@ define("jx/tabbox", function(require, exports, module){
             this.tabSet.resize();
             this.tabBar.domObj.getParent('.jxBarContainer').retrieve('jxBarContainer').update();
             this.tabBar.domObj.getParent('.jxBarContainer').addClass('jxTabBar'+this.options.position.capitalize());
+        },
+        
+        hasTab: function(label, activate){
+            return this.tabSet.hasTab(label, activate);
+        },
+        
+        empty: function(){
+            if (this.tabSet.tabs !== undefined && this.tabSet.tabs !== null &&
+                typeOf(this.tabSet.tabs) == 'array' && this.tabSet.tabs.length > 0) {
+                Array.clone(this.tabSet.tabs).each(function(tab){
+                    this.remove(tab);    
+                },this);
+            }
         }
     });
     
     if (base.global) {
-        base.global.TabBox = module.exports;
+        base.global.TabBox = tabBox;
     }
+    
+    return tabBox;
     
 });

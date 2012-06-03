@@ -41,12 +41,10 @@ images:
  *
  * This file is licensed under an MIT style license
  */
-define('jx/menu/item', function(require, exports, module){
+define('jx/menu/item', ['../../base','../button'],
+       function(base, Button){
     
-    var base = require("../../base"),
-        Button = require("../button");
-        
-    var item = module.exports = new Class({
+    var item = new Class({
         Extends: Button,
         Family: 'Jx.Menu.Item',
         /**
@@ -178,5 +176,7 @@ define('jx/menu/item', function(require, exports, module){
     if (base.global) {
         base.global.Menu.Item = item;
     }
+    
+    return item;
 
 });

@@ -56,12 +56,9 @@ images:
  * This file is licensed under an MIT style license
  */
 
-define('jx/colorpalette', function(require, exports, module){
+define('jx/colorpalette', ['../base','./widget'], function(base, Widget){
 
-    var base = require("../base"),
-        Widget = require("./widget");
-    
-    var colorPalette = module.exports = new Class({
+    var colorPalette = new Class({
         Extends: Widget,
         Family: 'Jx.ColorPalette',
         /**
@@ -353,5 +350,7 @@ define('jx/colorpalette', function(require, exports, module){
     if (base.global) {
         base.global.ColorPalette = colorPalette;
     }
+    
+    return colorPalette;
     
 });

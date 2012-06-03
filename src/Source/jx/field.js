@@ -36,14 +36,10 @@ provides: [Jx.Field]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/field", function(require, exports, module){
+define("jx/field", ['../base','./widget','./form','./fieldset'],
+       function(base, Widget, Form, Fieldset){
     
-    var base = require("../base"),
-        Widget = require("./widget"),
-        Form = require("./form"),
-        Fieldset = null;
-        
-    var field = module.exports = new Class({
+    var field = new Class({
     
         Extends : Widget,
         Family: 'Jx.Field',
@@ -197,7 +193,13 @@ define("jx/field", function(require, exports, module){
         },
     
         init: function(){
-            Fieldset = require("./fieldset");
+            if (Fieldset === undefined) {
+                Fieldset = require("jx/fieldset");
+            }
+            if (Form === undefined) {
+                Form = require("jx/form");
+            }
+            
             this.parent();
         },
         /**
@@ -236,7 +238,9 @@ define("jx/field", function(require, exports, module){
                 }
     
                 if (this.options.value !== undefined && this.options.value !== null) {
-                    this.field.set('value', this.options.value);
+                    //convert value to string because a value of 0 will be displayed as
+                    //an empty string.
+                    this.field.set('value', this.options.value+'');
                 }
     
                 this.field.set('id', this.id);
@@ -321,7 +325,13 @@ define("jx/field", function(require, exports, module){
          */
         setValue : function (v) {
             if (!this.options.readonly) {
-                this.field.set('value', v);
+                if (v === undefined || v === null) {
+                    v = ''
+                } else if (typeOf(v) == "string" && v.toLowerCase() == "null") {
+                    v = '';
+                }
+                //convert to string when setting.
+                this.field.set('value', v+'');
             }
         },
     
@@ -428,7 +438,9 @@ define("jx/field", function(require, exports, module){
     });
 
     if (base.global) {
-        base.global.Field = module.exports;
+        base.global.Field = field;
     }
+    
+    return field;
     
 });

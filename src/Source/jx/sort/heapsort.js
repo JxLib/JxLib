@@ -33,12 +33,9 @@ provides: [Jx.Sort.Heapsort]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/sort/heapsort", function(require, exports, module){
+define("jx/sort/heapsort", ['../../base','../sort'], function(base, Sort){
     
-    var base = require("../../base"),
-        Sort = require("../sort");
-        
-    var heapsort = module.exports = new Class({
+    var heapsort = new Class({
         Extends : Sort,
         Family: 'Jx.Sort.Heapsort',
     
@@ -125,7 +122,9 @@ define("jx/sort/heapsort", function(require, exports, module){
     });
 
     if (base.global) {
-        base.global.Sort.Heapsort = module.exports;
+        base.global.Sort.Heapsort = heapsort;
     }
+    
+    return heapsort;
     
 });

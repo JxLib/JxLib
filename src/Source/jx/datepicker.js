@@ -46,16 +46,10 @@ provides: [Jx.DatePicker]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/datepicker",function(require, exports, module){
+define("jx/datepicker", ['../base','./widget','./button','./monthpicker','./button/flyout','./panel'],
+       function(base, Widget, Button,MonthPicker, Flyout, Panel){
     
-    var base = require("../base"),
-        Widget = require("./widget"),
-        Button = require("./button"),
-        MonthPicker = require("./monthpicker"),
-        Flyout = require("./button/flyout"),
-        Panel = require("./panel");
-        
-    var datePicker = module.exports = new Class({
+    var datePicker = new Class({
         Extends: Widget,
         Family: 'Jx.DatePicker',
         pluginNamespace: 'DatePicker',
@@ -250,7 +244,9 @@ define("jx/datepicker",function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.DatePicker = module.exports;
+        base.global.DatePicker = datePicker;
     }
+    
+    return datePicker;
     
 });

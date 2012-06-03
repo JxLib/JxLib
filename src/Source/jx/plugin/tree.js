@@ -24,10 +24,11 @@ provides: [Jx.Plugin.Tree]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/plugin/tree", function(require){
+define("jx/plugin/tree", ['../../base'], function(base){
     
-    var base = require("../../base");
     if (base.global) {
         base.global.Plugin.Tree = {};
     }
+    
+    return {};
 });

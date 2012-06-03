@@ -34,14 +34,10 @@ provides: [Jx.Fieldset]
  * This file is licensed under an MIT style license
  *
  */
-define("jx/fieldset",function(require, exports, module){
+define("jx/fieldset", ['require', '../base','./widget','./form','./field'],
+       function(require, base, Widget, Form, Field){
     
-    var base = require("../base"),
-        Widget = require("./widget"),
-        Form = require("./form"),
-        Field = require("./field");
-        
-    var fieldset = module.exports = new Class({
+    var fieldset = new Class({
     
         Extends : Widget,
         Family: 'Jx.Fieldset',
@@ -93,6 +89,16 @@ define("jx/fieldset",function(require, exports, module){
          */
         legend : null,
     
+        init: function(){
+            if (Form === undefined || Form === null) {
+                Form = require('jx/form');
+            }
+            if (Field === undefined || Field === null) {
+                Field = require('jx/field');
+            }
+            
+            this.parent();
+        },
         /**
          * APIMethod: render
          * Creates a fieldset.
@@ -145,7 +151,7 @@ define("jx/fieldset",function(require, exports, module){
                     if (opt['class'].toLowerCase() === 'fieldset') {
                         this.add(new Fieldset(opt.options));
                     } else {
-                        var field = require("./field/" + opt['class']);
+                        var field = require("jx/field/" + opt['class']);
                         this.add(new field(opt.options));
                     }
                 }
@@ -165,6 +171,8 @@ define("jx/fieldset",function(require, exports, module){
             for (var x = 0; x < arguments.length; x++) {
                 field = arguments[x];
                 //add form to the field and field to the form if not already there
+                //TODO: is there another way to do this without referencing Field?
+                //      it would remove a circular reference if we could...
                 if (instanceOf(field, Field) && 
                     (field.form === undefined || field.form === null) &&
                     this.form !== undefined && this.form !== null) {
@@ -196,7 +204,9 @@ define("jx/fieldset",function(require, exports, module){
     });
 
     if (base.global) {
-        base.global.Fieldset = module.exports;
+        base.global.Fieldset = fieldset;
     }
+    
+    return fieldset;
     
 });

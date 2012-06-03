@@ -37,15 +37,10 @@ provides: [Jx.Field.Combo]
  *
  * This file is licensed under an MIT style license
  */
-define("jx/field/combo", function(require, exports, module){
-    
-    var base = require("../../base"),
-        Field = require("../field")
-        Button = require("../button"),
-        ButtonSet = require("../button/set"),
-        Menu = require("../menu");
+define("jx/field/combo", ['../../base','../field','../button','../button/set','../menu'],
+       function(base, Field, Button, ButtonSet, Menu){
         
-    var combo = module.exports = new Class({
+    var combo = new Class({
         Extends: Field,
         Family: 'Jx.Field.Combo',
         pluginNamespace: 'Combo',
@@ -273,7 +268,9 @@ define("jx/field/combo", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Field.Combo = module.exports;
+        base.global.Field.Combo = combo;
     }
+    
+    return combo;
     
 });

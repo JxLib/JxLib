@@ -47,16 +47,10 @@ css:
  *
  * This file is licensed under an MIT style license
  */
-define("jx/field/file", function(require, exports, module){
-    
-    var base = require("../../base"),
-        Field = require("../field"),
-        Text = require("./text"),
-        Button = require("../button"),
-        Form = require("../form"),
-        Hidden = require("./hidden");
+define("jx/field/file", ['../../base','../field','./text','../button','../form','./hidden'],
+       function(base, Field, Text, Button, Form, Hidden){
         
-    var file = module.exports = new Class({
+    var file = new Class({
 
         Extends: Field,
         Family: 'Jx.Field.File',
@@ -476,7 +470,9 @@ define("jx/field/file", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Field.File = module.exports;
+        base.global.Field.File = file;
     }
+    
+    return file;
     
 });

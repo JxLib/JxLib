@@ -70,13 +70,9 @@ images:
  *
  * This file is licensed under an MIT style license
  */
-define("jx/dialog", function(require, exports, module){
+define("jx/dialog", ['../base','./panel','./stack'], function(base, Panel, Stack){
     
-    var base = require("../base"),
-        Panel = require("./panel"),
-        Stack = require("./stack");
-        
-    var dialog = module.exports = new Class({
+    var dialog = new Class({
         Extends: Panel,
         Family: 'Jx.Dialog',
     
@@ -753,8 +749,10 @@ define("jx/dialog", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Dialog = module.exports;
+        base.global.Dialog = dialog;
     }
+    
+    return dialog;
     
 });
 

@@ -32,12 +32,9 @@ provides: [Jx.Adaptor]
  * License: mit-style
  */
 
-define('jx/adaptor', function(require, exports, module){
+define('jx/adaptor', ['../base','./plugin'], function(base, Plugin){
 
-    var Plugin = require('./plugin'),
-        base = require('base');
-    
-    var adaptor = module.exports = new Class({
+    var adaptor = new Class({
     
         Extends: Plugin,
         Family: 'Jx.Adaptor',
@@ -93,5 +90,7 @@ define('jx/adaptor', function(require, exports, module){
     if (base.global) {
         base.global.Adaptor = adaptor;
     }
+    
+    return adaptor;
 
 });

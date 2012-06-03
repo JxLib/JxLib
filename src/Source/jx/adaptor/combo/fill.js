@@ -15,12 +15,10 @@ provides: [Jx.Adaptor.Combo.Fill]
 ...
  */
 
-define('jx/adaptor/combo/fill', function(require, exports, module){
+define('jx/adaptor/combo/fill', ['../../../base','../../adaptor'],
+       function(base, Adaptor){
     
-    var base = require("../../../base"),
-        Adaptor = require("../../adaptor")
-        
-    var fill = module.exports = new Class({
+    var fill = new Class({
 
         Extends: Adaptor,
         Family: 'Jx.Adaptor.Combo.Fill',
@@ -125,7 +123,9 @@ define('jx/adaptor/combo/fill', function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Adaptor.Combo.Fill = module.exports;
+        base.global.Adaptor.Combo.Fill = fill;
     }
+    
+    return fill;
     
 });

@@ -17,12 +17,10 @@ images:
 
 ...
  */
-define("jx/plugin/editor/unlink", function(require, exports, module){
+define("jx/plugin/editor/unlink", ['../../../base','./button'],
+       function(base, Button){
     
-    var base = require("../../../base"),
-        Button = require("./button");
-        
-    var unlink = module.exports = new Class({
+    var unlink = new Class({
     
         Extends: Button,
         Family: 'Jx.Plugin.Editor.Unlink',
@@ -41,6 +39,8 @@ define("jx/plugin/editor/unlink", function(require, exports, module){
     });
     
     if (base.global) {
-        base.global.Plugin.Editor.Unlink = module.exports;
+        base.global.Plugin.Editor.Unlink = unlink;
     }
+    
+    return unlink;
 });

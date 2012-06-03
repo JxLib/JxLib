@@ -16,12 +16,11 @@ provides: [Jx.Adaptor.ListView]
 ...
  */
 
-define('jx/adaptor/listview',function(require, exports, module){
-    
-    var base = require("../../base");
+define('jx/adaptor/listview', ['../../base'],function(base){
     
     //This just needs to set the namespace in the global object
     if (base.global) {
         base.global.Adaptor.ListView = {};
     }
+    return {};
 });
